@@ -49,6 +49,15 @@
 > bloque `s320c` con tres cosas separadas: **qué escribe la marca · qué dice la FUENTE · qué decides
 > tú**. Donde no hay recomendación, es porque no me la he ganado.
 >
+> **Coste de APLICAR una marca (medido en s321, no estaba en ninguna ficha)**: editar el ruler
+> dispara 4 tests de contrato congelado. No es un bug — son guardas forzando ceremonia. Aplicarlas
+> exige, en el MISMO commit: (a) el **diff acotado** contra el commit cuyo ledger casa con el sha
+> pinneado, verificando que solo contiene lo adjudicado; (b) re-anclar los 3 canarios
+> `s203/s204/s205`; (c) la cascada de `s277` — regenerar el contrato por su builder y propagar los
+> pins a `prereg_v2`, `prereg_v3` y el scorer **a mano**, dejando el manifest histórico intacto
+> (`TECH_DEBT #77`, `DEC-218`). **Marcas y re-anclaje van juntos en un commit**: separados dejan la
+> suite roja en cada frontera y enmascaran cualquier deriva ajena que entre por esa ventana.
+>
 > **Ruptura de serie declarada**: si marcas los splits, el denominador pasa de 131 clasificados
 > (133 cores) a ~134; los porcentajes congelados del scoreboard **no son comparables** después. Una
 > sola re-medición cubre todo el conjunto — conviene cerrar los 7 en la misma sentada.
@@ -223,13 +232,30 @@ respecto de «cómo programar una CBE».
 
 > ### s320c · qué escribe · qué dice la fuente · qué decides tú
 >
-> **La fuente (leída en s320c, y es la que justifica el split):**
-> `AM-8200N manual de usuario y programación` **p7** — «**EVACUACIÓN**: Comando para activar la
-> salida de sirena y todos los módulos de salida programados con **Tipo SW = SND** *y* módulos de
-> salida que tengan en su **CBE** el operando "EVAC"». El manual trata **Tipo SW y CBE como dos vías
-> de activación PARALELAS**, no una como prerrequisito de la otra — y las documenta en secciones
-> separadas (índice: «Tabla de resumen tipo SW para módulos», p35). **Partir está justificado desde
-> la fuente.**
+> **⚠️ s321 — CORRECCIÓN: mi «vías paralelas» era del manual de la VARIANTE, y además decía lo
+> contrario de lo que dice el manual del gold.** Lo de s320c salía de
+> `AM-8200N` (`product_model = AM-8200N`). El manual que el gold cita —`AM-8200-manu-prog-spa`,
+> `product_model = AM-8200/AM-8200-BB`— dice en la misma p7 **sin cláusula de CBE**:
+> «EVACUACIÓN: Control de activación de la salida sirena y de todos los módulos de salida
+> programados con **Tipo SW = SND** en ausencia de alarmas y averías».
+>
+> **Y en `p41` dice lo decisivo, que es lo opuesto a «paralelas»:**
+> > «**SND** | Tipo de software específico… activado por cada alarma y sigue el estado de la salida
+> > Sirena de central. […] **Nota: los módulos de salida utilizados para las funciones arriba
+> > indicadas NO ACEPTAN CBE.**»
+>
+> Es decir: para esa familia de Tipo SW (SND, STR, MAINFV, REMV…) el Tipo SW y la CBE son
+> **MUTUAMENTE EXCLUYENTES**, no dos vías equivalentes. Un módulo con esos tipos **no admite
+> ecuación**. (Concuerda con lo que el dúo apuntó en `p65` sobre el TIPO ID de señalización general
+> bloqueando la CBE: son dos notas de la misma regla.)
+>
+> **Qué cambia y qué no.** El **split sigue justificado** —son dos hechos distintos, y el índice del
+> propio manual los documenta en secciones separadas («Tabla de resumen tipo SW para módulos», p35)—
+> pero **el peso del alcance se mueve**: con la p41 delante, el Tipo SW no es «configuración previa
+> ajena a la pregunta», sino lo que determina **si la CBE es siquiera posible** en ese módulo. Un
+> técnico que programa una CBE sobre un módulo con Tipo SW = SND está programando algo que el panel
+> no va a aceptar. Eso lo digo como **observación de fuente**, no como adjudicación: el alcance
+> sigue siendo tuyo (ver más abajo por qué me abstengo).
 >
 > *(Precisión s320d, tras la auditoría de procedencia: la cita de la EVACUACIÓN sale del manual de la
 > variante **AM-8200N** (`product_model = AM-8200N`), mientras el índice del p35 sale de
@@ -246,10 +272,16 @@ respecto de «cómo programar una CBE».
 > del assessment **y** de la exigencia de PASS (un `[SUPP]` ausente nunca baja el veredicto), y con
 > él un retrieval-miss real ya diagnosticado en s101 con lever nombrado.
 >
-> **Tuyo:** para «cómo programo una CBE para que un evento active una salida», **¿saber que el
-> módulo lleva un Tipo SW es parte obligatoria de la respuesta, o es configuración previa que la
-> pregunta no contrata?** La fuente dice que son vías paralelas; si eso entra en el contrato, lo
-> decides tú.
+> **Tuyo, y con la p41 delante la pregunta es más nítida:** para «cómo programo una CBE para que un
+> evento active una salida», **¿saber que el módulo lleva un Tipo SW —y que ciertos Tipos SW hacen
+> que el módulo NO acepte CBE— es parte obligatoria de la respuesta, o es configuración previa que
+> la pregunta no contrata?**
+>
+> Un matiz que quizá quieras separar al marcar: no es lo mismo **el ejemplo** («SND = sirena»,
+> que sí suena a contexto previo) que **la regla de bloqueo** («esos Tipos SW no aceptan CBE», que
+> es una condición de posibilidad de lo que se pregunta). Si te convence la regla pero no el
+> ejemplo, la ✏️ es tu casilla: partir, con la mitad «Tipo SW» redactada sobre el **bloqueo**
+> (p41/p65) en vez de sobre la etiqueta SND.
 >
 > **Escribe**: +1 core (131→132 clasificados) · endurece PASS si ambas van CORE · renumera
 > `cat018#3` · falta escribir la quote verbatim de p7/p61 en `citations`.
@@ -352,8 +384,26 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 > `texto` literalmente**, y hoy ese texto exige que los valores figuren en el manual español ⇒
 > tocarlo sí puede aflojar PASS.
 >
-> **Tuyo:** ¿el 80%/100% es un default **del protocolo Morley-IAS** (y cualquier central que lo
-> hable traería lo mismo) o **de la versión España** que este manual documenta?
+> ### ✅ s321 — **AGOTADA LA FUENTE: lo responde el manual, no hace falta tu criterio**
+>
+> Quedaba pendiente decidir si el 80%/100% es del **protocolo** o de la **versión España**. La
+> sección que los porta lo dice sin ambigüedad, y su encabezado también:
+>
+> > **§5.3.10.5 «Información específica según el PROTOCOLO»** → **§5.3.10.5.1 «Información
+> > específica para protocolo Morley-IAS»** — «El valor analógico debe ser un número normalizado
+> > entre 0% – 100%, independientemente del tipo de equipo. Para los detectores, **el nivel de
+> > prealarma por defecto es el 80% y el nivel de alarma por defecto es el 100%**. • **El ajuste
+> > máximo para el nivel de alarma es el 108%**.»
+> > *(`DXc_Manual variaciones de mercado`, p6, `product_model: DXc`)*
+>
+> Los **tres** valores cuelgan del **protocolo Morley-IAS**, en una sección cuyo título es
+> literalmente «según el PROTOCOLO». El **documento** es de variaciones de mercado; la **sección**
+> es de protocolo. Anclar el `valor` a «versión España» atribuiría a un país lo que el manual
+> atribuye a un protocolo.
+>
+> ⇒ **Si marcas ✏️, la redacción correcta es «específicos del protocolo Morley-IAS»**, no «de la
+> versión España». Y el ❌ sigue siendo defendible: hoy el hecho no se mide y meterlo al denominador
+> es una decisión de alcance tuya, no de fuente.
 >
 > **Escribe**: hoy el hecho **no se mide** — `_is_meta_ref` dispara `continue` porque el `valor`
 > empieza por «Manual», así que ni llega a un juez. Con un `valor` de contenido **entra en el
@@ -369,8 +419,11 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 **Estado:** **retrieval-miss** (`within-doc`), no síntesis — entra solo por la edición.
 **Matiz del dúo (Sol)**: no hay medición de que la reescritura «reduzca fragilidad del juez»
 — se propone como **claridad semántica**, no como mejora demostrada.
-**Mi recomendación:** afilar el `texto` sin tocar el `valor`: «clave de usuario por defecto
-**1111**; el acceso a configuración avanzada **requiere otra clave/nivel**».
+~~**Mi recomendación:** afilar el `texto` sin tocar el `valor`: «clave de usuario por defecto
+**1111**; el acceso a configuración avanzada **requiere otra clave/nivel**».~~
+**SUPERADA en s321 — ver el bloque de abajo: la recomendación queda INVERTIDA (conservar el hecho
+como está).** La propuesta tachada borraba «completa», y la fuente dice que 1111 sí alcanza parte
+de AJUSTES ⇒ quitarla puede hacer el hecho falso.
 
 > ### s320c · qué escribe · qué dice la fuente · qué decides tú
 >
@@ -391,29 +444,72 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 >   configuración le permitirá realizar **todas las acciones de configuración** del sistema o
 >   acciones de diagnóstico»; el **nivel 4** queda para lo que exige abrir la central.
 >
-> Esto es **mejor** que lo que traía mi bloque anterior: la CAD-250 documenta una **estructura de
-> niveles explícita** en la que la configuración vive en el nivel 3 (instalador) y 1111 es de
-> usuario. La negación del hecho («1111 NO da acceso a la configuración») queda **derivada de la
-> estructura de niveles del manual propio**, no de un modelo hermano.
+> **⚠️ s321 — SEGUNDA CORRECCIÓN, y esta invierte mi recomendación** (la disparó Alberto: «no son
+> contradicciones, son niveles distintos; puedes entrar en ajustes con nivel 2, solo que no a todo»).
+> Leí la sección de niveles ENTERA, no la ventana, y tenía razón:
+>
+> > `MC-380 2026-c` **p11** / `MS-416` **p27** — «**Acceso nivel 2** o de usuario permite: … **La
+> > revisión del menú de ajustes del sistema** como datos generales como teléfono de contacto,
+> > empresa instaladora o idioma · Ajuste de la **fecha** · Revisión de **versiones** · Ajuste de
+> > **impresora** · Realización del **test de leds** e indicadores.»
+>
+> Y el diagrama del §3.1 (nivel de usuario) despliega **`Ajustes → General · Versiones ·
+> Conectividad · Impresora · Test`** — sin `AVANZADO` ni `USUARIOS`. O sea: **1111 SÍ entra en
+> AJUSTES, en su mitad general; lo que no alcanza es AVANZADO.**
+>
+> **Retiro las dos «contradicciones» que declaré en s320d**, porque no lo eran: (a) el «nivel 3» vs
+> «nivel 2» de las dos revisiones del MC-380 describe el mismo requisito —ambas terminan «**con
+> código de administrador**»— con el número pegado ambiguamente al menú; no es `conflicto-revision`.
+> (b) Los rótulos «Nivel 1 Usuario» / «Nivel 2 Editar configuración» son las etiquetas de los dos
+> **modos de menú** del propio manual, no niveles EN54: leí rótulos de UI como niveles normativos.
+> La estructura normativa es consistente: usuario = Nivel 2 EN54-2, instalador = Nivel 3 EN54-2
+> (`MS-416 p26`).
+>
+> **Mi recomendación, INVERTIDA: ❌ conservar «completa».** Es la única redacción que sigue siendo
+> verdadera bajo las dos lecturas posibles de «configuración avanzada»:
+>
+> | si «configuración avanzada» significa… | entonces con 1111… | «completa» |
+> |---|---|---|
+> | el submenú **AVANZADO** | no hay acceso a **nada** de él | sobra (mi propuesta de s320c/d) |
+> | **configurar en general** | hay acceso **parcial** (General, Versiones, Conectividad, Impresora, Test) | **es precisa; quitarla haría el hecho FALSO** |
+>
+> Aplicar la ✅ del packet («afilar» quitando «completa») sería un **empeoramiento** bajo la segunda
+> lectura, y el propio ítem ya avisaba de ello. Mantengo también la enmienda del ancla: si se toca
+> algo, que el apoyo sea `MS-416 p26` (usuario→Nivel 2 EN54-2 · instalador→Nivel 3 EN54-2), que es
+> la única formulación sin ambigüedad — **no el número suelto**, que el manual escribe de tres
+> maneras entre texto, revisiones y diagramas.
+>
 > *(Sol la llamaba circular por apoyarse en el error medido; Fable la daba por sólida desde la
-> fuente. Con el manual correcto delante, Fable tenía razón — y mi «ambos a medias» de s320c se
-> apoyaba en el manual de otro panel.)*
+> fuente. Con el manual correcto y la sección entera: la formulación de HOY es defendible, y el
+> problema no era la negación sino mi propuesta de recortarla.)*
 >
-> **Mi recomendación (mantiene el fondo, corrige el ancla): ✏️ reformular la negación como la
-> ESTRUCTURA DE NIVELES de la propia CAD-250** — «clave de usuario por defecto **1111** (nivel de
-> usuario); las acciones de configuración requieren el **nivel 3 / instalador**» — en vez de una
-> afirmación sobre «lo avanzado completo» que ninguna página sostiene. Y editar en el mismo upsert
-> la cláusula gemela del `gold_answer`.
->
-> **Tuyo:** en una CAD-250 real con 1111, **¿se ve algo de configuración avanzada, o no hay nada?**
-> Si hay avanzado parcial, «completa» es correcta y la ✅ del packet sería un empeoramiento.
+> **Tuyo, y ya solo esto:** ¿«configuración avanzada» en tu vocabulario es **el submenú AVANZADO** o
+> **configurar en general**? Con la primera lectura, ✅; con la segunda, ❌. No hay más que decidir.
 >
 > **Escribe**: denominador invariante. Este hecho hoy sale `in_pool:false / reaches_gen:false` ⇒
 > ningún juez de respuesta lo lee; el cambio no mueve métrica. Pero **conserva la clave de join**
 > `qid#idx:valor` si no cambias el `valor`, así que las filas históricas seguirán pareando como si
 > midieran lo mismo: decláralo al re-basear.
 
-`[ ] ✅ aplicar la propuesta · [ ] ✏️ tu redacción (anota) · [ ] ❌ dejarlo`
+`[X] ✅ aplicar la propuesta · [ ] ✏️ tu redacción (anota) · [ ] ❌ dejarlo`
+
+> ✅ **ADJUDICADO Y APLICADO (Alberto, s321)** — «configuración avanzada» = **el submenú AVANZADO**.
+> Con esa lectura 1111 no alcanza nada de él, luego «completa» sobraba. **Aplicado vía `gold_store`**
+> (validación 0 errores):
+> - `texto`: «La clave de USUARIO por defecto es 1111, que NO da acceso al **submenu AVANZADO de
+>   AJUSTES** (nivel de usuario; AVANZADO y USUARIOS requieren permiso de instalador)»
+> - `cita`: `MU-376 p10 + MC-380 p31 (5.4 AVANZADO) + MC-380 p15 (3.1: AJUSTES de nivel usuario)`,
+>   con **quote verbatim añadido** a `citations`. El término «AVANZADO» queda anclado en la fuente de
+>   la PROPIA CAD-250, no importado de la CAD-171.
+>   *(Corregido por el dúo: mi primera cita decía «p29», que es la paginación de **otra revisión** del
+>   MC-380. El `pdfs_used` de este gold usa `CAD-250-MC-380-es.pdf`, donde el mismo §5.4 está en
+>   **p31**. Y faltaba el quote: la cláusula adjudicada era la MENOS respaldada del ítem.)*
+> - `_provenance`: p31 añadida declarando el método REAL (lectura del chunk de corpus, **no**
+>   `render_pdf + cross_model` como p20-21). Declarado, no equiparado.
+> - Cláusula gemela del `gold_answer` actualizada en el mismo upsert (si no, el gold afirmaría ante
+>   el juez de PASS lo que el hecho niega).
+> - `valor` **intacto** (`'1111'`) ⇒ la clave de join `qid#idx:valor` se conserva y las filas
+>   históricas siguen pareando.
 
 ---
 
@@ -542,3 +638,30 @@ de uso real.
   en una recomendación anclada.
 - **Orden sugerido**: **8 primero** (desbloquea su propia redacción) → 5 (PCI puro) → 4 y 9 juntos
   (comparten doctrina: ¿un prerrequisito de configuración entra en el contrato?) → 7 → 6 → 3.
+
+---
+
+## Consultas tuyas resueltas fuera de ítem (s321)
+
+### `hp005` — ¿resolver su discrepancia con búsqueda abierta (internet / memoria del modelo)?
+
+**No, y el motivo no es de principio sino de diagnóstico: no hay discrepancia de FUENTE que
+resolver.** Verificado:
+
+- El gold está `_provenance.estado: verificado`, `acuerdo: total`, `confidence: alta`, anclado en
+  `MPDT190` (matriz de control, COINCIDENCIA 2 EQUIPOS, misma zona/subzona, CIRCUITO SIRENA). Su
+  única nota describe un **offset de paginación ya resuelto** («el gold citó páginas IMPRESAS
+  correctas → no era mis-atribución»).
+- Lo que sí está documentado es de otra naturaleza: `docs/DECISIONS.md:854` clasifica hp005 en
+  **GENERACIÓN**, y `:571` lo cita entre los casos donde «incluso con el chunk en top-5 el bot
+  CONTRADICE hechos verificados». Es decir: **el manual es claro y el bot no lo reproduce**.
+
+⇒ Una búsqueda externa contestaría una pregunta que nadie tiene. Y estructuralmente sería peor que
+inútil: metería en el ruler un hecho que **no está en el corpus**, con lo que el eval pasaría a
+exigirle al bot algo que por diseño no puede saber — el instrumento medido al revés.
+
+**Dónde sí vale una búsqueda externa**, para que quede el criterio: para **descubrir que nos falta
+un manual** (lista de adquisición). Si un hueco resulta ser «no tenemos el documento», eso se
+arregla **consiguiendo el manual**, nunca tapándolo con conocimiento de fuera. Y si algún día una
+fuente externa se usara como hipótesis para saber *dónde mirar* en el corpus, la afirmación
+tendría que quedar anclada en el corpus antes de entrar en un gold.

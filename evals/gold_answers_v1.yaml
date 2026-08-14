@@ -13,13 +13,13 @@
     icono del candado (🔓) que aparece en el centro de la pantalla. 2) Esto le llevará a la PANTALLA DE
     ACCESO, que solicita un código de seguridad. 3) Introduzca la clave de administrador. La clave de
     administrador por defecto es 2222 (la clave de usuario por defecto es 1111, pero esta no da acceso
-    a configuración avanzada completa). Una vez introducida la clave correcta, accederá a la PANTALLA
-    DE ADMINISTRADOR, dividida en 6 secciones (Menú Principal a la izquierda, Submenú a la derecha, Barra
-    de Navegación, Vista Principal, Barra de Estado y Barra de Mensajes), desde donde podrá acceder a
-    Lazos, Sectorización, Maniobras, Logs, Red, Ajustes e Instalación. ADVERTENCIA: El uso indebido o
-    negligente del nivel de acceso con privilegios de administrador puede provocar un mal funcionamiento
-    de la instalación y poner en riesgo la protección de personas y bienes; asegúrese de tener la autorización
-    y conocimientos necesarios. Se recomienda cambiar la clave por defecto desde Ajustes > Usuarios.'
+    al submenú AVANZADO). Una vez introducida la clave correcta, accederá a la PANTALLA DE ADMINISTRADOR,
+    dividida en 6 secciones (Menú Principal a la izquierda, Submenú a la derecha, Barra de Navegación,
+    Vista Principal, Barra de Estado y Barra de Mensajes), desde donde podrá acceder a Lazos, Sectorización,
+    Maniobras, Logs, Red, Ajustes e Instalación. ADVERTENCIA: El uso indebido o negligente del nivel de
+    acceso con privilegios de administrador puede provocar un mal funcionamiento de la instalación y poner
+    en riesgo la protección de personas y bienes; asegúrese de tener la autorización y conocimientos necesarios.
+    Se recomienda cambiar la clave por defecto desde Ajustes > Usuarios.'
   atomic_facts:
   - texto: Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tactil ->
       accede a la PANTALLA DE ACCESO, que pide el codigo/password
@@ -33,12 +33,17 @@
     estado: presente
     valor: '2222'
     cita: MC-380 p20 + MI-372
-  - texto: La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada completa
-      (solo el nivel de usuario)
+  - texto: La clave de USUARIO por defecto es 1111, que NO da acceso al submenu AVANZADO de AJUSTES (nivel
+      de usuario; AVANZADO y USUARIOS requieren permiso de instalador)
     tipo: core
     estado: presente
     valor: '1111'
-    cita: MU-376 p10
+    cita: 'MU-376 p10 + MC-380 p31 (5.4 AVANZADO) + MC-380 p15 (3.1: AJUSTES de nivel usuario)'
+    nota_edit: 's321: adjudicado por Alberto — «configuracion avanzada» = el submenu AVANZADO. Se retira
+      «completa», que implicaba acceso parcial. Correcciones del duo: (a) la cita apuntaba a p29, paginacion
+      de OTRA revision del MC-380; el gold usa CAD-250-MC-380-es, donde 5.4 AVANZADO esta en p31; (b)
+      se anade el quote verbatim, que faltaba. Corrige ademas una lectura de fuente del MODELO EQUIVOCADO
+      (s320c cito CAD-150R para una pregunta de la CAD-250). valor intacto ⇒ join key qid#idx:valor conservada.'
   - texto: 'Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 secciones: Menu
       Principal (izq), Submenu (der), Barra de Navegacion, Vista Principal, Barra de Estado y Barra de
       Mensajes'
@@ -74,6 +79,11 @@
   - manual: Manual usuario CAD-250 (MU 376 es 2024 f).pdf
     page: 10
     quote: La clave de usuario por defecto es 1111
+  - manual: CAD-250-MC-380-es.pdf (Guía de Configuración)
+    page: 31
+    quote: '5.4. AVANZADO. En esta sección podrá establecer los parámetros básicos de configuración de
+      la central, así como ajustes de ingeniero para facilitar trabajos de puesta en marcha y configuración.
+      Para acceder a estos ajustes pulse: AJUSTES (Menú principal) > AVANZADO (Submenú)'
   notes: La información aparece de forma consistente en los tres manuales. El término 'programación avanzada'
     no aparece literalmente; se interpreta como el nivel de acceso de administrador/configuración (nivel
     3), que es donde se realizan todas las acciones de configuración del sistema según indica la sección
@@ -91,6 +101,7 @@
     paginas:
     - 20
     - 21
+    - 31
     verificado_por:
     - Claude (lectura multimodal de p20 'Acceso como administrador' + p21 tabla de 6 secciones)
     - gpt-5.5 (transcripcion independiente en frio de la tabla de 6 secciones p21)
@@ -101,7 +112,9 @@
     nota: '3 manuales digital-native -> lectura fiable. MC-380 sin offset (impresa=fisica 20/21). MI-372:
       el 2222 esta en fisica p29 (el gold lo citaba como p31 -> offset impresa+2 o numeracion del gold;
       el DATO es correcto). El gold_answer menciona un ''nivel 4'' (apertura fisica PC/Pendrive/TOTEM)
-      que NO se verifico aqui (fuera de p20-21) -> no autorado.'
+      que NO se verifico aqui (fuera de p20-21) -> no autorado. | s321: p31 (5.4 AVANZADO) anadida por
+      ADJUDICACION de Alberto; verificada por lectura del chunk de corpus con section_title "5.4. AVANZADO"
+      en CAD-250-MC-380-es, NO por render_pdf+cross_model como p20-21. Metodo declarado, no equiparado.'
     localizacion:
       manuales_buscados:
       - CAD-250-MC-380-es.pdf

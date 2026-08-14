@@ -6452,6 +6452,68 @@ re-verificadas full-text, 0 fallos, §1 = ∅.** El carril «evidencia online» 
 diseñado para censos futuros donde el corpus NO ancle: URL+quote+fecha al packet
 como tier DECLARADO (nunca al catálogo sin adjudicación); no hizo falta usarlo.
 
+## DEC-218 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
+
+**Decisión**: los preregs de los canarios `s203/s204/s205` son **guardas VIVAS (tripwires)** sobre el
+ledger de golds, y **se re-anclan** cuando Alberto adjudica un gold — con una acotación OBLIGATORIA.
+Los artefactos de `s277` (contrato sellado, prereg de release, manifest histórico) **NO se tocan**.
+
+**El criterio, escrito una vez para no re-litigarlo** (lo pidió Fable; hasta hoy solo vivía en prosa
+de mensajes de commit):
+- **Registro histórico** = el acta de contra qué corrió una ejecución pasada. Vive en **git y en el
+  manifest**, no en el prereg. **Intocable.**
+- **Guarda viva** = el pin que dice «esta entrada no se ha movido desde que la aprobé». Su valor NO es
+  autenticar: es **forzar ceremonia visible** ante cualquier cambio del ruler. Se re-ancla
+  deliberadamente, con la causa escrita en el propio fichero.
+- ⚠️ El `status: FROZEN_BEFORE_FRONTIER_EXECUTION` de esos preregs **induce a error**: sus
+  `frozen_inputs` ya mutaron en s286, s287 y ahora s321. Se conserva el literal porque tres runners
+  lo assertan; el matiz queda anotado en cabecera. **Renombrarlo es deuda pendiente**, no urgente.
+
+**Acotación OBLIGATORIA antes de re-anclar** (convergencia del dúo; sin esto el re-anclaje bendice
+CUALQUIER deriva acumulada, no solo la adjudicada): localizar el commit cuyo fichero casa con el sha
+pinneado y **diffear contra él**, verificando que solo contiene lo adjudicado. Ejecutado en s321:
+pin `79701140…` → commit `972e96b` (s287); diff = 14 líneas, todas en `hp001`, cero qids
+añadidos/quitados. **«Lo explico en el commit» NO es mitigación** (Sol, medio).
+
+**Motivo + alternativas descartadas**: el dúo DIVERGIÓ de frente. **Sol (2 críticos)**: re-anclar
+falsifica la declaración `FROZEN_BEFORE_...`; el arreglo estructural es resolver el ledger desde un
+**blob sellado** (`git cat-file`), patrón que YA existe en `tests/test_s277_c1_p1_contract.py:29-56`
+con su razón escrita («hashear el árbol vivo reportaría el desarrollo como manipulación»; DEC-147:
+versionar, no relajar). **Fable**: pinnear el fichero vivo NO es defecto — es un tripwire, no un
+autenticador, y un snapshot lo silenciaría **para siempre**; que 4 tests se pongan rojos ante una
+adjudicación es la guarda funcionando. **Adjudicado a favor de Fable** por un hecho que él mismo
+aporta y que reconcilia a los dos: el prereg **ya no registra** lo que la ejecución consumió — eso
+vive en git/manifest — luego re-anclar **no destruye evidencia**. La propuesta de Sol queda
+**registrada como candidata**, no descartada: si algún día se quiere una guarda que distinga
+«legítimo» de «manipulación» (y no solo *que* cambió), el blob sellado es el camino.
+
+**Lo que NO se hizo, y por qué** (Sol, crítico 1, CONFIRMADO en ejecución): regenerar
+`s277_c1_p1_fact_contract_v1.json` por su builder **satisface un test y rompe otro** —
+`test_contract_rebuilds_byte_semantically_from_frozen_authorities` exige rebuild==stored, y el
+preflight del runner exige que el hash case con el pin sellado del prereg. No pueden cumplirse a la
+vez cuando una entrada legítima cambia. Se **restauraron** los tres artefactos de s277 y se dejó el
+test de rebuild en rojo, documentado como **TECH_DEBT #77**: es un defecto de sobre-pinneo
+preexistente que esta adjudicación solo destapó, y cascar re-anclajes dentro de una puerta de
+release no es algo que se haga de madrugada sin decisión propia.
+
+**Coste declarado para la sentada B2**: cada tanda de marcas exige re-anclar los 3 canarios, con su
+diff acotado, y **marcas + re-anclaje deben ir en UN commit** — si van separados, la suite queda roja
+en cada frontera intermedia, se normaliza el rojo y una deriva ajena que entre en esa ventana queda
+enmascarada (Fable, medio).
+
+**AMPLIACIÓN (mismo día, tras el rojo de CI en la PR #255)**: el criterio vale TAMBIÉN para
+`s277`, y ahí **Sol se equivocaba en su crítico 1**. Sostenía que regenerar el contrato
+«contradice la identidad inmutable de la P1 histórica» porque el manifest fija `3ac742…` mientras
+el prereg declara otro hash. Los diffs dicen lo contrario: el manifest **conserva el original a
+propósito** —es el acta— y el prereg **avanza con cada adjudicación** (`3ac742` s286 → `844237b4`
+s287 → `a4d29396` → `da79055e` s321). No es deriva: es exactamente la distinción viva/histórico de
+esta DEC, aplicada a otro artefacto. **Mi error derivado**: al ver que regenerar rompía el
+preflight, REVERTÍ y declaré «dos guardas incompatibles». Lo correcto era completar la cascada —
+el builder no propaga los pins a `prereg_v2/v3` ni al scorer, y hay que copiarlos a mano
+(TECH_DEBT #77). Ejecutada entera: 4/4 ficheros de test en verde, manifest intacto.
+
+Recibos: `evals/s321_reanclaje_propuesta_v1.md` · dúo ts=2026-08-14T17:54:01 (Sol xhigh + Fable 5).
+
 **Actualización DEC-217 #2 (14-ago tarde, pregunta de Alberto sobre el packet E3)**:
 mismo patrón aplicado al residuo E3 — de las 32 filas §1 del packet v1, 12 eran
 `parse-fail` del MISMO bug max_tokens=400 y ~17 eran altas castigadas solo por
