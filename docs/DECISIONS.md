@@ -6488,4 +6488,15 @@ diff acotado, y **marcas + re-anclaje deben ir en UN commit** — si van separad
 en cada frontera intermedia, se normaliza el rojo y una deriva ajena que entre en esa ventana queda
 enmascarada (Fable, medio).
 
+**AMPLIACIÓN (mismo día, tras el rojo de CI en la PR #255)**: el criterio vale TAMBIÉN para
+`s277`, y ahí **Sol se equivocaba en su crítico 1**. Sostenía que regenerar el contrato
+«contradice la identidad inmutable de la P1 histórica» porque el manifest fija `3ac742…` mientras
+el prereg declara otro hash. Los diffs dicen lo contrario: el manifest **conserva el original a
+propósito** —es el acta— y el prereg **avanza con cada adjudicación** (`3ac742` s286 → `844237b4`
+s287 → `a4d29396` → `da79055e` s321). No es deriva: es exactamente la distinción viva/histórico de
+esta DEC, aplicada a otro artefacto. **Mi error derivado**: al ver que regenerar rompía el
+preflight, REVERTÍ y declaré «dos guardas incompatibles». Lo correcto era completar la cascada —
+el builder no propaga los pins a `prereg_v2/v3` ni al scorer, y hay que copiarlos a mano
+(TECH_DEBT #77). Ejecutada entera: 4/4 ficheros de test en verde, manifest intacto.
+
 Recibos: `evals/s321_reanclaje_propuesta_v1.md` · dúo ts=2026-08-14T17:54:01 (Sol xhigh + Fable 5).

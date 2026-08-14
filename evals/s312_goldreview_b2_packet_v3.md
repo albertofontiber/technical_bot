@@ -49,6 +49,15 @@
 > bloque `s320c` con tres cosas separadas: **qué escribe la marca · qué dice la FUENTE · qué decides
 > tú**. Donde no hay recomendación, es porque no me la he ganado.
 >
+> **Coste de APLICAR una marca (medido en s321, no estaba en ninguna ficha)**: editar el ruler
+> dispara 4 tests de contrato congelado. No es un bug — son guardas forzando ceremonia. Aplicarlas
+> exige, en el MISMO commit: (a) el **diff acotado** contra el commit cuyo ledger casa con el sha
+> pinneado, verificando que solo contiene lo adjudicado; (b) re-anclar los 3 canarios
+> `s203/s204/s205`; (c) la cascada de `s277` — regenerar el contrato por su builder y propagar los
+> pins a `prereg_v2`, `prereg_v3` y el scorer **a mano**, dejando el manifest histórico intacto
+> (`TECH_DEBT #77`, `DEC-218`). **Marcas y re-anclaje van juntos en un commit**: separados dejan la
+> suite roja en cada frontera y enmascaran cualquier deriva ajena que entre por esa ventana.
+>
 > **Ruptura de serie declarada**: si marcas los splits, el denominador pasa de 131 clasificados
 > (133 cores) a ~134; los porcentajes congelados del scoreboard **no son comparables** después. Una
 > sola re-medición cubre todo el conjunto — conviene cerrar los 7 en la misma sentada.

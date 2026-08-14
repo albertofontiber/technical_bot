@@ -2836,30 +2836,34 @@ español. NO está poblada (Notifier fuera del censo s322).
 adjudicación, jamás write-fusión; (c) el display distingue capacidad
 (serie/ampliable, se fusiona bien) de divergencia de alcance (se muestra
 por-fuente). **Gatillo duro**: poblar cualquier marca con docs multi-mercado.
-## #77 — El contrato `s277_c1_p1_fact_contract_v1.json` está SOBRE-PINNEADO: dos guardas incompatibles (s321)
+## #77 — Re-anclar el contrato de `s277` tras una adjudicación de gold son 5 ficheros a mano, sin comando ni checklist (s321)
 
-**El hecho (verificado en ejecución, no inferido)**: el contrato está fijado por DOS mecanismos con
-expectativas opuestas. `tests/test_s277_c1_p1_contract.py::test_contract_rebuilds_byte_semantically_from_frozen_authorities`
-lo **reconstruye** desde sus autoridades y exige `rebuilt == stored`; el preflight del runner
-(`scripts/s277_c1_p1.py:456`) exige que su hash LF case con el pin sellado de
-`evals/s277_c1_p1_prereg_v1.yaml`. Cuando una autoridad legítima cambia, **regenerar arregla el
-primero y rompe el segundo; no regenerar hace lo contrario**. Comprobado ejecutando el builder y
-revirtiendo.
+**CORRECCIÓN de mi propia entrada (misma sesión).** La escribí como «dos guardas
+incompatibles: regenerar arregla un test y rompe otro». **Es falso**, y lo era por no haber
+mirado el historial: la cascada está establecida desde s286 y funciona. Lo que descubrí al
+ejecutarla entera es otra cosa, y más mundana.
 
-**Por qué se dispara con algo que no le incumbe**: `hp001` **ni siquiera está** en los `QIDS` del
-builder (`scripts/s277_build_c1_p1_contract.py:25-43`, 13 qids). El rebuild cambia solo porque el
-builder mete un recibo del **ledger ENTERO** (`:669-696`). Acoplamiento por hash de fichero completo,
-no dependencia real.
+**El procedimiento real** (verificado en los diffs de `de0032c` s286 y `972e96b` s287, no en su
+prosa): una adjudicación de gold obliga a tocar **cinco** artefactos —
+1. `evals/s277_c1_p1_fact_contract_v1.json` (lo regenera el builder)
+2. `evals/s277_c1_p1_prereg_v1.yaml` (también el builder)
+3. `evals/s277_c1_p1_prereg_v2.yaml` · 4. `..._v3.yaml` · 5. `scripts/s277_c1_p1_scorer.py`
+   (**a mano**: llevan `sha256_lf` y `payload_sha256` copiados, y el builder no los conoce)
 
-**Agravante (Sol, crítico)**: el manifest histórico fija el contrato a `3ac742…`
-(`evals/s277_c1_p1_b92ff51_handoff_manifest_v1.json`) mientras el prereg ya declara `a4d29396…`. **La
-deriva es PREEXISTENTE**: dejar el manifest «intacto» mientras se sustituye el único contrato al que
-apunta lo deja irreproducible, no preservado.
+y **NO** tocar `evals/s277_c1_p1_b92ff51_handoff_manifest_v1.json`, que sigue fijando el
+`3ac742…` original: es el acta histórica, no un pin vivo. La secuencia de los pins vivos —
+`3ac742` (s286) → `844237b4` (s287) → `a4d29396` → `da79055e` (s321) — muestra el patrón.
 
-**Fix cuando toque (no antes)**: decidir cuál de las dos guardas manda. Candidatos: (a) que el
-recibo del builder hashee **solo los qids del contrato** en vez del ledger entero — quita el falso
-acoplamiento de raíz; (b) versionar contrato+prereg juntos por DEC-147 («versionar, no relajar»)
-cuando exista un consumidor contemporáneo que lo necesite; (c) resolver las autoridades desde blob
-sellado (propuesta de Sol, ver DEC-218). **Trigger**: la próxima vez que una adjudicación de gold
-tenga que convivir con el gate de release, o que alguien necesite reproducir b92ff51. **Coste**: M.
-**Relacionado**: DEC-218, DEC-147, #75.
+**La deuda, entonces**: el paso 3-5 no está en ningún script, ningún test lo exige y su única
+descripción vivía en un mensaje de commit de s286 que nadie iba a releer. Se descubre cuando el
+preflight falla con `fact_contract LF hash`, y el diagnóstico obvio («revierte, algo va mal») es
+justo el equivocado — es lo que hice yo. **Agravante**: `hp001` ni siquiera está en los 13 `QIDS`
+del builder (`scripts/s277_build_c1_p1_contract.py:25-43`); el rebuild solo cambia porque el
+builder mete un recibo del **ledger ENTERO** (`:669-696`). Acoplamiento por hash de fichero
+completo, no dependencia real.
+
+**Fix cuando toque**: (a) que el builder propague los pins a v2/v3/scorer, o que esos tres los
+lean del v1 en vez de duplicarlos; (b) un test que falle si los 5 divergen entre sí, en vez de
+que lo descubra el preflight; (c) que el recibo del builder hashee **solo los qids del contrato**
+— quita el falso acoplamiento de raíz. **Trigger**: la próxima adjudicación de gold. **Coste**: S
+para (a)+(b), M para (c). **Relacionado**: DEC-218, DEC-147, #75.
