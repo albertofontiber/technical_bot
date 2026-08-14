@@ -3471,3 +3471,61 @@ una «baja real» (VESDA-E-VEP) resultó estar sostenida por una query gold. El
 v1 que queda es honesto: mecanismo gobernado con PASS total byte-idéntico en
 conducta, y TODOS los cambios de datos (altas, bajas, gaps) en un packet
 adjudicable por lotes. Dúo r23 pre-build completo (Sol 4 · Fable 3, 0 FP).
+
+## s321 (14-ago-2026, nocturno) — E3: la identidad adjudicada llega a los chunks, con el dúo estrechando el lote hasta que la evidencia aguantó
+
+Alberto preguntó «¿lo ha validado el dúo?» en el momento exacto: el split del
+dry-run era mío y sin revisar. r25 lo rehizo (atestación=sujeto-dominante, no
+mención; producto-real jamás se colapsa solo; hermanas sobre todas las
+aplicables) y de 102 parejas quedaron 55 AUTO — que se aplicaron limpias:
+579/579 chunks por-CAS con backup por fila, findability PASS fail-closed, y la
+sonda E2-POST dando el cero pre-registrado. El residuo (47) viajó al packet con
+la pasada LLM que Alberto mandó antes de dormir: fable-5 leyendo el contenido
+real y citando verbatim — 15 quedaron «aplicables en bloque si asiente», 11
+NO_DECIDIBLE honestos, y 1 donde el modelo defiende el pm actual contra el
+mapa. Tres bugs de instrumento cazados por el camino (criterio circular vía
+snapshot, patrón imatch asimétrico, temperature deprecada). TECH_DEBT #76
+anotada por mandato: categoría+atributos de producto (el caso Detnov/Kidde).
+E4 arranca a continuación.
+
+## s321b (14-ago-2026, madrugada) — E4 cierra el elefante: el clarify lee el catálogo y la promesa de DEC-069 queda cumplida
+
+El último tramo nocturno retiró el seed FAMILY_REGISTRY cumpliendo la promesa
+que su propio comentario llevaba semanas haciendo: el clarify-por-divergencia
+lee ahora el campo `clarify` adjudicable de las umbrellas, con las variantes
+DERIVADAS de los miembros (el dúo r26 vetó re-declararlas y mató de paso el
+fallback hardcoded, tercera copia del mismo dato), la provenance separada por
+componente tras cazar Sol mi «datos T3» falso, y una sola instancia de
+catálogo por proceso. Tests de texto-exacto donde el gate MT solo pedía
+no-vacío; guard hp009 assertado; suite 3.841. Con E4, el elefante DEC-074/091b
+está COMPLETO: lo que era «4-7 sesiones» aparcadas resultó ser ~3 de restante
+real una vez el censo separó lo ya-ejecutado — y todos los residuos son
+packets de datos esperando la sentada, no ingeniería pendiente.
+
+## s322b (14 ago 2026) — El cierre de #76: los datos de Alberto, el dúo r28 y el inventario que por fin parece un mostrador
+
+La sesión arrancó con tres mensajes de Alberto que eran, sin decirlo, un test de
+integridad del sistema entero: PR #252 ya estaba mergeada (⇒ rama nueva), el
+inventario genérico debía dejar de ser un listado infinito, y la CAD-250 «es
+ampliable hasta 32 lazos creo, con módulos — no verás CAD-250-32». El corpus le
+dio la razón con cita verbatim («soporta hasta 32 lazos en un único NODO»), y de
+paso ancló CAD-171 («2 lazos») y CAD-201 («2 lazos ampliable a 8») — la
+población no las había cazado por MUESTREO (secciones profundas), no por
+ausencia. Su regla «toda central lleva capacidad» destapó que las 6 sin dato
+eran las NC-PF convencionales: su dato son ZONAS, no lazos — clave hermana
+nueva en el esquema, jamás fusionada. De la misma pasada cayó un defecto real
+del writer (atribuía citas contra los 6 primeros chunks: 12 filas §0 saltadas,
+rescatadas 12/12 contra doc completo) y el inventario genérico quedó agrupado
+por tipología y familia gobernada, con cota por construcción.
+
+El dúo r28 (Sol 7/7 + Fable 5/5, 0 FP) volvió a ganarse el sueldo: cazó el
+sobre-claim «todo verbatim» del autor (el sufijo CAD-150 es derivación
+DECLARADA), exigió `base` opcional (6 suelos inventados retirados), y su
+predicción sobre verificar-50-almacenar-200 se MATERIALIZÓ: la re-verificación
+full-text de 296 citas encontró exactamente 1 invención (tecnología «analogica»
+de un SDK cuyo doc jamás dice addressable) — cazada y retirada. Fable añadió
+inaplicable≠faltante (una convencional no «carece» de lazos), la colisión
+«zonas de extinción» y el orden natural. Todo aplicado en el mismo diff.
+Cierre: 138 clasificados Detnov+Kidde, 36/36 centrales con capacidad, smoke de
+las 5 queries de mostrador en verde, deuda #76b (divergencia multi-mercado)
+declarada con gatillo duro antes de Notifier. DEC-217.

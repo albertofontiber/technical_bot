@@ -1,0 +1,493 @@
+{
+ "utc": "20260814T160407Z",
+ "aciertos": 28,
+ "n": 28,
+ "precision": 1.0,
+ "gate_pass": true,
+ "umbral": 0.95,
+ "detalle": [
+  {
+   "id": "detnov:55310011",
+   "ok": true,
+   "gt": {
+    "categoria": "pasarela",
+    "tecnologia": null,
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "pasarela",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-150-1",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 1,
+     "max": 1
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-2",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 2,
+     "max": 2
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-2-mb",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 2,
+     "max": 2
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-4",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 4,
+     "max": 4
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-150-8",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 8,
+     "max": 8
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-150-8-plus",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 8,
+     "max": 8
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-150r",
+   "ok": true,
+   "gt": {
+    "categoria": "repetidor",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "repetidor",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-171",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-201",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-201-plus",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-201-z",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 8,
+      "cita": "Central analógica ampliable de 2 a 8 lazos y sus accesorios."
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-201-zplus",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 8,
+      "cita": "Central analógica ampliable de 2 a 8 lazos y sus accesorios"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-250",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": null,
+    "lazos": null
+   }
+  },
+  {
+   "id": "detnov:cad-250-p",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": null,
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:2010-2-pak-rmsdk",
+   "ok": true,
+   "gt": {
+    "categoria": "accesorio",
+    "tecnologia": null,
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "accesorio",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:2x-af1-fb-s",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 1,
+     "max": 1
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1-FB-S   | Central de alarma de incendio direccionable de un l"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-af2-fb-prt",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 2,
+     "max": 2
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Two-loop addressable fire alarm control panel with fire routing"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-fb",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 2,
+     "max": 4
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad105ss",
+   "ok": true,
+   "gt": {
+    "categoria": "detector",
+    "tecnologia": null,
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "detector",
+    "tecnologia": "convencional",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ad68p",
+   "ok": true,
+   "gt": {
+    "categoria": "detector",
+    "tecnologia": null,
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "detector",
+    "tecnologia": "convencional",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-as3010r",
+   "ok": true,
+   "gt": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-as3015r-cmip",
+   "ok": true,
+   "gt": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-as3105w-wm",
+   "ok": true,
+   "gt": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-cm",
+   "ok": true,
+   "gt": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-as3115w-cm",
+   "ok": true,
+   "gt": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "sirena",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-dm3010r-kit",
+   "ok": true,
+   "gt": {
+    "categoria": "pulsador",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "pulsador",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  },
+  {
+   "id": "kidde:ke-io3101",
+   "ok": true,
+   "gt": {
+    "categoria": "modulo",
+    "tecnologia": "analogica",
+    "lazos": null
+   },
+   "llm": {
+    "categoria": "modulo",
+    "tecnologia": "analogica",
+    "lazos": null
+   }
+  }
+ ],
+ "resumen_poblacion": {
+  "pasarela:alta": 2,
+  "central:alta": 20,
+  "None:baja": 41,
+  "repetidor:alta": 1,
+  "central:media": 2,
+  "detector:alta": 19,
+  "barrera:media": 1,
+  "pulsador:alta": 13,
+  "modulo:alta": 6,
+  "pasarela:media": 1,
+  "accesorio:alta": 12,
+  "aspiracion:alta": 3,
+  "aspiracion:media": 1,
+  "sirena:alta": 38
+ }
+}

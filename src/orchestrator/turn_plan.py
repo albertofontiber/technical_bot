@@ -62,8 +62,10 @@ _CATALOG_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 _ENUM_FABRICANTE = re.compile(
+    # s322 #76: {0,40}→{0,70} — «de cuatro lazos analógicas de Detnov» rozaba
+    # el tope; las frases con filtros de categoría/atributo caben enteras.
     r"(qu[eé]|cu[aá]l(?:es)?)\s+(productos?|modelos?|equipos?|centrales?|detectores?|"
-    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]{0,40}"
+    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]{0,70}"
     r"\b(tienes|ten[eé]is|tienen|hay|dispones?|dispon[eé]is|disponen|"
     r"soportas?|cubres?|conoces)\s*\??\s*$"
     r"|\b(listado|lista|cat[aá]logo|inventario)\s+de\s+"
@@ -143,6 +145,73 @@ def _lista(marcas_db: MarcasDB) -> Sequence[str] | None:
         except Exception:                          # noqa: BLE001 — nunca bloquea
             return None
     return marcas_db
+
+
+# (s322 #76, DEC-216) Filtros de inventario: léxico CERRADO es/en, puro y $0.
+# El plan los TIPA y los transporta en datos["filtros"] (dúo r27 Sol M2: sin
+# contrato en el plan, la caché por-marca se contaminaría y el despachador
+# tendría que re-examinar la query — rompería el punto de decisión único).
+_FILTRO_CATEGORIA = {
+    "central": "central", "centrales": "central",
+    "detector": "detector", "detectores": "detector",
+    "pulsador": "pulsador", "pulsadores": "pulsador",
+    "sirena": "sirena", "sirenas": "sirena",
+    "modulo": "modulo", "modulos": "modulo",
+    "módulo": "modulo", "módulos": "modulo",
+    "fuente": "fuente", "fuentes": "fuente",
+    "repetidor": "repetidor", "repetidores": "repetidor",
+    "panel": "central", "panels": "central", "paneles": "central",
+    "detectors": "detector", "sounders": "sirena",
+}
+_FILTRO_TECNOLOGIA = {
+    "analogica": "analogica", "analógica": "analogica",
+    "analogicas": "analogica", "analógicas": "analogica",
+    "analogico": "analogica", "analógico": "analogica",
+    "convencional": "convencional", "convencionales": "convencional",
+    "algoritmica": "algoritmica", "algorítmica": "algoritmica",
+    "algoritmicas": "algoritmica", "algorítmicas": "algoritmica",
+    "analogue": "analogica", "analog": "analogica",
+    "addressable": "analogica",
+}
+_NUM_PALABRA = {"un": 1, "uno": 1, "una": 1, "dos": 2, "tres": 3,
+                "cuatro": 4, "cinco": 5, "seis": 6, "ocho": 8, "diez": 10,
+                "one": 1, "two": 2, "four": 4, "eight": 8}
+_RX_LAZOS = re.compile(
+    r"\b(\d{1,2}|" + "|".join(_NUM_PALABRA) + r")\s+(?:lazos?|loops?|bucles?)\b",
+    re.IGNORECASE)
+# (s322, Alberto) zonas = la característica análoga en centrales CONVENCIONALES
+# (NC-PF2 = «2 zonas»); clave separada de lazos — conceptos distintos. El
+# lookahead excluye «zonas de extinción» (dúo r28 Fable M3: concepto DISTINTO
+# ya presente en el dominio — filtrar detección con él sería falso match).
+_RX_ZONAS = re.compile(
+    r"\b(\d{1,2}|" + "|".join(_NUM_PALABRA) + r")\s+(?:zonas?|zones?)\b"
+    r"(?!\s+de\s+extin)",
+    re.IGNORECASE)
+
+
+def filtros_inventario(query: str) -> dict | None:
+    """Filtros tipados de la consulta de inventario, o None si no hay ninguno.
+    Léxico cerrado v1 (sin LLM en el turno): lo que no matchea = sin filtro =
+    conducta de hoy."""
+    ql = query.lower()
+    filtros: dict = {}
+    for palabra, cat in _FILTRO_CATEGORIA.items():
+        if re.search(rf"\b{palabra}\b", ql):
+            filtros["categoria"] = cat
+            break
+    for palabra, tec in _FILTRO_TECNOLOGIA.items():
+        if re.search(rf"\b{palabra}\b", ql):
+            filtros["tecnologia"] = tec
+            break
+    m = _RX_LAZOS.search(ql)
+    if m:
+        crudo = m.group(1).lower()
+        filtros["lazos"] = int(crudo) if crudo.isdigit() else _NUM_PALABRA[crudo]
+    m = _RX_ZONAS.search(ql)
+    if m:
+        crudo = m.group(1).lower()
+        filtros["zonas"] = int(crudo) if crudo.isdigit() else _NUM_PALABRA[crudo]
+    return filtros or None
 
 
 def _intencion_inventario(query: str, marca: str | None = None) -> bool:
@@ -401,14 +470,18 @@ def plan_turn(texto: str, estado_modelos: Sequence[str], meta: Meta,
                              datos={"marca_mencionada": mencionada})
             if _intencion_inventario(texto, mencionada):
                 return _plan(ruta="inventario", fallback_ruta=_post_marca,
-                             log_consulta=True, datos={"marca": mencionada})
+                             log_consulta=True,
+                             datos={"marca": mencionada,
+                                    "filtros": filtros_inventario(texto)})
             # marca servida sin intención de inventario → cascada
     elif _PREGATE_INVENTARIO.search(texto) \
             and not _retriever.extract_product_models(texto):
         marca_db = marca_en_texto(texto, lexico)  # type: ignore[arg-type]
         if marca_db and _intencion_inventario(texto, marca_db):
             return _plan(ruta="inventario", fallback_ruta=_post_marca,
-                         log_consulta=True, datos={"marca": marca_db})
+                         log_consulta=True,
+                         datos={"marca": marca_db,
+                                "filtros": filtros_inventario(texto)})
 
     if _FEEDBACK_PATTERNS.search(texto):
         return _plan(ruta="feedback")

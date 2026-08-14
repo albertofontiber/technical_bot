@@ -6293,7 +6293,153 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Relacionado**: plan v2 elefante · DEC-093/094 · DEC-212 (E1) · tally r23
   ts=2026-08-13T21:56:44.
 
-## DEC-214 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
+## DEC-214 (s321) — E3 F3a EJECUTADO: 579 chunks re-tagueados con identidad adjudicada (dúos r24+r25, findability PASS); residuo en packet con recomendaciones LLM fundamentadas
+
+- **Fecha**: 14 ago 2026 (s321, nocturno autónomo mandatado). **Impacto**: ALTO
+  (identidad servida de chunks) — dúos r24 (3 críticos) y r25 (crítico convergente
+  atestación≠sujeto), TODO aplicado; 1 FP de Fable en 13 rondas (cita «pm JAMÁS
+  auto» que SÍ existe — DEC-156b:3651, línea-kilométrica omitida por grep),
+  documentado con mecanismo.
+- **La cadena censo→dúo→atestación estrechó el lote con evidencia**: censo v1
+  161 docs → v2 (consumable-gate + semántica imatch + contabilidad 887 asserted)
+  104 docs/1.462 chunks, partición por provenance LEÍDA (102 adjudicados / 2
+  derivados) · atestación r25 (sujeto-dominante + hermanas + producto-real→packet
+  + fix del criterio circular snapshot) → **AUTO = 55 parejas / 579 chunks**.
+- **APLICADO (recibo `s321_e3_writer_aplicar_20260813T222611Z.json`)**: 579/579
+  por-chunk con CAS id+pm_prev (el bulk-por-pm dio 500 server-side: rollback
+  verificado, migrado a fila-a-fila) · backup por-chunk versionado (rollback por
+  id) · **findability_post PASS fail-closed** (los 55 docs recuperables por su
+  canónico; pm-familia DEC-192/193 intactos por construcción) · **E2-POST: el
+  conservador re-derivado = 0 altas/0 bajas** (diff pre-registrado = cero,
+  explicado: ya estaban doc_map-atestados) · suite 3.833/46.
+- **Residuo (packet `s321_e3_packet_adjudicacion_v1.md`)**: 47 parejas/878 chunks
+  con pasada LLM mandatada por Alberto (claude-fable-5, contenido real, cita
+  VERIFICADA contra muestra, alta-sin-cita degradada): §0 = 15 aplicables-en-
+  bloque con su asentimiento · §1 = 32 una-a-una (28 producto-real→multi-valor,
+  hermanas, no-dominantes; 11 NO_DECIDIBLE honestos; 1 MANTENER_PREV).
+- **Incidencias de instrumento cazadas en la noche**: criterio producto-real
+  CIRCULAR vía snapshot (el snapshot nació de estos pm) → solo catálogo
+  gobernado · patrón imatch asimétrico por diseño → forma por normkey+signos ·
+  `temperature` deprecada en modelos 2026 (clase DEC-092).
+- **Relacionado**: DEC-212/213 · contrato §F3 · tallies r24
+  ts=2026-08-13T23:49:46 · r25 ts=2026-08-14T00:12:43 · TECH_DEBT #76 (alta
+  esta noche: categoría+atributos, mandato Alberto).
+
+## DEC-215 (s321) — E4 EJECUTADO: el clarify-por-divergencia lee el CATÁLOGO gobernado; el seed FAMILY_REGISTRY retirado (dúo r26) — EL ELEFANTE (DEC-074/091b) QUEDA COMPLETO
+
+- **Fecha**: 14 ago 2026 (s321 nocturno). **Impacto**: MEDIO (ruta E del clarify de
+  la política F1) — dúo r26 (Sol 3 · Fable 4, 0 FP, TODO aplicado).
+- **Qué hay**: campo `clarify` OPCIONAL y ADJUDICABLE en umbrellas
+  (`{eje_terminos[], provenance}` — la puerta VETA declarar `variantes`: se DERIVAN
+  de los canonical_model de los miembros, prefijo/sufijo común fuera → «1/2/5») ·
+  migración de ZXe/ZXSe con provenance SEPARADA por componente (membresía s78/s90
+  intacta · eje = GT s78-80 + seed s281, adjudicación formal del léxico PENDIENTE
+  declarada) · consumo vía la instancia ÚNICA del proceso
+  (`catalog_resolver.catalogo_cargado`, r26: sin segunda caché) · fail-open
+  DECLARADO como divergencia con el seed (catálogo roto → sin clarify + warning) ·
+  fallback hardcoded «1/2/5/10» RETIRADO (tercera copia) · `FAMILY_REGISTRY`/
+  `_FamilySpec` eliminados.
+- **Gates**: tests de TEXTO EXACTO del clarify pre/post (Sol M2: el gate MT solo
+  assertaba no-vacío) + eje positivo/negativo + guard hp009/DEC-082 (divergent:true
+  sin eje JAMÁS clarifica) + derivación de variantes + fail-open → 8/8 · suite
+  completa 3.841/46 · catálogo validate 0 errores.
+- **Añadir una familia nueva** = una fila de catálogo con provenance (antes: un PR
+  de código). La costura para #76 queda puesta: `eje_terminos` es vocabulario de
+  consulta; los atributos TIPADOS (categoría/tecnología/lazos) son #76.
+- **EL ELEFANTE COMPLETO**: E0 censo (DEC-211-era) · E1 datos+packets (DEC-212) ·
+  E2 derivación gobernada (DEC-213) · E3 re-tag 579 chunks (DEC-214) · E4 clarify
+  gobernado (esta). El workstream DEC-074/091b de 4-7 sesiones se ejecutó en su
+  RESTANTE real en ~3 (s320-s321); los residuos son PACKETS de datos adjudicables,
+  no ingeniería.
+- **Relacionado**: DEC-069 (la promesa del comentario) · DEC-074/082/084/091b ·
+  tally r26 ts=2026-08-14T00:43:11.
+
+## DEC-216 (s322) — #76 MECANISMO COMPLETO (dúo r27): clasificacion+atributos multi-valor en el catálogo, filtros tipados en el plan, inventario filtrado con honestidad — la población es la fase 2
+
+- **Fecha**: 14 ago 2026 (s322). **Impacto**: MEDIO-ALTO (esquema del catálogo +
+  ruta de inventario de fase A) — dúo r27 PRE-build (Sol 3 · Fable 4, 2 críticos,
+  0 FP, TODO aplicado).
+- **El caso que manda** (Alberto 13-ago): «¿Qué centrales de cuatro lazos
+  analógicas de Detnov tienes?» → listaba TODO Detnov. Verificado en build: el
+  intent YA disparaba (por eso listó) — el fix es la capa de filtro, no el disparo
+  (gap del regex ensanchado {0,40}→{0,70} igualmente).
+- **Esquema** (catalog_store, cerrado): `clasificacion {categoria∈enum13, cita,
+  provenance}` + `atributos {tecnologia|lazos|protocolo}` **MULTI-VALOR POR-FUENTE**
+  (r27 Sol C1 — AFP1010: 2 lazos en docs España y 4 en US; cada valor lleva SU doc
+  y SU cita; divergencia se adjudica, jamás se fusiona). El campo legacy `categoria`
+  (19 filas de texto libre del seed s91) se TOLERA como pista-semilla — la capa
+  tipada es `clasificacion` (colisión cazada por la propia puerta en el build).
+- **Plan**: `filtros_inventario()` puro y $0 (léxico cerrado es/en: categoría +
+  tecnología + N-lazos con numerales); viaja TIPADO en `datos["filtros"]` (r27 Sol
+  M2: sin contrato en el plan, la caché por-marca se contaminaría). El caso dorado
+  parsea `{central, analogica, 4}` — test pineado.
+- **Consumo**: `_inventario_filtrado` desde **catálogo ∩ doc_map** (r27 Fable C1:
+  los pm de chunks son strings de FAMILIA por diseño T3 — el join es EL aparato,
+  no una extensión trivial); caché COMPUESTA (marca|filtros); honestidad
+  estructural: «N sin clasificar» siempre visible, ninguno-casa lo dice, catálogo
+  caído degrada a lista completa CON aviso — jamás lista falsa ni omisión muda.
+  La ruta SIN filtro no toca el catálogo (test: byte-igual, caché y truncado).
+- **Gates pasados**: puerta 29/29 · #76 9/9 · instrumentos s316e+transporte
+  re-contratados (2 fakes mordieron por forma — su trabajo) · suite 3.850/46.
+- **FASE 2 (población, pendiente en esta rama)**: mini-GT 30 a mano → pasada
+  fable-5 con cita verificada por doc_map → gate precisión ≥95% → packet §0
+  en-bloque (r27 Fable M3: NADA se escribe sin el sí de Alberto — el precedente
+  candidate-birth manda). Hasta poblar, el bot responde el inventario completo
+  con el aviso honesto (conducta estrictamente mejor que la de hoy).
+- **FASE 2 EJECUTADA (mismo dia)**: diana 160 (Detnov 28 + Kidde 132) · mini-GT 30
+  a mano ANTES de la pasada · poblacion fable-5 con cita POR CAMPO verificada ·
+  **gate 19/19 = 100% PASS** — con historia: el unico FAIL original (18/19) era
+  ERROR DEL GT del autor (2X-AT-F2-FB: etiquete {2,2} desde la portada; el modelo
+  encontro la cita verbatim «2 lazos ampliables a 4» = la clase AFP1010 exacta del
+  multi-valor de r27) → corregido DOCUMENTADO con el recibo FAIL preservado
+  (s322_76_gate_gt_v1_FAIL_original.json), jamas tuneado. Packet: §0 114
+  en-bloque + §1 46 una-a-una + nota enum-semantica (analogica≈direccionable).
+  NADA escrito al catalogo sin el si de Alberto.
+- **Relacionado**: TECH_DEBT #76 · DEC-215 (la costura E4) · tally r27
+  ts=2026-08-14T09:10:15.
+
+## DEC-217 (s322b) — #76 CERRADO para Detnov+Kidde (dúo r28): §0 escrito y re-verificado full-text, semántica de capacidad «hasta N», clave `zonas`, ampliación modular anclada, inventario genérico AGRUPADO
+
+- **Fecha**: 14 ago 2026 (s322b, post-merge de PR #252). **Impacto**: MEDIO-ALTO
+  (esquema + datos servidos + conducta de la ruta de inventario) — dúo r28
+  POST-build/PRE-commit (Sol 7/7 · Fable 5/5 confirmados, 0 FP, 2 críticos;
+  TODO aplicado en el mismo diff; tally ts=2026-08-14T18:51:45).
+- **Adjudicaciones de Alberto (14-ago, en vivo)** que fijan conducta:
+  1. **Capacidad**: «en el caso de 8 lazos, siempre es *hasta* 8» → filtro
+     `n ≤ max`, display «hasta X lazos»; una central de 8 SALE para 4.
+  2. **Inventario genérico categorizado**: agrupado por tipología en orden
+     canónico + orden por `familia` gobernada (fallback modelo), generalizable
+     (vive en el render de la ruta, no en un phrasing). RE-CONTRATA el gate
+     byte-igual del r27 (se conserva: sin clasificación → lista plana intacta).
+  3. **Regla de dominio**: toda central lleva su dato de capacidad; en
+     CONVENCIONALES son **zonas** → clave hermana `zonas` (misma forma y
+     semántica; conceptos JAMÁS fusionados; «zonas de extinción» excluido).
+  4. **CAD-171/201 con lazos** + **CAD-250 ampliable a 32 por módulos** (sin
+     inventar un modelo -32): anclados verbatim (MI-716 «2 lazos»; MC-380
+     «2 lazos ampliable a 8»; «soporta hasta 32 lazos en un único NODO»).
+- **Datos escritos** (writers idempotentes con recibo, reversibles): 138
+  clasificados Detnov+Kidde (§0 126 + rescate 12 §0 saltadas por atribución
+  corta del writer — re-atribución contra doc COMPLETO, 0 relajaciones);
+  lazos VESTA ×5; zonas NC-PF ×6; auditoría regla-de-dominio 36/36 centrales.
+- **Hallazgos r28 aplicados**: `base` OPCIONAL (6 suelos inventados retirados
+  — un base=1 no declarado por el doc era un hecho falso); re-verificación
+  FULL-TEXT de las 296 citas (Sol S4 MATERIALIZADO: 1 tecnología inventada en
+  cola parafraseada, cazada y retirada; método corregido a cita completa);
+  inaplicable ≠ faltante (convencional excluida del filtro de lazos, no
+  «sin dato»); orden natural; cota por construcción también en encabezados.
+- **Alcance declarado (S6)**: la ruta de inventario es DETERMINISTA — se mide
+  por contrato de tests + smoke con recibo, no por juez; ningún lever medido
+  se reclama zanjado con esto.
+- **Deuda nueva**: TECH_DEBT **#76b** (divergencia multi-mercado LATENTE:
+  gate de población debe flagear divergencia de max → packet, y entrada con
+  `alcance` adjudicable, ANTES de poblar Notifier/clase-AFP1010).
+- **Alternativas descartadas**: zonas-como-lazos (falsea conceptos); agrupado
+  desde pm de DB (los pm son familias T3); colapso de familias con nombre
+  heurístico (taxonomía no gobernada — si se quiere, es dato de catálogo).
+- **Relacionado**: DEC-216 · TECH_DEBT #76/#76b · propuesta+adenda
+  `evals/s322_76_propuesta_r28_v1.md` · recibos `s322_76_{lazos_vesta,
+  zonas_ncpf,writer_rescate,migra_base_opcional,verifica_citas,fix_rmsdk}_*`.
+## DEC-217 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
 
 **Decisión**: los preregs de los canarios `s203/s204/s205` son **guardas VIVAS (tripwires)** sobre el
 ledger de golds, y **se re-anclan** cuando Alberto adjudica un gold — con una acotación OBLIGATORIA.
@@ -6333,7 +6479,7 @@ vive en git/manifest — luego re-anclar **no destruye evidencia**. La propuesta
 `test_contract_rebuilds_byte_semantically_from_frozen_authorities` exige rebuild==stored, y el
 preflight del runner exige que el hash case con el pin sellado del prereg. No pueden cumplirse a la
 vez cuando una entrada legítima cambia. Se **restauraron** los tres artefactos de s277 y se dejó el
-test de rebuild en rojo, documentado como **TECH_DEBT #76**: es un defecto de sobre-pinneo
+test de rebuild en rojo, documentado como **TECH_DEBT #77**: es un defecto de sobre-pinneo
 preexistente que esta adjudicación solo destapó, y cascar re-anclajes dentro de una puerta de
 release no es algo que se haga de madrugada sin decisión propia.
 

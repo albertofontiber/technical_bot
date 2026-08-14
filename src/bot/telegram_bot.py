@@ -4,6 +4,7 @@ Receives questions, queries the RAG pipeline, and returns formatted answers with
 """
 
 import asyncio
+import json
 import logging
 import os
 import re
@@ -324,19 +325,291 @@ def _pm_plano(pm: str) -> str:
     return pm.replace("*", "").replace("_", " ").replace("`", "")
 
 
-def _inventario_fabricante(nombre: str) -> str | None:
+def _norm_marca(s: str) -> str:
+    import unicodedata as _ud
+    plano = _ud.normalize("NFKD", s or "")
+    plano = "".join(c for c in plano if not _ud.combining(c)).lower()
+    return re.sub(r"[^a-z0-9]", "", plano)
+
+
+def _productos_marca(cat, nombre: str) -> list[dict]:
+    """Productos del catálogo «que tenemos» para una marca: activos, no
+    candidatos, de la marca (prefijo del id o vendido_bajo) y CON docs
+    mapeados (catálogo ∩ doc_map — r27 Fable C1: jamás los pm de chunks)."""
+    marca_nk = _norm_marca(nombre)
+    con_docs = set()
+    for dm in cat.doc_map:
+        for e in dm.get("entries") or ():
+            con_docs.add(cat.follow_redirect(e["id"]))
+    propios = []
+    for pid, p in cat.products.items():
+        if p.get("estado") != "activo" or p.get("candidate"):
+            continue
+        if not (pid.split(":")[0] == marca_nk
+                or any(_norm_marca(v) == marca_nk
+                       for v in p.get("vendido_bajo") or ())):
+            continue
+        if cat.follow_redirect(pid) in con_docs:
+            propios.append(p)
+    return propios
+
+
+def _inventario_filtrado(nombre: str, filtros: dict) -> str | None:
+    """(s322 #76, DEC-216) Vista de inventario CON FILTROS, desde el CATÁLOGO
+    gobernado (r27 Fable C1: los pm de chunks son strings de FAMILIA por diseño
+    T3 — el join es catálogo ∩ doc_map, no los pm). None → el llamador degrada
+    a la lista completa con línea honesta (jamás lista falsa ni omisión muda).
+    """
+    from ..rag.catalog_resolver import catalogo_cargado
+
+    cat = catalogo_cargado()
+    if cat is None:
+        return None
+    propios = _productos_marca(cat, nombre)
+    if not propios:
+        return None
+    clasificados = [p for p in propios if p.get("clasificacion")]
+    sin_clasificar = len(propios) - len(clasificados)
+
+    def _casa(p: dict) -> tuple[str | None, list[str]]:
+        """(descripción|None, faltantes). None = CONTRADICE un filtro con dato;
+        faltantes = filtros sin dato ANCLADO en el producto — excluirlo en
+        silencio sería mentir por omisión, listarlo como «casa» sería inventar:
+        va a su propia sección. (El caso CAD-150-4 original se resolvió luego
+        por la regla de sufijo adjudicada por Alberto — derivación DECLARADA en
+        la propia cita, no verbatim; ver evals/s322_76_sufijo_cad150_v1.json.)
+        Inaplicable ≠ faltante (r28 Fable M2): si el producto ancla la
+        capacidad HERMANA (zonas cuando se piden lazos, o viceversa) o su
+        tecnología lo delata (convencional⇒sin lazos analógicos), el atributo
+        no es «dato ausente» sino concepto ajeno → se EXCLUYE."""
+        partes, faltantes = [], []
+        if "categoria" in filtros:
+            if p["clasificacion"].get("categoria") != filtros["categoria"]:
+                return None, []
+            partes.append(p["clasificacion"]["categoria"])
+        at = p.get("atributos") or {}
+        if "tecnologia" in filtros:
+            vals = {v.get("valor") for v in at.get("tecnologia") or ()}
+            if not vals:
+                faltantes.append("tecnología")
+            elif filtros["tecnologia"] not in vals:
+                return None, []
+            else:
+                partes.append(filtros["tecnologia"])
+        for clave, hermana in (("lazos", "zonas"), ("zonas", "lazos")):
+            if clave not in filtros:
+                continue
+            n = filtros[clave]
+            rangos = [(v.get("base"), v.get("max", v.get("base")))
+                      for v in at.get(clave) or ()]
+            if not rangos:
+                # (r28 Fable M2) ¿ausente o INAPLICABLE? Una convencional con
+                # zonas ancladas no «carece del dato» de lazos: no tiene lazos
+                # como concepto. Señales: la capacidad hermana anclada, o la
+                # tecnología incompatible con la clave pedida.
+                tecs = {v.get("valor") for v in at.get("tecnologia") or ()}
+                inaplicable = bool(at.get(hermana)) or (
+                    "convencional" in tecs if clave == "lazos"
+                    else bool(tecs & {"analogica", "algoritmica"}))
+                if inaplicable:
+                    return None, []
+                faltantes.append(clave)
+            else:
+                # Semántica de CAPACIDAD (adjudicada por Alberto 14-ago):
+                # «N lazos» = «hasta N» — una central de 8 SIRVE para 4.
+                # El filtro es N ≤ max; base queda descriptivo. Ídem zonas
+                # (convencionales): mismas reglas, claves separadas.
+                caben = [m for _b, m in rangos if isinstance(m, int) and n <= m]
+                if not caben:
+                    return None, []
+                partes.append(f"hasta {max(caben)} {clave}")
+        return ", ".join(partes), faltantes
+
+    evaluados = [(p, *_casa(p)) for p in clasificados]
+    casan = [(p, d) for p, d, falt in evaluados if d is not None and not falt]
+    parciales = [(p, d, falt) for p, d, falt in evaluados
+                 if d is not None and falt]
+    if not clasificados:
+        return None                # población pendiente → lista completa honesta
+    nombre_visible = nombre if nombre != nombre.lower() else nombre.title()
+    desc = " ".join(
+        (f"{filtros[k]} {k}" if k in ("lazos", "zonas") else str(filtros[k]))
+        for k in ("categoria", "tecnologia", "lazos", "zonas") if k in filtros)
+    if not casan and not parciales:
+        lineas = [f"📦 De *{nombre_visible}*, ninguno de los {len(clasificados)} "
+                  f"productos clasificados casa con «{desc}»."]
+        if sin_clasificar:
+            lineas.append(f"_(hay {sin_clasificar} productos aún sin clasificar "
+                          f"— puedo estar ciego ahí)_")
+        lineas.append("¿Quieres el inventario completo o pregunto de otra forma?")
+        return "\n".join(lineas)
+    lineas = [f"📦 *{nombre_visible} — {desc}* "
+              f"({len(casan)} de {len(propios)} productos):\n"] if casan else [
+        f"📦 De *{nombre_visible}*, ninguno tiene TODOS los datos de «{desc}» "
+        f"anclados en su manual — los que casan en lo demás:\n"]
+    for p, d in sorted(casan, key=lambda x: _clave_natural(
+            x[0].get("canonical_model") or "")):
+        lineas.append(f"• *{_pm_plano(p.get('canonical_model') or p['id'])}* — {d}")
+    if parciales:
+        lineas.append("\n_Casan en lo anclado pero su manual no especifica "
+                      "el resto:_")
+        for p, d, falt in sorted(parciales,
+                                 key=lambda x: _clave_natural(
+                                     x[0].get("canonical_model") or "")):
+            lineas.append(f"• *{_pm_plano(p.get('canonical_model') or p['id'])}*"
+                          f" — {d}; sin dato de {'/'.join(falt)} en el manual")
+    if sin_clasificar:
+        lineas.append(f"\n_(y {sin_clasificar} productos de {nombre_visible} "
+                      f"aún sin clasificar por categoría/atributos)_")
+    lineas.append("\n¿Sobre cuál necesitas información?")
+    return "\n".join(lineas)
+
+
+# (s322, Alberto 14-ago) Vista agrupada del inventario sin filtros.
+_CATEGORIA_ORDEN = ("central", "detector", "pulsador", "sirena", "modulo",
+                    "fuente", "repetidor", "aspiracion", "barrera",
+                    "retenedor", "pasarela", "software", "accesorio")
+_CATEGORIA_PLURAL = {
+    "central": "Centrales", "detector": "Detectores",
+    "pulsador": "Pulsadores", "sirena": "Sirenas", "modulo": "Módulos",
+    "fuente": "Fuentes de alimentación", "repetidor": "Repetidores",
+    "aspiracion": "Aspiración", "barrera": "Barreras",
+    "retenedor": "Retenedores", "pasarela": "Pasarelas",
+    "software": "Software", "accesorio": "Accesorios",
+}
+
+
+def _clave_natural(s: str) -> list:
+    """Orden natural (r28 Fable m1): CAD-150-4 antes que CAD-150-12 — el sort
+    de strings puro invierte variantes numéricas."""
+    return [int(t) if t.isdigit() else t.lower()
+            for t in re.split(r"(\d+)", s or "")]
+
+
+def _inventario_agrupado(nombre: str) -> str | None:
+    """(s322, Alberto 14-ago) El inventario GENÉRICO («¿qué productos X
+    tienes?») agrupado por tipología y ordenado por familia — no un listado
+    plano infinito. Generalizable porque vive en el RENDER de la ruta de
+    inventario, no en un phrasing: cualquier consulta que el plan despache a
+    inventario sin filtros pasa por aquí. El orden alfabético del modelo
+    canónico agrupa las familias por prefijo (CAD-150-*, KE-AS31*). Cota
+    `_PRESUPUESTO_MSG` por construcción: TODA categoría aparece siempre con su
+    conteo; los modelos que no caben se resumen «…y N más» (la pregunta por
+    categoría da la vista completa). None → lista plana de siempre (marca sin
+    clasificación o catálogo caído — la degradación honesta ya existente)."""
+    from ..rag.catalog_resolver import catalogo_cargado
+
+    cat = catalogo_cargado()
+    if cat is None:
+        return None
+    propios = _productos_marca(cat, nombre)
+    if not propios:
+        return None
+    grupos: dict[str, list[tuple]] = {}
+    sueltos = 0
+    for p in propios:
+        cl = p.get("clasificacion")
+        if cl:
+            modelo = _pm_plano(p.get("canonical_model") or p["id"])
+            # (r28 Sol M4) `familia` es campo GOBERNADO del catálogo: ordena
+            # por (familia, modelo) — Morley ZXe/ZXSe se intercalarían en
+            # orden alfabético puro. Sin familia declarada, el modelo es su
+            # propia familia-de-uno (conserva la adyacencia por prefijo).
+            fam = p.get("familia") or modelo
+            grupos.setdefault(cl["categoria"], []).append(
+                (_clave_natural(fam), _clave_natural(modelo), modelo))
+        else:
+            sueltos += 1
+    if not grupos:
+        return None
+    nombre_visible = nombre if nombre != nombre.lower() else nombre.title()
+    cabecera = (f"📦 *Productos de {nombre_visible} en mi documentación* "
+                f"({len(propios)} productos):\n")
+    cierre = ("\n_Pregunta por una categoría («¿qué sirenas tienes?») o por "
+              "un modelo concreto._")
+    lineas = [cabecera]
+    usado = len(cabecera) + len(cierre) + 90    # margen: cola sin-clasificar
+    pendientes = [c for c in _CATEGORIA_ORDEN if grupos.get(c)]
+    for i, categoria in enumerate(pendientes):
+        nombres = [t[-1] for t in sorted(grupos[categoria])]
+        titulo = _CATEGORIA_PLURAL.get(categoria, categoria.title())
+        linea = f"*{titulo}* ({len(nombres)}):"
+        # (r28 Sol m1/Fable M1) La cota es POR CONSTRUCCIÓN también para los
+        # encabezados: si ni el título+resumen caben, las categorías restantes
+        # se compactan en una línea — jamás se apéndiza sin re-chequear.
+        if usado + len(linea) + 40 > _PRESUPUESTO_MSG:
+            resto = pendientes[i:]
+            lineas.append(f"…y {len(resto)} categorías más "
+                          f"({', '.join(_CATEGORIA_PLURAL.get(c, c).lower() for c in resto)})"
+                          [:120])
+            break
+        mostrados = 0
+        for nm in nombres:
+            candidata = linea + (" " if not mostrados else " · ") + nm
+            if usado + len(candidata) + 26 > _PRESUPUESTO_MSG:  # 26≈«…y NN más»
+                break
+            linea, mostrados = candidata, mostrados + 1
+        if mostrados < len(nombres):
+            linea += f" …y {len(nombres) - mostrados} más"
+        lineas.append(linea)
+        usado += len(linea) + 1
+    if sueltos:
+        lineas.append(f"\n_(y {sueltos} productos aún sin clasificar por "
+                      f"tipología)_")
+    lineas.append(cierre)
+    return "\n".join(lineas)
+
+
+def _inventario_fabricante(nombre: str, filtros: dict | None = None) -> str | None:
     """Respuesta de inventario para un fabricante, o None para caer al RAG.
 
     Del corpus, no de una ventana de retrieval; ACOTADA a `_PRESUPUESTO_MSG` por
     construcción (las que no caben se resumen en «…y N más»); «referencias» y no
     «modelos» (varias marcas taguean a FAMILIA — deliberado, T3/s285). Éxito
     cacheado por proceso; fallo NO cacheado pero con backoff (60 s) y → RAG.
+    s322 #76: `filtros` tipados del plan → vista del catálogo gobernado con
+    clave de caché COMPUESTA (r27: la caché por-marca se contaminaría); si la
+    vista no puede (catálogo caído / marca sin catalogar / sin clasificación),
+    degrada a la lista completa CON línea honesta de por qué.
     """
     global _inventario_falla_ts
     nombre = resolve_manufacturer_alias(nombre)   # s308/#67: «lda» → LDA audioTech
+    if filtros:
+        clave_f = (nombre.strip().lower() + "|"
+                   + json.dumps(filtros, sort_keys=True))
+        if clave_f in _inventario_cache:
+            return _inventario_cache[clave_f]
+        try:
+            respuesta = _inventario_filtrado(nombre, filtros)
+        except Exception as exc:                  # noqa: BLE001
+            logger.warning("inventario filtrado fail-open a lista completa (%s)",
+                           type(exc).__name__)
+            respuesta = None
+        if respuesta is not None:
+            _inventario_cache[clave_f] = respuesta
+            return respuesta
+        completo = _inventario_fabricante(nombre)
+        if completo is None:
+            return None
+        respuesta = ("_Aún no tengo la clasificación por categoría/atributos "
+                     "cargada para este fabricante — te muestro el inventario "
+                     "completo:_\n\n" + completo)
+        _inventario_cache[clave_f] = respuesta
+        return respuesta
     clave = nombre.strip().lower()
     if clave in _inventario_cache:
         return _inventario_cache[clave]
+    # (s322, Alberto) La vista agrupada va ANTES del backoff de DB: sale del
+    # catálogo local, no de la DB — puede servir incluso con la DB caída.
+    try:
+        agrupado = _inventario_agrupado(nombre)
+    except Exception as exc:                             # noqa: BLE001
+        logger.warning("inventario agrupado fail-open a lista plana (%s)",
+                       type(exc).__name__)
+        agrupado = None
+    if agrupado is not None:
+        _inventario_cache[clave] = agrupado
+        return agrupado
     if _time.time() - _inventario_falla_ts < _FALLA_BACKOFF_S:
         return None                                       # DB tocada hace nada → RAG
     try:
@@ -861,7 +1134,8 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
     # hoy). log_consulta gatea TODO log_query de atajo — una ruta nueva que declare
     # log_consulta=False y loggee, o viceversa, rompe sus tests, no la promesa v7.
     if ruta == "inventario":
-        respuesta = _inventario_fabricante(plan.datos["marca"])
+        respuesta = _inventario_fabricante(plan.datos["marca"],
+                                           plan.datos.get("filtros"))
         if respuesta is None:
             # fail-open DECLARADO POR EL PLAN: la degradacion es fallback_ruta
             # (feedback o conversacional), no una segunda decision del despachador.

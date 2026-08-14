@@ -1,0 +1,36 @@
+{
+ "utc": "20260813T215813Z",
+ "dp312x_antes": {
+  "202503": {
+   "id": "32911b9c-f190-4973-a6ca-271485c729c8",
+   "source_pdf_filename": "MI_KIDDE_KE_DP312x_SNx_202503_ES_acf9.pdf",
+   "status": "active",
+   "supersedes_id": null,
+   "superseded_by_id": null
+  },
+  "202512": {
+   "id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "source_pdf_filename": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "status": "active",
+   "supersedes_id": null,
+   "superseded_by_id": null
+  }
+ },
+ "dp312x_despues": [
+  {
+   "id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "source_pdf_filename": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "status": "active",
+   "supersedes_id": "32911b9c-f190-4973-a6ca-271485c729c8",
+   "superseded_by_id": null
+  },
+  {
+   "id": "32911b9c-f190-4973-a6ca-271485c729c8",
+   "source_pdf_filename": "MI_KIDDE_KE_DP312x_SNx_202503_ES_acf9.pdf",
+   "status": "superseded",
+   "supersedes_id": null,
+   "superseded_by_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a"
+  }
+ ],
+ "railway_ec_legal_disclaimer_skip": "on"
+}

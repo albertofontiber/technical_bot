@@ -11,7 +11,7 @@ hash_contract: sha256_of_utf8_text_with_crlf_normalized_to_lf
 #   TRIPWIRE (fuerza ceremonia visible), no un autenticador. Adjudicado a favor de Fable porque
 #   el registro de lo que la ejecución consumió NO vive aquí: vive en git y en el manifest.
 #   ⚠️ Léase 'status' con ese matiz: este fichero es una guarda VIVA re-anclable, no el acta de
-#   lo que s2xx ejecutó. Criterio canónico documentado en DECISIONS (DEC-214).
+#   lo que s2xx ejecutó. Criterio canónico documentado en DECISIONS (DEC-217).
 frozen_inputs:  # re-anclado s286 (golds editados por adjudicación de Alberto)
   design: {path: evals/s203_kidde_visual_canary_design_v1.md, sha256: e395c8d424393c119b2ca94d1260823db076ad757ba9ca5716d7fc688cfea1a9}
   packet: {path: evals/s203_kidde_visual_canary_packet_v1.json, sha256: bb2f9115ca506d251421ec21cb31267c73ae129ed92f2dfdc0dde139777b7f7c}

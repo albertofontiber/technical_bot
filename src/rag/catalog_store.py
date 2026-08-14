@@ -10,7 +10,9 @@ Fuente REPO-FIRST (D1): `data/catalog/*.jsonl`, un objeto por línea:
                     estado: activo|retirado|redirect, redirect_to?, candidate?, provenance, added_by}
   aliases.jsonl    {alias, id, tipo, provenance, added_by}
   umbrellas.jsonl  {termino, ids[], tipo: familia|serie|rango, divergent: true|false|unknown,
-                    candidate, provenance, added_by}
+                    candidate, provenance, added_by,
+                    clarify?: {eje_terminos[], provenance}}   # s321 E4: spec adjudicable del
+                    # clarify-por-divergencia (variantes NUNCA declaradas: se derivan de ids)
   homonyms.jsonl   {termino, ids[], politica: clarify|prefer:<id>|fail-open, candidate,
                     provenance, added_by}
   relations.jsonl  {origen, destino, tipo: variant-of|rebrand-of|shared-doc|supersedes, provenance}
@@ -55,6 +57,17 @@ ESTADOS = {"activo", "retirado", "redirect"}
 TIPOS_ALIAS = {"variante-tipografica", "codigo-comercial", "nombre-largo", "numero-de-parte"}
 TIPOS_UMBRELLA = {"familia", "serie", "rango"}
 DIVERGENT = {True, False, "unknown"}
+# (s322 #76, DEC-216) Enums CERRADOS de la capa categoría+atributos. La semilla
+# de CATEGORIAS es adjudicable (packet #76); clave de atributo desconocida =
+# error de validación (esquema cerrado, patrón de la casa).
+CATEGORIAS = {
+    "central", "detector", "pulsador", "sirena", "modulo", "fuente",
+    "repetidor", "aspiracion", "barrera", "retenedor", "pasarela",
+    "software", "accesorio",
+}
+TECNOLOGIAS = {"analogica", "convencional", "algoritmica", "aspiracion",
+               "via_radio"}
+CLAVES_ATRIBUTO = {"tecnologia", "lazos", "zonas", "protocolo"}
 TIPOS_REL = {"variant-of", "rebrand-of", "shared-doc", "supersedes"}
 TIPOS_DOCREL = {"language-variant-of", "revision-of"}
 ROLES = {"primary", "secondary"}
@@ -244,6 +257,73 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"products[{pid}]: vendido_bajo debe ser lista no-vacía")
         if not r.get("provenance") or not r.get("added_by"):
             errors.append(f"products[{pid}]: provenance/added_by obligatorios (anti-Excel-opaco)")
+        # (s322 #76, DEC-216) `clasificacion` + `atributos` OPCIONALES, esquema
+        # CERRADO, multi-valor POR-FUENTE (r27 Sol C1: AFP1010 tiene 2 lazos
+        # en docs España y 4 en US — un escalar lo falsearía; cada valor
+        # lleva SU doc y SU cita; la divergencia se adjudica, no se fusiona).
+        # OJO: el campo legacy `categoria` (texto libre del seed s91, 19 filas
+        # tipo «central convencional 8 zonas») se TOLERA como pista-semilla —
+        # la capa tipada vive en `clasificacion`, con cita obligatoria.
+        if "clasificacion" in r:
+            cual = r["clasificacion"]
+            if (not isinstance(cual, dict)
+                    or cual.get("categoria") not in CATEGORIAS
+                    or not str(cual.get("cita") or "").strip()
+                    or not str(cual.get("provenance") or "").strip()):
+                errors.append(
+                    f"products[{pid}]: clasificacion inválida — exige "
+                    f"{{categoria∈enum, cita, provenance}}")
+        if "atributos" in r:
+            at = r["atributos"]
+            if not isinstance(at, dict) or set(at) - CLAVES_ATRIBUTO:
+                errors.append(
+                    f"products[{pid}]: atributos con clave desconocida "
+                    f"{sorted(set(at) - CLAVES_ATRIBUTO) if isinstance(at, dict) else at!r} "
+                    f"(cerradas: {sorted(CLAVES_ATRIBUTO)})")
+            elif "clasificacion" not in r:
+                errors.append(
+                    f"products[{pid}]: atributos sin clasificacion (la "
+                    "categoría ancla el significado del atributo)")
+            else:
+                for clave, valores in at.items():
+                    if not isinstance(valores, list) or not valores:
+                        errors.append(f"products[{pid}]: atributos.{clave} "
+                                      "debe ser lista no-vacía (multi-fuente)")
+                        continue
+                    for v in valores:
+                        if (not isinstance(v, dict)
+                                or not str(v.get("doc") or "").strip()
+                                or not str(v.get("cita") or "").strip()):
+                            errors.append(
+                                f"products[{pid}]: atributos.{clave}: cada "
+                                "valor exige {doc, cita}")
+                            continue
+                        if clave == "tecnologia" and v.get("valor") not in TECNOLOGIAS:
+                            errors.append(
+                                f"products[{pid}]: tecnologia inválida "
+                                f"{v.get('valor')!r}")
+                        if clave in ("lazos", "zonas"):
+                            # zonas (s322, Alberto): la característica análoga
+                            # de una central CONVENCIONAL — misma forma que
+                            # lazos, jamás se fusionan (conceptos distintos).
+                            # `base` OPCIONAL (dúo r28 Sol M2): solo cuando el
+                            # doc declara dotación de serie — un suelo base=1
+                            # inventado sería un hecho falso indistinguible a
+                            # máquina. El filtro de capacidad solo usa `max`.
+                            base, mx = v.get("base"), v.get("max", v.get("base"))
+                            if not isinstance(mx, int) or mx < 1:
+                                errors.append(
+                                    f"products[{pid}]: {clave} exige max:int≥1")
+                            elif base is not None and (
+                                    not isinstance(base, int) or base < 1
+                                    or mx < base):
+                                errors.append(
+                                    f"products[{pid}]: {clave} base debe ser "
+                                    "int≥1 y ≤max (u omitirse si el doc no "
+                                    "declara dotación)")
+                        if clave == "protocolo" and not str(v.get("valor") or "").strip():
+                            errors.append(
+                                f"products[{pid}]: protocolo sin valor")
     # redirects: destino existe + acíclico
     by_id = {r["id"]: r for r in prows}
     for r in prows:
@@ -315,6 +395,26 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"umbrellas[{u.get('termino')}]: ids vacío")
         for pid in u.get("ids") or []:
             _check_ref("umbrellas", u.get("termino", "?"), pid)
+        # (s321 E4, DEC-215) `clarify` OPCIONAL: la spec ADJUDICABLE del
+        # clarify-por-divergencia (sustituye al seed FAMILY_REGISTRY).
+        # eje_terminos = vocabulario de consulta del eje divergente (los
+        # atributos tipados son #76, no esto); provenance PROPIA obligatoria.
+        cl = u.get("clarify")
+        if cl is not None:
+            terminos = cl.get("eje_terminos") if isinstance(cl, dict) else None
+            if (not isinstance(cl, dict)
+                    or not isinstance(terminos, list) or not terminos
+                    or not all(isinstance(t, str) and t.strip()
+                               for t in terminos)
+                    or not str(cl.get("provenance") or "").strip()):
+                errors.append(
+                    f"umbrellas[{u.get('termino')}]: clarify inválido — exige "
+                    "eje_terminos (lista de strings no vacía) + provenance")
+            if isinstance(cl, dict) and "variantes" in cl:
+                errors.append(
+                    f"umbrellas[{u.get('termino')}]: clarify.variantes NO se "
+                    "declara — se DERIVA de los miembros (dúo r26: "
+                    "re-declararla duplicaría la membresía)")
     seen_hterms: set[str] = set()
     for h in _read_jsonl(catalog_dir / FILES["homonyms"]):
         tk = norm_token(h.get("termino", ""))

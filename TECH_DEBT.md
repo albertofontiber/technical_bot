@@ -2777,7 +2777,66 @@ futuro pueda consumir el dict mal. Toca a TODOS los llamadores ⇒ medio impacto
 **Relacionado**: DEC-173, DEC-186 (EN REVISIÓN), fila etapa-3 de `docs/LEVER_DIGEST.md`, ítem 2
 de `evals/s312_goldreview_b2_packet_v3.md`.
 
-## #76 — El contrato `s277_c1_p1_fact_contract_v1.json` está SOBRE-PINNEADO: dos guardas incompatibles (s321)
+## #76 — El bot no filtra por CATEGORÍA ni ATRIBUTOS de producto («¿qué centrales analógicas de 4 lazos de Detnov tienes?» → lista TODO Detnov) — hallazgo orgánico de Alberto, 13-ago
+
+**Evidencia (2 queries reales de Alberto, 13-ago-2026)**: «¿Qué centrales de
+cuatro lazos analógica de Detnov tienes?» devolvió TODOS los productos Detnov
+(ni siquiera solo centrales analógicas); caso análogo con Kidde. La ruta de
+inventario por marca (fase A s316) lista productos de una marca, pero no sabe
+NI categoría (¿cuáles son centrales de incendio?) NI atributos (¿analógica o
+convencional? ¿cuántos lazos soporta/admite ampliación a 4?).
+
+**Por qué es estructural y dónde encaja**: es la capa de ATRIBUTOS NORMALIZADOS
+que el contrato de identidad dejó señalada (IDENTITY_CATALOG_CONTRACT §riesgo:
+«diverge no es decidible query-side sin atributos normalizados/EVPI») y la
+extensión natural del catálogo gobernado (workstream DEC-074): products hoy
+tiene id/canonical/aliases pero no `categoria` (central/detector/sirena/módulo…)
+ni atributos técnicos (tecnología analógica/convencional/algorítmica, nº lazos
+base/máx, protocolo). Con 30+ fabricantes, «¿qué X con atributo Y tienes?» es
+funcionalidad de mostrador básica.
+
+**Forma BP esperable (a diseñar con dúo, NO aquí)**: (a) esquema de categoría +
+atributos EN el catálogo gobernado (adjudicables, con provenance por manual);
+(b) población asistida desde specs de manuales con QA por lotes (patrón E1b);
+(c) ruta de respuesta que consuma el catálogo para queries de
+inventario-con-filtro (extensión de la ruta de inventario fase A, no un canal
+RAG nuevo). Relacionado: E4 (clarify por divergencia consume el MISMO tipo de
+dato: eje divergente = atributo).
+
+**Prioridad**: alta para la apertura a DGs (es la clase de pregunta que un
+Director General hace primero). Añadida s321 por mandato de Alberto.
+
+**s322 (DEC-216): MECANISMO COMPLETO** — esquema cerrado multi-valor en la
+puerta + filtros tipados en el plan + inventario filtrado catálogo∩doc_map
+con honestidad sin-clasificar. **Resta la POBLACIÓN** (mini-GT → fable-5
+con citas → gate ≥95% → packet §0): hasta entonces el bot da la lista
+completa con aviso honesto.
+
+**s322b (DEC-217): CERRADO para Detnov+Kidde** — §0 escrito (138 productos
+clasificados; 292 citas re-verificadas full-text, 3 derivadas declaradas,
+1 invención cazada y retirada), semántica de capacidad «N = hasta N»
+(adjudicada), clave `zonas` para convencionales, lazos VESTA con la
+ampliación modular CAD-250 {max 32} anclada verbatim, inventario genérico
+AGRUPADO por tipología/familia (adjudicado 14-ago), dúo r28 completo (12
+hallazgos, 0 FP, todo aplicado). Restan: §1 (~22 filas) en el packet de
+Alberto y la población del resto de marcas (por packets, mismo pipeline).
+
+## #76b — Divergencia multi-mercado en atributos de capacidad: hoy se serviría fusionada (dúo r28 Sol S1, LATENTE) — s322b
+
+**Qué es**: el esquema multi-valor por-fuente registra cada dato con su doc,
+pero el consumidor publica «hasta max(todas las entradas)» sin distinguir
+ALCANCE (mercado/variante). Hoy es correcto — el único max divergente es
+CAD-250 8-de-serie/32-por-nodo (intra-mercado, capacidad real) — pero la
+clase AFP1010 (2 lazos en docs ES / 4 en US) serviría «hasta 4» a un técnico
+español. NO está poblada (Notifier fuera del censo s322).
+
+**Forma BP (antes de poblar Notifier/clase-AFP1010)**: (a) marcador de
+`alcance` adjudicable en la entrada (mercado/variante/idioma del doc);
+(b) el gate de población FLAGEA divergencia de max entre docs → packet de
+adjudicación, jamás write-fusión; (c) el display distingue capacidad
+(serie/ampliable, se fusiona bien) de divergencia de alcance (se muestra
+por-fuente). **Gatillo duro**: poblar cualquier marca con docs multi-mercado.
+## #77 — El contrato `s277_c1_p1_fact_contract_v1.json` está SOBRE-PINNEADO: dos guardas incompatibles (s321)
 
 **El hecho (verificado en ejecución, no inferido)**: el contrato está fijado por DOS mecanismos con
 expectativas opuestas. `tests/test_s277_c1_p1_contract.py::test_contract_rebuilds_byte_semantically_from_frozen_authorities`
@@ -2801,6 +2860,6 @@ apunta lo deja irreproducible, no preservado.
 recibo del builder hashee **solo los qids del contrato** en vez del ledger entero — quita el falso
 acoplamiento de raíz; (b) versionar contrato+prereg juntos por DEC-147 («versionar, no relajar»)
 cuando exista un consumidor contemporáneo que lo necesite; (c) resolver las autoridades desde blob
-sellado (propuesta de Sol, ver DEC-214). **Trigger**: la próxima vez que una adjudicación de gold
+sellado (propuesta de Sol, ver DEC-217). **Trigger**: la próxima vez que una adjudicación de gold
 tenga que convivir con el gate de release, o que alguien necesite reproducir b92ff51. **Coste**: M.
-**Relacionado**: DEC-214, DEC-147, #75.
+**Relacionado**: DEC-217, DEC-147, #75.

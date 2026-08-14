@@ -1,7 +1,7 @@
 {
  "build": {
   "table": "chunks_v2",
-  "generated_at": "2026-08-13T20:02:41.747050+00:00",
+  "generated_at": "2026-08-13T22:29:11.075796+00:00",
   "fuente": "catalogo-gobernado (data/catalog) via _resolvable_terms + atestacion-activa (E2 DEC-213)",
   "colisiones_excluidas": 0,
   "n_distinct": 1670,
@@ -150,16 +150,16 @@
    "via": "exact"
   },
   {
-   "model": "AM-6000",
+   "model": "AFP4000",
    "manufacturer": "Notifier",
-   "chunk_count": 151,
+   "chunk_count": 152,
    "source": "static-pattern",
    "via": "exact"
   },
   {
-   "model": "AFP4000",
+   "model": "AM-6000",
    "manufacturer": "Notifier",
-   "chunk_count": 150,
+   "chunk_count": 151,
    "source": "static-pattern",
    "via": "exact"
   },
@@ -276,6 +276,13 @@
    "via": "exact"
   },
   {
+   "model": "CAD-171",
+   "manufacturer": "Detnov",
+   "chunk_count": 83,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "MI-FLX-010",
    "manufacturer": "Morley",
    "chunk_count": 82,
@@ -294,13 +301,6 @@
    "manufacturer": "Notifier",
    "chunk_count": 76,
    "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "CAD-171",
-   "manufacturer": "Detnov",
-   "chunk_count": 75,
-   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -374,6 +374,13 @@
    "via": "exact"
   },
   {
+   "model": "NFG-8",
+   "manufacturer": "Notifier",
+   "chunk_count": 55,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "IU2055NC",
    "manufacturer": "Aritech",
    "chunk_count": 54,
@@ -423,10 +430,10 @@
    "via": "exact"
   },
   {
-   "model": "NFG-8",
+   "model": "CPU-5000",
    "manufacturer": "Notifier",
-   "chunk_count": 51,
-   "source": "static-pattern",
+   "chunk_count": 50,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -444,17 +451,17 @@
    "via": "alias"
   },
   {
+   "model": "MIW-INT",
+   "manufacturer": "Morley",
+   "chunk_count": 48,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "RP1002E",
    "manufacturer": "Notifier",
    "chunk_count": 47,
    "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "MIW-INT",
-   "manufacturer": "Morley",
-   "chunk_count": 45,
-   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -469,6 +476,13 @@
    "manufacturer": "Xtralis",
    "chunk_count": 42,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NFXI-OSI-RIE",
+   "manufacturer": "Notifier",
+   "chunk_count": 41,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -717,6 +731,20 @@
    "via": "exact"
   },
   {
+   "model": "D2E",
+   "manufacturer": "System Sensor",
+   "chunk_count": 19,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "LocatorPlus-EN",
+   "manufacturer": "LGM Products",
+   "chunk_count": 19,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "S300RPTU",
    "manufacturer": "Notifier",
    "chunk_count": 19,
@@ -752,6 +780,13 @@
    "via": "alias"
   },
   {
+   "model": "SC-6",
+   "manufacturer": "System Sensor",
+   "chunk_count": 18,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "SCU 2000",
    "manufacturer": "Notifier",
    "chunk_count": 18,
@@ -777,6 +812,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 17,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "MI-LPB2",
+   "manufacturer": "Morley",
+   "chunk_count": 17,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -948,6 +990,20 @@
    "via": "paraguas"
   },
   {
+   "model": "MI-GATE",
+   "manufacturer": "Morley",
+   "chunk_count": 13,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "SD-851TE",
+   "manufacturer": "Notifier",
+   "chunk_count": 13,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "SG100",
    "manufacturer": "Argus Security",
    "chunk_count": 13,
@@ -1018,6 +1074,13 @@
    "via": "exact"
   },
   {
+   "model": "NRX-WCP",
+   "manufacturer": "Notifier",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "SD-851E",
    "manufacturer": "Notifier",
    "chunk_count": 12,
@@ -1025,10 +1088,24 @@
    "via": "exact"
   },
   {
+   "model": "SENTOX-4",
+   "manufacturer": "Notifier",
+   "chunk_count": 12,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "SG200",
    "manufacturer": "Argus Security",
    "chunk_count": 12,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "SGFI200-S",
+   "manufacturer": "Argus Security",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -1088,10 +1165,38 @@
    "via": "exact"
   },
   {
+   "model": "MI-DCZM",
+   "manufacturer": "Morley",
+   "chunk_count": 10,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "MI-PTSE",
+   "manufacturer": "Morley",
+   "chunk_count": 10,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "NFX-SMT3",
    "manufacturer": "Notifier",
    "chunk_count": 10,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "NFXI-MM10",
+   "manufacturer": "Notifier",
+   "chunk_count": 10,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "PIBV2",
+   "manufacturer": "System Sensor",
+   "chunk_count": 10,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -1123,6 +1228,27 @@
    "via": "exact"
   },
   {
+   "model": "FDX-551REM",
+   "manufacturer": "Notifier",
+   "chunk_count": 9,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NFXI-RM6",
+   "manufacturer": "Notifier",
+   "chunk_count": 9,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "NFXI-VIEW",
+   "manufacturer": "Notifier",
+   "chunk_count": 9,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "RCD-21R",
    "manufacturer": "Detnov",
    "chunk_count": 9,
@@ -1133,6 +1259,13 @@
    "model": "S264O2GP",
    "manufacturer": "Notifier",
    "chunk_count": 9,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "1151EIS",
+   "manufacturer": "Notifier",
+   "chunk_count": 8,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
@@ -1165,6 +1298,20 @@
    "via": "exact"
   },
   {
+   "model": "FDX-551EM",
+   "manufacturer": "Notifier",
+   "chunk_count": 8,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "FDX-551HTEM",
+   "manufacturer": "Notifier",
+   "chunk_count": 8,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "FHSD8330",
    "manufacturer": "Edwards",
    "chunk_count": 8,
@@ -1179,10 +1326,24 @@
    "via": "exact"
   },
   {
+   "model": "MI-MM3E-S2",
+   "manufacturer": "Morley",
+   "chunk_count": 8,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "Mod.EXP",
    "manufacturer": "Morley",
    "chunk_count": 8,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NFXI-BSF-WCS",
+   "manufacturer": "Notifier",
+   "chunk_count": 8,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -1242,10 +1403,45 @@
    "via": "exact"
   },
   {
+   "model": "5451EIS",
+   "manufacturer": "Notifier",
+   "chunk_count": 7,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "B501BH",
    "manufacturer": "Notifier",
    "chunk_count": 7,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "MI-BGL-PC-I",
+   "manufacturer": "Morley",
+   "chunk_count": 7,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "MI-D240CMOE",
+   "manufacturer": "Morley",
+   "chunk_count": 7,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "PA-RZ1",
+   "manufacturer": "Morley",
+   "chunk_count": 7,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "124-065-XXX",
+   "manufacturer": "Notifier",
+   "chunk_count": 6,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -1347,6 +1543,13 @@
    "via": "exact"
   },
   {
+   "model": "MI-CR6",
+   "manufacturer": "Morley",
+   "chunk_count": 6,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "2X-AF1-S",
    "manufacturer": "Aritech",
    "chunk_count": 5,
@@ -1370,6 +1573,13 @@
   {
    "model": "A-1",
    "manufacturer": "LDA audioTech",
+   "chunk_count": 5,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "CR-6",
+   "manufacturer": "System Sensor",
    "chunk_count": 5,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1571,10 +1781,24 @@
    "via": "exact"
   },
   {
+   "model": "NFX-MM1M",
+   "manufacturer": "Notifier",
+   "chunk_count": 4,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "VSN-TER",
    "manufacturer": "Morley",
    "chunk_count": 4,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "ZMX-1E",
+   "manufacturer": "Notifier",
+   "chunk_count": 4,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -1634,6 +1858,13 @@
    "via": "exact"
   },
   {
+   "model": "M700X",
+   "manufacturer": "Notifier",
+   "chunk_count": 3,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "MAD-450",
    "manufacturer": "Detnov",
    "chunk_count": 3,
@@ -1657,6 +1888,13 @@
   {
    "model": "MMX-10",
    "manufacturer": "Notifier",
+   "chunk_count": 3,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "MS3-RS485",
+   "manufacturer": "Fidegas",
    "chunk_count": 3,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1795,6 +2033,13 @@
    "via": "exact"
   },
   {
+   "model": "TFL-2",
+   "manufacturer": "LDA audioTech",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "ARP4000",
    "manufacturer": "Notifier",
    "chunk_count": 1,
@@ -1823,13 +2068,6 @@
    "via": "exact"
   },
   {
-   "model": "MI-LPB2",
-   "manufacturer": "Morley",
-   "chunk_count": 1,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "R3-MICRA",
    "manufacturer": "Notifier",
    "chunk_count": 1,
@@ -1846,6 +2084,13 @@
   {
    "model": "Solo CO",
    "manufacturer": "Notifier",
+   "chunk_count": 1,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "TED-151-CL",
+   "manufacturer": "Detnov",
    "chunk_count": 1,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1977,13 +2222,6 @@
    "via": "alias"
   },
   {
-   "model": "1151EIS",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "1151EIS Intrinsically-safe Plug-in Ionization Smoke Detector",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -2003,13 +2241,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "124-065-XXX",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "124-429 LOOP SPLITTER PCB",
@@ -2521,13 +2752,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "5451EIS",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "5451EIS detector",
@@ -3958,13 +4182,6 @@
    "via": "exact"
   },
   {
-   "model": "CPU-5000",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "CPU-AM-8200",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -3977,13 +4194,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "CR-6",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "CR-6EA",
@@ -4236,13 +4446,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "D2E",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "D2E Duct Smoke Detector",
@@ -4911,27 +5114,6 @@
   },
   {
    "model": "FDKM2100X",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "FDX-551EM",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "FDX-551HTEM",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "FDX-551REM",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -6212,13 +6394,6 @@
    "via": "alias"
   },
   {
-   "model": "LocatorPlus-EN",
-   "manufacturer": "LGM Products",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "Loop Splitter",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -6294,13 +6469,6 @@
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
-  },
-  {
-   "model": "M700X",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "M700X Short Circuit Isolator Module",
@@ -6625,20 +6793,6 @@
    "via": "alias"
   },
   {
-   "model": "MI-BGL-PC-I",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "MI-CR6",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "MI-CR6 Module",
    "manufacturer": "Morley",
    "chunk_count": 0,
@@ -6651,13 +6805,6 @@
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
-  },
-  {
-   "model": "MI-D240CMOE",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "MI-D2ICMO",
@@ -6675,13 +6822,6 @@
   },
   {
    "model": "MI-DCMOE",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "MI-DCZM",
    "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "static-pattern",
@@ -6751,13 +6891,6 @@
    "via": "exact"
   },
   {
-   "model": "MI-GATE",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "MI-IM10 Módulo Monitor",
    "manufacturer": "Morley",
    "chunk_count": 0,
@@ -6786,25 +6919,11 @@
    "via": "exact"
   },
   {
-   "model": "MI-MM3E-S2",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "MI-MM3E-S2 Monitor Module",
    "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
-  },
-  {
-   "model": "MI-PTSE",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "MI-SC6 Six Supervised Control Module",
@@ -7131,13 +7250,6 @@
   {
    "model": "MPS50",
    "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "MS3-RS485",
-   "manufacturer": "Fidegas",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -7479,13 +7591,6 @@
    "via": "alias"
   },
   {
-   "model": "NFX-MM1M",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "NFX-OPT",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7556,13 +7661,6 @@
    "via": "exact"
   },
   {
-   "model": "NFXI-BSF-WCS",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "NFXI-FLX-010",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7577,28 +7675,7 @@
    "via": "exact"
   },
   {
-   "model": "NFXI-MM10",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "NFXI-OPT",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "NFXI-OSI-RIE",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "NFXI-RM6",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "static-pattern",
@@ -7627,13 +7704,6 @@
   },
   {
    "model": "NFXI-SMT3",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "NFXI-VIEW",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "static-pattern",
@@ -7690,13 +7760,6 @@
   },
   {
    "model": "NRX-TDIFF",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "NRX-WCP",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -7913,13 +7976,6 @@
    "via": "alias"
   },
   {
-   "model": "PA-RZ1",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "PARK 5000",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7967,13 +8023,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "PIBV2",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "PN: 020-543",
@@ -8515,13 +8564,6 @@
    "via": "alias"
   },
   {
-   "model": "SC-6",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "SD-651E smoke detector",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -8534,13 +8576,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "SD-851TE",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "SD-851TE Photo-Thermal detector",
@@ -8585,13 +8620,6 @@
    "via": "exact"
   },
   {
-   "model": "SENTOX-4",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "SETOX-4",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -8611,13 +8639,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "SGFI200-S",
-   "manufacturer": "Argus Security",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "SGMCB2",
@@ -9040,22 +9061,8 @@
    "via": "alias"
   },
   {
-   "model": "TED-151-CL",
-   "manufacturer": "Detnov",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "TF-BE3000",
    "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "TFL-2",
-   "manufacturer": "LDA audioTech",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -10060,13 +10067,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "ZMX-1E",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "ZX10Se",

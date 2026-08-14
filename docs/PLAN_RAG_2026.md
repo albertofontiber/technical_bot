@@ -26,12 +26,22 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s317c — 12 ago 2026)
+## Estado actual (s322b — 14 ago 2026)
 
-**El arco s316→s317: reconciliación post-cloud, el rediseño completo (s316d-f), el lever
-INTENT_LLM construido→flippeado→verificado en producción (s316g→s317b, PRs #237/#238),
-#73 puerta de revisión (DEC-205, PR #239) y #72 cerrada para el serving en dos fases
-medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con paridad.**
+**El arco s318→s322b: sentada B2/DP312x/#71 ejecutadas por Alberto (PR #249);
+consolidación s319 (backup restaurable + graduación de flags + retirada del legacy
+serving, DEC-209/210/211, PRs #244-246); EL ELEFANTE COMPLETO — entity-linking
+DEC-074/091b en E0-E4 (doc_map 219 activos + QA de candidates, derivación gobernada
+del snapshot, re-tag F3a, clarify gobernado sustituye FAMILY_REGISTRY; DEC-212..215,
+PRs #247/#248/#250/#251) — los residuos son PACKETS de adjudicación, no ingeniería;
+y #76 «de mostrador» completo: mecanismo (DEC-216, dúo r27, PR #252) + cierre
+Detnov+Kidde (DEC-217, dúo r28, s322b): 138 productos clasificados con cita
+re-verificada FULL-TEXT (1 invención cazada), semántica de capacidad «N = hasta N»
+(adjudicada), clave `zonas` para convencionales, la ampliación modular CAD-250
+«hasta 32 lazos» anclada verbatim, e inventario genérico AGRUPADO por
+tipología/familia (adjudicado 14-ago). Deuda nueva #76b (divergencia multi-mercado,
+LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
+(INTENT_LLM flippeado, #72 −86%, #73) en la lista de abajo.**
 
 1. **#68 CERRADO** (DEC-199). El lote Casmar/Kidde pasa de **0/0** a **10.161 enunciados +
    2.516 hyq**, verificado en DB (V 10.161/10.161 ids; hyq universo completo, poison 0,
@@ -91,7 +101,18 @@ medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con parida
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s320b, E1 cerrado)**: (a) SENTADA ÚNICA ampliada — packet E1 (`evals/s320_e1_packet_adjudicacion_v1.md`: 49 colisiones-integridad + 67 tier B + 133 candidates draft + 4 revisión) + E1b (359 confirmar/261 revisar) + los packets previos (s318 + LLM_MAX_TOKENS + vars Railway); (b) FULL fresco tras la sentada; (c) E2 CERRADO v1 (DEC-213: mecanismo gobernado + packet `s320_e2_packet_adjudicacion_v1.md`); E2-swap con datos tras adjudicación · estructural, gates de equivalencia) · E3 re-tag F3a · E4 clarify sustituye FAMILY_REGISTRY — cada una con su dúo.
+**Qué sigue (s322b)**: (a) **SENTADA ÚNICA de Alberto** — packets E3 (§0 15 + §1 32)
++ E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway **+ §1 de
+#76 (22 filas Detnov/Kidde, `evals/s322_76_packet_adjudicacion_v1.md`)**; (b) FULL
+fresco v3.2 tras la sentada; (c) poblar #76 en más marcas por packets — con el
+**gatillo #76b** (flag de divergencia + `alcance`) OBLIGATORIO antes de
+Notifier/multi-mercado; (d) leer traza intent/latencia cuando haya tráfico.
+
+**Qué sigue (s321b — histórico)**: (a) SENTADA ÚNICA de Alberto — packets E3 (§0 15-en-bloque + §1 32) + E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway; (b) FULL fresco v3.2 tras la sentada; (c) #76 categoría+atributos (mandato 13-ago, diseño con dúo — consume el esquema clarify de E4); (d) leer traza intent/latencia cuando haya tráfico.
+
+**Qué sigue (s321, E3 cerrado — histórico)**: (a) SENTADA de Alberto — packet E3 (§0 15-en-bloque + §1 32) + packet E2 (1.235 altas/23 bajas) + packets E1/E1b + LLM_MAX_TOKENS + vars Railway; (b) E4 (clarify gobernado sustituye FAMILY_REGISTRY) en curso nocturno; (c) FULL fresco tras la sentada; (d) #76 categoría+atributos (mandato 13-ago) tras E4.
+
+**Qué sigue (s320b, E1 cerrado — histórico)**: (a) SENTADA ÚNICA ampliada — packet E1 (`evals/s320_e1_packet_adjudicacion_v1.md`: 49 colisiones-integridad + 67 tier B + 133 candidates draft + 4 revisión) + E1b (359 confirmar/261 revisar) + los packets previos (s318 + LLM_MAX_TOKENS + vars Railway); (b) FULL fresco tras la sentada; (c) E2 CERRADO v1 (DEC-213: mecanismo gobernado + packet `s320_e2_packet_adjudicacion_v1.md`); E2-swap con datos tras adjudicación · estructural, gates de equivalencia) · E3 re-tag F3a · E4 clarify sustituye FAMILY_REGISTRY — cada una con su dúo.
 
 **Qué sigue (s319 cierre — sesión de consolidación COMPLETA, DEC-209/210/211)**:
 (a) **SENTADA ÚNICA de Alberto** — `evals/s318_sentada_adjudicacion_packet_v1.md`:

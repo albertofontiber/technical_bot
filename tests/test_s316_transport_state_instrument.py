@@ -124,7 +124,7 @@ def transporte(monkeypatch):
 
     monkeypatch.setattr(bot, "_handle_catalog", _inventario_async)
     monkeypatch.setattr(bot, "_inventario_fabricante",
-                        lambda _m: _INVENTARIO_CANNED)
+                        lambda _m, _filtros=None: _INVENTARIO_CANNED)
 
     # Detección determinista y sin DB (mismo patrón que la fixture F1 vecina).
     detect = lambda q: ["NC-PF2"] if "NC-PF2" in q else []  # noqa: E731
