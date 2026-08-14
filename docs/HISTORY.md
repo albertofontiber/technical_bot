@@ -3501,3 +3501,31 @@ no-vacío; guard hp009 assertado; suite 3.841. Con E4, el elefante DEC-074/091b
 está COMPLETO: lo que era «4-7 sesiones» aparcadas resultó ser ~3 de restante
 real una vez el censo separó lo ya-ejecutado — y todos los residuos son
 packets de datos esperando la sentada, no ingeniería pendiente.
+
+## s322b (14 ago 2026) — El cierre de #76: los datos de Alberto, el dúo r28 y el inventario que por fin parece un mostrador
+
+La sesión arrancó con tres mensajes de Alberto que eran, sin decirlo, un test de
+integridad del sistema entero: PR #252 ya estaba mergeada (⇒ rama nueva), el
+inventario genérico debía dejar de ser un listado infinito, y la CAD-250 «es
+ampliable hasta 32 lazos creo, con módulos — no verás CAD-250-32». El corpus le
+dio la razón con cita verbatim («soporta hasta 32 lazos en un único NODO»), y de
+paso ancló CAD-171 («2 lazos») y CAD-201 («2 lazos ampliable a 8») — la
+población no las había cazado por MUESTREO (secciones profundas), no por
+ausencia. Su regla «toda central lleva capacidad» destapó que las 6 sin dato
+eran las NC-PF convencionales: su dato son ZONAS, no lazos — clave hermana
+nueva en el esquema, jamás fusionada. De la misma pasada cayó un defecto real
+del writer (atribuía citas contra los 6 primeros chunks: 12 filas §0 saltadas,
+rescatadas 12/12 contra doc completo) y el inventario genérico quedó agrupado
+por tipología y familia gobernada, con cota por construcción.
+
+El dúo r28 (Sol 7/7 + Fable 5/5, 0 FP) volvió a ganarse el sueldo: cazó el
+sobre-claim «todo verbatim» del autor (el sufijo CAD-150 es derivación
+DECLARADA), exigió `base` opcional (6 suelos inventados retirados), y su
+predicción sobre verificar-50-almacenar-200 se MATERIALIZÓ: la re-verificación
+full-text de 296 citas encontró exactamente 1 invención (tecnología «analogica»
+de un SDK cuyo doc jamás dice addressable) — cazada y retirada. Fable añadió
+inaplicable≠faltante (una convencional no «carece» de lazos), la colisión
+«zonas de extinción» y el orden natural. Todo aplicado en el mismo diff.
+Cierre: 138 clasificados Detnov+Kidde, 36/36 centrales con capacidad, smoke de
+las 5 queries de mostrador en verde, deuda #76b (divergencia multi-mercado)
+declarada con gatillo duro antes de Notifier. DEC-217.

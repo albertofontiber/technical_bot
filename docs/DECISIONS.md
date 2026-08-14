@@ -6397,3 +6397,45 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   NADA escrito al catalogo sin el si de Alberto.
 - **Relacionado**: TECH_DEBT #76 · DEC-215 (la costura E4) · tally r27
   ts=2026-08-14T09:10:15.
+
+## DEC-217 (s322b) — #76 CERRADO para Detnov+Kidde (dúo r28): §0 escrito y re-verificado full-text, semántica de capacidad «hasta N», clave `zonas`, ampliación modular anclada, inventario genérico AGRUPADO
+
+- **Fecha**: 14 ago 2026 (s322b, post-merge de PR #252). **Impacto**: MEDIO-ALTO
+  (esquema + datos servidos + conducta de la ruta de inventario) — dúo r28
+  POST-build/PRE-commit (Sol 7/7 · Fable 5/5 confirmados, 0 FP, 2 críticos;
+  TODO aplicado en el mismo diff; tally ts=2026-08-14T18:51:45).
+- **Adjudicaciones de Alberto (14-ago, en vivo)** que fijan conducta:
+  1. **Capacidad**: «en el caso de 8 lazos, siempre es *hasta* 8» → filtro
+     `n ≤ max`, display «hasta X lazos»; una central de 8 SALE para 4.
+  2. **Inventario genérico categorizado**: agrupado por tipología en orden
+     canónico + orden por `familia` gobernada (fallback modelo), generalizable
+     (vive en el render de la ruta, no en un phrasing). RE-CONTRATA el gate
+     byte-igual del r27 (se conserva: sin clasificación → lista plana intacta).
+  3. **Regla de dominio**: toda central lleva su dato de capacidad; en
+     CONVENCIONALES son **zonas** → clave hermana `zonas` (misma forma y
+     semántica; conceptos JAMÁS fusionados; «zonas de extinción» excluido).
+  4. **CAD-171/201 con lazos** + **CAD-250 ampliable a 32 por módulos** (sin
+     inventar un modelo -32): anclados verbatim (MI-716 «2 lazos»; MC-380
+     «2 lazos ampliable a 8»; «soporta hasta 32 lazos en un único NODO»).
+- **Datos escritos** (writers idempotentes con recibo, reversibles): 138
+  clasificados Detnov+Kidde (§0 126 + rescate 12 §0 saltadas por atribución
+  corta del writer — re-atribución contra doc COMPLETO, 0 relajaciones);
+  lazos VESTA ×5; zonas NC-PF ×6; auditoría regla-de-dominio 36/36 centrales.
+- **Hallazgos r28 aplicados**: `base` OPCIONAL (6 suelos inventados retirados
+  — un base=1 no declarado por el doc era un hecho falso); re-verificación
+  FULL-TEXT de las 296 citas (Sol S4 MATERIALIZADO: 1 tecnología inventada en
+  cola parafraseada, cazada y retirada; método corregido a cita completa);
+  inaplicable ≠ faltante (convencional excluida del filtro de lazos, no
+  «sin dato»); orden natural; cota por construcción también en encabezados.
+- **Alcance declarado (S6)**: la ruta de inventario es DETERMINISTA — se mide
+  por contrato de tests + smoke con recibo, no por juez; ningún lever medido
+  se reclama zanjado con esto.
+- **Deuda nueva**: TECH_DEBT **#76b** (divergencia multi-mercado LATENTE:
+  gate de población debe flagear divergencia de max → packet, y entrada con
+  `alcance` adjudicable, ANTES de poblar Notifier/clase-AFP1010).
+- **Alternativas descartadas**: zonas-como-lazos (falsea conceptos); agrupado
+  desde pm de DB (los pm son familias T3); colapso de familias con nombre
+  heurístico (taxonomía no gobernada — si se quiere, es dato de catálogo).
+- **Relacionado**: DEC-216 · TECH_DEBT #76/#76b · propuesta+adenda
+  `evals/s322_76_propuesta_r28_v1.md` · recibos `s322_76_{lazos_vesta,
+  zonas_ncpf,writer_rescate,migra_base_opcional,verifica_citas,fix_rmsdk}_*`.

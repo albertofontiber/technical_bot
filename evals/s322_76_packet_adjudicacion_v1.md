@@ -1,14 +1,14 @@
-# s322 #76 — Packet de POBLACIÓN del catálogo (generado 20260814T084743Z)
+# s322 #76 — Packet de POBLACIÓN del catálogo (generado 20260814T160407Z)
 
 **GATE de precisión (pre-registrado)**: alta-confianza vs mini-GT sin-duda →
-**19/19 = 100%** → **PASS**.
+**28/28 = 100%** → **PASS**.
 (GT: 30 etiquetados a mano leyendo docs ANTES de la pasada; recibo del gate abajo.)
 
 **Nota de enum-semántica para tu adjudicación**: `analogica` ≈ direccionable/
 inteligente/addressable (uso PCI-ES estándar; Detnov escribe «analógica», Kidde
 «addressable»). Si prefieres separarlas, dilo y re-etiqueto.
 
-## §0 — Aplicables EN BLOQUE con tu sí (114)
+## §0 — Aplicables EN BLOQUE con tu sí (138)
 
 Alta confianza + citas verificadas contra el contenido. Un «sí al §0» y las
 escribo vía la puerta (validación completa + recibo).
@@ -21,6 +21,8 @@ escribo vía la puerta (validación completa + recibo).
   - cita: «Centrales de detección de incendio analógicas»
 - [ ] `detnov:cad-150-2-mb` (CAD-150-2-MB) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150-4` (CAD-150-4) → **central** · analogica (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
 - [ ] `detnov:cad-150-8` (CAD-150-8) → **central** · analogica (alta, citas ✓)
   - cita: «Centrales de detección de incendio analógicas»
 - [ ] `detnov:cad-150-8-plus` (CAD-150-8-PLUS) → **central** · analogica (alta, citas ✓)
@@ -31,10 +33,23 @@ escribo vía la puerta (validación completa + recibo).
   - cita: «The new CAD-171 addressable control panel from the VESTA series offers the benefits of simple and flexible programming, »
 - [ ] `detnov:cad-201` (CAD-201) → **central** · analogica (alta, citas ✓)
   - cita: «La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece caract»
+- [ ] `detnov:cad-201-plus` (CAD-201-PLUS) → **central** · analogica (alta, citas ✓)
+  - cita: «Centrales Analógicas
+Serie VESTA»
+- [ ] `detnov:cad-201-z` (CAD-201-Z) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Addressable control panel 2-8 loops and their accessories.»
+- [ ] `detnov:cad-201-zplus` (CAD-201-ZPLUS) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Addressable control panel 2-8 loops and their accessories. Central analógica ampliable de 2 a 8 lazos y sus accesorios.»
+- [ ] `detnov:cad-250` (CAD-250) → **central** (alta, citas ✓)
+  - cita: «Antes de instalar la central CAD-250 debe comprobar que se cumplen una serie de criterios.»
+- [ ] `detnov:cad-250-p` (CAD-250-P) → **central** (alta, citas ✓)
+  - cita: «Si su modelo de central es la CAD-250-P este submenú estará disponible. Para acceder a la categoría de AJUSTES pulse:»
 - [ ] `detnov:dgd-600` (DGD-600) → **detector** (alta, citas ✓)
   - cita: «DETECTORES DE GAS AUTÓNOMO»
 - [ ] `detnov:dgd-620` (DGD-620) → **detector** (alta, citas ✓)
   - cita: «DETECTORES DE GAS AUTÓNOMO»
+- [ ] `detnov:firebeam-blue` (Firebeam Blue) → **barrera** (alta, citas ✓)
+  - cita: «Enhorabuena por adquirir el detector de humo de haz óptico reflejado the **fire**beam*BLUE*.»
 - [ ] `detnov:mad-450` (MAD-450) → **pulsador** · analogica (alta, citas ✓)
   - cita: «El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.»
 - [ ] `detnov:mad-450-i` (MAD-450-I) → **pulsador** · analogica (alta, citas ✓)
@@ -51,14 +66,38 @@ escribo vía la puerta (validación completa + recibo).
 ## PCD-100»
 - [ ] `detnov:tcd-100` (TCD-100) → **pasarela** (alta, citas ✓)
   - cita: «la posibilidad de retransmitir de forma segura todos los eventos de alarma recogidos por el sistema a una Central Recept»
+- [ ] `detnov:ted-151-cl` (TED-151-CL) → **pasarela** (alta, citas ✓)
+  - cita: «Conectar la tarjeta a la red a través del puerto RJ-45»
+- [ ] `detnov:tled-ng` (TLED-NG) → **accesorio** (alta, citas ✓)
+  - cita: «AZUL    | TLED-NG     | Tarjeta de indicación.»
 - [ ] `kidde:2010-2-pak-rmsdk` (2010-2-PAK-RMSDK) → **accesorio** · analogica (alta, citas ✓)
   - cita: «These USB dongles are called PAK, which stands for Panel Activation Key. The use of the PAK will activate additional hig»
 - [ ] `kidde:2010-2a-pak-hpl` (2010-2A-PAK-HPL) → **accesorio** · analogica (alta, citas ✓)
   - cita: «The 2010−2A-PAK-HPL Panel Activation Key (PAK) increases the maximum loop output from 500 mA to 800 mA (high-powered loo»
 - [ ] `kidde:2x-a-lb` (2X-A-LB) → **accesorio** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Accesorio central de incendios direccionable, placa de expansión de lazo, 2 lazos»
+- [ ] `kidde:2x-ae2` (2X-AE2) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AE2        | Two-loop addressable fire and evacuation alarm control panel»
+- [ ] `kidde:2x-af1-fb` (2X-AF1-FB) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «2X-AF1-FB     | One-loop addressable fire alarm control panel with fire routing and fire protection controls»
+- [ ] `kidde:2x-af1-fb-s` (2X-AF1-FB-S) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «2X-AF1-FB-S   | Central de alarma de incendio direccionable de un l»
+- [ ] `kidde:2x-af1-s` (2X-AF1-S) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «| 2X-AF1-S      | Central de alarma de incendio direccionable de un lazo                                                »
+- [ ] `kidde:2x-af1-scfb` (2X-AF1-SCFB) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «2X-AF1-SCFB   | One-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls»
 - [ ] `kidde:2x-af2-09` (2X-AF2-09) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Central de incendios direccionable, 2 lazos, español»
+- [ ] `kidde:2x-af2-fb-prt` (2X-AF2-FB-PRT) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing»
+- [ ] `kidde:2x-af2-fb-prt-p` (2X-AF2-FB-PRT-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing»
+- [ ] `kidde:2x-af2-p` (2X-AF2-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-P        | Two-loop addressable fire alarm control panel»
+- [ ] `kidde:2x-af2-prt` (2X-AF2-PRT) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-PRT-P    | Two-loop addressable fire alarm control panel with internal printer»
+- [ ] `kidde:2x-at-f1-fb-s` (2X-AT-F1-FB-S) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego»
 - [ ] `kidde:2x-at-f2` (2X-AT-F2) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande»
 - [ ] `kidde:2x-at-f2-fb` (2X-AT-F2-FB) → **central** · analogica · lazos 2 (alta, citas ✓)
@@ -73,11 +112,15 @@ escribo vía la puerta (validación completa + recibo).
   - cita: «Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña»
 - [ ] `kidde:9-30780-kid-en` (9-30780-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
   - cita: «ModuLaser manual de instalación del detector de humo por aspiración modular»
+- [ ] `kidde:9-30781-kid-en` (9-30781-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
+  - cita: «Kidde ModuLaser, Standard display module»
 - [ ] `kidde:9-30782-kid-en` (9-30782-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
   - cita: «ModuLaser manual de instalación del detector de humo por aspiración modular»
 - [ ] `kidde:9-30783-kid-en` (9-30783-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
   - cita: «ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and tak»
 - [ ] `kidde:ad105` (AD105) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad105n` (AD105N) → **detector** (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad105p` (AD105P) → **detector** · convencional (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
@@ -87,12 +130,18 @@ escribo vía la puerta (validación completa + recibo).
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad185ss` (AD185SS) → **detector** (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad218` (AD218) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad218ss` (AD218SS) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad68` (AD68) → **detector** (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad68n` (AD68N) → **detector** · convencional (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad68n-0100` (AD68N-0100) → **detector** · convencional (alta, citas ✓)
   - cita: «El cable lineal de calor AD68N-0100 es un cable térmico lineal (LHD) calibrado a una temperatura de activación fija de 6»
+- [ ] `kidde:ad68p` (AD68P) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad68ss` (AD68SS) → **detector** · convencional (alta, citas ✓)
   - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
 - [ ] `kidde:ad88` (AD88) → **detector** (alta, citas ✓)
@@ -245,102 +294,54 @@ escribo vía la puerta (validación completa + recibo).
   - cita: «The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 8 zones that »
 
 
-## §1 — Una a una (46)
+## §1 — Una a una (22)
 
-- [ ] `detnov:cad-150-4` (CAD-150-4) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:cad-201-plus` (CAD-201-PLUS) → **central** · analogica (media)
-  - cita: «La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece caract»
-- [ ] `detnov:cad-201-z` (CAD-201-Z) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:cad-201-zplus` (CAD-201-ZPLUS) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:cad-250` (CAD-250) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:cad-250-p` (CAD-250-P) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:firebeam-blue` (Firebeam Blue) → **barrera** · convencional (media)
-  - cita: «Enhorabuena por adquirir el detector de humo de haz óptico reflejado the **fire**beam*BLUE*.»
-- [ ] `detnov:tbud-ng` (TBUD-NG) → **None** (baja)
-  - cita: «—»
-- [ ] `detnov:ted-151-cl` (TED-151-CL) → **pasarela** (media)
-  - cita: «Tarjeta Cloud *TED-151-CL* ... Conectar la tarjeta a la red a través del puerto RJ-45»
-- [ ] `detnov:tled-ng` (TLED-NG) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-ae1` (2X-AE1) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-ae2` (2X-AE2) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-ae2-p` (2X-AE2-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af1` (2X-AF1) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af1-fb` (2X-AF1-FB) → **central** (media, citas ✓)
+- [ ] `detnov:tbud-ng` (TBUD-NG) → **modulo** · analogica · lazos 2 (media)
+  - cita: «TBUD-NG | Placa expansión de lazos.»
+- [ ] `kidde:2x-ae1` (2X-AE1) → **central** · analogica · lazos 1 (media)
+  - cita: «2X-AE1 | One-loop addressable fire and evacuation alarm control panel»
+- [ ] `kidde:2x-ae2-p` (2X-AE2-P) → **central** · analogica · lazos 2 (media)
+  - cita: «2X-AE2-P | Two-loop addressable fire and evacuation alarm control panel»
+- [ ] `kidde:2x-af1` (2X-AF1) → **central** · analogica · lazos 1 (media)
+  - cita: «2X-AF1 | One-loop addressable fire alarm control panel»
+- [ ] `kidde:2x-af1-scfb-s` (2X-AF1-SCFB-S) → **central** · analogica · lazos 1 (media, citas ✓)
   - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
-- [ ] `kidde:2x-af1-fb-s` (2X-AF1-FB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af1-s` (2X-AF1-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af1-scfb` (2X-AF1-SCFB) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af1-scfb-s` (2X-AF1-SCFB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2` (2X-AF2) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-fb` (2X-AF2-FB) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-fb-p` (2X-AF2-FB-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-fb-prt` (2X-AF2-FB-PRT) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-fb-prt-p` (2X-AF2-FB-PRT-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-fb-s` (2X-AF2-FB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-p` (2X-AF2-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-prt` (2X-AF2-PRT) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-prt-p` (2X-AF2-PRT-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-s` (2X-AF2-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-scfb` (2X-AF2-SCFB) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-scfb-p` (2X-AF2-SCFB-P) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-af2-scfb-s` (2X-AF2-SCFB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-afr` (2X-AFR) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-afr-fb` (2X-AFR-FB) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-afr-fb-s` (2X-AFR-FB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-afr-s` (2X-AFR-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-at-f1-fb-s` (2X-AT-F1-FB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-at-fr` (2X-AT-FR) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-at-fr-fb` (2X-AT-FR-FB) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-at-fr-fb-s` (2X-AT-FR-FB-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:2x-at-fr-s` (2X-AT-FR-S) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:9-30781-kid-en` (9-30781-KID-EN) → **aspiracion** · aspiracion (media)
-  - cita: «Kidde ModuLaser, Standard display module ... ModuLaser is a scalable aspirating smoke detection solution»
-- [ ] `kidde:ad105n` (AD105N) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:ad218` (AD218) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:ad218ss` (AD218SS) → **None** (baja)
-  - cita: «—»
-- [ ] `kidde:ad68p` (AD68P) → **None** (baja)
-  - cita: «—»
+- [ ] `kidde:2x-af2` (2X-AF2) → **central** · analogica · lazos 2 (media, citas ✓)
+  - cita: «2X-AF2-P        | Two-loop addressable fire alarm control panel»
+- [ ] `kidde:2x-af2-fb` (2X-AF2-FB) → **central** · analogica · lazos 2 (media)
+  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
+- [ ] `kidde:2x-af2-fb-p` (2X-AF2-FB-P) → **central** · analogica · lazos 2 (media)
+  - cita: «2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls»
+- [ ] `kidde:2x-af2-fb-s` (2X-AF2-FB-S) → **central** · analogica (media, citas ✓)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.»
+- [ ] `kidde:2x-af2-prt-p` (2X-AF2-PRT-P) → **central** · analogica · lazos 2 (media)
+  - cita: «2X-AF2-PRT-P | Two-loop addressable fire alarm control panel with internal printer»
+- [ ] `kidde:2x-af2-s` (2X-AF2-S) → **central** · analogica · lazos 2 (media, citas ✓)
+  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
+- [ ] `kidde:2x-af2-scfb` (2X-AF2-SCFB) → **central** · analogica (media)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
+- [ ] `kidde:2x-af2-scfb-p` (2X-AF2-SCFB-P) → **central** · analogica (media)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.»
+- [ ] `kidde:2x-af2-scfb-s` (2X-AF2-SCFB-S) → **central** · analogica (media)
+  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
+- [ ] `kidde:2x-afr` (2X-AFR) → **repetidor** (media, citas ✓)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
+- [ ] `kidde:2x-afr-fb` (2X-AFR-FB) → **repetidor** · analogica (media)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
+- [ ] `kidde:2x-afr-fb-s` (2X-AFR-FB-S) → **repetidor** · analogica (media, citas ✓)
+  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
+- [ ] `kidde:2x-afr-s` (2X-AFR-S) → **repetidor** · analogica (media, citas ✓)
+  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
+- [ ] `kidde:2x-at-fr` (2X-AT-FR) → **central** · analogica (media)
+  - cita: «puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior»
+- [ ] `kidde:2x-at-fr-fb` (2X-AT-FR-FB) → **repetidor** · analogica (baja, citas ✓)
+  - cita: «Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.»
+- [ ] `kidde:2x-at-fr-fb-s` (2X-AT-FR-FB-S) → **central** · analogica (media)
+  - cita: «puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior»
+- [ ] `kidde:2x-at-fr-s` (2X-AT-FR-S) → **repetidor** · analogica (baja, citas ✓)
+  - cita: «Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.»
 
 
 ---
 *Recibos: `s322_76_poblacion_v1.json` · `s322_76_gt_v1.yaml` ·
-gate: {"aciertos": 19, "n": 19, "precision": 1.0, "pass": true}*
+gate: {"aciertos": 28, "n": 28, "precision": 1.0, "pass": true}*

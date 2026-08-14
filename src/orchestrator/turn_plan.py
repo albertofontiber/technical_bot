@@ -179,6 +179,14 @@ _NUM_PALABRA = {"un": 1, "uno": 1, "una": 1, "dos": 2, "tres": 3,
 _RX_LAZOS = re.compile(
     r"\b(\d{1,2}|" + "|".join(_NUM_PALABRA) + r")\s+(?:lazos?|loops?|bucles?)\b",
     re.IGNORECASE)
+# (s322, Alberto) zonas = la característica análoga en centrales CONVENCIONALES
+# (NC-PF2 = «2 zonas»); clave separada de lazos — conceptos distintos. El
+# lookahead excluye «zonas de extinción» (dúo r28 Fable M3: concepto DISTINTO
+# ya presente en el dominio — filtrar detección con él sería falso match).
+_RX_ZONAS = re.compile(
+    r"\b(\d{1,2}|" + "|".join(_NUM_PALABRA) + r")\s+(?:zonas?|zones?)\b"
+    r"(?!\s+de\s+extin)",
+    re.IGNORECASE)
 
 
 def filtros_inventario(query: str) -> dict | None:
@@ -199,6 +207,10 @@ def filtros_inventario(query: str) -> dict | None:
     if m:
         crudo = m.group(1).lower()
         filtros["lazos"] = int(crudo) if crudo.isdigit() else _NUM_PALABRA[crudo]
+    m = _RX_ZONAS.search(ql)
+    if m:
+        crudo = m.group(1).lower()
+        filtros["zonas"] = int(crudo) if crudo.isdigit() else _NUM_PALABRA[crudo]
     return filtros or None
 
 
