@@ -1,5 +1,14 @@
 # s321 E3 — Packet de adjudicación v2 (generado 20260814T184710Z · SUPERSEDE al v1)
 
+> **ACTA (14-ago, s322d)**: Alberto adjudicó «sí al §0 y al §0-bis» + §1 en su
+> mensaje (ART 535 multi ✓, MPS-24AE ✓, FD2705 = DOS modelos reales con el
+> artefacto FD2705-10R retirado ✓ — extensión al addendum que él citó).
+> **APLICADO**: 44 retags · 674 chunks · 0 aborts · findability OK (recibo
+> `s322_e3_writer_packet_aplicar_20260814T193541Z.json`; 3 MANTENER = no-op).
+> **PENDIENTE SOLO**: la fila ZXrA — verificación hecha: NO hay gap (MIE-MI-440
+> ya ingestado); recomendación retag-a-ZXR50A en vez de borrar (la FAQ es-ES
+> tiene el único paso-a-paso del repetidor en la DXc Connexion).
+
 Los 55 docs AUTO ya están aplicados. Repesca v2 (s322c): los 12 «parse-fail»
 del v1 eran el bug max_tokens=400 (mismo del censo #76), y las hermanas ahora
 se resuelven a máquina (`hermanas_sujeto` con cita verificada FULL-TEXT).

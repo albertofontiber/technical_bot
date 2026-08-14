@@ -1,0 +1,383 @@
+{
+ "que_es": "Aplicador de los síes de Alberto al packet E3 v2 (§0+§0-bis en bloque + §1 adjudicado; ZXrA excluida pendiente de su decisión). Mecánica T3: backup por-chunk + CAS + gate findability sobre el pm nuevo vs doc_map.",
+ "modo": "aplicar",
+ "utc": "20260814T193711Z",
+ "plan": 44,
+ "mantener_noop": [
+  {
+   "source_file": "ASD533_TD_T140287es_e",
+   "pm_prev": "ASD533",
+   "motivo": "MANTENER_PREV adjudicado (no-op)"
+  },
+  {
+   "source_file": "DXC-Como-conectar-una-sirena-de-lazo",
+   "pm_prev": "DXc",
+   "motivo": "MANTENER_PREV adjudicado (no-op)"
+  },
+  {
+   "source_file": "FAAST Understanding EN54-20_SP",
+   "pm_prev": "FAAST",
+   "motivo": "MANTENER_PREV adjudicado (no-op)"
+  }
+ ],
+ "saltados": [
+  {
+   "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+   "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+   "pm_prev": "PYX-L-15",
+   "pm_nuevo": "PY X-L-15-CPR",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+   "source_file": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+   "pm_prev": "FD2705R",
+   "pm_nuevo": "FD2705R/FD2710R",
+   "origen": "§1 adjudicado",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+   "source_file": "BANI-G-24_Eng",
+   "pm_prev": "IS 28 Mk 4",
+   "pm_nuevo": "IS 28 Mk 4 Banshee",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "c57c3b9d-5333-470c-8f72-f9e84c53f6d1",
+   "source_file": "I56-4294-002 NRX-M711 Module",
+   "pm_prev": "SMB-500",
+   "pm_nuevo": "NRX-M711",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "b18c0760-c4fe-4512-afba-827157df3971",
+   "source_file": "I56-4405-002 M701E",
+   "pm_prev": "AT-60",
+   "pm_nuevo": "M701E",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "ee4231ab-e74a-411f-b2da-b71315a93eda",
+   "source_file": "I56-5005-002_D Notifier Sounder Strobe",
+   "pm_prev": "WRA-PC-I02/WRA-RC-I02/WWA-PC-I02/WWA-RC-I02",
+   "pm_nuevo": "W*A-*C-I02",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+   "source_file": "LocatorPlus-Installation-Manual-1.3",
+   "pm_prev": "LocatorPlus",
+   "pm_nuevo": "Signaline LocatorPlus",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "293b7ca0-da28-4f8e-b2f9-58bc6fc3ebb7",
+   "source_file": "MADT190_02",
+   "pm_prev": "ID3000",
+   "pm_nuevo": "ISO-RS232",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "36ffe9bc-31b8-42e9-abbc-226631108cc4",
+   "source_file": "MADT190_05",
+   "pm_prev": "ID3000",
+   "pm_nuevo": "NGU",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "1c430ba4-0d25-4c75-8eee-01797abc8ccc",
+   "source_file": "MADT231",
+   "pm_prev": "AFP-400",
+   "pm_nuevo": "AFP4000",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "78d436eb-e371-4be1-9b50-11b76da6425e",
+   "source_file": "MADT232",
+   "pm_prev": "AFP-400",
+   "pm_nuevo": "AFP4000",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "27b8f6ec-a6d0-473b-8973-372a2dfcc06d",
+   "source_file": "MIE-MU-215",
+   "pm_prev": "ZXCE",
+   "pm_nuevo": "FIRECONTROL",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "fc05552b-2425-4c51-a7dd-c21651a7e9d2",
+   "source_file": "MIW-INT-La-central-DXC-indica-corto-tras-instalar-el-Interface",
+   "pm_prev": "DXc",
+   "pm_nuevo": "MIW-INT",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "cca256d4-457a-4fa3-9d67-fb6919a85766",
+   "source_file": "MN-DT-958I_iBox-MBS-NID3000",
+   "pm_prev": "iBox Modbus Server",
+   "pm_nuevo": "IBOX-MBS-NID3000",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "95b262df-63e0-410b-90fa-9434ce01e051",
+   "source_file": "MNDT513_SENTOX-IDI",
+   "pm_prev": "SENTOX IDI",
+   "pm_nuevo": "SENTOX IDI+",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "2942d1e2-3841-4064-a59e-9c2313931dd7",
+   "source_file": "MNDT958",
+   "pm_prev": "IBOX MODBUS SERVER",
+   "pm_nuevo": "IBOX-MBS-NID3000",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "e9adf2b8-b5e0-4dfd-9582-76bd679142a7",
+   "source_file": "Manual de usuario Issue 0165-02 v2 MI 546 es 2022 FIREBEAM BLUE",
+   "pm_prev": "theFirebeam BLUE",
+   "pm_nuevo": "Firebeam Blue",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+   "source_file": "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1",
+   "pm_prev": "ONE/ONE-LOOP",
+   "pm_nuevo": "ONE 500",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+   "source_file": "TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es",
+   "pm_prev": "ART 535-x",
+   "pm_nuevo": "ART 535-10/ART 535-30",
+   "origen": "§1 adjudicado",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "c0b1e530-f0ee-4060-8f0a-1ad39b2d5dfe",
+   "source_file": "UCIP-Borrar-configuracion-completa",
+   "pm_prev": "UCIP",
+   "pm_nuevo": "UCIP-GPRS",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "2096e504-08a9-4977-9ab0-12c6c8a20475",
+   "source_file": "UCIP-Como-conectar-con-TG",
+   "pm_prev": "ID-3000",
+   "pm_nuevo": "UCIP",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "4777ad8f-c33a-4e53-8a94-4912dc89b630",
+   "source_file": "UCIP-Conectar-con-equipo-via-Serie",
+   "pm_prev": "ID-3000",
+   "pm_nuevo": "UCIP-GPRS",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "1791d18f-313f-4482-9e64-df7352e76e25",
+   "source_file": "VSN4-PLUS_ITA",
+   "pm_prev": "VSN-232",
+   "pm_nuevo": "VSN 4 PLUS",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "6ff80de4-54ca-4f2e-9e09-bd10225ae25f",
+   "source_file": "Z728_installation manual",
+   "pm_prev": "Z728",
+   "pm_nuevo": "Z728.H",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "9d6efdf7-4b2c-46e9-9332-65f113b8000a",
+   "source_file": "I56-1306-002_SDX-751EM",
+   "pm_prev": "LOCAL-360",
+   "pm_nuevo": "SDX-751EM",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
+   "source_file": "I56-2166-02R DH500ACDC-E",
+   "pm_prev": "PA400",
+   "pm_nuevo": "DH500ACDC-E",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "05e3e05f-d6cf-4c4f-a707-3be673f9b31f",
+   "source_file": "I56-3674-000 M710-CZR",
+   "pm_prev": "TO-28",
+   "pm_nuevo": "M710-CZR",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "fae0d680-4511-4fb2-af9d-bcfaf15660d4",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_EN",
+   "pm_prev": "THE-6500",
+   "pm_nuevo": "MI-LPB2-S2I",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "dc74e6e9-85a8-4cdb-a489-37cb9959ba3b",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_ES",
+   "pm_prev": "EL-6500",
+   "pm_nuevo": "MI-LPB2-S2I",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+   "source_file": "I56-3918-001 IM-10EA_multi",
+   "pm_prev": "FROM-01",
+   "pm_nuevo": "IM-10EA",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+   "source_file": "I56-3920-001 CR-6EA_multi",
+   "pm_prev": "FROM-01",
+   "pm_nuevo": "CR-6EA",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "3caeba69-e786-4fde-89c2-3249f44519ae",
+   "source_file": "I56-4205-001 NRX-SMT3 Web",
+   "pm_prev": "EN-54-25",
+   "pm_nuevo": "NRX-SMT3",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "49b547a5-8225-47b5-8aee-19f188558219",
+   "source_file": "I56-4208-001 NRX-REP Repeater Web",
+   "pm_prev": "WITH-48",
+   "pm_nuevo": "NRX-REP",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "a6d93291-43e7-464f-b0da-8b888f5a0ab0",
+   "source_file": "I56-4225-001 NRX-OPT Web",
+   "pm_prev": "EN-54-25",
+   "pm_nuevo": "NRX-OPT",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "d4c59e83-c811-4356-876d-b38e48dca373",
+   "source_file": "I56-4407-001 MI-DCMOE",
+   "pm_prev": "MM-82",
+   "pm_nuevo": "MI-DCMOE",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "7b13e257-8a36-4baa-bdbb-753009f4c7d5",
+   "source_file": "I56-4422-000 M701E-240",
+   "pm_prev": "OF-48V",
+   "pm_nuevo": "M701E-240",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "ae01f36c-750e-4765-a31b-84109aa20fdc",
+   "source_file": "MIDT1041",
+   "pm_prev": "PA400",
+   "pm_nuevo": "DH500ACDC-E",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "fd5cf489-d608-4e12-ba2c-ebc7d30721ca",
+   "source_file": "MIW-INT-Cuantos-expansores-puedo-conectar-al-Interface-pasarela",
+   "pm_prev": "TO-3200M",
+   "pm_nuevo": "MIW-INT",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "fc070e20-3ff7-4a9c-8991-3dddda3dd693",
+   "source_file": "997-267-000-6_Eng",
+   "pm_prev": "DTP/Booster",
+   "pm_nuevo": "020-543",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "04bb1360-c5a9-4e96-83d3-ba4d50a66f7a",
+   "source_file": "D 1149-1 BGL Notifier",
+   "pm_prev": "SP-20",
+   "pm_nuevo": "NFXI-BF-WCH",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "a84230bc-ad58-468f-b48d-2fa5d873e694",
+   "source_file": "I56-4207-001 NRXI-GATE Gateway Web",
+   "pm_prev": "CASE-32",
+   "pm_nuevo": "NRXI-GATE",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "be1b6b42-721f-442f-a453-477a5e4dc795",
+   "source_file": "MNDT960I_iBox-BACnet",
+   "pm_prev": "IBOX BACNET",
+   "pm_nuevo": "IBOX-BAC-NID3000",
+   "origen": "§0/§0-bis en bloque",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "e3e37118-b636-429c-8a74-017abb1d355e",
+   "source_file": "50478 RevA - MPS-24AE _Eng",
+   "pm_prev": "ECN-96-200",
+   "pm_nuevo": "MPS-24AE",
+   "origen": "§1 adjudicado",
+   "motivo": "0 chunks con pm_prev (drift)"
+  },
+  {
+   "document_id": "97cef65c-605a-4731-9113-6e1fdbfb3cba",
+   "source_file": "0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de",
+   "pm_prev": "FD2705R",
+   "pm_nuevo": "FD2705R/FD2710R",
+   "nota": "addendum citado por Alberto; cubre ambos modelos",
+   "origen": "extensión adjudicada",
+   "motivo": "0 chunks con pm_prev (drift)"
+  }
+ ],
+ "chunks_backup": 0,
+ "chunks_aplicados": 0,
+ "aborts": 0,
+ "findability_ok": true,
+ "detalle": []
+}
