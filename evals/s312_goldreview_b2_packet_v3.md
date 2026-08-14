@@ -375,8 +375,26 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 > `texto` literalmente**, y hoy ese texto exige que los valores figuren en el manual español ⇒
 > tocarlo sí puede aflojar PASS.
 >
-> **Tuyo:** ¿el 80%/100% es un default **del protocolo Morley-IAS** (y cualquier central que lo
-> hable traería lo mismo) o **de la versión España** que este manual documenta?
+> ### ✅ s321 — **AGOTADA LA FUENTE: lo responde el manual, no hace falta tu criterio**
+>
+> Quedaba pendiente decidir si el 80%/100% es del **protocolo** o de la **versión España**. La
+> sección que los porta lo dice sin ambigüedad, y su encabezado también:
+>
+> > **§5.3.10.5 «Información específica según el PROTOCOLO»** → **§5.3.10.5.1 «Información
+> > específica para protocolo Morley-IAS»** — «El valor analógico debe ser un número normalizado
+> > entre 0% – 100%, independientemente del tipo de equipo. Para los detectores, **el nivel de
+> > prealarma por defecto es el 80% y el nivel de alarma por defecto es el 100%**. • **El ajuste
+> > máximo para el nivel de alarma es el 108%**.»
+> > *(`DXc_Manual variaciones de mercado`, p6, `product_model: DXc`)*
+>
+> Los **tres** valores cuelgan del **protocolo Morley-IAS**, en una sección cuyo título es
+> literalmente «según el PROTOCOLO». El **documento** es de variaciones de mercado; la **sección**
+> es de protocolo. Anclar el `valor` a «versión España» atribuiría a un país lo que el manual
+> atribuye a un protocolo.
+>
+> ⇒ **Si marcas ✏️, la redacción correcta es «específicos del protocolo Morley-IAS»**, no «de la
+> versión España». Y el ❌ sigue siendo defendible: hoy el hecho no se mide y meterlo al denominador
+> es una decisión de alcance tuya, no de fuente.
 >
 > **Escribe**: hoy el hecho **no se mide** — `_is_meta_ref` dispara `continue` porque el `valor`
 > empieza por «Manual», así que ni llega a un juez. Con un `valor` de contenido **entra en el
@@ -611,3 +629,30 @@ de uso real.
   en una recomendación anclada.
 - **Orden sugerido**: **8 primero** (desbloquea su propia redacción) → 5 (PCI puro) → 4 y 9 juntos
   (comparten doctrina: ¿un prerrequisito de configuración entra en el contrato?) → 7 → 6 → 3.
+
+---
+
+## Consultas tuyas resueltas fuera de ítem (s321)
+
+### `hp005` — ¿resolver su discrepancia con búsqueda abierta (internet / memoria del modelo)?
+
+**No, y el motivo no es de principio sino de diagnóstico: no hay discrepancia de FUENTE que
+resolver.** Verificado:
+
+- El gold está `_provenance.estado: verificado`, `acuerdo: total`, `confidence: alta`, anclado en
+  `MPDT190` (matriz de control, COINCIDENCIA 2 EQUIPOS, misma zona/subzona, CIRCUITO SIRENA). Su
+  única nota describe un **offset de paginación ya resuelto** («el gold citó páginas IMPRESAS
+  correctas → no era mis-atribución»).
+- Lo que sí está documentado es de otra naturaleza: `docs/DECISIONS.md:854` clasifica hp005 en
+  **GENERACIÓN**, y `:571` lo cita entre los casos donde «incluso con el chunk en top-5 el bot
+  CONTRADICE hechos verificados». Es decir: **el manual es claro y el bot no lo reproduce**.
+
+⇒ Una búsqueda externa contestaría una pregunta que nadie tiene. Y estructuralmente sería peor que
+inútil: metería en el ruler un hecho que **no está en el corpus**, con lo que el eval pasaría a
+exigirle al bot algo que por diseño no puede saber — el instrumento medido al revés.
+
+**Dónde sí vale una búsqueda externa**, para que quede el criterio: para **descubrir que nos falta
+un manual** (lista de adquisición). Si un hueco resulta ser «no tenemos el documento», eso se
+arregla **consiguiendo el manual**, nunca tapándolo con conocimiento de fuera. Y si algún día una
+fuente externa se usara como hipótesis para saber *dónde mirar* en el corpus, la afirmación
+tendría que quedar anclada en el corpus antes de entrar en un gold.
