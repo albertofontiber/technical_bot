@@ -315,9 +315,19 @@ LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
 REWRITER_MODEL = os.getenv("REWRITER_MODEL", "claude-sonnet-4-6")
 # s99: tope de tokens de SALIDA del generador. s319 graduación EN PAREJA con
 # RERANK_TOP_K=10 (r18): el default es el valor RECIBIDO (DEC-092b: «0 truncado
-# con 3500»; a 2048 cat019 truncaba) — NO el de Railway, que hoy es 8000 SIN
-# recibo en DECISIONS (discrepancia señalada, adjudicación de Alberto pendiente;
-# producción no cambia: su env var manda).
+# con 3500»; a 2048 cat019 truncaba).
+# s322f (DEC-219): la discrepancia con Railway=8000 queda ADJUDICADA por Alberto
+# — se RATIFICA el 8000 en producción y la divergencia es DELIBERADA:
+#   · código 3500 = valor SELLADO (el release profile P1 lo congela junto con
+#     RERANK_TOP_K=10) → eval/CI reproducibles;
+#   · Railway 8000 = HOLGURA de producción; `max_tokens` es un techo, no un
+#     objetivo (solo se factura lo generado), así que no cuesta y evita cortar
+#     una respuesta a media frase.
+# Medición que lo respalda (96 respuestas reales abr→ago-2026): mediana 1.671
+# chars (~450 tok), máxima 10.927 (~2.950 tok) → NINGUNA alcanzó siquiera el
+# 3500. Ambos valores son hoy conductualmente equivalentes.
+# OJO (TECH_DEBT #78): `stop_reason` NO se persiste en la traza — si algún día
+# una respuesta se truncase, hoy seríamos ciegos.
 LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "3500"))
 
 # Validator post-generación: experimentado s13 y REVERTIDO (net-neutral, 2-3x coste/latencia);

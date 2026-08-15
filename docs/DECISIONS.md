@@ -6559,3 +6559,45 @@ colisión alias-vs-canonical en el primer intento (write_jsonl escribe-y-valida:
 entre runs quedó inválido transitorio en disco — la puerta funcionó; recibo
 anotado). validate() OK · tests catálogo/inventario 47/47. **Con esto el packet E3
 queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
+
+## DEC-219 (s322f) — LLM_MAX_TOKENS: se RATIFICA el 8000 de producción con recibo y medición; y las 9 vars de Railway redundantes, RETIRADAS por Alberto
+
+- **Fecha**: 15 ago 2026 (s322f). **Impacto**: MEDIO (default del serving +
+  configuración viva de producción). Cierra las DOS adjudicaciones que DEC-210/211
+  dejaron abiertas para Alberto.
+- **La discrepancia que se cierra**: el gate de pre-verificación de la graduación
+  (DEC-210) cazó `LLM_MAX_TOKENS` = 8000 en Railway SIN recibo en DECISIONS, contra
+  el 3500 RECIBIDO (DEC-092b: «0 truncado con 3500», validado ACOPLADO a
+  RERANK_TOP_K=10). Llevaba desde s319 esperando la palabra de Alberto.
+- **MEDICIÓN antes de opinar** (s322f, 96 respuestas reales de `query_logs`,
+  abr→ago-2026): mediana **1.671 chars** (~450 tok) · p90 4.449 · **máxima 10.927**
+  (~2.950 tok) · **0 respuestas superaron los ~13.000 chars** (≈3500 tok). Es decir:
+  **el techo NUNCA se ha rozado**, y 3500 y 8000 son hoy conductualmente idénticos.
+  11 de 96 respuestas pasan de 4.096 chars (se parten en varios mensajes Telegram).
+- **Adjudicación de Alberto**: «max_tokens: lo dejamos en 8000». **Ratificado**, y la
+  divergencia queda DELIBERADA y escrita: código **3500** = valor SELLADO (el release
+  profile P1 lo congela junto al top-10) ⇒ eval/CI reproducibles; Railway **8000** =
+  HOLGURA de producción. `max_tokens` es un TECHO, no un objetivo (solo se factura lo
+  generado): no cuesta, y evita cortar una respuesta a media frase. Cero cambios de
+  conducta hoy. Alternativa descartada: bajar producción a 3500 (o quitar la var) —
+  hoy sería un no-op y solo restaría holgura.
+- **Gap declarado de entrada → TECH_DEBT #78**: `stop_reason` se calcula en el
+  generador pero NO se persiste en la traza (verificado: 0 hits en 96 trazas). La
+  métrica que gobierna este techo solo se puede leer hoy por proxy (`response_length`).
+- **Vars de Railway redundantes: RETIRADAS por Alberto** (las 9 que DEC-210/211
+  dejaron listadas): GENERATOR_PROMPT_VARIANT, RERANK_TOP_K, ENUNCIADOS_MULTIVECTOR,
+  HYQ_TABLE, GENERATOR_FOLLOWUPS, ANTI_DIAGRAM_INVENTION, WIRING_TOPOLOGY_GUARD,
+  CONVERSATION_POLICY, ORCHESTRATOR_PATH. **Verificado por API** (patrón DEC-195, no
+  de memoria): 49 → 40 vars, las 9 ausentes, el resto intacto (INTENT_LLM=on,
+  GENERATOR_SELECTION_BLOCK=on, GENERATOR_DIRECT_FIRST=on,
+  VISUAL_ASSETS_LISTING_GATE=on, CHUNKS_TABLE=chunks_v2, LLM_MODEL=claude-opus-5,
+  EC_LEGAL_DISCLAIMER_SKIP=on) y **último deployment SUCCESS**. Conducta idéntica
+  por construcción: cada valor retirado COINCIDÍA con el default graduado.
+  (Nota de proceso: el primer intento dejó `ORCHESTRATOR_PATH` puesta — cazado por la
+  verificación, no por confianza; se comprobó además que NO era variable compartida
+  de entorno. Alberto la borró y redesplegó.)
+- **El rollback NO cambia**: sigue siendo poner la env var explícita (DEC-210), y
+  para el orquestador sigue vigente lo de DEC-211 — `CONVERSATION_POLICY=stub` es
+  ÚLTIMO RECURSO con degradaciones declaradas, no un modo de operación.
+- **Relacionado**: DEC-092b · DEC-210/211 (que quedan CERRADAS) · TECH_DEBT #78 ·
+  censo vivo `evals/s322_railway_censo_v1.json`.
