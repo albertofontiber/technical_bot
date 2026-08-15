@@ -23,10 +23,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-PROBE = pytest.importorskip(
-    "scripts.s293_reachability_probe",
-    reason="la sonda importa el instrumento completo (DEMO_FLAGS + pipeline)",
-)
+# El guard se importa del módulo LIGERO: sin esto el test se cae en CI por falta de entorno
+# (KeyError SUPABASE_URL, PR #263) y un guard que no corre en CI no guarda nada.
+from scripts import reachability_verdict as PROBE  # noqa: E402
 
 SERVE = {"mode": "serve", "inject": ["aaaaaaaa", "bbbbbbbb"]}
 APPENDIX = {"mode": "appendix", "inject": [], "span_grep": "x"}
@@ -135,12 +134,19 @@ def test_alcanzable_se_emite_aunque_alguna_rep_no_pruebe_entrega():
 
 # ── 4 · el sellado que evita que un veredicto envejezca en silencio ──────────────────────────
 def test_el_sello_mejora_git_sha_pero_declara_lo_que_NO_cubre():
+    # `importorskip` NO sirve aquí: la sonda no falla con ImportError sino con KeyError al
+    # leer el entorno (PR #263). Se captura cualquier fallo de construcción y se salta.
+    try:
+        import scripts.s293_reachability_probe as sonda
+    except Exception as e:  # noqa: BLE001
+        pytest.skip(f"la sonda necesita entorno para construirse ({type(e).__name__}); "
+                    "el guard de veredicto sí corre siempre, vive en reachability_verdict")
     """Sellar solo `git_sha` permitió que un «NO alcanzable» del 2-ago se citara en agosto como
     vigente. Esto lo mejora — pero NO es el freeze-contract completo y el docstring lo dice: sin
     huella de corpus, una mutación in-place es invisible. Llamarlo «completo» era framing por
     encima de la realidad (dúo s321, ambos revisores)."""
-    assert "NO es completo" in (PROBE.sello_freeze.__doc__ or ""),         "el sello no debe auto-declararse completo"
-    sello = PROBE.sello_freeze()
+    assert "NO es completo" in (sonda.sello_freeze.__doc__ or ""),         "el sello no debe auto-declararse completo"
+    sello = sonda.sello_freeze()
     for clave in ("git_sha", "CHUNKS_TABLE", "RETRIEVAL_TOP_K", "RERANK_TOP_K",
                   "RERANKER_BACKEND", "LLM_MODEL", "juez", "INSTRUMENT_VERSION"):
         assert clave in sello, f"el sello no cubre {clave}"
