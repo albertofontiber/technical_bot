@@ -3542,3 +3542,42 @@ reales, y destapó que «FD2705-10R» probablemente NO existe — es el nombre d
 fichero fusionando FD2705R+FD2710R, un artefacto sentado en el doc_map como
 canónico. La evidencia viaja en el packet con URL+quote+fecha; nada se escribe
 sin adjudicación.
+
+## s323 (15 ago 2026) — «Dónde corre Claude»: el móvil deja de ser un mirador y el dúo caza el centinela
+
+Alberto pidió una sesión explícita para montar el cambio de «where Claude runs» y
+poder gobernar el trabajo desde el móvil. La primera sorpresa fue que el gap real
+no era la comodidad: el environment cloud estaba en **Default**, y eso es
+exactamente lo que en s315/s316 dejó a `OPENAI_API_KEY` fuera y al revisor Sol sin
+ejecutar — una sesión cloud no podía cerrar nada de impacto ALTO y **nada avisaba**.
+La segunda fue de rumbo: no hay una superficie, hay tres, y **Remote Control cierra
+el hueco que `ENTORNO_CLOUD.md` daba por perpetuo** («lo que el cloud NUNCA tendrá»:
+OneDrive). La ingesta ya es gobernable desde el móvil; simplemente se ejecuta en la
+máquina de casa. Montar solo cloud habría dejado media clase de trabajo fuera.
+
+Alberto adjudicó contra mis dos recomendaciones —un solo environment con todas las
+keys, y red Full— y eso se escribe tal cual en DEC-220, con el riesgo aceptado
+delante: no hay secret store, así que la service key del corpus vive en el mismo
+sitio donde una sesión lee portales de fabricantes. Partirlo en dos son dos minutos
+el día que se prefiera.
+
+Lo cableado responde a la lección de siempre: sin recibo no hay entorno verificado.
+Nace `cloud_smoke.py` —que comprueba superficie, historial git, imports reales,
+presencia de keys sin volcar su valor, y conectividad a los cinco destinos— y su
+contrato se fija en tests. El hook de arranque, que reinstalaba todo en cada
+`resume`, pasa a ser idempotente.
+
+**Y el dúo volvió a ganarse el sueldo.** Devolvió NO SÓLIDO con tres hallazgos y
+los tres eran ciertos: mis tests de no-fuga solo cubrían `--sin-red`, justo el modo
+que evita el vector real (los mensajes de error de httpx llevan la URL dentro); la
+URL del remote se publicaba verbatim en un recibo que se commitea, y en un clon
+cloud viene con el token embebido; y **el centinela de idempotencia del hook no
+sondeaba `cryptography`** — precisamente el módulo cuyo PanicException-al-importar
+motivó ese hook en s315 — así que una marca presente y cinco imports buenos habrían
+dado por buena una VM rota. El detalle que más dice: ese hallazgo, el mejor de los
+tres, tuvo que marcarse CONCEPTUAL porque el revisor **no puede leer `.claude/`**
+(deuda #79) — acertó razonando sobre mi propia descripción, que es exactamente la
+dependencia que el Protocolo 3 existe para romper.
+
+Queda pendiente lo único que convierte esto en verificado: el smoke de recepción
+corriendo EN una sesión cloud del environment nuevo.
