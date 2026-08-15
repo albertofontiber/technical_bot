@@ -3007,3 +3007,30 @@ sin registrar QUÉ chunk se acreditó, para que el forense no dependa de re-medi
 próximo censo por clases, o el próximo `synthesis-miss` compuesto que se use para cerrar una
 línea de trabajo. **Coste**: S para (b), M para (a). **Relacionado**: DEC-173/DEC-175 (banners
 s321), #77, DEC-094.
+
+## #83 — La capa VISUAL de criticidad (recuadros de aviso, iconos) se pierde en la extracción: el corpus no distingue un párrafo normal de uno marcado como crítico (s321)
+
+**El hecho (medido).** En los manuales, el fabricante marca lo crítico con **recuadros de color e
+iconos** — el ejemplo canónico es `997-671-005-3_Configuration_ES` A5.2, donde «Es fundamental
+borrar la regla 1… será anulada» va en caja amarilla con icono «!». **Esa caja no llega al
+corpus.** Lo único que sobrevive es el subrayado, como `<ins>`.
+
+**Y `<ins>` NO sirve de sustituto**: aparece en **1.412 de 26.215 chunks (5,4%)** y envuelve
+mayoritariamente **títulos de sección**, no avisos. Como señal de criticidad sería una máquina de
+falsos positivos — comprobado con muestra en s321.
+
+**Consecuencia.** El sistema no puede distinguir «esto es una advertencia que el fabricante
+destacó» de «esto es prosa corriente». En un dominio donde el aviso destacado suele ser
+justamente lo que evita un fallo de instalación, es una pérdida semántica con consecuencias de
+seguridad, no solo de ranking.
+
+**Familia conocida**: es el mismo hueco que `#24` («la extracción de tablas pierde marcas visuales
+X/✓ → alucinación por relleno»). Ahí se perdió la semántica de una matriz; aquí, la de un aviso.
+
+**Fix cuando toque**: (a) preservar en la ingesta un marcador de bloque destacado (`callout`,
+`warning`) cuando el PDF lo trae como caja/icono — probablemente vía la ruta de visión que `#13`
+ya tiene diferida; (b) mientras tanto, y esto SÍ es barato: indexar los **marcadores léxicos** que
+sí sobreviven («Precaución», «ADVERTENCIA», «Es fundamental», «IMPORTANTE», «Nota») como señal
+débil de criticidad. **Trigger**: la próxima re-ingesta con visión, o el primer caso en que un
+aviso destacado no servido cause un fallo de seguridad. **Coste**: M para (a), S para (b).
+**Relacionado**: DEC-221 (el criterio que se adoptó EN LUGAR de esta señal), #24, #13.

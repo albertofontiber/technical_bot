@@ -6759,3 +6759,49 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
 - **Relacionado**: DEC-193/195 (versionado de `.claude/`, hook del digest) · DEC-209
   (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #82 ·
   `docs/ENTORNO_CLOUD.md`.
+
+## DEC-221 (s321) — Cuando dos pasajes del MISMO manual dicen lo mismo, el gold se ancla en el que da el MECANISMO; y la inconsistencia de la fuente se DECLARA, no se elige
+
+**Decisión.** Criterio de autoría, recurrente, que nace de un caso real (`hp017#2`, ítem 3 de la
+sentada B2) y de una propuesta de Alberto:
+
+1. **Anclaje**: entre dos pasajes del mismo manual que sostienen el mismo hecho, el gold se ancla
+   en el que **da el mecanismo** —el *por qué*, la consecuencia de no hacerlo— y no en el que solo
+   da la instrucción.
+2. **Declaración**: si los pasajes difieren en alcance o precisión, el gold **lo hace visible**
+   (ambos en `citations`, con la jerarquía explícita). No se elige uno y se borra el otro.
+
+**El caso.** PEARL, `997-671-005-3_Configuration_ES`, Apéndice 5:
+- **A5.2** (física p43): «**Es fundamental** borrar la regla 1 si se va a realizar una programación
+  específica, **ya que, si no, esta será anulada**» — singulariza la regla crítica **y explica el
+  efecto**. Va en un recuadro de aviso, con icono y subrayado.
+- **A5.4** (física p45): «las **dos reglas** por defecto… **Deben eliminarse** si se van a crear
+  reglas personalizadas» — instrucción de limpieza, sin mecanismo.
+
+No se contradicen: son compatibles y de distinto propósito. Medido: con el chunk de A5.2 delante
+el bot transmite el hecho **3/3 a 5/5**; con el de A5.4, **0/3**
+(`evals/s293_reachability_hp017_hp017_2.json` · `evals/s321_control79_p45_solo_v1.json`).
+
+**La alternativa que se probó y se DESCARTÓ con medición** (propuesta de Alberto, y la idea era
+buena): anclar en el pasaje con más **empaque tipográfico** —el del recuadro amarillo con icono—.
+Se comprobó si esa señal sobrevive a la extracción y **no sirve como regla**: el marcador `<ins>`
+(subrayado) aparece en **1.412 de 26.215 chunks (5,4%)** y una muestra dice que envuelve
+mayoritariamente **títulos de sección** («APÉNDICE A…», «1 CARACTERÍSTICAS TÉCNICAS», «Menú
+zonas»), no avisos. Usarlo como «esto es crítico» sería una máquina de falsos positivos. Y lo que
+de verdad da el empaque —**la caja con el icono**— la extracción lo pierde (TECH_DEBT #83).
+
+**Por qué el criterio elegido es BP + estructural + escalable.** Vive en el **texto plano**, así
+que no depende de cómo maquete cada fabricante y escala a 30+ sin tocar la ingesta. Es
+**pedagógicamente correcto**: lo que convierte una instrucción en algo que un técnico entiende en
+obra es el porqué. Y **no es circular** — se decide contra la FUENTE, no contra cómo respondió el
+modelo ni contra el scorer, que es exactamente donde el dúo cazó tres recomendaciones mías en esta
+misma sesión.
+
+**Gaps declarados.** (a) El criterio NO resuelve el alcance PCI: dice dónde anclar, no qué debe
+contratar la pregunta — eso sigue siendo adjudicación de Alberto. (b) «Dar el mecanismo» no está
+formalizado como predicado automático; hoy es criterio de autoría humana, y formalizarlo sin
+medirlo sería el mismo error que esta sesión ha corregido tres veces. (c) La medición del 5,4% es
+sobre `chunks_v2` a 15-ago-2026; si cambia el extractor, hay que rehacerla.
+
+**Métrica.** Objetivo: per-fact `conveyed` K=5. La medición citada (3/3 vs 0/3) es de esa misma
+métrica ⇒ coincide. No toca ningún «settled» de PASS ni de retrieval-miss.

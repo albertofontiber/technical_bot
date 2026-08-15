@@ -204,6 +204,31 @@ por defecto» (ambas), y si quieres semántica específica de la Regla 1, como m
 > adelante. Voy con Sol — la premisa no sondada era «¿pagaría un lever?», que es otra pregunta; el
 > alcance lo resuelve la fuente. Pero el marco de medición del ítem sí se retira, arriba.)*
 >
+> ### ✅ s321 — CRITERIO ADOPTADO (DEC-221): se ancla en el pasaje que da el MECANISMO
+>
+> Alberto propuso anclar en el pasaje con más **empaque** en el manual —el de A5.2 va en recuadro
+> amarillo con icono «!»— y **declarar la inconsistencia de la fuente** en vez de elegir una y
+> borrar la otra. Su punto (2) se adopta tal cual. El (1) se midió antes de adoptarlo y **la señal
+> visual NO sirve**: el subrayado sobrevive a la extracción como `<ins>`, pero aparece en **1.412 de
+> 26.215 chunks (5,4%)** envolviendo mayoritariamente **títulos de sección** — como marca de
+> criticidad sería una máquina de falsos positivos. Y la caja con el icono, que es lo que de verdad
+> da el empaque, **la extracción la pierde** (deuda nueva `TECH_DEBT #83`).
+>
+> **Lo que sí discrimina, y vive en texto plano**: la A5.2 trae una marca explícita de criticidad
+> («**es fundamental**») y sobre todo **el mecanismo** —«ya que, si no, esta **será anulada**»—; la
+> A5.4 da la misma instrucción **sin explicar el efecto**. ⇒ criterio: **entre dos pasajes del mismo
+> manual, ancla en el que da el MECANISMO**. Escala a 30+ fabricantes sin depender de maquetación,
+> es pedagógicamente correcto (el porqué es lo que un técnico usa en obra) y **no es circular**: se
+> decide contra la fuente, no contra cómo respondió el modelo.
+>
+> **Y la inconsistencia se DECLARA**: A5.2 y A5.4 no se contradicen —una singulariza la regla
+> crítica, la otra da la limpieza completa— así que el gold puede llevar **las dos con su
+> jerarquía**, con la quote de A5.4 añadida a `citations`.
+>
+> ⇒ **Esto refuerza la ✏️ y desaconseja la ✅**: la ✅ («ambas reglas») ancla en A5.4, que es la que
+> NO da el mecanismo — y además es la que el bot ya reproduce solo (medido: A5.2 → 3/3 a 5/5;
+> A5.4 → 0/3).
+>
 > **Tuyo:** ¿la respuesta debe decirle al técnico **qué regla le anula el retardo y por qué**, o
 > basta «hay dos por defecto, bórralas»? Y: ¿en obra se borra **también la Regla 2** (tecla
 > EVACUACIÓN activa todos los equipos), o esa se conserva?
@@ -245,7 +270,34 @@ por defecto» (ambas), y si quieres semántica específica de la Regla 1, como m
 > **Escribe**: hp017 pasa de 5 a 6 cores · renumera `hp017#3→#4` · rompe el join con artefactos
 > congelados que indexan por `qid#idx`.
 
-`[ ] ✅ partir en dos (redacción "ambas reglas") · [ ] ✏️ partir + reformular (anota) · [ ] ❌ dejarlo compuesto`
+`[ ] ✅ partir en dos (redacción "ambas reglas") · [X] ✏️ partir + reformular (anota) · [ ] ❌ dejarlo compuesto`
+
+> ✏️ **ADJUDICADO (Alberto, s321) — redacción anotada, PENDIENTE de aplicar al ruler.**
+>
+> **La mitad (b) queda así:** «**Regla 1** (CUALQUIER entrada de alarma activa TODOS los equipos de
+> salida): hay que **borrarla** antes de programar causa-efecto específico, porque si no **anula** la
+> programación. La **Regla 2** (tecla EVACUACIÓN) **no interfiere** con reglas disparadas por alarma
+> y puede conservarse; solo procede borrarla si se va a programar la propia evacuación de forma
+> específica.»
+>
+> **Cómo se llegó, porque la lectura es de Alberto y disuelve el problema en vez de declararlo.**
+> Yo iba a anclar en A5.2 y **declarar la inconsistencia** con A5.4. Alberto encontró el mecanismo
+> que la explica: lo que obliga a borrar la Regla 1 es que **anula** lo tuyo, y eso pasa porque su
+> disparador —cualquier entrada de alarma— es **el mismo** al que responden tus reglas específicas.
+> La Regla 2 se dispara con la **tecla EVACUACIÓN**, así que no se cruza con ellas: conservarla no
+> rompe nada y borrarla sí quita funcionalidad. ⇒ **A5.2 y A5.4 dejan de ser inconsistentes**: la
+> primera es precisa (señala la única que anula en el caso normal), la segunda es genérica (limpieza
+> completa). Ninguna está mal.
+>
+> **Matiz declarado como DERIVACIÓN, no como texto del manual**: la Regla 2 sí anularía si se
+> programa algo específico **para la propia tecla EVACUACIÓN** (p. ej. evacuación por fases) — ahí
+> ambas reglas se comportan igual y solo cambia el disparador. El manual no lo dice; se deduce del
+> mecanismo. Es también cuando el «las dos» de A5.4 aplica.
+>
+> **Qué escribe**: split de `hp017#2` en dos cores ⇒ hp017 pasa de 5 a 6 · renumera `hp017#3→#4` ·
+> añadir al `citations` la quote de A5.4 (hoy no está) · rompe el join con artefactos congelados que
+> indexan por `qid#idx`. **Aplicación pendiente** junto con los ítems 4, 8 y 9, en UN commit con el
+> re-anclaje (ver el coste en la cabecera). Criterio de anclaje: `DEC-221`.
 
 ---
 
