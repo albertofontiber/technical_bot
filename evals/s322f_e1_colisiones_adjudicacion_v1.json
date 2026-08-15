@@ -1,0 +1,4289 @@
+{
+ "que_es": "s322f — adjudicación determinista (sin LLM) de las 49 COLISIONES de identidad del packet E1 §1. PROPUESTA: nada aplicado.",
+ "utc": "20260815T091825Z",
+ "fuente": "evals/s320_e1_reconciliacion_censo_v1.json",
+ "solo_lectura": true,
+ "totales": {
+  "analizadas": 49,
+  "bloque": 49,
+  "individual": 0,
+  "ya_no_aplica": 0,
+  "entries_del_catalogo_afectadas": 191
+ },
+ "por_clase": {
+  "fantasma_ya_retirado": 49
+ },
+ "consecuencia_medida": {
+  "que_es": "Impacto REAL del desajuste de ids en el anexo must_preserve (join por document_id). Medido, no teorizado.",
+  "docs_donde_la_atestacion_falla_con_el_id_servido": 49,
+  "docs_donde_atestaria_con_el_id_fantasma": 49,
+  "seam_allowed_sources": "INTACTO — catalog_resolver indexa por source_file y el del doc_map coincide exactamente con el de los chunks del activo en las 49"
+ },
+ "seccion_0_bloque": [
+  {
+   "source_file": "mndt150",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 16,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "3e7328bf-8094-42e0-86b5-d31185d2be35",
+    "source_file": "MNDT150",
+    "n_entries": 16
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:id-200",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "3e7328bf-8094-42e0-86b5-d31185d2be35",
+    "status": "retired",
+    "source_pdf_filename": "MNDT150",
+    "sha": "backfill:321bdecb55eda9aa419a599d23e5e8d9b13d62e0cb67288ba289198a56785308",
+    "source_url": null,
+    "product_model": "ID-200",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:35:27.909333+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de d917a95d-a8f1-405c-ad86-edcba09f8ddb (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "d917a95d-a8f1-405c-ad86-edcba09f8ddb",
+    "status": "active",
+    "source_pdf_filename": "MNDT150.pdf",
+    "sha": "58644610c469b2d4dbd19ff738d99ee153c56aac0f823ebd7353c12bc57d6198",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT150.pdf",
+    "product_model": "ID-200",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:11:55.593038+00:00",
+    "conteos": {
+     "chunks_v2": 110,
+     "chunks": 646,
+     "chunks_v2_enunciados": 21,
+     "document_visual_assets": 66,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT150"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt250",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 4,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "309b9f8a-6971-426f-b09a-8dc3eb8faa81",
+    "source_file": "MNDT250",
+    "n_entries": 4
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:am-6000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "309b9f8a-6971-426f-b09a-8dc3eb8faa81",
+    "status": "retired",
+    "source_pdf_filename": "MNDT250",
+    "sha": "backfill:0b15c4851e012f20547666cb920fe7fbd41a59d1d4f3600b78c50b416054f020",
+    "source_url": null,
+    "product_model": "AM-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T01:53:24.19811+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de ee4a01b8-4eef-41a4-8146-75f8b35d1c34 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "ee4a01b8-4eef-41a4-8146-75f8b35d1c34",
+    "status": "active",
+    "source_pdf_filename": "MNDT250.pdf",
+    "sha": "2dbfe2584d948baaba9fc8ae9ef336dd7499cce2c38c37fb47567bf5a3a478cb",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT250.pdf",
+    "product_model": "AM-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:15:33.077702+00:00",
+    "conteos": {
+     "chunks_v2": 102,
+     "chunks": 540,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 73,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT250"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt255",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "8595c7c4-8e83-43b8-bece-0c05fa6844c5",
+    "source_file": "MNDT255",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:lcd-6000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "8595c7c4-8e83-43b8-bece-0c05fa6844c5",
+    "status": "retired",
+    "source_pdf_filename": "MNDT255",
+    "sha": "backfill:3828ef49b394148a06f31cc59cbb865bb16e5c76d3d52ec58250945f4ce15e95",
+    "source_url": null,
+    "product_model": "LCD-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:09:39.785808+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de afacdf35-7423-40f4-8a77-39f48d4b8a35 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "afacdf35-7423-40f4-8a77-39f48d4b8a35",
+    "status": "active",
+    "source_pdf_filename": "MNDT255.pdf",
+    "sha": "4808a57d000b08dcbcada5489cabf313c59c89ff0084f259935839acb28dc863",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT255.pdf",
+    "product_model": "LCD-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:18:23.907461+00:00",
+    "conteos": {
+     "chunks_v2": 21,
+     "chunks": 63,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 16,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT255"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt260",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "cf07a74d-5e92-43e5-944f-348d5ff63914",
+    "source_file": "MNDT260",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:am-2000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "cf07a74d-5e92-43e5-944f-348d5ff63914",
+    "status": "retired",
+    "source_pdf_filename": "MNDT260",
+    "sha": "backfill:f8c93c76d0173a78dd9d6d41b8409eee07306f83850396e34e756f6055baab26",
+    "source_url": null,
+    "product_model": "AM-2000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:30:08.891944+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 446da5f5-a037-4827-8a52-b12d44afe4ce (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "446da5f5-a037-4827-8a52-b12d44afe4ce",
+    "status": "active",
+    "source_pdf_filename": "MNDT260.pdf",
+    "sha": "7ef272c8ba2af118630f318e4828e6fd3613108ebd407c3bd2da1e0e4794d344",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT260.pdf",
+    "product_model": "AM-2000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:18:56.513275+00:00",
+    "conteos": {
+     "chunks_v2": 101,
+     "chunks": 544,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 71,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT260"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt390",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "609f0e11-2c47-4e29-bea3-c1b3ec3e0d43",
+    "source_file": "MNDT390",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:udact",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "609f0e11-2c47-4e29-bea3-c1b3ec3e0d43",
+    "status": "retired",
+    "source_pdf_filename": "MNDT390",
+    "sha": "backfill:827c366f76070b1cf2a4cd731472b06a1c504407e3607f21024827abd9834bce",
+    "source_url": null,
+    "product_model": "DT-390",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:30:35.47729+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 49a08cd1-e2b6-45dc-913f-f30e28b57ffe (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "49a08cd1-e2b6-45dc-913f-f30e28b57ffe",
+    "status": "active",
+    "source_pdf_filename": "MNDT390.pdf",
+    "sha": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT390.pdf",
+    "product_model": "UDACT",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev F",
+    "ingested_at": "2026-04-15T20:25:48.910121+00:00",
+    "conteos": {
+     "chunks_v2": 128,
+     "chunks": 789,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 83,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT390"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt440",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "351ff649-2b21-4a3f-abf9-73ce0391ff35",
+    "source_file": "MNDT440",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:nib-96",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "351ff649-2b21-4a3f-abf9-73ce0391ff35",
+    "status": "retired",
+    "source_pdf_filename": "MNDT440",
+    "sha": "backfill:7b91e142edcb83b1522c37ee506f148fa6fbd923de229cb72ebb3a86c926ded7",
+    "source_url": null,
+    "product_model": "NIB-96",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:29.096077+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 79869dab-5224-41e4-a32b-98630d2f0898 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "79869dab-5224-41e4-a32b-98630d2f0898",
+    "status": "active",
+    "source_pdf_filename": "MNDT440.pdf",
+    "sha": "cbee24442ec36033ad666931e1ab65d9d39545bf03208d0969c5e3b82e617d1b",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT440.pdf",
+    "product_model": "EL NIB-96",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev D",
+    "ingested_at": "2026-04-15T20:31:25.731485+00:00",
+    "conteos": {
+     "chunks_v2": 52,
+     "chunks": 297,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 32,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT440"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt530p",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 5,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "a3845c17-d648-4bf8-a4d5-357d0112bdda",
+    "source_file": "MNDT530P",
+    "n_entries": 5
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:park-2000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "a3845c17-d648-4bf8-a4d5-357d0112bdda",
+    "status": "retired",
+    "source_pdf_filename": "MNDT530P",
+    "sha": "backfill:ab2b7e8b48dedd662df5a08f09955c8f9e4ff5e09b816b9efd36335878d01c44",
+    "source_url": null,
+    "product_model": "PARK 2000 / PARK 5000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:48:51.063738+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 754f1b80-e85d-407b-a087-565552877507 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "754f1b80-e85d-407b-a087-565552877507",
+    "status": "active",
+    "source_pdf_filename": "MNDT530P.pdf",
+    "sha": "92a6a5be9c72068bc6ac4cbc05c2fc8f8e22dbfb60fad70005124b592be3df6a",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT530P.pdf",
+    "product_model": "PARK 2000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:41:43.316015+00:00",
+    "conteos": {
+     "chunks_v2": 3,
+     "chunks": 72,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 3,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "1.0",
+     "cita": "alarmas acústicas. **(A5) Documentos Descriptivos:** - Manual de usuario e instalación V1.0 (17 pp) de 2008-10 - Memoria de diseño de la central V 1.0 (21 pp), de 2007-10 - Anexos V",
+     "cita_verificada": true,
+     "patron": "\\bv\\.?\\s?([0-9]{1,2}[.\\-][0-9]{1,2})\\b"
+    },
+    "source_files_en_chunks": [
+     "MNDT530P"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt744i_b",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "80789d8b-6a19-46f8-9504-4ffa8420b197",
+    "source_file": "MNDT744I_B",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:nas-1u",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "80789d8b-6a19-46f8-9504-4ffa8420b197",
+    "status": "retired",
+    "source_pdf_filename": "MNDT744I_B",
+    "sha": "backfill:a1de41dbc992bf1674fbf8d6ebf3fb98ebe9aa004cc6ae5329a6060065fe58a7",
+    "source_url": null,
+    "product_model": "NAS-1u",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:30:37.07694+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 7cb57a84-5b33-4069-8c16-429fd57a246b (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "7cb57a84-5b33-4069-8c16-429fd57a246b",
+    "status": "active",
+    "source_pdf_filename": "MNDT744I_B.pdf",
+    "sha": "dc58f3590dc9ff5ba18f75546eb019faadb71fa8cd5a74c6ef20e1fdb3989459",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT744I_B.pdf",
+    "product_model": "NAS-1U",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:07:29.178081+00:00",
+    "conteos": {
+     "chunks_v2": 26,
+     "chunks": 91,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 20,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT744I_B"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt960i",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "18429c41-b85a-4dbc-bb9a-8933ec2b3de0",
+    "source_file": "MNDT960I",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:pol-1",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "18429c41-b85a-4dbc-bb9a-8933ec2b3de0",
+    "status": "retired",
+    "source_pdf_filename": "MNDT960I",
+    "sha": "backfill:3fc8430ca06c5e94b31b69b17bab1a39470023037d11234a66a383fb93ac0f70",
+    "source_url": null,
+    "product_model": "POL-1",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:51:01.009247+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de c295d7f9-f137-4ce4-96a6-d3fda323ba5c (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "c295d7f9-f137-4ce4-96a6-d3fda323ba5c",
+    "status": "active",
+    "source_pdf_filename": "MNDT960I.pdf",
+    "sha": "4e819e186d1dc270e1fc0835d744581186ab3c5f0149364af4d3e091edb990e9",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT960I.pdf",
+    "product_model": "POL-1",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:18:09.465456+00:00",
+    "conteos": {
+     "chunks_v2": 11,
+     "chunks": 20,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 7,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT960I"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt170",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "890d5cf6-ad70-4365-b464-4500fe1e15ca",
+    "source_file": "MPDT170",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:afp-300",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "890d5cf6-ad70-4365-b464-4500fe1e15ca",
+    "status": "retired",
+    "source_pdf_filename": "MPDT170",
+    "sha": "backfill:d354ff1fb593321689ab8be207059b0fd9ef115f623ea2e2c284a623d5ddd833",
+    "source_url": null,
+    "product_model": "AFP-300/AFP-400",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:23:46.591785+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 80b23534-b090-41ff-b01a-f7916e665fbd (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "80b23534-b090-41ff-b01a-f7916e665fbd",
+    "status": "active",
+    "source_pdf_filename": "MPDT170.pdf",
+    "sha": "9bf338656d36501297af3c90067165c5c3a2623357a3f71686bc5c94a73d1bbc",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT170.pdf",
+    "product_model": "AFP-400",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev B",
+    "ingested_at": "2026-04-15T21:19:57.477975+00:00",
+    "conteos": {
+     "chunks_v2": 60,
+     "chunks": 209,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 34,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MPDT170"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt230",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "6d46b4a2-9adf-4023-a1d8-a6d2c434c8a7",
+    "source_file": "MPDT230",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:afp4000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "6d46b4a2-9adf-4023-a1d8-a6d2c434c8a7",
+    "status": "retired",
+    "source_pdf_filename": "MPDT230",
+    "sha": "backfill:ce28bcbeae84f8bbbc1ccbeb64dd475eea9fedea5f712c5c4b2847f82b4098e2",
+    "source_url": null,
+    "product_model": "AFP4000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T01:58:22.556863+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 3e4bd0bb-0541-4d5c-89a7-291c259c539c (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "3e4bd0bb-0541-4d5c-89a7-291c259c539c",
+    "status": "active",
+    "source_pdf_filename": "MPDT230.pdf",
+    "sha": "f38a8b33b3ceb5ef75c1fe87e339bebcc4eb3f85ad23109a2360f690e50ad956",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT230.pdf",
+    "product_model": "AFP4000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:27:05.474159+00:00",
+    "conteos": {
+     "chunks_v2": 74,
+     "chunks": 153,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 39,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MPDT230"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt281",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "3a7e439f-0a14-4793-bc06-0756a97b1761",
+    "source_file": "MPDT281",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:afp1010",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "3a7e439f-0a14-4793-bc06-0756a97b1761",
+    "status": "retired",
+    "source_pdf_filename": "MPDT281",
+    "sha": "backfill:c5f02a84b86511b2eed54568b3560bc3514e51f5f7d2e28ce3295fecbc380cac",
+    "source_url": null,
+    "product_model": "AM2020/AFP1010",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:50:15.133813+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 932ac246-739c-4fc7-9d14-967bf8c1fef5 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "932ac246-739c-4fc7-9d14-967bf8c1fef5",
+    "status": "active",
+    "source_pdf_filename": "MPDT281.pdf",
+    "sha": "b1d9c12d2c9235d5590a1fbbca68bf80231cd7b6a55d7356721ffacbba737483",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT281.pdf",
+    "product_model": "AFP1010",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 6.0",
+    "ingested_at": "2026-04-15T21:30:46.648169+00:00",
+    "conteos": {
+     "chunks_v2": 17,
+     "chunks": 95,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 14,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "6.0",
+     "cita": "TO DEL MANUAL DE PROGRAMACIÓN DE LAS CENTRALES AM2020/AFP1010 # CONTROL POR EVENTO (CBE) Revisión 6.0 y 6.5 (Suplemento del manual *MP-DT-280*) [System diagram showing: - Top left: Device",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MPDT281"
+    ]
+   }
+  },
+  {
+   "source_file": "nco-10-multinglingual",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "b7cb94d1-df41-4317-8335-de92d40efd60",
+    "source_file": "NCO-10-multinglingual",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:nco-10",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "b7cb94d1-df41-4317-8335-de92d40efd60",
+    "status": "retired",
+    "source_pdf_filename": "NCO-10-multinglingual",
+    "sha": "backfill:e6a3005e61fcf487eff24559d143e078153237acb39e41d26657465ba94dda3d",
+    "source_url": null,
+    "product_model": "NCO-10",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T03:08:33.753229+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de c2ae8cae-19e4-42db-9737-355d6de0360a (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "c2ae8cae-19e4-42db-9737-355d6de0360a",
+    "status": "active",
+    "source_pdf_filename": "NCO-10-multinglingual.pdf",
+    "sha": "d57114cd8ce38229dc7b4c4e0463cfd331af0d4fc62cfeac20a3582f17f25ee1",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/NCO-10-multinglingual.pdf",
+    "product_model": "NCO-10",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev ent",
+    "ingested_at": "2026-04-15T21:37:53.445504+00:00",
+    "conteos": {
+     "chunks_v2": 3,
+     "chunks": 41,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 2,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "1-1",
+     "cita": "emperature | 0 to 50 °C | NOTIFIER ESPAÑA, S.L. Versión 1-1 / Abril 2004 55317001 CE Alcance.......................................................",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "NCO-10-multinglingual"
+    ]
+   }
+  },
+  {
+   "source_file": "smart 2_mt251_ita-eng",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "2f3536bc-f322-4990-9005-11cf5f8f8591",
+    "source_file": "Smart 2_MT251_Ita-Eng",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "sensitron:smart-2",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "2f3536bc-f322-4990-9005-11cf5f8f8591",
+    "status": "retired",
+    "source_pdf_filename": "Smart 2_MT251_Ita-Eng",
+    "sha": "backfill:6ecde3829e05f877d0629e726756e7a692e3492eb72da4b408fe1d480c606023",
+    "source_url": null,
+    "product_model": "SMART 2",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:03:40.460202+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+    "status": "active",
+    "source_pdf_filename": "Smart 2_MT251_Ita-Eng.pdf",
+    "sha": "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Sensitron/Smart_2_MT251_Ita-Eng.pdf",
+    "product_model": "SMART 2",
+    "manufacturer": "Sensitron",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:56:40.114876+00:00",
+    "conteos": {
+     "chunks_v2": 13,
+     "chunks": 10,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 9,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "8",
+     "cita": "o and CSQ UNI EN ISO 9001 logo] # MANUALE D'INSTALLAZIONE ED USO DEI RIVELATORI SMART 2 Rev.8 # USER MANUAL FOR SMART 2 GAS DETECTORS Rev.8 [Product image showing two gas detection",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "Smart 2_MT251_Ita-Eng"
+    ]
+   }
+  },
+  {
+   "source_file": "tidt104",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "c39c0456-27e0-4c92-9fe9-039bdec4684a",
+    "source_file": "TIDT104",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "unresolved:id3000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "c39c0456-27e0-4c92-9fe9-039bdec4684a",
+    "status": "retired",
+    "source_pdf_filename": "TIDT104",
+    "sha": "backfill:38124fef2b1cedfe7ff823f9f00fc0eab8481d524938edd4f42d7a9ea2c1989a",
+    "source_url": null,
+    "product_model": "ID3000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T03:09:19.701861+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 2c8e62dd-2289-4a19-b448-ad8aae2e02aa (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "2c8e62dd-2289-4a19-b448-ad8aae2e02aa",
+    "status": "active",
+    "source_pdf_filename": "TIDT104.pdf",
+    "sha": "4cb3c98b18671aeb39dc019019c8fa326fda925b84fb7b338ee705f292e92ff7",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/TIDT104.pdf",
+    "product_model": "ID3000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T22:00:27.575172+00:00",
+    "conteos": {
+     "chunks_v2": 2,
+     "chunks": 14,
+     "chunks_v2_enunciados": 1,
+     "document_visual_assets": 2,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "13",
+     "cita": "r de la versión de software 4.54 y las tarjetas de lazo del sistema deben ser todas de la versión 13 pero no es necesario actualizar los equipos de campo. La central ID2000 no es compatible",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "TIDT104"
+    ]
+   }
+  },
+  {
+   "source_file": "tidt108",
+   "tier": "tier_a",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "3737c7f5-996c-4a3f-9fee-abc983147c01",
+    "source_file": "TIDT108",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "unresolved:id3000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "3737c7f5-996c-4a3f-9fee-abc983147c01",
+    "status": "retired",
+    "source_pdf_filename": "TIDT108",
+    "sha": "backfill:e4b54e69a92bfefaf76e00e60bfc549bcaed17abc3e6cdcbc382c177e40d44ec",
+    "source_url": null,
+    "product_model": "ID3000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:37:39.745449+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 2b925c7b-8ab7-4fbd-ba27-fb041c07ffb7 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "2b925c7b-8ab7-4fbd-ba27-fb041c07ffb7",
+    "status": "active",
+    "source_pdf_filename": "TIDT108.pdf",
+    "sha": "9552dd5fb89bb51a436b2cd9e4c7f94884e33a7a399f9b0dba15a925ef286bd7",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/TIDT108.pdf",
+    "product_model": "ID3000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T22:00:40.675749+00:00",
+    "conteos": {
+     "chunks_v2": 2,
+     "chunks": 13,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 1,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "4",
+     "cita": "DT-108** **18/01/2010** # Información # TI # Centrales ID3000 # Características de la versión 4.6x Las centrales de la serie ID3000 se han renovado en muchos aspectos y, al mismo tiemp",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "TIDT108"
+    ]
+   }
+  },
+  {
+   "source_file": "33976_13_vesda-e_vep-a00-p_product_guide_a4_spanish_lores",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 3,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "23ff1fcf-4698-4813-a298-fb0d63c6a161",
+    "source_file": "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores",
+    "n_entries": 3
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "xtralis:vep-a00-1p",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "23ff1fcf-4698-4813-a298-fb0d63c6a161",
+    "status": "retired",
+    "source_pdf_filename": "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores",
+    "sha": "backfill:d3341917f4022737fe8ae6a5539693ea3f7b1129ec3d3dd9333b653556f170ff",
+    "source_url": null,
+    "product_model": "VESDA-E VEP",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:26:47.785497+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de b22fdb7f-f9e9-49d0-9e40-e840c24d25e9 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "b22fdb7f-f9e9-49d0-9e40-e840c24d25e9",
+    "status": "active",
+    "source_pdf_filename": "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf",
+    "sha": "0be671b32c8669fc981a6d26ca0101fa3fc7c5d369968e77bbc6c49dfc5e172b",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Xtralis/33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf",
+    "product_model": "VESDA-E-VEP/VEP-A00-P/VEP-A00",
+    "manufacturer": "Xtralis",
+    "revision_columna": null,
+    "ingested_at": "2026-04-26T20:40:52.156407+00:00",
+    "conteos": {
+     "chunks_v2": 120,
+     "chunks": 944,
+     "chunks_v2_enunciados": 11,
+     "document_visual_assets": 77,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "constituye",
+     "cita": "marcas comerciales que aparecen pertenecen a sus respectivos propietarios. El uso de este documento no constituye ni genera una licencia o cualquier otro derecho para utilizar el nombre, la marca come",
+     "cita_verificada": true,
+     "patron": "\\bdoc(?:umento)?\\.?\\s*n[ºo°]?\\s*([A-Z0-9"
+    },
+    "source_files_en_chunks": [
+     "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt500",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 6,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "643e3377-4efb-48ad-82ea-93174c843233",
+    "source_file": "MNDT500",
+    "n_entries": 6
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:g-500-s-32",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "643e3377-4efb-48ad-82ea-93174c843233",
+    "status": "retired",
+    "source_pdf_filename": "MNDT500",
+    "sha": "backfill:915a38190be4364d9558fd4601af369b28ae4c3fa9eb56c97eb439a86cf5466c",
+    "source_url": null,
+    "product_model": "G-500",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T03:03:25.373817+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 90787236-bb67-4f28-894d-8cff85bdd81d (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "90787236-bb67-4f28-894d-8cff85bdd81d",
+    "status": "active",
+    "source_pdf_filename": "MNDT500.pdf",
+    "sha": "15d37cf59f36367f67fd9c8b6dd05234db9f730a85d93f8db0622b55fd9a96b0",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT500.pdf",
+    "product_model": "G-500/G-500-S/G-500-2LR",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A.1",
+    "ingested_at": "2026-04-15T20:32:18.111153+00:00",
+    "conteos": {
+     "chunks_v2": 51,
+     "chunks": 109,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 34,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT500"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt503",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 5,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "9ccb9c98-58a3-4887-81ff-694c2b0e2f58",
+    "source_file": "MNDT503",
+    "n_entries": 5
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:g-100-4",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "9ccb9c98-58a3-4887-81ff-694c2b0e2f58",
+    "status": "retired",
+    "source_pdf_filename": "MNDT503",
+    "sha": "backfill:36713f73649143aec7dd3da285086c32b1f4fb7798863c9bb1e4936cb64cbbde",
+    "source_url": null,
+    "product_model": "G-100",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:29:18.193238+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de acf63276-60d7-498d-8b97-c258dd53647f (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "acf63276-60d7-498d-8b97-c258dd53647f",
+    "status": "active",
+    "source_pdf_filename": "MNDT503.pdf",
+    "sha": "483eaae5127084f0b6958243d65692d19d39467fd0a4ebc4fc1db38a32606642",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT503.pdf",
+    "product_model": "G-100/G-100-R8/G-100-2SE",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A.1",
+    "ingested_at": "2026-04-15T20:34:17.903213+00:00",
+    "conteos": {
+     "chunks_v2": 46,
+     "chunks": 171,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 36,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT503"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt506",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 6,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "1cd40961-0c7b-4f71-9209-75fc741a34d0",
+    "source_file": "MNDT506",
+    "n_entries": 6
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:g-100-r-12",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "1cd40961-0c7b-4f71-9209-75fc741a34d0",
+    "status": "retired",
+    "source_pdf_filename": "MNDT506",
+    "sha": "backfill:230ccdbb74609d5615795899ca8e996369ca5e4b4b10d7d1cdc5b9ede228a22e",
+    "source_url": null,
+    "product_model": "G-100-R",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:21:45.714093+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de f2a27fb6-d515-47cb-9594-5fd129031164 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "f2a27fb6-d515-47cb-9594-5fd129031164",
+    "status": "active",
+    "source_pdf_filename": "MNDT506.pdf",
+    "sha": "0d7af7fe021657114dd17ef0861a4919b6205ce8a04332006bfd23a6feceb2b1",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT506.pdf",
+    "product_model": "G-100-R",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A.1",
+    "ingested_at": "2026-04-15T20:36:05.674436+00:00",
+    "conteos": {
+     "chunks_v2": 53,
+     "chunks": 166,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 39,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT506"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt515",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 3,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "b6169b43-4946-40b1-9e11-67d1f2f0811d",
+    "source_file": "MNDT515",
+    "n_entries": 3
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:pl4",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "b6169b43-4946-40b1-9e11-67d1f2f0811d",
+    "status": "retired",
+    "source_pdf_filename": "MNDT515",
+    "sha": "backfill:c7b340a04b83059384c61623c4b3b929c376f3c4060a0bbf3936daa9937b539d",
+    "source_url": null,
+    "product_model": "PL4",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T01:58:14.135441+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3",
+    "status": "active",
+    "source_pdf_filename": "MNDT515.pdf",
+    "sha": "b9893c57e20e15eb96327f32a5fe8677c82fb0587056abc8ab0aea3a07766ee9",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT515.pdf",
+    "product_model": "PL4",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 0",
+    "ingested_at": "2026-04-15T20:37:34.273764+00:00",
+    "conteos": {
+     "chunks_v2": 29,
+     "chunks": 273,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 23,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "0",
+     "cita": "ede ser modificada sin previo aviso.* | **MN-DT-515\\_B**<br/>**25 MARZO 2004**<br/>MT573 Rev 0 | | ------------------------------------------------------ | MN-DT-515 NOTIFIER E",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT515"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt615",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "700af1a7-28b3-468b-8780-d1b10a9a8e8a",
+    "source_file": "MNDT615",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:smart-2",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "700af1a7-28b3-468b-8780-d1b10a9a8e8a",
+    "status": "retired",
+    "source_pdf_filename": "MNDT615",
+    "sha": "backfill:0d25b709652907c5c5bef936b308d3afe28805f4915ecf10bffebdfb421c274e",
+    "source_url": null,
+    "product_model": "DT-615",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:19:45.698214+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de c4f3d893-be94-4c64-9e10-a19b0aa1afe8 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "c4f3d893-be94-4c64-9e10-a19b0aa1afe8",
+    "status": "active",
+    "source_pdf_filename": "MNDT615.pdf",
+    "sha": "5c52786d815b3a0ec4a11e70da6bffde7aa1ccced531408308c87146ab507bca",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT615.pdf",
+    "product_model": "SMART 2",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:45:26.870175+00:00",
+    "conteos": {
+     "chunks_v2": 7,
+     "chunks": 53,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 5,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT615"
+    ]
+   }
+  },
+  {
+   "source_file": "rp1r - man ita r.a2",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "6972bec7-199a-432d-a40e-c125b5d7e54a",
+    "source_file": "RP1R - MAN ITA r.A2",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:rp1r",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "6972bec7-199a-432d-a40e-c125b5d7e54a",
+    "status": "retired",
+    "source_pdf_filename": "RP1R - MAN ITA r.A2",
+    "sha": "backfill:397dff7158d7d9d0107e6322b1e4ee7aeafc7c06fbea302b6219060311feb19b",
+    "source_url": null,
+    "product_model": "RP1R",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:50:30.305571+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 03cf3cca-098c-4511-96ac-4885513c2019 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "03cf3cca-098c-4511-96ac-4885513c2019",
+    "status": "active",
+    "source_pdf_filename": "RP1R - MAN ITA r.A2.pdf",
+    "sha": "3e837f66ac74072e95a5a1fd079deec349287b5b948ce019e134a548c04bc611",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/RP1R_-_MAN_ITA_r.A2.pdf",
+    "product_model": "RP1r",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A.2",
+    "ingested_at": "2026-04-15T21:50:08.253558+00:00",
+    "conteos": {
+     "chunks_v2": 3,
+     "chunks": 261,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 3,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "A",
+     "cita": "ed Uso PAGINA - 2 NOTIFIER ITALIA Manuale di installazione ed uso Doc. M-204.1-RP1R-ITA Rev A.2 RP1R RP1R_manu - Width dimension: 39.50 | 60.00 | [30.00] [30.00] [30.00] [30.00] [30.",
+     "cita_verificada": true,
+     "patron": "\\brev\\.?\\s*([A-Z]\\d{0,2})\\b"
+    },
+    "source_files_en_chunks": [
+     "RP1R - MAN ITA r.A2"
+    ]
+   }
+  },
+  {
+   "source_file": "tg-1020-tec",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "4682b6f7-6238-4f1b-b770-6551451efebc",
+    "source_file": "TG-1020-TEC",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "unresolved:tg-1020",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "4682b6f7-6238-4f1b-b770-6551451efebc",
+    "status": "retired",
+    "source_pdf_filename": "TG-1020-TEC",
+    "sha": "backfill:1b5e869e872985331dbf07ac9e18e991b6f6c9fcb0ee1fa51c630a8a225d5383",
+    "source_url": null,
+    "product_model": "TG-1020",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:10:22.933064+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 288e3202-3f8c-4168-8c8a-33842a8def77 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "288e3202-3f8c-4168-8c8a-33842a8def77",
+    "status": "active",
+    "source_pdf_filename": "TG-1020-TEC.pdf",
+    "sha": "c546221feaebb69a81f49399768f875c81220fad3aba94806fe149ecaa7c9882",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/TG-1020-TEC.pdf",
+    "product_model": "TG-1020",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 5.0",
+    "ingested_at": "2026-04-15T21:57:47.257172+00:00",
+    "conteos": {
+     "chunks_v2": 63,
+     "chunks": 165,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 50,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "5.0",
+     "cita": "***TG - 1020 MANUAL DE CONFIGURACIÓN (Rev.: 5.0) Abril 1998 Desarrollo de Sistemas Integrados de Control, S.L.*** MANUAL DE CONFIGURACIÓ",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "TG-1020-TEC"
+    ]
+   }
+  },
+  {
+   "source_file": "tg-1020-usu",
+   "tier": "tier_b",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "abb55e52-a3d4-4056-ba80-1002e33f2c9b",
+    "source_file": "TG-1020-USU",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "unresolved:tg-1020",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "abb55e52-a3d4-4056-ba80-1002e33f2c9b",
+    "status": "retired",
+    "source_pdf_filename": "TG-1020-USU",
+    "sha": "backfill:ac785c145c80f4373b6abd9c296dcc0a6a90d98ad65379e97e16b058cc3d3bb2",
+    "source_url": null,
+    "product_model": "TG-1020",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:12.194559+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 2ad4e69f-987b-452e-aefd-00a47457c4c6 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "2ad4e69f-987b-452e-aefd-00a47457c4c6",
+    "status": "active",
+    "source_pdf_filename": "TG-1020-USU.pdf",
+    "sha": "c5f8cf545df008004c86eb0abca1d0f0e6b545e5d50b2f7aa68897e8876c8be7",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/TG-1020-USU.pdf",
+    "product_model": "TG-1020",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 5.0",
+    "ingested_at": "2026-04-15T21:58:43.847577+00:00",
+    "conteos": {
+     "chunks_v2": 54,
+     "chunks": 206,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 49,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "5.0",
+     "cita": "***TG - 1020 MANUAL DE USUARIO (Rev.: 5.0) Abril 1998 Desarrollo de Sistemas Integrados de Control, S.L.*** MANUAL DE USUARIOÍNDIC",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "TG-1020-USU"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt1300i_e",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "a05f27f7-b797-41f9-b493-cbb2c0d6c414",
+    "source_file": "MNDT1300I_E",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:ps3",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "a05f27f7-b797-41f9-b493-cbb2c0d6c414",
+    "status": "retired",
+    "source_pdf_filename": "MNDT1300I_E",
+    "sha": "backfill:44585ddce547fe36a71ebd4c2609be2abf7250c1495fc21e0a0b6619992d905e",
+    "source_url": null,
+    "product_model": "PS Series",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:06:55.291212+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de a9a45a96-45a1-4ff9-8a3d-f979b9b55b0f (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "a9a45a96-45a1-4ff9-8a3d-f979b9b55b0f",
+    "status": "active",
+    "source_pdf_filename": "MNDT1300I_E.pdf",
+    "sha": "d06f5c37b6935ff26de0b5e7c72928c76aec4f6a9a58d1542202b5a9dbd92ef4",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT1300I_E.pdf",
+    "product_model": "MNDT-1300I",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 3.0",
+    "ingested_at": "2026-04-15T20:10:59.258437+00:00",
+    "conteos": {
+     "chunks_v2": 16,
+     "chunks": 135,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 11,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "3.0",
+     "cita": "y Unit # PS SERIES ## *PS3 and PS5* # User manual **17 MAY 2007** **MN-DT-1300I_E** **Rev.: 3.0** *Information in this document is subject to change without notice.* MN-DT-1300I_E 2",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT1300I_E"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt1300_e",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "7268b1ad-726a-48bb-9c55-be84cfd1374e",
+    "source_file": "MNDT1300_E",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:ps3",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "7268b1ad-726a-48bb-9c55-be84cfd1374e",
+    "status": "retired",
+    "source_pdf_filename": "MNDT1300_E",
+    "sha": "backfill:2272bc3dee13a9522db1cdd3c5a3d448ef60765028ce0235a5b0b69204c54930",
+    "source_url": null,
+    "product_model": "PS Series",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:46:06.761592+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de d61cc3d7-4a07-4039-832e-a785105afdc5 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "d61cc3d7-4a07-4039-832e-a785105afdc5",
+    "status": "active",
+    "source_pdf_filename": "MNDT1300_E.pdf",
+    "sha": "42ec219468ddbb29ab39469d4eaec21e67e28d3a8ad2f686889ca064b03a2cbd",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT1300_E.pdf",
+    "product_model": "PS SERIES",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:10:20.473533+00:00",
+    "conteos": {
+     "chunks_v2": 21,
+     "chunks": 148,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 15,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "3.0",
+     "cita": "ts along the bottom edge.] # Manual de instrucciones **17 MAYO 2007** **MN-DT-1300_E** **Versión 3.0** ---- *Toda la información contenida en este documento puede ser modificada sin previo",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "MNDT1300_E"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt350",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 23,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "0b90a14c-2a10-4b10-96d2-d40e2f4186a7",
+    "source_file": "MNDT350",
+    "n_entries": 23
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:transponder-serie-xp",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "0b90a14c-2a10-4b10-96d2-d40e2f4186a7",
+    "status": "retired",
+    "source_pdf_filename": "MNDT350",
+    "sha": "backfill:033250157b0ad715522a7c6ff92a624c3f37e1b5957fcfe39f8c1ff5c4f0c963",
+    "source_url": null,
+    "product_model": "Serie XP",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:00:16.790461+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 2d7f3a79-bda9-400c-9629-a830110d52e7 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "2d7f3a79-bda9-400c-9629-a830110d52e7",
+    "status": "active",
+    "source_pdf_filename": "MNDT350.pdf",
+    "sha": "17747cfa4a39af7e620c7e30b0e5f8eea12dd31bd65d1ec2a1ed36c235cdefc5",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT350.pdf",
+    "product_model": "TRANSPONDER SERIE XP",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev D",
+    "ingested_at": "2026-04-15T20:22:36.54347+00:00",
+    "conteos": {
+     "chunks_v2": 77,
+     "chunks": 269,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 52,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT350"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt400",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 4,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "996551c8-131a-471c-9400-77c74aead225",
+    "source_file": "MNDT400",
+    "n_entries": 4
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:lcd-80",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "996551c8-131a-471c-9400-77c74aead225",
+    "status": "retired",
+    "source_pdf_filename": "MNDT400",
+    "sha": "backfill:ff7e5ab68e6d993e69d99a726f90ae3daab5c6681b9e6fc7537c27937a65bd60",
+    "source_url": null,
+    "product_model": "LCD-80",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:36:36.412924+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de c604426a-a05e-4c4f-a78a-3a8e5cb24673 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "c604426a-a05e-4c4f-a78a-3a8e5cb24673",
+    "status": "active",
+    "source_pdf_filename": "MNDT400.pdf",
+    "sha": "0e42cdbcd76c55f68b22bdcf8d65300bde3425e2c75e162ca00de6d0a3d12a11",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT400.pdf",
+    "product_model": "LCD-80",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev B",
+    "ingested_at": "2026-04-15T20:27:39.778464+00:00",
+    "conteos": {
+     "chunks_v2": 49,
+     "chunks": 372,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 41,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT400"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt402",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "83763f33-8827-4aae-b6b5-317755f8f9d1",
+    "source_file": "MNDT402",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:lcd-80tm",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "83763f33-8827-4aae-b6b5-317755f8f9d1",
+    "status": "retired",
+    "source_pdf_filename": "MNDT402",
+    "sha": "backfill:c298ba88fbf5c050be8022c55be5df9c1b30bbdcbe0e81b98d9adc86808ee72c",
+    "source_url": null,
+    "product_model": "LCD-80",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:03:23.596312+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 3a58b47d-69f4-423a-a476-e1f67ac42725 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "3a58b47d-69f4-423a-a476-e1f67ac42725",
+    "status": "active",
+    "source_pdf_filename": "MNDT402.pdf",
+    "sha": "69996d4e5b50c7fb27bbc6f1ed9719f89efb319df05266399458417c82ddc07c",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT402.pdf",
+    "product_model": "LCD-80TM",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A",
+    "ingested_at": "2026-04-15T20:28:30.788397+00:00",
+    "conteos": {
+     "chunks_v2": 13,
+     "chunks": 72,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 10,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT402"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt410",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 15,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "65a37e17-5e00-4f3c-a309-c3e5b7bda838",
+    "source_file": "MNDT410",
+    "n_entries": 15
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:acm-16at",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "65a37e17-5e00-4f3c-a309-c3e5b7bda838",
+    "status": "retired",
+    "source_pdf_filename": "MNDT410",
+    "sha": "backfill:baa55cb2d20636a611edce8e3f857d6e749b7f95f5ae8aeb50604f06013c3c67",
+    "source_url": null,
+    "product_model": "DT-410",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:46:45.68163+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 5403c7ed-aa89-4125-aa28-946deca1a4be (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "5403c7ed-aa89-4125-aa28-946deca1a4be",
+    "status": "active",
+    "source_pdf_filename": "MNDT410.pdf",
+    "sha": "a7880ce84cf9e5d9678cd3eb4f198b1cadbd6743ce128bb9ebec721d9da98ee6",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT410.pdf",
+    "product_model": "ACS",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev E.1",
+    "ingested_at": "2026-04-15T20:29:13.287764+00:00",
+    "conteos": {
+     "chunks_v2": 47,
+     "chunks": 116,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 39,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT410"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt520",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 4,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "621aa70f-bbed-4788-804f-340b0e262156",
+    "source_file": "MNDT520",
+    "n_entries": 4
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:g-mtslb1",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "621aa70f-bbed-4788-804f-340b0e262156",
+    "status": "retired",
+    "source_pdf_filename": "MNDT520",
+    "sha": "backfill:d8ba7da978f0552fc0fbbd1838570de7aa21d00ae569089f62dc241f905f4c91",
+    "source_url": null,
+    "product_model": "GALILEO",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:03.43159+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 3493f571-fb54-452d-8e6f-da369d0b6f12 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "3493f571-fb54-452d-8e6f-da369d0b6f12",
+    "status": "active",
+    "source_pdf_filename": "MNDT520.pdf",
+    "sha": "b2678356f29908bff692fc5787010eae086219a6bb8b4b8279d20a678f64a3f7",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT520.pdf",
+    "product_model": "MNDT-520",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 0",
+    "ingested_at": "2026-04-15T20:39:38.683736+00:00",
+    "conteos": {
+     "chunks_v2": 76,
+     "chunks": 546,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 55,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "0",
+     "cita": "VOLUTION** # Manual de Instrucciones **MN-DT-520_A** **02 FEBRERO 2004** **Doc. MT217E. Rev 0** *Toda la información contenida en este documento puede ser modificada sin previo aviso",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT520"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt575",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "7e554fdb-89a7-4a35-98e3-fa2bce2c0717",
+    "source_file": "MNDT575",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:securnet-plus",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "7e554fdb-89a7-4a35-98e3-fa2bce2c0717",
+    "status": "retired",
+    "source_pdf_filename": "MNDT575",
+    "sha": "backfill:bcacab3c55975990fa72199fe551d525cc553a4e6d2f8690a673ef60116908f9",
+    "source_url": null,
+    "product_model": "SECURNET PLUS",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:27:18.185449+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 6c784967-fbcc-45b5-916a-c01baf3d5553 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "6c784967-fbcc-45b5-916a-c01baf3d5553",
+    "status": "active",
+    "source_pdf_filename": "MNDT575.pdf",
+    "sha": "8e9a8b4ea7d462bc89f5741fb97a2168025de203d74023d253d0bf2eb992bed1",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT575.pdf",
+    "product_model": "SECURNET PLUS",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 01",
+    "ingested_at": "2026-04-15T20:42:19.151745+00:00",
+    "conteos": {
+     "chunks_v2": 50,
+     "chunks": 325,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 32,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "01",
+     "cita": "nual de usuario e instalación **COPIA PROVISIONAL** MN-DT-575 19 MARZO 2001 Doc: MT867. Rev. 01 MN-DT-575 NOTIFIER ESPAÑA 2 de 35 # ÍNDICE ## 1",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT575"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt605",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 4,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "12d9af3e-4f95-4d96-81c0-e7180fb55817",
+    "source_file": "MNDT605",
+    "n_entries": 4
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:ga-500-ep",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "12d9af3e-4f95-4d96-81c0-e7180fb55817",
+    "status": "retired",
+    "source_pdf_filename": "MNDT605",
+    "sha": "backfill:ec7a2c0a907515722faebffa257ba5cad40af16b63641f6844cb61c00967303f",
+    "source_url": null,
+    "product_model": "GD-520-CO, GA-520-CO, GD-500-EP, GA-500-EP",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T03:04:51.694304+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de c54c20a4-1b26-49ab-96d4-b9a99dbea0ba (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "c54c20a4-1b26-49ab-96d4-b9a99dbea0ba",
+    "status": "active",
+    "source_pdf_filename": "MNDT605.pdf",
+    "sha": "7f8b3aa3aec0a1b8d8c1978eb03ba103f554a7cbddb579c80ecf02fccee67cc0",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT605.pdf",
+    "product_model": "MNDT-605",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:44:35.914718+00:00",
+    "conteos": {
+     "chunks_v2": 8,
+     "chunks": 67,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 8,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT605"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt607",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "9c69590f-70f7-4bd3-9fa2-79f135a6b820",
+    "source_file": "MNDT607",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:smart-1",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "9c69590f-70f7-4bd3-9fa2-79f135a6b820",
+    "status": "retired",
+    "source_pdf_filename": "MNDT607",
+    "sha": "backfill:22c6088f99c272b5fb76951226987cfc67cc5e460fb0e56e17cdf62883a5b4b7",
+    "source_url": null,
+    "product_model": "SMART 1",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T01:52:55.375662+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de f478ca19-0470-4c40-a98f-2f92cd32bd81 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "f478ca19-0470-4c40-a98f-2f92cd32bd81",
+    "status": "active",
+    "source_pdf_filename": "MNDT607.pdf",
+    "sha": "51942d1e5de40835f1369f8aeb84f21c966c3d5a3dfb74263c1bf62db6bbc034",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT607.pdf",
+    "product_model": "SMART 1",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:45:08.159857+00:00",
+    "conteos": {
+     "chunks_v2": 5,
+     "chunks": 53,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 4,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT607"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt625",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "a798da74-4379-42b1-9547-fbfa1757bb7f",
+    "source_file": "MNDT625",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:smart-3-cc",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "a798da74-4379-42b1-9547-fbfa1757bb7f",
+    "status": "retired",
+    "source_pdf_filename": "MNDT625",
+    "sha": "backfill:31c977e4683ca32e5d8a0c836614d43e85ea0e281517f556c9b5a3709cf09e4a",
+    "source_url": null,
+    "product_model": "SMART 3",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:51:19.705578+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 7601da55-96b9-4991-b97a-0b0ce9b44030 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "7601da55-96b9-4991-b97a-0b0ce9b44030",
+    "status": "active",
+    "source_pdf_filename": "MNDT625.pdf",
+    "sha": "2424aca13ac362d9ba4a83c65c998e63f54ed6b4b0bea34e2f5b8a1f0d6716e2",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT625.pdf",
+    "product_model": "SMART 3",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 1",
+    "ingested_at": "2026-04-15T20:47:24.474299+00:00",
+    "conteos": {
+     "chunks_v2": 18,
+     "chunks": 116,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 14,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "1",
+     "cita": "ATEX certification marking] # Manual de Usuario **MN-DT-625_E** 12 JUNIO 2009 (MTEX2080 rev.1) *Toda la información contenida en este documento puede ser modificada sin previo aviso.",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT625"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt626",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 15,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "25b925bd-ae21-4ff1-9246-184b8b09a045",
+    "source_file": "MNDT626",
+    "n_entries": 15
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:s2138sd",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "25b925bd-ae21-4ff1-9246-184b8b09a045",
+    "status": "retired",
+    "source_pdf_filename": "MNDT626",
+    "sha": "backfill:8d01499f80d144cedc1b90a5c3b9cf02421f187a30b315a2716bb20f081fdea0",
+    "source_url": null,
+    "product_model": "SMART 3",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:00:49.958605+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 0ef10ac7-fb05-47bd-a85f-de393bbac45e (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+    "status": "active",
+    "source_pdf_filename": "MNDT626.pdf",
+    "sha": "509dee368f41fa9a2c2eaad65903e0f6aceab6a21e341a47841f626eac70aebc",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT626.pdf",
+    "product_model": "SMART 3",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 5",
+    "ingested_at": "2026-04-15T20:47:48.039557+00:00",
+    "conteos": {
+     "chunks_v2": 23,
+     "chunks": 184,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 17,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "5",
+     "cita": "CC-CD (ST/x) # *Manual de Usuario* | **MN-DT-626\\_F**<br/>7 OCTUBRE 2009<br/>(MTX2081, rev. 5) | | --------------------------------------------------------- | *Toda la información co",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT626"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt635",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "89b21f27-e2d8-4a8d-8663-af71ab6df943",
+    "source_file": "MNDT635",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:lisa-2-eex-d",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "89b21f27-e2d8-4a8d-8663-af71ab6df943",
+    "status": "retired",
+    "source_pdf_filename": "MNDT635",
+    "sha": "backfill:13f0ff98c234054ec889f72a7fa0d5d8bbfb923958b3496e1adc2e0da80d3d93",
+    "source_url": null,
+    "product_model": "LISA 2",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:12:50.781089+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 359934f9-c37c-4a86-84bb-9f90a7212667 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "359934f9-c37c-4a86-84bb-9f90a7212667",
+    "status": "active",
+    "source_pdf_filename": "MNDT635.pdf",
+    "sha": "28c58867c6fa967e324401dd9f8d6f412031566c1b64b7ef7e6410aee15a2463",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT635.pdf",
+    "product_model": "LISA 2",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 0",
+    "ingested_at": "2026-04-15T20:49:12.025714+00:00",
+    "conteos": {
+     "chunks_v2": 12,
+     "chunks": 102,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 9,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "0",
+     "cita": "T6 Ex II 3GD EEx nA IIC T6 # Manual de Usuario **MN-DT-635** 24 NOVIEMBRE 2004 (MT1269, REV 0) *Toda la información contenida en este documento puede ser modificada sin previo aviso.",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT635"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt646_smart3g toxic_sp-en",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 16,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "43436831-0438-4f9d-bef8-b3151b93f528",
+    "source_file": "MNDT646_SMART3G toxic_SP-EN",
+    "n_entries": 16
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:s2138sd",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "43436831-0438-4f9d-bef8-b3151b93f528",
+    "status": "retired",
+    "source_pdf_filename": "MNDT646_SMART3G toxic_SP-EN",
+    "sha": "backfill:5e7fb53e1e3ce3bfd6b5708a043037fb4a0fcf91fd682f4c4196ecb52a835a17",
+    "source_url": null,
+    "product_model": "SMART3G",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:54.813462+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de eb4f831e-80da-452a-b581-d26bbd578710 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "eb4f831e-80da-452a-b581-d26bbd578710",
+    "status": "active",
+    "source_pdf_filename": "MNDT646_SMART3G toxic_SP-EN.pdf",
+    "sha": "3462260a9558e5996cd3361aaee9e65a5f4df05eaa3e96ff6a7829ef4820e855",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT646_SMART3G_toxic_SP-EN.pdf",
+    "product_model": "SMART3G",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T20:49:34.435339+00:00",
+    "conteos": {
+     "chunks_v2": 37,
+     "chunks": 174,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 18,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "1",
+     "cita": "contenida en este documento puede ser modificada sin previo aviso. MN-DT-646 / (MTEX2785 rev1) 28 FEBRERO 2012 Manual de usuario e instalación / Installation and User Manual SMART3G",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT646_SMART3G toxic_SP-EN"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt650",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 3,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "c84ca057-b91e-49f1-afd9-6664ba270e9d",
+    "source_file": "MNDT650",
+    "n_entries": 3
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:smart-2",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "c84ca057-b91e-49f1-afd9-6664ba270e9d",
+    "status": "retired",
+    "source_pdf_filename": "MNDT650",
+    "sha": "backfill:4e5b1882020695ab3435dc105c0b95e056e3f3ea2b894c5096bf51eeb76e4b0a",
+    "source_url": null,
+    "product_model": "MN-DT-650",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:32:41.662327+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de be99c95b-6693-46f9-892e-0ecbafd8f49d (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "be99c95b-6693-46f9-892e-0ecbafd8f49d",
+    "status": "active",
+    "source_pdf_filename": "MNDT650.pdf",
+    "sha": "4140724ce34003678b483dc979ef89eae33f1a5d2b2c45943dfb957d1272bac7",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT650.pdf",
+    "product_model": "MNDT-650",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 4",
+    "ingested_at": "2026-04-15T20:49:52.717131+00:00",
+    "conteos": {
+     "chunks_v2": 13,
+     "chunks": 48,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 6,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "4",
+     "cita": "orners.] ## Manual de Instrucciones > **MN-DT-650** > **23 FEBRERO 2001** > Doc.: mt251 Rev.: 4; mt251 Rev: 2 ## ÍNDICE **1 INTRODUCCIÓN** ............................................",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT650"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt655",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 4,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "537879d2-e0b8-430c-9d8c-339215ddcc5f",
+    "source_file": "MNDT655",
+    "n_entries": 4
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:catalix-12",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "537879d2-e0b8-430c-9d8c-339215ddcc5f",
+    "status": "retired",
+    "source_pdf_filename": "MNDT655",
+    "sha": "backfill:825047f94ceafcab7ad61204923b2630973886ff2b71e61034604299e577abc4",
+    "source_url": null,
+    "product_model": "Serie DOMÉSTICA (CAT/220, CAT/12, COMBIX/220, COMBIX/12)",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:34:53.021523+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 12278b1f-434b-4485-8940-8d95276d90c5 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "12278b1f-434b-4485-8940-8d95276d90c5",
+    "status": "active",
+    "source_pdf_filename": "MNDT655.pdf",
+    "sha": "c1f7d1e11621f030f8252e554f69a5417dd591ac08b578d3f5601858731a3be4",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT655.pdf",
+    "product_model": "MNDT-655",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev 0",
+    "ingested_at": "2026-04-15T20:50:46.229268+00:00",
+    "conteos": {
+     "chunks_v2": 12,
+     "chunks": 56,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 9,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "0",
+     "cita": "und] # Manual de Instrucciones | **MN-DT-655**<br/>**13 ENERO 2000**<br/>**Doc.: mt143E Rev.: 0** | | ---------------------------------------------------------------- | *Toda la inform",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT655"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt741",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "2fc17b63-6813-4780-9870-4373e1199103",
+    "source_file": "MNDT741",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:nas",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "2fc17b63-6813-4780-9870-4373e1199103",
+    "status": "retired",
+    "source_pdf_filename": "MNDT741",
+    "sha": "backfill:798468d6a78786be21190f524774f889cde292a3f3c47306df32ea62d4c5b260",
+    "source_url": null,
+    "product_model": "NAS",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T01:53:23.755823+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 53dc8e94-7421-4aee-ba22-40d3ea637ebc (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "53dc8e94-7421-4aee-ba22-40d3ea637ebc",
+    "status": "active",
+    "source_pdf_filename": "MNDT741.pdf",
+    "sha": "664653e93d33ae1c1fc08c5c939f81bd06358416db484c03ef235240341f0993",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT741.pdf",
+    "product_model": "NAS",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:00:47.003771+00:00",
+    "conteos": {
+     "chunks_v2": 19,
+     "chunks": 137,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 14,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT741"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt742p_f",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "9c595e46-0dd9-463e-bf13-0058b1be8e78",
+    "source_file": "MNDT742P_F",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:nas-2",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "9c595e46-0dd9-463e-bf13-0058b1be8e78",
+    "status": "retired",
+    "source_pdf_filename": "MNDT742P_F",
+    "sha": "backfill:b64ab0f68ce11f7cb110ec59a7dd3c02d0dfdbb7200b746fc84d322f35f4241d",
+    "source_url": null,
+    "product_model": "NAS-2",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:23:02.965987+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 16aa7584-e943-499b-bb02-da17209158d5 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "16aa7584-e943-499b-bb02-da17209158d5",
+    "status": "active",
+    "source_pdf_filename": "MNDT742P_F.pdf",
+    "sha": "254ff7878953313f53eef820d8f100964730395c29db7f252abf2b70e7931fcb",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT742P_F.pdf",
+    "product_model": "NAS-2",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:06:02.098786+00:00",
+    "conteos": {
+     "chunks_v2": 1,
+     "chunks": 194,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 1,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MNDT742P_F"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt951i_v7-1",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "0beb5d94-5f97-4843-b913-3100bdebb8e7",
+    "source_file": "MNDT951I_v7-1",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:tg-notifier",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "0beb5d94-5f97-4843-b913-3100bdebb8e7",
+    "status": "retired",
+    "source_pdf_filename": "MNDT951I_v7-1",
+    "sha": "backfill:2642c71df44190bb4bfedec5262b9e50c4525ac69cab235a6269884f214f02ec",
+    "source_url": null,
+    "product_model": "MN-DT-951I",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:29.375047+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 9600e30e-8b80-4d53-a4bd-ca6b6053c166 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "9600e30e-8b80-4d53-a4bd-ca6b6053c166",
+    "status": "active",
+    "source_pdf_filename": "MNDT951I_v7-1.pdf",
+    "sha": "a899dddf26983eda0f6af63cadf3ee47d681c28fb5de17847b266713aed610b6",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT951I_v7-1.pdf",
+    "product_model": "TG-NOTIFIER",
+    "manufacturer": "Notifier",
+    "revision_columna": "v7",
+    "ingested_at": "2026-04-15T21:14:55.857666+00:00",
+    "conteos": {
+     "chunks_v2": 42,
+     "chunks": 141,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 40,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "7.1",
+     "cita": "ckground with pink/coral and blue tones] # TG - NOTIFIER ## USER'S GUIDE **MN-DT-951I (Rev.:7.1)** **May 2007** NO_CONTENT_HERE # <ins>INDEX OF CONTENTS</ins> 1. Introduction ...",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MNDT951I_v7-1"
+    ]
+   }
+  },
+  {
+   "source_file": "mndt954",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "48a64d46-f538-4459-8a0a-57de50d342c0",
+    "source_file": "MNDT954",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:tg-6000",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "48a64d46-f538-4459-8a0a-57de50d342c0",
+    "status": "retired",
+    "source_pdf_filename": "MNDT954",
+    "sha": "backfill:3c3c6b805eed74c4082c0689873404b60a5c84175f0ef965b2deb9e428313e01",
+    "source_url": null,
+    "product_model": "TG-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:09:14.417079+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de a8bb21cf-8bdf-4b2c-b6da-3423543ced26 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "a8bb21cf-8bdf-4b2c-b6da-3423543ced26",
+    "status": "active",
+    "source_pdf_filename": "MNDT954.pdf",
+    "sha": "01e451cc0bfb4456e0814f74a737f3cc8971a5b10d2db46f31bb098a7ff837ac",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MNDT954.pdf",
+    "product_model": "TG-6000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:16:09.864109+00:00",
+    "conteos": {
+     "chunks_v2": 28,
+     "chunks": 87,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 20,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "3.2",
+     "cita": "icada sin previo aviso.* MN-DT-954 NOTIFIER ESPAÑA, S.A. 2 # ÍNDICE TG-NOTIFIER versión 3.2 ..................................................................................... 3",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "MNDT954"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt212",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 6,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "3413c8ee-9c56-4e08-8faf-9a5a99de151c",
+    "source_file": "MPDT212",
+    "n_entries": 6
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:id1002",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "3413c8ee-9c56-4e08-8faf-9a5a99de151c",
+    "status": "retired",
+    "source_pdf_filename": "MPDT212",
+    "sha": "backfill:e36f1da640d08bba15e6c07d003f5b97b0ddc0e2462b26d0c11c45d406dadf34",
+    "source_url": null,
+    "product_model": "ID1000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:03:05.388677+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de ef245515-0c5a-41c0-8454-52bf70c8e4ab (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "ef245515-0c5a-41c0-8454-52bf70c8e4ab",
+    "status": "active",
+    "source_pdf_filename": "MPDT212.pdf",
+    "sha": "ab1ba2e7b76cc8d745e0a9032be7a6ee9c0dc88ddca7b33f16ac003daa6b3d55",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT212.pdf",
+    "product_model": "ID1000",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:24:40.549687+00:00",
+    "conteos": {
+     "chunks_v2": 111,
+     "chunks": 775,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 64,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "8",
+     "cita": "or para Paneles Esclavos o Independientes** **MP-DT-212 25 JUNIO 1999 Ref.: 997-340-003; Versión: 8** Manual de Programación de la Serie ID1000 ## PRECAUCIONES PARA LA INSTALACIÓN La prá",
+     "cita_verificada": true,
+     "patron": "\\bversi[oó]n\\s*[:\\-]?\\s*(v?[0-9]{1,3}(?:"
+    },
+    "source_files_en_chunks": [
+     "MPDT212"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt280",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 9,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+    "source_file": "MPDT280",
+    "n_entries": 9
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:afp1010",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+    "status": "retired",
+    "source_pdf_filename": "MPDT280",
+    "sha": "backfill:f4c94e3048a96b5c9add236771d1b0d311e7d2a4eb2b2420576139ab9070d507",
+    "source_url": null,
+    "product_model": "AM2020 and AFP1010",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:08:55.017801+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de e6ccaa2e-65bf-45b8-84ba-34a0d3351b15 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "e6ccaa2e-65bf-45b8-84ba-34a0d3351b15",
+    "status": "active",
+    "source_pdf_filename": "MPDT280.pdf",
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT280.pdf",
+    "product_model": "MPDT-280",
+    "manufacturer": "Notifier",
+    "revision_columna": "Rev A",
+    "ingested_at": "2026-04-15T21:28:05.648604+00:00",
+    "conteos": {
+     "chunks_v2": 127,
+     "chunks": 1019,
+     "chunks_v2_enunciados": 1186,
+     "document_visual_assets": 82,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "MPDT280"
+    ]
+   }
+  },
+  {
+   "source_file": "mpdt951_v5-87",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 1,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "7c2bdff2-1694-4a86-94a0-f1b45e84f169",
+    "source_file": "MPDT951_v5-87",
+    "n_entries": 1
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:tg-notifier",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "7c2bdff2-1694-4a86-94a0-f1b45e84f169",
+    "status": "retired",
+    "source_pdf_filename": "MPDT951_v5-87",
+    "sha": "backfill:a4d686124ac41ab5010b0725a951bb9b664fce558aa2a988ceba464ae7c3d53c",
+    "source_url": null,
+    "product_model": "MP-DT-951",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:35:04.905558+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 0903db56-30db-4df0-aad9-53c40dc551ea (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "0903db56-30db-4df0-aad9-53c40dc551ea",
+    "status": "active",
+    "source_pdf_filename": "MPDT951_v5-87.pdf",
+    "sha": "b2acda4a98cd7bf09c36a5c9802677f430243ff57200d63335deb7cf9e63a178",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/MPDT951_v5-87.pdf",
+    "product_model": "TG-NOTIFIER",
+    "manufacturer": "Notifier",
+    "revision_columna": "v5",
+    "ingested_at": "2026-04-15T21:32:40.898183+00:00",
+    "conteos": {
+     "chunks_v2": 88,
+     "chunks": 259,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 75,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": "5.87",
+     "cita": "# *TG - NOTIFIER* ## *MANUAL DE CONFIGURACIÓN* **MP-DT-951 (Rev:5.87)** **Mayo 2005** # ÍNDICE DE MATERIAS 1. INTRODUCCIÓN .................................",
+     "cita_verificada": true,
+     "patron": "\\brev(?:isi[oó]n|\\.)?\\s*[:\\-]?\\s*([A-Z]?"
+    },
+    "source_files_en_chunks": [
+     "MPDT951_v5-87"
+    ]
+   }
+  },
+  {
+   "source_file": "pan_avd1",
+   "tier": "tier_c",
+   "n_entries_adjudicadas": 2,
+   "clase": "fantasma_ya_retirado",
+   "destino": "bloque",
+   "motivo": "la fila del mapa está retired con CERO filas en chunks_v2/chunks/enunciados/visual_assets/group_members, su sha es pseudo-backfill, su nota apunta al id actual, y ambas nombran el mismo blob",
+   "propuesta": {
+    "documents": "NADA (la fila del mapa ya está retirada desde s65 capaB A4)",
+    "doc_map": "repuntar document_id: <id_mapa> → <id_actual> (source_file intacto)",
+    "supersede": "NO — una ficha de 0 chunks nunca fue una revisión"
+   },
+   "gates": {
+    "mapa_status": "retired",
+    "actual_status": "active",
+    "mapa_sin_filas_en_ninguna_satelite": true,
+    "actual_sirve_chunks_v2": true,
+    "mismo_blob_por_nombre": true,
+    "nota_apunta_al_actual": true,
+    "sha_mapa_es_pseudo_backfill": true,
+    "doc_map_source_file_coincide_con_chunks_del_actual": true,
+    "id_mapa_en_otros_ficheros_del_catalogo": false
+   },
+   "doc_map": {
+    "document_id": "bb36bddd-6899-412b-815a-0601a8b6b2e3",
+    "source_file": "PAN_AVD1",
+    "n_entries": 2
+   },
+   "seam_atestacion": {
+    "medible": true,
+    "modelo_sonda": "notifier:pan-avd1",
+    "atesta_con_id_actual": false,
+    "atesta_con_id_fantasma": true
+   },
+   "fila_mapa": {
+    "id": "bb36bddd-6899-412b-815a-0601a8b6b2e3",
+    "status": "retired",
+    "source_pdf_filename": "PAN_AVD1",
+    "sha": "backfill:c3c19e272524a1548c6af7df4f13115b7ce45562c3cb008421bb9d9272349b1b",
+    "source_url": null,
+    "product_model": "PAN-AVD1",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-16T02:58:43.457725+00:00",
+    "notes": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor). | s65 capaB A4: duplicado-fantasma de 7966c099-9a89-481b-a138-d1adc3731939 (0 chunks en ambas tablas)",
+    "conteos": {
+     "chunks_v2": 0,
+     "chunks": 0,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 0,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    }
+   },
+   "fila_actual": {
+    "id": "7966c099-9a89-481b-a138-d1adc3731939",
+    "status": "active",
+    "source_pdf_filename": "PAN_AVD1.pdf",
+    "sha": "b7c97835138627984a1fdb52dfd6617c11429b429a97a5cbdac33cfe706bf981",
+    "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/PAN_AVD1.pdf",
+    "product_model": "IP-40",
+    "manufacturer": "Notifier",
+    "revision_columna": null,
+    "ingested_at": "2026-04-15T21:42:40.944341+00:00",
+    "conteos": {
+     "chunks_v2": 10,
+     "chunks": 91,
+     "chunks_v2_enunciados": 0,
+     "document_visual_assets": 4,
+     "document_group_members": 0
+    },
+    "portada": {
+     "revision": null,
+     "cita": null,
+     "cita_verificada": null,
+     "patron": null
+    },
+    "source_files_en_chunks": [
+     "PAN_AVD1"
+    ]
+   }
+  }
+ ],
+ "seccion_1_individual": [],
+ "seccion_ya_no_aplica": []
+}

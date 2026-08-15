@@ -6691,3 +6691,71 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   ÚLTIMO RECURSO con degradaciones declaradas, no un modo de operación.
 - **Relacionado**: DEC-092b · DEC-210/211 (que quedan CERRADAS) · TECH_DEBT #78 ·
   censo vivo `evals/s322_railway_censo_v1.json`.
+
+## DEC-220 (s323) — «Dónde corre Claude»: las TRES superficies montadas, con un environment único y red Full (adjudicación de Alberto) y un verificador con recibo
+
+- **Fecha**: 15 ago 2026 (s323). **Impacto**: MEDIO — toca el arranque de TODA
+  sesión cloud y la superficie de secretos. No toca corpus, retrieval ni esquema.
+- **El problema real, no el de comodidad**: el environment cloud estaba en
+  **Default** (sin variables, red *Trusted*), y eso produjo en s315/s316 dos fallos
+  SILENCIOSOS: casmarglobal bloqueado por la política de red, y `OPENAI_API_KEY`
+  ausente ⇒ **el revisor Sol no era ejecutable y el dúo del Protocolo 3 quedó cojo**.
+  Es decir: una sesión cloud no podía cerrar nada de impacto ALTO, y nada avisaba.
+- **Las tres superficies** (el selector «dónde corre Claude» es el icono de nube
+  encima del cuadro de mensaje; no hay página de ajustes): **Cloud** (VM de
+  Anthropic; sigue con el PC apagado; NO tiene OneDrive) · **Remote Control** (la
+  sesión corre en el PC de Alberto y se dirige desde el móvil) · **Dispatch**
+  (mensajear una tarea a la app de escritorio). Hallazgo de rumbo: **Remote Control
+  cierra el gap que `ENTORNO_CLOUD.md §3` declaraba como "lo que el cloud NUNCA
+  tendrá"** — la ingesta y la fase de enunciados ya son gobernables desde el móvil,
+  solo que ejecutándose en local. Montar únicamente cloud habría dejado fuera media
+  clase de trabajo.
+- **Adjudicación de Alberto** (mis dos recomendaciones fueron las contrarias y
+  quedan descartadas por decisión suya, no por análisis): **un solo environment con
+  todas las keys** (descartado: partirlo en `código` sin service key / `datos` con
+  ella) y **red Full** (descartado: *Custom* con allowlist mínima + defaults).
+  Motivo declarado: que ninguna sesión se quede a medias por una política de red.
+- **Riesgo ACEPTADO y escrito**: los environments **no tienen secret store** — la
+  doc oficial desaconseja meter credenciales porque son legibles por cualquiera que
+  use el environment. Con red *Full* y la `SUPABASE_SERVICE_KEY` dentro, una sesión
+  que lea un portal o un PDF hostil tiene medio y destino para exfiltrar. Mitigación
+  operativa: environment **personal** (nunca compartido) + **rotar keys** ante
+  sospecha. Partirlo en dos son 2 minutos en el mismo selector cuando se quiera.
+- **Cableado**: (a) **`scripts/cloud_smoke.py`** + `tests/test_cloud_smoke.py` —
+  verificador del entorno con recibo (`evals/s323_cloud_smoke_v1.json`); es el
+  instrumento del Protocolo 1 aquí, porque «el cloud funciona» sin recibo es
+  exactamente lo que costó s315. (b) **hook `session-start.sh` IDEMPOTENTE** — corría
+  en cada arranque Y en cada `resume` reinstalando todo; ahora el centinela es la
+  huella sha1 de los requirements + un import real. (c) `matcher: "startup|resume"`
+  en `.claude/settings.json`, alineado con el ejemplo oficial. (d)
+  `docs/ENTORNO_CLOUD.md` reescrito: la versión s315c mandaba a un menú
+  «Environments» que ya no se llama así.
+- **Dúo (Protocolo 3, tier MEDIO = Fable standalone)**: veredicto **NO SÓLIDO**, tres
+  hallazgos, **los tres verificados contra el código y aplicados**: (1) el contrato de
+  no-fuga solo cubría `--sin-red`, dejando sin test el vector real — mensajes de error
+  de httpx (llevan la URL, y `SUPABASE_URL` es secreto) y `r.text` de un 4xx ⇒ nace un
+  **saneador único** por el que pasa TODO detalle, con dos tests de transporte
+  simulado; (2) `git remote get-url origin` iba verbatim a un recibo que se commitea, y
+  en un clon cloud lleva `x-access-token:<token>@` ⇒ se publica sin userinfo, con test;
+  (3) **el mejor**: el sondeo de idempotencia del hook no incluía `cryptography` —
+  justo el módulo cuyo PanicException-al-importar motivó el hook en s315 — ni
+  `openai`/`voyageai`, así que marca presente + 5 imports OK + cryptography rota
+  habría dado por buena una VM rota; el centinela y la lista de críticos del smoke
+  eran incoherentes entre sí. Descartado su hallazgo menor (`matcher` excluye `clear`):
+  el `CLAUDE_ENV_FILE` es acumulativo y el proceso no muere en un `/clear`.
+  Ref: `evals/adversarial_reviews/2026-08-15T13-13-06_claude-fable-5_responses_f5885479d75e.json`
+  · `evals/adversarial_review_log.jsonl` (ts 2026-08-15T13:13:07) ·
+  propuesta `evals/s323_entorno_cloud_propuesta.md`.
+- **Gap declarado de entrada → TECH_DEBT #81**: el revisor adversarial es **CIEGO a
+  `.claude/`** (`adversarial_review.py:237`, `SKIP_DIRS`) — herencia de cuando ese
+  directorio estaba entero ignorado, mientras que desde DEC-193 hay whitelist y los
+  hooks SÍ están versionados. Por eso el hallazgo (3) tuvo que marcarse CONCEPTUAL:
+  acertó razonando sobre mi propia descripción, que es la dependencia que el
+  Protocolo 3 existe para romper.
+- **Lo que NO está declarado hecho**: el **smoke de recepción en cloud**. Sin
+  `VEREDICTO: LISTO` + suite verde EN una sesión cloud del environment nuevo, esto es
+  aparato preparado, no entorno verificado (Protocolo 1). Lo ejecuta Alberto tras
+  crear el environment; el recibo se commitea.
+- **Relacionado**: DEC-193/195 (versionado de `.claude/`, hook del digest) · DEC-209
+  (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #81 ·
+  `docs/ENTORNO_CLOUD.md`.
