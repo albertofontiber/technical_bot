@@ -2944,3 +2944,28 @@ doc_map debe apuntar a un documento activo — con la salvedad de que el validad
 `documents` vive en la DB, así que probablemente sea un gate de script, no de `validate()`;
 (c) corregir el test/censo defectuoso para que no vuelva a producir un packet con premisa
 falsa. **Gatillo**: antes de la próxima reingesta masiva, o al aplicar el repunte de las 49.
+
+## #81 — 61 chunks HUÉRFANOS: contenido servible con `document_id` NULL en 10 documentos — s322j
+
+**Qué es**: `chunks_v2` tiene **61 filas (de 26.215) con `document_id = NULL`**, repartidas en
+**10 documentos** (`9-10900-62576-es`, `9-10906-…`, `9-10908-…`, `9-10909-…`, `9-10927-…`,
+`9-10954-100-…`, `9-30441-62576-es`, `997-412-000-3_IDR-M_Mimic_installation…`, …). Su
+`source_file` sí está poblado, así que el contenido ES recuperable por el seam de
+`allowed_sources` (que indexa por nombre), pero **no hay fila de `documents` a la que
+referirlo**.
+
+**Cómo apareció** (no se buscaba): al cerrar el ítem bloqueante del dúo r29 hubo una cita de
+bloque que verificaba en `9-30441-62576-es` y no había ningún `document_id` que atribuirle.
+La fila salió del bloque a individual — no se forzó una atribución inventada.
+
+**Por qué importa**: es la MISMA familia que #80 (identidad rota entre chunk y documento),
+por el otro extremo. Todo lo que se une por `document_id` es ciego a estos 61 chunks:
+`must_preserve.attest_identity`, el doc_map, la puerta de revisión de la ingesta (#73), el
+censo de supersedidos y la leyenda de fuentes con `source_url` (un chunk sin documento no
+tiene URL ni página que ofrecer al técnico).
+
+**Forma BP**: (a) censar los 10 documentos y determinar si les falta la fila en `documents`
+(reingesta incompleta) o si la fila existe y el backfill de `document_id` no llegó; (b)
+re-vincular por `source_file` con recibo, o reingestar los que no tengan documento; (c) gate
+que impida ingestar chunks sin `document_id` (mismo espíritu que #80: invariante, no parche).
+Barato de medir, y conviene hacerlo JUNTO a #80 — comparten la causa raíz de identidad.

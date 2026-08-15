@@ -1,4 +1,4 @@
-# s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T105757Z
+# s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 **SUPERSEDE a `evals/s320_e1_packet_adjudicacion_v1.md`.**
 Aquel packet te pedía **253 casillas** una a una (§1 colisiones, §2 tier B,
@@ -6,21 +6,28 @@ Aquel packet te pedía **253 casillas** una a una (§1 colisiones, §2 tier B,
 fila contra el estado de HOY, la han juzgado con cita verificada a texto completo y
 la han separado en dos: lo que aguanta un solo «sí», y el residuo real.
 
-> ### De **253 casillas** → **98 decisiones**
-> - **1 sí en bloque** cubre **144 filas** (§0, en 5 sub-bloques por si prefieres
+> ### De **253 casillas** → **99 decisiones**
+> - **1 sí en bloque** cubre **143 filas** (§0, en 5 sub-bloques por si prefieres
 >   asentir por partes).
-> - **97 una a una** (§1) — el residuo con la evidencia junta.
+> - **98 una a una** (§1) — el residuo con la evidencia junta.
 > - **12 ya no aplican** (§2): se cayeron solas al refrescar. No decides nada.
 
-> **Cuenta honesta de casillas** (la escribe el verificador adversarial, no el optimismo del autor): este fichero imprime **241 casillas `- [ ]`** en total — §0.A: 49 · §0.B: 42 · §0.C: 33 · §0.D: 17 · §0.E: 3 · §1.A: 13 · §1.B: 83 · §1.C: 1. Las de §0 están ahí para que PUEDAS bajar a grano fino y desmarcar lo que quieras, no porque haya que marcarlas una a una: el «sí en bloque» las cubre todas de golpe. Si solo asientes a los bloques, tu trabajo real son las decisiones del titular.
+> **Cuenta honesta de casillas** (la escribe el verificador adversarial, no el optimismo del autor): este fichero imprime **241 casillas `- [ ]`** en total — §0.A: 49 · §0.B: 42 · §0.C: 32 · §0.D: 17 · §0.E: 3 · §1.A: 13 · §1.B: 84 · §1.C: 1. Las de §0 están ahí para que PUEDAS bajar a grano fino y desmarcar lo que quieras, no porque haya que marcarlas una a una: el «sí en bloque» las cubre todas de golpe. Si solo asientes a los bloques, tu trabajo real son las decisiones del titular.
 
 **NADA APLICADO.** Ni catálogo (`data/catalog/*.jsonl`), ni Supabase, ni el
 snapshot del detector (`data/model_catalog.json`). Todo lo de aquí es PROPUESTA:
 marca ✓/✗ y se aplica después por la puerta gobernada, con recibo.
 
+> ⚠ **Aviso de drift entre el encargo y los recibos** (no se ha corregido nada,
+> se declara):
+> - DRIFT en candidates · bloque: esperado 50, en el recibo 49
+> - DRIFT en candidates · individual: esperado 83, en el recibo 84
+> - DRIFT en confirmar · bloque: esperado 327, en el recibo 326
+> - DRIFT en confirmar · individual: esperado 32, en el recibo 33
+
 ---
 
-## SECCIÓN 0 — Aplicables EN BLOQUE si asientes (144)
+## SECCIÓN 0 — Aplicables EN BLOQUE si asientes (143)
 
 Criterio, idéntico en las cuatro pasadas: **veredicto claro + confianza alta +
 cita verificada contra el CONTENIDO COMPLETO del documento (≤200 chars, espacios
@@ -226,13 +233,13 @@ Juez `claude-fable-5`. Veredictos del lote completo: IDS_CORRECTOS:alta=43, MULT
       → **IDS_CORRECTOS** · `notifier:ucip` · cita ✓ «# UCIP - ¿Que datos necesito de la receptora?»
       ⚑ OEM/reventa: documento de **Morley**, ids bajo **notifier**
 
-### §0.C — Candidates → **ALTA** (33)
+### §0.C — Candidates → **ALTA** (32)
 
 Altas `candidate` del draft del detector. Muestreo **dirigido** (dirigido — chunks que MENCIONAN el término (ilike + recorte por regex con frontera de palabra), no los primeros del documento).
 Señales duras: menciones estrictas / flexibles(separadores) / en MAYÚSCULAS: la diferencia entre ellas separa producto de artefacto
 Degradación: confianza alta sin cita verificada → media → fuera del bloque
 
-Ojo al contar: **33 filas → 28 ids únicos** (una fila es un par id+documento).
+Ojo al contar: **32 filas → 27 ids únicos** (una fila es un par id+documento).
 Ids propuestos desde MÁS DE UN documento: `kidde:ke-dba-ipw`×2, `kidde:ke-dba-recw`×2, `kidde:ke-dm3110r-kit`×2, `kidde:ke-iu3110`×2, `notifier:id2net`×2.
 No son altas duplicadas: es el mismo producto atestado dos veces.
 En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 filas.
@@ -261,7 +268,7 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       menciones estrictas doc 2 / global 3 en 2 docs · cita ✓ «KE-DM3110R-IP Pulsador direccionable inteligente de la Serie Excellence con aislador - para ex…»
 - [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
       menciones estrictas doc 3 / global 3 en 1 doc · cita ✓ «The KE-DM3110R-KIT is a red, single action indoor MCP with a House-on-Fire functional indicato…»
-- [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `MI_KIDDE_KE_DM3110R_KIT_28a2.pdf`
+- [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
       menciones estrictas doc 0 / global 3 en 1 doc · cita ✓ «KE-DM3110R-KIT **Excellence Series intelligent addressable manual call point with isolator and…»
 - [ ] `kidde:ke-dp3021b` (KE-DP3021B) → **ALTA** · rol TITULO · doc `HD_KE_DP3021B_202407_ES_861a.pdf`
       menciones estrictas doc 2 / global 6 en 4 docs · cita ✓ «KIDDE COMMERCIAL # KE-DP3021B Detector de calor/óptico dual direccionable inteligente serie Ex…»
@@ -293,8 +300,6 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       menciones estrictas doc 2 / global 4 en 3 docs · cita ✓ «KIT-GAS ## Teclado de mano para calibración de los detectores de gas de la <ins>serie SMART 3<…»
 - [ ] `notifier:nfxi-bsf-wch` (NFXI-BSF-WCH) → **ALTA** · rol TABLA_DE_MODELOS · doc `D 1147-1 BRH Notifier`
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
-- [ ] `notifier:serie-ps` (Serie PS) → **ALTA** · rol TITULO · doc `Serie PS.pdf`
-      menciones estrictas doc 1 / global 6 en 2 docs · cita ✓ «# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
@@ -393,7 +398,7 @@ K=3 pasadas del juez `claude-fable-5`, unanimidad exigida.
 
 ---
 
-## SECCIÓN 1 — Una a una (97)
+## SECCIÓN 1 — Una a una (98)
 
 El residuo real: nada de aquí pasó el gate. Cada fila trae **toda** la evidencia
 junta para decidir sin abrir nada más.
@@ -509,7 +514,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 0
       **por qué NO entra en bloque**: confianza media
 
-### §1.B — Candidates, residuo (83)
+### §1.B — Candidates, residuo (84)
 
 Agrupados por **su primer motivo de caída** (el recibo trae la lista completa por
 fila). Un mismo id puede aparecer con varias grafías: eso es exactamente lo que
@@ -827,6 +832,12 @@ hay que adjudicar.
       el juez propone otra grafía: `40/40 Air Shield (P/N 777650)`
       producto padre propuesto: `SharpEye 40/40 series (detectores ópticos de llama Spectrex)`
 
+**(sin motivo declarado en el recibo)** — 1
+
+- [ ] `notifier:serie-ps` (Serie PS)
+      **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS»
+      doc `Serie PS.pdf` · estrictas doc 1 / global 6 en 2 docs
+
 **colision:id-ya-existe-en-el-catalogo-gobernado** — 1
 
 - [ ] `notifier:id1000` (ID1000)
@@ -895,13 +906,13 @@ Se listan para que conste que NO se han perdido, no para adjudicar.
 - `evals/s322f_e1s2_tierb_docmap_v1.json` — 67 filas (42 bloque / 13 individual)
 - `evals/s322g_e1_candidatos_triage_v1.json` — 133 filas (50 bloque / 83 individual)
 - `evals/s322g_e1_pm_sucio_v1.json` — 4 filas (3 bloque / 1 individual)
-- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T105757Z.
+- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T163607Z.
 
 ## Auto-verificación del encabezado
 
 Filas declaradas arriba vs filas REALMENTE escritas en este fichero:
 
-- **SECCIÓN 0**: declaradas 144 · escritas 144 · casillas 144 — ✓
-- **SECCIÓN 1**: declaradas 97 · escritas 97 · casillas 97 — ✓
+- **SECCIÓN 0**: declaradas 143 · escritas 143 · casillas 143 — ✓
+- **SECCIÓN 1**: declaradas 98 · escritas 98 · casillas 98 — ✓
 - **SECCIÓN 2**: declaradas 12 · escritas 12 · casillas 0 — ✓
-- **TOTAL**: 253 = 144 + 97 + 12 ✓ (cuadra con las 253 casillas de la v1)
+- **TOTAL**: 253 = 143 + 98 + 12 ✓ (cuadra con las 253 casillas de la v1)
