@@ -1,0 +1,106 @@
+{
+ "que_es": "Ensamblado determinista (sin LLM) de los tres packets de adjudicación v2 a partir de los 7 recibos hermanos de s322f/s322g. PROPUESTA: no se aplicó nada.",
+ "utc": "20260815T105757Z",
+ "solo_lectura_sobre": [
+  "evals/s322f_e1_colisiones_adjudicacion_v1.json",
+  "evals/s322f_e2_altas_split_v1.json",
+  "evals/s322f_e1s2_tierb_docmap_v1.json",
+  "evals/s322g_e1_candidatos_triage_v1.json",
+  "evals/s322_e1b_revisar_qa_v1.json",
+  "evals/s322f_e1b_confirmar_encoger_v1.json",
+  "evals/s322g_e1_pm_sucio_v1.json"
+ ],
+ "no_se_aplico_nada": true,
+ "escrituras": [
+  "evals/s320_e1_packet_adjudicacion_v2.md",
+  "evals/s320_e1b_packet_adjudicacion_v2.md",
+  "evals/s320_e2_packet_adjudicacion_v2.md"
+ ],
+ "avisos_de_drift": [],
+ "packets": {
+  "e1": {
+   "fichero": "C:/dev/technical_bot/evals/s320_e1_packet_adjudicacion_v2.md",
+   "lineas": 905,
+   "filas_por_seccion": {
+    "0A": 49,
+    "0B": 42,
+    "0C": 33,
+    "0D": 17,
+    "0E": 3,
+    "1A": 13,
+    "1B": 83,
+    "1C": 1,
+    "2": 12
+   },
+   "casillas_por_seccion": {
+    "0A": 49,
+    "0B": 42,
+    "0C": 33,
+    "0D": 17,
+    "0E": 3,
+    "1A": 13,
+    "1B": 83,
+    "1C": 1
+   },
+   "secciones_largas": {}
+  },
+  "e1b": {
+   "fichero": "C:/dev/technical_bot/evals/s320_e1b_packet_adjudicacion_v2.md",
+   "lineas": 1396,
+   "filas_por_seccion": {
+    "0A": 197,
+    "0B": 130,
+    "0C": 144,
+    "0D": 4,
+    "1A": 32,
+    "1B": 113
+   },
+   "casillas_por_seccion": {
+    "0A": 9,
+    "0B": 130,
+    "0C": 144,
+    "0D": 4,
+    "1A": 32,
+    "1B": 113
+   },
+   "secciones_largas": {}
+  },
+  "e2": {
+   "fichero": "C:/dev/technical_bot/evals/s320_e2_packet_adjudicacion_v2.md",
+   "lineas": 545,
+   "filas_por_seccion": {
+    "0A": 44,
+    "0B": 518,
+    "1TOP": 20,
+    "1": 669,
+    "2": 4
+   },
+   "casillas_por_seccion": {
+    "0A": 44,
+    "0B": 11,
+    "1TOP": 20,
+    "1": 19
+   },
+   "secciones_largas": {}
+  }
+ },
+ "antes_despues": {
+  "E1": {
+   "casillas_v1": 253,
+   "bloque": 144,
+   "individual": 97,
+   "ya_no_aplican": 12
+  },
+  "E1b": {
+   "casillas_v1": 620,
+   "bloque": 475,
+   "individual": 145
+  },
+  "E2": {
+   "casillas_v1": 1235,
+   "bloque": 562,
+   "individual": 669,
+   "obsoletas": 4
+  }
+ }
+}
