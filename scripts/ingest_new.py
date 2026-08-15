@@ -338,6 +338,11 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
                                "status": f"FALLO: {type(e).__name__}: {e}"})
             print(f"  ✗ FALLO {type(e).__name__}: {e}")
 
+    # s323 fase C (dúo r34, crítico): este driver escribe chunks SIN pasar por
+    # `pipeline.run()`, así que el gate cableado allí no lo observaba. Un camino
+    # real de escritura sin control es el agujero por el que entraron #80/#81.
+    _gate_identidad_o_falla()
+
     # Verificación en DB: cada sha con chunks > 0 y document_id enlazado.
     print("\n— VERIFICACIÓN EN DB —")
     fallos = 0
@@ -458,6 +463,26 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
                        "revision": c.get("revision")})
     print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')}, "
           f"doc_type→{parcheados} chunks)")
+
+
+def _gate_identidad_o_falla() -> None:
+    """s323 fase C (duo r34, critico): este driver llama a `process_file()`
+    DIRECTAMENTE, no a `pipeline.run()`, asi que el gate cableado alli no lo
+    observaba. Un camino real de escritura sin control es exactamente el agujero
+    por el que entraron #80/#81."""
+    try:
+        from scripts.gate_identidad_corpus import evaluar
+        v = evaluar()
+    except Exception as e:                                    # noqa: BLE001
+        print(f"  gate identidad: NO EVALUADO ({type(e).__name__}: {e})")
+        raise SystemExit(4) from e
+    print(f"  gate identidad: {'OK' if v['ok'] else 'VIOLACIONES NUEVAS'} "
+          f"({v['nuevas']} nuevas / {v['total']} totales)")
+    if v.get("manifiesto_stale"):
+        print(f"  aviso: {len(v['excepciones_resueltas'])} excepciones del "
+              f"manifiesto ya no aplican — re-sella con --sellar")
+    if not v["ok"]:
+        raise SystemExit(3)
 
 
 def main() -> None:

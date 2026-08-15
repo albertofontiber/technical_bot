@@ -290,6 +290,11 @@ def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
     print(f"  vacíos:         {counts['empty']}")
     print(f"  sin indexar:    {counts.get('sin_indexar', 0)}  (identidad no resuelta)")
     print(f"  fallos:         {counts['failed']}")
+    # s323 fase C: el gate de identidad NO se invoca desde aqui. El contrato de
+    # imports prohibe `reingest -> rag` (tests/test_import_contract.py) y el gate
+    # necesita el catalogo, que vive en rag. Se cablea en la CAPA DE SCRIPTS, que
+    # es quien orquesta: `scripts/ingest_new.py` (driver real de altas) y
+    # cualquier runner de este pipeline. La arquitectura manda sobre mi prisa.
     print(f"  tiempo:         {elapsed:.0f}s")
     if dry_run:
         print(f"  muestra:        {DRYRUN_SAMPLE}")
