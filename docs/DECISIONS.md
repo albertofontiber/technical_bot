@@ -4104,6 +4104,52 @@ MEDIO. Requisitos para una v2 (si alguien la retoma) en el veredicto, §«Si alg
 
 ## DEC-173 — s293 (2 ago 2026): sonda de ALCANZABILIDAD como gate previo al diseño de todo lever de serving/síntesis · 2 levers confirmados y 2 muertos
 
+> ⚠️ **(b) CORREGIDO en s321 — LOS DOS «NO ALCANZABLE» DE ESTA ENTRADA HAN CAÍDO. (a), el
+> PROCEDIMIENTO, NO se toca — pero se REBAJA de «validado» a «útil y aún NO endurecido para
+> emitir un NO».** Destapó ambos, sí; pero su recibo solo sella `git_sha`, cuando el freeze-contract
+> canónico (CLAUDE.md:112) exige corpus, índice, embeddings, juez, semillas y config. Un «NO
+> alcanzable» emitido con ese sellado no es auditable.
+>
+> No caen por lo mismo, y la distinción es la lección:
+>
+> - **`hp017#2` — la medición era INVÁLIDA, nunca fue de alcanzabilidad.** Su recibo
+>   (`evals/s293_hp017_conveyed_preguard_v1.json`) tiene reps de la forma `{pre_yes, post_yes}`,
+>   **sin inyección alguna y sin campo de ids admitidos**: medía el efecto del guard (DEC-172) y se
+>   le importó la etiqueta a la tabla de esta DEC como si fuera de la misma familia que los otros
+>   tres. **La primera sonda real es de s321** (modo `serve`, carrier de la p43 `94cbb0ce` —que trae
+>   ruta + Regla 1 + el porqué en un pasaje contiguo— admitido 3/3): **base 0/5 → oráculo 5/5 en las
+>   TRES reps**, `alcanzable: true`, `oracle_firme 3/3` (`evals/s293_reachability_hp017_hp017_2.json`).
+>   ⇒ **servir el carrier es el bloqueador dominante**. ⚠️ NO afirmo «es de retrieval y no de
+>   síntesis»: base y oráculo son generaciones independientes y el recibo no guarda la composición
+>   base, así que el 5/5 prueba ALCANZABILIDAD, no localiza el fallo en exclusiva. De hecho
+>   `evals/s278_ec_item_table_v1.md:36` registra una réplica (hp017:r2) con `94cbb0ce` **SÍ servido**
+>   y el hecho aún incompleto ⇒ servirlo mueve mucho, pero no basta siempre.
+> - **`hp011#2` — la medición era VÁLIDA y ha CADUCADO.** Modo `serve`, **los 2 carriers del `inject` admitidos** en las 3 reps
+>   (el recibo lista 3 entradas porque uno aparece dos veces), juez leído por clave: era una medición limpia del 2-ago. Pero s320c re-midió y da los
+>   **TRES brazos alcanzables**; el sistema se movió entre medias. ⚠️ **Asimetría declarada**: la
+>   vara es la MISMA en ambos (`any rep ≥ THRESH_FIRM`), pero la fuerza no — `hp017#2` cae con
+>   **3/3 firmes a 5/5**, inequívoco; `hp011#2` cae con **6/15 firmes** (1/5 · 1/5 · 4/5) = alcanzable
+>   por el criterio canónico pero con transmisión **INESTABLE**. No son equivalentes. Nadie le puso fecha de caducidad
+>   a la conclusión. ⇒ el corolario **«la pair-completion que s292 iba a diseñar NO pagaría» queda
+>   CONTESTADO** para el sistema de hoy.
+>
+> **Lo que NO cae**: los dos ALCANZABLE (`cat017#2`, `hp003#4`) tenían admisión verificada y ninguna
+> hipótesis los pone en duda; no se re-sondan (ninguno decide nada hoy: uno es NO-GO por población,
+> el otro está PARADO por DEC-174).
+>
+> **Endurecimiento que nace de aquí** (fase 2, pendiente): un «NO alcanzable» solo debe poder
+> emitirse con **PRUEBA DE ENTREGA positiva**, y esa prueba es DISTINTA por modo — mi primera
+> redacción («`oracle_ids_admitidos` no vacío») bloqueaba falsamente todo NO legítimo en modo
+> `appendix`, que no produce ids sino `span`/`fragment_number` (dúo, convergente). Debe ser:
+> **`serve` → TODOS los carriers del `inject` admitidos** (no basta «no vacío»: hay que probar que
+> entraron todos los requeridos, no uno de dos); **`appendix` → span no vacío y presente literal en
+> la respuesta aumentada**. Y en ambos, sin prueba de entrega el veredicto emitible es
+> INCONCLUYENTE, nunca NO. El recibo de `hp017#2` no tenía ninguna de las dos y se llevó la etiqueta.
+> Y todo veredicto debe **estampar el estado de corpus**: el 12-ago el corpus se movió TRES veces y
+> un «NO alcanzable» envejece en silencio. La regla-C de esta misma entrada ya había cazado 3 fallos
+> de la sonda (oráculo incompleto, carrier equivocado, patrón ciego) — el patrón estaba a la vista.
+
+
 **Decisión.** (a) Se establece un **procedimiento nuevo y recurrente**: antes de diseñar
 cualquier lever de serving/síntesis para un hecho-diana, **medir si el hecho es ALCANZABLE**
 — oráculo de evidencia perfecta (inyectar el carrier en la vista del generador, o simular el
@@ -4190,6 +4236,42 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 (`cat -A`, dos corridas consecutivas, casos unitarios), ninguno leyendo el fuente.
 
 ## DEC-175 — s294 (2 ago 2026): lever B `cat017#2` = NO-GO por POBLACIÓN (1 gold · 0,13% del corpus) · etapa 3 cerrada como cola de ingeniería · subproducto: lista de adquisición dirigida por citas
+
+> ⚠️ **(b) RETIRADO en s321 — «etapa 3 cerrada como cola de INGENIERÍA» ya NO se sostiene. (a) y (c)
+> quedan INTACTAS.**
+>
+> Ese cierre se apoyaba en **cuatro patas** y le quedan **dos**: los dos «no alcanzables» que cita
+> (`hp017#2` y `hp011#2`) han caído — el primero por medición inválida, el segundo por caducidad
+> (ver el banner de DEC-173). **Aguantan** hp003#4/L3 v2 PARADO (DEC-174, regla de daño) y
+> `cat017#2` NO-GO por POBLACIÓN (esta misma entrada).
+>
+> ⚠️ **(a) TAMPOCO queda intacta — crítico de Sol, VERIFICADO.** Distinguir por métrica es legítimo
+> (Fable lo confirma: «legítima, no conveniente»), pero **no basta si la medición citada está rota**,
+> y una de sus dos patas lo está: **DEC-184 desmontó el barrido** del que sale el «0,13% del corpus»
+> — de 44 documentos supuestamente ausentes **solo 7 eran huecos reales**; 18 ya estaban en corpus
+> con otro nombre. Si 18 de los «ausentes» sí estaban, las «solo 4 referencias útiles» son muchas
+> más, y el error corre **a favor** del lever B. ⇒ **la pata POBLACIÓN-CORPUS queda RETIRADA hasta
+> recalcular**; la pata **POBLACIÓN-GOLDS (1 de 39)** es otra medición y **sí aguanta**. Lección:
+> apliqué bien la regla de métricas sobre una cifra que nadie había vuelto a mirar.
+>
+> **Lo que sostiene la discriminación**: la métrica de (a) es **POBLACIÓN** (1 gold de 39), no
+> `conveyed`. El objetivo de hoy es conveyed bajo el oráculo
+> de alcanzabilidad ⇒ **no coinciden** ⇒ no lo toco. Lo mismo con DEC-174, cuya métrica es la
+> precisión del gatillo (98,3%) más la regla de daño pre-registrada.
+>
+> **Y lo que esto NO autoriza.** Los dos hechos reabiertos son ALCANZABLES pero su **población está
+> SIN MEDIR**, así que vuelven **al embudo en la puerta de población, no como levers** — aplicando
+> la regla que estableció esta misma entrada: *«alcanzabilidad y población son ortogonales; un lever
+> necesita las dos»*. Estado correcto: **REABIERTA en la puerta de población**, ni «cerrada» ni «hay
+> lever».
+>
+> **Pista con ancla, declarada como no verificada hoy**: la clase de `hp017#2` —«el doc llega, la
+> página del dato no»— se contó en **within-doc-miss 11** y el DEC de aquel residual la llama «el
+> sub-tipo frecuente», frente a la población **1** que mató al lever B. Plausiblemente pasa la
+> puerta que el otro no pasó, pero **es hipótesis**: la cifra es de un DEC anterior y desde entonces
+> se han movido corpus y golds. **Censar antes de diseñar nada** — barato, sobre el recibo FULL ya
+> congelado, mismo patrón que el censo de punteros con el que esta entrada mató al lever B.
+
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
 0/5→5/5 en DEC-173) sino por **población**, que es justo lo que DEC-173 obliga a medir antes de
