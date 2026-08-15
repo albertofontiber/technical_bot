@@ -1501,7 +1501,8 @@
     "status": "active",
     "product_model": "KE-DM3110R-KIT",
     "manufacturer": "Kidde",
-    "doc_type": "datasheet"
+    "doc_type": "datasheet",
+    "source_file": "DS_KIDDE_KE_DM3110R_KIT_f3b7"
    },
    "senales": {
     "menciones_doc": {
@@ -1562,19 +1563,34 @@
     }
    ],
    "motivos_individual": [],
-   "seccion": 0
+   "seccion": 0,
+   "atribucion_corregida_s322j": {
+    "antes": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+    "ahora_document_id": "ab147d5c-0fb1-4e92-85ad-364b53e951e8",
+    "ahora_source_file": "DS_KIDDE_KE_DM3110R_KIT_f3b7",
+    "motivo": "la cita verifica full-text en este documento, no en el anterior"
+   },
+   "atribucion_previa_s322j": {
+    "id": "ab147d5c-0fb1-4e92-85ad-364b53e951e8",
+    "source_pdf_filename": "DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf",
+    "status": "active",
+    "product_model": "KE-DM3110R-KIT",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet"
+   }
   },
   {
    "id": "kidde:ke-dm3110r-kit",
    "canonical_model": "KE-DM3110R-KIT",
    "provenance": "documents.pm de mi_kidde_ke_dm3110r_kit_28a2",
    "documento": {
-    "id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
-    "source_pdf_filename": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+    "id": "ab147d5c-0fb1-4e92-85ad-364b53e951e8",
+    "source_pdf_filename": "DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf",
     "status": "active",
     "product_model": "KE-DM3110R-KIT",
     "manufacturer": "Kidde",
-    "doc_type": "instalacion"
+    "doc_type": "datasheet",
+    "source_file": "DS_KIDDE_KE_DM3110R_KIT_f3b7"
    },
    "senales": {
     "menciones_doc": {
@@ -1629,7 +1645,22 @@
     }
    ],
    "motivos_individual": [],
-   "seccion": 0
+   "seccion": 0,
+   "atribucion_previa_s322j": {
+    "id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+    "source_pdf_filename": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+    "status": "active",
+    "product_model": "KE-DM3110R-KIT",
+    "manufacturer": "Kidde",
+    "doc_type": "instalacion"
+   },
+   "atribucion_corregida_s322j": {
+    "antes": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+    "ahora_document_id": "ab147d5c-0fb1-4e92-85ad-364b53e951e8",
+    "ahora_source_file": "DS_KIDDE_KE_DM3110R_KIT_f3b7",
+    "motivo": "la cita verifica full-text en este documento, no en el anterior"
+   },
+   "nota_s322j3": "fila DUPLICADA del mismo id: s322j solo corrigió la primera"
   },
   {
    "id": "kidde:ke-dp3021b",
@@ -2224,12 +2255,13 @@
    "canonical_model": "DXc Connexion",
    "provenance": "documents.pm de no-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-tg-hacia",
    "documento": {
-    "id": "03a09ba4-9396-4254-b076-bd6016fbf92b",
+    "id": "2b2b32b0-7002-4722-ac06-414d45a8ed73",
     "source_pdf_filename": "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf",
     "status": "active",
     "product_model": "DXc Connexion",
     "manufacturer": "Morley",
-    "doc_type": null
+    "doc_type": null,
+    "source_file": "DXC-Connexion-Averia-F-Alimentacion-externa"
    },
    "senales": {
     "menciones_doc": {
@@ -2320,7 +2352,21 @@
     }
    ],
    "motivos_individual": [],
-   "seccion": 0
+   "seccion": 0,
+   "atribucion_corregida_s322j": {
+    "antes": "03a09ba4-9396-4254-b076-bd6016fbf92b",
+    "ahora_document_id": "2b2b32b0-7002-4722-ac06-414d45a8ed73",
+    "ahora_source_file": "DXC-Connexion-Averia-F-Alimentacion-externa",
+    "motivo": "la cita verifica full-text en este documento, no en el anterior"
+   },
+   "atribucion_previa_s322j": {
+    "id": "03a09ba4-9396-4254-b076-bd6016fbf92b",
+    "source_pdf_filename": "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf",
+    "status": "active",
+    "product_model": "DXc Connexion",
+    "manufacturer": "Morley",
+    "doc_type": null
+   }
   },
   {
    "id": "morley:mod-rs-232",
@@ -2522,12 +2568,13 @@
    "canonical_model": "CLSS Configuration Tool",
    "provenance": "documents.pm de 4188-1124-pt issue 4_01-2026_to",
    "documento": {
-    "id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+    "id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
     "source_pdf_filename": "4188-1124-PT issue 4_01-2026_To.pdf",
     "status": "active",
     "product_model": "CLSS Configuration Tool",
     "manufacturer": "Notifier",
-    "doc_type": null
+    "doc_type": null,
+    "source_file": "4188-1122-ES issue 4_04-2025_Cyb"
    },
    "senales": {
     "menciones_doc": {
@@ -2618,7 +2665,21 @@
     }
    ],
    "motivos_individual": [],
-   "seccion": 0
+   "seccion": 0,
+   "atribucion_corregida_s322j": {
+    "antes": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+    "ahora_document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+    "ahora_source_file": "4188-1122-ES issue 4_04-2025_Cyb",
+    "motivo": "la cita verifica full-text en este documento, no en el anterior"
+   },
+   "atribucion_previa_s322j": {
+    "id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+    "source_pdf_filename": "4188-1124-PT issue 4_01-2026_To.pdf",
+    "status": "active",
+    "product_model": "CLSS Configuration Tool",
+    "manufacturer": "Notifier",
+    "doc_type": null
+   }
   },
   {
    "id": "notifier:id2net",
@@ -2934,12 +2995,13 @@
    "canonical_model": "NFXI-BSF-WCH",
    "provenance": "documents.pm de d 1147-1 brh notifier",
    "documento": {
-    "id": "89024b18-d156-4118-ae3a-997210903102",
+    "id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
     "source_pdf_filename": "D 1147-1 BRH Notifier",
     "status": "active",
     "product_model": "NFXI-BSF-WCH",
     "manufacturer": "Notifier",
-    "doc_type": null
+    "doc_type": null,
+    "source_file": "HOP-138-9ES issue 5_11-2025_In"
    },
    "senales": {
     "menciones_doc": {
@@ -3000,80 +3062,21 @@
     }
    ],
    "motivos_individual": [],
-   "seccion": 0
-  },
-  {
-   "id": "notifier:serie-ps",
-   "canonical_model": "Serie PS",
-   "provenance": "documents.pm de serie ps",
-   "documento": {
-    "id": "9e1baaa5-be5c-4713-b0e2-913010a31802",
-    "source_pdf_filename": "Serie PS.pdf",
+   "seccion": 0,
+   "atribucion_corregida_s322j": {
+    "antes": "89024b18-d156-4118-ae3a-997210903102",
+    "ahora_document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+    "ahora_source_file": "HOP-138-9ES issue 5_11-2025_In",
+    "motivo": "la cita verifica full-text en este documento, no en el anterior"
+   },
+   "atribucion_previa_s322j": {
+    "id": "89024b18-d156-4118-ae3a-997210903102",
+    "source_pdf_filename": "D 1147-1 BRH Notifier",
     "status": "active",
-    "product_model": "Serie PS",
+    "product_model": "NFXI-BSF-WCH",
     "manufacturer": "Notifier",
     "doc_type": null
-   },
-   "senales": {
-    "menciones_doc": {
-     "flexibles": 1,
-     "estrictas": 1,
-     "mayusculas": 0,
-     "como_fragmento": 0
-    },
-    "menciones_muestra_global": {
-     "flexibles": 10,
-     "estrictas": 6,
-     "mayusculas": 2,
-     "como_fragmento": 0,
-     "documentos": 2
-    },
-    "chunks_con_product_model_exacto": 9,
-    "chunks_con_product_model_parecido": 9,
-    "documentos_con_product_model": 1,
-    "documentos_con_termino_en_filename": 1,
-    "termino_en_filename_del_doc": true,
-    "n_chunks_doc": 9,
-    "filas_mismo_fichero": [
-     {
-      "filename": "Serie PS.pdf",
-      "status": "active",
-      "product_model": "Serie PS"
-     }
-    ]
-   },
-   "llm": {
-    "veredicto": "PRODUCTO_REAL",
-    "rol_en_texto": "TITULO",
-    "confianza": "alta",
-    "cita": "# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS",
-    "producto_padre": null,
-    "termino_real": null,
-    "razon": "Es el título del manual y de secciones: familia de fuentes de alimentación Notifier (PS-12, PS-24, PS3, PS5)."
-   },
-   "cita_verificada": true,
-   "pasajes": [
-    {
-     "etiqueta": "DOC ORIGEN · serie ps",
-     "mayusculas": false,
-     "es_fragmento": false,
-     "texto": "# NOTIFIER® # by Honeywell ---- *POWER SUPPLY STATION FUENTES DE ALIMENTACIÓN CARTES D'ALIMENTATION VOEDINGSUNIT* # **«Serie PS»** ---- CE # ENGLISH ## DESCRIPTION The PS-12 and PS-24 Power Supply Stations are especially designed to supply backup power to particularly demanding Fire, and Security control systems. Both stations have built-in Electronic, and Power Sup"
-    },
-    {
-     "etiqueta": "OTRO DOC · MNDT1300_E · seccion=1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS · pm=PS SERIES",
-     "mayusculas": true,
-     "es_fragmento": false,
-     "texto": "# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA «SERIE PS» La instalación y puesta en marcha de la fuente de alimentación de la Serie **PS** resulta sencilla si se siguen los procedimientos descritos en este manual **Lea detenidamente las instrucciones descritas en este manual para evitar anomalía"
-    },
-    {
-     "etiqueta": "OTRO DOC · MNDT1300_E · seccion=None · pm=PS SERIES",
-     "mayusculas": true,
-     "es_fragmento": false,
-     "texto": "# NOTIFIER® # by Honeywell **Honeywell Life Safety Iberia** Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 ---- # FUENTES DE ALIMENTACIÓN # «SERIE PS» ## *PS3 y PS5* [Image: A gray rectangular power supply unit mounted in what appears to be a wall-mounted enclosure. The unit has a white label with indicator lights and text in the upper left portion. At the bottom of the unit is a red NOT"
-    }
-   ],
-   "motivos_individual": [],
-   "seccion": 0
+   }
   },
   {
    "id": "notifier:stratos",
@@ -11493,6 +11496,81 @@
     "sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo"
    ],
    "seccion": 1
+  },
+  {
+   "id": "notifier:serie-ps",
+   "canonical_model": "Serie PS",
+   "provenance": "documents.pm de serie ps",
+   "documento": {
+    "id": "9e1baaa5-be5c-4713-b0e2-913010a31802",
+    "source_pdf_filename": "Serie PS.pdf",
+    "status": "active",
+    "product_model": "Serie PS",
+    "manufacturer": "Notifier",
+    "doc_type": null
+   },
+   "senales": {
+    "menciones_doc": {
+     "flexibles": 1,
+     "estrictas": 1,
+     "mayusculas": 0,
+     "como_fragmento": 0
+    },
+    "menciones_muestra_global": {
+     "flexibles": 10,
+     "estrictas": 6,
+     "mayusculas": 2,
+     "como_fragmento": 0,
+     "documentos": 2
+    },
+    "chunks_con_product_model_exacto": 9,
+    "chunks_con_product_model_parecido": 9,
+    "documentos_con_product_model": 1,
+    "documentos_con_termino_en_filename": 1,
+    "termino_en_filename_del_doc": true,
+    "n_chunks_doc": 9,
+    "filas_mismo_fichero": [
+     {
+      "filename": "Serie PS.pdf",
+      "status": "active",
+      "product_model": "Serie PS"
+     }
+    ]
+   },
+   "llm": {
+    "veredicto": "PRODUCTO_REAL",
+    "rol_en_texto": "TITULO",
+    "confianza": "alta",
+    "cita": "# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS",
+    "producto_padre": null,
+    "termino_real": null,
+    "razon": "Es el título del manual y de secciones: familia de fuentes de alimentación Notifier (PS-12, PS-24, PS3, PS5)."
+   },
+   "cita_verificada": true,
+   "pasajes": [
+    {
+     "etiqueta": "DOC ORIGEN · serie ps",
+     "mayusculas": false,
+     "es_fragmento": false,
+     "texto": "# NOTIFIER® # by Honeywell ---- *POWER SUPPLY STATION FUENTES DE ALIMENTACIÓN CARTES D'ALIMENTATION VOEDINGSUNIT* # **«Serie PS»** ---- CE # ENGLISH ## DESCRIPTION The PS-12 and PS-24 Power Supply Stations are especially designed to supply backup power to particularly demanding Fire, and Security control systems. Both stations have built-in Electronic, and Power Sup"
+    },
+    {
+     "etiqueta": "OTRO DOC · MNDT1300_E · seccion=1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS · pm=PS SERIES",
+     "mayusculas": true,
+     "es_fragmento": false,
+     "texto": "# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA «SERIE PS» La instalación y puesta en marcha de la fuente de alimentación de la Serie **PS** resulta sencilla si se siguen los procedimientos descritos en este manual **Lea detenidamente las instrucciones descritas en este manual para evitar anomalía"
+    },
+    {
+     "etiqueta": "OTRO DOC · MNDT1300_E · seccion=None · pm=PS SERIES",
+     "mayusculas": true,
+     "es_fragmento": false,
+     "texto": "# NOTIFIER® # by Honeywell **Honeywell Life Safety Iberia** Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 ---- # FUENTES DE ALIMENTACIÓN # «SERIE PS» ## *PS3 y PS5* [Image: A gray rectangular power supply unit mounted in what appears to be a wall-mounted enclosure. The unit has a white label with indicator lights and text in the upper left portion. At the bottom of the unit is a red NOT"
+    }
+   ],
+   "motivos_individual": [],
+   "seccion": 0,
+   "sacada_del_bloque_s322j": "su cita no verifica ni en el documento atribuido ni en el que el censo señalaba: no se fuerza, decide Alberto"
   }
- ]
+ ],
+ "s322j_reatribucion": "Ítem bloqueante del dúo r29 cerrado: citas re-atribuidas al documento donde verifican, o sacadas del bloque si no verifican en ninguno."
 }

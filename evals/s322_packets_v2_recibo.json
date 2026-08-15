@@ -1,6 +1,6 @@
 {
  "que_es": "Ensamblado determinista (sin LLM) de los tres packets de adjudicación v2 a partir de los 7 recibos hermanos de s322f/s322g. PROPUESTA: no se aplicó nada.",
- "utc": "20260815T105757Z",
+ "utc": "20260815T163607Z",
  "solo_lectura_sobre": [
   "evals/s322f_e1_colisiones_adjudicacion_v1.json",
   "evals/s322f_e2_altas_split_v1.json",
@@ -16,58 +16,63 @@
   "evals/s320_e1b_packet_adjudicacion_v2.md",
   "evals/s320_e2_packet_adjudicacion_v2.md"
  ],
- "avisos_de_drift": [],
+ "avisos_de_drift": [
+  "DRIFT en candidates · bloque: esperado 50, en el recibo 49",
+  "DRIFT en candidates · individual: esperado 83, en el recibo 84",
+  "DRIFT en confirmar · bloque: esperado 327, en el recibo 326",
+  "DRIFT en confirmar · individual: esperado 32, en el recibo 33"
+ ],
  "packets": {
   "e1": {
    "fichero": "C:/dev/technical_bot/evals/s320_e1_packet_adjudicacion_v2.md",
-   "lineas": 905,
+   "lineas": 916,
    "filas_por_seccion": {
     "0A": 49,
     "0B": 42,
-    "0C": 33,
+    "0C": 32,
     "0D": 17,
     "0E": 3,
     "1A": 13,
-    "1B": 83,
+    "1B": 84,
     "1C": 1,
     "2": 12
    },
    "casillas_por_seccion": {
     "0A": 49,
     "0B": 42,
-    "0C": 33,
+    "0C": 32,
     "0D": 17,
     "0E": 3,
     "1A": 13,
-    "1B": 83,
+    "1B": 84,
     "1C": 1
    },
    "secciones_largas": {}
   },
   "e1b": {
    "fichero": "C:/dev/technical_bot/evals/s320_e1b_packet_adjudicacion_v2.md",
-   "lineas": 1396,
+   "lineas": 1406,
    "filas_por_seccion": {
     "0A": 197,
-    "0B": 130,
+    "0B": 129,
     "0C": 144,
     "0D": 4,
-    "1A": 32,
+    "1A": 33,
     "1B": 113
    },
    "casillas_por_seccion": {
     "0A": 9,
-    "0B": 130,
+    "0B": 129,
     "0C": 144,
     "0D": 4,
-    "1A": 32,
+    "1A": 33,
     "1B": 113
    },
    "secciones_largas": {}
   },
   "e2": {
    "fichero": "C:/dev/technical_bot/evals/s320_e2_packet_adjudicacion_v2.md",
-   "lineas": 545,
+   "lineas": 552,
    "filas_por_seccion": {
     "0A": 44,
     "0B": 518,

@@ -1,4 +1,4 @@
-# s320 E2 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T105757Z
+# s320 E2 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 **SUPERSEDE a `evals/s320_e2_packet_adjudicacion_v1.md`.**
 Aquel packet listaba **1235 altas** del detector en 25 lotes de 50, todas con el mismo
@@ -17,6 +17,13 @@ de contaminación del detector, no por orden alfabético.
 **NADA APLICADO.** Ni catálogo (`data/catalog/*.jsonl`), ni Supabase, ni el
 snapshot del detector (`data/model_catalog.json`). Todo lo de aquí es PROPUESTA:
 marca ✓/✗ y se aplica después por la puerta gobernada, con recibo.
+
+> ⚠ **Aviso de drift entre el encargo y los recibos** (no se ha corregido nada,
+> se declara):
+> - DRIFT en candidates · bloque: esperado 50, en el recibo 49
+> - DRIFT en candidates · individual: esperado 83, en el recibo 84
+> - DRIFT en confirmar · bloque: esperado 327, en el recibo 326
+> - DRIFT en confirmar · individual: esperado 32, en el recibo 33
 
 **Por qué el riesgo importa aquí y no en los otros packets** — el patrón del detector es \b(core)(?!\d) sin \b de cierre y _base_aliases() ensancha solo: un término corto o común contamina TODAS las consultas (caso FUEGO)
 
@@ -535,7 +542,7 @@ decisiones, explican por qué una cifra no cuadra con la v1):
 ## Recibos (la traza completa, fila a fila)
 
 - `evals/s322f_e2_altas_split_v1.json` — 1235 filas (562 bloque / 669 individual)
-- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T105757Z.
+- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T163607Z.
 
 ## Auto-verificación del encabezado
 

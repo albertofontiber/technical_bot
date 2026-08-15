@@ -11439,7 +11439,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "09ab312d-242f-4c38-9104-4e2b68249f07",
-     "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+     "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
      "pagina": 5,
      "seccion": null,
      "fragmento": "…| Test Kit FIDEGAS® | # PRODUCTOS COMPATIBLES * Centrales Ref. CA- * Centrales Ref. CS4 * Telecontrol SMS-01 * Indicador remoto MIR V2 5 [Fidegas logo in top right corner]",
@@ -11448,24 +11448,10 @@
       "product_model": "EL-11",
       "doc_type": null,
       "fichero": "Manual-de-Usuario-S3-2"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "2160bd36-9ecc-4f7f-b30d-5cf828216d13",
-      "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
-      "pagina": 1,
-      "seccion": null,
-      "fragmento": "# MANUAL DE USUARIO ## CENTRAL DE ALARMAS # CS4 ## (Analógica o Digital) [Device diagram showing CS4 alarm control panel with the following elements: Top…"
      },
-     {
-      "chunk_id": "3a74be02-e58b-4f8a-bf51-1eebefed425b",
-      "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
-      "pagina": 5,
-      "seccion": "3. CONEXIONES",
-      "fragmento": "…ows \"Sensor Remoto 1\" with three terminals labeled 1, 2, 3 connected to a terminal block, with connections to CS4 unit marked \"REF O\" and \"SIG O\" Right diagram: Shows \"Sensor Remoto 1\" with terminals labeled A, V, S, VD co…"
-     }
-    ],
+     "source_file": "Manual-de-Usuario-CS4"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -11483,7 +11469,26 @@
     "cita": "# MANUAL DE USUARIO ## CENTRAL DE ALARMAS # CS4 ## (Analógica o Digital)",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "CS4 es el título de un manual de usuario propio como central de alarmas y aparece listado como producto compatible ('Centrales Ref. CS4'), lo que confirma que es una referencia comercial real de Fidegas."
+    "por_que": "CS4 es el título de un manual de usuario propio como central de alarmas y aparece listado como producto compatible ('Centrales Ref. CS4'), lo que confirma que es una referencia comercial real de Fidegas.",
+    "atribucion_corregida_s322j": {
+     "antes": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+     "ahora_document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "09ab312d-242f-4c38-9104-4e2b68249f07",
+     "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+     "pagina": 5,
+     "seccion": null,
+     "fragmento": "…| Test Kit FIDEGAS® | # PRODUCTOS COMPATIBLES * Centrales Ref. CA- * Centrales Ref. CS4 * Telecontrol SMS-01 * Indicador remoto MIR V2 5 [Fidegas logo in top right corner]",
+     "documento": {
+      "fabricante": "Fidegas",
+      "product_model": "EL-11",
+      "doc_type": null,
+      "fichero": "Manual-de-Usuario-S3-2"
+     }
+    }
    },
    {
     "id": "firebeam:firebeam-xtra",
@@ -11645,72 +11650,6 @@
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
     "por_que": "La evidencia muestra que 2X-AT designa una serie de centrales de incendio del fabricante, mencionada como tal en guías y manuales, con 28 menciones como token completo."
-   },
-   {
-    "id": "kidde:standard-display-module",
-    "modelo": "Standard Display Module",
-    "n_ilike_s320": 5,
-    "n_ilike_hoy": 5,
-    "muestra_descargada": 5,
-    "muestra_es_censo": true,
-    "n_chunks_token_exacto": 4,
-    "n_chunks_solo_parasito": 1,
-    "docs_distintos_con_exacta": 3,
-    "parasitos_top": [
-     {
-      "token": "Standard Display Modules",
-      "n": 2
-     }
-    ],
-    "evidencia": {
-     "chunk_id": "14e1aaec-ce03-4f2c-ad48-05d63f217bd6",
-     "document_id": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
-     "pagina": 1,
-     "seccion": "9-30781-KID-EN",
-     "fragmento": "KIDDE COMMERCIAL # 9-30781-KID-EN **Kidde ModuLaser, Standard display module** ## General ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, ma…",
-     "documento": {
-      "fabricante": "Kidde",
-      "product_model": "9-30781-KID-EN",
-      "doc_type": "datasheet",
-      "fichero": "9-30781-kid-en-161721-es.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "ba3b7486-b260-4612-9abd-b96fe96588b1",
-      "document_id": null,
-      "pagina": 2,
-      "seccion": "9-30441",
-      "fragmento": "…e | | Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module | | Dispositivo de detección | 9-30781-KID | Kidde Senator ModuLaser, Standard…"
-     },
-     {
-      "chunk_id": "bcb325cf-bc87-4f6d-ba6d-e76557a661ac",
-      "document_id": "fd5cb420-c7e6-4695-b792-27c65a841ade",
-      "pagina": 2,
-      "seccion": "9-30783-KID-EN",
-      "fragmento": "…| | Consumo de corriente | Display Module (at 24 VDC):<br/>204 mA - Minimum Display Module<br/>232 mA - Standard Display Module<br/>232 mA - Command Display Module<br/>Detector Module (at 24 VDC):<br/>260 mA - fan speed 1<br/>380 mA - fa…"
-     }
-    ],
-    "corrobora_product_model": false,
-    "banderas": [
-     "multipalabra",
-     "palabra_generica",
-     "sin_digitos"
-    ],
-    "error": null,
-    "coherencia_fabricante": "coincide",
-    "parasitos_ya_en_catalogo": [],
-    "motivos_no_determinista": [
-     "forma sospechosa: multipalabra, palabra_generica, sin_digitos"
-    ],
-    "ruta": "llm",
-    "veredicto": "confirmar",
-    "confianza": "alta",
-    "confianza_declarada": "alta",
-    "cita": "Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module",
-    "cita_verificada": true,
-    "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "El nombre designa una variante real del sistema ModuLaser de Kidde, asociada a la referencia comercial 9-30781 y diferenciada de otros módulos (Minimum, Command) en las especificaciones técnicas."
    },
    {
     "id": "morley:dx1e",
@@ -12481,7 +12420,7 @@
     ],
     "evidencia": {
      "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
-     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
      "pagina": 16,
      "seccion": "Hardware de Cabina para el Sistema 5000",
      "fragmento": "…l de Revestimiento de Módulo MP-1** [Diagram showing a smaller rectangular blank module] **Módulo en Blanco BM-1** [Diagram showing a blank rectangular panel with mounting holes] **Panel de Revestimiento en Blanco DP-1**…",
@@ -12490,24 +12429,10 @@
       "product_model": "SYSTEM 5000",
       "doc_type": "instalacion",
       "fichero": "MNDT060"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "aa3acf9a-d929-48c1-8f9f-75c915048ed2",
-      "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-      "pagina": 26,
-      "seccion": "CAB-400AA",
-      "fragmento": "…ara cubrir el área de la caja de los módulos de alrededor). | | BM-1 | Módulo vacío para cubrir un módulo o panel no utilizado…"
      },
-     {
-      "chunk_id": "bcfb7825-9d7d-4d27-901c-25a9984433e9",
-      "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
-      "pagina": 34,
-      "seccion": "Gabinetes CAB-400AA",
-      "fragmento": "…área del cajón posterior alrededor de los módulos. El DP-400AA es requerido en instalaciones Canadienses. | | BM-1 | Módulo en blanco para cubrir un panel no utilizado o a un módulo.…"
-     }
-    ],
+     "source_file": "MIDT170"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -12530,7 +12455,26 @@
     "cita": "BM-1 | Módulo vacío para cubrir un módulo o panel no utilizado",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "BM-1 aparece en varias tablas de productos del fabricante como módulo en blanco para cubrir posiciones no utilizadas, con descripción de producto consistente en tres documentos distintos."
+    "por_que": "BM-1 aparece en varias tablas de productos del fabricante como módulo en blanco para cubrir posiciones no utilizadas, con descripción de producto consistente en tres documentos distintos.",
+    "atribucion_corregida_s322j": {
+     "antes": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "ahora_document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
+     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "pagina": 16,
+     "seccion": "Hardware de Cabina para el Sistema 5000",
+     "fragmento": "…l de Revestimiento de Módulo MP-1** [Diagram showing a smaller rectangular blank module] **Módulo en Blanco BM-1** [Diagram showing a blank rectangular panel with mounting holes] **Panel de Revestimiento en Blanco DP-1**…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "SYSTEM 5000",
+      "doc_type": "instalacion",
+      "fichero": "MNDT060"
+     }
+    }
    },
    {
     "id": "notifier:bp-1",
@@ -12668,7 +12612,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "19746938-e8d2-4583-90e0-1681e747a131",
-     "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+     "document_id": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
      "pagina": 25,
      "seccion": "Montando el ICA-4L",
      "fragmento": "…s del ICA-4L: * CPU-2 * CPU-2020 * SIB-64 * SIB-232 * SIB-2048 * UZC-256 * CCM-1 * LIB-200 * NIB-96 Cuando este instalando cualquier tablero consistente de un recipiente…",
@@ -12677,24 +12621,10 @@
       "product_model": "AM-2020",
       "doc_type": "instalacion",
       "fichero": "15088SP"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "1f2c2106-69ea-4b62-aaad-4206e09903f3",
-      "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
-      "pagina": 58,
-      "seccion": "Cableamiento en el Campo de una APS-6R",
-      "fragmento": "…─┤ │────┼──→ Hacia AVPS-24 o AVPS-24E, │ │ │ │ │ │ │ │ │ │ │ │ CCM-1, AMG-1, o │ │ │ │ │ │ │ │ │ │ │ │ otro APS-6R, si │ │ │…"
      },
-     {
-      "chunk_id": "2b51c82e-8fe7-4d14-991b-2a1a8669141a",
-      "document_id": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
-      "pagina": 5,
-      "seccion": "1.1 DOCUMENTACIÓN RELACIONADA",
-      "fragmento": "…DACT | 50050 | | DOCUMENTO INSTALACIÓN DEL PRODUCTO (CCM-1) | 15328 | MANUALES DE PROGRAMACIÓN, FUNCIONAMIENTO, INSTALACIÓN DE LA FUENTE DE ALIMENTACI…"
-     }
-    ],
+     "source_file": "MNDT380"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -12712,7 +12642,26 @@
     "cita": "DOCUMENTO INSTALACIÓN DEL PRODUCTO (CCM-1) | 15328",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "CCM-1 aparece con documento de instalación propio y listado junto a otros módulos del sistema (CPU-2, SIB-64, AMG-1), lo que confirma que es una referencia comercial real de Notifier."
+    "por_que": "CCM-1 aparece con documento de instalación propio y listado junto a otros módulos del sistema (CPU-2, SIB-64, AMG-1), lo que confirma que es una referencia comercial real de Notifier.",
+    "atribucion_corregida_s322j": {
+     "antes": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+     "ahora_document_id": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "19746938-e8d2-4583-90e0-1681e747a131",
+     "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+     "pagina": 25,
+     "seccion": "Montando el ICA-4L",
+     "fragmento": "…s del ICA-4L: * CPU-2 * CPU-2020 * SIB-64 * SIB-232 * SIB-2048 * UZC-256 * CCM-1 * LIB-200 * NIB-96 Cuando este instalando cualquier tablero consistente de un recipiente…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "AM-2020",
+      "doc_type": "instalacion",
+      "fichero": "15088SP"
+     }
+    }
    },
    {
     "id": "notifier:cmx",
@@ -13122,7 +13071,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
-     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
      "pagina": 16,
      "seccion": "Hardware de Cabina para el Sistema 5000",
      "fragmento": "…o BM-1** [Diagram showing a blank rectangular panel with mounting holes] **Panel de Revestimiento en Blanco DP-1** [Diagram showing a flat chassis/frame with multiple mounting holes arranged in rows] ## Bastidor CHS-4L…",
@@ -13131,24 +13080,10 @@
       "product_model": "SYSTEM 5000",
       "doc_type": "instalacion",
       "fichero": "MNDT060"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "399900c1-8a95-4b35-bc7f-45671981f12b",
-      "document_id": "24e196e9-2c26-4d0b-bd54-bd83053db178",
-      "pagina": 5,
-      "seccion": "El Transpondedor XP",
-      "fragmento": "….......................................................................................................... 15 DP-1..............................................................................................................…"
      },
-     {
-      "chunk_id": "548c9f33-c3a9-4a71-bce1-86f7f69cc1d4",
-      "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
-      "pagina": 34,
-      "seccion": "Otros Componentes",
-      "fragmento": "…e de alimentación principal y a las baterías en el gabinete. Solamente un BP-3 es requerido por sistema. ### DP-1 El **Panel Embellecedor (DP-1)** cubre los ensambles adicionales del ICA-4L o el CHS-4/4L en el gabinete. […"
-     }
-    ],
+     "source_file": "15088SP"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -13166,7 +13101,26 @@
     "cita": "El **Panel Embellecedor (DP-1)** cubre los ensambles adicionales del ICA-4L o el CHS-4/4L en el gabinete.",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "DP-1 aparece descrito explícitamente como un producto (Panel Embellecedor) con función definida en el manual, además de figurar en el índice y junto a otros accesorios reales como BM-1 y CHS-4L."
+    "por_que": "DP-1 aparece descrito explícitamente como un producto (Panel Embellecedor) con función definida en el manual, además de figurar en el índice y junto a otros accesorios reales como BM-1 y CHS-4L.",
+    "atribucion_corregida_s322j": {
+     "antes": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "ahora_document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
+     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "pagina": 16,
+     "seccion": "Hardware de Cabina para el Sistema 5000",
+     "fragmento": "…o BM-1** [Diagram showing a blank rectangular panel with mounting holes] **Panel de Revestimiento en Blanco DP-1** [Diagram showing a flat chassis/frame with multiple mounting holes arranged in rows] ## Bastidor CHS-4L…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "SYSTEM 5000",
+      "doc_type": "instalacion",
+      "fichero": "MNDT060"
+     }
+    }
    },
    {
     "id": "notifier:dts-240",
@@ -13181,7 +13135,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "024fc48b-feb9-4411-9835-a8b966e0e2fe",
-     "document_id": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
+     "document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
      "pagina": 47,
      "seccion": "Procedimiento 1. Método de procesamiento de la temperatura",
      "fragmento": "…ger/DTS240-nnnnnn-ddmmyy.dts** Si es una configuración posterior, donde **nnnnnn** es el número de serie del DTS 240 y **ddmmyy** es la fecha. > **Nota:** > > La finalidad de este archivo es permitir restaurar la configuració…",
@@ -13190,24 +13144,10 @@
       "product_model": "LTS-240",
       "doc_type": "guia_usuario",
       "fichero": "MNDT1071"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "02a8c9c8-42ec-4e1b-a8ab-2f690c7b1334",
-      "document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
-      "pagina": 11,
-      "seccion": "Cable de fibra óptica y conectores",
-      "fragmento": "…. El cable sensor se instala en el área que se va a proteger y también se conecta a la unidad optoelectrónica DTS 240. El cable se puede conectar a un lazo o, de forma alternativa, a un sistema con bucle abierto. La unidad de…"
      },
-     {
-      "chunk_id": "04e006b1-a440-4c1b-b44c-64d1b5838f77",
-      "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
-      "pagina": 1,
-      "seccion": null,
-      "fragmento": "…cada sin previo aviso* MF-DT-1070 2 de 24 # Signal Processing En este punto, los post-procesadores del DTS 240, el software integrado y los adaptados se utilizan para producir perfiles de trazado que muestran \"eventos\" d…"
-     }
-    ],
+     "source_file": "MNDT1070"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "multipalabra"
@@ -13225,7 +13165,26 @@
     "cita": "El cable sensor se instala en el área que se va a proteger y también se conecta a la unidad optoelectrónica DTS 240.",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe el DTS 240 como una unidad optoelectrónica física a la que se conecta el cable sensor, con número de serie propio y post-procesadores, lo que confirma que es un producto real del fabricante."
+    "por_que": "La evidencia describe el DTS 240 como una unidad optoelectrónica física a la que se conecta el cable sensor, con número de serie propio y post-procesadores, lo que confirma que es un producto real del fabricante.",
+    "atribucion_corregida_s322j": {
+     "antes": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
+     "ahora_document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "024fc48b-feb9-4411-9835-a8b966e0e2fe",
+     "document_id": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
+     "pagina": 47,
+     "seccion": "Procedimiento 1. Método de procesamiento de la temperatura",
+     "fragmento": "…ger/DTS240-nnnnnn-ddmmyy.dts** Si es una configuración posterior, donde **nnnnnn** es el número de serie del DTS 240 y **ddmmyy** es la fecha. > **Nota:** > > La finalidad de este archivo es permitir restaurar la configuració…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "LTS-240",
+      "doc_type": "guia_usuario",
+      "fichero": "MNDT1071"
+     }
+    }
    },
    {
     "id": "notifier:e-sib",
@@ -13249,7 +13208,7 @@
     ],
     "evidencia": {
      "chunk_id": "2eb26979-7b8e-4ec2-bcef-b158174d43c5",
-     "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+     "document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
      "pagina": 45,
      "seccion": "`Carpeta SIB` (Programación de la instalación de la salida E-SIB)",
      "fragmento": "# `Carpeta SIB` (Programación de la instalación de la salida E-SIB) Esta función permite configurar la presencia de la interfaz E-SIB y la dirección del dispositivo periférico…",
@@ -13258,24 +13217,10 @@
       "product_model": "AM-8100",
       "doc_type": "configuracion",
       "fichero": "AM-8100 manual de usuario y programacion rev 4 30-10-2024"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "68eb7483-68d2-4b75-9166-e0996ae38592",
-      "document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
-      "pagina": 2,
-      "seccion": "INDICE",
-      "fragmento": "…ITCH SW1……….……………………………………21** **6: TABLA RESUMEN DE TARJETAS/CONEXIONES………………………………………………………………21** **6.1: E-SIB (mochila que habilita la comunicación serie)…………………………………………………22** **6.2: AM82-BST-C (tarjeta amplificadora…"
      },
-     {
-      "chunk_id": "7c2c03f7-f2d7-4c6c-aca5-742b6849ebc8",
-      "document_id": "c8195393-18fa-43b6-87d0-a3069a5127e2",
-      "pagina": 20,
-      "seccion": "5: TABLA RESUMEN DE TARJETAS/CONEXIONES",
-      "fragmento": "…tores Usuario Led (LTX) TX. Com. CN1 Led (LRX) RX. Com. CN1 Leds de señalización del panel frontal ## 5.1: E-SIB (mochila que habilita la comunicación serie) Mochila de habilitación de comunicación E-SIB para centrales AM…"
-     }
-    ],
+     "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto",
@@ -13303,7 +13248,26 @@
     "cita": "E-SIB (mochila que habilita la comunicación serie)",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe E-SIB como una tarjeta/mochila de interfaz serie configurable en centrales Notifier AM, con función y conexión propias; es una referencia comercial real, no un artefacto."
+    "por_que": "La evidencia describe E-SIB como una tarjeta/mochila de interfaz serie configurable en centrales Notifier AM, con función y conexión propias; es una referencia comercial real, no un artefacto.",
+    "atribucion_corregida_s322j": {
+     "antes": "f1d3db52-c955-472e-9237-9019a007ba83",
+     "ahora_document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "2eb26979-7b8e-4ec2-bcef-b158174d43c5",
+     "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+     "pagina": 45,
+     "seccion": "`Carpeta SIB` (Programación de la instalación de la salida E-SIB)",
+     "fragmento": "# `Carpeta SIB` (Programación de la instalación de la salida E-SIB) Esta función permite configurar la presencia de la interfaz E-SIB y la dirección del dispositivo periférico…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "AM-8100",
+      "doc_type": "configuracion",
+      "fichero": "AM-8100 manual de usuario y programacion rev 4 30-10-2024"
+     }
+    }
    },
    {
     "id": "notifier:e10",
@@ -13554,7 +13518,7 @@
     ],
     "evidencia": {
      "chunk_id": "003cf3e3-159b-4a48-b4c5-73cac887e95f",
-     "document_id": "38e238fa-b3c8-4532-8d1d-b05eccc7524e",
+     "document_id": "c2ae8cae-19e4-42db-9737-355d6de0360a",
      "pagina": 3,
      "seccion": null,
      "fragmento": "…ransformador, regleta de conexión de red y modulos de zonas. Existen dos tamaños de central de control: - **G-10 1/2** tamaño pequeño : con capacidad de 1a 2 zonas - **G-10-1/5** tamaño grande: con capacidad de 1 a 5 zonas…",
@@ -13563,24 +13527,10 @@
       "product_model": "G-10/NCO-10",
       "doc_type": "instalacion",
       "fichero": "manco-N"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "10d05baf-71cd-4d12-8bd9-86fc6c6c91c3",
-      "document_id": "c2ae8cae-19e4-42db-9737-355d6de0360a",
-      "pagina": 1,
-      "seccion": null,
-      "fragmento": "…stallation Manual GB ### DESCRIPTION The NCO-10 carbon monoxide (CO) detector is designed for use with the G-10 CO detection system in car parks and other enclosed spaces where levels of CO gas must be monitored and contr…"
      },
-     {
-      "chunk_id": "5fe89302-89a0-45b5-b0f7-dd8ccf360b3b",
-      "document_id": "c2ae8cae-19e4-42db-9737-355d6de0360a",
-      "pagina": 2,
-      "seccion": "Manual de instalación E",
-      "fragmento": "…N El detector de monóxido de carbono (CO) NCO-10 está diseñado para usarse con el sistema de detección de CO G-10 en aparcamientos y espacios cerrados en los que deben controlarse y supervisarse de forma eficaz los niveles…"
-     }
-    ],
+     "source_file": "NCO-10-multinglingual"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto",
@@ -13608,7 +13558,26 @@
     "cita": "the NCO-10 carbon monoxide (CO) detector is designed for use with the G-10 CO detection system in car parks",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe explícitamente el G-10 como un sistema de detección de CO del fabricante, con variantes de central de control (G-10 1/2 y G-10-1/5), lo que confirma que es un producto real y no un artefacto de extracción."
+    "por_que": "La evidencia describe explícitamente el G-10 como un sistema de detección de CO del fabricante, con variantes de central de control (G-10 1/2 y G-10-1/5), lo que confirma que es un producto real y no un artefacto de extracción.",
+    "atribucion_corregida_s322j": {
+     "antes": "38e238fa-b3c8-4532-8d1d-b05eccc7524e",
+     "ahora_document_id": "c2ae8cae-19e4-42db-9737-355d6de0360a",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "003cf3e3-159b-4a48-b4c5-73cac887e95f",
+     "document_id": "38e238fa-b3c8-4532-8d1d-b05eccc7524e",
+     "pagina": 3,
+     "seccion": null,
+     "fragmento": "…ransformador, regleta de conexión de red y modulos de zonas. Existen dos tamaños de central de control: - **G-10 1/2** tamaño pequeño : con capacidad de 1a 2 zonas - **G-10-1/5** tamaño grande: con capacidad de 1 a 5 zonas…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "G-10/NCO-10",
+      "doc_type": "instalacion",
+      "fichero": "manco-N"
+     }
+    }
    },
    {
     "id": "notifier:h-gtw",
@@ -13709,7 +13678,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "38d3a576-b941-4f7f-99f5-e776936e7e38",
-     "document_id": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
      "pagina": 1,
      "seccion": "Guía Rápida de la pasarela H-GTW",
      "fragmento": "…das en colector abierto, 200mA máximo. | ### Conexionados con centrales. | H-GTW-N | ID-3000 (ISO-RS232) | ID-50/60 | AM-8200 (SIB-8200) CNS | | ------- | ------------------- | -------- | ----…",
@@ -13718,24 +13687,10 @@
       "product_model": "ID-3000",
       "doc_type": null,
       "fichero": "Guia Rapida H_GTW"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "78be6ecd-4421-4dd6-88d8-ee53d6e3fcb4",
-      "document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
-      "pagina": 3,
-      "seccion": "Introducción",
-      "fragmento": "…W-1** permite realizar la integración de una central individualmente ID50 o 60, ID-3000 o AM8200 El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen…"
      },
-     {
-      "chunk_id": "97195496-1e3b-47a3-aa5c-f82eb3b7ad9a",
-      "document_id": "f568ea6b-79e3-4e39-ac5e-815c60f7d2c9",
-      "pagina": 4,
-      "seccion": "Modelos",
-      "fragmento": "…-- | ------------ | ------- | | Modo Individual | 5..30 Vdc | H-GTW-1 | | Modo Red | 5..30 Vdc | H-GTW-N | ## Normativas El equipo ha sido diseñado para cumplir con las siguientes directivas y normativas armoniza…"
-     }
-    ],
+     "source_file": "HONEYWELL-H-GTW-ESP-2.26 Integracion"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "sin_digitos"
@@ -13753,7 +13708,26 @@
     "cita": "El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "El corpus lo denomina explícitamente 'modelo' y describe su función de integración con centrales, apareciendo además en tablas junto a la variante H-GTW-1, lo que confirma que es una referencia comercial real."
+    "por_que": "El corpus lo denomina explícitamente 'modelo' y describe su función de integración con centrales, apareciendo además en tablas junto a la variante H-GTW-1, lo que confirma que es una referencia comercial real.",
+    "atribucion_corregida_s322j": {
+     "antes": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "ahora_document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "38d3a576-b941-4f7f-99f5-e776936e7e38",
+     "document_id": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "pagina": 1,
+     "seccion": "Guía Rápida de la pasarela H-GTW",
+     "fragmento": "…das en colector abierto, 200mA máximo. | ### Conexionados con centrales. | H-GTW-N | ID-3000 (ISO-RS232) | ID-50/60 | AM-8200 (SIB-8200) CNS | | ------- | ------------------- | -------- | ----…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "ID-3000",
+      "doc_type": null,
+      "fichero": "Guia Rapida H_GTW"
+     }
+    }
    },
    {
     "id": "notifier:idx-751-ae",
@@ -13912,7 +13886,7 @@
     ],
     "evidencia": {
      "chunk_id": "014cad99-97b7-41f2-bea4-2844de33f684",
-     "document_id": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
+     "document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
      "pagina": 7,
      "seccion": "TARJETA PRINCIPAL",
      "fragmento": "…**NOTIFIER**. También es posible conectar tarjetas con salidas libres de tensión de los distintos estados del LASERSTAR, que conectadas a módulos monitores, nos informarán en la Central Principal de Incendios. Esta tarjeta tambi…",
@@ -13921,24 +13895,10 @@
       "product_model": "MIDT-730",
       "doc_type": "instalacion",
       "fichero": "MIDT730"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "01621da0-4418-4486-b373-a57aeb8d5d6b",
-      "document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
-      "pagina": 4,
-      "seccion": "Introducción",
-      "fragmento": "…cionamiento apropiados para contrarrestar los efectos negativos de esta contaminación. La gama de detectores LaserStar es única en su capacidad de proporcionar un nivel constante de protección en muchos tipos de ambientes, media…"
      },
-     {
-      "chunk_id": "058c86b5-86f7-4b52-89b4-bc6d9d3d4a55",
-      "document_id": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
-      "pagina": 9,
-      "seccion": "Pantalla de bloqueo",
-      "fragmento": "…l cabo de 10 minutos. MI-DT-730 NOTIFIER ESPAÑA, S.A. 9 LaserStar **NOTIFIER**"
-     }
-    ],
+     "source_file": "MIDT734"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "sin_digitos"
@@ -13965,7 +13925,26 @@
     "cita": "La gama de detectores LaserStar es única en su capacidad de proporcionar un nivel constante de protección en muchos tipos de ambientes",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe LaserStar como una gama de detectores de NOTIFIER con capacidades específicas de protección, lo que confirma que es una referencia comercial real y no un artefacto de extracción."
+    "por_que": "La evidencia describe LaserStar como una gama de detectores de NOTIFIER con capacidades específicas de protección, lo que confirma que es una referencia comercial real y no un artefacto de extracción.",
+    "atribucion_corregida_s322j": {
+     "antes": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
+     "ahora_document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "014cad99-97b7-41f2-bea4-2844de33f684",
+     "document_id": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
+     "pagina": 7,
+     "seccion": "TARJETA PRINCIPAL",
+     "fragmento": "…**NOTIFIER**. También es posible conectar tarjetas con salidas libres de tensión de los distintos estados del LASERSTAR, que conectadas a módulos monitores, nos informarán en la Central Principal de Incendios. Esta tarjeta tambi…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "MIDT-730",
+      "doc_type": "instalacion",
+      "fichero": "MIDT730"
+     }
+    }
    },
    {
     "id": "notifier:lisa-2",
@@ -14380,7 +14359,7 @@
     ],
     "evidencia": {
      "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
-     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
      "pagina": 16,
      "seccion": "Hardware de Cabina para el Sistema 5000",
      "fragmento": "…a rectangular panel with mounting holes and a central rectangular cutout] **Panel de Revestimiento de Módulo MP-1** [Diagram showing a smaller rectangular blank module] **Módulo en Blanco BM-1** [Diagram showing a blank…",
@@ -14389,24 +14368,10 @@
       "product_model": "SYSTEM 5000",
       "doc_type": "instalacion",
       "fichero": "MNDT060"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "82eb10cf-ecf0-4e12-82f2-6b9809572e3e",
-      "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-      "pagina": 23,
-      "seccion": "Equipamiento de la Cabina",
-      "fragmento": "…CHS-4M para cada fila adicional de módulos de sistema. El CHS-4M incluye el Chasis CHS-4, el Panel del Módulo MP-1, y la Cinta expansora. [Diagram showing Chasis CHS-4: A rectangular chassis with 5 vertical panel slots, wit…"
      },
-     {
-      "chunk_id": "a1c81d22-193c-4330-89d5-e1bb9e4c5f76",
-      "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
-      "pagina": 31,
-      "seccion": "Equipo del Gabinete",
-      "fragmento": "…da fila adicional de módulos del sistema. El CHS-4M incluye el Chasis CHS-4, el Panel Embellecedor del Módulo MP-1, y el Cable de Cinta Expandidor de Fila. [Diagram showing an isometric view of the Chasis CHS-4, which appea…"
-     }
-    ],
+     "source_file": "MIDT170"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -14424,7 +14389,26 @@
     "cita": "El CHS-4M incluye el Chasis CHS-4, el Panel del Módulo MP-1, y la Cinta expansora.",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "MP-1 aparece como componente nombrado (Panel de Revestimiento/Embellecedor de Módulo) incluido en el kit CHS-4M en varios manuales, lo que confirma que es una referencia comercial real del fabricante y no un artefacto."
+    "por_que": "MP-1 aparece como componente nombrado (Panel de Revestimiento/Embellecedor de Módulo) incluido en el kit CHS-4M en varios manuales, lo que confirma que es una referencia comercial real del fabricante y no un artefacto.",
+    "atribucion_corregida_s322j": {
+     "antes": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "ahora_document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "10dd4f24-5dd0-44d9-8d17-c8b80be5897c",
+     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "pagina": 16,
+     "seccion": "Hardware de Cabina para el Sistema 5000",
+     "fragmento": "…a rectangular panel with mounting holes and a central rectangular cutout] **Panel de Revestimiento de Módulo MP-1** [Diagram showing a smaller rectangular blank module] **Módulo en Blanco BM-1** [Diagram showing a blank…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "SYSTEM 5000",
+      "doc_type": "instalacion",
+      "fichero": "MNDT060"
+     }
+    }
    },
    {
     "id": "notifier:n-elr",
@@ -14444,7 +14428,7 @@
     ],
     "evidencia": {
      "chunk_id": "04b237ae-bb37-4c8f-b084-a0c16b2deb05",
-     "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
      "pagina": 146,
      "seccion": "Programación de Zonas, continuación",
      "fragmento": "…por UL\" RELAY1[Relé 1] RELAY2[Relé 2] end SENSOR[\"System Sensor A2143-00(Canadá: N-ELR)Resistencia de Final de Línea, 47K,0.5 vatios,supervisada y con límite de tensión\"] CMX[CMX Module]…",
@@ -14453,24 +14437,10 @@
       "product_model": "AFP-400",
       "doc_type": "instalacion",
       "fichero": "MIDT170"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "04d4cd5e-7ea7-4b4e-b5ad-760364938d80",
-      "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-      "pagina": 37,
-      "seccion": "Figura 4-5: Cableado Local Estilo D del Módulo de Zona de Iniciación IZM-8 con Expansor IZE-A.",
-      "fragmento": "…ncluyen con cada dispositivo. 5) Par Canadá, se requiere el Ensamblaje de Resistencia de Fin de Línea modela N-ELR. 6) La resistencia de línea máxima debida al cableado es de 100 ohms. MN-DT-060 NOTIFIER ESPAÑA, S.A…"
      },
-     {
-      "chunk_id": "0626e459-43c7-456e-833f-4055e7d7a495",
-      "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-      "pagina": 18,
-      "seccion": "Componentes del Sistema",
-      "fragmento": "…| | Surtido de Resistencias N-ELR<br/><br/>(N-ELR)<br/><br/>○<br/>—/\\\\/\\\\/\\—<br/>○ | Una N-ELR, requerida en instalaciones de Canadá, proporcio…"
-     }
-    ],
+     "source_file": "MNDT060"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto",
@@ -14489,7 +14459,26 @@
     "cita": "Par Canadá, se requiere el Ensamblaje de Resistencia de Fin de Línea modela N-ELR",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "N-ELR es una referencia real de Notifier: un ensamblaje de resistencia de fin de línea requerido en instalaciones de Canadá, mencionado como producto en varios manuales."
+    "por_que": "N-ELR es una referencia real de Notifier: un ensamblaje de resistencia de fin de línea requerido en instalaciones de Canadá, mencionado como producto en varios manuales.",
+    "atribucion_corregida_s322j": {
+     "antes": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "ahora_document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "04b237ae-bb37-4c8f-b084-a0c16b2deb05",
+     "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "pagina": 146,
+     "seccion": "Programación de Zonas, continuación",
+     "fragmento": "…por UL\" RELAY1[Relé 1] RELAY2[Relé 2] end SENSOR[\"System Sensor A2143-00(Canadá: N-ELR)Resistencia de Final de Línea, 47K,0.5 vatios,supervisada y con límite de tensión\"] CMX[CMX Module]…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "AFP-400",
+      "doc_type": "instalacion",
+      "fichero": "MIDT170"
+     }
+    }
    },
    {
     "id": "notifier:nas",
@@ -14525,7 +14514,7 @@
     ],
     "evidencia": {
      "chunk_id": "00c1a66a-e21b-4623-b14b-1b6dc2f512ac",
-     "document_id": "7cb57a84-5b33-4069-8c16-429fd57a246b",
+     "document_id": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
      "pagina": 15,
      "seccion": "3.7 Internal detectors",
      "fragmento": "…alarm relay. VIEW analogue sensor can be configured to briefly activate the alarm led (blinking mode) at the NAS front panel, when the system is in normal condition and when VIEW sensor is polled by the control panel. Ref…",
@@ -14534,17 +14523,10 @@
       "product_model": "NAS-1U",
       "doc_type": "instalacion",
       "fichero": "MNDT744I_B.pdf"
-     }
+     },
+     "source_file": "MNDT741I"
     },
-    "evidencias_extra": [
-     {
-      "chunk_id": "0180f775-9fd8-4b65-aca6-8016f2f59660",
-      "document_id": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
-      "pagina": 10,
-      "seccion": "2.3 Air flow calibration",
-      "fragmento": "…e is approximately 50 – 100 mV less than the multimeter value given in step 3. MN-DT-741I Nas Installation and User Guide 11 5. Wait a few minutes and unblock all sampling holes. Chec…"
-     }
-    ],
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "muy_corto",
@@ -14569,7 +14551,26 @@
     "cita": "MN-DT-741I Nas Installation and User Guide",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia muestra un manual propio del producto ('Nas Installation and User Guide') y una referencia a su panel frontal ('at the NAS front panel'), lo que confirma que NAS es un equipo real del fabricante pese a que la mayoría de menciones sean parásitos de palabras como 'zonas' o 'sirenas'."
+    "por_que": "La evidencia muestra un manual propio del producto ('Nas Installation and User Guide') y una referencia a su panel frontal ('at the NAS front panel'), lo que confirma que NAS es un equipo real del fabricante pese a que la mayoría de menciones sean parásitos de palabras como 'zonas' o 'sirenas'.",
+    "atribucion_corregida_s322j": {
+     "antes": "7cb57a84-5b33-4069-8c16-429fd57a246b",
+     "ahora_document_id": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "00c1a66a-e21b-4623-b14b-1b6dc2f512ac",
+     "document_id": "7cb57a84-5b33-4069-8c16-429fd57a246b",
+     "pagina": 15,
+     "seccion": "3.7 Internal detectors",
+     "fragmento": "…alarm relay. VIEW analogue sensor can be configured to briefly activate the alarm led (blinking mode) at the NAS front panel, when the system is in normal condition and when VIEW sensor is polled by the control panel. Ref…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "NAS-1U",
+      "doc_type": "instalacion",
+      "fichero": "MNDT744I_B.pdf"
+     }
+    }
    },
    {
     "id": "notifier:nas-2",
@@ -14589,7 +14590,7 @@
     ],
     "evidencia": {
      "chunk_id": "038d3f2a-8650-4c0c-9199-ca8b1b8dded5",
-     "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+     "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
      "pagina": 7,
      "seccion": "1.4 Requisitos del sistema",
      "fragmento": "…rales ID60, ID3000, AFP400). * Un módulo monitor M710 (no incluido con el equipo) ubicado en el interior del NAS-2 para la señalización remota de avería en el equipo de aspiración. * Al menos alimentación de una (dos opcion…",
@@ -14598,24 +14599,10 @@
       "product_model": "NAS-2",
       "doc_type": "instalacion",
       "fichero": "MNDT742_G.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "08a8baaa-a8f2-4e5b-a145-918822a7c939",
-      "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
-      "pagina": 26,
-      "seccion": "Menú idioma",
-      "fragmento": "…26 Manual de usuario e instalación. NAS-2"
      },
-     {
-      "chunk_id": "08c06ef6-0c97-4917-aba1-cbf854111e9c",
-      "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
-      "pagina": 5,
-      "seccion": "1.3 System Operation",
-      "fragmento": "…ng two circular sensors labeled S2 and S1, and two downward arrows at the bottom indicating air output.] The NAS-2 draws air from the protected area using a network of sampling pipes. The sampled air is then passed through a…"
-     }
-    ],
+     "source_file": "997-528-000-1"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "muy_corto"
@@ -14638,7 +14625,26 @@
     "cita": "The NAS-2 draws air from the protected area using a network of sampling pipes.",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "NAS-2 es un equipo de aspiración real de Notifier: tiene manual propio de usuario e instalación y se describe su funcionamiento como detector por aspiración con red de tuberías de muestreo."
+    "por_que": "NAS-2 es un equipo de aspiración real de Notifier: tiene manual propio de usuario e instalación y se describe su funcionamiento como detector por aspiración con red de tuberías de muestreo.",
+    "atribucion_corregida_s322j": {
+     "antes": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+     "ahora_document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "038d3f2a-8650-4c0c-9199-ca8b1b8dded5",
+     "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+     "pagina": 7,
+     "seccion": "1.4 Requisitos del sistema",
+     "fragmento": "…rales ID60, ID3000, AFP400). * Un módulo monitor M710 (no incluido con el equipo) ubicado en el interior del NAS-2 para la señalización remota de avería en el equipo de aspiración. * Al menos alimentación de una (dos opcion…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "NAS-2",
+      "doc_type": "instalacion",
+      "fichero": "MNDT742_G.pdf"
+     }
+    }
    },
    {
     "id": "notifier:nfs-supra",
@@ -14653,7 +14659,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "01f666ca-24e5-4e97-96cb-344e5753d2e5",
-     "document_id": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
+     "document_id": "61ef0e74-7d19-49d8-9180-b515049ada6e",
      "pagina": 49,
      "seccion": "NFS Supra                                                                                                               Specifications",
      "fragmento": "# NFS Supra…",
@@ -14662,24 +14668,10 @@
       "product_model": "NFS-Supra",
       "doc_type": null,
       "fichero": "HLSI-MN-025-I_NFS Supra Series v05"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "027ba916-330c-4321-9d1a-0ef9cfae7a5b",
-      "document_id": "61ef0e74-7d19-49d8-9180-b515049ada6e",
-      "pagina": 2,
-      "seccion": "UCIP / UCIP GPRS Default Settings",
-      "fragmento": "…ble to connect to an IP Central Receiver Alarm center the Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra; Morley-IAS: CONNEXION, VSN-2Plus and ESSER: ESS-2PLUS. UCIP-GPRS is shipped to be connected to the Honeywel…"
      },
-     {
-      "chunk_id": "07ac8571-d29e-4eed-a738-a2c600ca7ee4",
-      "document_id": "e8158594-3afd-4bb5-bb85-af29da6f1aac",
-      "pagina": 45,
-      "seccion": "5.5.1 Ver/Cambiar configuración de las Funciones especiales:",
-      "fragmento": "…ww.honeywelllifesafety.es 45 NFS Supra…"
-     }
-    ],
+     "source_file": "HLSI-MA-192_05 Quick Start Guide UCIP GPRS_GB"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "multipalabra",
@@ -14698,7 +14690,26 @@
     "cita": "the Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "El modelo aparece listado explícitamente como panel de alarma de incendios de Notifier junto a otras referencias reales (ID3000, ID50), lo que confirma que es un producto comercial del fabricante."
+    "por_que": "El modelo aparece listado explícitamente como panel de alarma de incendios de Notifier junto a otras referencias reales (ID3000, ID50), lo que confirma que es un producto comercial del fabricante.",
+    "atribucion_corregida_s322j": {
+     "antes": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
+     "ahora_document_id": "61ef0e74-7d19-49d8-9180-b515049ada6e",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "01f666ca-24e5-4e97-96cb-344e5753d2e5",
+     "document_id": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
+     "pagina": 49,
+     "seccion": "NFS Supra                                                                                                               Specifications",
+     "fragmento": "# NFS Supra…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "NFS-Supra",
+      "doc_type": null,
+      "fichero": "HLSI-MN-025-I_NFS Supra Series v05"
+     }
+    }
    },
    {
     "id": "notifier:nfs4",
@@ -14788,7 +14799,7 @@
     ],
     "evidencia": {
      "chunk_id": "08779e89-4ec9-4c89-a7f3-0a6ed83d0be7",
-     "document_id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+     "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
      "pagina": 1,
      "seccion": "Notifier INSPIRE E10/ E15 Central de alarmas de detección de incendios **Instrucciones de usuario**",
      "fragmento": "**NOTIFIER®** by Honeywell # Notifier INSPIRE E10/ E15 Central de alarmas de detección de incendios **Instrucciones de usuario** [Two Notifier INSPIRE fire al…",
@@ -14797,24 +14808,10 @@
       "product_model": "INSPIRE E10/E15",
       "doc_type": null,
       "fichero": "HOP-338-9ES issue 4_01-2026_Op"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "177ee162-bee6-450d-a23a-b0bdc12135b7",
-      "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
-      "pagina": 21,
-      "seccion": "DATOS EN54-4",
-      "fragmento": "# DATOS EN54-4 | CAPACIDAD DE LA BATERÍA DE 12 V | Central Notifier INSPIRE E10 con:<br/>PSU de 240 W(Convertidor de CA a CC)<br/>12 Ah | Central Notifier INSPIRE E10 con:<br/>PSU de 240 W(…"
      },
-     {
-      "chunk_id": "3a237e97-f361-40ef-975f-ecc4f6484127",
-      "document_id": "16e317f8-645c-4f09-b81d-a4656353605a",
-      "pagina": 1,
-      "seccion": "Notifier INSPIRE E10/E15",
-      "fragmento": "…buttons at the bottom. The panel has a black frame with a gray lower section. The right image shows a smaller Notifier INSPIRE E10 control panel with similar features - a touchscreen display showing \"SAFE\" in green, the Notifier logo, and t…"
-     }
-    ],
+     "source_file": "HOP-138-9ES issue 5_11-2025_In"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "multipalabra"
@@ -14832,7 +14829,26 @@
     "cita": "Central Notifier INSPIRE E10 con:<br/>PSU de 240 W",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia muestra que Notifier INSPIRE E10 es una central de alarmas de detección de incendios real del fabricante Notifier by Honeywell, mencionada como producto individual en fichas técnicas y manuales de usuario."
+    "por_que": "La evidencia muestra que Notifier INSPIRE E10 es una central de alarmas de detección de incendios real del fabricante Notifier by Honeywell, mencionada como producto individual en fichas técnicas y manuales de usuario.",
+    "atribucion_corregida_s322j": {
+     "antes": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+     "ahora_document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "08779e89-4ec9-4c89-a7f3-0a6ed83d0be7",
+     "document_id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+     "pagina": 1,
+     "seccion": "Notifier INSPIRE E10/ E15 Central de alarmas de detección de incendios **Instrucciones de usuario**",
+     "fragmento": "**NOTIFIER®** by Honeywell # Notifier INSPIRE E10/ E15 Central de alarmas de detección de incendios **Instrucciones de usuario** [Two Notifier INSPIRE fire al…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "INSPIRE E10/E15",
+      "doc_type": null,
+      "fichero": "HOP-338-9ES issue 4_01-2026_Op"
+     }
+    }
    },
    {
     "id": "notifier:notifier-inspire-e15",
@@ -15658,7 +15674,7 @@
     ],
     "evidencia": {
      "chunk_id": "17b19f1d-67f8-4efd-9699-ca8a3fcae974",
-     "document_id": "5403c7ed-aa89-4125-aa28-946deca1a4be",
+     "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
      "pagina": 30,
      "seccion": "Funcionamiento del Anunciador",
      "fragmento": "…| | | Circuito TCM-2, TCM-4<br/>VCM-4, DCM-4 | Indica activación 3…",
@@ -15667,24 +15683,10 @@
       "product_model": "ACS",
       "doc_type": null,
       "fichero": "MNDT410.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "4741d6b1-fa71-47af-83f5-f2b9c7b4d1f9",
-      "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-      "pagina": 8,
-      "seccion": "Tabla 1-1: Opciones de Configuración Física",
-      "fragmento": "…IZE-A y/o ARM-4 (notas 1 & 2)<br/>2) AVPS-24 (nota 2) | | ICM-4, TCM-2, TCM-4, VCM-4 | 1) ICE-4 y/o ARM-4 (notas 1 & 2)<br/>2) CRE-4 y/o ARM-4 (notas 1 & 2)<br/>3) AVPS-24 (nota 2) | | CR…"
      },
-     {
-      "chunk_id": "520e5bce-4731-49b9-9a14-9475c9e63555",
-      "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-      "pagina": 71,
-      "seccion": "Tabla 8-2C: Requisitos de Alimentación Secundaria en Espera @ 24 VDC",
-      "fragmento": "…| X | 0.007 | = | | | TCM-2, TCM-4 | \\[ ] | X | 0.007 |…"
-     }
-    ],
+     "source_file": "MNDT060"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -15702,7 +15704,26 @@
     "cita": "ICM-4, TCM-2, TCM-4, VCM-4",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "TCM-4 aparece listado como token completo junto a otros módulos reales de la misma familia (TCM-2, ICM-4, VCM-4, DCM-4) en tablas de circuitos y compatibilidad, patrón típico de referencias comerciales de módulos Notifier."
+    "por_que": "TCM-4 aparece listado como token completo junto a otros módulos reales de la misma familia (TCM-2, ICM-4, VCM-4, DCM-4) en tablas de circuitos y compatibilidad, patrón típico de referencias comerciales de módulos Notifier.",
+    "atribucion_corregida_s322j": {
+     "antes": "5403c7ed-aa89-4125-aa28-946deca1a4be",
+     "ahora_document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "17b19f1d-67f8-4efd-9699-ca8a3fcae974",
+     "document_id": "5403c7ed-aa89-4125-aa28-946deca1a4be",
+     "pagina": 30,
+     "seccion": "Funcionamiento del Anunciador",
+     "fragmento": "…| | | Circuito TCM-2, TCM-4<br/>VCM-4, DCM-4 | Indica activación 3…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "ACS",
+      "doc_type": null,
+      "fichero": "MNDT410.pdf"
+     }
+    }
    },
    {
     "id": "notifier:tg-notifier",
@@ -15717,7 +15738,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "035eab1d-7ac8-4b7c-8331-4af64394fd34",
-     "document_id": "681e506b-daaa-4f78-8336-aa732695962c",
+     "document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
      "pagina": 25,
      "seccion": "NOTIFIER®",
      "fragmento": "…son el cambio de fecha y hora del sistema, y el cambio de clave del operador en curso. ### 3.6.1 Mostrar **TG-NOTIFIER** dispone de una opción para la visualización de una etiqueta que se asocia a los símbolos que representan lo…",
@@ -15726,24 +15747,10 @@
       "product_model": "TG-NOTIFIER",
       "doc_type": null,
       "fichero": "MI-DT-951_V7.2"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "04d745c1-011d-4b54-b1ce-feca964dc267",
-      "document_id": "65669851-7431-412f-b727-bd65af27a170",
-      "pagina": 35,
-      "seccion": "4. OPERATIVE",
-      "fragmento": "# 4. OPERATIVE USER'S GUIDE OPERATIVE - 32 NOTIFIER FIRE SYSTEMS ## 4.1. Introduction When starting the **TG-NOTIFIER** software, you will have the main map displayed. Generally, this map offers an overall view of the installat…"
      },
-     {
-      "chunk_id": "0736c48c-912c-4d9b-9c0f-539b0f99fb52",
-      "document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
-      "pagina": 5,
-      "seccion": "1. INTRODUCCIÓN",
-      "fragmento": "….1. Introducción El Manual de Usuario constituye la ayuda para el uso del sistema de Supervisión y Control **TG-NOTIFIER.** La información contenida en este manual hace referencia al entorno de la aplicación, así como a la manera…"
-     }
-    ],
+     "source_file": "MN-DT-951_v7.2"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "sin_digitos"
@@ -15761,7 +15768,26 @@
     "cita": "el uso del sistema de Supervisión y Control **TG-NOTIFIER.**",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "TG-NOTIFIER es el software de supervisión y control gráfica de Notifier, mencionado como producto en su propio manual de usuario. No presenta rasgos de artefacto de extracción."
+    "por_que": "TG-NOTIFIER es el software de supervisión y control gráfica de Notifier, mencionado como producto en su propio manual de usuario. No presenta rasgos de artefacto de extracción.",
+    "atribucion_corregida_s322j": {
+     "antes": "681e506b-daaa-4f78-8336-aa732695962c",
+     "ahora_document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "035eab1d-7ac8-4b7c-8331-4af64394fd34",
+     "document_id": "681e506b-daaa-4f78-8336-aa732695962c",
+     "pagina": 25,
+     "seccion": "NOTIFIER®",
+     "fragmento": "…son el cambio de fecha y hora del sistema, y el cambio de clave del operador en curso. ### 3.6.1 Mostrar **TG-NOTIFIER** dispone de una opción para la visualización de una etiqueta que se asocia a los símbolos que representan lo…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "TG-NOTIFIER",
+      "doc_type": null,
+      "fichero": "MI-DT-951_V7.2"
+     }
+    }
    },
    {
     "id": "notifier:transponder-serie-xp",
@@ -15776,7 +15802,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "2b51c82e-8fe7-4d14-991b-2a1a8669141a",
-     "document_id": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
+     "document_id": "2d7f3a79-bda9-400c-9629-a830110d52e7",
      "pagina": 5,
      "seccion": "1.1 DOCUMENTACIÓN RELACIONADA",
      "fragmento": "…| 15889 | | ANUNCIADOR DE RED ANALÓGICO (INA) | 15092 | TRANSPONDER SERIE XP | 15888 | | INST…",
@@ -15785,24 +15811,10 @@
       "product_model": "NAM-232",
       "doc_type": "instalacion",
       "fichero": "MNDT380.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "41bcd806-f404-46c1-bf18-aa6dbbc65f1d",
-      "document_id": "2d7f3a79-bda9-400c-9629-a830110d52e7",
-      "pagina": 1,
-      "seccion": "El Transponder Serie XP Para las Centrales AM2020/AFP1010",
-      "fragmento": "…lar red logo with \"N\" symbol followed by \"NOTIFIER FIRE SYSTEMS\" text with registered trademark symbol] # El Transponder Serie XP Para las Centrales AM2020/AFP1010 [Technical diagram showing the XP Series Transponder unit - a rectangular…"
      },
-     {
-      "chunk_id": "45305a5b-a9b6-4c23-b0aa-10cddca03e53",
-      "document_id": "b1048c70-2038-4e15-aa62-99ca030db16a",
-      "pagina": 7,
-      "seccion": "1.1 Documentación relacionada",
-      "fragmento": "…| 15889 | | ANUNCIADOR DE RED ANALÓGICO (INA) | 15092 | TRANSPONDER SERIE XP | 15888 | | INST…"
-     }
-    ],
+     "source_file": "MNDT350"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "multipalabra",
@@ -15822,7 +15834,26 @@
     "cita": "El Transponder Serie XP Para las Centrales AM2020/AFP1010",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "Aparece como título de un documento técnico de Notifier describiendo el producto para las centrales AM2020/AFP1010, y además figura en listados de catálogo con código propio (15092). Es una referencia comercial real."
+    "por_que": "Aparece como título de un documento técnico de Notifier describiendo el producto para las centrales AM2020/AFP1010, y además figura en listados de catálogo con código propio (15092). Es una referencia comercial real.",
+    "atribucion_corregida_s322j": {
+     "antes": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
+     "ahora_document_id": "2d7f3a79-bda9-400c-9629-a830110d52e7",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "2b51c82e-8fe7-4d14-991b-2a1a8669141a",
+     "document_id": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
+     "pagina": 5,
+     "seccion": "1.1 DOCUMENTACIÓN RELACIONADA",
+     "fragmento": "…| 15889 | | ANUNCIADOR DE RED ANALÓGICO (INA) | 15092 | TRANSPONDER SERIE XP | 15888 | | INST…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "NAM-232",
+      "doc_type": "instalacion",
+      "fichero": "MNDT380.pdf"
+     }
+    }
    },
    {
     "id": "notifier:vision-plus",
@@ -15850,7 +15881,7 @@
     ],
     "evidencia": {
      "chunk_id": "0e0228c6-490f-45ce-a279-a7bc2cbf0416",
-     "document_id": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
      "pagina": 1,
      "seccion": "Honeywell Life Safety Iberia",
      "fragmento": "…/04/2009 1 de 2 # Honeywell Life Safety Iberia ## ACCIONES BÁSICAS EN LA VISION PLUS EN CASO DE ALARMA Y AVERÍA ## EN CASO DE <ins>ALARMA DE INCENDIO</ins> EN LA VSN PLUS A) PULSE LA TECLA DE…",
@@ -15859,24 +15890,10 @@
       "product_model": "MIEMA-130",
       "doc_type": null,
       "fichero": "MIEMA130.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "0f3bfb3d-3c88-4416-ba1f-521c9dc84d58",
-      "document_id": "a3f3d2da-0327-4b06-8831-fa0f050c80a9",
-      "pagina": 2,
-      "seccion": "CARACTERÍSTICAS TÉCNICAS:",
-      "fragmento": "…| | Paneles compatibles con protocolo SMS o Contact ID | NFS Supra, Vision Plus, Vision 2Plus, ID50, ID3000 y DXC CONNEXION…"
      },
-     {
-      "chunk_id": "12f9fde3-b448-4f05-b52d-0c4a03839489",
-      "document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
-      "pagina": 9,
-      "seccion": "2.3 Indicador acústico (Zumbador interno)",
-      "fragmento": "## 2.3 Indicador acústico (Zumbador interno) La central VISION PLUS incorpora un zumbador interno para aviso de incidencias. El zumbador indica las incidencias de la siguiente f…"
-     }
-    ],
+     "source_file": "MIEMI130"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "multipalabra",
@@ -15901,7 +15918,26 @@
     "cita": "La central VISION PLUS incorpora un zumbador interno para aviso de incidencias",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe la Vision Plus como una central de incendios con funciones propias, y aparece listada junto a otros paneles del fabricante (NFS Supra, ID50, ID3000), confirmando que es un producto real de Notifier/Honeywell."
+    "por_que": "La evidencia describe la Vision Plus como una central de incendios con funciones propias, y aparece listada junto a otros paneles del fabricante (NFS Supra, ID50, ID3000), confirmando que es un producto real de Notifier/Honeywell.",
+    "atribucion_corregida_s322j": {
+     "antes": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "ahora_document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "0e0228c6-490f-45ce-a279-a7bc2cbf0416",
+     "document_id": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "pagina": 1,
+     "seccion": "Honeywell Life Safety Iberia",
+     "fragmento": "…/04/2009 1 de 2 # Honeywell Life Safety Iberia ## ACCIONES BÁSICAS EN LA VISION PLUS EN CASO DE ALARMA Y AVERÍA ## EN CASO DE <ins>ALARMA DE INCENDIO</ins> EN LA VSN PLUS A) PULSE LA TECLA DE…",
+     "documento": {
+      "fabricante": "Morley",
+      "product_model": "MIEMA-130",
+      "doc_type": null,
+      "fichero": "MIEMA130.pdf"
+     }
+    }
    },
    {
     "id": "notifier:vp-1",
@@ -16368,7 +16404,7 @@
     ],
     "evidencia": {
      "chunk_id": "01fc48d7-ba33-49e1-84b5-4cdc1c0a4186",
-     "document_id": "bd472cc4-01bc-48d0-896a-308c4a7abc90",
+     "document_id": "47e5f587-10b6-4841-8184-a5b968e9e4c0",
      "pagina": 8,
      "seccion": "Descripción",
      "fragmento": "…lo S6 a la central. Los módulos de expansión de zona constan de 4 zonas y están disponibles con (ZS4) o sin (ZE4) circuitos de sirena. Cada modelo base está equipado con 8 zonas de detección y 2 circuitos de sirena y pued…",
@@ -16377,24 +16413,10 @@
       "product_model": "SERIE 800",
       "doc_type": null,
       "fichero": "MIDT020"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "07d1fa90-e73a-4d98-9e20-1c5e870e56f6",
-      "document_id": "bd472cc4-01bc-48d0-896a-308c4a7abc90",
-      "pagina": 17,
-      "seccion": "Módulos Expansores",
-      "fragmento": "…a instalar. Dispone de las siguientes opciones: [ ] S6 -Tarjeta expansora de 6 sirenas (una por panel) [ ] ZE4 - Tarjeta expansora de 4 Zonas (incluye tarjeta de LEDS de zona para instalarla en el frontal del panel) [ ]…"
      },
-     {
-      "chunk_id": "41301f05-7163-488a-8451-087da4b2308c",
-      "document_id": "47e5f587-10b6-4841-8184-a5b968e9e4c0",
-      "pagina": 1,
-      "seccion": null,
-      "fragmento": "…e alimentación desde el panel antes de instalar los módulos expansores ## Módulo Expansor ZE4/ZS4 El módulo ZE4 proporciona cuatro zonas adicionales. El ZS4 proporciona cuatro zonas y cuatro circuitos de sirena adicionale…"
-     }
-    ],
+     "source_file": "MADT020"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -16412,7 +16434,26 @@
     "cita": "El módulo ZE4 proporciona cuatro zonas adicionales.",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "ZE4 es una tarjeta expansora de 4 zonas real del fabricante, descrita como producto con función propia y listada como opción instalable junto a su variante ZS4."
+    "por_que": "ZE4 es una tarjeta expansora de 4 zonas real del fabricante, descrita como producto con función propia y listada como opción instalable junto a su variante ZS4.",
+    "atribucion_corregida_s322j": {
+     "antes": "bd472cc4-01bc-48d0-896a-308c4a7abc90",
+     "ahora_document_id": "47e5f587-10b6-4841-8184-a5b968e9e4c0",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "01fc48d7-ba33-49e1-84b5-4cdc1c0a4186",
+     "document_id": "bd472cc4-01bc-48d0-896a-308c4a7abc90",
+     "pagina": 8,
+     "seccion": "Descripción",
+     "fragmento": "…lo S6 a la central. Los módulos de expansión de zona constan de 4 zonas y están disponibles con (ZS4) o sin (ZE4) circuitos de sirena. Cada modelo base está equipado con 8 zonas de detección y 2 circuitos de sirena y pued…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "SERIE 800",
+      "doc_type": null,
+      "fichero": "MIDT020"
+     }
+    }
    },
    {
     "id": "notifier:zs4",
@@ -17000,7 +17041,7 @@
     ],
     "evidencia": {
      "chunk_id": "0532c669-4921-418d-9f5a-62014f8927ab",
-     "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+     "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
      "pagina": 11,
      "seccion": "3 Descripción",
      "fragmento": "…longitud de 10 m o 30 m. La conexión se realiza directamente a la placa base LMB 35 o a la placa de expansión LEB 35 del detector térmico lineal SecuriSens® ADW 535-x (véase el cap. 5.5). En un detector térmico lineal SecuriS…",
@@ -17009,24 +17050,10 @@
       "product_model": "ART 535-x",
       "doc_type": null,
       "fichero": "TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "10548247-cc30-44f4-ada5-8a1eb1b950fe",
-      "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
-      "pagina": 15,
-      "seccion": "2 Funcionamiento",
-      "fragmento": "…nting[\"Espacios de montaje paramódulos adicionales\"] Case[\"Caja\"] LEB35[\"LTHD Extension Board LEB 35\"] Cable[\"Entradas de cable\"] end TS1 --> LSU35_1 TS2 --> LSU35_2 LSU35_1 --> LMB…"
      },
-     {
-      "chunk_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
-      "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
-      "pagina": 12,
-      "seccion": "Aspectos generales",
-      "fragmento": "…Institute (oficina de control coreana) | | LEB 35 | = Módulo de ampliación para un segundo tubo sensor (LTHD Extension Board)…"
-     }
-    ],
+     "source_file": "ADW535_TD_T140358es_e"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "multipalabra"
@@ -17044,7 +17071,26 @@
     "cita": "LEB 35 | = Módulo de ampliación para un segundo tubo sensor (LTHD Extension Board)",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "LEB 35 es una placa de expansión real del detector térmico lineal SecuriSens ADW 535 de Securiton, descrita explícitamente como módulo de ampliación en el manual."
+    "por_que": "LEB 35 es una placa de expansión real del detector térmico lineal SecuriSens ADW 535 de Securiton, descrita explícitamente como módulo de ampliación en el manual.",
+    "atribucion_corregida_s322j": {
+     "antes": "623276d6-4902-467f-b499-52c7559a85c0",
+     "ahora_document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "0532c669-4921-418d-9f5a-62014f8927ab",
+     "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+     "pagina": 11,
+     "seccion": "3 Descripción",
+     "fragmento": "…longitud de 10 m o 30 m. La conexión se realiza directamente a la placa base LMB 35 o a la placa de expansión LEB 35 del detector térmico lineal SecuriSens® ADW 535-x (véase el cap. 5.5). En un detector térmico lineal SecuriS…",
+     "documento": {
+      "fabricante": "Securiton",
+      "product_model": "ART 535-x",
+      "doc_type": null,
+      "fichero": "TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es"
+     }
+    }
    },
    {
     "id": "securiton:lmb-35",
@@ -17395,7 +17441,7 @@
     ],
     "evidencia": {
      "chunk_id": "85c326b5-f0d0-41e2-a002-5c1297a3eef6",
-     "document_id": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
+     "document_id": "3f41ff57-479a-470a-8b43-544af709bea3",
      "pagina": 34,
      "seccion": "ACCESORIOS",
      "fragmento": "…r mounting holes at corners] **Figura 17. Dimensiones de la placa de conexiones del kit de montaje giratorio SM21** ## 9.2 Limpieza Solo la experiencia del entorno operativo dictará con qué frecuencia debe limpiar los det…",
@@ -17404,24 +17450,10 @@
       "product_model": "FSL100/FSL100-TL/FSL100-UVIR/FSL100-TLX/FSL100-UV/FSL100-IR3/FSL100-SM21",
       "doc_type": "instalacion",
       "fichero": "2055M1000_ES MAN0987_ISS 1_Rev 4 FSL100 Technical Handbook"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "8e59abdc-a9f8-4eda-9200-fb2b4f7d7fda",
-      "document_id": "3f41ff57-479a-470a-8b43-544af709bea3",
-      "pagina": 5,
-      "seccion": null,
-      "fragmento": "…al para zona ATEX 2/22, aprobación FM3611 y FM3260 | | SM21 | SW1131 | Pivote…"
      },
-     {
-      "chunk_id": "a8e50d21-8150-439b-bb33-ecaccc1540ec",
-      "document_id": "3f41ff57-479a-470a-8b43-544af709bea3",
-      "pagina": 10,
-      "seccion": "5. Montaje",
-      "fragmento": "…es para el montaje del detector de llamas: a. Montar el detector con la ayuda del pivote de montaje opcional SM21 (consulte el manual de SM21). b. Montar en el techo (por ejemplo en una campana extractora de un laboratorio…"
-     }
-    ],
+     "source_file": "SW_MN_210-Series_CZ_flame_detectors_v1-ES"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -17444,7 +17476,26 @@
     "cita": "Montar el detector con la ayuda del pivote de montaje opcional SM21 (consulte el manual de SM21)",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "SM21 es un accesorio real del fabricante: un kit de pivote/montaje giratorio opcional para detectores de llama, con manual propio y figura de dimensiones. Las menciones como FSL100-SM21 son combinaciones detector+accesorio, no parásitos."
+    "por_que": "SM21 es un accesorio real del fabricante: un kit de pivote/montaje giratorio opcional para detectores de llama, con manual propio y figura de dimensiones. Las menciones como FSL100-SM21 son combinaciones detector+accesorio, no parásitos.",
+    "atribucion_corregida_s322j": {
+     "antes": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
+     "ahora_document_id": "3f41ff57-479a-470a-8b43-544af709bea3",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "85c326b5-f0d0-41e2-a002-5c1297a3eef6",
+     "document_id": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
+     "pagina": 34,
+     "seccion": "ACCESORIOS",
+     "fragmento": "…r mounting holes at corners] **Figura 17. Dimensiones de la placa de conexiones del kit de montaje giratorio SM21** ## 9.2 Limpieza Solo la experiencia del entorno operativo dictará con qué frecuencia debe limpiar los det…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "FSL100/FSL100-TL/FSL100-UVIR/FSL100-TLX/FSL100-UV/FSL100-IR3/FSL100-SM21",
+      "doc_type": "instalacion",
+      "fichero": "2055M1000_ES MAN0987_ISS 1_Rev 4 FSL100 Technical Handbook"
+     }
+    }
    },
    {
     "id": "sensitron:pl4+",
@@ -17708,7 +17759,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "1bc4e58f-a9c0-491c-a1ff-6ce971895fc1",
-     "document_id": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c",
+     "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
      "pagina": 3,
      "seccion": "DH500 Intelligent Air Duct Smoke Detector Housing",
      "fragmento": "…t) Tubes | Tube | Outside Duct Width | | | ------ | ------------------ | -------------- | | ST-1.5 | 1 to 2 ft. | (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. | (0.6 to 1.2 m) | | ST-5 | 4 to 8 ft…",
@@ -17717,24 +17768,10 @@
       "product_model": "DH500",
       "doc_type": "instalacion",
       "fichero": "I56-512-07R DH500"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "81271a8a-4761-46b0-9773-dd13d603e5ec",
-      "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
-      "pagina": 2,
-      "seccion": "Step 2. Drill The Mounting Holes",
-      "fragmento": "…. Sampling (Inlet) Tubes** | TUBE | OUTSIDE DUCT WIDTH | | ------ | -------------------------- | | ST-1.5 | 1 to 2 ft. (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. (0.6 to 1.2 m) | | ST-5 | 4 to 8 ft. (1.2 to 2.4 m)…"
      },
-     {
-      "chunk_id": "afdaae3d-cbaa-45f7-962a-1e797eaf7212",
-      "document_id": "593abf95-d66e-4696-a861-5a50dd51e651",
-      "pagina": 5,
-      "seccion": "Fase 3. Montaje de la Carcasa del Detector",
-      "fragmento": "…muestreo | TUBO | Medida del conducto (parte externa) | | ------ | ----------------------------------- | | ST-1.5 | (de 0,3 a 0,6 m) | | ST-3 | (de 0,6 a 1,2 m) | | ST-5 | (de 1,2 a…"
-     }
-    ],
+     "source_file": "I56-2166-02R DH500ACDC-E"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -17752,7 +17789,26 @@
     "cita": "| ST-1.5 | 1 to 2 ft. (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. (0.6 to 1.2 m) |",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "ST-1.5 aparece en varias tablas de tubos de muestreo junto a otras referencias de la misma serie (ST-3, ST-5), asociado a rangos de anchura de conducto; es un accesorio real de System Sensor para detectores de humo de conducto."
+    "por_que": "ST-1.5 aparece en varias tablas de tubos de muestreo junto a otras referencias de la misma serie (ST-3, ST-5), asociado a rangos de anchura de conducto; es un accesorio real de System Sensor para detectores de humo de conducto.",
+    "atribucion_corregida_s322j": {
+     "antes": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c",
+     "ahora_document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "1bc4e58f-a9c0-491c-a1ff-6ce971895fc1",
+     "document_id": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c",
+     "pagina": 3,
+     "seccion": "DH500 Intelligent Air Duct Smoke Detector Housing",
+     "fragmento": "…t) Tubes | Tube | Outside Duct Width | | | ------ | ------------------ | -------------- | | ST-1.5 | 1 to 2 ft. | (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. | (0.6 to 1.2 m) | | ST-5 | 4 to 8 ft…",
+     "documento": {
+      "fabricante": "System Sensor",
+      "product_model": "DH500",
+      "doc_type": "instalacion",
+      "fichero": "I56-512-07R DH500"
+     }
+    }
    },
    {
     "id": "systemsensor:st-10",
@@ -18598,7 +18654,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "38d3a576-b941-4f7f-99f5-e776936e7e38",
-     "document_id": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
      "pagina": 1,
      "seccion": "Guía Rápida de la pasarela H-GTW",
      "fragmento": "…das en colector abierto, 200mA máximo. | ### Conexionados con centrales. | H-GTW-N | ID-3000 (ISO-RS232) | ID-50/60 | AM-8200 (SIB-8200) CNS | | ------- | ------------------- | -------- | ----…",
@@ -18607,24 +18663,10 @@
       "product_model": "ID-3000",
       "doc_type": null,
       "fichero": "Guia Rapida H_GTW"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "78be6ecd-4421-4dd6-88d8-ee53d6e3fcb4",
-      "document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
-      "pagina": 3,
-      "seccion": "Introducción",
-      "fragmento": "…W-1** permite realizar la integración de una central individualmente ID50 o 60, ID-3000 o AM8200 El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen…"
      },
-     {
-      "chunk_id": "97195496-1e3b-47a3-aa5c-f82eb3b7ad9a",
-      "document_id": "f568ea6b-79e3-4e39-ac5e-815c60f7d2c9",
-      "pagina": 4,
-      "seccion": "Modelos",
-      "fragmento": "…-- | ------------ | ------- | | Modo Individual | 5..30 Vdc | H-GTW-1 | | Modo Red | 5..30 Vdc | H-GTW-N | ## Normativas El equipo ha sido diseñado para cumplir con las siguientes directivas y normativas armoniza…"
-     }
-    ],
+     "source_file": "HONEYWELL-H-GTW-ESP-2.26 Integracion"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "sin_digitos"
@@ -18642,7 +18684,26 @@
     "cita": "El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe H-GTW-N explícitamente como un modelo de pasarela para integración de centrales, junto a su variante H-GTW-1 en tabla de modos y tensiones. Es una referencia comercial real, no un artefacto."
+    "por_que": "La evidencia describe H-GTW-N explícitamente como un modelo de pasarela para integración de centrales, junto a su variante H-GTW-1 en tabla de modos y tensiones. Es una referencia comercial real, no un artefacto.",
+    "atribucion_corregida_s322j": {
+     "antes": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "ahora_document_id": "5658460a-b942-4864-9bff-f6a28ff3280b",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "38d3a576-b941-4f7f-99f5-e776936e7e38",
+     "document_id": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+     "pagina": 1,
+     "seccion": "Guía Rápida de la pasarela H-GTW",
+     "fragmento": "…das en colector abierto, 200mA máximo. | ### Conexionados con centrales. | H-GTW-N | ID-3000 (ISO-RS232) | ID-50/60 | AM-8200 (SIB-8200) CNS | | ------- | ------------------- | -------- | ----…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "ID-3000",
+      "doc_type": null,
+      "fichero": "Guia Rapida H_GTW"
+     }
+    }
    },
    {
     "id": "unresolved:hls-ps25",
@@ -18792,7 +18853,7 @@
     ],
     "evidencia": {
      "chunk_id": "0146595c-1cb3-4f7c-9808-83be22576c0f",
-     "document_id": "89a339cc-5c51-4542-b995-e9afa4e55578",
+     "document_id": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
      "pagina": 12,
      "seccion": "3.5 Configuration",
      "fragmento": "…hh:mm:ss The lower **CLIP** icon allows selecting the two types of CLIP protocols available used by Notifier ID50 / 60 and ID3000, HBS XLS80 and Morley DXc or Advanced used by Notifier Pearl and AM8200 (See par. LOOP 3.7).…",
@@ -18801,24 +18862,10 @@
       "product_model": "POL-200/POL-200-TS",
       "doc_type": "guia_usuario",
       "fichero": "MN-HON-POL-200-TS_EN_V03"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "01c5dcfd-f322-45fe-b5f3-43b4d9d10c88",
-      "document_id": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
-      "pagina": 25,
-      "seccion": "*4.8.3 ZONAS - Menú de opciones para usuario*",
-      "fragmento": "Panel ID50 - Manual de funcionamiento c. Desde el menú de 'Zonas en prueba', pulse la tecla '⏺' para seleccionar el men…"
      },
-     {
-      "chunk_id": "027ba916-330c-4321-9d1a-0ef9cfae7a5b",
-      "document_id": "61ef0e74-7d19-49d8-9180-b515049ada6e",
-      "pagina": 2,
-      "seccion": "UCIP / UCIP GPRS Default Settings",
-      "fragmento": "…ompatible to connect to an IP Central Receiver Alarm center the Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra; Morley-IAS: CONNEXION, VSN-2Plus and ESSER: ESS-2PLUS. UCIP-GPRS is shipped to be connected to t…"
-     }
-    ],
+     "source_file": "MFDT155"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "muy_corto"
@@ -18836,7 +18883,26 @@
     "cita": "Panel ID50 - Manual de funcionamiento",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "ID50 es un panel de incendios real de Notifier (Honeywell), citado como producto en su propio manual de funcionamiento y en listas de compatibilidad junto a ID3000 e ID60."
+    "por_que": "ID50 es un panel de incendios real de Notifier (Honeywell), citado como producto en su propio manual de funcionamiento y en listas de compatibilidad junto a ID3000 e ID60.",
+    "atribucion_corregida_s322j": {
+     "antes": "89a339cc-5c51-4542-b995-e9afa4e55578",
+     "ahora_document_id": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "0146595c-1cb3-4f7c-9808-83be22576c0f",
+     "document_id": "89a339cc-5c51-4542-b995-e9afa4e55578",
+     "pagina": 12,
+     "seccion": "3.5 Configuration",
+     "fragmento": "…hh:mm:ss The lower **CLIP** icon allows selecting the two types of CLIP protocols available used by Notifier ID50 / 60 and ID3000, HBS XLS80 and Morley DXc or Advanced used by Notifier Pearl and AM8200 (See par. LOOP 3.7).…",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "POL-200/POL-200-TS",
+      "doc_type": "guia_usuario",
+      "fichero": "MN-HON-POL-200-TS_EN_V03"
+     }
+    }
    },
    {
     "id": "unresolved:id60",
@@ -18856,7 +18922,7 @@
     ],
     "evidencia": {
      "chunk_id": "01e48fc5-c74c-4713-89fe-703d3033e5fe",
-     "document_id": "ae18e58f-c155-4dd7-a268-fe652adc6863",
+     "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
      "pagina": 4,
      "seccion": "Índice",
      "fragmento": "…ndice 1 - Libro de registro** A1-1 **Apéndice 2 - Mantenimiento** A2-1 **Apéndice 3 - Diferencias del panel ID60** A3-1 MF-DT-156_C ii Centrales ID50/ID60 - Manual de funcionamiento",
@@ -18865,24 +18931,10 @@
       "product_model": "ID50/ID60",
       "doc_type": "operacion",
       "fichero": "MFDT156"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "038d3f2a-8650-4c0c-9199-ca8b1b8dded5",
-      "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
-      "pagina": 7,
-      "seccion": "1.4 Requisitos del sistema",
-      "fragmento": "…nstalar los sensores analógicos. * Dos detectores de humo, recomendables 2 sensores VIEW (solo con centrales ID60, ID3000, AFP400). * Un módulo monitor M710 (no incluido con el equipo) ubicado en el interior del NAS-2 para…"
      },
-     {
-      "chunk_id": "04e575a9-e8c7-4f6a-bc68-948e2ae3ebf0",
-      "document_id": "2942d1e2-3841-4064-a59e-9c2313931dd7",
-      "pagina": 8,
-      "seccion": "3.2 Definición del proyecto",
-      "fragmento": "…protocol) | | Demo Notifier ID3000 | NotifierID3000 | ID3002, ID3000, ID2000, ID60, ID50 (Half/Full duplex p... | **Ventana de selección de proyecto** Para crear un nuevo proyecto, seleccion…"
-     }
-    ],
+     "source_file": "MNDT742_G"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "muy_corto"
@@ -18900,7 +18952,26 @@
     "cita": "Dos detectores de humo, recomendables 2 sensores VIEW (solo con centrales ID60, ID3000, AFP400).",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "ID60 es una central de detección de incendios real de Notifier, mencionada como producto junto a otras centrales (ID3000, AFP400) y con manual propio (Centrales ID50/ID60 - Manual de funcionamiento)."
+    "por_que": "ID60 es una central de detección de incendios real de Notifier, mencionada como producto junto a otras centrales (ID3000, AFP400) y con manual propio (Centrales ID50/ID60 - Manual de funcionamiento).",
+    "atribucion_corregida_s322j": {
+     "antes": "ae18e58f-c155-4dd7-a268-fe652adc6863",
+     "ahora_document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "01e48fc5-c74c-4713-89fe-703d3033e5fe",
+     "document_id": "ae18e58f-c155-4dd7-a268-fe652adc6863",
+     "pagina": 4,
+     "seccion": "Índice",
+     "fragmento": "…ndice 1 - Libro de registro** A1-1 **Apéndice 2 - Mantenimiento** A2-1 **Apéndice 3 - Diferencias del panel ID60** A3-1 MF-DT-156_C ii Centrales ID50/ID60 - Manual de funcionamiento",
+     "documento": {
+      "fabricante": "Notifier",
+      "product_model": "ID50/ID60",
+      "doc_type": "operacion",
+      "fichero": "MFDT156"
+     }
+    }
    },
    {
     "id": "unresolved:itac-2.0",
@@ -19286,7 +19357,7 @@
     "parasitos_top": [],
     "evidencia": {
      "chunk_id": "069e1f3e-9e7f-4043-999e-1b2710bb17e0",
-     "document_id": "e009191b-62e0-445c-b066-258e8787ccb4",
+     "document_id": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
      "pagina": 6,
      "seccion": "2. CONFIGURACIÓN",
      "fragmento": "# 2. CONFIGURACIÓN ## 2.1. Configuración Para la configuración de su sistema **TG-HONEYWELL**, en primer lugar debe realizar el diseño de las pantallas de la aplicación. Estas pantallas deben reflejar…",
@@ -19295,24 +19366,10 @@
       "product_model": "TG/TG-IP/TG-HONEYWELL",
       "doc_type": null,
       "fichero": "Tg-Honeywell_Tecnico"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "0adb2c00-c0c2-4a39-9d5b-950da0fca6da",
-      "document_id": "a7bf5098-6187-4df9-863b-b24d62d0687e",
-      "pagina": 24,
-      "seccion": "3.4 Operativa",
-      "fragmento": "## 3.4 Operativa La operación con el sistema *TG-HONEYWELL* se realiza únicamente utilizando el ratón, solo siendo necesaria la utilización del teclado para realizar la…"
      },
-     {
-      "chunk_id": "17b341bb-3053-4911-b0fc-4887bcce1517",
-      "document_id": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
-      "pagina": 34,
-      "seccion": "4. OPERATIVA",
-      "fragmento": "# 4. OPERATIVA ## 4.1. Introducción Al arrancar el software **TG-HONEYWELL** se presenta el plano principal, generalmente este plano representa una visión global de la instalación, pud…"
-     }
-    ],
+     "source_file": "TG-Honeywell_Usuario"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": true,
     "banderas": [
      "sin_digitos"
@@ -19330,7 +19387,26 @@
     "cita": "Al arrancar el software **TG-HONEYWELL** se presenta el plano principal",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "TG-HONEYWELL aparece en tres documentos distintos como nombre propio de un software/sistema de gestión gráfica del fabricante, siempre como token completo y en contextos coherentes (configuración, operativa)."
+    "por_que": "TG-HONEYWELL aparece en tres documentos distintos como nombre propio de un software/sistema de gestión gráfica del fabricante, siempre como token completo y en contextos coherentes (configuración, operativa).",
+    "atribucion_corregida_s322j": {
+     "antes": "e009191b-62e0-445c-b066-258e8787ccb4",
+     "ahora_document_id": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "069e1f3e-9e7f-4043-999e-1b2710bb17e0",
+     "document_id": "e009191b-62e0-445c-b066-258e8787ccb4",
+     "pagina": 6,
+     "seccion": "2. CONFIGURACIÓN",
+     "fragmento": "# 2. CONFIGURACIÓN ## 2.1. Configuración Para la configuración de su sistema **TG-HONEYWELL**, en primer lugar debe realizar el diseño de las pantallas de la aplicación. Estas pantallas deben reflejar…",
+     "documento": {
+      "fabricante": "Morley",
+      "product_model": "TG/TG-IP/TG-HONEYWELL",
+      "doc_type": null,
+      "fichero": "Tg-Honeywell_Tecnico"
+     }
+    }
    },
    {
     "id": "unresolved:tg-modbus",
@@ -19418,7 +19494,7 @@
     ],
     "evidencia": {
      "chunk_id": "0e0228c6-490f-45ce-a279-a7bc2cbf0416",
-     "document_id": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
      "pagina": 1,
      "seccion": "Honeywell Life Safety Iberia",
      "fragmento": "…/04/2009 1 de 2 # Honeywell Life Safety Iberia ## ACCIONES BÁSICAS EN LA VISION PLUS EN CASO DE ALARMA Y AVERÍA ## EN CASO DE <ins>ALARMA DE INCENDIO</ins> EN LA VSN PLUS A) PULSE LA TECLA DE…",
@@ -19427,24 +19503,10 @@
       "product_model": "MIEMA-130",
       "doc_type": null,
       "fichero": "MIEMA130.pdf"
-     }
-    },
-    "evidencias_extra": [
-     {
-      "chunk_id": "0f3bfb3d-3c88-4416-ba1f-521c9dc84d58",
-      "document_id": "a3f3d2da-0327-4b06-8831-fa0f050c80a9",
-      "pagina": 2,
-      "seccion": "CARACTERÍSTICAS TÉCNICAS:",
-      "fragmento": "…| | Paneles compatibles con protocolo SMS o Contact ID | NFS Supra, Vision Plus, Vision 2Plus, ID50, ID3000 y DXC CONNEXION…"
      },
-     {
-      "chunk_id": "12f9fde3-b448-4f05-b52d-0c4a03839489",
-      "document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
-      "pagina": 9,
-      "seccion": "2.3 Indicador acústico (Zumbador interno)",
-      "fragmento": "## 2.3 Indicador acústico (Zumbador interno) La central VISION PLUS incorpora un zumbador interno para aviso de incidencias. El zumbador indica las incidencias de la siguiente f…"
-     }
-    ],
+     "source_file": "MIEMI130"
+    },
+    "evidencias_extra": [],
     "corrobora_product_model": false,
     "banderas": [
      "multipalabra",
@@ -19469,7 +19531,26 @@
     "cita": "La central VISION PLUS incorpora un zumbador interno para aviso de incidencias",
     "cita_verificada": true,
     "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
-    "por_que": "La evidencia describe VISION PLUS explícitamente como una central de incendios de Honeywell Life Safety Iberia, con manual propio y aparición en listas de paneles compatibles junto a otros modelos reales (Vision 2Plus, ID3000)."
+    "por_que": "La evidencia describe VISION PLUS explícitamente como una central de incendios de Honeywell Life Safety Iberia, con manual propio y aparición en listas de paneles compatibles junto a otros modelos reales (Vision 2Plus, ID3000).",
+    "atribucion_corregida_s322j": {
+     "antes": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "ahora_document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
+     "ahora_source_file": null,
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "0e0228c6-490f-45ce-a279-a7bc2cbf0416",
+     "document_id": "147b5946-eff4-4027-b1d4-46f581472f94",
+     "pagina": 1,
+     "seccion": "Honeywell Life Safety Iberia",
+     "fragmento": "…/04/2009 1 de 2 # Honeywell Life Safety Iberia ## ACCIONES BÁSICAS EN LA VISION PLUS EN CASO DE ALARMA Y AVERÍA ## EN CASO DE <ins>ALARMA DE INCENDIO</ins> EN LA VSN PLUS A) PULSE LA TECLA DE…",
+     "documento": {
+      "fabricante": "Morley",
+      "product_model": "MIEMA-130",
+      "doc_type": null,
+      "fichero": "MIEMA130.pdf"
+     }
+    }
    },
    {
     "id": "unresolved:vision-rp1r-plus",
@@ -22181,7 +22262,80 @@
     "por_que": "VSN-2P nunca aparece como token completo (0 de 9): todas las menciones son fragmentos de referencias más largas como VSN-2Plus o VSN-2P/NFSx-Supra. Es un truncamiento, no un producto real. [confianza degradada: la cita no verifica]",
     "ruta": "llm",
     "veredicto": "retirar"
+   },
+   {
+    "id": "kidde:standard-display-module",
+    "modelo": "Standard Display Module",
+    "n_ilike_s320": 5,
+    "n_ilike_hoy": 5,
+    "muestra_descargada": 5,
+    "muestra_es_censo": true,
+    "n_chunks_token_exacto": 4,
+    "n_chunks_solo_parasito": 1,
+    "docs_distintos_con_exacta": 3,
+    "parasitos_top": [
+     {
+      "token": "Standard Display Modules",
+      "n": 2
+     }
+    ],
+    "evidencia": {
+     "chunk_id": "14e1aaec-ce03-4f2c-ad48-05d63f217bd6",
+     "document_id": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
+     "pagina": 1,
+     "seccion": "9-30781-KID-EN",
+     "fragmento": "KIDDE COMMERCIAL # 9-30781-KID-EN **Kidde ModuLaser, Standard display module** ## General ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, ma…",
+     "documento": {
+      "fabricante": "Kidde",
+      "product_model": "9-30781-KID-EN",
+      "doc_type": "datasheet",
+      "fichero": "9-30781-kid-en-161721-es.pdf"
+     },
+     "source_file": "9-30441-62576-es"
+    },
+    "evidencias_extra": [],
+    "corrobora_product_model": false,
+    "banderas": [
+     "multipalabra",
+     "palabra_generica",
+     "sin_digitos"
+    ],
+    "error": null,
+    "coherencia_fabricante": "coincide",
+    "parasitos_ya_en_catalogo": [],
+    "motivos_no_determinista": [
+     "forma sospechosa: multipalabra, palabra_generica, sin_digitos"
+    ],
+    "ruta": "llm",
+    "veredicto": "confirmar",
+    "confianza": "alta",
+    "confianza_declarada": "alta",
+    "cita": "Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module",
+    "cita_verificada": true,
+    "cita_verificacion_detalle": "verificada en los fragmentos de evidencia mostrados",
+    "por_que": "El nombre designa una variante real del sistema ModuLaser de Kidde, asociada a la referencia comercial 9-30781 y diferenciada de otros módulos (Minimum, Command) en las especificaciones técnicas.",
+    "atribucion_corregida_s322j": {
+     "antes": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
+     "ahora_document_id": null,
+     "ahora_source_file": "9-30441-62576-es",
+     "motivo": "la cita verifica full-text en este documento, no en el anterior"
+    },
+    "atribucion_previa_s322j": {
+     "chunk_id": "14e1aaec-ce03-4f2c-ad48-05d63f217bd6",
+     "document_id": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
+     "pagina": 1,
+     "seccion": "9-30781-KID-EN",
+     "fragmento": "KIDDE COMMERCIAL # 9-30781-KID-EN **Kidde ModuLaser, Standard display module** ## General ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, ma…",
+     "documento": {
+      "fabricante": "Kidde",
+      "product_model": "9-30781-KID-EN",
+      "doc_type": "datasheet",
+      "fichero": "9-30781-kid-en-161721-es.pdf"
+     }
+    },
+    "sacada_del_bloque_s322j3": "su cita verifica en '9-30441-62576-es', pero los chunks de ese fichero tienen document_id NULL (huérfanos): no existe id al que atribuirla. No se fuerza — decide Alberto."
    }
   ]
- }
+ },
+ "s322j_reatribucion": "Ítem bloqueante del dúo r29 cerrado: citas re-atribuidas al documento donde verifican, o sacadas del bloque si no verifican en ninguno."
 }

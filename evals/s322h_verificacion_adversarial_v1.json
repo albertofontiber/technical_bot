@@ -16,42 +16,22 @@
  ],
  "a_integridad": {
   "git_status_short": [
-   "M .claude/hooks/session-start.sh",
-   " M .claude/settings.json",
-   " M TECH_DEBT.md",
-   " M docs/DECISIONS.md",
-   " M docs/ENTORNO_CLOUD.md",
-   " M docs/HISTORY.md",
-   " M docs/PLAN_RAG_2026.md",
-   " M evals/adversarial_review_log.jsonl",
-   "?? evals/adversarial_reviews/2026-08-15T13-13-06_claude-fable-5_8c09d2b7da1c.md",
-   "?? evals/adversarial_reviews/2026-08-15T13-13-06_claude-fable-5_responses_f5885479d75e.json",
-   "?? evals/s320_e1_packet_adjudicacion_v2.md",
-   "?? evals/s320_e1b_packet_adjudicacion_v2.md",
-   "?? evals/s320_e2_packet_adjudicacion_v2.md",
-   "?? evals/s322_e1b_revisar_qa_v1.json",
-   "?? evals/s322_packets_v2_recibo.json",
-   "?? evals/s322f_e1_colisiones_adjudicacion_v1.json",
-   "?? evals/s322f_e1b_confirmar_encoger_v1.json",
-   "?? evals/s322f_e1s2_tierb_docmap_v1.json",
-   "?? evals/s322f_e2_altas_split_v1.json",
-   "?? evals/s322g_e1_candidatos_triage_v1.json",
-   "?? evals/s322g_e1_pm_sucio_v1.json",
-   "?? evals/s322h_verificacion_adversarial_v1.json",
-   "?? evals/s323_entorno_cloud_propuesta.md",
-   "?? scripts/cloud_smoke.py",
-   "?? scripts/s322_e1b_revisar_qa.py",
-   "?? scripts/s322_packets_v2.py",
-   "?? scripts/s322f_e1_colisiones_adjudicacion.py",
-   "?? scripts/s322f_e1b_confirmar_encoger.py",
-   "?? scripts/s322f_e1s2_tierb_docmap.py",
-   "?? scripts/s322f_e2_altas_split.py",
-   "?? scripts/s322g_e1_candidatos_triage.py",
-   "?? scripts/s322g_e1_pm_sucio.py",
-   "?? scripts/s322h_verificacion_adversarial.py",
-   "?? tests/test_cloud_smoke.py"
+   "M evals/s320_e1_packet_adjudicacion_v2.md",
+   " M evals/s320_e1b_packet_adjudicacion_v2.md",
+   " M evals/s320_e2_packet_adjudicacion_v2.md",
+   " M evals/s322_e1b_revisar_qa_v1.json",
+   " M evals/s322_packets_v2_recibo.json",
+   " M evals/s322f_e1b_confirmar_encoger_v1.json",
+   " M evals/s322g_e1_candidatos_triage_v1.json",
+   " M evals/s322h_verificacion_adversarial_v1.json",
+   " M evals/s322i_fix_packets_v2.json",
+   "?? evals/s322j2_reatribucion_campos_v1.json",
+   "?? evals/s322j_reatribucion_citas_v1.json",
+   "?? scripts/s322j2_reatribuir_campos.py",
+   "?? scripts/s322j3_cierre_atribucion.py",
+   "?? scripts/s322j_reatribuir_citas.py"
   ],
-  "git_diff_stat": ".claude/hooks/session-start.sh     |  54 +++++++---\n .claude/settings.json              |   1 +\n TECH_DEBT.md                       |  24 +++++\n docs/DECISIONS.md                  |  68 +++++++++++++\n docs/ENTORNO_CLOUD.md              | 196 ++++++++++++++++++++++++++-----------\n docs/HISTORY.md                    |  39 ++++++++\n docs/PLAN_RAG_2026.md              |  25 ++++-\n evals/adversarial_review_log.jsonl |   1 +\n 8 files changed, 338 insertions(+), 70 deletions(-)",
+  "git_diff_stat": "evals/s320_e1_packet_adjudicacion_v2.md      |   45 +-\n evals/s320_e1b_packet_adjudicacion_v2.md     |   54 +-\n evals/s320_e2_packet_adjudicacion_v2.md      |   11 +-\n evals/s322_e1b_revisar_qa_v1.json            |   58 +-\n evals/s322_packets_v2_recibo.json            |   31 +-\n evals/s322f_e1b_confirmar_encoger_v1.json    | 1338 ++++++++++++++------------\n evals/s322g_e1_candidatos_triage_v1.json     |  250 +++--\n evals/s322h_verificacion_adversarial_v1.json |  640 ++----------\n evals/s322i_fix_packets_v2.json              |   16 +-\n 9 files changed, 1134 insertions(+), 1309 deletions(-)",
   "git_diff_cached_stat": "",
   "ficheros_protegidos": {
    "data/catalog": {
@@ -159,12 +139,12 @@
     }
    },
    "real": {
-    "bloque": 327,
-    "individual": 32
+    "bloque": 326,
+    "individual": 33
    },
    "cuadra_total": true,
-   "cuadra_desglose_bloque": true,
-   "cuadra_desglose_individual": true
+   "cuadra_desglose_bloque": false,
+   "cuadra_desglose_individual": false
   },
   "e1s2_tierb": {
    "declarado": {
@@ -205,9 +185,9 @@
     "seccion_1_individual": 83
    },
    "real": {
-    "0a": 33,
+    "0a": 32,
     "0b": 17,
-    "individual": 83
+    "individual": 84
    },
    "cuadra_total": true,
    "cuadra_por_veredicto": true
@@ -261,7 +241,7 @@
  "c_criterio_del_bloque": {
   "resumen_por_bolsa": {
    "e1b_encoger/bloque": {
-    "n": 327,
+    "n": 326,
     "confianza_no_alta": 0,
     "cita_vacia": 0,
     "veredicto_prohibido": 0,
@@ -277,7 +257,7 @@
     "sin_cita_por_diseno": 0
    },
    "g1_triage/0a_alta": {
-    "n": 33,
+    "n": 32,
     "confianza_no_alta": 0,
     "cita_vacia": 0,
     "veredicto_prohibido": 0,
@@ -346,17 +326,17 @@
     {
      "bolsa": "e1b_encoger/bloque",
      "idx": 277,
-     "sujeto": "securiton:amb-33",
-     "modelo": "AMB 33",
+     "sujeto": "securiton:amb-35",
+     "modelo": "AMB 35",
      "confianza": "alta",
      "veredicto": "confirmar",
      "verificada_por_agente": true,
-     "cita": "AMB 33 | = ASD Main Board",
-     "doc_atribuido": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+     "cita": "el Main Board AMB 35 del interior del dispositivo incluye una indicación alfanumérica y dos visualizadores de 7 segmentos",
+     "doc_atribuido": "ab258c38-30f7-4047-a421-ebb7a701a84a",
      "mi_verificacion": {
       "estado": "VERIFICA_EN_DOC_ATRIBUIDO",
-      "nivel": "documento",
-      "doc": "1cc97b71-972e-4163-8d1d-548a4b57f275"
+      "nivel": "chunk_exacto_declarado",
+      "chunk": "082579b5-b18c-4fdc-befd-10c6afbf95ba"
      }
     },
     {
@@ -459,18 +439,18 @@
     },
     {
      "bolsa": "e1b_encoger/bloque",
-     "idx": 326,
-     "sujeto": "xtralis:vesda-vli",
-     "modelo": "VESDA VLI",
+     "idx": 290,
+     "sujeto": "systemsensor:st-1.5",
+     "modelo": "ST-1.5",
      "confianza": "alta",
      "veredicto": "confirmar",
      "verificada_por_agente": true,
-     "cita": "VESDA VLI Product Guide",
-     "doc_atribuido": "3a7869bf-8c1d-4adf-8b80-28479b3cc924",
+     "cita": "| ST-1.5 | 1 to 2 ft. (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. (0.6 to 1.2 m) |",
+     "doc_atribuido": "dd6d3f72-8a37-4f98-b044-589708b606d9",
      "mi_verificacion": {
       "estado": "VERIFICA_EN_DOC_ATRIBUIDO",
-      "nivel": "chunk_exacto_declarado",
-      "chunk": "00c72359-6205-47f8-af41-6cd51d9bcaae"
+      "nivel": "documento",
+      "doc": "dd6d3f72-8a37-4f98-b044-589708b606d9"
      }
     },
     {
@@ -542,22 +522,19 @@
    ]
   },
   "d2_censo_completo": {
-   "n": 570,
+   "n": 568,
    "tally": {
-    "VERIFICA_EN_DOC_ATRIBUIDO": 531,
-    "VERIFICA_SOLO_EN_OTRO_DOC": 39
+    "VERIFICA_EN_DOC_ATRIBUIDO": 568
    },
    "por_bolsa": {
     "e1b_encoger/bloque": {
-     "VERIFICA_EN_DOC_ATRIBUIDO": 298,
-     "VERIFICA_SOLO_EN_OTRO_DOC": 29
+     "VERIFICA_EN_DOC_ATRIBUIDO": 326
     },
     "e1s2_tierb/seccion_0_bloque": {
      "VERIFICA_EN_DOC_ATRIBUIDO": 42
     },
     "g1_triage/0a_alta": {
-     "VERIFICA_EN_DOC_ATRIBUIDO": 28,
-     "VERIFICA_SOLO_EN_OTRO_DOC": 5
+     "VERIFICA_EN_DOC_ATRIBUIDO": 32
     },
     "g1_triage/0b_retirar": {
      "VERIFICA_EN_DOC_ATRIBUIDO": 17
@@ -566,496 +543,14 @@
      "VERIFICA_EN_DOC_ATRIBUIDO": 3
     },
     "e1b_qa/0_bloque_confirmar": {
-     "VERIFICA_EN_DOC_ATRIBUIDO": 140,
-     "VERIFICA_SOLO_EN_OTRO_DOC": 4
+     "VERIFICA_EN_DOC_ATRIBUIDO": 144
     },
     "e1b_qa/0_bloque_retirar": {
-     "VERIFICA_EN_DOC_ATRIBUIDO": 3,
-     "VERIFICA_SOLO_EN_OTRO_DOC": 1
+     "VERIFICA_EN_DOC_ATRIBUIDO": 4
     }
    },
    "no_verifican": [],
-   "verifican_solo_en_otro_doc": [
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "fidegas:cs4",
-     "modelo": "CS4",
-     "cita": "# MANUAL DE USUARIO ## CENTRAL DE ALARMAS # CS4 ## (Analógica o Digital)",
-     "doc_atribuido": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "5f80d7e6-25e8-4705-979e-4a921ab00086",
-      "doc_atribuido": "4adc55fe-6922-4e0e-b62c-1c79919cec01"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "kidde:standard-display-module",
-     "modelo": "Standard Display Module",
-     "cita": "Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module",
-     "doc_atribuido": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": null,
-      "source_file": "9-30441-62576-es",
-      "doc_atribuido": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:bm-1",
-     "modelo": "BM-1",
-     "cita": "BM-1 | Módulo vacío para cubrir un módulo o panel no utilizado",
-     "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-      "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:ccm-1",
-     "modelo": "CCM-1",
-     "cita": "DOCUMENTO INSTALACIÓN DEL PRODUCTO (CCM-1) | 15328",
-     "doc_atribuido": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
-      "doc_atribuido": "2aa35292-4377-4160-aea3-2d5c67e9fca2"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:dp-1",
-     "modelo": "DP-1",
-     "cita": "El **Panel Embellecedor (DP-1)** cubre los ensambles adicionales del ICA-4L o el CHS-4/4L en el gabinete.",
-     "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
-      "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:dts-240",
-     "modelo": "DTS 240",
-     "cita": "El cable sensor se instala en el área que se va a proteger y también se conecta a la unidad optoelectrónica DTS 240.",
-     "doc_atribuido": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "6d84be7f-0ada-4647-9852-6089d690f8fc",
-      "doc_atribuido": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:e-sib",
-     "modelo": "E-SIB",
-     "cita": "E-SIB (mochila que habilita la comunicación serie)",
-     "doc_atribuido": "f1d3db52-c955-472e-9237-9019a007ba83",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
-      "doc_atribuido": "f1d3db52-c955-472e-9237-9019a007ba83"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:g-10",
-     "modelo": "G-10",
-     "cita": "the NCO-10 carbon monoxide (CO) detector is designed for use with the G-10 CO detection system in car parks",
-     "doc_atribuido": "38e238fa-b3c8-4532-8d1d-b05eccc7524e",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "c2ae8cae-19e4-42db-9737-355d6de0360a",
-      "doc_atribuido": "38e238fa-b3c8-4532-8d1d-b05eccc7524e"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:h-gtw-n",
-     "modelo": "H-GTW-N",
-     "cita": "El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen",
-     "doc_atribuido": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "5658460a-b942-4864-9bff-f6a28ff3280b",
-      "doc_atribuido": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:laserstar",
-     "modelo": "LaserStar",
-     "cita": "La gama de detectores LaserStar es única en su capacidad de proporcionar un nivel constante de protección en muchos tipos de ambientes",
-     "doc_atribuido": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
-      "doc_atribuido": "f9e7df1c-cf18-487d-a7d8-152d4378cec3"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:mp-1",
-     "modelo": "MP-1",
-     "cita": "El CHS-4M incluye el Chasis CHS-4, el Panel del Módulo MP-1, y la Cinta expansora.",
-     "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-      "doc_atribuido": "f9206530-c571-462b-abbf-ac7a47fd4a54"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:n-elr",
-     "modelo": "N-ELR",
-     "cita": "Par Canadá, se requiere el Ensamblaje de Resistencia de Fin de Línea modela N-ELR",
-     "doc_atribuido": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-      "doc_atribuido": "a00b0102-bdfa-4c02-959a-928e146fb8b7"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:nas",
-     "modelo": "NAS",
-     "cita": "MN-DT-741I Nas Installation and User Guide",
-     "doc_atribuido": "7cb57a84-5b33-4069-8c16-429fd57a246b",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
-      "doc_atribuido": "7cb57a84-5b33-4069-8c16-429fd57a246b"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:nas-2",
-     "modelo": "NAS-2",
-     "cita": "The NAS-2 draws air from the protected area using a network of sampling pipes.",
-     "doc_atribuido": "62872159-0fb9-4051-9a02-25e89c46d6a0",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
-      "doc_atribuido": "62872159-0fb9-4051-9a02-25e89c46d6a0"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:nfs-supra",
-     "modelo": "NFS Supra",
-     "cita": "the Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra",
-     "doc_atribuido": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "61ef0e74-7d19-49d8-9180-b515049ada6e",
-      "doc_atribuido": "751d3588-ea0d-4d57-893c-ec2bf4d5869e"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:notifier-inspire-e10",
-     "modelo": "Notifier INSPIRE E10",
-     "cita": "Central Notifier INSPIRE E10 con:<br/>PSU de 240 W",
-     "doc_atribuido": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
-      "doc_atribuido": "6b2e16bc-2a60-4602-aa72-d32d8c42397a"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:tcm-4",
-     "modelo": "TCM-4",
-     "cita": "ICM-4, TCM-2, TCM-4, VCM-4",
-     "doc_atribuido": "5403c7ed-aa89-4125-aa28-946deca1a4be",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "f9206530-c571-462b-abbf-ac7a47fd4a54",
-      "doc_atribuido": "5403c7ed-aa89-4125-aa28-946deca1a4be"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:tg-notifier",
-     "modelo": "TG-NOTIFIER",
-     "cita": "el uso del sistema de Supervisión y Control **TG-NOTIFIER.**",
-     "doc_atribuido": "681e506b-daaa-4f78-8336-aa732695962c",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "5e483105-7539-45be-9858-d50ecbdc5cd0",
-      "doc_atribuido": "681e506b-daaa-4f78-8336-aa732695962c"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:transponder-serie-xp",
-     "modelo": "Transponder serie XP",
-     "cita": "El Transponder Serie XP Para las Centrales AM2020/AFP1010",
-     "doc_atribuido": "3be6cda0-bf41-4988-ada6-11fd6736dd2c",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "2d7f3a79-bda9-400c-9629-a830110d52e7",
-      "doc_atribuido": "3be6cda0-bf41-4988-ada6-11fd6736dd2c"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:vision-plus",
-     "modelo": "Vision Plus",
-     "cita": "La central VISION PLUS incorpora un zumbador interno para aviso de incidencias",
-     "doc_atribuido": "147b5946-eff4-4027-b1d4-46f581472f94",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "153d05f2-81ed-496c-b6b2-8d699a591778",
-      "doc_atribuido": "147b5946-eff4-4027-b1d4-46f581472f94"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "notifier:ze4",
-     "modelo": "ZE4",
-     "cita": "El módulo ZE4 proporciona cuatro zonas adicionales.",
-     "doc_atribuido": "bd472cc4-01bc-48d0-896a-308c4a7abc90",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "47e5f587-10b6-4841-8184-a5b968e9e4c0",
-      "doc_atribuido": "bd472cc4-01bc-48d0-896a-308c4a7abc90"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "securiton:leb-35",
-     "modelo": "LEB 35",
-     "cita": "LEB 35 | = Módulo de ampliación para un segundo tubo sensor (LTHD Extension Board)",
-     "doc_atribuido": "623276d6-4902-467f-b499-52c7559a85c0",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
-      "doc_atribuido": "623276d6-4902-467f-b499-52c7559a85c0"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "sense-ware:sm21",
-     "modelo": "SM21",
-     "cita": "Montar el detector con la ayuda del pivote de montaje opcional SM21 (consulte el manual de SM21)",
-     "doc_atribuido": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "3f41ff57-479a-470a-8b43-544af709bea3",
-      "doc_atribuido": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "systemsensor:st-1.5",
-     "modelo": "ST-1.5",
-     "cita": "| ST-1.5 | 1 to 2 ft. (0.3 to 0.6 m) | | ST-3 | 2 to 4 ft. (0.6 to 1.2 m) |",
-     "doc_atribuido": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "dd6d3f72-8a37-4f98-b044-589708b606d9",
-      "doc_atribuido": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "unresolved:h-gtw-n",
-     "modelo": "H-GTW-N",
-     "cita": "El modelo **H-GTW-N** permite realizar la integración igualmente a cualquiera de las centrales individuales indicadas anteriormen",
-     "doc_atribuido": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "5658460a-b942-4864-9bff-f6a28ff3280b",
-      "doc_atribuido": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "unresolved:id50",
-     "modelo": "ID50",
-     "cita": "Panel ID50 - Manual de funcionamiento",
-     "doc_atribuido": "89a339cc-5c51-4542-b995-e9afa4e55578",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
-      "doc_atribuido": "89a339cc-5c51-4542-b995-e9afa4e55578"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "unresolved:id60",
-     "modelo": "ID60",
-     "cita": "Dos detectores de humo, recomendables 2 sensores VIEW (solo con centrales ID60, ID3000, AFP400).",
-     "doc_atribuido": "ae18e58f-c155-4dd7-a268-fe652adc6863",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "62872159-0fb9-4051-9a02-25e89c46d6a0",
-      "doc_atribuido": "ae18e58f-c155-4dd7-a268-fe652adc6863"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "unresolved:tg-honeywell",
-     "modelo": "TG-HONEYWELL",
-     "cita": "Al arrancar el software **TG-HONEYWELL** se presenta el plano principal",
-     "doc_atribuido": "e009191b-62e0-445c-b066-258e8787ccb4",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
-      "doc_atribuido": "e009191b-62e0-445c-b066-258e8787ccb4"
-     }
-    },
-    {
-     "bolsa": "e1b_encoger/bloque",
-     "sujeto": "unresolved:vision-plus",
-     "modelo": "VISION PLUS",
-     "cita": "La central VISION PLUS incorpora un zumbador interno para aviso de incidencias",
-     "doc_atribuido": "147b5946-eff4-4027-b1d4-46f581472f94",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "153d05f2-81ed-496c-b6b2-8d699a591778",
-      "doc_atribuido": "147b5946-eff4-4027-b1d4-46f581472f94"
-     }
-    },
-    {
-     "bolsa": "g1_triage/0a_alta",
-     "sujeto": "kidde:ke-dm3110r-kit",
-     "modelo": "KE-DM3110R-KIT",
-     "cita": "KE-DM3110R-KIT **Excellence Series intelligent addressable manual call point with isolator and back box**",
-     "doc_atribuido": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "ab147d5c-0fb1-4e92-85ad-364b53e951e8",
-      "source_file": "DS_KIDDE_KE_DM3110R_KIT_f3b7",
-      "doc_atribuido": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc"
-     }
-    },
-    {
-     "bolsa": "g1_triage/0a_alta",
-     "sujeto": "morley:dxc-connexion",
-     "modelo": "DXc Connexion",
-     "cita": "DXC Connexion - Avería F. Alimentación externa",
-     "doc_atribuido": "03a09ba4-9396-4254-b076-bd6016fbf92b",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "2b2b32b0-7002-4722-ac06-414d45a8ed73",
-      "source_file": "DXC-Connexion-Averia-F-Alimentacion-externa",
-      "doc_atribuido": "03a09ba4-9396-4254-b076-bd6016fbf92b"
-     }
-    },
-    {
-     "bolsa": "g1_triage/0a_alta",
-     "sujeto": "notifier:clss-configuration-tool",
-     "modelo": "CLSS Configuration Tool",
-     "cita": "Honeywell no recomienda la instalación de más de una instancia del programa CLSS Configuration Tool",
-     "doc_atribuido": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "8c3628fb-f3ef-4af9-9109-7887547e28de",
-      "source_file": "4188-1122-ES issue 4_04-2025_Cyb",
-      "doc_atribuido": "20160a6b-26bd-477d-a9a7-e76ee152cee3"
-     }
-    },
-    {
-     "bolsa": "g1_triage/0a_alta",
-     "sujeto": "notifier:nfxi-bsf-wch",
-     "modelo": "NFXI-BSF-WCH",
-     "cita": "BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica",
-     "doc_atribuido": "89024b18-d156-4118-ae3a-997210903102",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
-      "source_file": "HOP-138-9ES issue 5_11-2025_In",
-      "doc_atribuido": "89024b18-d156-4118-ae3a-997210903102"
-     }
-    },
-    {
-     "bolsa": "g1_triage/0a_alta",
-     "sujeto": "notifier:serie-ps",
-     "modelo": "Serie PS",
-     "cita": "# 1. INSTALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE PS",
-     "doc_atribuido": "9e1baaa5-be5c-4713-b0e2-913010a31802",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "08828182-830a-4776-a6c4-32ab605c4665",
-      "source_file": "MIE-MI-010",
-      "doc_atribuido": "9e1baaa5-be5c-4713-b0e2-913010a31802"
-     }
-    },
-    {
-     "bolsa": "e1b_qa/0_bloque_confirmar",
-     "sujeto": "morley:mi-cmo",
-     "modelo": "MI-CMO",
-     "cita": "Utilizar un módulo de salida MI-CMO, configurado como libre de tensión para que se active con cualquier evento de avería.",
-     "doc_atribuido": "Rearme-remoto-en-central-DXc-Connexion",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "edbcb1ab-eb05-42ba-ba4f-83bfd3a673bc",
-      "source_file": "DXC-Connexion-Como-programar-una-salida-de-averia-general",
-      "doc_atribuido": null
-     }
-    },
-    {
-     "bolsa": "e1b_qa/0_bloque_confirmar",
-     "sujeto": "notifier:sdx-751-tem",
-     "modelo": "SDX-751-TEM",
-     "cita": "b. Optiplex (Comb. térmico/humo) SDX-751TEM",
-     "doc_atribuido": "AM-8200-manu-prog-spa (brand-tier=mecanico) | typo-merge:SDX-751TEM | alias-canonical-collision→candidate",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
-      "source_file": "MPDT190",
-      "doc_atribuido": null
-     }
-    },
-    {
-     "bolsa": "e1b_qa/0_bloque_confirmar",
-     "sujeto": "notifier:verifire-1020",
-     "modelo": "VERIFIRE 1020",
-     "cita": "| VeriFire 1020            | No          | No         | Sí",
-     "doc_atribuido": "MADT285_01",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "61279c02-3121-4106-81b2-94c092100e9a",
-      "source_file": "TIDT060",
-      "doc_atribuido": null
-     }
-    },
-    {
-     "bolsa": "e1b_qa/0_bloque_confirmar",
-     "sujeto": "unresolved:tg-ip-1-sec",
-     "modelo": "TG-IP-1-SEC",
-     "cita": "# Serial Device Server TG-IP1-SEC",
-     "doc_atribuido": "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto (brand-tier=candidate) | typo-merge:TG-IP1-SEC",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "77f1a59a-f210-46b4-bc18-ee35f68a1c29",
-      "source_file": "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
-      "doc_atribuido": null
-     }
-    },
-    {
-     "bolsa": "e1b_qa/0_bloque_retirar",
-     "sujeto": "notifier:c-160-14-to1a",
-     "modelo": "C-160-14-TO1A",
-     "cita": "## Tarjeta Principal C-160-14-TO1A Rev.01",
-     "doc_atribuido": "MNDT040P",
-     "mi_verificacion": {
-      "estado": "VERIFICA_SOLO_EN_OTRO_DOC",
-      "doc": "97244433-45ab-4d99-b18c-7a6da31966d7",
-      "source_file": "MNDT040",
-      "doc_atribuido": null
-     }
-    }
-   ]
+   "verifican_solo_en_otro_doc": []
   }
  },
  "d_bis_bloque_sin_cita_e2": {
@@ -1069,74 +564,74 @@
  "e_packets": {
   "E1": {
    "fichero": "C:\\dev\\technical_bot\\evals\\s320_e1_packet_adjudicacion_v2.md",
-   "lineas_reales": 905,
-   "lineas_declaradas": 905,
-   "cuadra_lineas": true,
+   "lineas_reales": 918,
+   "lineas_declaradas": 916,
+   "cuadra_lineas": false,
    "cabeceras": [
     {
-     "titulo": "0 — Aplicables EN BLOQUE si asientes (144)",
-     "n_declarado": 144,
-     "linea": 21,
+     "titulo": "0 — Aplicables EN BLOQUE si asientes (143)",
+     "n_declarado": 143,
+     "linea": 30,
      "casillas": 0
     },
     {
      "titulo": "0.A — Colisiones de identidad: **repuntar `doc_map`** (49)",
      "n_declarado": 49,
-     "linea": 28,
+     "linea": 37,
      "casillas": 49
     },
     {
      "titulo": "0.B — `doc_map` tier B: **altas de entrada** (42)",
      "n_declarado": 42,
-     "linea": 117,
+     "linea": 126,
      "casillas": 42
     },
     {
-     "titulo": "0.C — Candidates → **ALTA** (33)",
-     "n_declarado": 33,
-     "linea": 227,
-     "casillas": 33
+     "titulo": "0.C — Candidates → **ALTA** (32)",
+     "n_declarado": 32,
+     "linea": 236,
+     "casillas": 32
     },
     {
      "titulo": "0.D — Candidates → **RETIRAR** (17)",
      "n_declarado": 17,
-     "linea": 305,
+     "linea": 312,
      "casillas": 17
     },
     {
      "titulo": "0.E — `product_model` sucio: **2 RETAG + 1 MANTENER** (3)",
      "n_declarado": 3,
-     "linea": 364,
+     "linea": 371,
      "casillas": 3
     },
     {
-     "titulo": "1 — Una a una (97)",
-     "n_declarado": 97,
-     "linea": 394,
+     "titulo": "1 — Una a una (98)",
+     "n_declarado": 98,
+     "linea": 401,
      "casillas": 0
     },
     {
      "titulo": "1.A — `doc_map` tier B, residuo (13)",
      "n_declarado": 13,
-     "linea": 399,
+     "linea": 406,
      "casillas": 13
     },
     {
-     "titulo": "1.B — Candidates, residuo (83)",
-     "n_declarado": 83,
-     "linea": 510,
-     "casillas": 83
+     "titulo": "1.B — Candidates, residuo (84)",
+     "n_declarado": 84,
+     "linea": 517,
+     "casillas": 84
     },
     {
      "titulo": "1.C — `product_model` sucio, residuo (1)",
      "n_declarado": 1,
-     "linea": 854,
+     "linea": 867,
      "casillas": 1
     },
     {
      "titulo": "2 — Ya no aplican (12) — **no decides nada**",
      "n_declarado": 12,
-     "linea": 865,
+     "linea": 878,
      "casillas": 0
     }
    ],
@@ -1144,68 +639,68 @@
    "casillas_declaradas": 241,
    "titular": {
     "casillas_v1": "253",
-    "decisiones_prometidas": 98
+    "decisiones_prometidas": 99
    },
-   "casillas_en_seccion_0": 144,
+   "casillas_en_seccion_0": 143,
    "titular_vs_casillas": {
-    "decisiones_prometidas": 98,
+    "decisiones_prometidas": 99,
     "casillas_reales_en_el_fichero": 241,
-    "casillas_en_el_bloque_que_dice_ser_1_si": 144,
+    "casillas_en_el_bloque_que_dice_ser_1_si": 143,
     "coincide": false
    }
   },
   "E1b": {
    "fichero": "C:\\dev\\technical_bot\\evals\\s320_e1b_packet_adjudicacion_v2.md",
-   "lineas_reales": 1396,
-   "lineas_declaradas": 1396,
-   "cuadra_lineas": true,
+   "lineas_reales": 1408,
+   "lineas_declaradas": 1406,
+   "cuadra_lineas": false,
    "cabeceras": [
     {
-     "titulo": "0 — Aplicables EN BLOQUE si asientes (475)",
-     "n_declarado": 475,
-     "linea": 20,
+     "titulo": "0 — Aplicables EN BLOQUE si asientes (474)",
+     "n_declarado": 474,
+     "linea": 29,
      "casillas": 0
     },
     {
      "titulo": "0.A — «confirmar» por **medida determinista, sin juez** (197)",
      "n_declarado": 197,
-     "linea": 56,
+     "linea": 65,
      "casillas": 9
     },
     {
-     "titulo": "0.B — «confirmar» por **juez, alta + cita verificada** (130)",
-     "n_declarado": 130,
-     "linea": 113,
-     "casillas": 130
+     "titulo": "0.B — «confirmar» por **juez, alta + cita verificada** (129)",
+     "n_declarado": 129,
+     "linea": 122,
+     "casillas": 129
     },
     {
      "titulo": "0.C — «revisar» → **CONFIRMAR** (144)",
      "n_declarado": 144,
-     "linea": 509,
+     "linea": 515,
      "casillas": 144
     },
     {
      "titulo": "0.D — «revisar» → **RETIRAR** (4)",
      "n_declarado": 4,
-     "linea": 804,
+     "linea": 810,
      "casillas": 4
     },
     {
-     "titulo": "1 — Una a una (145)",
-     "n_declarado": 145,
-     "linea": 824,
+     "titulo": "1 — Una a una (146)",
+     "n_declarado": 146,
+     "linea": 830,
      "casillas": 0
     },
     {
-     "titulo": "1.A — «confirmar», residuo (32)",
-     "n_declarado": 32,
-     "linea": 826,
-     "casillas": 32
+     "titulo": "1.A — «confirmar», residuo (33)",
+     "n_declarado": 33,
+     "linea": 832,
+     "casillas": 33
     },
     {
      "titulo": "1.B — «revisar», residuo (113)",
      "n_declarado": 113,
-     "linea": 1024,
+     "linea": 1036,
      "casillas": 113
     }
    ],
@@ -1213,62 +708,62 @@
    "casillas_declaradas": 432,
    "titular": {
     "casillas_v1": "620",
-    "decisiones_prometidas": 146
+    "decisiones_prometidas": 147
    },
-   "casillas_en_seccion_0": 287,
+   "casillas_en_seccion_0": 286,
    "titular_vs_casillas": {
-    "decisiones_prometidas": 146,
+    "decisiones_prometidas": 147,
     "casillas_reales_en_el_fichero": 432,
-    "casillas_en_el_bloque_que_dice_ser_1_si": 287,
+    "casillas_en_el_bloque_que_dice_ser_1_si": 286,
     "coincide": false
    }
   },
   "E2": {
    "fichero": "C:\\dev\\technical_bot\\evals\\s320_e2_packet_adjudicacion_v2.md",
-   "lineas_reales": 545,
-   "lineas_declaradas": 545,
-   "cuadra_lineas": true,
+   "lineas_reales": 554,
+   "lineas_declaradas": 552,
+   "cuadra_lineas": false,
    "cabeceras": [
     {
      "titulo": "0 — Aplicables EN BLOQUE si asientes (562)",
      "n_declarado": 562,
-     "linea": 25,
+     "linea": 34,
      "casillas": 0
     },
     {
      "titulo": "0.A — Con presencia en el corpus HOY (44) — las que más pesan",
      "n_declarado": 44,
-     "linea": 31,
+     "linea": 40,
      "casillas": 44
     },
     {
      "titulo": "0.B — Sin chunks hoy (518) — mejoran la query escrita, no el dictado",
      "n_declarado": 518,
-     "linea": 81,
+     "linea": 90,
      "casillas": 11
     },
     {
      "titulo": "1 — Una a una (669), agrupadas en lotes por regla de riesgo",
      "n_declarado": 669,
-     "linea": 175,
+     "linea": 184,
      "casillas": 0
     },
     {
      "titulo": "1.0 — Top peligrosos (20) — decisión individual",
      "n_declarado": 20,
-     "linea": 183,
+     "linea": 192,
      "casillas": 20
     },
     {
      "titulo": "1.1 — Lotes por regla (669 altas)",
      "n_declarado": null,
-     "linea": 229,
+     "linea": 238,
      "casillas": 19
     },
     {
      "titulo": "2 — Obsoletas (4) — **no decides nada**",
      "n_declarado": 4,
-     "linea": 489,
+     "linea": 498,
      "casillas": 0
     }
    ],
@@ -1308,54 +803,54 @@
   "recibo_packets": {
    "e1": {
     "fichero": "C:/dev/technical_bot/evals/s320_e1_packet_adjudicacion_v2.md",
-    "lineas": 905,
+    "lineas": 916,
     "filas_por_seccion": {
      "0A": 49,
      "0B": 42,
-     "0C": 33,
+     "0C": 32,
      "0D": 17,
      "0E": 3,
      "1A": 13,
-     "1B": 83,
+     "1B": 84,
      "1C": 1,
      "2": 12
     },
     "casillas_por_seccion": {
      "0A": 49,
      "0B": 42,
-     "0C": 33,
+     "0C": 32,
      "0D": 17,
      "0E": 3,
      "1A": 13,
-     "1B": 83,
+     "1B": 84,
      "1C": 1
     },
     "secciones_largas": {}
    },
    "e1b": {
     "fichero": "C:/dev/technical_bot/evals/s320_e1b_packet_adjudicacion_v2.md",
-    "lineas": 1396,
+    "lineas": 1406,
     "filas_por_seccion": {
      "0A": 197,
-     "0B": 130,
+     "0B": 129,
      "0C": 144,
      "0D": 4,
-     "1A": 32,
+     "1A": 33,
      "1B": 113
     },
     "casillas_por_seccion": {
      "0A": 9,
-     "0B": 130,
+     "0B": 129,
      "0C": 144,
      "0D": 4,
-     "1A": 32,
+     "1A": 33,
      "1B": 113
     },
     "secciones_largas": {}
    },
    "e2": {
     "fichero": "C:/dev/technical_bot/evals/s320_e2_packet_adjudicacion_v2.md",
-    "lineas": 545,
+    "lineas": 552,
     "filas_por_seccion": {
      "0A": 44,
      "0B": 518,

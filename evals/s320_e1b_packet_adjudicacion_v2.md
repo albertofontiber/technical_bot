@@ -1,4 +1,4 @@
-# s320 E1b — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T105757Z
+# s320 E1b — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 **SUPERSEDE a `evals/s320_e1_packet_adjudicacion_v1.md (§5 «confirmar»/«revisar» del E1b)`.**
 Los dos lotes del E1b (**359** «confirmar» + **261** «revisar» = **620 casillas**) venían
@@ -7,19 +7,26 @@ de una atestación `ilike` **sin fronteras de palabra**: contaba «CAD-250» den
 re-medido cada término con **token exacto** y han juzgado sólo lo que la medida no
 zanja.
 
-> ### De **620 casillas** → **146 decisiones**
-> - **1 sí en bloque** cubre **475 filas** (§0, en 4 sub-bloques).
-> - **145 una a una** (§1).
+> ### De **620 casillas** → **147 decisiones**
+> - **1 sí en bloque** cubre **474 filas** (§0, en 4 sub-bloques).
+> - **146 una a una** (§1).
 
-> **Cuenta honesta de casillas** (la escribe el verificador adversarial, no el optimismo del autor): este fichero imprime **432 casillas `- [ ]`** en total — §0.A: 9 · §0.B: 130 · §0.C: 144 · §0.D: 4 · §1.A: 32 · §1.B: 113. Las de §0 están ahí para que PUEDAS bajar a grano fino y desmarcar lo que quieras, no porque haya que marcarlas una a una: el «sí en bloque» las cubre todas de golpe. Si solo asientes a los bloques, tu trabajo real son las decisiones del titular.
+> **Cuenta honesta de casillas** (la escribe el verificador adversarial, no el optimismo del autor): este fichero imprime **432 casillas `- [ ]`** en total — §0.A: 9 · §0.B: 129 · §0.C: 144 · §0.D: 4 · §1.A: 33 · §1.B: 113. Las de §0 están ahí para que PUEDAS bajar a grano fino y desmarcar lo que quieras, no porque haya que marcarlas una a una: el «sí en bloque» las cubre todas de golpe. Si solo asientes a los bloques, tu trabajo real son las decisiones del titular.
 
 **NADA APLICADO.** Ni catálogo (`data/catalog/*.jsonl`), ni Supabase, ni el
 snapshot del detector (`data/model_catalog.json`). Todo lo de aquí es PROPUESTA:
 marca ✓/✗ y se aplica después por la puerta gobernada, con recibo.
 
+> ⚠ **Aviso de drift entre el encargo y los recibos** (no se ha corregido nada,
+> se declara):
+> - DRIFT en candidates · bloque: esperado 50, en el recibo 49
+> - DRIFT en candidates · individual: esperado 83, en el recibo 84
+> - DRIFT en confirmar · bloque: esperado 327, en el recibo 326
+> - DRIFT en confirmar · individual: esperado 32, en el recibo 33
+
 ---
 
-## SECCIÓN 0 — Aplicables EN BLOQUE si asientes (475)
+## SECCIÓN 0 — Aplicables EN BLOQUE si asientes (474)
 
 Puerta del bloque «confirmar» (las 5 condiciones, todas):
   1. n_ilike_hoy >= 3 (sigue atestado hoy)
@@ -112,7 +119,7 @@ y el detalle fila a fila —chunk_id, página, sección, fragmento verbatim— e
 - [ ] **spectrex** — 1 confirmación determinista
       `777650`(4·2)
 
-### §0.B — «confirmar» por **juez, alta + cita verificada** (130)
+### §0.B — «confirmar» por **juez, alta + cita verificada** (129)
 
 Formas sospechosas (cortas, sin dígitos, multipalabra) que la medida sola no zanja.
 Banderas léxicas del lote completo: muy_corto=77, sin_digitos=69, palabra_generica=23, multipalabra=55, unidad_o_norma=2, parece_fichero=1, medida_en_contexto=4
@@ -129,9 +136,6 @@ Banderas léxicas del lote completo: muy_corto=77, sin_digitos=69, palabra_gener
 - [ ] `kidde:2x-at` (2X-AT) · 28 chunks token exacto en 3 docs · banderas: muy_corto
       cita ✓ «This is a supplementary publication to introduce the 2X-AT Series control panels.»
       por qué: La evidencia muestra que 2X-AT designa una serie de centrales de incendio del fabricante, mencionada como tal en guías y manuales, con 28 menciones como token…
-- [ ] `kidde:standard-display-module` (Standard Display Module) · 4 chunks token exacto en 3 docs · banderas: multipalabra,palabra_generica,sin_digitos
-      cita ✓ «Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module»
-      por qué: El nombre designa una variante real del sistema ModuLaser de Kidde, asociada a la referencia comercial 9-30781 y diferenciada de otros módulos (Minimum, Comman…
 - [ ] `morley:dx1e` (DX1e) · 11 chunks token exacto en 3 docs · banderas: muy_corto
       cita ✓ «Los paneles de control de incendios DX1e, DX2e y DX4e disponen de 1, 2 y 4 lazos, para instalar dis…»
       por qué: DX1e se menciona repetidamente como panel de control de incendios de la serie DX, con descripción funcional propia (1 lazo). Las variantes DX1e-20S/40M son con…
@@ -524,7 +528,7 @@ Clases del lote completo: atestado_en_contenido=216, sin_atestacion_doc_presente
       cita ✓ «Consulte la Hoja de instalación de la tarjeta de red 2010-1-NB para obtener información detallada acerca…»
 - [ ] `lda:ldaneotfl` (LDANEOTFL · LDA) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO…`
       cita ✓ «* LDANEOTFL. Terminador de línea de altavoces»
-- [ ] `morley:mi-cmo` (MI-CMO · Morley-IAS) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `Rearme-remoto-en-central-DXc-Connexion`
+- [ ] `morley:mi-cmo` (MI-CMO · Morley-IAS) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `DXC-Connexion-Como-programar-una-salida-de-…`
       cita ✓ «Utilizar un módulo de salida MI-CMO, configurado como libre de tensión para que se active con cualquier…»
 - [ ] `morley:vsn-12-plus2` (VSN-12 Plus2 · Honeywell Life Safety Iberia) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `HLSI-MN-025_NFS Supra`
       cita ✓ «Este manual es válido para las centrales convencionales de alarma y detección de incendios con las sigui…»
@@ -592,7 +596,7 @@ Clases del lote completo: atestado_en_contenido=216, sin_atestacion_doc_presente
       cita ✓ «Programación Fuera de Línea PKID200E para la Central Analógica contra Incendios ID200»
 - [ ] `notifier:rp1001e` (RP1001E · Notifier) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `MADT100_01`
       cita ✓ «Protección contra RFI en las centrales RP1001E y RP1002E»
-- [ ] `notifier:sdx-751-tem` (SDX-751-TEM · Notifier) · frontera hoy 26 · id-provenance (NO es la fuente de la cita) `AM-8200-manu-prog-spa (brand-tier=mecanico)…`
+- [ ] `notifier:sdx-751-tem` (SDX-751-TEM · Notifier) · frontera hoy 26 · id-provenance (NO es la fuente de la cita) `MPDT190`
       cita ✓ «b. Optiplex (Comb. térmico/humo) SDX-751TEM»
 - [ ] `notifier:smart-1` (SMART 1 · Notifier) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `MNDT607`
       cita ✓ «Esta pauta se aplica a los detectores de gases o vapores de la marca SENSITRON del tipo SMART 1»
@@ -602,7 +606,7 @@ Clases del lote completo: atestado_en_contenido=216, sin_atestacion_doc_presente
       cita ✓ «# TG-6000 Net *PROGRAMA DE GRÁFICOS Y GESTIÓN PARA CENTRALES ANALÓGICAS AM6000 DE NOTIFIER* ## Manual de…»
 - [ ] `notifier:ucip-modbus-e20m` (UCIP-MODBUS E20M · Honeywell) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `UCIP MODBUS AM8200 V5.1`
       cita ✓ «El módulo UCIP-MODBUS E20M, se conecta a las centrales por puerto RS232 (modo impresora)»
-- [ ] `notifier:verifire-1020` (VERIFIRE 1020 · Notifier) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `MADT285_01`
+- [ ] `notifier:verifire-1020` (VERIFIRE 1020 · Notifier) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `TIDT060`
       cita ✓ «| VeriFire 1020 | No | No | Sí»
 - [ ] `pepperl-fuchs:z040` (Z040 · Pepperl+Fuchs) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `manual instrucciones Z728`
       cita ✓ «Barrera Zener Z040, Z041, Z042»
@@ -764,7 +768,7 @@ Clases del lote completo: atestado_en_contenido=216, sin_atestacion_doc_presente
       cita ✓ «## ref. MAD-565-I-W | ref. MAD-565-I»
 - [ ] `unresolved:mi-dczrm` (MI-DCZRM · Honeywell) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `Conexionado-del-modulo-M710-CZR-MI-DCZRM`
       cita ✓ «Para conectar el modulo M710-CZR ó MI-DCZRM siga las indicaciones de la figura.»
-- [ ] `unresolved:tg-ip-1-sec` (TG-IP-1-SEC · Honeywell) · frontera hoy 25 · id-provenance (NO es la fuente de la cita) `TG-IP-1-SEC-Que-direccion-IP-tiene-por-defe…`
+- [ ] `unresolved:tg-ip-1-sec` (TG-IP-1-SEC · Honeywell) · frontera hoy 25 · id-provenance (NO es la fuente de la cita) `HLSI_MN-DT-1412_TG-IP1-SEC_MN`
       cita ✓ «# Serial Device Server TG-IP1-SEC»
 - [ ] `unresolved:vision-supra` (VISION SUPRA · unresolved) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `27012012 ETIQUETA INSTRUCCIONES VISION SUPR…`
       cita ✓ «321XXX TARJETAS INSTRUCCIONES VISION SUPRA»
@@ -814,7 +818,7 @@ porque retirar es destructivo: un «sí» al §0.C no arrastra al §0.D si no qu
 - [ ] `notifier:ad-pe` (AD-PE · Notifier) · frontera hoy 3 · id-provenance (NO es la fuente de la cita) `MNDT650`
       cita ✓ «Versión Exd (AD-PE) (Antideflagrante)»
       razón: AD-PE no es un modelo: es la designación de la versión/ejecución antideflagrante (a prueba de explosión) del detector SMART 2; el otro chunk lo usa como clasificación de instalación («impianti ADPE»)…
-- [ ] `notifier:c-160-14-to1a` (C-160-14-TO1A · Notifier) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `MNDT040P`
+- [ ] `notifier:c-160-14-to1a` (C-160-14-TO1A · Notifier) · frontera hoy 2 · id-provenance (NO es la fuente de la cita) `MNDT040`
       cita ✓ «## Tarjeta Principal C-160-14-TO1A Rev.01»
       razón: El término aparece como identificador serigrafiado de la placa de circuito impreso (con «Rev.01») dentro del manual de la central CFP-600-E, no como modelo comercial ni en tablas de pedido o referenc…
 - [ ] `unresolved:34115311` (34115311 · unknown) · frontera hoy 1 · id-provenance (NO es la fuente de la cita) `55310600 Manual TCD-106 kit_ES`
@@ -823,9 +827,9 @@ porque retirar es destructivo: un «sí» al §0.C no arrastra al §0.D si no qu
 
 ---
 
-## SECCIÓN 1 — Una a una (145)
+## SECCIÓN 1 — Una a una (146)
 
-### §1.A — «confirmar», residuo (32)
+### §1.A — «confirmar», residuo (33)
 
 Desglose: retirar=19, confirmar=8, dudoso=5
 
@@ -940,7 +944,7 @@ Desglose: retirar=19, confirmar=8, dudoso=5
       juez: **retirar** · confianza media · cita ✗ «sin ninguna mención como token completo: todas las coincidencias son subcadenas de tokens más…»
       por qué: VSN-2P nunca aparece como token completo (0 de 9): todas las menciones son fragmentos de referencias más largas como VSN-2Plus o VSN-2P/NFSx-Supra. Es un truncamiento, no un…
 
-**propuesta del juez: confirmar (8)**
+**propuesta del juez: confirmar (9)**
 
 - [ ] `hosiden:ls-28` (LS 28)
       medida: `ilike` 3 → token exacto **3** en 1 doc · sólo-parásito 0
@@ -948,6 +952,12 @@ Desglose: retirar=19, confirmar=8, dudoso=5
       juez: **confirmar** · confianza media · cita ✓ «SOLENOID DRIVER<br/>MTL 2027 TO LS 28»
       por qué: LS 28 aparece como unidad de equipo en diagramas de circuito ('I.S. UNITS ONE PER CHANNEL') y conectado a un driver MTL 2027, lo que indica que designa un aparato real y no u…
       evidencia (pág 3 · HAZARDOUS AREA | SAFE AREA): «…Sheet 4 **CONTROL SWITCHES OR LOGIC SIGNALS** **SAFE AREA APPARATUS** **I.S.28 UNITS ONE PER CHANNEL** **LS 28** **LS 28** **LS…»
+- [ ] `kidde:standard-display-module` (Standard Display Module)
+      medida: `ilike` 5 → token exacto **4** en 3 docs · sólo-parásito 1 · parásitos: Standard Display Modules×2
+      banderas: multipalabra, palabra_generica, sin_digitos · fabricante: coincide · forma sospechosa: multipalabra, palabra_generica, sin_digitos
+      juez: **confirmar** · confianza alta · cita ✓ «Dispositivo de detección | 9-30781 | AirSense Stratos ModuLaser, Standard display module»
+      por qué: El nombre designa una variante real del sistema ModuLaser de Kidde, asociada a la referencia comercial 9-30781 y diferenciada de otros módulos (Minimum, Command) en las espec…
+      evidencia (pág 1 · 9-30781-KID-EN): «KIDDE COMMERCIAL # 9-30781-KID-EN **Kidde ModuLaser, Standard display module** ## General ModuLaser is a scalable aspirating smok…»
 - [ ] `notifier:nrt` (NRT)
       medida: `ilike` 165 → token exacto **40** en 8 docs · sólo-parásito 0 · parásitos: NRT-586T×5, NRTs×2, NRTDB9×1, NRT/INA×1, NRTs/INAs×1
       banderas: muy_corto, sin_digitos · fabricante: coincide · forma sospechosa: muy_corto, sin_digitos
@@ -1387,12 +1397,12 @@ Agrupados por el motivo que los dejó fuera del bloque.
 
 - `evals/s322f_e1b_confirmar_encoger_v1.json` — 359 filas (327 bloque / 32 individual)
 - `evals/s322_e1b_revisar_qa_v1.json` — 261 filas (148 bloque / 113 individual)
-- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T105757Z.
+- Ensamblado por `scripts/s322_packets_v2.py` (determinista, sin LLM) el 20260815T163607Z.
 
 ## Auto-verificación del encabezado
 
 Filas declaradas arriba vs filas REALMENTE escritas en este fichero:
 
-- **SECCIÓN 0**: declaradas 475 · escritas 475 · casillas 287 — ✓
-- **SECCIÓN 1**: declaradas 145 · escritas 145 · casillas 145 — ✓
-- **TOTAL**: 620 = 475 + 145 ✓ (cuadra con las 620 casillas de la v1)
+- **SECCIÓN 0**: declaradas 474 · escritas 474 · casillas 286 — ✓
+- **SECCIÓN 1**: declaradas 146 · escritas 146 · casillas 146 — ✓
+- **TOTAL**: 620 = 474 + 146 ✓ (cuadra con las 620 casillas de la v1)
