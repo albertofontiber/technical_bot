@@ -141,3 +141,26 @@ verificarlos, y «variante → packet» no tenía predicado que detectara varian
    producto ya catalogado (predicado explícito, no buena voluntad).
 4. **Métrica declarada**: reducción objetivo del packet, tasa de error admisible y gate de
    regresión servida — con números, no con adjetivos.
+
+---
+
+## RESULTADO DEL PRIMER INTENTO DE PUERTA A (s323, mismo día): LA PUERTA NO SIRVE
+
+Ejecutada sobre las 18 filas con veredicto RETIRAR: solo 3 pasaron la prueba mecánica,
+y **las 3 son falsos positivos** — es decir, la puerta habría retirado productos reales:
+- `VSN 2Plus` — es un producto REAL (existe además en el catálogo como `notifier:vsn-2plus`).
+- `PL4-E` — el «fragmento probatorio» era «central diseñada para gestionar 4 zonas…»: eso
+  no prueba artefacto, describe una central.
+- `34110400` — referencia numérica junto a una placa RS485; podría ser una referencia real.
+
+**Causa raíz del fallo**: mi predicado de artefacto era «aparece una medida/norma a ±90
+caracteres», y en un manual técnico eso ocurre CASI SIEMPRE. No probaba nada; solo
+correlacionaba. El predicado correcto es mucho más estricto: **los caracteres del término
+tienen que ser RECONSTRUIBLES desde el texto vecino** (`82 mm` → `MM-82`; `hasta 3200 m` →
+`TO-3200M`; `local 360°` → `LOCAL-360`), no que haya un número cerca.
+
+**NADA SE APLICÓ.** La puerta se cazó a sí misma antes de escribir, que es exactamente para
+lo que existe — pero significa que las retiradas TAMPOCO están listas para automatizarse
+hasta rehacer el predicado y validarlo contra los artefactos ya confirmados (`MM-82`,
+`TO-3200M`, `OF-48V`, `LOCAL-360`, `EN-54-25`) como conjunto de control positivo, más los
+productos reales de arriba como control NEGATIVO.
