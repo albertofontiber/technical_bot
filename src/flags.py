@@ -461,14 +461,30 @@ REGISTRO: dict[str, dict] = {
     "SUPABASE_SERVICE_KEY": {
         "default_fuente": '""',
         "via": ['getenv'],
-        "lectores": ('src/config.py',),
+        # s323 fase C: + rag/identidad_gate.py — el gate de invariantes consulta
+        # la DB viva (lectura PEREZOSA: leerlas al importar habria roto la CI,
+        # que corre pytest sin secretos — critico del duo r34).
+        "lectores": ('src/config.py', 'src/rag/identidad_gate.py'),
         "sensible": True,
+        # DIVERGENCIA declarada (s323 fase C): config.py usa default "" y el gate
+        # las exige con os.environ[...] — sin credenciales NO se puede evaluar, y
+        # "no he podido comprobar" NO es "todo bien" (critico del duo r34). El
+        # pin DETECTA, no corrige: la divergencia es deliberada y visible.
+        "divergencia": ['""', 'KeyError'],
     },
     "SUPABASE_URL": {
         "default_fuente": '""',
         "via": ['getenv'],
-        "lectores": ('src/config.py',),
+        # s323 fase C: + rag/identidad_gate.py — el gate de invariantes consulta
+        # la DB viva (lectura PEREZOSA: leerlas al importar habria roto la CI,
+        # que corre pytest sin secretos — critico del duo r34).
+        "lectores": ('src/config.py', 'src/rag/identidad_gate.py'),
         "sensible": True,
+        # DIVERGENCIA declarada (s323 fase C): config.py usa default "" y el gate
+        # las exige con os.environ[...] — sin credenciales NO se puede evaluar, y
+        # "no he podido comprobar" NO es "todo bien" (critico del duo r34). El
+        # pin DETECTA, no corrige: la divergencia es deliberada y visible.
+        "divergencia": ['""', 'KeyError'],
     },
     "TABLE_PREAMBLE_CLOSURE": {
         "default_fuente": '"off"',

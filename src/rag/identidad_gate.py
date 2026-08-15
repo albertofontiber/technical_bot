@@ -33,8 +33,8 @@ def _credenciales() -> tuple[str, dict]:
 
 
 def _censo(c) -> dict:
-    SB, HS = _credenciales()
     """Estado vivo de los cinco invariantes. Solo lectura."""
+    SB, HS = _credenciales()
     doc_map = _read_jsonl(CATALOG_DIR / "doc_map.jsonl")
     ids = sorted({d["document_id"] for d in doc_map if d.get("document_id")})
 
@@ -74,7 +74,13 @@ def _censo(c) -> dict:
         if not did:
             continue
         if did in vistos:
-            v["I4_document_id_duplicado"].append({"document_id": did, "source_file": sf})
+            # Fable M3: la clave lleva la ocurrencia — un did TRIPLICADO daba dos
+            # filas con la misma clave (colapsaban al sellar) y un duplicado
+            # gobernado autorizaba cualquier duplicacion futura del mismo did.
+            v["I4_document_id_duplicado"].append(
+                {"document_id": did, "source_file": sf,
+                 "ocurrencia": sum(1 for x in v["I4_document_id_duplicado"]
+                                   if x["document_id"] == did) + 2})
         vistos.add(did)
         if did not in estado:
             v["I1_puntero_inexistente"].append({"document_id": did, "source_file": sf})
@@ -105,8 +111,11 @@ def _censo(c) -> dict:
 
 def _clave(inv: str, fila: dict) -> str:
     """Identidad EXACTA de una violación (para el manifiesto). Nunca el nombre solo."""
-    return (f"{inv}|{fila['chunk_id']}" if inv == "I5_chunks_huerfanos"
-            else f"{inv}|{fila['document_id']}")
+    if inv == "I5_chunks_huerfanos":
+        return f"{inv}|{fila['chunk_id']}"
+    if inv == "I4_document_id_duplicado":
+        return f"{inv}|{fila['document_id']}#{fila.get('ocurrencia', 2)}"
+    return f"{inv}|{fila['document_id']}"
 
 
 def evaluar() -> dict:

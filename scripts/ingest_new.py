@@ -338,10 +338,6 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
                                "status": f"FALLO: {type(e).__name__}: {e}"})
             print(f"  ✗ FALLO {type(e).__name__}: {e}")
 
-    # s323 fase C (dúo r34, crítico): este driver escribe chunks SIN pasar por
-    # `pipeline.run()`, así que el gate cableado allí no lo observaba. Un camino
-    # real de escritura sin control es el agujero por el que entraron #80/#81.
-    _gate_identidad_o_falla()
 
     # Verificación en DB: cada sha con chunks > 0 y document_id enlazado.
     print("\n— VERIFICACIÓN EN DB —")
@@ -465,24 +461,26 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
           f"doc_type→{parcheados} chunks)")
 
 
-def _gate_identidad_o_falla() -> None:
-    """s323 fase C (duo r34, critico): este driver llama a `process_file()`
-    DIRECTAMENTE, no a `pipeline.run()`, asi que el gate cableado alli no lo
-    observaba. Un camino real de escritura sin control es exactamente el agujero
-    por el que entraron #80/#81."""
+def _evaluar_gate_identidad() -> dict:
+    """Evalua el gate y DEVUELVE el veredicto (no aborta): el llamador lo mete en
+    el recibo y corta despues, para que la traza sobreviva al corte.
+
+    "No he podido evaluar" NO es "todo bien" (critico de Sol r34): se marca con
+    `no_evaluado` y tambien corta.
+    """
     try:
-        from scripts.gate_identidad_corpus import evaluar
+        from src.rag.identidad_gate import evaluar
         v = evaluar()
     except Exception as e:                                    # noqa: BLE001
         print(f"  gate identidad: NO EVALUADO ({type(e).__name__}: {e})")
-        raise SystemExit(4) from e
+        return {"ok": False, "no_evaluado": f"{type(e).__name__}: {e}",
+                "nuevas": None, "total": None}
     print(f"  gate identidad: {'OK' if v['ok'] else 'VIOLACIONES NUEVAS'} "
           f"({v['nuevas']} nuevas / {v['total']} totales)")
     if v.get("manifiesto_stale"):
         print(f"  aviso: {len(v['excepciones_resueltas'])} excepciones del "
-              f"manifiesto ya no aplican — re-sella con --sellar")
-    if not v["ok"]:
-        raise SystemExit(3)
+              f"manifiesto ya no aplican - re-sella con --sellar")
+    return v
 
 
 def main() -> None:
@@ -534,12 +532,30 @@ def main() -> None:
               "<lote> — sin ella los docs nuevos quedan fuera de los canales "
               "enunciados/hyq vivos en producción.")
 
+    # s323 fase C (Fable M1): el veredicto del gate se EVALUA aqui y viaja DENTRO
+    # del recibo. El cierre anterior salvo el recibo pero le quito el veredicto:
+    # la traza existia y no contenia lo unico que importaba saber.
+    veredicto_gate = None
+    if args.commit:
+        veredicto_gate = _evaluar_gate_identidad()
+        recibo["gate_identidad"] = veredicto_gate
+
     logs = data_root / "logs"
     logs.mkdir(exist_ok=True)
     ruta = logs / f"ingest_new_{stamp}_{args.canal}.json"
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(recibo, f, ensure_ascii=False, indent=1)
     print(f"\nRecibo: {ruta}")
+    # el corte va DESPUES de persistir: primero la traza, luego el veredicto.
+    if veredicto_gate is not None and not veredicto_gate.get("ok", True):
+        raise SystemExit(
+            f"GATE DE IDENTIDAD: {veredicto_gate['nuevas']} violaciones NUEVAS "
+            f"(recibo: {ruta})")
+    if veredicto_gate is not None and veredicto_gate.get("no_evaluado"):
+        raise SystemExit(
+            f"GATE DE IDENTIDAD NO EVALUADO ({veredicto_gate['no_evaluado']}) — "
+            f"'no he podido comprobar' NO es 'todo bien' (recibo: {ruta})")
+
     if args.commit and fallos:
         # Un lote con documentos sin chunks o sin enlace NO es un éxito: salida
         # ruidosa para que ninguna automatización lo dé por bueno (dúo s314).

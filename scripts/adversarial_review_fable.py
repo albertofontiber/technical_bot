@@ -38,11 +38,12 @@ from scripts import adversarial_review as shared
 ROOT = shared.ROOT
 # PIN del segundo revisor frontera. Historia: s88 fable -> s292 opus (fallback por
 # credito agotado) -> s316d fable RESTAURADO por Alberto.
-# s323 (15-ago-2026): Alberto ADJUDICA de nuevo el fallback temporal a Opus 5 — la
+# s323 (15-ago-2026): fallback temporal a Opus 5 por credito agotado, ADJUDICADO por
+# Alberto y ya REVERTIDO el mismo dia al recargar credito. Se conserva la nota: la
 # cuenta de Anthropic devuelve 400 "credit balance is too low" (sonda minima de 64
 # tokens: falla igual, no es tamano de prompt). NO es una preferencia: al recargar
 # credito, restaurar "claude-fable-5". El cross-model (Sol) sigue intacto.
-DEFAULT_MODEL = "claude-opus-5"
+DEFAULT_MODEL = "claude-fable-5"
 MODEL = os.getenv("FABLE_REVIEW_MODEL", DEFAULT_MODEL)
 
 

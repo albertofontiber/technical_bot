@@ -163,3 +163,28 @@ exacta, motivo, fecha, sellado deliberado y resueltas reportadas. Su punto débi
 dependen de `chunk_id`, que es volátil si esos huérfanos se re-escriben.
 
 **ESTADO: la fase C NO está lista.** Los dos críticos son de raíz.
+
+---
+
+# CIERRE DE LOS 2 CRÍTICOS (para la revisión de Fable, ya con el pin restaurado)
+
+**Crítico 1 — el gate destruía el recibo**: retirado de `ejecutar()` y movido a `main()`,
+**después** de escribir `logs/ingest_new_*.json`. Ahora el veredicto llega con la traza ya
+persistida; si el gate aborta, el recibo del lote existe.
+
+**Crítico 2 — el write-path sin control**: resuelto por **INYECCIÓN DE DEPENDENCIA**, que
+respeta la frontera en vez de forzarla. `run()` acepta `gate=None` y lo ejecuta si se le
+pasa; el runner gobernado nuevo (`scripts/reingest_run.py`, capa que SÍ puede ver `rag` y
+`reingest`) lo inyecta. Y la CLI directa de `pipeline.py` **deja de indexar**: ahora aborta
+redirigiendo al runner gobernado, porque escribir sin gate «es como entraron #80/#81».
+Así el gate no depende de que nadie se acuerde: el único camino que escribe lo lleva puesto.
+
+**Pin del revisor**: `claude-fable-5` **restaurado** tras la recarga de crédito de Alberto
+(el fallback a Opus 5 fue temporal y adjudicado; la nota queda en el código).
+
+**Lo que sigue ABIERTO y declarado** (medios del suplente, no cerrados aquí): filas de
+doc_map sin `document_id` saltadas en silencio · falta el invariante DB→catálogo (la mitad
+simétrica de #80) · códigos de salida inconsistentes entre CLI (1) y driver (3/4) ·
+`manifiesto_stale` informativo y no ejecutivo · el «consulta la DB viva» sobre-afirma (un
+lado es el `doc_map.jsonl` del working copy) · el censo pagina el universo completo en cada
+corrida y no escala a 30+ fabricantes.
