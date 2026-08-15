@@ -2892,3 +2892,33 @@ del generador del esquema CERRADO de la traza — mismo patrón que la sección 
 de DEC-203b (campo tipado + validación + tri-estado para el turno sin llamada LLM).
 Con eso, «¿cuántas respuestas terminaron por max_tokens?» es una query, no una
 estimación. Coste: pequeño, bien acotado; toca el esquema cerrado ⇒ dúo.
+
+## #79 — HIPÓTESIS: el soporte se acredita POR HECHO y podría estar ocultando «carrier no servido» en hechos COMPUESTOS (s321)
+
+⚠️ **Esto es una HIPÓTESIS con un control pendiente, no un hallazgo demostrado.** Mi primera
+redacción la presentó como probada; el dúo la tumbó (Fable, medio): *«el juez de soporte votó 5/5
+que `a95f8659` (p45) sostiene el hecho COMPLETO; “p45 sostiene otra formulación” contradice al
+propio juez del recibo»*.
+
+**Lo OBSERVADO (verificado)**: `hp017#2` figura en el FULL v3.2 como `clase=synthesis-miss`,
+`n_support_raw=0`, **`n_support_served=1`**, con el soporte llegado por lane de coverage
+(`same_blob_structural_neighbor_coverage_v1`) y `in_pool=false`. Lo apendizado fue la **p45**
+(`a95f8659`). La sonda de s321 prueba que **con la p43 (`94cbb0ce`) el hecho transmite 3/3 a 5/5**.
+
+**Lo NO probado**: que la p45 *no* baste. **Nunca se corrió el oráculo con la p45 sola.** Caben al
+menos tres explicaciones y no las he separado:
+  (a) granularidad — el soporte se acredita por hecho y una mitad basta (mi tesis);
+  (b) sobre-acreditación del juez de soporte sobre un hecho compuesto;
+  (c) `synthesis-miss` genuino con la p45 delante — el modelo la tenía y no la usó.
+
+**El control que lo decidiría** (~$1, no ejecutado): sonda en modo `serve` inyectando **solo
+`a95f8659`**. Si transmite ⇒ era (c) y el hecho no es de esta clase. Si no transmite y con p43 sí
+⇒ (a)/(b) quedan vivas y la clase existe.
+
+**Por qué se registra igualmente**: si (a) o (b) fueran ciertas, la clasificación del scoreboard
+estaría empujando trabajo hacia el lado equivocado —contaría como fallo de síntesis lo que es
+falta de carrier—, que es un diagnóstico opuesto. El censo de población de s321
+(`scripts/s321_censo_poblacion_carrier.py`) mide una **cota inferior de 3** por otras firmas y no
+depende de esta hipótesis. **Trigger**: antes del próximo censo, o antes de usar un
+`synthesis-miss` compuesto para cerrar una línea. **Coste**: S para el control, M para el fix si se
+confirma. **Relacionado**: DEC-173/DEC-175 (banners s321), #77, DEC-094.

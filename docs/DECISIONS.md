@@ -4269,8 +4269,16 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > página del dato no»— se contó en **within-doc-miss 11** y el DEC de aquel residual la llama «el
 > sub-tipo frecuente», frente a la población **1** que mató al lever B. Plausiblemente pasa la
 > puerta que el otro no pasó, pero **es hipótesis**: la cifra es de un DEC anterior y desde entonces
-> se han movido corpus y golds. **Censar antes de diseñar nada** — barato, sobre el recibo FULL ya
-> congelado, mismo patrón que el censo de punteros con el que esta entrada mató al lever B.
+> se han movido corpus y golds. **CENSADO en s321** (`scripts/s321_censo_poblacion_carrier.py`,
+> recibo `evals/s321_censo_poblacion_carrier_v1.json`): **cota inferior = 3** — `hp001#2` y
+> `hp012#3` (etiquetados `submotivo: within-doc`: carrier en corpus que nunca llegó al pool) más
+> `hp017#2` (probado por sonda, escondido en `synthesis-miss`). **Contra la población 1 que mató
+> al lever B ⇒ la puerta NO se cierra por población**, pero tampoco queda probada: falta sondar
+> `hp013#1` (~$1), el único otro con la firma oculta y resultado de fallo, y los 12
+> `synthesis-miss` son la cota superior de dónde puede haber más.
+> *(Mi v1 del censo concluyó «inmedible» desde UN filtro que buscaba la firma CONTRARIA a la de
+> la clase — un carrier nunca recuperado da `raw=0`, no `raw>0`. Lo tumbaron los DOS revisores;
+> el «negativo cómodo» que yo mismo había dicho temer.)*
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
