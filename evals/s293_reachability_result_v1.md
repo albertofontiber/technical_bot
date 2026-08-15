@@ -1,5 +1,19 @@
 # s293 · Sonda de ALCANZABILIDAD sobre la cola de síntesis — 2 levers confirmados, 2 muertos
 
+> ⚠️ **SUPERSEDIDO EN PARTE (s321) — este documento sigue titulando «2 muertos» y ESO YA NO ES
+> CIERTO.** Los dos «NO alcanzable» de la tabla han caído:
+> - **`hp017#2`**: su fila dice «pre-guard (DEC-172)» — y eso NO es una medición de alcanzabilidad
+>   (sin inyección, sin ids admitidos). La **primera sonda real** es de s321:
+>   `evals/s293_reachability_hp017_hp017_2.json` → base 0/5 → **oráculo 5/5 en 3/3**, `alcanzable: true`.
+> - **`hp011#2`**: su 0/5 era medición VÁLIDA del 2-ago y ha **caducado** — s320c da los tres brazos
+>   alcanzables (6/15 firmes: alcanzable pero inestable).
+>
+> Los dos **ALCANZABLE** (`cat017#2`, `hp003#4`) no se cuestionan. El **procedimiento** de la sonda
+> sigue siendo el canónico (CLAUDE.md, Protocolo 4), con la salvedad de que **aún no está endurecido
+> para emitir un NO**: falta prueba de entrega obligatoria y sellado de freeze-contract completo.
+> Detalle y adjudicación: banners de **DEC-173 / DEC-175** y `docs/LEVER_DIGEST.md`.
+
+
 **Qué es.** Antes de diseñar un lever de serving/síntesis, medir si el hecho-diana transmitiría
 **con la evidencia ideal ya delante del modelo**. Si no transmite ni así, ningún lever de
 serving puede pagarlo. Generaliza lo que en esta misma sesión mató el lever A (DEC-172,

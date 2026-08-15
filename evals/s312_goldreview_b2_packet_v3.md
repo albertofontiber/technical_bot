@@ -208,6 +208,40 @@ por defecto» (ambas), y si quieres semántica específica de la Regla 1, como m
 > basta «hay dos por defecto, bórralas»? Y: ¿en obra se borra **también la Regla 2** (tecla
 > EVACUACIÓN activa todos los equipos), o esa se conserva?
 >
+> ### ✅ s321 — **SONDADO. El hecho ES ALCANZABLE: 3/3 firmes a 5/5** (`evals/s293_reachability_hp017_hp017_2.json`)
+>
+> Era el único ítem cuya premisa nunca se había medido. Ya está: sonda DEC-173 en modo `serve`,
+> inyectando el portador de la **p43** (`94cbb0ce…`, §A5.2 «Crear una regla»), juez canónico K=5.
+>
+> | | base | oráculo |
+> |---|---|---|
+> | rep0 · rep1 · rep2 | **0/5** las tres | **5/5** las tres |
+>
+> `alcanzable: true` · `oracle_firme 3/3` · `max_oracle 5`. El portador se admitió en las 3 y las
+> respuestas escriben la ruta «Editar Configuración» **y** «Regla 1» en las 3. **Delta perfecto: sin
+> el carrier, cero; con él, todo.**
+>
+> **Qué derriba.** El «0/3 de la mitad (b)» que este ítem presentaba como evidencia **no medía la
+> capacidad del modelo, medía su ausencia**: aquel probe era PRE-guard y el portador de la p43
+> **nunca se sirvió**. Se le pedía escribir algo que no tenía delante. Y por tanto **esto no es un
+> problema de síntesis, es de retrieval**: el hecho se transmite entero cuando el chunk llega.
+>
+> **Qué cambia en la decisión.** La opción ✅ («ambas reglas») queda **demostrada como aflojamiento**:
+> re-anclaría a la p45 —la frase que el bot ya reproduce sin ayuda— cuando acabamos de medir que la
+> formulación de la **p43 es perfectamente alcanzable**. No hay razón para rebajar un hecho que el
+> sistema puede dar. **Mi ✏️ se refuerza**, con un matiz nuevo de la sonda: el operando duro (Regla 1
+> + su efecto) sale **3/3**, pero el **porqué** («será anulada») solo **1/3** — al partir, decide si
+> el porqué entra en el hecho o se queda como matiz.
+>
+> **Y lo que de verdad paga aquí no es editar el gold: es SERVIR la p43.** Lever de retrieval con
+> retorno medido (0/5 → 5/5, 3 de 3), misma forma que `cat017#2` en s293. ⚠️ Con la advertencia del
+> propio DEC-173: el oráculo eleva la `similarity` para forzar la admisión ⇒ dice «si lo viera, lo
+> transmite», **no** que ninguna lane vaya a traerlo. **Un alcanzable NO es un GO.**
+>
+> *Declarado: la corrida tuvo varios `ReadTimeout` contra Supabase. No afectan al veredicto —el
+> oráculo depende de la inyección, admitida 3/3— pero el `base 0/5` de esta corrida no se usa como
+> prueba independiente, solo corrobora lo ya sabido.*
+>
 > **Escribe**: hp017 pasa de 5 a 6 cores · renumera `hp017#3→#4` · rompe el join con artefactos
 > congelados que indexan por `qid#idx`.
 

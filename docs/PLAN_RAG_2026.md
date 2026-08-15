@@ -200,10 +200,17 @@ captura la prosa con intención explícita (`ForceReply`) y la ancla a la consul
 a la evidencia servida. Verificado contra la DB real, no solo con tests. Etapas 1-2 completas,
 OK 115/131 sin cambios (nada de esto toca retrieval ni síntesis).
 
-**Etapa 3 CERRADA como cola de ingeniería (DEC-172/174/175)**: `hp017#2` y `hp011#2` no
-alcanzables · `hp003#4`/L3 v2 parado (98,3% de precisión en adjudicación ciega, pero exigía 2
-cambios en la lane L2 viva para 1 hecho) · `cat017#2` NO-GO por población (1 gold, 0,13% del
-corpus). Lo que resta ahí es **adjudicación de golds (Alberto)** + techo declarado.
+~~**Etapa 3 CERRADA como cola de ingeniería (DEC-172/174/175)**~~ → **REABIERTA EN LA PUERTA DE
+POBLACIÓN (s321)**. Ese cierre tenía cuatro patas y le quedan dos. **Caen** `hp017#2` (su «no
+alcanzable» NO era una medición de alcanzabilidad: sin inyección ni admisión; la primera sonda real,
+s321, da **0/5 → 5/5 en 3/3** ⇒ es de RETRIEVAL, no de síntesis) y `hp011#2` (medición VÁLIDA el
+2-ago, CADUCADA: s320c da los tres brazos alcanzables). **Aguantan** `hp003#4`/L3 v2 parado (98,3%
+de precisión, pero exigía 2 cambios en la lane L2 viva para 1 hecho) y `cat017#2` NO-GO por
+población (1 gold, 0,13% del corpus) — métrica POBLACIÓN, ortogonal a lo que ha caído.
+**Ojo: reabierta NO significa «hay lever».** Los dos hechos son alcanzables pero su **población
+está sin medir**, y la regla del propio DEC-175 exige las dos puertas. **Siguiente paso = censar**
+(barato, sobre el recibo FULL congelado), no diseñar. Lo que resta ahí sigue siendo **adjudicación
+de golds (Alberto)** + ese censo. Ver banners de DEC-173/DEC-175.
 
 **El hallazgo que cambia el rumbo (DEC-176)**: el primer fallo ORGÁNICO —el bot dio mal la ruta
 al menú AVANZADO de la CAD-171, teniendo el dato servido— es de **la misma clase que `hp011#2`**:
@@ -377,8 +384,10 @@ medición, no con código (DEC-172).
 - **CRIBA DE ALCANZABILIDAD (DEC-173, procedimiento nuevo en el Protocolo 4)**: antes de
   diseñar un lever de serving/síntesis se mide si el hecho transmite **con la evidencia ideal
   delante** (oráculo + juez K=5, ~$1/hecho). Veredictos: **ALCANZABLES** `cat017#2` (0/5→5/5)
-  y `hp003#4` (0/5→5/5); **NO alcanzables** `hp017#2` y **`hp011#2`** (0/5→0/5 con AMBAS
-  mitades admitidas ⇒ la pair-completion que s292 iba a diseñar **no pagaría**).
+  y `hp003#4` (0/5→5/5); ~~**NO alcanzables** `hp017#2` y **`hp011#2`**~~ **← LOS DOS CAÍDOS
+  (s321)**: `hp017#2` nunca se sondó de verdad (0/5→**5/5 en 3/3** al servir el carrier de la p43) y
+  el 0/5 de `hp011#2` caducó (s320c: tres brazos alcanzables) ⇒ el «la pair-completion **no
+  pagaría**» queda **CONTESTADO**, pendiente de censo de población.
 
 **Qué sigue (nada bloqueado, y ahora con retorno DEMOSTRADO o descartado por hecho):**
 (0) **L3 v2 PARADO (s294/DEC-174, opción A de Alberto)**: el gatillo llegó a 98,3% de precisión
@@ -386,8 +395,10 @@ en adjudicación ciega, pero shipearlo exige 2 cambios en la lane L2 viva (polí
 dedup por contención) para 1 hecho — y el propio requisito bilingüe crea un duplicado
 cross-lingüe en la diana. Quedan 2 defectos latentes de L2 documentados. **Lever B de `cat017#2` = NO-GO por POBLACIÓN** (DEC-175): alcanzable (5/5) pero
 **1 gold de 39** y **0,13% del corpus** — el censo desmintió mi propio argumento estructural.
-⇒ **Etapa 3 queda CERRADA como cola de ingeniería**; lo que resta es adjudicación de golds
-(tuya) + techo declarado. **Subproducto: lista de adquisición dirigida
+⇒ ~~**Etapa 3 queda CERRADA como cola de ingeniería**~~ **REABIERTA EN LA PUERTA DE POBLACIÓN
+(s321)** — ver el bloque de «Estado actual» y los banners de DEC-173/175. ⚠️ Y el «0,13%» de la
+línea anterior **queda RETIRADO**: DEC-184 desmontó ese barrido (de 44 ausentes, 7 reales). Lo que
+resta es adjudicación de golds (tuya) + **censar la población** antes de diseñar nada. **Subproducto: lista de adquisición dirigida
 por citas** — 44 CANDIDATOS (⚠️ s302/DEC-184: adjudicados = 7 reales; el resto ya estaban en
 corpus con otro nombre o eran refs de pieza) que nuestros manuales citan (77 citas), concentrados en
 Notifier/Morley ID50/ID1000: tenemos el manual de instalación y falta el de PROGRAMACIÓN, que es
@@ -395,8 +406,8 @@ donde vive el detalle que pregunta un técnico (`evals/s294_citation_gap_v1.json
 (1) **hp003#4** = el lever vivo que queda de etapa 3;
 (2) **lever B de cat017#2** si Alberto lo abre (toca lane viva en release C1 ⇒ dúo + flag-off
 + gate de no-desplazamiento); (3) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 ·
-cat018#2-split · meta-ref cat020#2 · hp001#2 · gold hp002 «de Detnov» · **nuevo: hp017#2, cuya
-mitad «Regla 1» decide si el hecho es alcanzable**); (4) hp011#2 re-cablado espera diseño;
+cat018#2-split · meta-ref cat020#2 · hp001#2 · gold hp002 «de Detnov» · ~~**nuevo: hp017#2, cuya mitad «Regla 1» decide si el hecho es
+alcanzable**~~ **RESUELTO (s321): ES alcanzable, 3/3 firmes a 5/5 al servir el carrier de la p43**); (4) hp011#2 re-cablado espera diseño;
 (5) bandeja Alberto: QA-30 v4 · tramos P-C · DROP de 8 backups s285-s287 · B1 entity-linking ·
 B3 juez (~sept) · B4 follow-up de 👎. Traza: DEC-172 + HISTORY s293.
 
