@@ -2893,32 +2893,40 @@ de DEC-203b (campo tipado + validación + tri-estado para el turno sin llamada L
 Con eso, «¿cuántas respuestas terminaron por max_tokens?» es una query, no una
 estimación. Coste: pequeño, bien acotado; toca el esquema cerrado ⇒ dúo.
 
-## #79 — HIPÓTESIS: el soporte se acredita POR HECHO y podría estar ocultando «carrier no servido» en hechos COMPUESTOS (s321)
+## #79 — La acreditación de SOPORTE no predice la capacidad de TRANSMITIR: un chunk acreditado 5/5 puede dar 0/5 conveyed (s321, control ejecutado)
 
-⚠️ **Esto es una HIPÓTESIS con un control pendiente, no un hallazgo demostrado.** Mi primera
-redacción la presentó como probada; el dúo la tumbó (Fable, medio): *«el juez de soporte votó 5/5
-que `a95f8659` (p45) sostiene el hecho COMPLETO; “p45 sostiene otra formulación” contradice al
-propio juez del recibo»*.
+**Estado: MEDIDO.** Nació como hipótesis y el dúo me exigió el control (Fable: «la sonda probó
+que p43 basta, NO que p45 no baste»). Ejecutado, ~$1, y el resultado es limpio.
 
-**Lo OBSERVADO (verificado)**: `hp017#2` figura en el FULL v3.2 como `clase=synthesis-miss`,
-`n_support_raw=0`, **`n_support_served=1`**, con el soporte llegado por lane de coverage
-(`same_blob_structural_neighbor_coverage_v1`) y `in_pool=false`. Lo apendizado fue la **p45**
-(`a95f8659`). La sonda de s321 prueba que **con la p43 (`94cbb0ce`) el hecho transmite 3/3 a 5/5**.
+**El experimento**: mismo hecho (`hp017#2`), mismas condiciones, un solo carrier inyectado cada vez.
 
-**Lo NO probado**: que la p45 *no* baste. **Nunca se corrió el oráculo con la p45 sola.** Caben al
-menos tres explicaciones y no las he separado:
-  (a) granularidad — el soporte se acredita por hecho y una mitad basta (mi tesis);
-  (b) sobre-acreditación del juez de soporte sobre un hecho compuesto;
-  (c) `synthesis-miss` genuino con la p45 delante — el modelo la tenía y no la usó.
+| carrier | contenido | oracle |
+|---|---|---|
+| **p43** `94cbb0ce` | ruta + «Regla 1» + «CUALQUIER entrada» + **«TODOS los equipos»** + el porqué («será anulada») | **5/5 · 5/5 · 5/5** |
+| **p45** `a95f8659` | ruta + «las dos reglas» + «Deben eliminarse» + «Regla 1» + «CUALQUIER entrada» | **0/5 · 0/5 · 0/5** |
 
-**El control que lo decidiría** (~$1, no ejecutado): sonda en modo `serve` inyectando **solo
-`a95f8659`**. Si transmite ⇒ era (c) y el hecho no es de esta clase. Si no transmite y con p43 sí
-⇒ (a)/(b) quedan vivas y la clase existe.
+Entrega probada 3/3 en ambos. Recibos: `evals/s293_reachability_hp017_hp017_2.json` y
+`evals/s321_control79_p45_solo_v1.json`.
 
-**Por qué se registra igualmente**: si (a) o (b) fueran ciertas, la clasificación del scoreboard
-estaría empujando trabajo hacia el lado equivocado —contaría como fallo de síntesis lo que es
-falta de carrier—, que es un diagnóstico opuesto. El censo de población de s321
-(`scripts/s321_censo_poblacion_carrier.py`) mide una **cota inferior de 3** por otras firmas y no
-depende de esta hipótesis. **Trigger**: antes del próximo censo, o antes de usar un
-`synthesis-miss` compuesto para cerrar una línea. **Coste**: S para el control, M para el fix si se
-confirma. **Relacionado**: DEC-173/DEC-175 (banners s321), #77, DEC-094.
+**Lo que queda REFUTADO**: la explicación (c) —«`synthesis-miss` genuino: el modelo tenía la p45
+delante y no la usó»—. **Con la p45 delante el hecho NO transmite.** Luego la etiqueta
+`synthesis-miss` del FULL para `hp017#2` es falsa en sustancia: al modelo le faltaba lo que
+necesitaba, no le sobraba.
+
+**Lo que queda MEDIDO, y es lo que hace esto deuda**: el juez de soporte acreditó la p45 **5/5
+sobre el hecho completo**, y esa acreditación **no predice nada** sobre la capacidad de
+transmitirlo. Un chunk puede ser soporte legítimo y ser insuficiente. ⇒ `n_support_served > 0`
+**no autoriza** a clasificar `synthesis-miss`, y cualquier censo que use esa etiqueta
+**infra-cuenta** la clase «carrier no servido».
+
+**Lo que sigue ABIERTO** (y no lo cierro con este control): si el mecanismo es granularidad de
+contabilidad (el soporte se acredita por hecho y una mitad basta) o laxitud del juez de soporte
+sobre compuestos. El control no los separa. **Tampoco está aislado** qué operando concreto decide:
+la p45 carece de «TODOS los equipos de salida» **y** del porqué; los dos faltan a la vez.
+
+**Fix cuando toque**: (a) que `synthesis-miss` exija, para hechos compuestos, soporte servido
+acreditado **por operando** y no por hecho; o (b) mínimo barato — no clasificar `synthesis-miss`
+sin registrar QUÉ chunk se acreditó, para que el forense no dependa de re-medir. **Trigger**: el
+próximo censo por clases, o el próximo `synthesis-miss` compuesto que se use para cerrar una
+línea de trabajo. **Coste**: S para (b), M para (a). **Relacionado**: DEC-173/DEC-175 (banners
+s321), #77, DEC-094.

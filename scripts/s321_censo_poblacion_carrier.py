@@ -41,7 +41,9 @@ import yaml
 
 RECIBO = "evals/s100_factlevel_full_v32_full_20260801.yaml"
 DESTINO = "evals/s321_censo_poblacion_carrier_v1.json"
-# Probado por sonda (evals/s293_reachability_hp017_hp017_2.json): 3/3 firmes a 5/5 al servir p43.
+# Probado por sonda POR PARTIDA DOBLE (control de #79, s321): con la p43 (`94cbb0ce`) transmite
+# 3/3 a 5/5; con la p45 (`a95f8659`, la que el FULL sí sirvió y el juez acreditó 5/5) da 0/5 en
+# las 3. Luego su `synthesis-miss` es falso en sustancia y PERTENECE a esta clase.
 PROBADOS = {"hp017#2"}
 
 
