@@ -101,8 +101,11 @@ LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s322b)**: (a) **SENTADA ÚNICA de Alberto** — packets E3 (§0 15 + §1 32)
-+ E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway (el §1 de
+**Qué sigue (s322b/c)**: (a) **SENTADA ÚNICA de Alberto** — **packet E3 v2**
+(`s321_e3_packet_adjudicacion_v2.md`, SUPERSEDE al v1: §0 23 + §0-bis 20 en bloque
++ solo 4 una-a-una con evidencia online adjunta — la repesca v2 s322c convirtió los
+12 parse-fail del bug max_tokens y resolvió las hermanas a máquina) + E2 (1.235/23)
++ E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway (el §1 de
 #76 quedó VACÍO: la repesca v3 a tabla-de-modelos cerró Detnov+Kidde al 100% con
 cita verbatim — nada de #76 pendiente de sentada); (b) FULL fresco v3.2 tras la
 sentada; (c) poblar #76 en más marcas por packets — con el **gatillo #76b** (flag

@@ -6513,3 +6513,49 @@ el builder no propaga los pins a `prereg_v2/v3` ni al scorer, y hay que copiarlo
 (TECH_DEBT #77). Ejecutada entera: 4/4 ficheros de test en verde, manifest intacto.
 
 Recibos: `evals/s321_reanclaje_propuesta_v1.md` · dúo ts=2026-08-14T17:54:01 (Sol xhigh + Fable 5).
+
+**Actualización DEC-217 #2 (14-ago tarde, pregunta de Alberto sobre el packet E3)**:
+mismo patrón aplicado al residuo E3 — de las 32 filas §1 del packet v1, 12 eran
+`parse-fail` del MISMO bug max_tokens=400 y ~17 eran altas castigadas solo por
+hermanas. **Repesca v2** (800 tokens, muestreo doc-entero+canónico, verificación
+full-text, `hermanas_sujeto` con cita = criterio de máquina): 26 RETAG alta+cita✓,
+2 MANTENER alta, 1 MULTI_VALOR alta con lista. **Packet v2 SUPERSEDE al v1: §0 23 +
+§0-bis 20 (hermanas resueltas con cita) + §1 4** — la sentada E3 pasa de 32
+decisiones a 2 síes en bloque + 4 filas. **Primer uso del carril EVIDENCIA ONLINE**
+(3 filas irreducibles): ZXR50A confirmado real (naming ES del ZXr-A UK; manual
+MIE-MI-440 en morley-ias.es → candidato a gap de corpus), MPS-24AE confirmado real
+(fuente 220 VAC, DN-0786), y «FD2705-10R» detectado como PROBABLE ARTEFACTO de
+nombre de fichero (la familia real es FD2705R/FD2710R) — recomendación MULTI_VALOR.
+URL+quote+fecha en el packet; nada escrito sin adjudicación. Recibos:
+`s321_e3_llm_recomendaciones_v2.json` (v1 intacto) · `s322_e3_online_evidencia_v1.json`.
+
+**Actualización DEC-217 #3 (14-ago noche — adjudicación E3 de Alberto APLICADA, s322d)**:
+«sí al §0 y §0-bis» + §1 de su mensaje → **44 retags · 674 chunks · 0 aborts ·
+findability OK** con la mecánica T3 (backup por-chunk + CAS + gate redirect-aware;
+recibos `s322_e3_writer_packet_aplicar_20260814T193541Z*`; 3 MANTENER no-op; un
+segundo --aplicar accidental fue no-op limpio por CAS — recibo conservado).
+Adjudicaciones de dominio de Alberto incorporadas: **FD2705-10R = artefacto** (la
+realidad son FD2705R+FD2710R, ambos detectores lineales IR; doc_map de la guía
+22318 → ambos productos, artefacto `aritech:fd2705-10r` → estado retirado, chunks
+de guía+addendum → multi «FD2705R/FD2710R»); **ART 535-x → multi ART 535-10/-30**;
+**ECN-96-200 → MPS-24AE** (nota suya: tipología = fuentes de alimentación, 15888SP
+— para la futura población #76 Notifier). **Corrección al carril online**: el gap
+que propuse de MIE-MI-440 era FALSO — el manual YA está ingestado (content hits en
+MIE-MI-440 y MIE-MI-431rv2); la clase de fallo: afirmé «candidato a gap» sin
+consultar el corpus (bias #51: nunca de memoria). **Queda SOLO ZXrA**: recomendación
+retag-a-ZXR50A en vez de borrar el doc (FAQ es-ES con el único paso-a-paso del
+repetidor en DXc Connexion; el catálogo ya tiene morley:zxr50a y el doc_map ya
+apunta ahí) — decisión de Alberto pendiente.
+
+**Actualización DEC-217 #4 (14-ago noche — split ZXr adjudicado, s322e; E3 COMPLETO)**:
+Alberto, con el MIE-MI-440 en la mano: «ZXR50A/P son los repetidores de la central
+ZX50, mientras que los ZXrA/P lo son de [DXc/DX/ZXe/ZXSe], así que son productos
+diferentes». REVOCA el colapso del GT s78 (aliases «variante-tipografica»
+ZXr-A→zxr50a): nacen `morley:zxr-a`/`morley:zxr-p`; MIE-MI-431rv2 (el manual
+ZXr-A/ZXr-P) remapeado y sus 18 chunks retagueados «ZXR50A/ZXR50P»→«ZXr-A/ZXr-P»;
+la FAQ de puesta en marcha retagueada y CONSERVADA (adjudicación: no borrar);
+2 aliases retirados; MIE-MI-440 y sus pms intactos. La puerta del catálogo CAZÓ la
+colisión alias-vs-canonical en el primer intento (write_jsonl escribe-y-valida:
+entre runs quedó inválido transitorio en disco — la puerta funcionó; recibo
+anotado). validate() OK · tests catálogo/inventario 47/47. **Con esto el packet E3
+queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
