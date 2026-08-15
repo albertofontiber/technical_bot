@@ -175,7 +175,8 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
             "document_id": doc_id, "source_path": source_path}
 
 
-def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
+def run(config: str, limit: int, dry_run: bool, reset: bool,
+        gate=None) -> None:
     store = os.path.join(STORE_ROOT, config)
     # GUARDAS (s301): salir con codigo != 0 cuando el paso NO puede correr — un
     # "return" con exit 0 aparenta ejecucion (clase manifiesto-vacio: el corpus y el
@@ -290,6 +291,35 @@ def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
     print(f"  vacíos:         {counts['empty']}")
     print(f"  sin indexar:    {counts.get('sin_indexar', 0)}  (identidad no resuelta)")
     print(f"  fallos:         {counts['failed']}")
+    # s323 fase C (critico 2 del suplente): el gate se INYECTA. `reingest` no
+    # puede importar `rag` (contrato de imports) y este `run` es un write-path
+    # real, asi que la dependencia entra por parametro: quien orquesta pasa el
+    # gate y aqui se EJECUTA siempre que se haya escrito algo. Sin inyeccion no
+    # se ejecuta — y por eso `main()` (la CLI directa) se niega a correr sin el.
+    if gate is not None and not dry_run:
+        try:
+            veredicto = gate()
+        except Exception as e:                                # noqa: BLE001
+            # Fable M2: "no evaluado" tenia semantica propia en UN solo
+            # write-path. Aqui corria sin try/except y una excepcion daba
+            # traceback generico en vez del codigo 4 acordado.
+            logger.error("gate de identidad NO evaluado: %s", e)
+            raise SystemExit(4) from e
+        print(f"  gate identidad: {'OK' if veredicto['ok'] else 'VIOLACIONES NUEVAS'}"
+              f"  ({veredicto['nuevas']} nuevas / {veredicto['total']} totales)")
+        if veredicto.get("manifiesto_stale"):
+            print(f"  aviso: {len(veredicto['excepciones_resueltas'])} excepciones del "
+                  f"manifiesto ya no aplican - re-sella con --sellar")
+        if not veredicto["ok"]:
+            logger.error("GATE DE IDENTIDAD: %d violaciones NUEVAS -> %s",
+                         veredicto["nuevas"], veredicto["detalle_nuevas"][:3])
+            raise SystemExit(3)
+
+    # (el gate NO se importa aqui: se inyecta. El contrato de
+    # imports prohibe `reingest -> rag` (tests/test_import_contract.py) y el gate
+    # necesita el catalogo, que vive en rag. Se cablea en la CAPA DE SCRIPTS, que
+    # es quien orquesta: `scripts/ingest_new.py` (driver real de altas) y
+    # cualquier runner de este pipeline. La arquitectura manda sobre mi prisa.
     print(f"  tiempo:         {elapsed:.0f}s")
     if dry_run:
         print(f"  muestra:        {DRYRUN_SAMPLE}")
@@ -299,18 +329,19 @@ def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Etapa B — indexación del corpus re-ingestado")
-    ap.add_argument("--config", default=DEFAULT_CONFIG,
-                    help="subcarpeta del store de extracción a procesar")
-    ap.add_argument("--limit", type=int, default=0,
-                    help="procesa como máximo N archivos (0 = todos)")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="B1-B5 sin contextualizar/embeber/indexar — no gasta API")
-    ap.add_argument("--reset", action="store_true",
-                    help="ignora el estado previo y re-procesa todo")
-    args = ap.parse_args()
-    run(args.config, args.limit, args.dry_run, args.reset)
+    """CLI directa. s323 fase C (critico 2): ejecutar el pipeline por aqui era un
+    write-path SIN el gate de identidad — el agujero que decia haber cerrado. Esta
+    entrada ya no indexa: redirige al runner gobernado, que inyecta el gate."""
+    raise SystemExit(
+        "Esta entrada ya no indexa (s323 fase C): escribir sin el gate de identidad "
+        "es como entraron #80/#81.\n"
+        "Usa el runner gobernado:  python scripts/reingest_run.py --config ... \n"
+        "(o llama a run(..., gate=...) inyectando el gate explicitamente).")
 
+
+# (s323 fase C, Fable M4): `_main_legacy()` ELIMINADO. Llamaba a run() SIN
+# gate: el bypass del critico 2 quedaba a una linea de distancia, sin test
+# que impidiera re-cablearlo. El unico camino que escribe lleva el gate.
 
 if __name__ == "__main__":
     main()

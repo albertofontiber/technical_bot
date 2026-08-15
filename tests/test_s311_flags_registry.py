@@ -49,7 +49,12 @@ def test_divergencias_de_defaults_declaradas_y_exactas():
         f"divergencias reales {sorted(reales)} ≠ declaradas {sorted(declaradas)} — "
         f"una divergencia NUEVA se DECLARA en su entrada (visible), no se corrige a ciegas"
     )
-    assert declaradas == {"ANTHROPIC_API_KEY", "IDENTITY_RESOLVE_POLICY"}
+    # s323 fase C: + SUPABASE_URL/SUPABASE_SERVICE_KEY — el gate de identidad las
+    # exige con os.environ[...] mientras config.py usa default "". Divergencia
+    # DELIBERADA: sin credenciales el gate no puede evaluar, y "no he podido
+    # comprobar" NO es "todo bien" (critico del duo r34). El pin detecta, no corrige.
+    assert declaradas == {"ANTHROPIC_API_KEY", "IDENTITY_RESOLVE_POLICY",
+                          "SUPABASE_URL", "SUPABASE_SERVICE_KEY"}
 
 
 def test_pin_de_demo_flags_sin_fantasmas_nuevos():
