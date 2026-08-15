@@ -1,0 +1,292 @@
+{
+ "que_es": "s323 — PUERTA A: prueba mecánica de artefacto, fila a fila (NO aplica nada aún).",
+ "total": 18,
+ "pasan_puerta_a_mecanica": 3,
+ "a_packet": 15,
+ "detalle": [
+  {
+   "id": "notifier:1.5ke51ca",
+   "modelo": "1.5KE51CA",
+   "marca": "Notifier",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "La evidencia muestra que 1.5KE51CA es la denominación genérica de un diodo supresor de transitorios incluido como componente en el kit del producto RP"
+  },
+  {
+   "id": "notifier:ad-pe",
+   "modelo": "AD-PE",
+   "marca": "Notifier",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "AD-PE no es un modelo: es la designación de la versión/ejecución antideflagrante (a prueba de explosión) del detector SMART 2; el otro chunk lo usa co"
+  },
+  {
+   "id": "notifier:c-160-14-to1a",
+   "modelo": "C-160-14-TO1A",
+   "marca": "Notifier",
+   "n_chunks_examinados": 2,
+   "senales_sujeto": [
+    {
+     "doc": "MNDT040",
+     "senal": "titular"
+    },
+    {
+     "doc": "MNDT040P",
+     "senal": "titular"
+    }
+   ],
+   "prueba_artefacto": [
+    {
+     "doc": "MNDT040",
+     "clase": "medida/unidad",
+     "fragmento": "| 15    | 8          | Común    | | 16    |            | NA/NC    |  ## Tarjeta Principal C-160-14-TO1A Rev.01  | Term. | Nº de Relé | Contacto | | ----- | ---------- | -------- | "
+    },
+    {
+     "doc": "MNDT040P",
+     "clase": "medida/unidad",
+     "fragmento": "# PLACAS OPCIONAIS  ## Placa Principal  ## C-160-14-TO1A Rev.01  ## PLACA OPCIONAL DE 16 RELÉS  [Left side contains a detailed circui"
+    }
+   ],
+   "puerta_a_mecanica": false,
+   "razon_llm": "El término aparece como identificador serigrafiado de la placa de circuito impreso (con «Rev.01») dentro del manual de la central CFP-600-E, no como m"
+  },
+  {
+   "id": "unresolved:34115311",
+   "modelo": "34115311",
+   "marca": "unknown",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "El número solo aparece como marcado de un componente blanco en una placa de circuito impreso dentro de un diagrama del manual del TCD-106, no como mod"
+  },
+  {
+   "id": "kidde:1x-f8-sc",
+   "modelo": "1X-F8-SC",
+   "marca": "Kidde",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "El documento es la ficha del NC-PF8-SC (título y product_model coinciden) y la única mención de 1X-F8-SC aparece describiendo exactamente ese mismo pa"
+  },
+  {
+   "id": "morley:sp-200",
+   "modelo": "SP-200",
+   "marca": "Morley IAS",
+   "n_chunks_examinados": 2,
+   "senales_sujeto": [
+    {
+     "doc": "MIE-MI-110",
+     "senal": "titular"
+    },
+    {
+     "doc": "MNDT105_A",
+     "senal": "titular"
+    }
+   ],
+   "prueba_artefacto": [
+    {
+     "doc": "MIE-MI-110",
+     "clase": "medida/unidad",
+     "fragmento": " \"sounder 6 V\" connections shown  Pag. 25  Pag. 26  ## 9.10 Placa de módulo de extinción \"SP-200\"  [Technical diagram showing circuit board layout with the following labeled compon"
+    }
+   ],
+   "puerta_a_mecanica": false,
+   "razon_llm": "En ambos chunks «SP-200» aparece únicamente como el nombre de una placa de circuito interna (módulo de extinción) dentro de los manuales de otros prod"
+  },
+  {
+   "id": "notifier:29087",
+   "modelo": "29087",
+   "marca": "Notifier",
+   "n_chunks_examinados": 2,
+   "senales_sujeto": [
+    {
+     "doc": "MADT100_01",
+     "senal": "referencia comercial"
+    },
+    {
+     "doc": "MADT100_01",
+     "senal": "referencia comercial"
+    }
+   ],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "La evidencia identifica «29087» como la referencia interna de una ferrita, componente incluido dentro del kit 4XRFI-KIT (ref. 90306); no aparece como "
+  },
+  {
+   "id": "notifier:fs-2",
+   "modelo": "FS-2",
+   "marca": "Notifier",
+   "n_chunks_examinados": 0,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "En los chunks mostrados, FS2 aparece sistemáticamente como designación de fusible en placas de centrales (ID50/60, ZXAE/ZXEE, ID1000), y en el documen"
+  },
+  {
+   "id": "notifier:fs-4",
+   "modelo": "FS-4",
+   "marca": "Notifier",
+   "n_chunks_examinados": 0,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "«FS4» solo aparece dentro de una lista legal de marcas/variaciones de nomenclatura en el boilerplate de Honeywell, nunca usado como modelo en tablas, "
+  },
+  {
+   "id": "notifier:pl4-e",
+   "modelo": "PL4-E",
+   "marca": "Notifier",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [
+    {
+     "doc": "MNDT515",
+     "clase": "expresión de límite",
+     "fragmento": "entral está diseñada para gestionar 4 zonas y, con la ampliación de una tarjeta opcional (PL4-E), se puede expandir hasta un total de 8 zonas y 16 salidas de tensión (colector abie"
+    }
+   ],
+   "puerta_a_mecanica": true,
+   "razon_llm": "Todas las menciones aparecen únicamente dentro del encabezado repetido 'ST.PL4E REV.4.1' del manual técnico del producto PL4; «PL4-E» nunca aparece co"
+  },
+  {
+   "id": "notifier:tg",
+   "modelo": "TG",
+   "marca": "Honeywell",
+   "n_chunks_examinados": 12,
+   "senales_sujeto": [
+    {
+     "doc": "TG-Como ampliar-licencias",
+     "senal": "titular"
+    },
+    {
+     "doc": "TG-Que-clave-tiene-si-se-instala-en-idioma-Ingles",
+     "senal": "titular"
+    },
+    {
+     "doc": "LEER PRIMERO_MADT951_10",
+     "senal": "titular"
+    }
+   ],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "En los 6 chunks mostrados, «TG» nunca aparece solo como modelo: siempre es prefijo de otros productos del catálogo (TG-NOTIFIER, TG-1020, TG-ID3000). "
+  },
+  {
+   "id": "notifier:tx",
+   "modelo": "TX",
+   "marca": "Notifier",
+   "n_chunks_examinados": 12,
+   "senales_sujeto": [
+    {
+     "doc": "MADT212",
+     "senal": "titular"
+    },
+    {
+     "doc": "MADT230_01",
+     "senal": "fila de tabla"
+    }
+   ],
+   "prueba_artefacto": [
+    {
+     "doc": "Li-ion_Tamer_User_Manual",
+     "clase": "medida/unidad",
+     "fragmento": "ram showing connector pinouts with labels:] 5 4 3 2 1 P1 RS-232  PIN 6 (4W) RS-485 (2W) 1 TxD+ 2 TxD- 3 RxD+ Data+ 4 RxD- Data- 5 GND GND  CE FC [Various certification logos includ"
+    },
+    {
+     "doc": "D 1150-1 BRH Morley",
+     "clase": "medida/unidad",
+     "fragmento": "                               | 1Hz 500ms on, 500ms off<br/>0.22Hz (0.5s on, 0.5s off) rptx3, 1.5s                                                                                 "
+    }
+   ],
+   "puerta_a_mecanica": false,
+   "razon_llm": "En toda la evidencia «TX» aparece como terminal/señal de transmisión de puertos serie RS232/RS485 (Tx/Rx), nunca como modelo de producto de un fabrica"
+  },
+  {
+   "id": "unresolved:34110400",
+   "modelo": "34110400",
+   "marca": "unknown",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [
+    {
+     "doc": "55310600 Manual TCD-106 kit_ES",
+     "clase": "medida/unidad",
+     "fragmento": "t board (bottom) labeled \"RS485\" with various electronic components, showing part number \"34110400\"]  La tensión de alimentación se puede obtener de la salida de 24 V de la central"
+    }
+   ],
+   "puerta_a_mecanica": true,
+   "razon_llm": "El número aparece únicamente como código impreso en una placa de circuito fotografiada dentro del manual del TCD-106, no como modelo comercial en tabl"
+  },
+  {
+   "id": "unresolved:55350007",
+   "modelo": "55350007",
+   "marca": "unknown",
+   "n_chunks_examinados": 2,
+   "senales_sujeto": [
+    {
+     "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+     "senal": "referencia comercial"
+    },
+    {
+     "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+     "senal": "referencia comercial"
+    }
+   ],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "La evidencia muestra que «55350007» aparece únicamente como referencia (REF) dentro del manual de la tarjeta TRMD-50X, que es el modelo real del produ"
+  },
+  {
+   "id": "unresolved:fl20xx-ei-hs",
+   "modelo": "FL20XX EI-HS",
+   "marca": "Honeywell",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "Las «XX» funcionan como comodín para agrupar variantes (igual que en NFXI-ASD-XXXX-HS o MI-FL20XXXX), no como un modelo comercial concreto; es un patr"
+  },
+  {
+   "id": "unresolved:mi-fl20xxxx-ei-hs",
+   "modelo": "MI-FL20XXXX EI-HS",
+   "marca": "Honeywell",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "El término contiene el comodín «XXXX» y se usa como patrón para agrupar toda una familia de referencias FAAST LT aplicables al artículo, no como un mo"
+  },
+  {
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "modelo": "NFXI-ASD-XXXX-HS",
+   "marca": "Honeywell",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [],
+   "puerta_a_mecanica": false,
+   "razon_llm": "El término aparece en una lista de familias de equipos donde «XXXX» es claramente un comodín para los dígitos variables del modelo (igual que en MI-FL"
+  },
+  {
+   "id": "unresolved:vsn-2plus",
+   "modelo": "VSN 2Plus",
+   "marca": "Honeywell",
+   "n_chunks_examinados": 1,
+   "senales_sujeto": [],
+   "prueba_artefacto": [
+    {
+     "doc": "MF_HSF_280_rv004",
+     "clase": "medida/unidad",
+     "fragmento": "0 Vca y Baterías) y sin haber leído previamente los manuales de cada equipo.  Los paneles VSN 2Plus/RP1r-Supra/NFSx-Supra (en adelante las centrales) disponen de un software intern"
+    }
+   ],
+   "puerta_a_mecanica": true,
+   "razon_llm": "El término «VSN 2Plus» es una variante tipográfica (con espacio) del modelo canónico VSN-2Plus, que ya existe en el catálogo como VSN-2PLUS. Toda la e"
+  }
+ ]
+}

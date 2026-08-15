@@ -117,6 +117,25 @@ LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
+**Qué sigue (s323b — identidad del corpus; LO PRIMERO al abrir sesión)**: (a) **rehacer el
+plan de #80/#81 con las 10 correcciones del dúo r31** (`evals/s323_plan_80_81_v1.md`, adenda):
+política explícita para ficheros sin fila activa · fallo ANTES del borrado en `index_chunks`
+(hoy borra y luego inserta NULL) · invariante de COHERENCIA (el documento del doc_map debe ser
+el MISMO que el de los chunks servidos — `doc_map→active` + `NOT NULL` NO capturan lo que
+rompió #80) · baseline por-entry EJECUTADO (la sonda midió 49 atestaciones, no 191) ·
+contabilidad 49+1+3+7=60. Vuelve al dúo y, si pasa, se aplica con mecánica T3. **Es un defecto
+VIVO**: el anexo `must_preserve` no actúa en esos manuales; (b) la **limpieza de candidates
+queda APARCADA** hasta tener el gate medido (`evals/s323_criterio_limpieza_candidates_v1.md`):
+el dúo r30 tumbó las confirmaciones por el radio de explosión al detector (quitar `candidate`
+activa alias + paraguas + términos del detector), y el predicado de retirada se auto-rechazó
+por confundir correlación con prueba. Antes de retomarla: censo del radio de explosión (solo
+lectura) + predicado de RECONSTRUIBILIDAD validado contra el doble control (positivos `MM-82`,
+`TO-3200M`, `OF-48V`, `LOCAL-360`; negativos `VSN 2Plus`, `PL4-E`, `34110400`); (c) los
+**packets v2 están listos y verificados** (568/568 citas verifican en su documento atribuido),
+a la firma de Alberto cuando quiera; (d) **FULL fresco v3.2** — no medimos el bot end-to-end
+desde antes del elefante, #76 y la subida de velocidad: todo lo que afirmamos hoy sobre su
+calidad es inferencia.
+
 **Qué sigue (s323)**: (a) **el smoke de recepción en cloud** — Alberto crea el
 environment (variables + red Full, §3.1 de `ENTORNO_CLOUD.md`) y la primera sesión
 cloud corre `cloud_smoke` + suite + `check_deps`; el recibo se commitea. Hasta
