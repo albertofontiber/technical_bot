@@ -6546,3 +6546,16 @@ consultar el corpus (bias #51: nunca de memoria). **Queda SOLO ZXrA**: recomenda
 retag-a-ZXR50A en vez de borrar el doc (FAQ es-ES con el único paso-a-paso del
 repetidor en DXc Connexion; el catálogo ya tiene morley:zxr50a y el doc_map ya
 apunta ahí) — decisión de Alberto pendiente.
+
+**Actualización DEC-217 #4 (14-ago noche — split ZXr adjudicado, s322e; E3 COMPLETO)**:
+Alberto, con el MIE-MI-440 en la mano: «ZXR50A/P son los repetidores de la central
+ZX50, mientras que los ZXrA/P lo son de [DXc/DX/ZXe/ZXSe], así que son productos
+diferentes». REVOCA el colapso del GT s78 (aliases «variante-tipografica»
+ZXr-A→zxr50a): nacen `morley:zxr-a`/`morley:zxr-p`; MIE-MI-431rv2 (el manual
+ZXr-A/ZXr-P) remapeado y sus 18 chunks retagueados «ZXR50A/ZXR50P»→«ZXr-A/ZXr-P»;
+la FAQ de puesta en marcha retagueada y CONSERVADA (adjudicación: no borrar);
+2 aliases retirados; MIE-MI-440 y sus pms intactos. La puerta del catálogo CAZÓ la
+colisión alias-vs-canonical en el primer intento (write_jsonl escribe-y-valida:
+entre runs quedó inválido transitorio en disco — la puerta funcionó; recibo
+anotado). validate() OK · tests catálogo/inventario 47/47. **Con esto el packet E3
+queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
