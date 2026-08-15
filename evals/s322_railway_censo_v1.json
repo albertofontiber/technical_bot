@@ -1,0 +1,92 @@
+{
+ "que_es": "Censo vivo de Railway (worker): retiradas ausentes, las que mandan presentes, último deployment. Valores solo de flags no secretos.",
+ "utc": "20260815T085428Z",
+ "servicios": {
+  "worker": {
+   "n_vars": 40,
+   "retiradas_ausentes": {
+    "GENERATOR_PROMPT_VARIANT": true,
+    "RERANK_TOP_K": true,
+    "ENUNCIADOS_MULTIVECTOR": true,
+    "HYQ_TABLE": true,
+    "GENERATOR_FOLLOWUPS": true,
+    "ANTI_DIAGRAM_INVENTION": true,
+    "WIRING_TOPOLOGY_GUARD": true,
+    "CONVERSATION_POLICY": true,
+    "ORCHESTRATOR_PATH": true
+   },
+   "las_que_mandan": {
+    "INTENT_LLM": {
+     "presente": true,
+     "valor": "on",
+     "coincide_esperado": true
+    },
+    "GENERATOR_SELECTION_BLOCK": {
+     "presente": true,
+     "valor": "on",
+     "coincide_esperado": true
+    },
+    "GENERATOR_DIRECT_FIRST": {
+     "presente": true,
+     "valor": "on",
+     "coincide_esperado": true
+    },
+    "VISUAL_ASSETS_LISTING_GATE": {
+     "presente": true,
+     "valor": "on",
+     "coincide_esperado": true
+    },
+    "CHUNKS_TABLE": {
+     "presente": true,
+     "valor": "chunks_v2",
+     "coincide_esperado": true
+    },
+    "LLM_MAX_TOKENS": {
+     "presente": true,
+     "valor": "(no se registra)",
+     "coincide_esperado": true
+    },
+    "EC_LEGAL_DISCLAIMER_SKIP": {
+     "presente": true,
+     "valor": "on",
+     "coincide_esperado": true
+    },
+    "LLM_MODEL": {
+     "presente": true,
+     "valor": "claude-opus-5",
+     "coincide_esperado": true
+    }
+   },
+   "otras_no_secretas": [
+    "BOT_ERROR_LOGGING",
+    "COVERAGE_RELEASE_PROFILE",
+    "FACET_COMPLEMENT_FALLBACK",
+    "IDENTITY_RESOLVE",
+    "IDENTITY_RESOLVE_POLICY",
+    "MUST_PRESERVE_CONTRACT",
+    "OBLIGATION_RESERVE_ORDERED",
+    "OBLIGATION_WARNING_APPENDIX",
+    "RAILWAY_ENVIRONMENT",
+    "RAILWAY_ENVIRONMENT_ID",
+    "RAILWAY_ENVIRONMENT_NAME",
+    "RAILWAY_PRIVATE_DOMAIN",
+    "RAILWAY_PROJECT_ID",
+    "RAILWAY_PROJECT_NAME",
+    "RAILWAY_SERVICE_ID",
+    "RAILWAY_SERVICE_NAME",
+    "SOURCE_LEGEND",
+    "SOURCE_LEGEND_LINKS",
+    "STRUCTURAL_NEIGHBOR_SHADOW",
+    "TELEGRAM_FEEDBACK",
+    "TELEGRAM_FEEDBACK_REASON",
+    "VISUAL_ASSETS_REGISTRY"
+   ],
+   "n_con_nombre_sensible": 11,
+   "ultimo_deployment": {
+    "status": "SUCCESS",
+    "createdAt": "2026-08-15T08:50:08.453Z"
+   }
+  }
+ },
+ "fallos": []
+}

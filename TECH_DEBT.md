@@ -2873,3 +2873,22 @@ lean del v1 en vez de duplicarlos; (b) un test que falle si los 5 divergen entre
 que lo descubra el preflight; (c) que el recibo del builder hashee **solo los qids del contrato**
 — quita el falso acoplamiento de raíz. **Trigger**: la próxima adjudicación de gold. **Coste**: S
 para (a)+(b), M para (c). **Relacionado**: DEC-218, DEC-147, #75.
+
+## #78 — `stop_reason` NO se persiste: si una respuesta se truncase, hoy no nos enteraríamos — s322f
+
+**Qué es**: `src/rag/generator.py:1082` YA calcula `stop_reason` de la respuesta del
+modelo (el gate s58/DEC-036b existe justo para distinguir `end_turn` de `max_tokens`),
+pero ese campo **no viaja al esquema cerrado de la traza** (`rag_trace` dentro de
+`query_logs`). Verificado s322f: 96 trazas reales analizadas, `stop_reason` = 0 hits.
+
+**Por qué importa (y por qué ahora)**: al ratificar `LLM_MAX_TOKENS=8000` en producción
+contra un default sellado de 3500 (DEC-219), la pregunta operativa «¿se está truncando
+alguna respuesta?» pasa a ser la métrica que gobierna ese techo — y hoy solo se puede
+responder por PROXY (`response_length` en chars, con una conversión aproximada a
+tokens). Un truncado corta al técnico a media instrucción: es el fallo caro y silencioso.
+
+**Forma BP**: añadir `stop_reason` (y, si cabe sin coste, `output_tokens`) a la sección
+del generador del esquema CERRADO de la traza — mismo patrón que la sección `intent`
+de DEC-203b (campo tipado + validación + tri-estado para el turno sin llamada LLM).
+Con eso, «¿cuántas respuestas terminaron por max_tokens?» es una query, no una
+estimación. Coste: pequeño, bien acotado; toca el esquema cerrado ⇒ dúo.

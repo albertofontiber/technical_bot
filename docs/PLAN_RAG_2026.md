@@ -105,9 +105,11 @@ LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
 (`s321_e3_packet_adjudicacion_v2.md`, SUPERSEDE al v1: §0 23 + §0-bis 20 en bloque
 + solo 4 una-a-una con evidencia online adjunta — la repesca v2 s322c convirtió los
 12 parse-fail del bug max_tokens y resolvió las hermanas a máquina) + E2 (1.235/23)
-+ E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway (el §1 de
++ E1/E1b + s318-restante (el §1 de
 #76 quedó VACÍO: la repesca v3 a tabla-de-modelos cerró Detnov+Kidde al 100% con
-cita verbatim — nada de #76 pendiente de sentada); (b) FULL fresco v3.2 tras la
+cita verbatim; el packet **E3 está COMPLETO** — 44 retags aplicados + split ZXr; y
+**LLM_MAX_TOKENS y las 9 vars de Railway quedaron ADJUDICADOS y ejecutados**,
+DEC-219 — ya no están en la cola); (b) FULL fresco v3.2 tras la
 sentada; (c) poblar #76 en más marcas por packets — con el **gatillo #76b** (flag
 de divergencia + `alcance`) OBLIGATORIO antes de Notifier/multi-mercado; (d) leer
 traza intent/latencia cuando haya tráfico.
