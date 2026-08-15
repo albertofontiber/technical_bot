@@ -433,7 +433,41 @@ acotación»; revertir eso exige tu criterio PCI, no mi prosa. **Decisión genui
 > secas deja el gold auto-contradictorio **y** encoge la cola de etapa 3 de 9 a 8 — aunque ojo:
 > *que el marcador baje no es argumento ni a favor ni en contra* (eso también sería circular).
 
-`[ ] ✅ demote a SUPPLEMENTARY (el ISO-X no es parte del acotado de TIERRA) · [ ] ✏️ se queda CORE (explica) · [ ] ❌ borrar el hecho`
+`[X] ✅ demote a SUPPLEMENTARY (el ISO-X no es parte del acotado de TIERRA) · [ ] ✏️ se queda CORE (explica) · [ ] ❌ borrar el hecho`
+
+> ✅ **ADJUDICADO (Alberto, s321) — demote. PENDIENTE de aplicar al ruler.** Traza completa y
+> durable en **`DEC-223`**; aquí solo el resumen operativo.
+>
+> **Se cierra dentro de la fuente aplicable** — no se impone teoría eléctrica sobre el manual:
+> - `MIDT170` **p71**, la MISMA página que el hecho cita: en la tabla «Funcionamiento del Lazo», la
+>   fila **Tierra** es igual en Estilo 6 y 7, y la fila **Corto** solo mejora al llegar al 7. Como el
+>   Estilo 7 es el que exige los ISO-X, **el manual documenta que los aisladores no compran nada
+>   frente a una tierra**.
+> - `MIDT170` **p77** (mecanismo): «*Un **cortocircuito**… El ISO-X detecta **este cortocircuito**…
+>   abriendo el lado positivo (terminal 4)*». `DEC-221` aplicado: p17 resume, p77 explica.
+> - `50253SP` **p98**: la misma frase con el término preciso («corto circuito»).
+> - La detección de tierra vive en la **MPS-400** (LED, TB1-3, puente JP2), no en el lazo.
+>
+> **El argumento de Alberto que lo cierra**: si el ISO-X acotara la tierra, no verías «Tierra» —
+> verías una rama caída. Verlo con el lazo funcionando prueba que ningún aislador se disparó.
+>
+> **La mitad procedimental (B) también resuelta, y NO por opinión**: el manual manda «*temporarily
+> place a jumper between Terminals 2 and 4 on each ISO-X while taking measurements*» — el fabricante
+> los trata como **estorbo para medir**, no como punto de corte. En 179 páginas, «ground fault» e
+> «ISO-X» **no coinciden en ninguna**.
+>
+> **Qué escribe el upsert** — el label NO basta: hay que **reescribir el `gold_answer` en el mismo
+> upsert**, retirando el inciso «*—en el lazo, mediante los aisladores ISO-X—*» (el método de mitades
+> se queda). Si no, el gold pide ante el juez lo que el label niega.
+>
+> ⚠️ **CORRECCIÓN al bloque s320d de más arriba**: `50253SP` **SÍ es manual de la AFP-400**
+> (`doc_map` línea 92: primary de `afp-300` **y** `afp-400`). Descartarlo por `product_model` fue mío
+> y fue un error — la captura de Alberto sobre `15088SP` sigue siendo correcta. **El método que este
+> packet recomienda (filtrar por `product_model`) es el que falla**: la aplicabilidad la responde el
+> `doc_map`. Censo del daño y dirección de arreglo en `TECH_DEBT #84`.
+>
+> 📄 **Si vas al manual**: el gold cita `p63 (f71)` pero el pie dice **64** — offset real 7, no el 8
+> registrado. Las citas impresas del gold van corridas una página.
 
 ---
 

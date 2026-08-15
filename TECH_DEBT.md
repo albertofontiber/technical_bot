@@ -3034,3 +3034,45 @@ sí sobreviven («Precaución», «ADVERTENCIA», «Es fundamental», «IMPORTAN
 débil de criticidad. **Trigger**: la próxima re-ingesta con visión, o el primer caso en que un
 aviso destacado no servido cause un fallo de seguridad. **Coste**: M para (a), S para (b).
 **Relacionado**: DEC-221 (el criterio que se adoptó EN LUGAR de esta señal), #24, #13.
+
+## #84 — `chunks_v2.product_model` NO es un filtro de aplicabilidad: discrepa del `doc_map` en el 35% de los documentos (s321, censo ejecutado)
+
+**Qué es.** `product_model` es una etiqueta **gruesa** por documento (`'Sistema 5000'`,
+`'2X-A Táctil'`, `'ICAM'`, o un SKU representativo). El `doc_map` es la capa gobernada de
+entity-linking (DEC-043/044) que declara **qué productos cubre** un documento. No son lo mismo — pero
+se han usado como si lo fueran.
+
+**Censo (EJECUTADO, no estimado — s321):**
+
+```
+documentos de chunks_v2 con primaries en doc_map : 780
+  la columna ALCANZA a todos los primaries        : 505
+  la columna NO alcanza a algún primary           : 275   (35%)
+    de esos, documentos con MÁS DE UN primary     : 227
+```
+
+**Por qué importa — dos daños distintos:**
+
+1. **Analítico (ya ha mordido dos veces).** Filtrar `product_model='AFP-400'` **oculta `50253SP`**,
+   que es primary de la AFP-400 según el `doc_map` pero lleva la columna a `AFP-300`. En s320d eso
+   llevó a descartar como «de otro panel» justo la fuente que desambiguaba el caso del ISO-X
+   (`DEC-223`). Es la misma clase que el fallo de `15088SP`, pero con el signo contrario: allí la
+   columna era demasiado ancha, aquí demasiado estrecha.
+2. **De serving (SIN MEDIR).** `src/rag/answer_planner.py:442 _product_aligned_chunks` decide con
+   esta columna qué chunks están «alineados con el producto» de la pregunta, y de ahí salen las
+   obligaciones estructuradas. Un documento cuya columna no nombra el modelo preguntado **no aporta
+   obligación**, aunque el catálogo lo declare primary de ese modelo. **Cuánto pesa está sin medir**:
+   hay que cuantificarlo antes de tocar nada.
+
+**Lo que NO es el arreglo.** Rellenar la columna con la lista de primaries: hay documentos con 26
+SKUs, y `_product_aligned_chunks` exige `len(declared_models) == 1` para aceptar un declarado
+ambiguo ⇒ meter la lista **empeoraría** el alineado. Sería tratar una relación N:M como un campo de
+texto.
+
+**Dirección probable** (NO decidida): que la pregunta de aplicabilidad la conteste el **catálogo**, y
+`product_model` se quede como etiqueta de visualización. Toca serving + esquema ⇒ **zona de dolor**:
+exige dúo completo (Protocolo 3) y medición previa del daño (Protocolo 2), no un parche de paso.
+
+**Guardarraíl inmediato, gratis**: en análisis, **nunca** usar `product_model` para decidir si un
+manual aplica a un modelo — consultar `data/catalog/doc_map.jsonl`. El packet de la sentada B2
+documenta hoy el método equivocado y queda anotado.

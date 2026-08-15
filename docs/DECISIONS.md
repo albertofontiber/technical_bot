@@ -6805,3 +6805,129 @@ sobre `chunks_v2` a 15-ago-2026; si cambia el extractor, hay que rehacerla.
 
 **Métrica.** Objetivo: per-fact `conveyed` K=5. La medición citada (3/3 vs 0/3) es de esa misma
 métrica ⇒ coincide. No toca ningún «settled» de PASS ni de retrieval-miss.
+
+## DEC-222 (s322i–s323) — El ENCOGIDO de packets como método; y la limpieza autónoma de candidates APARCADA con criterio escrito (dúos r29/r30/r31)
+
+- **Fecha**: 15 ago 2026. **Impacto**: MEDIO-ALTO (método de adjudicación + identidad del
+  catálogo). Tres dúos completos: r29 (Sol 5 · Fable 3), r30 (Sol 6, 2 críticos), r31
+  (Sol 7 · Fable 5, 2 críticos, EMPAREJADO correcto). 0 falsos positivos en los tres.
+- **Lo que SE HIZO (aplicado y mergeado)**: el **encogido** de los packets E1/E1b/E2 —
+  workflow de 9 agentes: 2 pasadas deterministas + 5 de juicio con cita verificada
+  full-text + síntesis + verificador adversarial. **2.108 filas → 1.181 en bloque + 911
+  una-a-una + 16 fuera**. El verificador hizo el CENSO COMPLETO de las 570 citas de bloque
+  (no la muestra de 12 que pedía el encargo): **0 citas inventadas, 0 fallos de criterio**.
+  Cerrado después el ítem bloqueante (39 citas mal atribuidas → 38 re-atribuidas, 1 fuera):
+  censo final **568/568 verifican en su documento atribuido**.
+- **Hallazgo que justifica la pasada**: la premisa del packet E1 §1 era **falsa de
+  nacimiento** — las 49 «colisiones» no eran dos filas activas sino fichas fantasma
+  retiradas; el censo de s320 testeaba que la fila EXISTIERA, nunca su `status`.
+  Consecuencia medida: `must_preserve.attest_identity` no actúa en esos manuales
+  (→ TECH_DEBT #80), y de ahí salió también #81 (61 chunks huérfanos).
+- **LO QUE NO SE HIZO, y la decisión de NO hacerlo**: la limpieza autónoma de candidates
+  queda **APARCADA**. Alberto autorizó la vía fluida sobre una premisa MÍA que resultó
+  falsa: «confirmar de más es barato». **No lo es**: quitar `candidate` activa los alias
+  existentes (`catalog_store.py:112`), cambia la expansión de paraguas (`:192`) y mete
+  canónico + alias en el **detector generado** (`catalog_resolver.py:142-153`) — clase
+  `FUEGO` × 600, sin medir. Y el predicado de retirada **se auto-rechazó**: de 18 filas
+  pasaron 3 y las 3 eran falsos positivos (`VSN 2Plus` es producto real).
+- **Criterio para retomarla** (escrito, no de memoria — `evals/s323_criterio_limpieza
+  _candidates_v1.md`): censo del radio de explosión POR FILA (solo lectura) · exclusión de
+  toda activación que añada término de riesgo léxico · gate MEDIDO por lote (delta del
+  detector + negativos end-to-end) · predicado de RECONSTRUIBILIDAD (los caracteres del
+  término deben derivarse del texto vecino) validado contra el **doble control**:
+  positivos `MM-82`/`TO-3200M`/`OF-48V`/`LOCAL-360`, negativos `VSN 2Plus`/`PL4-E`/`34110400`.
+- **Alternativas descartadas**: (a) aplicar retiradas «probables» sin prueba mecánica —
+  invierte la asimetría y borra productos reales; (b) confirmar todo lo que tenga menciones
+  — una mención no es ser sujeto (`B501` dispara dentro de `B501AP`); (c) pedirle a Alberto
+  que firme las 665 — es el cuello de botella que manda quitar.
+- **Lección de método (la que importa)**: las tres automatizaciones intentadas hoy las paró
+  el control ANTES de escribir. El patrón común de los tres fallos es el mismo: **puertas
+  que confunden correlación con prueba**, y alcances presentados como completos con un hueco
+  (49+3+7=59 de 60). El control funciona; el diseño de puertas es lo que hay que endurecer.
+- **Relacionado**: TECH_DEBT #80/#81 · packets v2 (`s320_e1*/e1b*/e2*_v2.md`) · planes
+  `s323_plan_80_81_v1.md` y `s323_criterio_limpieza_candidates_v1.md` · tallies r29
+  (ts=2026-08-15T13:30:27), r30 (19:00:07), r31 (19:47:49).
+
+## DEC-223 (s321) — El ISO-X NO participa en el acotado de un FALLO DE TIERRA: el hecho baja a SUPPLEMENTARY y la prosa que lo prescribía se retira
+
+- **Fecha**: 15 ago 2026 (s321). **Impacto**: MEDIO — corrige un gold del ruler y retira de una
+  respuesta una instrucción de campo incorrecta. **Decide**: Alberto (DEC-025 — el gold es suyo).
+- **Caso**: `hp006` — «La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y
+  cómo se localiza?». Hecho #3, etiquetado `core`: *«Para acotar un fallo en el lazo se usan los
+  módulos aisladores ISO-X, que aíslan la rama en avería del resto del lazo (requeridos para
+  Estilo 7 según NFPA)»*.
+
+**LA DECISIÓN**: el hecho pasa a `supplementary`, y del `gold_answer` se retira el inciso
+«*—en el lazo, mediante los aisladores ISO-X—*». El método de mitades («aislar/desconectar circuitos
+progresivamente») se queda: lo que se cae es atribuirlo a los aisladores.
+
+**POR QUÉ — cuatro anclas, todas dentro de manuales oficiales aplicables.** Esto importa: la
+objeción legítima era que negar el hecho sería imponer teoría eléctrica sobre la fuente. No lo es.
+
+1. **La tabla de `MIDT170` p71 — la MISMA página que el hecho cita como prueba.** «Funcionamiento
+   del Lazo de Comunicaciones»: la fila **Tierra** vale `Alarma/Avería` en Estilo 6 **y** en Estilo
+   7; la fila **Corto** pasa de `Avería` a `Alarma/Avería` **solo al llegar a Estilo 7**. Como
+   `MFDT170` p17 dice que «El Estilo 7 requiere el uso de módulos ISO-X», el propio manual documenta
+   que **poner aisladores no cambia nada frente a una tierra, y sí frente a un corto**.
+2. **El mecanismo, `MIDT170` p77** (sección «Conexión de un Módulo Aislador (ISO-X)»): «*Un
+   **cortocircuito** en el lazo rearma el relé. El ISO-X detecta **este cortocircuito** y desconecta
+   la ramificación en avería abriendo el lado positivo del lazo (terminal 4)*». Dispara por colapso
+   de tensión ENTRE LOS DOS HILOS; una derivación a masa no lo produce. Y abre **solo el positivo**.
+3. **`50253SP` p98** (manual de instalación del mismo panel — ver la corrección de registro abajo):
+   «*Un **corto circuito** en el SLC restablece al relevador. El módulo ISO-X detecta el **corto**…*»
+   — es la frase de la p17 escrita con el término preciso.
+4. **La detección de tierra no está en el lazo**: vive en la fuente MPS-400 (LED «Fallo de Tierra»,
+   borne TB1-3, puente JP2 que la inhabilita). Otro subsistema. Los aisladores no la ven.
+
+**EL RAZONAMIENTO DE ALBERTO QUE CIERRA EL CASO**, y que es mejor que el argumento por fuente: *si
+el ISO-X acotara la tierra, no verías «Tierra» en pantalla — verías una rama caída*. Que la central
+anuncie Tierra **con el lazo funcionando con normalidad** demuestra que ningún aislador se ha
+disparado.
+
+**LA MITAD PROCEDIMENTAL, también resuelta y también con fuente.** Se examinó si el ISO-X sirve como
+PUNTO FÍSICO por donde partir el lazo al buscar la tierra (bisección), aunque no se dispare solo.
+**No.** El manual de instalación de la AFP-400 ordena «*temporarily place a jumper between Terminals
+2 and 4 on each ISO-X while taking measurements*» — el fabricante los trata como **estorbo para la
+medida**. Además: en sus 179 páginas, las páginas de «ground fault» y las de «ISO-X» tienen
+**intersección vacía**; el procedimiento escrito de otro panel Notifier (NFS-640) desconecta
+«*devices or circuit sections one at a time*» sin aisladores; y las guías de bisección hablan de
+**caja de registro**, no de aislador.
+
+**ALTERNATIVAS DESCARTADAS**
+- **Dejarlo `core` reformulado**: no. El ISO-X es **opcional** — solo lo exige el Estilo 7. Una
+  AFP-400 sin ningún ISO-X da «Tierra» igual. Un `core` exigiría mencionar un equipo que puede no
+  existir en la instalación por la que preguntan.
+- **Borrarlo (❌)**: no. Como arquitectura del lazo es correcto y su cita de Estilo 7 es buena. Vale
+  como `supplementary`.
+- **Apoyarse en la física de lazos flotantes o en el datasheet DN-2243**: innecesario. Las cuatro
+  anclas son de manuales aplicables; la desambiguación se sostiene **borrando toda la evidencia
+  externa**. Queda constancia de que DN-2243:B dice «*wire-to-wire short circuits*» y «*opens circuit
+  when the line voltage drops below four volts*» — corroboración, no apoyo.
+
+**CONTRA-EVIDENCIA DECLARADA** (lo que citaría quien defendiese el `core`): la nota inmediatamente
+encima de esa misma tabla dice que el Estilo 7 aísla zonas «*desde **los fallos** que tienen lugar
+dentro de otras áreas*», genérico. La desactiva la tabla que va justo debajo, del mismo autor y la
+misma página. Y `MIDT170` p17 dice «avería en el circuito», también genérico — es el pasaje-resumen;
+la p77 es el pasaje-mecanismo. **`DEC-221` aplicado**, en un segundo caso independiente del que lo
+originó.
+
+**MATIZ TÉCNICO QUE NO SE PUEDE OMITIR**: con **dos** derivaciones a masa en polaridades opuestas la
+tierra degenera en cortocircuito real y el ISO-X sí actúa. No es teoría: la tabla de `MIDT170` p71
+tiene fila propia **«Corto y Tierra»**, que también mejora solo en Estilo 7. Redacción admisible:
+*el ISO-X no reacciona a una derivación simple; solo si esa tierra ha degenerado en corto — y ni aun
+así la localiza ni la despeja*.
+
+**CORRECCIÓN DE REGISTRO — `50253SP` SÍ es manual de la AFP-400.** El bloque s320d del packet lo
+descartó como «es de la AFP-300» apoyándose en `chunks_v2.product_model`. El `doc_map` (línea 92) lo
+declara `role=primary` de **`notifier:afp-300` Y `notifier:afp-400`**, igual que `MIDT170` (línea
+489). La captura de Alberto sobre **`15088SP`** sigue siendo correcta y no se toca (primary =
+`afp1010` + `am2020`); lo erróneo fue extender aquel hallazgo a `50253SP`. De aquí sale
+`TECH_DEBT #84`.
+
+**ERRATA ÚTIL**: el gold cita `MIDT170 p63 (f71)` y registra offset +8, pero el pie de esa página
+dice **64** (y el de f77 dice 70). El offset real es **7**: las citas impresas del gold van corridas
+una página.
+
+**Artefactos**: `evals/s312_goldreview_b2_packet_v3.md` (ítem 5) · workflow `wf_38d0cbac-aaf` (9
+agentes: 5 lentes de evidencia + 3 refutadores + síntesis) · verificación a mano contra `chunks_v2` y
+`data/catalog/doc_map.jsonl` en el mismo turno (regla C).

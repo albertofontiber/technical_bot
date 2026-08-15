@@ -3581,3 +3581,30 @@ dependencia que el Protocolo 3 existe para romper.
 
 Queda pendiente lo único que convierte esto en verificado: el smoke de recepción
 corriendo EN una sesión cloud del environment nuevo.
+
+## s322i–s323 (15 ago 2026) — El día que los controles pararon tres veces al autor
+
+La sesión empezó cerrando #76 y terminó con tres diseños míos en el suelo, y las dos cosas
+son el mismo éxito. Por la mañana entró lo bueno: #76 al 100% para Detnov+Kidde, el packet
+E3 completo con la cirugía FD2705 y el split ZXr que adjudicó Alberto con el manual en la
+mano, y las dos adjudicaciones viejas de Railway cerradas con recibo y medición.
+
+Por la tarde, el encogido: un workflow de nueve agentes convirtió 2.108 casillas en 1.181
+en bloque + 911, y su verificador —al que le pedí una muestra de 12 citas— hizo el censo
+completo de las 570 porque «12 sobre 570 detecta un fallo con ~2% de probabilidad, habría
+sido teatro de rigor». Encontró 0 citas inventadas y, de paso, que la premisa del packet E1
+era falsa desde el día que se escribió: las 49 «colisiones» eran fichas fantasma, y el anexo
+must_preserve llevaba quién sabe cuánto sin dispararse en esos manuales.
+
+Y luego vino la parte instructiva. Alberto pidió autonomía y se la prometí con una frase
+que resultó falsa —«confirmar de más es barato»—; Sol demostró con tres anclas que quitar
+`candidate` inyecta alias y términos en el detector, la clase FUEGO multiplicada por 600.
+Rehíce el criterio, monté la puerta de retirada, la ejecuté… y de 18 filas pasaron 3, las
+tres falsos positivos, con un producto real entre ellas. Mi predicado era «hay una medida
+cerca», que en un manual técnico se cumple casi siempre: correlación disfrazada de prueba.
+El tercer intento, el plan para arreglar #80 y #81, murió con dos críticos que eran de la
+misma familia que el defecto que pretendían arreglar.
+
+Cero filas tocadas en los tres casos. La lección no es que los dúos funcionen —eso ya se
+sabía—, es que el autor produjo el mismo error tres veces con tres disfraces distintos, y
+que sin el control habría escrito los tres. DEC-220.
