@@ -26,7 +26,23 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s322b — 14 ago 2026)
+## Estado actual (s323 — 15 ago 2026)
+
+**s323 — «dónde corre Claude» montado (DEC-220)**: las TRES superficies quedan
+cubiertas — **Cloud** (VM de Anthropic, sigue con el PC apagado), **Remote Control**
+(la sesión corre en el PC y se dirige desde el móvil) y **Dispatch**. El hallazgo de
+rumbo: **Remote Control cierra el gap que `ENTORNO_CLOUD.md §3` daba por perpetuo**
+(OneDrive) — la ingesta ya es gobernable desde el móvil, ejecutándose en local.
+Alberto adjudicó **un environment con todas las keys y red Full**, con el riesgo
+declarado (no hay secret store). Nacen `scripts/cloud_smoke.py` + tests (verificador
+con recibo, contrato de no-fuga de secretos), el hook de arranque pasa a ser
+**idempotente**, y `ENTORNO_CLOUD.md` se reescribe contra la doc vigente. Dúo Fable:
+NO SÓLIDO → 3 hallazgos aplicados (el mejor: el centinela del hook no sondeaba
+`cryptography`, justo el módulo que motivó el hook en s315). **Queda pendiente el
+smoke de recepción EN cloud** — sin ese recibo esto es aparato preparado, no entorno
+verificado. Deuda nueva #79 (el revisor adversarial es ciego a `.claude/`).
+
+## Estado anterior (s322b — 14 ago 2026)
 
 **El arco s318→s322b: sentada B2/DP312x/#71 ejecutadas por Alberto (PR #249);
 consolidación s319 (backup restaurable + graduación de flags + retirada del legacy
@@ -101,7 +117,12 @@ LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s322b/c)**: (a) **SENTADA ÚNICA de Alberto** — **packet E3 v2**
+**Qué sigue (s323)**: (a) **el smoke de recepción en cloud** — Alberto crea el
+environment (variables + red Full, §3.1 de `ENTORNO_CLOUD.md`) y la primera sesión
+cloud corre `cloud_smoke` + suite + `check_deps`; el recibo se commitea. Hasta
+entonces DEC-220 no está verificada. (b) Lo de s322b/c que sigue vivo, abajo.
+
+**Qué sigue (s322b/c — vigente)**: (a) **SENTADA ÚNICA de Alberto** — **packet E3 v2**
 (`s321_e3_packet_adjudicacion_v2.md`, SUPERSEDE al v1: §0 23 + §0-bis 20 en bloque
 + solo 4 una-a-una con evidencia online adjunta — la repesca v2 s322c convirtió los
 12 parse-fail del bug max_tokens y resolvió las hermanas a máquina) + E2 (1.235/23)
