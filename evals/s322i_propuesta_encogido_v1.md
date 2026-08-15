@@ -125,3 +125,18 @@ individual (`scripts/s322f_e1_colisiones_adjudicacion.py:259-267`).
   el validador local no comprueba `doc_map→documents.active`. Sin un invariante que lo impida,
   la reingesta volverá a crear referencias fantasma. Propuesta: gate en la puerta del catálogo
   + filtro de status en la resolución, con su dúo propio. Nace como deuda declarada.
+
+---
+
+## CIERRE del ítem bloqueante (s322j, mismo día)
+Las **39 citas mal atribuidas** están resueltas: **38 re-atribuidas** al documento donde
+verifican (con el valor previo conservado para trazabilidad) y **1 sacada del bloque** por no
+verificar en ninguno. Dos supervivientes exigieron una segunda pasada — ambos fallos MÍOS:
+(a) anoté la corrección en un campo nuevo en vez de corregir el campo que el verificador lee
+(«anotar no es corregir»); (b) usé `next(...)` sobre una lista con IDs DUPLICADOS y corregí
+solo la primera fila. La última resistente destapó **TECH_DEBT #81**: su cita vive en chunks
+con `document_id` NULL (61 huérfanos en 10 documentos) — no hay id que atribuir, así que la
+fila se fue a individual en vez de forzar una atribución.
+
+**Censo final del verificador re-ejecutado desde cero: 568/568 citas de bloque verifican en
+su documento atribuido · 0 mal atribuidas · 0 fallos de criterio.**

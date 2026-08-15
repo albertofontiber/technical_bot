@@ -6746,7 +6746,7 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   Ref: `evals/adversarial_reviews/2026-08-15T13-13-06_claude-fable-5_responses_f5885479d75e.json`
   · `evals/adversarial_review_log.jsonl` (ts 2026-08-15T13:13:07) ·
   propuesta `evals/s323_entorno_cloud_propuesta.md`.
-- **Gap declarado de entrada → TECH_DEBT #81**: el revisor adversarial es **CIEGO a
+- **Gap declarado de entrada → TECH_DEBT #82**: el revisor adversarial es **CIEGO a
   `.claude/`** (`adversarial_review.py:237`, `SKIP_DIRS`) — herencia de cuando ese
   directorio estaba entero ignorado, mientras que desde DEC-193 hay whitelist y los
   hooks SÍ están versionados. Por eso el hallazgo (3) tuvo que marcarse CONCEPTUAL:
@@ -6757,5 +6757,5 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   aparato preparado, no entorno verificado (Protocolo 1). Lo ejecuta Alberto tras
   crear el environment; el recibo se commitea.
 - **Relacionado**: DEC-193/195 (versionado de `.claude/`, hook del digest) · DEC-209
-  (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #81 ·
+  (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #82 ·
   `docs/ENTORNO_CLOUD.md`.
