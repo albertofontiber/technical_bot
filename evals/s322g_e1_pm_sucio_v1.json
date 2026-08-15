@@ -1,0 +1,1075 @@
+{
+ "que_es": "s322g — §4 del packet E1: adjudicación propuesta de los 4 documentos con product_model SUCIO. PROPUESTA: nada aplicado.",
+ "utc": "20260815T102618Z",
+ "solo_lectura": true,
+ "fuente": "evals/s320_e1_docmap_derivacion_v2_detalle.json",
+ "packet": "evals/s320_e1_packet_adjudicacion_v1.md",
+ "drift_de_la_fuente": {
+  "esperados": [
+   "997-493-002-2",
+   "asd in rail transportation applications_es",
+   "compatibilidad-entre-equipos-notifier-y-morley",
+   "d686 ema1224b4r_w ns4r"
+  ],
+  "encontrados": [
+   "997-493-002-2",
+   "asd in rail transportation applications_es",
+   "compatibilidad-entre-equipos-notifier-y-morley",
+   "d686 ema1224b4r_w ns4r"
+  ],
+  "coinciden": true
+ },
+ "metodo": {
+  "juez": "claude-fable-5",
+  "max_tokens": 1600,
+  "k_pasadas": 3,
+  "temperature": "NO se pasa (deprecado en los modelos 2026)",
+  "verificacion_de_cita": "cita ENTERA (<=200 chars) contra el texto COMPLETO del documento, espacios colapsados y minúsculas",
+  "gates_de_bloque": [
+   "k_unanime",
+   "citas_verificadas",
+   "confianza_alta",
+   "modelos_atestiguados",
+   "mantener_sin_tapado"
+  ]
+ },
+ "totales": {
+  "analizadas": 4,
+  "bloque": 3,
+  "individual": 1
+ },
+ "seccion_0_bloque": [
+  {
+   "source_file": "asd in rail transportation applications_es",
+   "document_id": "0216c070-9a50-4109-b161-de0a583c9696",
+   "pm_actual": "MARCH-2011",
+   "manufacturer_actual": "Notifier",
+   "n_chunks": 2,
+   "chars_texto": 5393,
+   "en_doc_map": false,
+   "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/ASD_IN_Rail_Transportation_Applications_ES.pdf",
+   "status": "active",
+   "veredicto": "RETAG",
+   "product_model_propuesto": [
+    "FAAST"
+   ],
+   "confianza": "alta",
+   "cita": "la tecnología de detección de incendios por aspiración FAAST™ combina técnicas avanzadas de filtraje en tres etapas",
+   "cita_verificada_full_text": true,
+   "razon": "El valor sucio 'MARCH-2011' es basura extraída de la nota al pie de prensa ('Manchester Evening News, March 2011'). El documento es un folleto de aplicación (transporte ferroviario/metro) de la familia FAAST: el token 'FAAST' está impreso repetidamente ('FAAST FIRE ALARM ASPIRATION SENSING TECHNOLOGY', '¿Por qué funciona tan bien el FAAST?'). No se imprime NINGÚN modelo concreto de la familia (FL0111E, NFXI-ASD, 8100E, etc.), así que el paraguas FAAST es lo máximo que el texto sostiene. Esto es además coherente con la convención de los hermanos: 'ASD Harsh Environments_SP' → FAAST y 'ASD Cold Environments_SP' → FAAST LT, folletos de aplicación etiquetados con la familia impresa.",
+   "residuo": "Al ser FAAST un token paraguas ('divergent': true, 'expand': true), queda pendiente la adjudicación gobernada del doc_map a los 13 miembros del catálogo, o decidir si el folleto aplica a toda la familia sin distinción.",
+   "destino": "bloque",
+   "motivo_destino": "veredicto unánime K=3, cita verificada full-text y modelo(s) impresos verbatim en el documento",
+   "gates": {
+    "k_unanime": true,
+    "citas_verificadas": true,
+    "confianza_alta": true,
+    "modelos_atestiguados": true,
+    "mantener_sin_tapado": true
+   },
+   "atestacion_modelos": [
+    {
+     "modelo": "FAAST",
+     "estricto": true,
+     "laxo": true
+    }
+   ],
+   "propuesta_de_aplicacion": {
+    "documents.product_model": "'MARCH-2011' → 'FAAST'",
+    "chunks_v2.product_model": "'MARCH-2011' → 'FAAST' en 2 chunks",
+    "doc_map": "NO se propone alta. El modelo es un PARAGUAS (familia) y resolve() expande 13 miembros que este documento NO documenta uno a uno; entries[].id exige id de producto, no un término de paraguas. Sus hermanos de colección tampoco tienen fila. Mapear la familia es una decisión APARTE.",
+    "aviso": "NADA de esto está aplicado; es la propuesta."
+   },
+   "ids_catalogo_resueltos": [
+    "morley:mi-fl2011ei",
+    "morley:mi-fl2012ei",
+    "morley:mi-fl2022ei",
+    "notifier:faast-8100e",
+    "notifier:fl0111e-hs",
+    "notifier:fl0112e-hs",
+    "notifier:fl0122e-hs",
+    "notifier:fl2011ei-hs",
+    "notifier:fl2012ei-hs",
+    "notifier:fl2022ei-hs",
+    "notifier:nfxi-asd11-hs",
+    "notifier:nfxi-asd12-hs",
+    "notifier:nfxi-asd22-hs"
+   ],
+   "via_resolucion_catalogo": [
+    "paraguas"
+   ],
+   "evidencia": {
+    "modo_muestra": "documento COMPLETO, 5393 chars, 2 chunks",
+    "candidatos_impresos": [
+     {
+      "token": "FAAST",
+      "catalogo": {
+       "token": "FAAST",
+       "ids": [
+        "notifier:fl0111e-hs",
+        "notifier:fl0112e-hs",
+        "notifier:fl0122e-hs",
+        "notifier:fl2011ei-hs",
+        "notifier:fl2012ei-hs",
+        "notifier:fl2022ei-hs",
+        "notifier:nfxi-asd11-hs",
+        "notifier:nfxi-asd12-hs",
+        "notifier:nfxi-asd22-hs",
+        "morley:mi-fl2011ei",
+        "morley:mi-fl2012ei",
+        "morley:mi-fl2022ei",
+        "notifier:faast-8100e"
+       ],
+       "via": "paraguas",
+       "divergent": true,
+       "expand": true,
+       "all_members_consumable": true
+      },
+      "corpus": {
+       "chunks_en_este_doc": 2,
+       "otros_documentos": 28,
+       "muestra_otros": [
+        {
+         "source_file": "I56-3888-010 FAAST LT-200 Adv Guide",
+         "pm": "LT-200"
+        },
+        {
+         "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+         "pm": "FAAST LT-200"
+        },
+        {
+         "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+         "pm": "FAAST LT-200"
+        },
+        {
+         "source_file": "I56-3836-006_FAAST_XM_8100E_ML",
+         "pm": "XM-8100E"
+        },
+        {
+         "source_file": "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+         "pm": "AM-8200N"
+        },
+        {
+         "source_file": "A05-7030-100_B_ES_Morley FAAST FLEX Addressable",
+         "pm": "MI-FLX-010"
+        },
+        {
+         "source_file": "I56-3956-201_ES Morley Loop FAAST LT QIG",
+         "pm": "FAAST LT"
+        },
+        {
+         "source_file": "36864_00_FAAST_FLEX_Product_Guide_(I56-7020-000_ES)_A4_Spanish_lores",
+         "pm": "FLX-010"
+        }
+       ]
+      }
+     }
+    ],
+    "codigos_documento": [],
+    "hermanos_por_nombre": [
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD533_TD_T140287es_e",
+      "product_model": "ASD533",
+      "manufacturer": "Securiton",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "securiton:asd-533-1",
+       "securiton:amb-33",
+       "securiton:bcb-35",
+       "securiton:mcm-35",
+       "securiton:rim-35",
+       "securiton:slm-35",
+       "securiton:ssd-533",
+       "securiton:xlm-35"
+      ]
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD532_TD_T140421es_a",
+      "product_model": "ASD532",
+      "manufacturer": "Securiton",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "securiton:asd-532",
+       "securiton:amb-32",
+       "securiton:ssd-532-1",
+       "securiton:ssd-532-2",
+       "securiton:ssd-532-3",
+       "securiton:rim-36",
+       "securiton:sim-35",
+       "securiton:xlm-35"
+      ]
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD531_OM_T811168es_b",
+      "product_model": "ASD531",
+      "manufacturer": "Securiton",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "securiton:asd-531",
+       "securiton:rim-36",
+       "securiton:xlm-35",
+       "securiton:afs-32",
+       "securiton:afu-32",
+       "securiton:amb-31",
+       "securiton:ssd-31"
+      ]
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD Harsh Environments_SP",
+      "product_model": "FAAST",
+      "manufacturer": "Xtralis",
+      "status": "active",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD in Custodial Applications_ES",
+      "product_model": "IP-64",
+      "manufacturer": "Xtralis",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nxfi-copt22"
+      ]
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD535_TD_T131192es_h",
+      "product_model": "ASD535",
+      "manufacturer": "Securiton",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "securiton:asd-535-1",
+       "securiton:asd-535-2",
+       "securiton:asd-535-3",
+       "securiton:asd-535-4",
+       "securiton:mcm-35",
+       "securiton:rim-35",
+       "securiton:sim-35",
+       "securiton:slm-35",
+       "securiton:ssd-535-1",
+       "securiton:ssd-535-2",
+       "securiton:ssd-535-3",
+       "securiton:xlm-35",
+       "securiton:acb-35",
+       "securiton:amb-35",
+       "securiton:bcb-35",
+       "securiton:smm-535"
+      ]
+     },
+     {
+      "por_token": "asd",
+      "source_pdf_filename": "ASD Cold Environments_SP",
+      "product_model": "FAAST LT",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": null
+     }
+    ],
+    "serie_de_codigos": {},
+    "pm_distintos_en_chunks": [
+     "MARCH-2011"
+    ],
+    "categorias_en_chunks": [
+     "ES"
+    ]
+   },
+   "k_pasadas": [
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "FAAST"
+     ],
+     "cita": "la tecnología de detección de incendios por aspiración FAAST™ combina técnicas avanzadas de filtraje en tres etapas",
+     "confianza": "alta",
+     "razon": "El valor sucio 'MARCH-2011' es basura extraída de la nota al pie de prensa ('Manchester Evening News, March 2011'). El documento es un folleto de aplicación (transporte ferroviario/metro) de la familia FAAST: el token 'FAAST' está impreso repetidamente ('FAAST FIRE ALARM ASPIRATION SENSING TECHNOLOGY', '¿Por qué funciona tan bien el FAAST?'). No se imprime NINGÚN modelo concreto de la familia (FL0111E, NFXI-ASD, 8100E, etc.), así que el paraguas FAAST es lo máximo que el texto sostiene. Esto es además coherente con la convención de los hermanos: 'ASD Harsh Environments_SP' → FAAST y 'ASD Cold Environments_SP' → FAAST LT, folletos de aplicación etiquetados con la familia impresa.",
+     "residuo": "Al ser FAAST un token paraguas ('divergent': true, 'expand': true), queda pendiente la adjudicación gobernada del doc_map a los 13 miembros del catálogo, o decidir si el folleto aplica a toda la familia sin distinción.",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "FAAST"
+     ],
+     "cita": "A diferencia de otros sistemas ASD, la tecnología de detección de incendios por aspiración FAAST™ combina técnicas avanzadas de filtraje en tres etapas",
+     "confianza": "alta",
+     "razon": "El valor sucio 'MARCH-2011' proviene de la nota al pie de una cita de prensa ('Manchester Evening News, March 2011'), no de un producto. El documento es un folleto de aplicación (transporte ferroviario/metro) que trata exclusivamente de la tecnología FAAST, impresa literalmente en el texto ('FAAST FIRE ALARM ASPIRATION SENSING TECHNOLOGY', 'FAAST™', 'www.faast-detection.com'). No se imprime ningún modelo concreto de la familia (ni FL0111E, ni NFXI-ASD, ni 8100E, etc.), por lo que el nivel correcto es el paraguas 'FAAST', que además es token gobernado en catálogo (via paraguas, expand=true). Coincide con la convención vigente de los hermanos: 'ASD Harsh Environments_SP' → 'FAAST' y 'ASD Cold Environments_SP' → 'FAAST LT' (folletos de aplicación etiquetados por familia).",
+     "residuo": "El token paraguas FAAST expande a 13 IDs de catálogo (incluye variantes Notifier y Morley): queda pendiente adjudicar si este folleto genérico debe mapear a todos los miembros consumibles o solo a los de Notifier, dado que el fabricante del documento es Notifier.",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "FAAST"
+     ],
+     "cita": "la tecnología de detección de incendios por aspiración FAAST™ combina técnicas avanzadas de filtraje en tres etapas",
+     "confianza": "alta",
+     "razon": "El valor sucio 'MARCH-2011' procede de la nota al pie 'Manchester Evening News, March 2011', no de ningún producto. El único token de producto impreso en todo el documento es FAAST (cabecera 'FAAST FIRE ALARM ASPIRATION SENSING TECHNOLOGY' y el cuerpo con FAAST™). No se imprime ningún modelo concreto (FL0111E, NFXI-ASD, etc.), así que el nivel correcto es el paraguas FAAST, que además es la convención vigente del repo para folletos de aplicación hermanos ('ASD Harsh Environments_SP' → FAAST; 'ASD Cold Environments_SP' → FAAST LT). El catálogo marca FAAST como paraguas con expand=true y all_members_consumable=true, lo que valida usarlo como etiqueta.",
+     "residuo": "Al ser un paraguas divergente (miembros Notifier, Morley y 8100E), queda abierta la adjudicación gobernada del doc_map: ¿se expanden los 13 miembros o se limita a los de Notifier dado el campo fabricante?",
+     "_cita_verificada": true
+    }
+   ]
+  },
+  {
+   "source_file": "compatibilidad-entre-equipos-notifier-y-morley",
+   "document_id": "a04eafd1-48d0-4ed6-9de8-4ff93ca6a3da",
+   "pm_actual": "unknown",
+   "manufacturer_actual": "Morley",
+   "n_chunks": 1,
+   "chars_texto": 1360,
+   "en_doc_map": false,
+   "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Morley/Compatibilidad-entre-equipos-Notifier-y-Morley.pdf",
+   "status": "active",
+   "veredicto": "MANTENER",
+   "product_model_propuesto": [
+    "unknown"
+   ],
+   "confianza": "alta",
+   "cita": "No, no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comunicación son distintos",
+   "cita_verificada_full_text": true,
+   "razon": "Es una FAQ genérica de compatibilidad marca-a-marca (Notifier vs Morley). El texto completo no imprime ningún modelo de producto: el censo de candidatos por regex está vacío y la respuesta habla de 'equipos' y 'centrales' en abstracto. 'unknown' es la respuesta honesta; forzar un modelo (p.ej. DXc o ID-3000 de hermanos) sería una deducción no impresa.",
+   "residuo": "¿Debería este tipo de FAQ de marca a marca tener una categoría propia (p.ej. product_model='N/A-brand-faq') en vez de 'unknown' para distinguirlo de documentos con modelo aún no identificado?",
+   "destino": "bloque",
+   "motivo_destino": "veredicto unánime K=3, cita verificada full-text y modelo(s) impresos verbatim en el documento",
+   "gates": {
+    "k_unanime": true,
+    "citas_verificadas": true,
+    "confianza_alta": true,
+    "modelos_atestiguados": true,
+    "mantener_sin_tapado": true
+   },
+   "atestacion_modelos": [
+    {
+     "modelo": "unknown",
+     "estricto": false,
+     "laxo": false
+    }
+   ],
+   "propuesta_de_aplicacion": {
+    "documents.product_model": "SIN CAMBIO",
+    "chunks_v2.product_model": "SIN CAMBIO",
+    "doc_map": "sin fila (correcto: no hay producto que mapear)",
+    "aviso": "NADA que aplicar; el valor actual se conserva."
+   },
+   "ids_catalogo_resueltos": [],
+   "via_resolucion_catalogo": [],
+   "evidencia": {
+    "modo_muestra": "documento COMPLETO, 1360 chars, 1 chunks",
+    "candidatos_impresos": [],
+    "codigos_documento": [],
+    "hermanos_por_nombre": [
+     {
+      "por_token": "compatibilidad",
+      "source_pdf_filename": "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO.pdf",
+      "product_model": "NCO10/NCO100/VSN-CO",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nco-10",
+       "notifier:nco-100",
+       "notifier:vsn-co"
+      ]
+     },
+     {
+      "por_token": "compatibilidad",
+      "source_pdf_filename": "UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales.pdf",
+      "product_model": "ID-3000",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "unresolved:ucip"
+      ]
+     },
+     {
+      "por_token": "compatibilidad",
+      "source_pdf_filename": "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+      "product_model": "DXc",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "compatibilidad",
+      "source_pdf_filename": "UCIP-Compatibilidades-con-centrales-actuales.pdf",
+      "product_model": "ID-300X",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "unresolved:ucip"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "D 1149-1 BGL Notifier",
+      "product_model": "SP-20",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-bf-wch"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "I56-5005-002_D Notifier Sounder Strobe",
+      "product_model": "WRA-PC-I02/WRA-RC-I02/WWA-PC-I02/WWA-RC-I02",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:wa-c-i02",
+       "notifier:b501ap"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "I56-5004-000-Notifier-Strobe",
+      "product_model": "WRL-PC-I02/WRL-RC-I02/WWL-PC-I02/WWL-RC-I02",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:b501ap"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "D 1147-1 BRH Notifier",
+      "product_model": "NFXI-BSF-WCH",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "D 1148-1 BRS Notifier",
+      "product_model": "SP-20",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-bsf-wcs"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+      "product_model": "FAAST LT-200",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-asd11-hs",
+       "notifier:nfxi-asd12-hs",
+       "notifier:nfxi-asd22-hs"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "A05-7030-000_B_ES_Notifier FAAST FLEX Addressable",
+      "product_model": "NFXI-FLX",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-flx-010",
+       "notifier:nfxi-flx-020"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "E56-6514ES-000_Notifier_NFXI-OSI-RIE_Installation_Guide",
+      "product_model": "DEL-20",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-osi-rie"
+      ]
+     },
+     {
+      "por_token": "notifier",
+      "source_pdf_filename": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+      "product_model": "FAAST LT-200",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nfxi-asd11-hs",
+       "notifier:nfxi-asd12-hs",
+       "notifier:nfxi-asd22-hs"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "A05-7030-100_B_ES_Morley FAAST FLEX Addressable",
+      "product_model": "MI-FLX-010",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:mi-flx-010",
+       "morley:mi-flx-020"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "D 1151-1 BRS Morley",
+      "product_model": "MI-BRS-PC-I",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:mi-brs-pc-i"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "D 1150-1 BRH Morley",
+      "product_model": "MI-BRH-PC-I",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:mi-brh-pc-i"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "MIW-INT-Asignar-de-direccion-pasarela-detectores-y-Modulos-Via-radio-Morley.pdf",
+      "product_model": "MENOS-32",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:miw-int"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "MIW-INT-Averias-baterias-pilas-via-radio-Morley.pdf",
+      "product_model": "CR-123A",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:miw-int"
+      ]
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf",
+      "product_model": "DXc",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "morley",
+      "source_pdf_filename": "I56-5003-000-Morley-Sounder-Strobe",
+      "product_model": "B501AP",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "morley:b501ap"
+      ]
+     }
+    ],
+    "serie_de_codigos": {},
+    "pm_distintos_en_chunks": [
+     "unknown"
+    ],
+    "categorias_en_chunks": []
+   },
+   "k_pasadas": [
+    {
+     "veredicto": "MANTENER",
+     "product_model_propuesto": [
+      "unknown"
+     ],
+     "cita": "No, no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comunicación son distintos",
+     "confianza": "alta",
+     "razon": "Es una FAQ genérica de compatibilidad marca-a-marca (Notifier vs Morley). El texto completo no imprime ningún modelo de producto: el censo de candidatos por regex está vacío y la respuesta habla de 'equipos' y 'centrales' en abstracto. 'unknown' es la respuesta honesta; forzar un modelo (p.ej. DXc o ID-3000 de hermanos) sería una deducción no impresa.",
+     "residuo": "¿Debería este tipo de FAQ de marca a marca tener una categoría propia (p.ej. product_model='N/A-brand-faq') en vez de 'unknown' para distinguirlo de documentos con modelo aún no identificado?",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "MANTENER",
+     "product_model_propuesto": [
+      "unknown"
+     ],
+     "cita": "No, no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comunicación son distintos",
+     "confianza": "alta",
+     "razon": "El documento es una FAQ genérica de compatibilidad entre las marcas Notifier y Morley a nivel de protocolo de comunicación; no menciona ningún modelo de producto concreto (el regex de candidatos devuelve lista vacía). 'unknown' es la respuesta honesta: no hay producto que etiquetar.",
+     "residuo": "¿Debería el corpus contemplar una categoría explícita tipo 'brand-level FAQ' para distinguir estos documentos de los que tienen metadata realmente incompleta?",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "MANTENER",
+     "product_model_propuesto": [
+      "unknown"
+     ],
+     "cita": "No, no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comunicación son distintos",
+     "confianza": "alta",
+     "razon": "Es una FAQ genérica de compatibilidad entre las marcas Notifier y Morley a nivel de protocolo; el texto completo no imprime ningún modelo de producto (el regex tampoco extrajo candidatos). 'unknown' es la respuesta honesta: no hay producto concreto que asignar.",
+     "residuo": "¿Debería este tipo de FAQ marca-a-marca etiquetarse con una categoría especial (p.ej. 'brand-level FAQ') en vez de 'unknown' para distinguirlo de metadatos realmente pendientes?",
+     "_cita_verificada": true
+    }
+   ]
+  },
+  {
+   "source_file": "d686 ema1224b4r_w ns4r",
+   "document_id": "0cb982a1-389c-4ae6-9e6d-2278b9f96cd6",
+   "pm_actual": "EN-54-3",
+   "manufacturer_actual": "Notifier",
+   "n_chunks": 1,
+   "chars_texto": 1677,
+   "en_doc_map": false,
+   "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/D686_EMA1224B4R_W_NS4R.pdf",
+   "status": "active",
+   "veredicto": "RETAG",
+   "product_model_propuesto": [
+    "EMA1224B4R/W"
+   ],
+   "confianza": "alta",
+   "cita": "INSTALLATION INSTRUCTIONS FOR WALL MOUNT SOUNDERS TYPE EMA1224B4R/W",
+   "cita_verificada_full_text": true,
+   "razon": "El valor actual 'EN-54-3' es una norma (citada dos veces como requisito EN54-3), no un producto. El documento imprime en su título un único modelo, EMA1224B4R/W, y todo el contenido (tonos, especificaciones, D-686) corresponde a ese sirena de pared. El sufijo R/W parece cubrir las variantes roja/blanca de un mismo modelo, tal como está impreso, así que se propone el token literal completo. El hermano ns4r apunta a EMA24ALR/W de System Sensor, pero eso es otra familia y no aparece en este texto: hipótesis descartada por la regla de lo impreso.",
+   "residuo": "¿El catálogo gobernado distingue EMA1224B4R y EMA1224B4W como dos SKUs separados (lo que convertiría esto en MULTI), o acepta el token compuesto EMA1224B4R/W tal como lo imprime KAC?",
+   "destino": "bloque",
+   "motivo_destino": "veredicto unánime K=3, cita verificada full-text y modelo(s) impresos verbatim en el documento",
+   "gates": {
+    "k_unanime": true,
+    "citas_verificadas": true,
+    "confianza_alta": true,
+    "modelos_atestiguados": true,
+    "mantener_sin_tapado": true
+   },
+   "atestacion_modelos": [
+    {
+     "modelo": "EMA1224B4R/W",
+     "estricto": true,
+     "laxo": true
+    }
+   ],
+   "propuesta_de_aplicacion": {
+    "documents.product_model": "'EN-54-3' → 'EMA1224B4R/W'",
+    "chunks_v2.product_model": "'EN-54-3' → 'EMA1224B4R/W' en 1 chunks",
+    "doc_map": "alta de fila BLOQUEADA: el modelo no existe en el catálogo gobernado → requiere primero alta de producto (decisión aparte)",
+    "aviso": "NADA de esto está aplicado; es la propuesta."
+   },
+   "ids_catalogo_resueltos": [],
+   "via_resolucion_catalogo": [],
+   "evidencia": {
+    "modo_muestra": "documento COMPLETO, 1677 chars, 1 chunks",
+    "candidatos_impresos": [
+     {
+      "token": "EMA1224B4R/W",
+      "catalogo": null,
+      "corpus": {
+       "chunks_en_este_doc": 1,
+       "otros_documentos": 0,
+       "muestra_otros": []
+      }
+     }
+    ],
+    "codigos_documento": [
+     "15-19"
+    ],
+    "hermanos_por_nombre": [
+     {
+      "por_token": "ns4r",
+      "source_pdf_filename": "I560849010EMA24ALRANS4REng",
+      "product_model": "ECO-2000",
+      "manufacturer": "Morley",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "systemsensor:ema24alr",
+       "systemsensor:ema24alw"
+      ]
+     }
+    ],
+    "serie_de_codigos": {},
+    "pm_distintos_en_chunks": [
+     "EN-54-3"
+    ],
+    "categorias_en_chunks": [
+     "DESCARTADO"
+    ]
+   },
+   "k_pasadas": [
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "EMA1224B4R/W"
+     ],
+     "cita": "INSTALLATION INSTRUCTIONS FOR WALL MOUNT SOUNDERS TYPE EMA1224B4R/W",
+     "confianza": "alta",
+     "razon": "El valor actual 'EN-54-3' es una norma (citada dos veces como requisito EN54-3), no un producto. El documento imprime en su título un único modelo, EMA1224B4R/W, y todo el contenido (tonos, especificaciones, D-686) corresponde a ese sirena de pared. El sufijo R/W parece cubrir las variantes roja/blanca de un mismo modelo, tal como está impreso, así que se propone el token literal completo. El hermano ns4r apunta a EMA24ALR/W de System Sensor, pero eso es otra familia y no aparece en este texto: hipótesis descartada por la regla de lo impreso.",
+     "residuo": "¿El catálogo gobernado distingue EMA1224B4R y EMA1224B4W como dos SKUs separados (lo que convertiría esto en MULTI), o acepta el token compuesto EMA1224B4R/W tal como lo imprime KAC?",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "EMA1224B4R/W"
+     ],
+     "cita": "INSTALLATION INSTRUCTIONS FOR WALL MOUNT SOUNDERS TYPE EMA1224B4R/W",
+     "confianza": "alta",
+     "razon": "El valor actual 'EN-54-3' es una norma (aparece en el texto como 'in accordance with EN54-3'), no un producto. El documento imprime en su título un único producto claro: EMA1224B4R/W, sirena de montaje en pared. Todo el contenido (tonos, especificación, D-686 issue 5, que coincide con el nombre de fichero d686) trata de ese producto. Es el único candidato impreso y aparece literal en el texto.",
+     "residuo": "El sufijo R/W probablemente codifica dos variantes de color (Red/White) — el hermano ns4r fue adjudicado como dos variantes separadas (ema24alr/ema24alw). ¿Debe el catálogo gobernado dividir EMA1224B4R/W en EMA1224B4R y EMA1224B4W? El texto solo imprime la forma combinada.",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "RETAG",
+     "product_model_propuesto": [
+      "EMA1224B4R/W"
+     ],
+     "cita": "INSTALLATION INSTRUCTIONS FOR WALL MOUNT SOUNDERS TYPE EMA1224B4R/W",
+     "confianza": "alta",
+     "razon": "El valor actual 'EN-54-3' es una norma (citada en el texto como 'in accordance with EN54-3'), no un producto. El documento imprime un único modelo en su título: EMA1224B4R/W, que además coincide con el nombre del fichero (ema1224b4r_w). El hermano NS4R adjudicado como dos variantes (ema24alr/ema24alw) sugiere que R/W son variantes de color, pero aquí el token impreso es el compuesto 'EMA1224B4R/W' y no se imprimen por separado, así que propongo el token literal.",
+     "residuo": "¿Debe el catálogo gobernado partir 'EMA1224B4R/W' en dos variantes (EMA1224B4R y EMA1224B4W) siguiendo la convención del hermano ema24alr/ema24alw? Eso requiere decisión de gobernanza, no está impreso como tokens separados. También queda abierta la atribución fabricante: el doc lo firma KAC Alarm Company, no Notifier.",
+     "_cita_verificada": true
+    }
+   ]
+  }
+ ],
+ "seccion_1_individual": [
+  {
+   "source_file": "997-493-002-2",
+   "document_id": "69081b67-2e25-42f8-8ff5-634c84f9b715",
+   "pm_actual": "EN54 2-8 Zone",
+   "manufacturer_actual": "Notifier",
+   "n_chunks": 27,
+   "chars_texto": 40892,
+   "en_doc_map": false,
+   "source_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manuales/Notifier/997-493-002-2.pdf",
+   "status": "active",
+   "veredicto": "NO_DECIDIBLE",
+   "product_model_propuesto": [],
+   "confianza": "media",
+   "cita": "This manual contains operating instructions for the EN54, 2 - 8 zone conventional fire control panel.",
+   "cita_verificada_full_text": true,
+   "razon": "El documento nunca imprime un modelo comercial: solo se autodescribe como 'EN54 2-8 Zone Conventional Fire Control Panel', donde EN54 es la norma y '2-8 zone' una descripción funcional, no un modelo. El censo regex no extrajo candidatos. Hipótesis no probada: el código vecino 997-492 documenta el 'NFS 2-8' de Notifier, y los hermanos 997-493-002-2_1/_2 (mismo código base, needs_review) están etiquetados 'Central conv. 2-8 zonas'; es plausible que este manual corresponda al NFS 2-8, pero ese identificador no aparece impreso en el texto, por lo que adjudicarlo sería deducción, no evidencia.",
+   "residuo": "¿Confirma el catálogo gobernado (o el PDF original con portada/contraportada completa) que el panel convencional 2-8 zonas de Notifier con código de documento 997-493 es el NFS 2-8, y debería adjudicarse igual a los hermanos _1 y _2?",
+   "destino": "individual",
+   "motivo_destino": "NO_DECIDIBLE: ningún modelo impreso sostiene la hipótesis",
+   "gates": {
+    "k_unanime": true,
+    "citas_verificadas": true,
+    "confianza_alta": false,
+    "modelos_atestiguados": true,
+    "mantener_sin_tapado": true
+   },
+   "atestacion_modelos": [],
+   "propuesta_de_aplicacion": {
+    "documents.product_model": "SIN CAMBIO",
+    "chunks_v2.product_model": "SIN CAMBIO",
+    "doc_map": "sin fila (correcto: no hay producto que mapear)",
+    "aviso": "NADA que aplicar; el valor actual se conserva."
+   },
+   "ids_catalogo_resueltos": [],
+   "via_resolucion_catalogo": [],
+   "evidencia": {
+    "modo_muestra": "documento COMPLETO, 40892 chars, 27 chunks",
+    "candidatos_impresos": [],
+    "codigos_documento": [
+     "997-493-002-2"
+    ],
+    "hermanos_por_nombre": [
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-528-000-1",
+      "product_model": "ID-50",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:nas-2"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-493-002-2_2",
+      "product_model": "Central conv. 2-8 zonas",
+      "manufacturer": "Notifier",
+      "status": "needs_review",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-493-002-2_1",
+      "product_model": "Central conv. 2-8 zonas",
+      "manufacturer": "Notifier",
+      "status": "needs_review",
+      "doc_map_adjudicado": null
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-267-000-6_Eng",
+      "product_model": "DTP/Booster",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:020-543",
+       "notifier:124-297"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-669-005-3_Instal-Comm_ES",
+      "product_model": "Pearl/PRL-D-1/PRL-D-2",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:prl-d-1",
+       "notifier:prl-d-2",
+       "notifier:pearl",
+       "notifier:adp-n3e",
+       "notifier:fat3000",
+       "notifier:loop-splitter",
+       "notifier:prl-box",
+       "notifier:prl-com",
+       "notifier:prl-p2p",
+       "notifier:prl-vds"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-671-007-3_Configuration_PT",
+      "product_model": "Pearl",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:pearl"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-670-007-3_Operating_PT",
+      "product_model": "PEARL",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:pearl"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-671-005-3_Configuration_ES",
+      "product_model": "Pearl",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:prl-d-1",
+       "notifier:prl-d-2",
+       "notifier:pearl",
+       "notifier:prl-com"
+      ]
+     },
+     {
+      "por_token": "997",
+      "source_pdf_filename": "997-670-005-3_Operating_ES",
+      "product_model": "Pearl 997-670-005-3",
+      "manufacturer": "Notifier",
+      "status": "active",
+      "doc_map_adjudicado": [
+       "notifier:pearl"
+      ]
+     }
+    ],
+    "serie_de_codigos": {
+     "997": {
+      "n_codigos": 67,
+      "mapa": {
+       "997-141": {
+        "source_file": "MIDT230",
+        "pm": "AFP4000"
+       },
+       "997-158": {
+        "source_file": "FS2-1",
+        "pm": "FS-1/FS-2/FS-4"
+       },
+       "997-180": {
+        "source_file": "MADT190_15",
+        "pm": "PSU7A"
+       },
+       "997-186": {
+        "source_file": "MIDT020",
+        "pm": "SERIE 800"
+       },
+       "997-187": {
+        "source_file": "MADT020",
+        "pm": "CFP-800"
+       },
+       "997-188": {
+        "source_file": "MIDT020",
+        "pm": "SERIE 800"
+       },
+       "997-198": {
+        "source_file": "MPDT180",
+        "pm": "ID2000"
+       },
+       "997-199": {
+        "source_file": "MADT212",
+        "pm": "124-065-XXX"
+       },
+       "997-201-103": {
+        "source_file": "FS8",
+        "pm": "EFS/EM 8"
+       },
+       "997-203": {
+        "source_file": "MNDT213",
+        "pm": "REPETIDOR SERIE 1000"
+       },
+       "997-214": {
+        "source_file": "MIDT180",
+        "pm": "ID2000"
+       },
+       "997-215": {
+        "source_file": "MFDT180",
+        "pm": "ID2000"
+       },
+       "997-216": {
+        "source_file": "MPDT180",
+        "pm": "ID2000"
+       },
+       "997-263": {
+        "source_file": "MIDT155",
+        "pm": "ID50"
+       },
+       "997-264": {
+        "source_file": "MCDT155",
+        "pm": "ID50"
+       },
+       "997-264-001-9": {
+        "source_file": "NF30-50_Manuel_d'utilisation_lr",
+        "pm": "NF30/NF50"
+       },
+       "997-267-000-6": {
+        "source_file": "997-267-000-6_Eng",
+        "pm": "020-543"
+       },
+       "997-277-000-8": {
+        "source_file": "MADT190_15",
+        "pm": "PSU7A"
+       },
+       "997-291": {
+        "source_file": "MCDT191",
+        "pm": "ID3000"
+       },
+       "997-292": {
+        "source_file": "MCDT190",
+        "pm": "ID3000"
+       },
+       "997-300-003": {
+        "source_file": "MFDT212",
+        "pm": "ID1000"
+       },
+       "997-320-001": {
+        "source_file": "MADT212",
+        "pm": "124-065-XXX"
+       },
+       "997-320-003": {
+        "source_file": "MADT212",
+        "pm": "124-065-XXX"
+       },
+       "997-340-000": {
+        "source_file": "MFDT212",
+        "pm": "ID1000"
+       },
+       "997-340-0003": {
+        "source_file": "MFDT212",
+        "pm": "ID1000"
+       },
+       "997-340-001": {
+        "source_file": "MFDT212",
+        "pm": "ID1000"
+       },
+       "997-340-003": {
+        "source_file": "MPDT212",
+        "pm": "ID1000"
+       },
+       "997-340-005": {
+        "source_file": "MFDT212",
+        "pm": "ID1000"
+       },
+       "997-404": {
+        "source_file": "MIDT155",
+        "pm": "ID50"
+       },
+       "997-405": {
+        "source_file": "MIDT155",
+        "pm": "ID50"
+       },
+       "997-409": {
+        "source_file": "997-267-000-6_Eng",
+        "pm": "020-543"
+       },
+       "997-411": {
+        "source_file": "MIDT155",
+        "pm": "ID50"
+       },
+       "997-412": {
+        "source_file": "997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual",
+        "pm": "ID-2000"
+       },
+       "997-412-000-3": {
+        "source_file": "997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual",
+        "pm": "ID-2000"
+       },
+       "997-415": {
+        "source_file": "MIDT155",
+        "pm": "ID50"
+       },
+       "997-421-000-3": {
+        "source_file": "MADT190_10",
+        "pm": "MADT-190"
+       },
+       "997-448": {
+        "source_file": "MADT190_01",
+        "pm": "ID²NET"
+       },
+       "997-449-000": {
+        "source_file": "997-669-005-3_Instal-Comm_ES",
+        "pm": "Pearl/PRL-D-1/PRL-D-2"
+       },
+       "997-451": {
+        "source_file": "997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual",
+        "pm": "ID-2000"
+       },
+       "997-492": {
+        "source_file": "MIDT015",
+        "pm": "NFS 2-8"
+       }
+      }
+     }
+    },
+    "pm_distintos_en_chunks": [
+     "EN54 2-8 Zone"
+    ],
+    "categorias_en_chunks": [
+     "EN_unico"
+    ]
+   },
+   "k_pasadas": [
+    {
+     "veredicto": "NO_DECIDIBLE",
+     "product_model_propuesto": [],
+     "cita": "This manual contains operating instructions for the EN54, 2 - 8 zone conventional fire control panel.",
+     "confianza": "media",
+     "razon": "El documento nunca imprime un modelo comercial: solo se autodescribe como 'EN54 2-8 Zone Conventional Fire Control Panel', donde EN54 es la norma y '2-8 zone' una descripción funcional, no un modelo. El censo regex no extrajo candidatos. Hipótesis no probada: el código vecino 997-492 documenta el 'NFS 2-8' de Notifier, y los hermanos 997-493-002-2_1/_2 (mismo código base, needs_review) están etiquetados 'Central conv. 2-8 zonas'; es plausible que este manual corresponda al NFS 2-8, pero ese identificador no aparece impreso en el texto, por lo que adjudicarlo sería deducción, no evidencia.",
+     "residuo": "¿Confirma el catálogo gobernado (o el PDF original con portada/contraportada completa) que el panel convencional 2-8 zonas de Notifier con código de documento 997-493 es el NFS 2-8, y debería adjudicarse igual a los hermanos _1 y _2?",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "NO_DECIDIBLE",
+     "product_model_propuesto": [],
+     "cita": "# EN54 2- 8 Zone Conventional Fire Control Panel User Manual",
+     "confianza": "media",
+     "razon": "El documento trata claramente de UNA central concreta, pero en todo el texto solo se autodenomina por descripción genérica ('EN54 2-8 zone conventional fire control panel'), donde EN54 es la norma, no un modelo. El extractor de candidatos no encontró ningún modelo impreso. Hipótesis NO probada: por la serie de códigos del fabricante, el vecino 997-492 documenta el 'NFS 2-8' de Notifier, y este manual 997-493 encaja perfectamente como el manual de usuario de ese mismo panel (2-8 zonas convencional); pero 'NFS 2-8' no aparece impreso en el texto, así que no puede adjudicarse. Los hermanos 997-493-002-2_1/_2 usan 'Central conv. 2-8 zonas' pero están en needs_review y sin adjudicar, así que no constituyen convención gobernada.",
+     "residuo": "¿Confirma el catálogo gobernado de Notifier que el código de documento 997-493 corresponde al panel NFS 2-8 (o a otra referencia comercial concreta como 002-477/NFS2-8)? Verificar contra el PDF original si alguna portada/contraportada omitida en la extracción imprime el nombre comercial.",
+     "_cita_verificada": true
+    },
+    {
+     "veredicto": "NO_DECIDIBLE",
+     "product_model_propuesto": [],
+     "cita": "EN54 2- 8 Zone Conventional Fire Control Panel User Manual",
+     "confianza": "media",
+     "razon": "El documento solo imprime una descripción genérica ('EN54 2-8 Zone Conventional Fire Control Panel'), donde EN54 es la norma europea, no un modelo. Ningún nombre comercial de producto aparece impreso en el texto (regex extrajo cero candidatos). Hipótesis no probada: el código vecino 997-492 documenta el 'NFS 2-8' de Notifier, lo que sugiere fuertemente que esta central conventional 2-8 zonas es el NFS 2-8; pero 'NFS 2-8' no está impreso en este documento, así que no puede sostener un RETAG. Los hermanos 997-493-002-2_1/_2 usan la misma etiqueta descriptiva ('Central conv. 2-8 zonas') y están en needs_review sin adjudicar, así que tampoco aportan verdad gobernada.",
+     "residuo": "¿Confirma el catálogo gobernado de Notifier que la central convencional EN54 de 2-8 zonas con código de documento 997-493-002-2 corresponde al modelo NFS 2-8 (o a otra referencia comercial como NF30/NF50)?",
+     "_cita_verificada": true
+    }
+   ]
+  }
+ ]
+}

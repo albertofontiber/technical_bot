@@ -2916,3 +2916,31 @@ memoria local, worktrees) en vez de al directorio entero — el criterio natural
 que git versiona, el revisor lo ve», que además se mantiene solo cuando cambie la
 whitelist del `.gitignore`. Cuidado con `.claude/worktrees/` (copias completas del repo:
 inflarían el snapshot y el grep). Toca el aparato del Protocolo 3 ⇒ su propio dúo.
+
+## #80 — La reingesta puede crear referencias FANTASMA en el doc_map: `resolve_document_id` no filtra por `status='active'` — s322i
+
+**Qué es** (hallazgo del encogido de packets, dúo r29 Sol/Fable, ambos con ancla verificada):
+`src/reingest/index.py:78-87` resuelve el `document_id` casando por hash y por filename
+**sin filtrar `status='active'`**, y el validador del catálogo no comprueba el invariante
+`doc_map.document_id -> documents.status = active`. Resultado medido hoy: de las **887
+entradas del doc_map, 60 apuntan a un documento no-activo** (50 `retired` + 3 `superseded`
++ 7 `needs_review`), afectando **209 entries**.
+
+**Consecuencia medida end-to-end** (para las 49 `retired`, 191 entries — el resto es censo
+pendiente, NO extrapolar): `must_preserve.attest_identity` (`src/rag/must_preserve.py:1841-1848`)
+hace join por `document_id` contra el doc_map y es fail-closed. Los chunks servidos llevan el
+id ACTIVO y el doc_map guarda el fantasma -> atesta False -> **el anexo must_preserve nunca
+actúa para esos manuales**. El seam de `allowed_sources` está INTACTO (indexa por
+`source_file`, que sí coincide): el arreglo no recupera retrieval, recupera la atestación.
+
+**Por qué es de RAÍZ y no un parche de datos**: aunque se repunten las 60 filas hoy, la
+próxima reingesta las vuelve a crear. Y el censo que las descubrió (`s320_e1_reconciliacion
+_censo.py:71`) tenía el mismo defecto conceptual — testeaba que la fila EXISTIERA, nunca su
+`status`; de ahí que el packet E1 §1 afirmara «dos filas activas» cuando ninguna lo era.
+
+**Forma BP esperable (con dúo propio)**: (a) filtro `status='active'` en la resolución de
+la reingesta; (b) invariante nuevo en la puerta del catálogo (`validate`): toda entrada de
+doc_map debe apuntar a un documento activo — con la salvedad de que el validador es local y
+`documents` vive en la DB, así que probablemente sea un gate de script, no de `validate()`;
+(c) corregir el test/censo defectuoso para que no vuelva a producir un packet con premisa
+falsa. **Gatillo**: antes de la próxima reingesta masiva, o al aplicar el repunte de las 49.

@@ -1,0 +1,64 @@
+{
+ "que_es": "s322i — Arregla los 2 defectos MEDIOS que cazó el verificador adversarial.",
+ "arreglos": [
+  {
+   "packet": "E1",
+   "fix": "titular-vs-casillas",
+   "casillas_reales": 241,
+   "por_seccion": {
+    "SECCIÓN 0 — Aplicables EN BLOQUE si asientes (144)": 0,
+    "§0.A — Colisiones de identidad: **repuntar `doc_map`** (49)": 49,
+    "§0.B — `doc_map` tier B: **altas de entrada** (42)": 42,
+    "§0.C — Candidates → **ALTA** (33)": 33,
+    "§0.D — Candidates → **RETIRAR** (17)": 17,
+    "§0.E — `product_model` sucio: **2 RETAG + 1 MANTENER** (3)": 3,
+    "SECCIÓN 1 — Una a una (97)": 0,
+    "§1.A — `doc_map` tier B, residuo (13)": 13,
+    "§1.B — Candidates, residuo (83)": 83,
+    "§1.C — `product_model` sucio, residuo (1)": 1,
+    "SECCIÓN 2 — Ya no aplican (12) — **no decides nada**": 0,
+    "Recibos (la traza completa, fila a fila)": 0,
+    "Auto-verificación del encabezado": 0
+   }
+  },
+  {
+   "packet": "E1b",
+   "fix": "titular-vs-casillas",
+   "casillas_reales": 432,
+   "por_seccion": {
+    "SECCIÓN 0 — Aplicables EN BLOQUE si asientes (475)": 0,
+    "§0.A — «confirmar» por **medida determinista, sin juez** (197)": 9,
+    "§0.B — «confirmar» por **juez, alta + cita verificada** (130)": 130,
+    "§0.C — «revisar» → **CONFIRMAR** (144)": 144,
+    "§0.D — «revisar» → **RETIRAR** (4)": 4,
+    "SECCIÓN 1 — Una a una (145)": 0,
+    "§1.A — «confirmar», residuo (32)": 32,
+    "§1.B — «revisar», residuo (113)": 113,
+    "Recibos (la traza completa, fila a fila)": 0,
+    "Auto-verificación del encabezado": 0
+   }
+  },
+  {
+   "packet": "E1b",
+   "fix": "etiqueta-prov",
+   "ocurrencias": 261
+  },
+  {
+   "packet": "E2",
+   "fix": "titular-vs-casillas",
+   "casillas_reales": 94,
+   "por_seccion": {
+    "SECCIÓN 0 — Aplicables EN BLOQUE si asientes (562)": 0,
+    "§0.A — Con presencia en el corpus HOY (44) — las que más pesan": 44,
+    "§0.B — Sin chunks hoy (518) — mejoran la query escrita, no el dictado": 11,
+    "SECCIÓN 1 — Una a una (669), agrupadas en lotes por regla de riesgo": 0,
+    "§1.0 — Top peligrosos (20) — decisión individual": 20,
+    "§1.1 — Lotes por regla (669 altas)": 19,
+    "SECCIÓN 2 — Obsoletas (4) — **no decides nada**": 0,
+    "Apéndice — contexto, no decisiones": 0,
+    "Recibos (la traza completa, fila a fila)": 0,
+    "Auto-verificación del encabezado": 0
+   }
+  }
+ ]
+}
