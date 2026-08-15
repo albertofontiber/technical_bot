@@ -2892,3 +2892,27 @@ del generador del esquema CERRADO de la traza — mismo patrón que la sección 
 de DEC-203b (campo tipado + validación + tri-estado para el turno sin llamada LLM).
 Con eso, «¿cuántas respuestas terminaron por max_tokens?» es una query, no una
 estimación. Coste: pequeño, bien acotado; toca el esquema cerrado ⇒ dúo.
+
+## #79 — El revisor adversarial es CIEGO a `.claude/`: no puede auditar los hooks que gobiernan el arranque de cada sesión — s323
+
+**Qué es**: `scripts/adversarial_review.py:237` lleva `.claude` en `SKIP_DIRS`, así que
+las tools read-only del revisor (`read_file`/`grep_repo`, y las del runner Fable, que
+comparte el sandbox) **deniegan** `.claude/settings.json` y `.claude/hooks/*`. El deny
+es herencia de cuando `.claude/` estaba ENTERO en `.gitignore`: desde DEC-193 hay
+whitelist selectiva y esos tres ficheros están VERSIONADOS. El sandbox sigue tratando
+material versionado y auditable como directorio interno.
+
+**Por qué importa (y por qué ahora)**: en s323 el revisor tuvo que marcar como
+`CONCEPTUAL` su hallazgo sobre el centinela de idempotencia del hook — el mejor de los
+tres — porque no podía leer el fichero; acertó razonando sobre la descripción del
+autor, que es exactamente la dependencia que el Protocolo 3 existe para romper. Un
+hook de `SessionStart` corre en TODAS las sesiones (locales y cloud) antes que nada:
+es de los pocos ficheros del repo con esa superficie, y es el único que hoy no se
+puede revisar. El fallo se degrada en silencio: el revisor no dice «no puedo leer
+esto» salvo que se le pregunte por ello.
+
+**Forma BP**: acotar el deny a lo que de verdad es privado (`.claude/settings.local.json`,
+memoria local, worktrees) en vez de al directorio entero — el criterio natural es «lo
+que git versiona, el revisor lo ve», que además se mantiene solo cuando cambie la
+whitelist del `.gitignore`. Cuidado con `.claude/worktrees/` (copias completas del repo:
+inflarían el snapshot y el grep). Toca el aparato del Protocolo 3 ⇒ su propio dúo.
