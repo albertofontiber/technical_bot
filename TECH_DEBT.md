@@ -3076,3 +3076,39 @@ exige dúo completo (Protocolo 3) y medición previa del daño (Protocolo 2), no
 **Guardarraíl inmediato, gratis**: en análisis, **nunca** usar `product_model` para decidir si un
 manual aplica a un modelo — consultar `data/catalog/doc_map.jsonl`. El packet de la sentada B2
 documenta hoy el método equivocado y queda anotado.
+
+## #85 — El guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con distinta semántica que su consumidor: un `"0"` (APAGADO) dispara el guard del ENCENDIDO (s321)
+
+**El desajuste**, verbatim:
+
+```python
+src/rag/generator.py:106        os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"      # "0" = APAGADO
+scripts/factlevel_assessment.py:206
+    assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "... ON rompe paridad bvg/DEC-075"
+```
+
+El consumidor real compara contra `"1"`; el guard usa **truthiness**. Como `"0"` es una cadena no
+vacía, **poner el flag explícitamente en APAGADO revienta un guard escrito para cazar el
+ENCENDIDO**. `src/flags.py:161` declara `default_fuente: None`, así que el guard es coherente con
+«ausente = apagado» — pero no con «apagado explícito».
+
+**Cómo se manifestó (s321).** `scripts/s156_frontier_synthesis_ceiling.py:53` (`_configure_runtime`)
+hace `os.environ.update(RUNTIME_ENV)` con `GENERATOR_INCLUDE_CONTEXT: "0"`, y un test llamaba a
+`build_prompt()` directamente ⇒ la variable quedaba puesta para el resto de la sesión de pytest y
+**cualquier test posterior que importase `factlevel_assessment` moría** con «pipeline fantasma».
+La FUGA ya está cerrada (fixture de contención en `tests/test_s156_frontier_synthesis_ceiling.py`);
+lo que queda abierto es **el desajuste semántico**, que sigue latente para el próximo que pase un
+`"0"` explícito — y `"0"` es lo natural de escribir.
+
+**Evidencia de que ya mordió antes**: `tests/test_s286e_factlevel_v3.py:255` sanea con
+`env["GENERATOR_INCLUDE_CONTEXT"] = ""` y comenta «el módulo assertea que está apagado» — usa
+cadena vacía, no `"0"`, precisamente porque `"0"` no funcionaría. El workaround está, la causa no.
+
+**Por qué NO se arregla de paso**: la línea vive en el instrumento de medición y su mensaje invoca
+la paridad `bvg`/DEC-075. Cambiar `assert not getenv(...)` por `assert getenv(...) != "1"` es
+correcto a primera vista, pero relaja un guard de paridad ⇒ **zona de dolor**: exige dúo (Protocolo
+3) y revisar si algún recibo histórico se apoyó en la lectura estricta. No es un parche de paso.
+
+**Mientras tanto**: quien invoque `factlevel_assessment` desde un proceso que pueda traer la
+variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
+`tests/test_s321_reachability_delivery_proof.py`.

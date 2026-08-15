@@ -133,20 +133,56 @@ def test_alcanzable_se_emite_aunque_alguna_rep_no_pruebe_entrega():
 
 
 # ── 4 · el sellado que evita que un veredicto envejezca en silencio ──────────────────────────
+# El sello se interroga en un SUBPROCESO, y no por gusto: importar la sonda arrastra
+# `factlevel_assessment`, que fija los DEMO_FLAGS en import-time y DESPUES comprueba que el
+# pipeline no sea «fantasma» (`assert RERANK_TOP_K == 10`...). En la suite COMPLETA otro test ya
+# ha importado `src.config` antes, los flags llegan tarde y ese assert salta — correctamente. En
+# proceso limpio el orden se respeta y el test CORRE de verdad.
+#   Antes esto lo capturaba un `except Exception` DENTRO del test: el AssertionError se etiquetaba
+#   como «falta entorno» y el guard se apagaba EN SILENCIO en la suite (verificado en s321: 10/10
+#   passed en solitario, SKIPPED con la suite entera). Es exactamente el fallo contra el que este
+#   fichero existe — un guard que no corre no guarda nada (PR #263).
+_SONDA_SELLO = """
+import json, sys
+try:
+    import scripts.s293_reachability_probe as s
+except KeyError as e:                      # PR #263: en CI no hay SUPABASE_URL — skip legitimo
+    sys.stderr.write("ENV_FALTA:%r" % (e,)); raise SystemExit(97)
+json.dump({"doc": s.sello_freeze.__doc__ or "", "sello": s.sello_freeze()},
+          sys.stdout, default=str)
+"""
+
+
 def test_el_sello_mejora_git_sha_pero_declara_lo_que_NO_cubre():
-    # `importorskip` NO sirve aquí: la sonda no falla con ImportError sino con KeyError al
-    # leer el entorno (PR #263). Se captura cualquier fallo de construcción y se salta.
-    try:
-        import scripts.s293_reachability_probe as sonda
-    except Exception as e:  # noqa: BLE001
-        pytest.skip(f"la sonda necesita entorno para construirse ({type(e).__name__}); "
-                    "el guard de veredicto sí corre siempre, vive en reachability_verdict")
-    """Sellar solo `git_sha` permitió que un «NO alcanzable» del 2-ago se citara en agosto como
+    """Sellar solo `git_sha` permitio que un «NO alcanzable» del 2-ago se citara en agosto como
     vigente. Esto lo mejora — pero NO es el freeze-contract completo y el docstring lo dice: sin
-    huella de corpus, una mutación in-place es invisible. Llamarlo «completo» era framing por
-    encima de la realidad (dúo s321, ambos revisores)."""
-    assert "NO es completo" in (sonda.sello_freeze.__doc__ or ""),         "el sello no debe auto-declararse completo"
-    sello = sonda.sello_freeze()
+    huella de corpus, una mutacion in-place es invisible. Llamarlo «completo» era framing por
+    encima de la realidad (duo s321, ambos revisores)."""
+    import json
+    import subprocess
+
+    # El hijo hereda el entorno del pytest PADRE, y algun test de la suite deja
+    # GENERATOR_INCLUDE_CONTEXT puesta (cazado en s321: aislado pasa, con la suite entera falla).
+    # `factlevel_assessment:206` la guarda con `assert not os.getenv(...)` mientras su consumidor
+    # real (`src/rag/generator.py:106`) lee `== "1"` ⇒ un "0" —que significa APAGADO— dispara un
+    # guard escrito para cazar el ENCENDIDO. Se neutraliza SOLO esa variable, con el mismo patron
+    # que ya usa tests/test_s286e_factlevel_v3.py:255 (`= ""`, y no "0", exactamente por esto).
+    # Cualquier OTRA contaminacion del entorno sigue rompiendo el test a proposito: si se saneara
+    # el entorno entero, este guard volveria a no guardar nada.
+    entorno = dict(os.environ)
+    entorno["GENERATOR_INCLUDE_CONTEXT"] = ""
+    r = subprocess.run([sys.executable, "-c", _SONDA_SELLO], cwd=ROOT, env=entorno,
+                       capture_output=True, text=True, timeout=300)
+    if r.returncode == 97:
+        pytest.skip(f"la sonda necesita entorno para construirse ({r.stderr.strip()[:120]}); "
+                    "el guard de veredicto si corre siempre, vive en reachability_verdict")
+    assert r.returncode == 0, (
+        "la sonda no se deja construir en un proceso LIMPIO — esto NO es «falta entorno», es un "
+        f"fallo real que hay que mirar: {r.stderr[-1500:]}")
+
+    out = json.loads(r.stdout)
+    assert "NO es completo" in out["doc"], "el sello no debe auto-declararse completo"
+    sello = out["sello"]
     for clave in ("git_sha", "CHUNKS_TABLE", "RETRIEVAL_TOP_K", "RERANK_TOP_K",
                   "RERANKER_BACKEND", "LLM_MODEL", "juez", "INSTRUMENT_VERSION"):
         assert clave in sello, f"el sello no cubre {clave}"
