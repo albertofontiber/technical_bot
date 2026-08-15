@@ -21,7 +21,11 @@
 > respuesta queda anclada a su consulta (`answer_messages`, todas sus partes) y un 👎 invita a
 > explicar, captura la prosa por intención explícita (`ForceReply` → reply anclado) y la escribe
 > en `answer_feedback.comment`. `TERMS_VERSION` v3 (el bot ahora PIDE la explicación). Verificado
-> contra la DB real. Suite 3480/0. **Etapa 3 cerrada como cola de ingeniería** (DEC-172/174/175).
+> contra la DB real. Suite 3480/0. ~~**Etapa 3 cerrada como cola de ingeniería**~~ **REABIERTA EN LA PUERTA DE POBLACIÓN (s321)**:
+> los dos «NO alcanzable» que sostenían ese cierre han caído — `hp017#2` por medición inválida
+> (nunca se sondó: la primera sonda real da 3/3 firmes a 5/5) y `hp011#2` por caducidad. **NO
+> significa «hay lever»**: su población está sin medir. Ver DEC-173/DEC-175 (banners) y
+> `LEVER_DIGEST`.
 > **Primer fallo ORGÁNICO** (ruta al menú AVANZADO de la CAD-171) = misma clase que `hp011#2`:
 > responde con el elemento vecino teniendo el dato servido. Detalle → PLAN + DEC-176.
 >
@@ -32,6 +36,11 @@
 > propuesto ABRÍA un canal de reconstrucción del número por la cita del span); `cat017#2` =
 > probe $0 de lanes cerrado (ninguna lane existente trae el carrier; la necesidad se da por
 > satisfecha con el chunk PUNTERO). Dúo 15/15, 0 FP. Suite 3427/0. Detalle → PLAN + DEC-172.
+> ⚠️ **CORRECCIÓN s321 a este bloque fechado**: la afirmación «la mitad *borrar la Regla 1* no se
+> escribe ⇒ ni con guard perfecto llega al umbral firme» **es falsa**. Nunca se le sirvió el
+> carrier de la p43; con él delante el hecho se transmite **3/3 a 5/5**
+> (`evals/s293_reachability_hp017_hp017_2.json`, sonda de s321). El bloque se conserva como
+> registro de su fecha; el veredicto vigente está en los banners de DEC-173/DEC-175.
 >
 > **Estado s291 (2 ago 2026).** **FULL v3.2 = HITO: OK 115/131 (88%) · retrieval+rerank a
 > cero-más-techo corpus-wide (etapas 1-2 de la campaña completadas)**; cascada medida

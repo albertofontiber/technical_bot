@@ -1,0 +1,47 @@
+{
+  "censo": "s321_poblacion_carrier_v2",
+  "ts": "2026-08-15T11:20:22.979161+00:00",
+  "git_sha": "bc7b4a775a17c63621c30bc6bc273e3881cb2f2d",
+  "recibo_fuente": "evals/s100_factlevel_full_v32_full_20260801.yaml",
+  "n_facts": 133,
+  "por_clase": {
+    "OK": 115,
+    "synthesis-miss": 12,
+    "corpus-gap": 2,
+    "meta-ref": 2,
+    "retrieval-miss": 2
+  },
+  "firma_A_within_doc": [
+    "hp001#2:1111",
+    "hp012#3:4 lazos / 792"
+  ],
+  "firma_B_lane_coverage": {
+    "total": 8,
+    "ok": [
+      "cat022#0:2,5-3,0 μm",
+      "cat022#1:4,5 μm",
+      "cat022#2:BIT",
+      "hp011#1:r.I",
+      "hp014#3:35",
+      "hp017#4:None"
+    ],
+    "fallan": [
+      "hp013#1:PWR-R",
+      "hp017#2:Editar Configuracion"
+    ],
+    "aviso": "B NO es población: marca soporte llegado por lane de coverage en vez de retrieval, y la mayoría son OK. Es TRIAJE."
+  },
+  "cota_inferior": [
+    "hp001#2:1111",
+    "hp012#3:4 lazos / 792",
+    "hp017#2:Editar Configuracion"
+  ],
+  "n_cota_inferior": 3,
+  "candidatos_a_sondar": [
+    "hp013#1:PWR-R"
+  ],
+  "cota_superior_donde_buscar": 12,
+  "comparacion_con_la_puerta": "el lever B (cat017#2) murió con POBLACIÓN 1 (DEC-175); esta cota inferior es ≥3 ⇒ la puerta NO se cierra por población, pero tampoco queda probada: falta sondar los candidatos.",
+  "correccion_v1": "la v1 concluyó «inmedible» desde UN filtro (raw>0 ∧ served==0) que buscaba la firma CONTRARIA a la de la clase. Tumbado por los dos revisores.",
+  "caveat_de_frescura": "recibo del 01-ago-2026 con claude-sonnet-4-6 y served top-10; el corpus se ha movido varias veces. Orden de magnitud, no cifra viva."
+}

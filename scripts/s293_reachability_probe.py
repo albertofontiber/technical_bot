@@ -23,6 +23,7 @@ no un regex propio (lección #58(c)).
 
 Uso:
   python scripts/s293_reachability_probe.py <qid> <fact_prefix> serve    --inject <id8>[,<id8>] [reps]
+      [--cobertura-verificada '<cómo verificaste que el carrier cubre el hecho>']  ← exigido para un NO
   python scripts/s293_reachability_probe.py <qid> <fact_prefix> appendix --span-grep <regex>   [reps]
 Salida: evals/s293_reachability_<qid>_<fact>.json
 """
@@ -63,12 +64,18 @@ def _args() -> dict:
         "mode": sys.argv[3],
         "inject": [],
         "span_grep": None,
+        "cobertura_verificada": "",
         "reps": 3,
     }
     rest = sys.argv[4:]
     while rest:
         token = rest.pop(0)
-        if token == "--inject":
+        if token == "--cobertura-verificada":
+            # Atestación EXPLÍCITA del operador de que el carrier inyectado CUBRE el hecho.
+            # Sin ella no se puede emitir NO_ALCANZABLE (s321): el Protocolo 4 ya exigía
+            # «verifica el carrier ANTES de inyectar» y nada lo hacía cumplir.
+            out["cobertura_verificada"] = rest.pop(0)
+        elif token == "--inject":
             out["inject"] = rest.pop(0).split(",")
         elif token == "--span-grep":
             out["span_grep"] = rest.pop(0)
@@ -151,6 +158,40 @@ def appendix_block(span: str, fragment_number: int | None) -> str:
     return f"\n\n---\n⚠️ **{APPENDIX_HEADER}**\n- \"**{span.strip()}**\"{cite}"
 
 
+# La lógica de veredicto vive en `reachability_verdict` SIN dependencias pesadas: un guard
+# solo protege si se ejecuta, y un test sobre este módulo se cae en CI por falta de entorno
+# (PR #263: KeyError SUPABASE_URL en CI mientras en local pasaba con el .env copiado).
+from scripts.reachability_verdict import (  # noqa: E402
+    prueba_de_entrega,
+    veredicto_de,
+)
+
+
+def sello_freeze() -> dict:
+    """Sello PARCIAL del freeze-contract. Mejora sobre `git_sha` a secas —que dejaba envejecer un
+    veredicto en silencio mientras el corpus se movía tres veces en un día— pero **NO es completo**,
+    y llamarlo así era framing por encima de la realidad (dúo s321, ambos revisores).
+
+    **Lo que NO cubre, declarado**: huella/conteo del corpus (una mutación in-place es invisible),
+    configuración física del índice, versión del modelo de embeddings, semillas, y el closure del
+    código. Un patrón más cercano al contrato vive en `factlevel_assessment.py` (manifest del run).
+    """
+    return {
+        "git_sha": subprocess.run(["git", "rev-parse", "HEAD"],
+                                  capture_output=True).stdout.decode().strip(),
+        "CHUNKS_TABLE": FA.CHUNKS_TABLE,
+        "RETRIEVAL_TOP_K": FA.RETRIEVAL_TOP_K,
+        "RERANK_TOP_K": FA.RERANK_TOP_K,
+        "RERANKER_BACKEND": FA.RERANKER_BACKEND,
+        "MERGE_STRATEGY": FA.MERGE_STRATEGY,
+        "LLM_MAX_TOKENS": FA.LLM_MAX_TOKENS,
+        "LLM_MODEL": FA.LLM_MODEL,
+        "GENERATOR_PROMPT_VARIANT": os.getenv("GENERATOR_PROMPT_VARIANT"),
+        "juez": {"model": FA.JUDGE_MODEL, "K": FA.K, "THRESH_FIRM": FA.THRESH_FIRM},
+        "INSTRUMENT_VERSION": FA.INSTRUMENT_VERSION,
+    }
+
+
 def main() -> None:
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -224,17 +265,26 @@ def main() -> None:
                 }
             )
         row = reps[-1]
+        row["prueba_entrega"] = prueba_de_entrega(cfg, row)
         print(
             f"  rep{index}: base {row['base_yes']}/5 → oracle {row['oracle_yes']}/5"
             + (f"  [span F{row.get('fragment_number')}]" if cfg["mode"] == "appendix" else "")
+            + ("" if row["prueba_entrega"]["ok"]
+               else f"  ⚠️ SIN PRUEBA DE ENTREGA: {row['prueba_entrega']['motivo']}")
         )
 
     firm = FA.THRESH_FIRM
+    vered = veredicto_de(reps, firm, cobertura_ok=bool(cfg.get("cobertura_verificada")))
+    oracle_firme, sin_entrega = vered["oracle_firme"], vered["reps_sin_prueba_de_entrega"]
+    alcanzable, veredicto_txt = vered["alcanzable"], vered["veredicto"]
     out = {
         "probe": "s293_reachability_v1",
-        "git_sha": subprocess.run(
-            ["git", "rev-parse", "HEAD"], capture_output=True
-        ).stdout.decode().strip(),
+        "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo)",
+        "⚠️_sesion_de_la_medicion": ("el prefijo `s293` del nombre y de `probe` lo deriva el script "
+                                     "de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze"
+                                     ".git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)"),
+        "sello_freeze_PARCIAL": sello_freeze(),
+        "sello_no_cubre": ["huella/conteo del corpus", "config del índice", "versión de embeddings", "seeds", "closure del código"],
         "qid": cfg["qid"],
         "fact": fact["key"],
         "valor": valor,
@@ -243,15 +293,28 @@ def main() -> None:
         "inject": cfg["inject"],
         "span_grep": cfg["span_grep"],
         "THRESH_FIRM": firm,
+        "cobertura_verificada": cfg.get("cobertura_verificada") or None,
         "reps": reps,
         "veredicto": {
             "n_reps": len(reps),
             "base_firme": sum(1 for r in reps if r["base_yes"] >= firm),
-            "oracle_firme": sum(1 for r in reps if r["oracle_yes"] >= firm),
-            "alcanzable": any(r["oracle_yes"] >= firm for r in reps),
+            "oracle_firme": oracle_firme,
+            "alcanzable": alcanzable,
             "max_oracle": max((r["oracle_yes"] for r in reps), default=0),
+            "veredicto": veredicto_txt,
+            "reps_sin_prueba_de_entrega": sin_entrega,
         },
     }
+    if veredicto_txt == "INCONCLUYENTE_SIN_COBERTURA_ATESTADA":
+        print("\n⚠️  NO se puede emitir «NO alcanzable»: la entrega está probada, pero NADIE ha "
+              "atestado\n   que el carrier inyectado CUBRA el hecho. Verifícalo y re-lanza con "
+              "--cobertura-verificada\n   '<cómo lo comprobaste>'. ENTREGA ≠ COBERTURA: un oráculo "
+              "incompleto entrega perfecto\n   y produce un NO falso (regla-C de DEC-173, hp011#2 "
+              "con media etiqueta).")
+    if veredicto_txt == "INCONCLUYENTE_SIN_PRUEBA_DE_ENTREGA":
+        print(f"\n⚠️  NO se puede emitir «NO alcanzable»: las reps {sin_entrega} no prueban que la "
+              f"evidencia llegara al generador. Veredicto = INCONCLUYENTE. Arregla la entrega y "
+              f"re-mide; un «no transmite» sin entrega probada no distingue incapacidad de ausencia.")
     path = os.path.join(
         os.getcwd(), "evals",
         f"s293_reachability_{cfg['qid']}_{cfg['fact'].replace('#','_')}.json",
