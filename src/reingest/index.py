@@ -9,12 +9,15 @@ Idempotencia: re-procesar un documento borra primero sus filas previas
 re-ejecutable infinitas veces — re-correr el pipeline sobre un archivo nunca
 duplica chunks.
 
-Uso:
+Uso (s323: resolver_documento primero; index_chunks EXIGE document_id):
     from src.reingest.index import index_chunks, resolve_document_id
     doc_id = resolve_document_id(sb, sha256, filename)
     index_chunks(chunks, extraction_sha256=sha256, document_id=doc_id, supabase=sb)
 """
 from __future__ import annotations
+
+from dataclasses import dataclass
+from enum import Enum
 
 import logging
 
@@ -65,29 +68,103 @@ def _chunk_to_row(chunk, extraction_sha256: str,
     }
 
 
+class EstadoResolucion(str, Enum):
+    """Resultado TIPADO de resolver un documento (s323 fase B, dúo r32).
+
+    ANTES: `resolve_document_id` devolvía `None` para CUATRO situaciones
+    distintas — documento nuevo, solo filas no-activas, ambigüedad (2+ filas) y
+    excepción de red tragada — y el llamador no podía distinguirlas. Ese `None`
+    indistinguible es la causa raíz de TECH_DEBT #80/#81: los chunks se
+    indexaban con `document_id=NULL` (huérfanos) o quedaban ligados a filas ya
+    retiradas, y `must_preserve` dejaba de atestar.
+    """
+    ACTIVO = "activo"                  # 1 fila y está activa → enlazar
+    SOLO_NO_ACTIVO = "solo_no_activo"  # casa, pero retired/superseded/needs_review
+    SIN_MATCH = "sin_match"            # documento aún no dado de alta
+    AMBIGUO = "ambiguo"                # 2+ filas casan: no se elige a ojo
+    ERROR = "error"                    # fallo de infraestructura: NO se traga
+
+
+@dataclass(frozen=True)
+class ResolucionDocumento:
+    estado: EstadoResolucion
+    document_id: str | None = None
+    detalle: str = ""
+
+    @property
+    def enlazable(self) -> bool:
+        return self.estado is EstadoResolucion.ACTIVO and bool(self.document_id)
+
+
+def resolver_documento(supabase: SupabaseHTTP, extraction_sha256: str,
+                       source_filename: str,
+                       manufacturer: str | None = None) -> ResolucionDocumento:
+    """Resuelve la fila de `documents` del PDF extraido, distinguiendo los casos.
+
+    IDENTIDAD (duo r33, critico de Sol): la unicidad del esquema es por
+    `(manufacturer, source_pdf_sha256)` (migrations/001_document_management.sql),
+    asi que el hash se consulta ACOTADO a la marca cuando se conoce; sin acotar,
+    un OEM/relabel podria enlazarse al documento de otra marca.
+
+    El NOMBRE no es corroboracion, es un FALLBACK independiente y peligroso (un
+    PDF re-exportado cambia de hash, y un nombre generico de manual se repite
+    entre fabricantes), asi que solo se usa ACOTADO a la marca; sin marca
+    conocida no se usa en absoluto.
+
+    El filtro `status='active'` se aplica EN SERVIDOR: filtrarlo en cliente sobre
+    un `limit` podia ocultar una segunda fila activa y devolver ACTIVO donde
+    habia AMBIGUO (segundo critico de Sol).
+
+    Los errores de infraestructura se DEVUELVEN como ERROR — no se tragan como
+    "no hay match", que es lo que enmascaraba fallos de red.
+    """
+    def _rows(campo: str, valor: str, solo_activas: bool) -> list:
+        filtros = {campo: f"eq.{valor}"}
+        if solo_activas:
+            filtros["status"] = "eq.active"
+        if manufacturer:
+            filtros["manufacturer"] = f"eq.{manufacturer}"
+        return supabase.fetch_rows("documents", select="id,status",
+                                   filters=filtros, limit=5)
+
+    try:
+        candidatos = [("source_pdf_sha256", extraction_sha256)]
+        if manufacturer:                      # sin marca, el nombre NO se usa
+            candidatos.append(("source_pdf_filename", source_filename))
+        for campo, valor in candidatos:
+            if not valor:
+                continue
+            activas = _rows(campo, valor, solo_activas=True)
+            if len(activas) == 1:
+                return ResolucionDocumento(
+                    EstadoResolucion.ACTIVO, activas[0]["id"],
+                    f"1 activa por {campo}"
+                    + (" (marca acotada)" if manufacturer else ""))
+            if len(activas) > 1:
+                return ResolucionDocumento(
+                    EstadoResolucion.AMBIGUO, None,
+                    f"{len(activas)} filas ACTIVAS casan por {campo}: "
+                    "no se elige a ojo")
+            todas = _rows(campo, valor, solo_activas=False)
+            if todas:
+                estados = sorted({r.get("status") for r in todas})
+                return ResolucionDocumento(
+                    EstadoResolucion.SOLO_NO_ACTIVO, None,
+                    f"casa por {campo} pero solo con filas {estados}")
+    except Exception as e:                                    # noqa: BLE001
+        logger.error("resolver_documento ERROR de infraestructura para %s: %s",
+                     source_filename, e)
+        return ResolucionDocumento(EstadoResolucion.ERROR, None, repr(e)[:200])
+    return ResolucionDocumento(EstadoResolucion.SIN_MATCH, None,
+                               "sin fila ACTIVA en documents (alta pendiente?)")
+
+
 def resolve_document_id(supabase: SupabaseHTTP, extraction_sha256: str,
                         source_filename: str) -> str | None:
-    """Enlaza el documento extraído con su fila en `documents`, si existe.
-
-    `documents` NO se reconstruye (es idempotente por hash). Se intenta casar
-    primero por hash del PDF y, si no, por nombre de archivo único. Devuelve
-    None si no hay match — el retriever trata document_id NULL como chunk sin
-    ciclo de vida (se conserva), así que no enlazar es seguro.
-    """
-    try:
-        rows = supabase.fetch_rows(
-            "documents", select="id",
-            filters={"source_pdf_sha256": f"eq.{extraction_sha256}"}, limit=2)
-        if len(rows) == 1:
-            return rows[0]["id"]
-        rows = supabase.fetch_rows(
-            "documents", select="id",
-            filters={"source_pdf_filename": f"eq.{source_filename}"}, limit=2)
-        if len(rows) == 1:
-            return rows[0]["id"]
-    except Exception as e:
-        logger.warning("resolve_document_id falló para %s: %s", source_filename, e)
-    return None
+    """Compat: el id SOLO si hay exactamente una fila ACTIVA; si no, None.
+    Los llamadores nuevos deben usar `resolver_documento` y mirar el estado."""
+    return resolver_documento(supabase, extraction_sha256,
+                              source_filename).document_id
 
 
 def index_chunks(chunks: list, extraction_sha256: str,
@@ -100,6 +177,18 @@ def index_chunks(chunks: list, extraction_sha256: str,
     """
     sb = supabase or SupabaseHTTP()
 
+    # GUARDA s323 fase B (dúo r32, crítico de Sol): el DELETE va ANTES del
+    # INSERT, así que indexar sin `document_id` no solo crea huérfanos — BORRA
+    # las filas buenas primero. Un gate posterior solo constataría el daño. Por
+    # eso la guarda vive AQUÍ, en el writer, y no solo en `process_file`.
+    if not document_id:
+        raise ValueError(
+            "index_chunks: document_id obligatorio (s323 #80/#81). Resuelve con "
+            "resolver_documento() y trata su estado: SIN_MATCH exige dar de alta "
+            "el documento primero; SOLO_NO_ACTIVO / AMBIGUO / ERROR no se ingestan.")
+
+    # OJO: la guarda cubre tambien el caso chunks=[] — el DELETE se ejecuta
+    # igual, asi que un vacio accidental de otro llamador borraria filas buenas.
     # Idempotencia: limpiar lo previo de este archivo antes de re-insertar.
     sb.delete_rows(TABLE, {"extraction_sha256": f"eq.{extraction_sha256}"})
 
