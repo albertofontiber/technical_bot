@@ -6759,3 +6759,45 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
 - **Relacionado**: DEC-193/195 (versionado de `.claude/`, hook del digest) · DEC-209
   (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #82 ·
   `docs/ENTORNO_CLOUD.md`.
+
+## DEC-220 (s322i–s323) — El ENCOGIDO de packets como método; y la limpieza autónoma de candidates APARCADA con criterio escrito (dúos r29/r30/r31)
+
+- **Fecha**: 15 ago 2026. **Impacto**: MEDIO-ALTO (método de adjudicación + identidad del
+  catálogo). Tres dúos completos: r29 (Sol 5 · Fable 3), r30 (Sol 6, 2 críticos), r31
+  (Sol 7 · Fable 5, 2 críticos, EMPAREJADO correcto). 0 falsos positivos en los tres.
+- **Lo que SE HIZO (aplicado y mergeado)**: el **encogido** de los packets E1/E1b/E2 —
+  workflow de 9 agentes: 2 pasadas deterministas + 5 de juicio con cita verificada
+  full-text + síntesis + verificador adversarial. **2.108 filas → 1.181 en bloque + 911
+  una-a-una + 16 fuera**. El verificador hizo el CENSO COMPLETO de las 570 citas de bloque
+  (no la muestra de 12 que pedía el encargo): **0 citas inventadas, 0 fallos de criterio**.
+  Cerrado después el ítem bloqueante (39 citas mal atribuidas → 38 re-atribuidas, 1 fuera):
+  censo final **568/568 verifican en su documento atribuido**.
+- **Hallazgo que justifica la pasada**: la premisa del packet E1 §1 era **falsa de
+  nacimiento** — las 49 «colisiones» no eran dos filas activas sino fichas fantasma
+  retiradas; el censo de s320 testeaba que la fila EXISTIERA, nunca su `status`.
+  Consecuencia medida: `must_preserve.attest_identity` no actúa en esos manuales
+  (→ TECH_DEBT #80), y de ahí salió también #81 (61 chunks huérfanos).
+- **LO QUE NO SE HIZO, y la decisión de NO hacerlo**: la limpieza autónoma de candidates
+  queda **APARCADA**. Alberto autorizó la vía fluida sobre una premisa MÍA que resultó
+  falsa: «confirmar de más es barato». **No lo es**: quitar `candidate` activa los alias
+  existentes (`catalog_store.py:112`), cambia la expansión de paraguas (`:192`) y mete
+  canónico + alias en el **detector generado** (`catalog_resolver.py:142-153`) — clase
+  `FUEGO` × 600, sin medir. Y el predicado de retirada **se auto-rechazó**: de 18 filas
+  pasaron 3 y las 3 eran falsos positivos (`VSN 2Plus` es producto real).
+- **Criterio para retomarla** (escrito, no de memoria — `evals/s323_criterio_limpieza
+  _candidates_v1.md`): censo del radio de explosión POR FILA (solo lectura) · exclusión de
+  toda activación que añada término de riesgo léxico · gate MEDIDO por lote (delta del
+  detector + negativos end-to-end) · predicado de RECONSTRUIBILIDAD (los caracteres del
+  término deben derivarse del texto vecino) validado contra el **doble control**:
+  positivos `MM-82`/`TO-3200M`/`OF-48V`/`LOCAL-360`, negativos `VSN 2Plus`/`PL4-E`/`34110400`.
+- **Alternativas descartadas**: (a) aplicar retiradas «probables» sin prueba mecánica —
+  invierte la asimetría y borra productos reales; (b) confirmar todo lo que tenga menciones
+  — una mención no es ser sujeto (`B501` dispara dentro de `B501AP`); (c) pedirle a Alberto
+  que firme las 665 — es el cuello de botella que manda quitar.
+- **Lección de método (la que importa)**: las tres automatizaciones intentadas hoy las paró
+  el control ANTES de escribir. El patrón común de los tres fallos es el mismo: **puertas
+  que confunden correlación con prueba**, y alcances presentados como completos con un hueco
+  (49+3+7=59 de 60). El control funciona; el diseño de puertas es lo que hay que endurecer.
+- **Relacionado**: TECH_DEBT #80/#81 · packets v2 (`s320_e1*/e1b*/e2*_v2.md`) · planes
+  `s323_plan_80_81_v1.md` y `s323_criterio_limpieza_candidates_v1.md` · tallies r29
+  (ts=2026-08-15T13:30:27), r30 (19:00:07), r31 (19:47:49).
