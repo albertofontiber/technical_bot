@@ -46,7 +46,7 @@ from .metadata import detect_document_metadata, apply_metadata
 from .contextualize import contextualize_document, full_document_text
 from .embed import embed_chunks
 from .dedup import mark_duplicates
-from .index import index_chunks, resolve_document_id
+from .index import index_chunks, resolver_documento
 from ..ingestion.supabase_client import SupabaseHTTP
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -136,6 +136,21 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
                 "product_model": meta.product_model, "language": prof.dominant,
                 "source_path": source_path, "_chunks": kept}
 
+    # s323 fase B (duo r33, Fable): resolver ANTES de B7/B8. La resolucion solo
+    # necesita sha + metadata de B5 — resolverla despues hacia pagar
+    # contextualizacion (Haiku) y embeddings (Voyage) de un documento que luego
+    # no se indexa, y RE-pagarlos en cada reintento.
+    resolucion = resolver_documento(supabase, sha, meta.source_file or "",
+                                    manufacturer=meta.manufacturer)
+    if not resolucion.enlazable:
+        logger.warning("indexacion OMITIDA para %s: %s (%s)",
+                       meta.source_file, resolucion.estado.value,
+                       resolucion.detalle)
+        return {"status": "sin_indexar", "motivo": resolucion.estado.value,
+                "detalle": resolucion.detalle, "chunks": len(kept), "indexed": 0,
+                "duplicates": 0, "flow_diagram": flow,
+                "document_id": None, "source_path": source_path}
+
     # B7 — contextual retrieval.
     contextualize_document(full_document_text(record), kept)
 
@@ -146,7 +161,12 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
     n_dup = mark_duplicates(kept)
 
     # B8 — indexación en chunks_v2.
-    doc_id = resolve_document_id(supabase, sha, meta.source_file or "")
+    # s323 fase B (dúo r32): la resolución es TIPADA y se PARA antes de indexar
+    # si no hay exactamente una fila ACTIVA. Indexar igualmente haría una de dos
+    # cosas malas: crear chunks huérfanos (#81) o ligarlos a un documento
+    # retirado, que el retrieval DESCARTA. Y como `index_chunks` borra antes de
+    # insertar, seguir adelante destruiría además las filas buenas.
+    doc_id = resolucion.document_id
     n_indexed = index_chunks(kept, extraction_sha256=sha,
                              document_id=doc_id, supabase=supabase)
 
@@ -239,6 +259,17 @@ def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
             logger.info("[%d/%d] OK %s -> %d chunks indexados (%d dup, %d flowchart)",
                         i + 1, len(files), sha[:12], result["indexed"],
                         result["duplicates"], result["flow_diagram"])
+        elif status == "sin_indexar":
+            # s323 (duo r33): NO es un vacio. Se persiste el motivo TIPADO — si
+            # solo se guardara el status, la distincion por la que se hizo todo
+            # el cambio moriria en un log efimero y un ERROR de red se agregaria
+            # como "vacio" en el resumen.
+            state["files"][sha] = {"status": status,
+                                   "motivo": result.get("motivo"),
+                                   "detalle": result.get("detalle")}
+            counts["sin_indexar"] = counts.get("sin_indexar", 0) + 1
+            logger.warning("[%d/%d] SIN INDEXAR %s -> %s (%s)", i + 1, len(files),
+                           sha[:12], result.get("motivo"), result.get("detalle"))
         else:  # empty / empty_after_language
             state["files"][sha] = {"status": status}
             counts["empty"] += 1
@@ -257,6 +288,7 @@ def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
     print(f"  register-only:  {counts['register_only']}")
     print(f"  ya estaban:     {counts['skipped']}")
     print(f"  vacíos:         {counts['empty']}")
+    print(f"  sin indexar:    {counts.get('sin_indexar', 0)}  (identidad no resuelta)")
     print(f"  fallos:         {counts['failed']}")
     print(f"  tiempo:         {elapsed:.0f}s")
     if dry_run:
