@@ -230,7 +230,7 @@ def main() -> None:
         ojo = {
             "dxc_guia de usuario_multiling": (DXC, "Alberto: OK (serie DX Connexion × central)"),
             "hd_ke_dt3101w_hab_202407_es_30e0": (["kidde:ke-dt3101w-hab"], "Alberto: OK (serie Excellence × detector; documento de producto)"),
-            "hlsi-ti-001": (RP1R_CENTRALES, "Alberto: misma adjudicación que HLSI-TI-001 + «también aplica a la VSN-RP1r+» → serie RP1r × central de extinción (rp1r-supra, rp1r, vsn-rp1r, vsn-rp1r-plus2; OPC-RP1r software excluido)"),
+            "hlsi-ti-001": (["notifier:rp1r-supra"], "Alberto: misma adjudicación que HLSI-TI-001 (rp1r-supra) + «también aplica a la VSN-RP1r+»: VSN-RP1r+ ES el nombre Morley del mismo producto (products.jsonl: rp1r-supra vendido_bajo ['Notifier','Morley-IAS (VSN-RP1r+)','ESS']; VSN-RP1r-PLUS2 es producto DISTINTO por adjudicación #25 s285) → un solo id (dúo r32 Fable: no extender a la serie)"),
             "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es": (X2A, "Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"),
         }
         for f in v3["piden_tu_ojo"]:
@@ -254,12 +254,12 @@ def main() -> None:
 
         # ═══ A3 · §1.A residuo doc_map por reglas ═══
         r1a = [
-            ("996-130-000-3 manuel d'utilisation zx_hlsi", ZX_CENTRALES, "R1", "serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"),
+
             ("con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx", ZX_CENTRALES + DX_MODELOS, "R1", "FAQ de las familias ZX y DX (Dimension) → serie × central"),
             ("asd harsh environments_sp", FAAST, "R1", "guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"),
             ("finales-de-linea-de-las-centrales-convencionales", ["notifier:nfs-2-8", "morley:vsn2-lt", "morley:vsn4-lt", "morley:vsn8-lt", "morley:vsn12-lt"] + VSN_PLUS, "R1+R2", "FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"),
             ("gr_kidde_2x_at_fr_fb_s_27cf", X2AT, "R1", "«2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"),
-            ("hlsi-ti-007_vsn-4rel", ["notifier:vsn-4rel"], "R5", "Alberto: «el modelo es VSN-4REL» (módulo de 4 relés NFS-SUPRA/RP1R-SUPRA, notifier.es); contenido ingestado = 47 chars → atestación por ficha + re-ingesta OCR pendiente"),
+
             ("mi_kidde_2x_at_f2_fb_07d4", X2A, "R1", "«installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"),
             ("mu_kidde_2x_at_fr_fb_s_6c31", X2A, "R1", "«2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"),
             ("mi_kidde_ke_dp312x_snx_202512_es_242d", KE_DP312X, "R4", "hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"),
@@ -277,8 +277,8 @@ def main() -> None:
             if excl:
                 verif["excluidos_por_R1prima"] = excl; ids = ids2; regla = regla + " (R1')"
             plan["doc_map_altas"].append(entrada(d, ids, regla, cita, detalle, verif))
-        plan["avisos"].append({"que": "996-130-000-3 manuel d'utilisation zx_hlsi",
-                               "aviso": "fragmento FRANCÉS de 1 chunk (páginas finales); misma clase que los PT retirados (política s65) pero SIN sí de Alberto para FR → se atesta por R1 y se propone baja aparte"})
+        plan["no_aplicar"].append({"que": "996-130-000-3 manuel d'utilisation zx_hlsi", "motivo": "fragmento FRANCÉS de 1 chunk (páginas finales), misma clase que los PT retirados (política s65): NO se atesta (nacería muerto si se firma la baja — dúo r32 Fable); se propone la BAJA a Alberto"})
+        plan["no_aplicar"].append({"que": "hlsi-ti-007_vsn-4rel → notifier:vsn-4rel", "motivo": "la adjudicación registrada dice: re-ingesta OCR PRIMERO y, solo si no saca texto, atestación por ficha (dúo r32 Fable): el plan no invierte el orden. Pendiente: OCR del PDF (está en el bucket, sha 582de999…)"})
 
         # ═══ B · products ALTAS (R4 + R7 componentes + ExitPoint) ═══
         CANON = {}
@@ -354,9 +354,10 @@ def main() -> None:
             ("kidde:zlsm-mr", "ZLSM-MR", "MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf"),
             ("fidegas:s-3-t1", "S/3-T1", "Manual-de-Usuario-S3-T1-y-S-2-T1"),
             ("fidegas:s-2-t1", "S/2-T1", "Manual-de-Usuario-S3-T1-y-S-2-T1"),
-            ("notifier:nx2-r-r", "NX2/R/R", "EMA24RS2R_NX2y5-R-R"),
-            ("notifier:nx5-r-r", "NX5/R/R", "EMA24RS2R_NX2y5-R-R"),
         ]
+        # NX2/R/R y NX5/R/R (draft «NX2/R/R y NX5/R/R»): componentes con barra en el nombre y UNA sola
+        # mención en tabla de cableado → evidencia débil (dúo r32 Fable) → clase §0.C, sí de Alberto.
+        plan["no_aplicar"].append({"que": "notifier:nx2-r-r / notifier:nx5-r-r", "motivo": "R7 partiría «NX2/R/R y NX5/R/R» pero cada componente lleva barra en el nombre y aparece 1 sola vez (tabla de cableado de EMA24RS2R_NX2y5-R-R): evidencia débil → pendiente del sí de Alberto (clase §0.C)"})
         creados = {r["row"]["id"] for r in plan["products_altas"]}
         for pid, cm, dn in r7:
             if pid in creados or pid in P:
@@ -462,6 +463,33 @@ def main() -> None:
             elif "confianza-media" in m0:
                 plan["no_aplicar"].append({"que": r["id"], "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"})
 
+    # ═══ R1' NO está firmada (dúo r32 Sol M2): las filas cuya lista cambió por R1' NO se aplican;
+    # van a `pendiente_alberto_R1prima` con las dos variantes (R1 completa / R1' ceñida) ═══
+    plan["pendiente_alberto_R1prima"] = []
+    quedan = []
+    for e in plan["doc_map_altas"]:
+        excl = e["verificacion"].get("excluidos_por_R1prima")
+        if excl:
+            plan["pendiente_alberto_R1prima"].append({
+                "source_file": e["source_file"], "document_id": e["document_id"], "cita": e["cita"],
+                "R1_completa": [x["id"] for x in e["entries"]] + excl, "R1prima_cenida": [x["id"] for x in e["entries"]],
+                "tokens_en_doc": e["verificacion"].get("tokens_en_doc"),
+                "pregunta": "R1' = «si el documento nombra modelos de la serie, atestar solo los nombrados» — ¿OK? (si NO: se aplica R1 completa)"})
+        else:
+            quedan.append(e)
+    plan["doc_map_altas"] = quedan
+    # ═══ gate de cita para TODAS las filas doc_map que se aplican (dúo r32 Sol m1): las de regla
+    # §0.B/§0.B.2/R1/R1+R2/R4 exigen cita_full_text=True; R7 exigen token_exacto>0 ═══
+    ok_rows, malas = [], []
+    for e in plan["doc_map_altas"]:
+        v = e["verificacion"]
+        bien = (v.get("cita_full_text") is True) or (v.get("token_exacto") or 0) > 0
+        (ok_rows if bien else malas).append(e)
+    for e in malas:
+        plan["no_aplicar"].append({"que": f"doc_map {e['source_file']}", "motivo": f"regla {e['regla']}: cita no verificada full-text ni token exacto → fuera del lote"})
+    plan["doc_map_altas"] = ok_rows
+    plan["autocheck_docmap_citas"] = all((e["verificacion"].get("cita_full_text") is True) or (e["verificacion"].get("token_exacto") or 0) > 0 for e in plan["doc_map_altas"])
+
     # ═══ MERGE · una fila de doc_map por document_id (el validador exige unicidad) ═══
     fusion: dict[str, dict] = {}
     for e in plan["doc_map_altas"]:
@@ -482,6 +510,8 @@ def main() -> None:
 
     plan["utc"] = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     plan["resumen"] = {k: len(v) for k, v in plan.items() if isinstance(v, list)}
+    plan["resumen"]["umbrellas_altas"] = sum(1 for u in plan["umbrellas_altas"] if not u.get("diferido"))
+    plan["resumen"]["umbrellas_diferidas"] = sum(1 for u in plan["umbrellas_altas"] if u.get("diferido"))
     out = ROOT / "evals" / "s324_lote_firmado_plan_v1.json"
     out.write_text(json.dumps(plan, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(plan["resumen"], ensure_ascii=False))

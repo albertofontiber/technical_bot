@@ -99,3 +99,43 @@ hlsi-ti-001); (b) filas concretas del plan cuya evidencia no sostenga la escritu
 radio de explosión (regla del veredicto, negativos, alias activados) — ¿qué no mide?; (d) la mecánica
 del writer (CAS, orden de escritura, backup, reversión); (e) la decisión de diferir «2X-A» y de NO
 crear ExitPoint.
+
+---
+
+## ADENDA post-dúo r32 (Sol xhigh 6 hallazgos · Fable 5 6 hallazgos) — VERIFICADOS y aplicados antes de escribir
+
+**Sol (3 críticos, 2 medios, 1 menor — 6/6 confirmados contra el código):**
+1. *Freeze solo con `plan_sha`* → ahora el dry-run estampa `freeze` = sha de los 4 .jsonl + fingerprint del
+   corpus + sha del snapshot de los chunks/documents a retaguear; `--aplicar` lo recalcula y ABORTA si difiere.
+2. *Escritura no atómica* → se construye y VALIDA en tmp; backup; SOLO ENTONCES se sustituyen los 4 ficheros;
+   cualquier fallo restaura del backup. Preflight de retags ANTES de tocar el catálogo.
+3. *CAS incompleto* → `documents.product_model` con `eq.<pm_actual>` y solo si TODOS los chunks pasaron el CAS;
+   fallo → revierte los chunks parcheados + restaura catálogo (recibo `ROLLED_BACK`).
+4. *El censo medía solo el detector* → añadido: `resolve_query()` real sobre las 51 gold antes/después (0 pierden
+   `allowed_sources`/ids; 9 GANAN, p. ej. las FAQ DXc +12 fuentes), efecto doc_map por producto, findability de
+   los retags. Declarado lo NO medido: retrieval/generación e2e (instrumento = FULL v3.2).
+5. *R1' no está firmada* → las 3 filas cuya lista cambió por R1' (manuales 2X-A MI/MU, QSG 2X-AT) salen del lote y
+   van a `pendiente_alberto_R1prima` con las dos variantes; a su firma.
+6. *«Cada fila verificada» sobre-afirmado* → gate de cita/token en TODAS las filas doc_map aplicadas
+   (`autocheck_docmap_citas` = true); §0.B.2 con cita inválida → fuera.
+
+**Fable 5 (3 medios, 3 menores — 5 confirmados + 1 con premisa falsa):**
+- hlsi-ti-001 → solo `notifier:rp1r-supra` (Alberto: «misma adjudicación + VSN-RP1r+»; VSN-RP1r+ ES el nombre
+  Morley del mismo producto — `vendido_bajo` de rp1r-supra lo dice; VSN-RP1r-PLUS2 es producto DISTINTO por
+  la adjudicación #25 de s285). Mi extensión a la serie (4 ids) iba más allá de sus palabras. **Premisa falsa
+  de Fable**: afirmaba `vsn-rp1r-plus2 candidate:true` — es `false` (products.jsonl:1655).
+- NX2/R/R y NX5/R/R (1 mención cada uno en tabla de cableado; nombre con barra) → fuera del lote, clase §0.C.
+- hlsi-ti-007 → fuera: la adjudicación registrada dice OCR primero; el plan no invierte el orden.
+- 996-130 (FR, 1 chunk) → fuera: no se atesta lo que se propone dar de baja; baja a la cola de Alberto.
+- Resumen: `umbrellas_altas` 3 (+1 diferido) — corregido. Negativos sintéticos: declarado.
+
+**ALERTA sobre el instrumento (TECH_DEBT):** la review de Fable incluye una transcripción de tools FABRICADA —
+el `responses` JSON registra **0 `tool_use`** reales; el texto cita `scripts/catalog_store.py`,
+`scripts/s324_radio_explosion.py` y una línea `products.jsonl:509` que no existen. Sus hallazgos válidos
+salieron de los ficheros semilla, no del repo. Además la review NO quedó emparejada con Sol porque el HEAD se movió
+durante su ejecución (commit del predicado; fallo del autor).
+
+**Lote final tras la adenda:** doc_map 57 filas (+2 modificaciones) · altas 13 · confirmaciones 7 · retiradas 2 ·
+alias −1 · paraguas 3 (+1 diferido) · retags 2 · pendiente Alberto: R1' (3 docs), paraguas 2X-A, NX2/NX5, baja de
+996-130, OCR de TI-007. Dry-run PASS: detector 1.667→1.695 (+28/−0), 0 gold perdidas, 0 negativos, resolver 0
+pérdidas / 9 ganancias, findability retags 2/2.
