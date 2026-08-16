@@ -6760,7 +6760,60 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #82 ·
   `docs/ENTORNO_CLOUD.md`.
 
-## DEC-220 (s322i–s323) — El ENCOGIDO de packets como método; y la limpieza autónoma de candidates APARCADA con criterio escrito (dúos r29/r30/r31)
+## DEC-221 (s321) — Cuando dos pasajes del MISMO manual dicen lo mismo, el gold se ancla en el que da el MECANISMO; y la inconsistencia de la fuente se DECLARA, no se elige
+
+**Decisión.** Criterio de autoría, recurrente, que nace de un caso real (`hp017#2`, ítem 3 de la
+sentada B2) y de una propuesta de Alberto:
+
+1. **Anclaje**: entre dos pasajes del mismo manual que sostienen el mismo hecho, el gold se ancla
+   en el que **da el mecanismo** —el *por qué*, la consecuencia de no hacerlo— y no en el que solo
+   da la instrucción.
+2. **Declaración**: si los pasajes difieren en alcance o precisión, el gold **lo hace visible**
+   (ambos en `citations`, con la jerarquía explícita). No se elige uno y se borra el otro.
+
+**El caso.** PEARL, `997-671-005-3_Configuration_ES`, Apéndice 5:
+- **A5.2** (física p43): «**Es fundamental** borrar la regla 1 si se va a realizar una programación
+  específica, **ya que, si no, esta será anulada**» — singulariza la regla crítica **y explica el
+  efecto**. Va en un recuadro de aviso, con icono y subrayado.
+- **A5.4** (física p45): «las **dos reglas** por defecto… **Deben eliminarse** si se van a crear
+  reglas personalizadas» — sin mecanismo. **[CORREGIDO s321, cazado por Alberto]**: A5.4 es la
+  sección «**Ejemplos** de reglas de causa-efecto» y esa frase es un paso del **Ejemplo 1**
+  («*¿Cómo crear una regla para permitir una **evacuación por etapas**…?*»), NO una instrucción
+  general del apéndice. Al llamarla «instrucción de limpieza» esta DEC —y Sol en dos rondas de
+  dúo— leímos un ejemplo como norma. La diferencia real entre A5.2 y A5.4 es de **alcance**:
+  advertencia general (una regla) vs. paso de un caso concreto que programa la propia evacuación
+  (dos reglas). Y ese caso es justo el que la lectura de Alberto anticipaba: la Regla 2 (tecla
+  EVACUACIÓN) solo se cruza con la programación cuando lo que se programa es la evacuación.
+
+No se contradicen: son compatibles y de distinto propósito. Medido: con el chunk de A5.2 delante
+el bot transmite el hecho **3/3 a 5/5**; con el de A5.4, **0/3**
+(`evals/s293_reachability_hp017_hp017_2.json` · `evals/s321_control79_p45_solo_v1.json`).
+
+**La alternativa que se probó y se DESCARTÓ con medición** (propuesta de Alberto, y la idea era
+buena): anclar en el pasaje con más **empaque tipográfico** —el del recuadro amarillo con icono—.
+Se comprobó si esa señal sobrevive a la extracción y **no sirve como regla**: el marcador `<ins>`
+(subrayado) aparece en **1.412 de 26.215 chunks (5,4%)** y una muestra dice que envuelve
+mayoritariamente **títulos de sección** («APÉNDICE A…», «1 CARACTERÍSTICAS TÉCNICAS», «Menú
+zonas»), no avisos. Usarlo como «esto es crítico» sería una máquina de falsos positivos. Y lo que
+de verdad da el empaque —**la caja con el icono**— la extracción lo pierde (TECH_DEBT #83).
+
+**Por qué el criterio elegido es BP + estructural + escalable.** Vive en el **texto plano**, así
+que no depende de cómo maquete cada fabricante y escala a 30+ sin tocar la ingesta. Es
+**pedagógicamente correcto**: lo que convierte una instrucción en algo que un técnico entiende en
+obra es el porqué. Y **no es circular** — se decide contra la FUENTE, no contra cómo respondió el
+modelo ni contra el scorer, que es exactamente donde el dúo cazó tres recomendaciones mías en esta
+misma sesión.
+
+**Gaps declarados.** (a) El criterio NO resuelve el alcance PCI: dice dónde anclar, no qué debe
+contratar la pregunta — eso sigue siendo adjudicación de Alberto. (b) «Dar el mecanismo» no está
+formalizado como predicado automático; hoy es criterio de autoría humana, y formalizarlo sin
+medirlo sería el mismo error que esta sesión ha corregido tres veces. (c) La medición del 5,4% es
+sobre `chunks_v2` a 15-ago-2026; si cambia el extractor, hay que rehacerla.
+
+**Métrica.** Objetivo: per-fact `conveyed` K=5. La medición citada (3/3 vs 0/3) es de esa misma
+métrica ⇒ coincide. No toca ningún «settled» de PASS ni de retrieval-miss.
+
+## DEC-222 (s322i–s323) — El ENCOGIDO de packets como método; y la limpieza autónoma de candidates APARCADA con criterio escrito (dúos r29/r30/r31)
 
 - **Fecha**: 15 ago 2026. **Impacto**: MEDIO-ALTO (método de adjudicación + identidad del
   catálogo). Tres dúos completos: r29 (Sol 5 · Fable 3), r30 (Sol 6, 2 críticos), r31
@@ -6802,7 +6855,155 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   `s323_plan_80_81_v1.md` y `s323_criterio_limpieza_candidates_v1.md` · tallies r29
   (ts=2026-08-15T13:30:27), r30 (19:00:07), r31 (19:47:49).
 
-## DEC-221 (s324) — El residuo de los packets se adjudica por REGLAS, no por filas; el lote firmado se aplica con puertas que PRUEBAN (dúo r32 aplicado entero); Puerta A validada
+## DEC-223 (s321) — El ISO-X NO participa en el acotado de un FALLO DE TIERRA: el hecho baja a SUPPLEMENTARY y la prosa que lo prescribía se retira
+
+- **Fecha**: 15 ago 2026 (s321). **Impacto**: MEDIO — corrige un gold del ruler y retira de una
+  respuesta una instrucción de campo incorrecta. **Decide**: Alberto (DEC-025 — el gold es suyo).
+- **Caso**: `hp006` — «La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y
+  cómo se localiza?». Hecho #3, etiquetado `core`: *«Para acotar un fallo en el lazo se usan los
+  módulos aisladores ISO-X, que aíslan la rama en avería del resto del lazo (requeridos para
+  Estilo 7 según NFPA)»*.
+
+**LA DECISIÓN**: el hecho pasa a `supplementary`, y del `gold_answer` se retira el inciso
+«*—en el lazo, mediante los aisladores ISO-X—*». El método de mitades («aislar/desconectar circuitos
+progresivamente») se queda: lo que se cae es atribuirlo a los aisladores.
+
+**POR QUÉ — cuatro anclas, todas dentro de manuales oficiales aplicables.** Esto importa: la
+objeción legítima era que negar el hecho sería imponer teoría eléctrica sobre la fuente. No lo es.
+
+1. **La tabla de `MIDT170` p71 — la MISMA página que el hecho cita como prueba.** «Funcionamiento
+   del Lazo de Comunicaciones»: la fila **Tierra** vale `Alarma/Avería` en Estilo 6 **y** en Estilo
+   7; la fila **Corto** pasa de `Avería` a `Alarma/Avería` **solo al llegar a Estilo 7**. Como
+   `MFDT170` p17 dice que «El Estilo 7 requiere el uso de módulos ISO-X», el propio manual documenta
+   que **poner aisladores no cambia nada frente a una tierra, y sí frente a un corto**.
+2. **El mecanismo, `MIDT170` p77** (sección «Conexión de un Módulo Aislador (ISO-X)»): «*Un
+   **cortocircuito** en el lazo rearma el relé. El ISO-X detecta **este cortocircuito** y desconecta
+   la ramificación en avería abriendo el lado positivo del lazo (terminal 4)*». Dispara por colapso
+   de tensión ENTRE LOS DOS HILOS; una derivación a masa no lo produce. Y abre **solo el positivo**.
+3. **`50253SP` p98** (manual de instalación del mismo panel — ver la corrección de registro abajo):
+   «*Un **corto circuito** en el SLC restablece al relevador. El módulo ISO-X detecta el **corto**…*»
+   — es la frase de la p17 escrita con el término preciso.
+4. **La detección de tierra no está en el lazo**: vive en la fuente MPS-400 (LED «Fallo de Tierra»,
+   borne TB1-3, puente JP2 que la inhabilita). Otro subsistema. Los aisladores no la ven.
+
+**EL RAZONAMIENTO DE ALBERTO QUE CIERRA EL CASO**, y que es mejor que el argumento por fuente: *si
+el ISO-X acotara la tierra, no verías «Tierra» en pantalla — verías una rama caída*. Que la central
+anuncie Tierra **con el lazo funcionando con normalidad** demuestra que ningún aislador se ha
+disparado.
+
+**LA MITAD PROCEDIMENTAL, también resuelta y también con fuente.** Se examinó si el ISO-X sirve como
+PUNTO FÍSICO por donde partir el lazo al buscar la tierra (bisección), aunque no se dispare solo.
+**No.** El manual de instalación de la AFP-400 ordena «*temporarily place a jumper between Terminals
+2 and 4 on each ISO-X while taking measurements*» — el fabricante los trata como **estorbo para la
+medida**. Además: en sus 179 páginas, las páginas de «ground fault» y las de «ISO-X» tienen
+**intersección vacía**; el procedimiento escrito de otro panel Notifier (NFS-640) desconecta
+«*devices or circuit sections one at a time*» sin aisladores; y las guías de bisección hablan de
+**caja de registro**, no de aislador.
+
+**ALTERNATIVAS DESCARTADAS**
+- **Dejarlo `core` reformulado**: no. El ISO-X es **opcional** — solo lo exige el Estilo 7. Una
+  AFP-400 sin ningún ISO-X da «Tierra» igual. Un `core` exigiría mencionar un equipo que puede no
+  existir en la instalación por la que preguntan.
+- **Borrarlo (❌)**: no. Como arquitectura del lazo es correcto y su cita de Estilo 7 es buena. Vale
+  como `supplementary`.
+- **Apoyarse en la física de lazos flotantes o en el datasheet DN-2243**: innecesario. Las cuatro
+  anclas son de manuales aplicables; la desambiguación se sostiene **borrando toda la evidencia
+  externa**. Queda constancia de que DN-2243:B dice «*wire-to-wire short circuits*» y «*opens circuit
+  when the line voltage drops below four volts*» — corroboración, no apoyo.
+
+**CONTRA-EVIDENCIA DECLARADA** (lo que citaría quien defendiese el `core`): la nota inmediatamente
+encima de esa misma tabla dice que el Estilo 7 aísla zonas «*desde **los fallos** que tienen lugar
+dentro de otras áreas*», genérico. La desactiva la tabla que va justo debajo, del mismo autor y la
+misma página. Y `MIDT170` p17 dice «avería en el circuito», también genérico — es el pasaje-resumen;
+la p77 es el pasaje-mecanismo. **`DEC-221` aplicado**, en un segundo caso independiente del que lo
+originó.
+
+**MATIZ TÉCNICO QUE NO SE PUEDE OMITIR**: con **dos** derivaciones a masa en polaridades opuestas la
+tierra degenera en cortocircuito real y el ISO-X sí actúa. No es teoría: la tabla de `MIDT170` p71
+tiene fila propia **«Corto y Tierra»**, que también mejora solo en Estilo 7. Redacción admisible:
+*el ISO-X no reacciona a una derivación simple; solo si esa tierra ha degenerado en corto — y ni aun
+así la localiza ni la despeja*.
+
+**CORRECCIÓN DE REGISTRO — `50253SP` SÍ es manual de la AFP-400.** El bloque s320d del packet lo
+descartó como «es de la AFP-300» apoyándose en `chunks_v2.product_model`. El `doc_map` (línea 92) lo
+declara `role=primary` de **`notifier:afp-300` Y `notifier:afp-400`**, igual que `MIDT170` (línea
+489). La captura de Alberto sobre **`15088SP`** sigue siendo correcta y no se toca (primary =
+`afp1010` + `am2020`); lo erróneo fue extender aquel hallazgo a `50253SP`. De aquí sale
+`TECH_DEBT #84`.
+
+**ERRATA ÚTIL**: el gold cita `MIDT170 p63 (f71)` y registra offset +8, pero el pie de esa página
+dice **64** (y el de f77 dice 70). El offset real es **7**: las citas impresas del gold van corridas
+una página.
+
+**Artefactos**: `evals/s312_goldreview_b2_packet_v3.md` (ítem 5) · workflow `wf_38d0cbac-aaf` (9
+agentes: 5 lentes de evidencia + 3 refutadores + síntesis) · verificación a mano contra `chunks_v2` y
+`data/catalog/doc_map.jsonl` en el mismo turno (regla C).
+
+## DEC-224 (s321) — Sentada B2 APLICADA al ruler (6 golds, dúo r-emparejado v1→v4); y la conducta ante marca↔producto errónea pasa a (a) «corregir Y responder» — decisión de PRODUCTO de Alberto, PENDIENTE de cablear
+
+- **Fecha**: 16 ago 2026 (s321). **Impacto**: MEDIO-ALTO — toca el patrón de medida (ruler) y fija
+  una conducta de serving. **Decide**: Alberto (DEC-025 para los golds; producto para la conducta).
+
+### A · Lo aplicado al ruler (un solo commit, cascada s277 incluida — DEC-218)
+
+| ítem | gold | qué | cores |
+|---|---|---|---|
+| 3 | `hp017` | **#2 se CONSERVA** (nombra solo la Regla 1 = coherente con la lectura de Alberto; y es `release_guard` de s277 con anclas selladas — partirlo habría movido el sha del contrato). **+1 `supplementary` «Regla 2»**: describe la diferencia de ALCANCE A5.2/A5.4-Ej.1, sin afirmar «no anula» (el manual no lo dice). No condiciona PASS. | 5→5 |
+| 4 | `cat018` | **split #2** → (a) asociación CBE + (b) Tipo SW/TIPO ID con la regla de **p65** («la central no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general») y la tabla p40-41 (23 tipos). Ambas CORE (Alberto: «no quiero falsear los misses» — adjudicó en CONTRA de la única casilla que mejoraba el marcador sin tocar el bot). `gold_answer` punto 3 alineado. | 4→5 |
+| 5 | `hp006` | **#2 → `supplementary`** + texto reescrito (aísla CORTOCIRCUITOS, no tierra) + las **dos** frases del `gold_answer` + procedencia (offset +7, `acuerdo` corregido) + `citations` creado (f71/f77). DEC-223. | 4→3 |
+| 6 | `cat020` | `valor` = **el marcado por Alberto** («niveles por defecto del protocolo Morley-IAS»; v2-v4 lo habían cambiado sin declararlo — Fable). Texto con los DOS ejes (España + protocolo). Deja de disparar `_is_meta_ref` ⇒ entra al denominador de factlevel. | 3→3 |
+| 8 | `hp002` | Enunciado **INTACTO** («de Detnov» = estímulo `oem-relabel`; `hp019` es el control con la marca correcta — asimetría deliberada). **+1 core «Securiton AG»** al final: HECHO de fabricante (portada + p18 «Fabricante = Securiton»), SIN meta-instrucción. | 5→6 |
+| 9 | `hp021` | **ALTA**: ruta AJUSTES > AVANZADO (core) + acceso candado/2222 (core, UNO como adjudicó Alberto) + 2 suppl. Estrato `sintesis-completitud`. Verificado COMPLETO: render 160dpi ±1, GPT-5.5 en frío, localización ES+EN por doc_map. | +2 |
+
+**Verificación (RULER_DESIGN §2, punto por punto)**: (1) localización exhaustiva ES+EN por `doc_map`
+—no por `product_model` (TECH_DEBT #84)— para los tres golds con cores nuevos →
+`evals/s321_localizacion_es_en_v1.json`; (2)+(3) render 160dpi de 17 páginas con ±1 →
+`logs/render/s321/`; (4) doble señal GPT-5.5 en frío sobre 7 páginas → `evals/s321_cross_verify_v1.txt`,
+**coincidente en las 7**. **El render ±1 cazó un off-by-one**: el chunk «p26» del MI-716 contiene el
+diagrama que físicamente está en **p27** (PDF apaisado, dos páginas por hoja) — ambos modelos lo vieron;
+la cita de `hp021` es p27. Es exactamente para lo que el paso 3 existe.
+
+**Cascada s277 (DEC-218)**: builder → contrato+prereg_v1; pins copiados a mano a prereg_v2/v3 y scorer
+(`da79055e/fbfc97cc → 7c39ba69/511bc020`); canarios s203/s204/s205 re-anclados al ledger
+(`a306b126 → 59df5f99`, diff de UNA línea cada uno); manifest histórico **intacto**. 24/24 tests.
+**La migración de índices que Sol pedía NO hizo falta**: al no partir `hp017#2`, las 42 claves históricas
+OK del ledger s113 siguen válidas (simulado ANTES de escribir, verificado DESPUÉS contra el YAML real).
+
+**El dúo (4 rondas: v1→v4, todas registradas en `evals/adversarial_review_log.jsonl`)**: Sol NO SÓLIDO en
+v1/v2, 7 en v3, 7 en v4; Fable emparejado sobre v4 (ts=2026-08-16T11:51:02): **sin críticos**, 3 medios.
+**Cero falsos positivos** en las cuatro rondas tras regla C. Lo que el dúo NO cazó y sí cazó Alberto: el
+2222 como supplementary en `hp021` (contra su marca explícita) y que A5.4 es un EJEMPLO. Lo que el dúo
+cazó y yo tenía mal: `product_model` como filtro (→ #84), `load_dev()` sin filtro de estado, el harness
+que no atraviesa `mismatch`, `hp006` sin `citations`, dos frases ISO-X en vez de una, `cat020` con el
+`valor` cambiado sin declarar, la meta-instrucción en el core de `hp002`, mezcla de denominadores.
+
+**Fuera del ruler, declarado**: «FORC/CON/CONV/GSND/GSTR sí aceptan CBE» (p39 solo lista); «distribuido por
+Detnov» (ningún chunk del ASD535 lo dice); «Guía Avanzada = MC-380» (va en `notes` de hp021, anclado en
+doc_map, no como hecho); «el MI-716 no documenta AVANZADO» (ausencia: exigiría render de 48 pp).
+
+### B · La conducta ante «el ASD535 de Detnov» — decisión de PRODUCTO, PENDIENTE de cablear
+
+**Estado real HOY** (verificado en código, no en el packet — que decía «rechaza» y era inexacto):
+`src/orchestrator/turn_plan.py:451-460` detecta la marca mencionada, resuelve `marca_de_modelo` en el
+catálogo y si no coincide devuelve `ruta="mismatch"`; `src/bot/telegram_bot.py:1178-1189` responde
+literal «*El ASD535 es un producto de Securiton, no de Detnov. ¿Te refieres al ASD535 de Securiton? Si es
+así, dime tu pregunta y te ayudo.*» y **retorna sin llamar al RAG** = corrige y pide confirmar (b).
+
+**Decisión de Alberto: (a)** — corregir la marca **y responder en el mismo turno**. Prefiere fluidez con
+el riesgo declarado (asume aparato correcto, marca equivocada). **Alternativas**: (b) como hoy — un turno
+más, más seguro si el técnico se equivocó de aparato; (c) rechazar seco — no existía.
+
+**Qué exige cablear**: que la ruta `mismatch` corrija **y siga a `_process_query`** con el modelo
+resuelto. Es serving ⇒ dúo + flag-off + PR propio. **NO entra en esta PR.**
+
+**Cómo se mide** — y esto es lo que Sol v4 cazó y hay que tener claro: el harness
+(`test_bot_vs_gold.run_bot`) llama a `execute_rag_turn` directo y **no atraviesa `mismatch`** ⇒ `hp002`
+mide si el GENERADOR nombra a Securiton ante «de Detnov», **no** la conducta de serving. La conducta (a)
+se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testigo end-to-end.
+
+**Artefactos**: `evals/s321_sentada_b2_conjunto_de_escritura_v{1,2,3,4}.md` · `scripts/s321_aplicar_sentada_b2.py`
+(falla-cerrado: valida las 6 en memoria antes de escribir) · `evals/s312_goldreview_b2_packet_v3.md`.
+## DEC-225 (s324) — El residuo de los packets se adjudica por REGLAS, no por filas; el lote firmado se aplica con puertas que PRUEBAN (dúo r32 aplicado entero); Puerta A validada
 
 - **Fecha**: 16 ago 2026. **Impacto**: MEDIO-ALTO (método de adjudicación + identidad del
   catálogo + corpus). Dúo r32: Sol xhigh 6 hallazgos (3 críticos) · Fable 5 6 hallazgos (no
@@ -6847,10 +7048,10 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   residuo, ~$40) — se descartó tras diagnosticar que caían por regla, no por juez; (b) aplicar
   R1' como parte del «lote firmado» — Sol lo tumbó con razón: criterio nuevo, adjudicable; (c)
   aplicar el sí de E1b «en seco» — DEC-220 r30: cada bloque pasa por censo + gate.
-- **Alerta sobre el instrumento** (→ TECH_DEBT #83): la review de Fable 5 incluye una
+- **Alerta sobre el instrumento** (→ TECH_DEBT #86): la review de Fable 5 incluye una
   transcripción de tools FABRICADA (0 `tool_use` reales en el responses JSON; cita ficheros
   inexistentes) — sus hallazgos válidos salieron de las semillas. Y el emparejamiento se rompió
   porque el autor commiteó durante el run (regla: no mover HEAD mientras corre un dúo).
-- **Relacionado**: DEC-220 (r30/r31) · packets v2 anotados con estado (`scripts/s324_packets_estado.py`) ·
-  tally r32 (Sol ts=2026-08-16T13:22:27; Fable 13:26:02) · TECH_DEBT #83/#84/#85 · reversión:
+- **Relacionado**: DEC-222 (r30/r31) · packets v2 anotados con estado (`scripts/s324_packets_estado.py`) ·
+  tally r32 (Sol ts=2026-08-16T13:22:27; Fable 13:26:02) · TECH_DEBT #86/#87/#88 · reversión:
   `git checkout af95f49 -- data/catalog/` + `retags.backup_chunks` del recibo.

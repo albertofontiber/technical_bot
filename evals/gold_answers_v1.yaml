@@ -241,6 +241,13 @@
     estado: presente
     cita: ASD535_TD_T131192es_h, p121, seccion 9.3
     valor: null
+  - texto: 'El ASD535 es un detector de humos por aspiracion cuyo FABRICANTE es Securiton (Securiton AG,
+      Alpenstrasse 20, 3052 Zollikofen, Suiza); en la tabla de terminos del manual: ''Fabricante = Securiton'''
+    tipo: core
+    estado: presente
+    valor: Securiton AG
+    cita: 'ASD535_TD_T131192es_h p1 (portada: logo SECURITON + pie ''Securiton AG Alpenstrasse 20 3052
+      Zollikofen Suiza'') + p18 (tabla de terminos ''| Fabricante | = Securiton |'')'
   citations:
   - manual: ASD535_TD_T131192es_h.pdf
     page: 22
@@ -273,6 +280,14 @@
     page: 58
     quote: En aplicaciones con grandes turbulencias de aire puede resultar necesario aumentar el tiempo
       de retardo así como el tamaño de la ventana por encima del ±20 %
+  - manual: ASD535_TD_T131192es_h.pdf
+    page: 1
+    quote: SECURITON — ASD 535 Detector de humos por aspiración — Descripción técnica — Securiton AG Alpenstrasse
+      20 3052 Zollikofen Suiza
+  - manual: ASD535_TD_T131192es_h.pdf
+    page: 18
+    quote: '| Fabricante | = Securiton | … | OEM | = Original Equipment Manufacturer (fabricante o distribuidor
+      del equipo original) |'
   notes: La pregunta menciona 'Detnov' como fabricante, pero el manual aportado es de Securiton AG (ASD
     535). Detnov comercializa equipos compatibles/OEM de Securiton en algunos mercados, pero el validador
     debe confirmar que se trata efectivamente del mismo modelo ASD 535. Además, el técnico habla de 'alarma
@@ -292,6 +307,10 @@
     verificado_por:
     - Claude (multimodal de p28 criterio 'fallo flujo de aire' + p101 lectura del flujo cap 7.6.1)
     - gpt-5.5 (transcripcion independiente en frio de p28, scripts/cross_verify_image.py)
+    - 'GPT-5.5 en frío sobre render p1 (evals/s321_cross_verify_v1.txt): logo SECURITON, ASD 535, Securiton
+      AG Zollikofen'
+    - 'Claude s321 lectura al píxel p1 + chunk p18 ''Fabricante = Securiton'' + dúo emparejado s321: Sol
+      xhigh ts=2026-08-16T11:51:02 + Fable 5 (evals/adversarial_review_log.jsonl)'
     acuerdo: 'total y LITERAL: ventana +-20 % sobre el nominal 100 %; por debajo del 80 % suciedad/obstruccion,
       por encima del 120 % rotura de tubo; retardo 300 s de la LS-Ü; lectura del flujo via conmutador
       V/V01/V02 con < 100 % obstruccion y > 100 % rotura; nuevo reset inicial (cap 7.3.5) solo con el
@@ -301,17 +320,32 @@
       confirma fisica = impresa). El gold cito paginas correctas (p22/28/31/32/58/101). Los sub-rangos
       del gold_answer (sensibilidad LS-Ü +-1 a +-70 %, retardo 2 a 60 min) NO se re-renderizaron aqui
       (viven en cap 7.2.1) -> no autorados como hechos; +-20 % y 300 s SI verificados. Equipo = Securiton
-      ASD 535 (Detnov OEM); el gold lo advierte correctamente.'
+      ASD 535 (Detnov OEM); el gold lo advierte correctamente. || s321 (sentada B2 ítem 8, decisión de
+      PRODUCTO de Alberto = conducta (a): corregir la marca Y responder en el mismo turno). El ENUNCIADO
+      se conserva ''de Detnov'' A PROPÓSITO: es el estímulo del estrato oem-relabel (hp019 es el control
+      con la marca correcta — asimetría deliberada, NO armonizar). Core ''Securiton AG'' = HECHO de fabricante
+      (portada + p18 verbatim), SIN meta-instrucción (Fable v4). LÍMITE DECLARADO (Sol v4 crítico 1, confirmado):
+      el harness (test_bot_vs_gold.run_bot) llama a execute_rag_turn directo y NO atraviesa la ruta `mismatch`
+      de turn_plan/telegram_bot ⇒ este gold mide si el GENERADOR nombra a Securiton, no la conducta de
+      serving; la corrección de marca en el bot se prueba con smoke del bot real (DEC-224). match_fact
+      con valor de 2 tokens (''Securiton AG'') es proxy; el juez conveyed es quien acredita. Ningún chunk
+      del manual ASD535 menciona Detnov (barrido) ⇒ ''distribuido por Detnov'' NO es hecho del corpus
+      y no se exige.'
     localizacion:
       manuales_buscados:
+      - ASD535_TD_T131192es_h
       - ASD535_TD_T131192es_h.pdf
       terminos:
-      - fallo flujo de aire
-      - 20 %
-      - 80 %
       - 120 %
+      - 20 %
       - 300 s
       - 7.6.1
+      - 80 %
+      - Detnov
+      - Securiton
+      - fabricante
+      - fallo flujo de aire
+      - manufacturer
       - reset inicial
       paginas:
       - 28
@@ -696,9 +730,9 @@
     - La fuente MPS-400 dispone de deteccion de fallo de tierra: LED dedicado 'Fallo de Tierra', terminal de toma de tierra TB1-3 y puente JP2 para inhabilitar la deteccion. Es imprescindible conectar TB1-3 a una toma de tierra solida (p.ej. tuberia metalica de agua fria) para la inmunidad del panel (MIDT170 / 50253SP).
     - En el lazo de comunicaciones (SLC), 'Tierra' es una de las condiciones de averia que la central reconoce y muestra (tabla de Funcionamiento del Lazo, Estilos 4/6/7) (MIDT170).
     - En red, la deteccion de fallo de tierra por canal A/B se habilita/inhabilita con los conmutadores SW2/SW3 del modulo NAM-232W (MADT380_01).
-    - Para acotar un fallo en el lazo se emplean los modulos aisladores ISO-X, que aislan la rama en averia del resto del lazo (MIDT170).
+    - Los modulos aisladores ISO-X (requeridos en Estilo 7) aislan cortocircuitos del lazo; no intervienen en un fallo de tierra (MIDT170).
 
-    Para localizar el punto exacto del fallo: los manuales disponibles NO incluyen un procedimiento paso a paso (el manual de funcionamiento MFDT170 no detalla este aviso). El metodo general consiste en aislar/desconectar circuitos progresivamente -en el lazo, mediante los aisladores ISO-X- hasta que desaparece el aviso; para el procedimiento detallado, consultar al servicio tecnico de Notifier.
+    Para localizar el punto exacto del fallo: los manuales disponibles NO incluyen un procedimiento paso a paso (el manual de funcionamiento MFDT170 no detalla este aviso). El metodo general consiste en aislar/desconectar circuitos progresivamente hasta que desaparece el aviso; para el procedimiento detallado, consultar al servicio tecnico de Notifier.
   atomic_facts:
   - texto: 'La fuente MPS-400 de la AFP-400 dispone de deteccion de fallo de tierra: LED dedicado ''Fallo
       de Tierra'' (MIDT170) + terminal TB1-1 ''Falla de Tierra'' / TB1-3 toma de tierra; el puente JP2
@@ -713,12 +747,15 @@
     estado: presente
     valor: Tierra
     cita: MIDT170 p63 (f71)
-  - texto: Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama en
-      averia del resto del lazo (requeridos para Estilo 7 segun NFPA)
-    tipo: core
+  - texto: 'Los modulos aisladores ISO-X aislan del resto del lazo la rama en la que se produce un CORTOCIRCUITO
+      (MIDT170: ''El ISO-X detecta este cortocircuito y desconecta la ramificacion en averia abriendo
+      el lado positivo del lazo''), y son requisito del Estilo 7 de NFPA. NO intervienen en un fallo de
+      TIERRA: la tabla ''Funcionamiento del Lazo'' da el mismo resultado para Tierra en Estilo 6 y en
+      Estilo 7, y solo mejora la fila Corto'
+    tipo: supplementary
     estado: presente
     valor: ISO-X
-    cita: MIDT170 p63 (f71)
+    cita: 'MIDT170 p70 (f77, seccion ISO-X: mecanismo) + p64 (f71, tabla Funcionamiento del Lazo)'
   - texto: Es imprescindible conectar el terminal de toma de tierra (MPS-400 TB1-3) a una toma de tierra
       solida para mantener la inmunidad del panel
     tipo: supplementary
@@ -739,6 +776,18 @@
     valor: null
     cita: MFDT170 (0 menciones de 'Tierra') + MIDT170/MPDT170/MADT232; el manual de instalacion 50253
       (destino de la redireccion del bot) NO fue verificado
+  citations:
+  - manual: MIDT170.pdf
+    page: 77
+    quote: Un cortocircuito en el lazo rearma el relé. El ISO-X detecta este cortocircuito y desconecta
+      la ramificación en avería abriendo el lado positivo del lazo (terminal 4).
+  - manual: MIDT170.pdf
+    page: 71
+    quote: 'Funcionamiento del Lazo de Comunicaciones — Tierra: Alarma/Fallo · Alarma/Avería · Alarma/Avería
+      | Corto: Avería · Avería · Alarma/Avería (Estilo 4 · 6 · 7)'
+  - manual: MIDT170.pdf
+    page: 54
+    quote: 'LEDS para fallo de tierra … (MPS-400: LED ''Fallo de Tierra'', terminal TB1-3, puente JP2)'
   confidence: media
   pdfs_used:
   - MADT380_01.pdf
@@ -757,16 +806,22 @@
     - 'pdf_grep 50253SP 2-44 (f80): confirma JP2 ''Corte para inhabilitar la deteccion de la Falla de
       Tierra'' + pinout TB1 (TB1-1 Falla de Tierra) -> claim del gold s27 VERIFICADO contra la fuente
       (un revisor lo marco como no-probado por mirar solo MIDT170; rule C)'
+    - 's321 · DEC-223 · workflow wf_38d0cbac-aaf + verificación manual chunks_v2 f71/f77 + dúo emparejado
+      s321: Sol xhigh ts=2026-08-16T11:51:02 + Fable 5 (evals/adversarial_review_log.jsonl)'
     acuerdo: 'render confirma: MPS-400 con LED ''Fallo de Tierra'' + TB1-3 + JP2 (f54); ''Tierra'' como
-      condicion de averia del lazo (f71) + aisladores ISO-X; sin procedimiento de localizacion paso-a-paso
-      en los manuales'
+      condicion de averia del lazo (f71); los ISO-X aislan CORTOCIRCUITOS (f77) y NO intervienen en tierra
+      (tabla f71: fila Tierra igual en Estilo 6 y 7, solo mejora Corto) — DEC-223; sin procedimiento de
+      localizacion paso-a-paso en los manuales'
     fecha: '2026-05-31'
-    nota: 'MIDT170 OFFSET +8 (impresa = fisica - 8; pie ''MI-DT-170c 46''/''63'' en f54/f71). Digital-native.
-      CONDUCTA CORREGIDA admit_no_info -> answer (parcial) + LIMPIEZA: el gold_answer de s27 venia malformado
-      (JSON-en-string truncado por un parse error); raw/_needs_human_review/_review_note eliminados. El
-      corpus SI cubre el fallo de tierra (deteccion MPS-400, condicion de averia del lazo, aisladores
-      ISO-X) en MIDT170, que el autor NO consulto; solo el walk-down de localizacion es ausente-probado.
-      Mismo patron que hp017 (subset de PDFs demasiado estrecho).'
+    nota: 'MIDT170 OFFSET +7 (impresa = fisica - 7; pie ''MI-DT-170c 64''/''70'' en f71/f77 — el +8 registrado
+      en s27 estaba corrido una pagina; s321). Digital-native. CONDUCTA CORREGIDA admit_no_info -> answer
+      (parcial) + LIMPIEZA: el gold_answer de s27 venia malformado (JSON-en-string truncado por un parse
+      error); raw/_needs_human_review/_review_note eliminados. El corpus SI cubre el fallo de tierra (deteccion
+      MPS-400, condicion de averia del lazo, aisladores ISO-X) en MIDT170, que el autor NO consulto; solo
+      el walk-down de localizacion es ausente-probado. Mismo patron que hp017 (subset de PDFs demasiado
+      estrecho). || s321 (sentada B2 ítem 5, adjudicación Alberto = demote): DEC-223. 50253SP SÍ es manual
+      de la AFP-400 (doc_map primary de afp-300 Y afp-400); su p98 escribe la misma frase con ''corto
+      circuito''.'
     localizacion:
       manuales_buscados:
       - MADT380_01 (NAM-232W)
@@ -1984,6 +2039,14 @@
     estado: presente
     cita: 997-671-005-3_Configuration_ES, p42, recuadro A5.1
     valor: null
+  - texto: La advertencia general de A5.2 solo exige borrar la Regla 1, que anula la programacion especifica.
+      La Regla 2 (la tecla EVACUACION activa TODOS los equipos de salida) no esta en esa advertencia;
+      el paso 'deben eliminarse' las dos reglas por defecto aparece en el Ejemplo 1 de A5.4, un caso de
+      evacuacion por etapas en el que la programacion toca la propia evacuacion
+    tipo: supplementary
+    estado: presente
+    valor: Regla 2
+    cita: 997-671-005-3 p43 (A5.2, f43) + p45 (A5.4 Ejemplo 1, f45)
   citations:
   - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
     page: 42
@@ -2004,6 +2067,14 @@
     page: 20
     quote: (Programación del lazo) ... Retardo de alarma ... Retardo de confirmación de coincidencia de
       detector; puede ajustarse hasta 240 s (4 min).
+  - manual: 997-671-005-3_Configuration_ES.pdf
+    page: 43
+    quote: Es fundamental borrar la regla 1 si se va a realizar una programación específica, ya que, si
+      no, esta será anulada.
+  - manual: 997-671-005-3_Configuration_ES.pdf
+    page: 45
+    quote: A5.4 Ejemplos de reglas de causa-efecto … Ejemplo 1 … el usuario encontrará aquí las dos reglas
+      de causa-efecto por defecto. Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.
   notes: La guía básica de instalación NO cubre la programación de retardos (solo hardware/cableado);
     el procedimiento vive en el Manual de configuración 997-671-005-3 (Apéndice 5, causa-efecto), que
     SÍ está en el corpus. El retardo de la salida de alarma se consigue por regla causa-efecto + tipo
@@ -2026,11 +2097,20 @@
     verificado_por:
     - Claude (texto literal + render de p43/p44: confirma digital-native y lectura fiel)
     - SQL chunks_v2 (presencia y cobertura del manual en el corpus)
+    - 's321 lectura verbatim p43/p45 en chunks_v2 + dúo emparejado s321: Sol xhigh ts=2026-08-16T11:51:02
+      + Fable 5 (evals/adversarial_review_log.jsonl)'
     fecha: '2026-05-30'
     correccion: 'Conducta admit_no_info -> answer. El gold original se autoró (s27) solo con "Guia basica
       instalacion_PEARL" en pdfs_used (6 chunks, 0 de retardo), que NO cubre el tema; el Manual de configuración
       SÍ lo cubre y está en el corpus. Patrón: los "admit-discutibles" (hp006/hp009/hp017) probablemente
       vienen de un subset de PDFs demasiado estrecho vs el corpus real.'
+    nota: ' || s321 (sentada B2 ítem 3, adjudicación Alberto): #2 se CONSERVA (release_guard s277 con
+      anclas selladas; nombra solo la Regla 1 = coherente con la lectura). Se AÑADE suppl ''Regla 2''
+      que NO afirma ''no anula'' (Sol v2/v3): describe la diferencia de ALCANCE entre A5.2 (advertencia
+      general, una regla) y A5.4-Ej.1 (paso de un ejemplo de evacuación por etapas, dos reglas). No condiciona
+      PASS. Lectura de Alberto: la Regla 1 anula porque comparte disparador con las reglas específicas;
+      la Regla 2 se dispara con la tecla → no se cruza salvo que se programe la propia evacuación (que
+      es justo el caso del Ejemplo 1). DEC-221 aplicado.'
 - qid: hp018
   question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?
   conducta_esperada: answer
@@ -3797,7 +3877,7 @@
 
     1. QUE ES: una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO (p. ej. una alarma de una zona activa un modulo de salida). Es el mecanismo causa-efecto de la central.
     2. DONDE SE PROGRAMA: desde el menu Programacion AM8200 > Puntos, seleccionando Sensores o Modulos. Cada punto se programa en su pestana 'Programacion', donde se le asigna la ZONA y se configura su ecuacion CBE (si ya hay una, se visualiza).
-    3. LA SALIDA: los modulos de salida llevan un Tipo SW (por ejemplo SND para sirena); un modulo de salida se dispara cuando su ecuacion CBE se cumple (se activa 'por asociacion CBE').
+    3. LA SALIDA: un modulo de salida se dispara cuando su ecuacion CBE se cumple (se activa 'por asociacion CBE'). Ojo al Tipo SW (TIPO ID) del modulo: la central NO permite programar una ecuacion a un modulo con TIPO ID para senalizaciones de caracter general (tabla p40-41: PWRC, GAC, GTC, GAS, GTS, SND, STR...); esos se activan por su propia funcion, p. ej. SND es el tipo de la salida sirena.
     4. LA SINTAXIS de las ecuaciones (operandos y operadores) esta detallada en el Apendice A 'Control By Event' al final del manual de programacion.
 
     Conviene, antes de programar en la central, registrar en las hojas de programacion la informacion de TODOS los sensores, modulos, zonas software, ecuaciones CBE y grupos.
@@ -3815,12 +3895,22 @@
     estado: presente
     valor: 'pestana Programacion: Zona + CBE'
     cita: AM-8200-manu-prog p14-15 + p21 (render)
-  - texto: Los modulos de SALIDA llevan un Tipo SW (p. ej. SND = sirena); un modulo de salida se dispara
-      cuando se cumple su ecuacion CBE (se activa 'por asociacion CBE')
+  - texto: Un modulo de salida se dispara cuando se cumple su ecuacion CBE (se activa 'por asociacion
+      CBE'); es una via de activacion distinta de la del Tipo SW
     tipo: core
     estado: presente
-    valor: Tipo SW / asociacion CBE
-    cita: AM-8200-manu-prog p7 + p15
+    valor: asociacion CBE
+    cita: AM-8200-manu-prog-spa p7 (impresa 4) + p65 (impresa 62)
+  - texto: 'Cada modulo de salida lleva un Tipo SW (el manual tambien lo llama TIPO ID), y ese tipo determina
+      si admite CBE: la central NO PERMITE programar una ecuacion a un modulo con TIPO ID para senalizaciones
+      de caracter general — los de la tabla ''Modulos de salida para senalizaciones generales'' (PWRC,
+      GPND, GAC, GTC, GAS, GTS, SND, STR...), que se activan por su propia funcion; p. ej. SND es el tipo
+      de la salida sirena'
+    tipo: core
+    estado: presente
+    valor: Tipo SW / TIPO ID
+    cita: 'AM-8200-manu-prog-spa p65 (impresa 62, NOTA en negrita: mecanismo) + p40-41 (impresas 37-38,
+      tabla)'
   - texto: La sintaxis de las ecuaciones CBE (operandos y operadores) esta en el Apendice A 'Control By
       Event' al final del manual de programacion
     tipo: core
@@ -3847,6 +3937,22 @@
   - manual: AM-8200-manu-prog-spa.pdf
     page: 3
     quote: APENDICE «A» - ECUACION CONTROL POR EVENTO 61
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 65
+    quote: 'NOTA: para los módulos de salida, la central no permite programar una ecuación si el módulo
+      tiene un TIPO ID para señalizaciones de carácter general.'
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 41
+    quote: 'MÓDULOS DE SALIDA PARA SEÑALIZACIONES GENERALES … GASV · GTSV · ZFLTV · MAINFV · REMV · SND
+      · STR … Nota: los módulos de salida utilizados para las funciones arriba indicadas no aceptan CBE.'
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 40
+    quote: MÓDULOS DE SALIDA PARA SEÑALIZACIONES GENERALES … PWRC · GPND · APND · GAC · TPND · GTC · TRS
+      · ZFLT · ZDIS · MAINF · REM · GAS · GTS · ZFLTC · MAINFC · REMC
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 7
+    quote: 'En caso de alarma, se activan los siguientes dispositivos: • Salida sirena • Módulos de salida
+      programados con tipo-SW SND • Todos los módulos de salida activados por asociación CBE'
   notes: 'SINTESIS-COMPLETITUD intra-manual (manual de programacion AM-8200): la respuesta completa fusiona
     el concepto CBE (p21) + el flujo de programacion menu>Puntos>pestana Programacion (p14-15) + el tipo
     de salida SW (p7) + la sintaxis del Apendice A (p61). Producto AM-8200 (peticion de Alberto), NO-battery
@@ -3870,16 +3976,37 @@
       Ver el apendice A'' -> legible, digital-native)'
     - 'pdf_grep AM-8200-manu-prog: workflow de programacion (p14-15: menu Programacion>Sensores/Modulos
       -> asociar zona + ecuacion CBE) + tipo SW=SND (p7) + indice Apendice A p61 (p3)'
-    acuerdo: CBE = ecuacion que activa un comando segun un evento; se programa por punto (Sensores/Modulos)
+    - 'GPT-5.5 en frío sobre render p65/p41/p40 (evals/s321_cross_verify_v1.txt): NOTA literal, 7+16 tipos,
+      iconos'
+    - 'Claude s321 lectura al píxel p65/p41/p40 + dúo emparejado s321: Sol xhigh ts=2026-08-16T11:51:02
+      + Fable 5 (evals/adversarial_review_log.jsonl)'
+    acuerdo: 'CBE = ecuacion que activa un comando segun un evento; se programa por punto (Sensores/Modulos)
       asignando zona + ecuacion CBE en la pestana Programacion; sintaxis en el Apendice A -> respuesta
-      completa fusiona >=2 secciones del MISMO manual (sintesis-completitud)
+      completa fusiona >=2 secciones del MISMO manual (sintesis-completitud) || s321: split #2 → asociación-CBE
+      (core) + Tipo SW/TIPO ID (core, adjudicación Alberto ''ambas CORE — no quiero falsear los misses'');
+      regla de bloqueo p65 verificada al píxel + GPT-5.5 en frío; tabla p40-41 (23 tipos) al píxel; iconos
+      SND=sirena/STR=flash confirman SND como tipo de sirena. Corroborado por ediciones IT/EN públicas
+      de Honeywell (M-173.1 ITA p.38/63, M-162.1-ENG p.38/63) — usadas para saber DÓNDE mirar, no como
+      cita.'
     fecha: '2026-06-08'
     nota: 'batch s52b #3. AM-8200 NO-battery (el duo cazo que triplicar battery -cat012- mata la diversidad
-      del A/B) -> diversifica sintesis. Manual de programacion digital-native.'
+      del A/B) -> diversifica sintesis. Manual de programacion digital-native. || s321 render+doble señal:
+      logs/render/s321/*.png (160dpi, ±1 vecina) + evals/s321_cross_verify_v1.txt (GPT-5.5 en frío). Localización
+      ES+EN: evals/s321_localizacion_es_en_v1.json (barrido por doc_map — TECH_DEBT #84 —, ES+EN) — la
+      regla está en AM-8200-manu-prog-spa y AM-8200N (mismas p41/p65), ausente en los 3 manuales de instalación
+      (coherente: doctrina de programación). NO entra en el hecho «FORC/CON/CONV/GSND/GSTR sí aceptan
+      CBE»: p39 solo los lista.'
     localizacion:
       manuales_buscados:
       - AM-8200-manu-prog-spa.pdf
       - AM-8200 Manual Instalacion.pdf (battery=cat012, no usado aqui)
+      - AM-8200-manu-prog-spa
+      - AM-8200N manual de usuario y programacion rev 3 30-10-2024
+      - AM-8200 Manual Instalacion
+      - AM 8200G manual instalacion Rv 3
+      - AM 8200N-manual instalacion RV 4 30-01-2025
+      - UCIP MODBUS AM8200 V5.1
+      - Guia Rapida H_GTW
       terminos:
       - CBE
       - Control By Events
@@ -3889,6 +4016,10 @@
       - Tipo SW
       - Apendice A
       - Programacion AM8200
+      - no aceptan CBE
+      - no permite programar una ecuacion
+      - TIPO ID
+      - do not accept CBE
       paginas:
       - 21
       - 15
@@ -4034,13 +4165,14 @@
     estado: presente
     valor: 0-100 % normalizado
     cita: DXc Manual de variaciones Espana §5.3.10.5.1 p6 (render)
-  - texto: 'Estos valores por defecto son especificos de la VERSION ESPANA: figuran en el Manual de variaciones
-      para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X) donde esta la configuracion
-      general del nivel de alarma (seccion Modos Horarios)'
+  - texto: 'Estos valores por defecto son los de la VERSION ESPANA para el PROTOCOLO MORLEY-IAS: figuran
+      en el Manual de variaciones para Espana, en la seccion §5.3.10.5 ''Informacion especifica segun
+      el protocolo'' → §5.3.10.5.1 ''para protocolo Morley-IAS'', que COMPLEMENTA el manual de configuracion
+      base (996-203-005-X) donde esta la configuracion general del nivel de alarma (seccion Modos Horarios)'
     tipo: core
     estado: presente
-    valor: manual de variaciones Espana
-    cita: DXc Manual de variaciones Espana p2-3 + p6
+    valor: niveles por defecto del protocolo Morley-IAS
+    cita: DXc Manual de variaciones Espana p6 (§5.3.10.5 → §5.3.10.5.1) + p2-3
   - texto: Los niveles se editan por detector (campos Fuego y Prealarma), p.ej. en pantalla 'S001 OTM
       Fuego:Niv4 Prealarma:Niv3'
     tipo: supplementary
@@ -4059,6 +4191,11 @@
     quote: Manual de variaciones de la version para Espana... El contenido de este manual es un complemento
       de los manuales incluidos con las centrales de la serie DX Connexion... describe los requisitos
       de las normas locales, el modo de funcionamiento, la configuracion... especifica del pais.
+  - manual: DXc_Manual variaciones de mercado.pdf
+    page: 6
+    quote: '5.3.10.5 Información específica según el protocolo → 5.3.10.5.1 Información específica para
+      protocolo Morley-IAS: … el nivel de prealarma por defecto es el 80% y el nivel de alarma por defecto
+      es el 100%. • El ajuste máximo para el nivel de alarma es el 108%.'
   notes: 'MULTI-DOC / override de mercado: el valor ES-especifico (prealarma 80 / alarma 100 / max 108)
     lo fija el Manual de variaciones para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X).
     Fallo-dimension real: el bot puede servir la config GENERAL del manual base sin el override de Espana.
@@ -4085,12 +4222,18 @@
     - 'pdf_grep DXc_Manual variaciones de mercado: p2 ''complemento de los manuales... version Espana'';
       p3 ''5.3 Programacion manual - Diferencias para la version del pais... Tabla 6 del manual de configuracion
       996-203-005-X'''
+    - 's321 lectura verbatim p6 en chunks_v2 + dúo emparejado s321: Sol xhigh ts=2026-08-16T11:51:02 +
+      Fable 5 (evals/adversarial_review_log.jsonl)'
     acuerdo: los valores por defecto ES (prealarma 80 / alarma 100 / max 108) viven en el manual de variaciones
       Espana, que complementa el manual de configuracion base -> el answer correcto exige el override
       de mercado del doc ES (multi-doc)
     fecha: '2026-06-08'
     nota: 'batch s52b #5. Pivote de diversidad (auto-catch del principio del duo: no triplicar causa-efecto-sintesis).
-      Market-override = fallo-dimension distinto. Manual digital-native.'
+      Market-override = fallo-dimension distinto. Manual digital-native. || s321 (sentada B2 ítem 6, adjudicación
+      Alberto ✏️): el `valor` deja de empezar por ''Manual'' (ya no dispara _is_meta_ref → entra al denominador
+      de factlevel; atomic_scorer ya lo puntuaba). El texto CONSERVA los dos ejes (España + protocolo
+      — Sol v2): el documento es de variaciones para España, la sección que porta los valores es ''según
+      el PROTOCOLO''. valor = el marcado por Alberto (Fable v4 cazó que v2-v4 lo habían cambiado sin declarar).'
     localizacion:
       manuales_buscados:
       - DXc_Manual variaciones de mercado.pdf
@@ -6097,3 +6240,126 @@
       resultado: AUSENCIA PROBADA de la referencia/SKU del cartucho de repuesto en todo el corpus servible;
         PRESENCIA del cuándo (20%/Expirac.) + cómo (5 pasos, encendido, IN) + precauciones → conducta
         admit con lo documentado servido y redirección propia (subtipo de cat015)
+- qid: hp021
+  question: ¿Cómo se accede al menú de configuración avanzada en la Detnov CAD-171?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - sintesis-completitud
+  gold_answer: 'En la Detnov CAD-171 el menu de configuracion avanzada esta en AJUSTES (Menu principal)
+    > AVANZADO (Submenu). Para llegar hay que entrar como administrador: desde la PANTALLA DE REPOSO tocar
+    el icono del candado, que abre la PANTALLA DE ACCESO, e introducir la clave de administrador (por
+    defecto 2222). El manual de la CAD-171 (MI-716) remite a la Guia Avanzada de Configuracion para el
+    detalle de configuracion; el uso indebido del nivel de administrador puede provocar un mal funcionamiento
+    de la instalacion.'
+  atomic_facts:
+  - texto: La ruta al menu de configuracion avanzada es AJUSTES (Menu principal) > AVANZADO (Submenu)
+    tipo: core
+    estado: presente
+    valor: AJUSTES > AVANZADO
+    cita: 'MI-716 p27 (§6.3, diagrama de navegacion: AJUSTES resaltado en Menu principal; columna Submenu
+      GENERAL·VERSIONES·USUARIOS·AVANZADO·CONECTIVIDAD·IMPRESORA·LOGS·TEST·INICIO) + p34/p35'
+  - texto: 'El acceso esta protegido: tocar el icono del candado en la PANTALLA DE REPOSO abre la PANTALLA
+      DE ACCESO, e introducir la clave de administrador por defecto 2222'
+    tipo: core
+    estado: presente
+    valor: candado + 2222
+    cita: MI-716 p25 §6.1 'Acceso como administrador' ('Introduzca la clave de administrador por defecto,
+      2222.')
+  - texto: El MI-716 remite a la Guia Avanzada de Configuracion para el detalle de utilizacion y configuracion
+    tipo: supplementary
+    estado: presente
+    valor: Guia Avanzada
+    cita: MI-716 p25 ('Si desea informacion detallada de utilizacion y configuracion de la central consulte
+      la Guia Avanzada de Configuracion')
+  - texto: 'AVISO de seguridad (recuadro rojo): el uso indebido o negligente del nivel de acceso con privilegios
+      de ADMINISTRADOR puede provocar un mal funcionamiento de la instalacion'
+    tipo: supplementary
+    estado: presente
+    valor: null
+    cita: 'MI-716 p25 (recuadro de advertencia — capa visual, TECH_DEBT #83)'
+  citations:
+  - manual: Manual_CAD-171-MI-716-es.pdf
+    page: 25
+    quote: Toque la pantalla táctil con el dedo sobre la figura del candado (🔒). Al hacerlo accederá a
+      la PANTALLA DE ACCESO solicitando el código de acceso o password.
+  - manual: Manual_CAD-171-MI-716-es.pdf
+    page: 25
+    quote: Introduzca la clave de administrador por defecto, 2222.
+  - manual: Manual_CAD-171-MI-716-es.pdf
+    page: 27
+    quote: '6.3. Configuración … Menú principal: LAZO · SECTORIZACIÓN · MANIOBRAS · LOGS · RED · AJUSTES
+      (resaltado) · INSTALACIÓN · MAPAS → Submenú: GENERAL · VERSIONES · USUARIOS · AVANZADO · CONECTIVIDAD
+      · IMPRESORA · LOGS · TEST · INICIO'
+  - manual: Manual_CAD-171-MI-716-es.pdf
+    page: 25
+    quote: Si desea información detallada de utilización y configuración de la central consulte la Guía
+      Avanzada de Configuración.
+  - manual: Manual_CAD-171-MI-716-es.pdf
+    page: 25
+    quote: El uso indebido o negligente del nivel de acceso con PRIVILEGIOS DE ADMINISTRADOR pueden provocar
+      un mal funcionamiento de la instalación que puede provocar la pérdida de vidas humanas.
+  notes: 'La equivalencia ''Guia Avanzada de Configuracion'' = MC-380 NO la dice el MI-716 por su nombre:
+    se ancla en el catálogo (doc_map: CAD-250_Manual-Configuracion-MC-380 es primary de detnov:cad-171)
+    y en que el MC-380 documenta el submenu AVANZADO (8 páginas) y el mismo acceso candado→2222 (p18).
+    Va aqui como nota, no como hecho.'
+  confidence: alta
+  pdfs_used:
+  - Manual_CAD-171-MI-716-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf (160dpi, ±1) + cross_model (GPT-5.5 en frío) + corpus_check (chunks_v2, aplicabilidad
+      por doc_map) + no-duplicado ejecutado
+    fuente: Manual_CAD-171-MI-716-es.pdf (manual de la CAD-171)
+    paginas:
+    - 25
+    - 27
+    - 34
+    - 35
+    verificado_por:
+    - 'Claude s321 lectura al píxel p25 (§6.1 candado/2222/Guía Avanzada/aviso rojo) y p27 (§6.3 diagrama
+      con AVANZADO en Submenú); ±1: p24/p26 (p26 = §6.2 SIN ''AVANZADO'' — el chunk ''p26'' del corpus
+      mezclaba las páginas físicas 26 y 27)'
+    - 'GPT-5.5 en frío sobre render p25/p26/p27 (evals/s321_cross_verify_v1.txt): ''Introduzca la clave
+      de administrador por defecto, 2222''; Submenú GENERAL…AVANZADO…INICIO en p27; p26 sin AVANZADO —
+      MISMO off-by-one cazado por ambos modelos'
+    - 'dúo emparejado s321: Sol xhigh ts=2026-08-16T11:51:02 + Fable 5 (evals/adversarial_review_log.jsonl)'
+    acuerdo: 'total: ruta AJUSTES > AVANZADO en el diagrama de p27 (cita de DIAGRAMA, no de prosa — por
+      eso ningún barrido por cabeceras la encontraba); acceso p25 literal ''2222''; Guía Avanzada p25
+      literal; aviso rojo p25'
+    fecha: '2026-08-16'
+    nota: 'OFF-BY-ONE cazado por el render ±1 (RULER_DESIGN §2 paso 3): el chunk ''p26'' de chunks_v2
+      contiene el diagrama que físicamente está en la p27 (PDF apaisado, dos páginas impresas por hoja:
+      26|27). Cita = p27. NO-DUPLICADO (DEC-025): hp001 = menú avanzado de la CAD-250 (MC-380 compartido);
+      ho008 = puntos/zonas de la CAD-171; ninguno cubre la RUTA de la CAD-171 con su manual propio. Génesis:
+      incidente DEC-185 (bot encabezó AJUSTES>GENERAL con AVANZADO servido); el gold se ancla en MI-716,
+      no en el fallo. Estrato = sintesis-completitud (fusiona p25 acceso + p27 ruta del mismo manual;
+      mismo estrato que ho008); NO familia-ambigua (la pregunta identifica CAD-171 sin ambigüedad — Sol
+      v3). Acceso como UN core (adjudicación Alberto s321), no dos como hp001. Staleness: la conducta
+      congelada era de sonnet-4-6; si con Opus 5 no se reproduce, nace como centinela anti-regresión.'
+    localizacion:
+      manuales_buscados:
+      - Manual_CAD-171-MI-716-es
+      - Datasheet_CAD-171-DS-736-es
+      - Datasheet-CAD-171-DS-737-en
+      - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+      - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+      terminos:
+      - AVANZADO
+      - ADVANCED
+      - '2222'
+      - candado
+      - padlock
+      - administrador
+      - administrator
+      - Guía Avanzada
+      paginas:
+      - 25
+      - 27
+      - 34
+      - 35
+      nota: 'evals/s321_localizacion_es_en_v1.json (barrido por doc_map — TECH_DEBT #84 —, ES+EN). MI-716:
+        AVANZADO p26(chunk)/34/35, 2222+candado p25. MC-380 (primary de cad-171 en doc_map): AVANZADO
+        en 8 pp, candado+2222 p18 (mismo procedimiento). DS-737-en: ''Advanced'' solo como marketing (''advanced
+        features''), no la ruta ⇒ sin conflicto ES/EN. DS-736-es sin match. Ausencia ''MI-716 no documenta
+        AVANZADO'' NO se afirma como hecho (exigiría render de las 48 pp).'

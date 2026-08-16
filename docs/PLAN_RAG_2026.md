@@ -29,7 +29,7 @@
 ## Estado actual (s324 — 16 ago 2026)
 
 **s324 — el residuo de los packets se adjudica por REGLAS, no por filas; y las puertas
-prueban antes de escribir (DEC-221).** Alberto no firmó 911 filas: firmó **7 reglas** (R1
+prueban antes de escribir (DEC-225).** Alberto no firmó 911 filas: firmó **7 reglas** (R1
 serie×categoría en el residuo · R2 confirmar solo modelos concretos nombrados como sujeto —
 las etiquetas de familia son paraguas, nunca producto · R3 OEM no amplía `vendido_bajo` ·
 R4 alta+doc_map solo con cita, jamás por ficha · R6 fuente retirada → no alta · R7 concatenados
@@ -49,9 +49,9 @@ atomicidad, CAS documents, censo solo-detector, **R1' no firmada**, sobre-afirma
 1 premisa falsa) aplicado ENTERO antes de escribir. **Puerta A rehecha y VALIDADA** (predicado de
 reconstruibilidad: 5/5 positivos, 3/3 negativos) — 0/18 filas RETIRAR de E1b son de esa clase
 (palabras genéricas/part-numbers → siguen en cuarentena). Los packets que Alberto abre llevan el
-ESTADO fila a fila (✅ resuelto / ⏳ suyo). **Deuda nueva #83** (Fable fabricó una transcripción
-de tools: 0 `tool_use` reales; el emparejamiento se rompió al mover HEAD durante su run), **#84**
-(ingestas vacías <300 chars: TI-007 47 chars, QR Morley-IAS Max 142 → OCR/baja), **#85**
+ESTADO fila a fila (✅ resuelto / ⏳ suyo). **Deuda nueva #86** (Fable fabricó una transcripción
+de tools: 0 `tool_use` reales; el emparejamiento se rompió al mover HEAD durante su run), **#87**
+(ingestas vacías <300 chars: TI-007 47 chars, QR Morley-IAS Max 142 → OCR/baja), **#88**
 (`documents.product_model` con artefactos residuales tras E3: TO-3200M, LOCAL-360…).
 
 **Qué sigue (s324 — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
@@ -63,11 +63,46 @@ fragmento FR `996-130`, VSN2-PLUS/«Plus2»; los bloques E1b (474) y E2 (562) si
 «sí» se aplica por lotes MEDIDOS (censo + gate), no en seco. (b) **Re-juicio K=5 cross-model** de
 la clase «confianza media con sujeto nombrado» (E1 14 + E1b 42) → lo convergente sube a bloque
 (NO se aplica). (c) **Re-derivar el snapshot E2** (`s320_e2_snapshot_derivado.py`) y pasar G1/G2
-tras el cambio de catálogo, antes de cualquier swap. (d) **#80/#81 plan v2 → dúo → aplicar (T3)**
-(defecto VIVO). (e) **FULL fresco v3.2** — sigue sin medirse el bot e2e desde el elefante; el censo
+tras el cambio de catálogo, antes de cualquier swap. (d) **#80/#81**: las fases A (repunte 49), B (resolución TIPADA en la ingesta) y C
+(gate de invariantes corpus↔catálogo) quedaron APLICADAS en s323 (PRs #266–#268); resta solo el
+backfill #81 por igualdad exacta de sha → packet (pocos o ningún caso, y es lo correcto). (e) **FULL fresco v3.2** — sigue sin medirse el bot e2e desde el elefante; el censo
 de s324 NO mide retrieval/generación. (f) smoke de recepción en cloud (DEC-220). (g) OCR de TI-007
-+ censo de ingestas vacías (#84). (h) #83: endurecer el runner Fable (exigir `tool_use` reales o
-marcar `sin_tools`) y no commitear durante un run emparejado.
++ censo de ingestas vacías (#87). (h) #86: endurecer el runner Fable (exigir `tool_use` reales o
+marcar `sin_tools`) y no commitear durante un run emparejado. (i) **Lo de la sesión paralela
+s321-ruler (mismo día, mañana): su «Qué sigue» sigue vigente en el bloque siguiente** — cablear la
+conducta (a) de `mismatch`, reescribir DEC-186, #84 medir daño en serving, sonda hp013#1, re-medir
+factlevel (smoke antes del full).
+
+## Estado anterior (s321-ruler — 16 ago 2026, sesión paralela)
+
+**s321 — la sentada B2 APLICADA al ruler (DEC-224), y por el camino el instrumento se
+arregló dos veces.** Arrancó como una pregunta de Alberto sobre el ítem 2 del packet y
+acabó así: (1) **DEC-186 en revisión** — el «techo del modelo» de s305 nunca leyó al juez
+(`sum()` sobre un dict → constante 2; TECH_DEBT #75) y su «NO alcanzable» de `hp017#2` no
+era una medición: la sonda de alcanzabilidad se **endureció** (prueba de entrega +
+cobertura atestada, `scripts/reachability_verdict.py`, 10 tests) y **DEC-173/175 reabiertas**
+(la población de lever B es ≥3, no 1). (2) **DEC-221**: el gold se ancla en el pasaje que da
+el **mecanismo** — nació de un caso (PEARL A5.2/A5.4) y se pagó solo en el siguiente (ISO-X
+p17/p77). (3) **DEC-223**: el ISO-X **no** acota un fallo de tierra — cerrado dentro del manual
+aplicable, y con el razonamiento de Alberto («si lo acotara no verías 'Tierra'»). (4) **DEC-224**:
+los 6 golds de la sentada escritos vía `gold_store` con verificación COMPLETA (render ±1 →
+cazó un off-by-one en MI-716; GPT-5.5 en frío coincidente 7/7; localización ES+EN por
+`doc_map`), cascada s277 + canarios en el mismo commit, **sin migración de índices** (no partir
+`hp017#2`, que es release_guard). Y la **conducta ante marca↔producto errónea pasa a (a)
+«corregir Y responder»** — decisión de producto, **pendiente de cablear** (serving, dúo, PR
+propio); `hp002` NO es su testigo (el harness no atraviesa `mismatch`). Deuda nueva: **#83**
+(capa visual de criticidad perdida), **#84** (`product_model` ≠ aplicabilidad: 35% de discrepancia
+con `doc_map`, censo ejecutado), **#85** (guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con
+distinta semántica que su consumidor). Y un guard que se apagaba en silencio en la suite
+(`test_s321_reachability_delivery_proof`) — arreglado junto con la fuga de entorno de `s156` que
+lo destapaba. Dúo: 4 rondas Sol (v1→v4) + Fable emparejado, **0 falsos positivos**; lo que el dúo
+no cazó lo cazó Alberto dos veces (2222 como suppl; A5.4 es un EJEMPLO).
+
+**Qué sigue**: (1) cablear la conducta (a) de `mismatch` (dúo + flag + smoke del bot real);
+(2) reescribir DEC-186 con su número real (dúo propio) y la raíz de #75; (3) #84 medir el daño
+en serving antes de tocar `_product_aligned_chunks`; (4) sonda `hp013#1` para afinar la población
+de lever B; (5) re-medir factlevel (los golds cambiaron: 4 cores nuevos, 1 demote, 1 entra al
+denominador) — smoke antes del full.
 
 ## Estado anterior (s323 — 15 ago 2026)
 

@@ -129,7 +129,7 @@ crear ExitPoint.
 - 996-130 (FR, 1 chunk) → fuera: no se atesta lo que se propone dar de baja; baja a la cola de Alberto.
 - Resumen: `umbrellas_altas` 3 (+1 diferido) — corregido. Negativos sintéticos: declarado.
 
-**ALERTA sobre el instrumento (TECH_DEBT):** la review de Fable incluye una transcripción de tools FABRICADA —
+**ALERTA sobre el instrumento (TECH_DEBT #86):** la review de Fable incluye una transcripción de tools FABRICADA —
 el `responses` JSON registra **0 `tool_use`** reales; el texto cita `scripts/catalog_store.py`,
 `scripts/s324_radio_explosion.py` y una línea `products.jsonl:509` que no existen. Sus hallazgos válidos
 salieron de los ficheros semilla, no del repo. Además la review NO quedó emparejada con Sol porque el HEAD se movió

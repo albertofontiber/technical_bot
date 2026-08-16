@@ -17,7 +17,7 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s324 (16 ago 2026).** Catálogo gobernado tras el lote firmado (DEC-221): **1.670
+> **Estado s324 (16 ago 2026).** Catálogo gobernado tras el lote firmado (DEC-225): **1.670
 > productos** (976 consumibles · 611 candidate · 83 retirados/redirect), 1.752 alias, **24 paraguas**
 > (todos con miembros consumibles: el agujero «Dimension» quedó cerrado), **943 filas de doc_map**;
 > corpus **1.061 documentos activos** (7 retirados en s324: MA-DT-1160 + 6 fragmentos PT con hermano
