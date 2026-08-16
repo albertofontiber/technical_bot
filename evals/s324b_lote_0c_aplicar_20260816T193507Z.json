@@ -1,9 +1,10 @@
 {
- "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
- "modo": "dry-run",
- "utc": "20260816T193503Z",
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260816T193507Z",
  "plan_sha": "2860706a79dab977",
- "freeze": {
+ "freeze_verificado": {
   "catalog_shas": {
    "products": "10af5b57f264e736",
    "aliases": "e05d4f801e1569d7",
@@ -26,7 +27,7 @@
   "doc_map_modificadas": 0,
   "aliases_altas": 7
  },
- "censo": {
+ "censo_post": {
   "terminos_antes": 1695,
   "terminos_despues": 1722,
   "entran": 27,
@@ -501,7 +502,13 @@
   "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
   "veredicto": "PASS"
  },
- "retags_preflight": [],
- "retags_aborts": [],
- "veredicto": "PASS"
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals\\s324b_lote_0c_backup_20260816T193507Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
 }

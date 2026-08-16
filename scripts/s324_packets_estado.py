@@ -96,11 +96,32 @@ def main() -> None:
     # §0.C (32 altas en bloque): las que R4/R7 ya crearon quedan cubiertas; el resto siguen en el bloque (tu sí)
     tri = json.loads((ROOT / "evals/s322g_e1_candidatos_triage_v1.json").read_text(encoding="utf-8"))
     aplicadas = {a["row"]["id"] for a in plan["products_altas"]}
+    p0c = ROOT / "evals/s324b_lote_0c_plan_v1.json"
+    plan0c = json.loads(p0c.read_text(encoding="utf-8")) if p0c.exists() else None
+    ap0c = {a["row"]["id"]: a for a in (plan0c or {}).get("products_altas", [])}
+    rec0c = sorted((ROOT / "evals").glob("s324b_lote_0c_aplicar_*.json"))
+    rec0c = rec0c[-1].name if rec0c else None
+    RENOM = {"spectrex:40-40m": "spectrex:s40-40m", "spectrex:40-40r": "spectrex:s40-40r", "spectrex:40-40u": "spectrex:s40-40u (+ spectrex:s40-40ub)"}
     for f in tri["seccion_0a_alta_en_bloque"]:
-        if f["id"] in aplicadas:
-            est_id[f["id"]] = f"✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta"
+        fid = f["id"]
+        if fid in aplicadas:
+            est_id[fid] = f"✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta"
+        elif rec0c and (fid in ap0c or RENOM.get(fid, "").split(" ")[0] in ap0c):
+            tid = fid if fid in ap0c else RENOM[fid].split(" ")[0]
+            extra = " (+ S40/40UB)" if fid == "spectrex:40-40u" else ""
+            est_id[fid] = f"✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `{tid}`{extra} · cita verificada en {ap0c[tid]['doc'][:40]} · recibo `{rec0c}`"
+        elif rec0c and fid == "aritech:2x-a":
+            est_id[fid] = "⏳ PENDIENTE DE TI — paraguas «2X-A» (familia): el revisor señaló que tu nota adjudica el ALCANCE, no el riesgo léxico del gate («2 x a» con espacios lo dispararía; 0 casos en 96 consultas reales) ni si incluye la sub-serie táctil 2X-AT (11 de 38). ¿Lo quieres igualmente, con 2X-AT dentro?"
+        elif rec0c and fid == "morley:dxc-connexion":
+            est_id[fid] = "✅ RESUELTO (tu nota): la FAQ atesta a la familia DXc (dxc1/dxc2/dxc4) en el doc_map; no se crea producto"
+        elif rec0c and fid == "morley:vision-supra":
+            est_id[fid] = "✅ RESUELTO (tu «baja, confirmo»): documento retirado del corpus; sin alta"
+        elif rec0c and fid == "notifier:stratos":
+            est_id[fid] = "⏳ PENDIENTE DE TI — STRATOS es la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): por R2 una etiqueta de familia no es producto. ¿Doy de alta los modelos Stratos-HSSD y Stratos-Micra (y STRATOS como paraguas)?"
+        elif rec0c and fid == "notifier:nfxi-bsf-wch":
+            est_id[fid] = "✅ ALTA aplicada como `notifier:nfxi-bsf-wch` (grafía firmada; 3 docs INSPIRE) + alias `NFXI-BSF-WC` (5 docs AM-8200) — si WC y WCH fueran DOS productos, dilo y se separan"
         else:
-            est_id[f["id"]] = "✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector"
+            est_id[fid] = "✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector"
 
     t = E1.read_text(encoding="utf-8")
     # UNA sola pasada (la segunda llamada borraba las marcas de la primera) y claves normalizadas
@@ -120,7 +141,7 @@ def main() -> None:
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
 > 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: {len(pend_r1)} docs, {sum(len(p['R1prima_cenida']) for p in pend_r1)} entries (recibo `s324b_r1prima_aplicar_*.json`).
-> 2. ~~**§0.C**~~ — **REVISADO por ti (16-ago)**: aceptado salvo tus 10 notas, ya CONSOLIDADAS aquí desde tus copias `_AS`/`_AS2` (bajo cada fila, con mi respuesta `↳ s324b`). Queda: **§0.D** (17 retirar) · **§0.E** (3) → tus «sí». Todo pasa por el gate del detector antes de escribirse.
+> 2. ~~**§0.C**~~ — **REVISADO por ti y APLICADO** (16-ago; tus 10 notas consolidadas bajo cada fila con mi respuesta `↳ s324b`; revisor Fable 6 hallazgos aplicados): 21 altas + 7 alias + 26 filas doc_map + 2 bajas de corpus (Vision Supra idiomas, MADT190P PT), recibo `s324b_lote_0c_aplicar_*.json`. Quedan DOS preguntas tuyas de §0.C (paraguas «2X-A» y STRATOS, marcadas ⏳ en sus filas) y **§0.D** (17 retirar) · **§0.E** (3).
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
 > 5. Baja del fragmento FR `996-130-000-3 manuel d'utilisation ZX` (1 chunk) — ¿sí?

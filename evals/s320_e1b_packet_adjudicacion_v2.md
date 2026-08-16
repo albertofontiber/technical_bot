@@ -1,12 +1,13 @@
 # s320 E1b — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟡 ESTADO s324 (2026-08-16 19:18Z)
+> ## 🟡 ESTADO s324 (2026-08-16 19:35Z)
 > Este packet sigue **ABIERTO**: sus 4 bloques (474 confirmaciones) y las 146 «una a una» esperan tu sí. Dos cosas nuevas:
 > - **Tu «sí» ya no aplica en seco**: confirmar un candidate activa sus alias y mete términos en el detector (DEC-220 r30). Cada bloque pasará por el **censo del radio de explosión + gate** que ya funcionó en s324 (`scripts/s324_lote_firmado_writer.py`: +28 términos, 0 gold perdidas, 0 disparos en negativos) ANTES de escribirse. Es trabajo mío, no tuyo.
 > - **§1.A «retirar» (19) y §0.D (4)**: el predicado de reconstruibilidad (Puerta A) quedó VALIDADO contra el doble control (`evals/s324_puerta_a_predicado_v1.json`) pero **0/18** de estas filas son de esa clase (son palabras genéricas / part-numbers): siguen en cuarentena hasta tu sí; en cuarentena no hacen daño.
 > - Ya aplicado por reglas (no está en este packet): confirmados morley:dx1e/dx2e/dx4e (+3 cajas) y morley:vsn-12-plus (R2); retiradas las etiquetas kidde:2x-at y notifier:vsn-plus (→ paraguas 2X-AT / VSN PLUS).
 <!-- s324-estado:fin -->
+
 
 
 

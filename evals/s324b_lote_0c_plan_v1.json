@@ -1,6 +1,6 @@
 {
  "que_es": "s324b — PLAN del lote §0.C (E1: «candidates → ALTA», 32 filas del draft) tal como lo REVISÓ Alberto",
- "utc": "20260816T192419Z",
+ "utc": "20260816T193502Z",
  "doc_map_altas": [
   {
    "document_id": "f5a3b0e4-ccb7-4f40-a26e-9a12d515bc66",
@@ -406,30 +406,32 @@
      "id": "morley:dxc1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central), no se crea producto"
+     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central; el texto nombra «DXc» 3 veces), no se crea producto"
     },
     {
      "id": "morley:dxc2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central), no se crea producto"
+     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central; el texto nombra «DXc» 3 veces), no se crea producto"
     },
     {
      "id": "morley:dxc4",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central), no se crea producto"
+     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central; el texto nombra «DXc» 3 veces), no se crea producto"
     }
    ],
    "reglas": [
     "§0.C"
    ],
    "citas": [
-    "DXC Connexion - Avería F. Alimentación externa"
+    "No puedo hacer rearmes, silenciar sirenas y otros controles desde el TG hacia la central DXc (Connexion) **Question** ¿Cómo habilitar rearmes silencio sirenas y otros controles"
    ],
    "verificaciones": [
     {
-     "cita_full_text": false,
+     "cita_full_text": true,
+     "termino_familia": "DXc",
+     "n_familia": 3,
      "tokens_en_doc": {
       "morley:dxc1": 0,
       "morley:dxc2": 0,
@@ -555,29 +557,6 @@
    "verificaciones": [
     {
      "token_exacto": 2
-    }
-   ]
-  },
-  {
-   "document_id": "14971c82-38e0-469f-99bc-e53d5e93799c",
-   "source_file": "MADT731_02",
-   "entries": [
-    {
-     "id": "notifier:stratos",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — documento que sustenta el alta de STRATOS"
-    }
-   ],
-   "reglas": [
-    "§0.C"
-   ],
-   "citas": [
-    "EDIFICIOS ## INTRODUCCIÓN * Una de las aplicaciones más extendidas para los detectores STRATOS es la protección de edificios altos o de grandes dimensiones como almacenes,"
-   ],
-   "verificaciones": [
-    {
-     "token_exacto": 18
     }
    ]
   },
@@ -964,38 +943,20 @@
   },
   {
    "row": {
-    "id": "notifier:nfxi-bsf-wc",
-    "canonical_model": "NFXI-BSF-WC",
+    "id": "notifier:nfxi-bsf-wch",
+    "canonical_model": "NFXI-BSF-WCH",
     "estado": "activo",
     "candidate": false,
     "vendido_bajo": [
      "Notifier"
     ],
     "added_by": "s324b-0c",
-    "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — cita verificada full-text en AM-8200 Manual Instalacion (1 chunks con el token)"
+    "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — cita verificada full-text en HOP-138-9ES issue 5_11-2025_In (1 chunks con el token)"
    },
-   "doc": "AM-8200 Manual Instalacion",
-   "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
-   "cita": "| 450 uA | 5,14 mA | Máximo volumen | | NFXI-BS-W | 450 uA | 10 mA | Máximo volumen | | NFXI-BSF-WC | 450 uA | 10 mA | Máximo volumen | | DNRE | 300 μA | 4 mA | Depende del sensor",
+   "doc": "HOP-138-9ES issue 5_11-2025_In",
+   "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "cita": "| | BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica, flash rojo, lente transparente, con",
    "n_token": 1,
-   "regla": "§0.C"
-  },
-  {
-   "row": {
-    "id": "notifier:stratos",
-    "canonical_model": "STRATOS",
-    "estado": "activo",
-    "candidate": false,
-    "vendido_bajo": [
-     "Notifier"
-    ],
-    "added_by": "s324b-0c",
-    "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — cita verificada full-text en MADT731_02 (18 chunks con el token)"
-   },
-   "doc": "MADT731_02",
-   "document_id": "14971c82-38e0-469f-99bc-e53d5e93799c",
-   "cita": "EDIFICIOS ## INTRODUCCIÓN * Una de las aplicaciones más extendidas para los detectores STRATOS es la protección de edificios altos o de grandes dimensiones como almacenes,",
-   "n_token": 18,
    "regla": "§0.C"
   },
   {
@@ -1076,32 +1037,53 @@
  "aliases_quitar": [],
  "aliases_altas": [
   {
+   "alias": "ID2net",
+   "id": "notifier:id2net",
+   "tipo": "variante-tipografica",
+   "added_by": "s324b-0c",
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
+  },
+  {
+   "alias": "IDNet",
+   "id": "notifier:id2net",
+   "tipo": "variante-tipografica",
+   "added_by": "s324b-0c",
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
+  },
+  {
+   "alias": "NFXI-BSF-WC",
+   "id": "notifier:nfxi-bsf-wch",
+   "tipo": "variante-tipografica",
+   "added_by": "s324b-0c",
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
+  },
+  {
    "alias": "40/40M",
    "id": "spectrex:s40-40m",
    "tipo": "variante-tipografica",
    "added_by": "s324b-0c",
-   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía sin la S usada en las etiquetas del corpus y en los golds «SharpEye 40/40»; canonical con S por Alberto"
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
   },
   {
    "alias": "40/40R",
    "id": "spectrex:s40-40r",
    "tipo": "variante-tipografica",
    "added_by": "s324b-0c",
-   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía sin la S usada en las etiquetas del corpus y en los golds «SharpEye 40/40»; canonical con S por Alberto"
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
   },
   {
    "alias": "40/40U",
    "id": "spectrex:s40-40u",
    "tipo": "variante-tipografica",
    "added_by": "s324b-0c",
-   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía sin la S usada en las etiquetas del corpus y en los golds «SharpEye 40/40»; canonical con S por Alberto"
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
   },
   {
    "alias": "40/40UB",
    "id": "spectrex:s40-40ub",
    "tipo": "variante-tipografica",
    "added_by": "s324b-0c",
-   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía sin la S usada en las etiquetas del corpus y en los golds «SharpEye 40/40»; canonical con S por Alberto"
+   "provenance": "s324b §0.C revisado por Alberto 16-ago-2026 (aceptado salvo notas consolidadas en s320_e1_packet_adjudicacion_v2.md) — grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)"
   }
  ],
  "umbrellas_altas": [
@@ -1151,7 +1133,8 @@
    "divergent": true,
    "candidate": false,
    "added_by": "s324b-0c",
-   "provenance": "Alberto s323 (437ee3f: alta de la FAMILIA 2X-A) + 16-ago («aplica a todos los modelos de la serie 2x-A»); miembros por regla prefijo 2X-A × {central, repetidor}; tráfico real: 0/96 consultas disparan el core «2·x·a»"
+   "provenance": "Alberto s323 (437ee3f: alta de la FAMILIA 2X-A) + 16-ago («aplica a todos los modelos de la serie 2x-A»); miembros por regla prefijo 2X-A × {central, repetidor}; tráfico real: 0/96 consultas disparan el core «2·x·a»",
+   "diferido": "dúo Fable §0.C: la nota de Alberto adjudica el ALCANCE (familia), no la aceptación del falso positivo léxico «2 x a» del gate; y ¿incluye la sub-serie táctil 2X-AT (11 de los 38)? Se le pregunta explícitamente; el writer lo SALTA hasta entonces."
   }
  ],
  "retags_db": [],
@@ -1167,7 +1150,12 @@
    "hermano_es": "MADT190_01"
   }
  ],
- "no_aplicar": [],
+ "no_aplicar": [
+  {
+   "que": "notifier:stratos",
+   "motivo": "STRATOS es el nombre de la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): etiqueta de familia → no producto (R2); sus modelos no están en el catálogo → pregunta a Alberto (dúo Fable §0.C)"
+  }
+ ],
  "avisos": [
   {
    "que": "notifier:clss-configuration-tool",
@@ -1179,31 +1167,30 @@
   },
   {
    "que": "notifier:nfxi-bsf-wch",
-   "aviso": "doc del draft 'D 1147-1 BRH Notifier' es PT retirado/a retirar → se sustenta en el ES 'AM-8200 Manual Instalacion'"
+   "aviso": "doc del draft 'D 1147-1 BRH Notifier' es PT retirado/a retirar → se sustenta en el ES 'HOP-138-9ES issue 5_11-2025_In'"
   },
   {
-   "que": "notifier:nfxi-bsf-wc",
-   "aviso": "alta sustentada por la tabla de dispositivos de 'AM-8200 Manual Instalacion' (su propio doc, la ficha BRH, no lo nombra en el texto): sin doc_map"
+   "que": "notifier:nfxi-bsf-wch",
+   "aviso": "alta sustentada por la tabla de dispositivos de 'HOP-138-9ES issue 5_11-2025_In' (su propio doc, la ficha BRH, no lo nombra en el texto): sin doc_map"
   }
  ],
- "adjudicados_por_alberto_para_el_gate": {
-  "2X-A": {
-   "motivo": "adjudicado 2 veces por Alberto; el negativo sintético «2 x a» del gate se declara como aviso; tráfico real 0/96 disparos",
-   "hits_reales": []
-  }
+ "adjudicados_por_alberto_para_el_gate": {},
+ "pregunta_alberto_2xa": {
+  "pregunta": "El paraguas «2X-A» (38 miembros: 27 no táctiles + 11 2X-AT) dispararía si alguien escribe «2 x a» con espacios (0 casos en 96 consultas reales). ¿Lo quieres igualmente? ¿Y con la sub-serie 2X-AT dentro?",
+  "hits_reales": []
  },
  "resumen": {
-  "doc_map_altas": 27,
+  "doc_map_altas": 26,
   "doc_map_modificaciones": 0,
-  "products_altas": 22,
+  "products_altas": 21,
   "products_confirmar": 0,
   "products_retirar": 0,
   "aliases_quitar": 0,
-  "aliases_altas": 4,
+  "aliases_altas": 7,
   "umbrellas_altas": 1,
   "retags_db": 0,
   "bajas_documentos": 2,
-  "no_aplicar": 0,
+  "no_aplicar": 1,
   "avisos": 4
  }
 }

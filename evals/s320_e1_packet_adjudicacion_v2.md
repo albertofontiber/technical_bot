@@ -1,7 +1,7 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 19:18Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 19:35Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
 > - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
@@ -10,7 +10,7 @@
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
 > 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: 3 docs, 62 entries (recibo `s324b_r1prima_aplicar_*.json`).
-> 2. ~~**§0.C**~~ — **REVISADO por ti (16-ago)**: aceptado salvo tus 10 notas, ya CONSOLIDADAS aquí desde tus copias `_AS`/`_AS2` (bajo cada fila, con mi respuesta `↳ s324b`). Queda: **§0.D** (17 retirar) · **§0.E** (3) → tus «sí». Todo pasa por el gate del detector antes de escribirse.
+> 2. ~~**§0.C**~~ — **REVISADO por ti y APLICADO** (16-ago; tus 10 notas consolidadas bajo cada fila con mi respuesta `↳ s324b`; revisor Fable 6 hallazgos aplicados): 21 altas + 7 alias + 26 filas doc_map + 2 bajas de corpus (Vision Supra idiomas, MADT190P PT), recibo `s324b_lote_0c_aplicar_*.json`. Quedan DOS preguntas tuyas de §0.C (paraguas «2X-A» y STRATOS, marcadas ⏳ en sus filas) y **§0.D** (17 retirar) · **§0.E** (3).
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
 > 5. Baja del fragmento FR `996-130-000-3 manuel d'utilisation ZX` (1 chunk) — ¿sí?
@@ -18,6 +18,7 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
 
 
 
@@ -301,12 +302,12 @@ No son altas duplicadas: es el mismo producto atestado dos veces.
 En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 filas.
 
 - [ ] `aritech:2x-a` (2X-A) → **ALTA** · rol TITULO · doc `00-3280-507-4009-03_r003_2x-a_series_quick_installation_g…`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ⏳ PENDIENTE DE TI — paraguas «2X-A» (familia): el revisor señaló que tu nota adjudica el ALCANCE, no el riesgo léxico del gate («2 x a» con espacios lo dispararía; 0 casos en 96 consultas reales) ni si incluye la sub-serie táctil 2X-AT (11 de 38). ¿Lo quieres igualmente, con 2X-AT dentro?
       menciones estrictas doc 1 / global 43 en 18 docs · cita ✓ «Guía de instalación rápida de la serie 2X-A»
       ALBERTO: aplica a todos los modelos de la serie 2x-A
       ↳ **s324b:** de acuerdo: NO se crea el producto `aritech:2x-a`; «2X-A» pasa a ser el PARAGUAS de familia (miembros = centrales y repetidores de la serie, derivados por regla; hoy 38). El gate léxico lo había frenado por un negativo SINTÉTICO («2 x a»); medido sobre el tráfico REAL (`query_logs`, 96 consultas): 0 disparos → entra en el lote §0.C con esa medida en el recibo.
 - [ ] `kidde:ke-asa-auxr` (KE-ASA-AUXR) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_ASA_AUXR_f28f.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-asa-auxr` · cita verificada en DS_KIDDE_KE_ASA_AUXR_f28f.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 2 / global 8 en 7 docs · cita ✓ «# KE-ASA-AUXR Intelligent addressable notification accessory - deep base (red)»
 - [ ] `kidde:ke-dba-adpw-kil` (KE-DBA-ADPW-KIL) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DBA_ADPW_KIL_202501_ING_c855.pdf`
       ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
@@ -315,104 +316,104 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
       menciones estrictas doc 3 / global 11 en 2 docs · cita ✓ «The KE-DBA-ADPW-ZIT is an Excellence series base adapter.»
 - [ ] `kidde:ke-dba-capw` (KE-DBA-CAPW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_CAPW_202407_ING_d87d.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-capw` · cita verificada en HD_KE_DBA_CAPW_202407_ING_d87d.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 4 / global 5 en 2 docs · cita ✓ «KIDDE COMMERCIAL # KE-DBA-CAPW **Accesorio base direccionable inteligente - Tapa (Blanca)**»
 - [ ] `kidde:ke-dba-ipw` (KE-DBA-IPW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_IPW_202407_ING_ffaf.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-ipw` · cita verificada en HD_KE_DBA_IPW_202407_ING_ffaf.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 3 / global 7 en 3 docs · cita ✓ «KIDDE™ COMMERCIAL # KE-DBA-IPW Accesorio base direccionable inteligente - base resistente a la…»
 - [ ] `kidde:ke-dba-ipw` (KE-DBA-IPW) → **ALTA** · rol TITULO · doc `MI_KE_DBA_IPW_202407_ES_cc56.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-ipw` · cita verificada en HD_KE_DBA_IPW_202407_ING_ffaf.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 3 / global 7 en 3 docs · cita ✓ «KE-DBA-IPW IP Accessory for Standard Mounting Base Installation Sheet»
 - [ ] `kidde:ke-dba-recw` (KE-DBA-RECW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_RECW_202407_ES_bb2b.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-recw` · cita verificada en HD_KE_DBA_RECW_202407_ES_bb2b.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 3 / global 10 en 4 docs · cita ✓ «KE-DBA-RECW Accesorio base direccionable inteligente - base empotrada (blanca)»
 - [ ] `kidde:ke-dba-recw` (KE-DBA-RECW) → **ALTA** · rol TITULO · doc `MI_KE_DBA_RECW_202407_ES_aacc.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-recw` · cita verificada en HD_KE_DBA_RECW_202407_ES_bb2b.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 3 / global 10 en 4 docs · cita ✓ «KE-DBA-RECW Recess Accessory for Standard Mounting Base Installation Sheet»
 - [ ] `kidde:ke-dba-tagw` (KE-DBA-TAGW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_TAGW_202407_ES_4b26.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dba-tagw` · cita verificada en HD_KE_DBA_TAGW_202407_ES_4b26.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 5 / global 12 en 8 docs · cita ✓ «KIDDE COMMERCIAL # KE-DBA-TAGW Accesorio base direccionable inteligente - Etiqueta de direcció…»
 - [ ] `kidde:ke-dm3110r-ip` (KE-DM3110R-IP) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_IP_202412_ES_8165.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dm3110r-ip` · cita verificada en DS_KIDDE_KE_DM3110R_IP_202412_ES_8165.pd · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 2 / global 3 en 2 docs · cita ✓ «KE-DM3110R-IP Pulsador direccionable inteligente de la Serie Excellence con aislador - para ex…»
 - [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dm3110r-kit` · cita verificada en DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 3 / global 3 en 1 doc · cita ✓ «The KE-DM3110R-KIT is a red, single action indoor MCP with a House-on-Fire functional indicato…»
       ALBERTO: ¿este no es el mismo doc que la fila anterior?
       ↳ **s324b:** sí: es la MISMA fila duplicada en el draft (mismo id `kidde:ke-dm3110r-kit`, mismo doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`, dos fuentes de extracción). Se aplica UNA sola alta.
 - [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dm3110r-kit` · cita verificada en DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 3 en 1 doc · cita ✓ «KE-DM3110R-KIT **Excellence Series intelligent addressable manual call point with isolator and…»
 - [ ] `kidde:ke-dp3021b` (KE-DP3021B) → **ALTA** · rol TITULO · doc `HD_KE_DP3021B_202407_ES_861a.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dp3021b` · cita verificada en HD_KE_DP3021B_202407_ES_861a.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 2 / global 6 en 4 docs · cita ✓ «KIDDE COMMERCIAL # KE-DP3021B Detector de calor/óptico dual direccionable inteligente serie Ex…»
 - [ ] `kidde:ke-dp3021w` (KE-DP3021W) → **ALTA** · rol TITULO · doc `HD_KE_DP3021W_202407_ES_778e.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-dp3021w` · cita verificada en HD_KE_DP3021W_202407_ES_778e.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 2 / global 9 en 7 docs · cita ✓ «KIDDE™ COMMERCIAL # KE-DP3021W ## Detector de calor/óptico dual direccionable inteligente seri…»
 - [ ] `kidde:ke-iu3110` (KE-IU3110) → **ALTA** · rol TITULO · doc `HD_KE_IU3110_202407_ES_42d6.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-iu3110` · cita verificada en HD_KE_IU3110_202407_ES_42d6.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 7 / global 19 en 6 docs · cita ✓ «KE-IU3110 Unidad inteligente direccionable de 1 entrada con aislador»
 - [ ] `kidde:ke-iu3110` (KE-IU3110) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MI_KE_IU3110_202407_ES_5e36.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:ke-iu3110` · cita verificada en HD_KE_IU3110_202407_ES_42d6.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 6 / global 19 en 6 docs · cita ✓ «Product identification | KE-IU3110»
 - [ ] `kidde:n-io-mbx-2` (N-IO-MBX-2) → **ALTA** · rol TITULO · doc `DS_KIDDE_N_IO_MBX_2_202505_ES_b34f.pdf`
       ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
       menciones estrictas doc 3 / global 19 en 7 docs · cita ✓ «La N-IO-MBX-2 es una caja de montaje en superficie diseñada para alojar módulos que requieren…»
 - [ ] `kidde:n-io-sbx-2g` (N-IO-SBX-2G) → **ALTA** · rol TITULO · doc `DS_KIDDE_N_IO_SBX_2G_202505_ES_6eb1.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `kidde:n-io-sbx-2g` · cita verificada en DS_KIDDE_N_IO_SBX_2G_202505_ES_6eb1.pdf · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 4 / global 5 en 2 docs · cita ✓ «N-IO-SBX-2G Caja para 1 módulo con carril DIN (grande)»
 - [ ] `morley:dxc-connexion` (DXc Connexion) → **ALTA** · rol TITULO · doc `No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controle…`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ RESUELTO (tu nota): la FAQ atesta a la familia DXc (dxc1/dxc2/dxc4) en el doc_map; no se crea producto
       menciones estrictas doc 0 / global 21 en 14 docs · cita ✓ «DXC Connexion - Avería F. Alimentación externa»
       ALBERTO: aquí aplicará a todos los modelos de la familia dxc-connexion
       ↳ **s324b:** de acuerdo: NO se crea el producto `morley:dxc-connexion` (es la familia; el paraguas «DXc»/«DX Connexion» ya existe, gt s90). La FAQ pasa al doc_map → `morley:dxc1`, `dxc2`, `dxc4` (regla serie × central, como las demás FAQ DXc).
 - [ ] `morley:mod-rs-232` (MOD.RS-232) → **ALTA** · rol TITULO · doc `MIE-MI-330`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `morley:mod-rs-232` · cita verificada en MIE-MI-330 · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 1 / global 1 en 1 doc · cita ✓ «# TARJETA DE COMUNICACIONES RS-232 # MOD.RS-232 # MANUAL DE INSTALACIÓN»
 - [ ] `morley:mod-rs-485` (MOD.RS-485) → **ALTA** · rol TITULO · doc `MIE-MI-390`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `morley:mod-rs-485` · cita verificada en MIE-MI-390 · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 1 / global 1 en 1 doc · cita ✓ «# TARJETA DE COMUNICACIONES RS-485 # MOD.RS-485 # MANUAL DE INSTALACIÓN»
 - [ ] `morley:vision-supra` (Vision Supra) → **ALTA** · rol TITULO · doc `30012012 TARJETAS IDIOMAS VISION SUPRA rev A`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ RESUELTO (tu «baja, confirmo»): documento retirado del corpus; sin alta
       menciones estrictas doc 2 / global 4 en 2 docs · cita ✓ «321XXX TARJETAS IDIOMAS VISION SUPRA FECHA: 26/01/2011 REV: A DESCRIPCIÓN: LANZAMIENTO»
       ALBERTO: no estoy seguro, creo que eliminaría este doc.
       ↳ **s324b:** el doc es una hoja de «tarjetas de idiomas» de la Vision Supra (30012012, rev A). Lo dejo ⏳ como BAJA PROPUESTA (no atesto ni doy de alta `morley:vision-supra` desde él). Si confirmas «baja», lo retiro con recibo; si no, lo dejo fuera del lote sin tocar.
 - [ ] `notifier:clss-configuration-tool` (CLSS Configuration Tool) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `4188-1124-PT issue 4_01-2026_To.pdf`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:clss-configuration-tool` · cita verificada en 4188-1124-ES issue 6_01-2026_To · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 4 / global 21 en 6 docs · cita ✓ «Honeywell no recomienda la instalación de más de una instancia del programa CLSS Configuration…»
       ALBERTO: Doc en PT, eliminaría si hay documento similar en ES
       ↳ **s324b:** hecho: `4188-1124-PT` ya está RETIRADO esta mañana (fragmento PT, 6 chunks; el ES `4188-1124-ES issue 6` tiene 116). Esta fila queda sin alta desde ese doc; «CLSS Configuration Tool» es software y se trata como el caso ID²net de abajo (alta desde el doc ES si verifica).
 - [ ] `notifier:id2net` (ID²NET) → **ALTA** · rol TITULO · doc `MADT190P_01_C`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:id2net` · cita verificada en MADT190_01 · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 74 en 10 docs · cita ✓ «# RED DIGITAL E INTELIGENTE # ID<sup>2</sup>net»
       ALBERTO: Doc en PT, eliminaría porque el doc "MADT190_01" es la versión en español
       ↳ **s324b:** de acuerdo — misma clase que los 6 PT retirados esta mañana (se me escapó por el nombre `MADT190P_01_C`). Se RETIRA con recibo tras verificar que `MADT190_01` (ES) está activo y con más chunks; sin alta desde el PT.
 - [ ] `notifier:id2net` (ID²NET) → **ALTA** · rol TITULO · doc `MADT190_01`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:id2net` · cita verificada en MADT190_01 · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 61 / global 75 en 13 docs · cita ✓ «# RED DIGITAL E INTELIGENTE # ID²net»
       ALBERTO: ojo que no es un modelo, es un software, y me suena que el software lo teníamos en cuenta de forma diferente, pero dime si no es así.
       ↳ **s324b:** el software SÍ entra en el catálogo como producto con `clasificacion.categoria = software` (precedente: `morley:mk-vsn`/`mk-zx`/`mk50`/`mkdx`, `notifier:opc-rp1r`, `spectrex:winhost`). ID²NET se da de alta como SOFTWARE (no como modelo de hardware), con cita del doc ES `MADT190_01`. Si prefieres otra categoría (p. ej. «pasarela»/red), dilo.
 - [ ] `notifier:kit-gas` (KIT-GAS) → **ALTA** · rol TITULO · doc `HLSI-MN-627`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:kit-gas` · cita verificada en HLSI-MN-627 · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 2 / global 4 en 3 docs · cita ✓ «KIT-GAS ## Teclado de mano para calibración de los detectores de gas de la <ins>serie SMART 3<…»
 - [ ] `notifier:nfxi-bsf-wch` (NFXI-BSF-WCH) → **ALTA** · rol TABLA_DE_MODELOS · doc `D 1147-1 BRH Notifier`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:nfxi-bsf-wch` · cita verificada en HOP-138-9ES issue 5_11-2025_In · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ⏳ PENDIENTE DE TI — STRATOS es la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): por R2 una etiqueta de familia no es producto. ¿Doy de alta los modelos Stratos-HSSD y Stratos-Micra (y STRATOS como paraguas)?
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `spectrex:s40-40m` · cita verificada en MNDT725_40-40M · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «S40/40M XXXXX, donde XXXXX define el modelo según los requisitos anteriores»
       ALBERTO: Modelo S40-40M i.e. con la "S"
       ↳ **s324b:** de acuerdo: canonical `S40/40M` (como lo escribe el doc: «S40/40M XXXXX…») + alias `40/40M` (variante tipográfica; es la forma de las etiquetas del corpus y de los golds «SharpEye 40/40»). Se verifica el token en `MNDT725` antes de escribir.
 - [ ] `spectrex:40-40r` (40-40R) → **ALTA** · rol TITULO · doc `MNDT724_40-40R`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `spectrex:s40-40r` · cita verificada en MNDT724_40-40R · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «DETECTOR DE LLAMA INFRARROJO IR # MODELO S40/40R»
       ALBERTO: Modelo S40-40R i.e. con la "S"
       ↳ **s324b:** de acuerdo: canonical `S40/40R` («MODELO S40/40R») + alias `40/40R`. Se verifica el token en `MNDT724`.
 - [ ] `spectrex:40-40u` (40-40U) → **ALTA** · rol TABLA_DE_MODELOS · doc `MNDT723_40-40U`
-      ↳ **s324:** ✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector
+      ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `spectrex:s40-40u` (+ S40/40UB) · cita verificada en MNDT723_40-40U · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «| Tipo de combustible | Distancia máxima (metros)<br/>40/40U y UB |»
       ALBERTO: Ojo que son dos modelos, el S40-40U y S40-40UB, el último incluyendo "la función de Prueba incorporada (BIT)"
       ↳ **s324b:** de acuerdo: DOS altas — `S40/40U` y `S40/40UB` (BIT = prueba incorporada), cada una con su cita verificada en `MNDT723`; alias `40/40U`/`40/40UB`. La fila del draft (`spectrex:40-40u`) no se crea tal cual.

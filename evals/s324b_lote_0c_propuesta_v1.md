@@ -50,3 +50,20 @@ build→validar→backup→swap, verificación posterior en censo).
 ## Qué pido al revisor
 Atacar (a) filas cuya evidencia no sostenga la escritura; (b) la excepción del gate para términos adjudicados y el
 uso del tráfico real; (c) los dos software como productos; (d) las sustituciones de documento sustentante.
+
+---
+
+## ADENDA post-revisión Fable (standalone, 16-ago 21:31 — 9 `tool_use` reales verificados) — 6 hallazgos, aplicados antes de escribir
+1. «Adjudicado 2×» era sobre-afirmación: la nota de Alberto adjudica el ALCANCE (familia), no el falso positivo léxico
+   del gate → paraguas «2X-A» **DIFERIDO otra vez** y pregunta explícita a Alberto (incluida la sub-serie 2X-AT).
+   La excepción del gate queda en el writer pero SIN uso en este lote (`adjudicados_por_alberto_para_el_gate` vacío).
+2. NFXI-BSF-**WCH** SÍ está atestada (3 docs INSPIRE) — mi grep era sobre un solo doc → alta con la grafía FIRMADA
+   (`notifier:nfxi-bsf-wch`, cita HOP-138-9ES) + alias `NFXI-BSF-WC` (5 docs AM-8200). Sin doc_map (tabla de dispositivos).
+3. La FAQ TG↔DXc llevaba la cita del draft (de otra FAQ) → cita del propio texto («…hacia la central DXc (Connexion)»,
+   DXc ×3) verificada full-text.
+4. Aliases ASCII para ID²NET: `ID2net` (63 chunks), `IDNet` (7).
+5. STRATOS = gama AirSense (Stratos-HSSD ×6, Stratos-Micra ×5 en el corpus): etiqueta de familia → **fuera del lote**;
+   pregunta a Alberto (alta de los modelos + paraguas).
+Resultado aplicado: 21 altas · 7 alias · 26 filas doc_map · 0 paraguas · 2 bajas (ya). Dry-run PASS (+27/−0; 0 gold
+perdidas; negativos sintéticos 0; tráfico real 96/0; resolver 0 pérdidas / 2 ganancias). Recibo
+`evals/s324b_lote_0c_aplicar_20260816T193507Z.json`; verificación posterior en censo 0 fallos.

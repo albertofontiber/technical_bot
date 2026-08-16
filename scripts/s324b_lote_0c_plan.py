@@ -56,12 +56,14 @@ OVERRIDES = {
     "spectrex:40-40r": ("RENOMBRAR", [("spectrex:s40-40r", "S40/40R", ["40/40R"])]),
     "spectrex:40-40u": ("RENOMBRAR", [("spectrex:s40-40u", "S40/40U", ["40/40U"]), ("spectrex:s40-40ub", "S40/40UB", ["40/40UB"])]),
     # la ficha (D 1147-1 BRH) dice NFXI-BSF-WCH; el corpus (AM-8200/8100/8200N/G, 997-669) escribe NFXI-BSF-WC (5+ docs) → grafía verificada
-    "notifier:nfxi-bsf-wch": ("RENOMBRAR", [("notifier:nfxi-bsf-wc", "NFXI-BSF-WC", [])]),
+    "notifier:nfxi-bsf-wch": ("RENOMBRAR", [("notifier:nfxi-bsf-wch", "NFXI-BSF-WCH", ["NFXI-BSF-WC"])]),   # WCH atestada en 3 docs INSPIRE (dúo Fable); WC (5 docs AM-8200) como alias
+    "notifier:id2net": ("RENOMBRAR", [("notifier:id2net", "ID²NET", ["ID2net", "IDNet"])]),                    # alias ASCII (63 y 7 chunks) — dúo Fable
+    "notifier:stratos": ("FAMILIA_SIN_MIEMBROS", None),   # STRATOS = gama (Stratos-HSSD, Stratos-Micra en el corpus): etiqueta de familia → no producto (R2); pregunta a Alberto
 }
 SOFTWARE = {"notifier:id2net", "notifier:clss-configuration-tool"}
 DOC_SUSTITUTO = {"4188-1124-PT issue 4_01-2026_To.pdf": "4188-1124-ES issue 6_01-2026_To",   # PT retirado → ES
                  "MADT190P_01_C": "MADT190_01",                                                # PT → baja; ES sustenta
-                 "D 1147-1 BRH Notifier": "AM-8200 Manual Instalacion"}                        # la ficha dice NFXI-BSF-WCH pero el texto no lo nombra; sí la tabla de absorciones del AM-8200
+                 "D 1147-1 BRH Notifier": "HOP-138-9ES issue 5_11-2025_In"}                     # la ficha dice NFXI-BSF-WCH pero su texto no lo nombra; sí la tabla de dispositivos del HOP-138-9ES (INSPIRE)
 SIN_DOC_MAP = {"notifier:nfxi-bsf-wch"}  # (clave = id del draft)   # sustentado por una tabla de dispositivos de un manual de central: alta sí, doc_map no (el manual no es SOBRE la base)
 
 plan = {"que_es": __doc__.strip().splitlines()[0], "utc": None, "doc_map_altas": [], "doc_map_modificaciones": [],
@@ -89,10 +91,14 @@ def main():
                 continue   # se añade abajo
             if ov and ov[0] == "DOCMAP_FAMILIA":
                 d = doc(c, dn); txt = texto(c, d["id"])
-                cita = llm.get("cita") or ""
-                plan["doc_map_altas"].append(entrada(d, ov[1], cita, "Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central), no se crea producto",
-                                                     {"cita_full_text": cita_ok(txt, cita), "tokens_en_doc": {i: n_token(txt, P[i]["canonical_model"]) for i in ov[1]}}))
+                n_fam = n_token(txt, "DXc"); cita = ventana(txt, "DXc")   # término de FAMILIA en el propio texto (dúo Fable §0.C: la cita del draft era de otra FAQ)
+                if not n_fam or not cita:
+                    plan["no_aplicar"].append({"que": pid, "motivo": "la FAQ no nombra la familia DXc en su texto"}); continue
+                plan["doc_map_altas"].append(entrada(d, ov[1], cita, f"Alberto: «aquí aplicará a todos los modelos de la familia dxc-connexion» → FAQ atesta a la familia DXc (serie × central; el texto nombra «DXc» {n_fam} veces), no se crea producto",
+                                                     {"cita_full_text": cita_ok(txt, cita), "termino_familia": "DXc", "n_familia": n_fam, "tokens_en_doc": {i: n_token(txt, P[i]["canonical_model"]) for i in ov[1]}}))
                 continue
+            if ov and ov[0] == "FAMILIA_SIN_MIEMBROS":
+                plan["no_aplicar"].append({"que": pid, "motivo": "STRATOS es el nombre de la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): etiqueta de familia → no producto (R2); sus modelos no están en el catálogo → pregunta a Alberto (dúo Fable §0.C)"}); continue
             if ov and ov[0] == "BAJA_DOC":
                 plan["bajas_documentos"].append({"doc": ov[1], "motivo": "Alberto (16-ago): «baja, confirmo» — hoja de tarjetas de idiomas Vision Supra (rev A)", "sin_alta": pid})
                 continue
@@ -124,8 +130,10 @@ def main():
                 plan["products_altas"].append({"row": row, "doc": d["source_pdf_filename"], "document_id": d["id"], "cita": cita, "n_token": n, "regla": "§0.C"})
                 creados[norm_token(tcm)] = tid
                 for a in alias:
+                    if not n_token(txt, a) and pid not in ("notifier:id2net", "notifier:nfxi-bsf-wch"):
+                        plan["avisos"].append({"que": tid, "aviso": f"alias {a!r} no aparece en el doc sustentante; se añade igualmente por ser la grafía del corpus/golds"})
                     plan["aliases_altas"].append({"alias": a, "id": tid, "tipo": "variante-tipografica", "added_by": ADDED_BY,
-                                                  "provenance": PROV.format(detalle=f"grafía sin la S usada en las etiquetas del corpus y en los golds «SharpEye 40/40»; canonical con S por Alberto")})
+                                                  "provenance": PROV.format(detalle=f"grafía alternativa atestada en el corpus (Spectrex: sin la S — etiquetas y golds «SharpEye 40/40»; ID²NET: ASCII ID2net/IDNet 63/7 chunks; NFXI-BSF-WC: 5 docs AM-8200)")})
                 if pid not in SIN_DOC_MAP:
                     plan["doc_map_altas"].append(entrada(d, [tid], cita, f"documento que sustenta el alta de {tcm}", {"token_exacto": n}))
                 else:
@@ -136,8 +144,9 @@ def main():
         core = _re.compile(r"(?<![a-z0-9])2[-\s/.+]*x[-\s/.+]*a(?![a-z0-9])", _re.I)
         hits = [q for q in reales if core.search(q)]
         plan["umbrellas_altas"].append({"termino": "2X-A", "tipo": "familia", "ids": X2A, "divergent": True, "candidate": False, "added_by": ADDED_BY,
-                                        "provenance": "Alberto s323 (437ee3f: alta de la FAMILIA 2X-A) + 16-ago («aplica a todos los modelos de la serie 2x-A»); miembros por regla prefijo 2X-A × {central, repetidor}; tráfico real: %d/%d consultas disparan el core «2·x·a»" % (len(hits), len(reales))})
-        plan["adjudicados_por_alberto_para_el_gate"]["2X-A"] = {"motivo": "adjudicado 2 veces por Alberto; el negativo sintético «2 x a» del gate se declara como aviso; tráfico real %d/%d disparos" % (len(hits), len(reales)), "hits_reales": hits[:10]}
+                                        "provenance": "Alberto s323 (437ee3f: alta de la FAMILIA 2X-A) + 16-ago («aplica a todos los modelos de la serie 2x-A»); miembros por regla prefijo 2X-A × {central, repetidor}; tráfico real: %d/%d consultas disparan el core «2·x·a»" % (len(hits), len(reales)),
+                                        "diferido": "dúo Fable §0.C: la nota de Alberto adjudica el ALCANCE (familia), no la aceptación del falso positivo léxico «2 x a» del gate; y ¿incluye la sub-serie táctil 2X-AT (11 de los 38)? Se le pregunta explícitamente; el writer lo SALTA hasta entonces."})
+        plan["pregunta_alberto_2xa"] = {"pregunta": "El paraguas «2X-A» (38 miembros: 27 no táctiles + 11 2X-AT) dispararía si alguien escribe «2 x a» con espacios (0 casos en %d consultas reales). ¿Lo quieres igualmente? ¿Y con la sub-serie 2X-AT dentro?" % len(reales), "hits_reales": hits[:10]}
         # baja del PT MADT190P_01_C (hermano ES MADT190_01)
         plan["bajas_documentos"].append({"doc": "MADT190P_01_C", "motivo": "Alberto (16-ago): «Doc en PT, eliminaría porque MADT190_01 es la versión en español»; misma clase que los 6 PT retirados", "hermano_es": "MADT190_01"})
     # merge doc_map por document_id
@@ -157,7 +166,7 @@ def main():
         print("  ALTA", a["row"]["id"], "|", a["row"]["canonical_model"], "| n", a["n_token"], "|", a["doc"][:40], "|", a["cita"][:70])
     for x in plan["no_aplicar"]: print("  NO:", x)
     for x in plan["avisos"]: print("  AVISO:", x)
-    print("  paraguas 2X-A:", len(X2A), "ids ·", plan["adjudicados_por_alberto_para_el_gate"]["2X-A"]["motivo"])
+    print("  paraguas 2X-A: DIFERIDO —", plan["pregunta_alberto_2xa"]["pregunta"][:120])
     print("plan:", out.relative_to(ROOT))
 
 
