@@ -26,7 +26,46 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324 — 16 ago 2026)
+## Estado actual (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
+
+**Dos frentes en una sola sesión, en paralelo (Alberto: «prefiero la simplicidad de una sesión»): él
+adjudica la asignación documento→modelo en los packets; yo mido la etapa 3 y aplico lo firmado (DEC-227).**
+**Etapa 3, MEDIDA antes de construir**: sondas de los 8 «servido y omitido» del FULL 16-ago → 7 ALCANZABLE / 1 NO
+(`hp009#0`); pero la población por gold de hoy = {hp017, hp005, hp015, hp001} = 4 y **no es una clase** (`hp015`
+era DATOS —CCD-103 candidate, resuelto—, `hp001#2` within-doc NO-GO 3×, `hp005#3` omisión inestable) ⇒ **un solo
+hecho pagable por serving: `hp017#1`** (cards de 360 chars cortan el bullet). Propuesta D1 «cierre de bloque de
+lista» → **dúo r33 (Sol 6, Fable 5 con 14 tool_use reales): NO construir, medir antes** → medido esa noche:
+**prueba offline D1** ($0, código real de coverage, fidelidad 40/40): alcanza `hp017#1` SOLO con la definición A
+(blanco entre ítems no rompe), 0 hechos NO-OK adicionales, toca 6/27 filas estructurales y 9 hechos OK;
+**replay congelado** de los 4 flips ($5,44, N=5 misma vista + N=3 fresco, juez K=5 intacto): **4/4 SÍNTESIS
+INESTABLE**, 0 serving (con N=3 el FULL etiqueta «flip»/«stable-miss» por azar). Cifra de cabecera de DEC-175:
+**1 hecho**; D1 solo con GO explícito de Alberto sobre «1». Los 3 de conducta («negar la premisa») → packet de
+gold-review `evals/s324c_goldreview_conducta_packet_v1.md`.
+**Catálogo (todo con las puertas de DEC-225, verificación posterior 0 fallos)**: R1' (62 entries) · §0.C (21 altas
++ 7 alias + 26 doc_map + 2 bajas; Fable standalone 6 hallazgos aplicados) · STRATOS = paraguas de familia · §0.D/§0.E
+(5 docs retirados, altas Fidegas S/3-2·S/3-IR·S/2-IR y EMA1224B4R/W, TG = software, MADT731_06 → HSSD-2, 5 retags)
+· **Detnov E1b** (8 confirmaciones + `detnov:ccd-103`; el gate cazó 14 alias descriptivos «2 zonas»… que la
+confirmación activaba → retirados antes). **E1b PREPARADO, NO aplicado**: 11 planes + dry-run **11/11 PASS** (422
+confirmables verificadas, 40 `no_aplicar` con propuesta, 125 alias descriptivos a retirar antes) —
+`evals/s324c_e1b_bloques_censo_v1.md`. Re-juicio K=5 cross-model de la clase «confianza media»: ver adenda al
+final de este bloque. Suite verde (3.9xx; `test_s307` desacoplado de los datos del catálogo). Deuda nueva #89
+(5 defectos del instrumento de sonda). Coste de la noche ≈ $25 (sondas ~$12, replay $5,44, K=5 ~$5-8, resto $0).
+
+**Qué sigue (s324c — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+(a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =
+re-dry-run del mismo sha + `--aplicar` (cross-bloque morley↔unresolved/notifier exige adjudicar homónimos); las
+3 preguntas de §0.D (MADT015_01 ¿NFS2-8?, MNDT600 ¿familia SMART 3?, MNDT701 sin id) · paraguas «2X-A» (¿con
+2X-AT dentro?) · nombres con barra (10) · baja del FR `996-130` · packet **gold-review de conducta** (3 hechos ×
+3 opciones) · ¿GO sobre «1 hecho» para D1? (recomendación: NO; si GO, definición A pineada + G2 antes de G3).
+(b) **E2**: re-derivar snapshot + G1/G2 tras cada lote (conservador PASS hoy) antes de cualquier swap.
+(c) Etapa 3 sin lever de serving: la varianza de síntesis (4/4 flips) es OTRA clase — si se quiere atacar, es
+diseño nuevo con pregunta cero (¿medir con N≥5 por hecho antes de etiquetar el FULL?), no D1.
+(d) #89 endurecer la sonda (5 defectos) · #86 runner Fable exige `tool_use` reales · #87 OCR TI-007 + ingestas
+vacías · #88 `documents.product_model` artefactos · #84 doc_map como fuente de aplicabilidad (dúo).
+(e) DEC-226 (conducta `mismatch`, decisión de producto multi-modelo) y DEC-186b siguen donde estaban.
+(f) podar el PLAN (>160 KB).
+
+## Estado anterior (s324 — 16 ago 2026)
 
 **s324 — el residuo de los packets se adjudica por REGLAS, no por filas; y las puertas
 prueban antes de escribir (DEC-225).** Alberto no firmó 911 filas: firmó **7 reglas** (R1
