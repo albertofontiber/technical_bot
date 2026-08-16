@@ -174,7 +174,7 @@ def main() -> None:
         # ═══ A1 · §0.B limpias (v3) con las anotaciones de Alberto ═══
         overrides = {
             "ma-dt-1160": None,                                    # retirado (s324_retirar_docs)
-            "mndt1160": ["systemsensor:exitpoint"],                # Alberto: el modelo es ExitPoint (alta en B)
+            "mndt1160": ["systemsensor:pf24v"],                   # Alberto: «el modelo es ExitPoint» → en catálogo ExitPoint ES pf24v (alias EXITPOINT; I56-2961: «EXITPOINT — PF24V Directional Sounder»)
             "con-que-sistema-operativo-es-compatible-el-programa-de-la-dxc-connexion": DXC + ZX_ALBERTO_DXC_FAQ,
             "morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-connexion-dxc": DXC + ZX_CENTRALES + DX_MODELOS,
         }
@@ -198,10 +198,10 @@ def main() -> None:
             d = doc(c, sf) or {"id": tb["document_id"], "source_pdf_filename": tb["source_file"], "status": "?"}
             txt = texto(c, d["id"])
             ok = cita_ok(txt, f["cita"])
-            faltan = [i for i in ids if i not in P and i not in ("systemsystem",)]
+            faltan = [i for i in ids if i not in P]
             verif = {"cita_full_text": ok, "n_chunks_texto": len(txt) > 0,
-                     "ids_inexistentes_hoy": [i for i in faltan if not i.startswith("systemsensor:exitpoint")],
-                     "ids_pendientes_de_este_lote": [i for i in ids if i in ("systemsensor:exitpoint",) or i in DX_MODELOS]}
+                     "ids_inexistentes_hoy": faltan,
+                     "ids_pendientes_de_este_lote": [i for i in ids if i in DX_MODELOS]}
             if not ok:
                 plan["no_aplicar"].append({"que": sf, "motivo": "cita NO verifica full-text hoy", "cita": f["cita"]}); continue
             if verif["ids_inexistentes_hoy"]:
@@ -256,6 +256,10 @@ def main() -> None:
                                "aviso": "fragmento FRANCÉS de 1 chunk (páginas finales); misma clase que los PT retirados (política s65) pero SIN sí de Alberto para FR → se atesta por R1 y se propone baja aparte"})
 
         # ═══ B · products ALTAS (R4 + R7 componentes + ExitPoint) ═══
+        CANON = {}
+        for _pid, _p in P.items():
+            CANON.setdefault(norm_token(_p.get("canonical_model") or ""), _pid)
+
         def alta(pid, canonical, doc_name, tokens_extra=(), familia=None, vb=None, regla="R7", detalle=""):
             d = doc(c, doc_name)
             if not d:
@@ -265,8 +269,21 @@ def main() -> None:
             cita = ventana(txt, canonical)
             if n == 0 or not cita:
                 plan["no_aplicar"].append({"que": pid, "motivo": f"{canonical!r} NO aparece como token exacto en {doc_name!r} (regla {regla}: sin cita propia no hay alta)"}); return None
-            if pid in P:
-                plan["no_aplicar"].append({"que": pid, "motivo": "ya existe en el catálogo"}); return None
+            existente = CANON.get(norm_token(canonical)) or (pid if pid in P else None)
+            if existente:
+                pe = P[existente]
+                if pe.get("estado") == "activo" and pe.get("candidate"):
+                    # ya existe como candidate: R2 (nombrado como sujeto con cita) → CONFIRMAR, no duplicar
+                    plan["products_confirmar"].append({"id": existente, "canonical_model": pe["canonical_model"], "doc": d["source_pdf_filename"],
+                                                       "document_id": d["id"], "n_token": n, "cita": cita,
+                                                       "provenance_add": PROV_R.format(regla="R2 (vía " + regla + ")", detalle=f"nombrado como sujeto en {d['source_pdf_filename']} ({n} chunks); cita: «{cita}»")})
+                    plan["avisos"].append({"que": pid, "aviso": f"el catálogo ya tenía {existente!r} (candidate) con la misma grafía normalizada → se CONFIRMA en vez de duplicar"})
+                elif pe.get("estado") == "activo":
+                    plan["avisos"].append({"que": pid, "aviso": f"ya existe {existente!r} activo con esa grafía → solo doc_map"})
+                else:
+                    plan["no_aplicar"].append({"que": pid, "motivo": f"existe {existente!r} en estado {pe.get('estado')}: no se recicla ni duplica"}); return None
+                plan["doc_map_altas"].append(entrada(d, [existente], regla, cita, f"documento que nombra {canonical} ({n} chunks); id existente", {"token_exacto": n}))
+                return {"id": existente, "existente": True}
             marca = vb or (["Kidde Commercial"] if "KIDDE COMMERCIAL" in txt.upper() and d["manufacturer"] in ("Kidde", "Aritech") else [d["manufacturer"]])
             row = {"id": pid, "canonical_model": canonical, "estado": "activo", "candidate": False,
                    "vendido_bajo": marca, "added_by": ADDED_BY,
@@ -333,10 +350,10 @@ def main() -> None:
             familia = next((v for k, v in fam.items() if pid.startswith(k)), None)
             if alta(pid, cm, dn, familia=familia, regla="R7", detalle="componente de una grafía concatenada del draft E1 (§1.B), con cita propia"):
                 creados.add(pid)
-        # ExitPoint (adjudicación s323 de Alberto sobre mndt1160)
-        vb_ss = (P.get("systemsensor:pf24v") or {}).get("vendido_bajo") or ["System Sensor"]
-        alta("systemsensor:exitpoint", "ExitPoint", "MNDT1160", vb=vb_ss, regla="§0.B+Alberto",
-             detalle="Alberto (s323): «el modelo es ExitPoint»; MNDT1160 lo nombra 31 chunks, PF24V 0")
+        # ExitPoint (adjudicación s323 de Alberto sobre mndt1160): NO se crea producto — el catálogo ya
+        # modela ExitPoint como alias de systemsensor:pf24v y I56-2961 prueba «EXITPOINT — PF24V Directional
+        # Sounder» (línea = ExitPoint, modelo = PF24V). El doc_map de MNDT1160 apunta al id pf24v = ExitPoint.
+        plan["avisos"].append({"que": "mndt1160 → ExitPoint", "aviso": "ExitPoint es la LÍNEA y PF24V su modelo (I56-2961-000R: «EXITPOINT — PF24V Directional Sounder with Voice Messaging»); alias EXITPOINT→systemsensor:pf24v ya existe → el doc_map apunta a pf24v, que ES ExitPoint. No se crea producto duplicado."})
 
         # ═══ C · products CONFIRMAR (R2: modelos concretos nombrados como sujeto) ═══
         conf = [
@@ -384,10 +401,14 @@ def main() -> None:
                                                        "regla": "R2", "detalle": "se quita la etiqueta vsn-plus (y una entry duplicada); qué modelo VSN PLUS trata la FAQ queda abierto (VSN2-PLUS/PLUS2 solo en docs NFS-SUPRA)"})
 
         # ═══ E · umbrellas (listas planas de ids de producto; adjudicadas → candidate=false) ═══
-        def umb(termino, tipo, ids, prov):
-            plan["umbrellas_altas"].append({"termino": termino, "tipo": tipo, "ids": ids, "divergent": True,
-                                            "candidate": False, "added_by": ADDED_BY, "provenance": prov})
-        umb("2X-A", "familia", X2A, "Alberto s323 (437ee3f): alta de la FAMILIA 2X-A; miembros DERIVADOS por regla prefijo 2X-A × categoría {central, repetidor} (2X-A-LB accesorio fuera) — s324")
+        def umb(termino, tipo, ids, prov, diferido=None):
+            row = {"termino": termino, "tipo": tipo, "ids": ids, "divergent": True,
+                   "candidate": False, "added_by": ADDED_BY, "provenance": prov}
+            if diferido:
+                row["diferido"] = diferido
+            plan["umbrellas_altas"].append(row)
+        umb("2X-A", "familia", X2A, "Alberto s323 (437ee3f): alta de la FAMILIA 2X-A; miembros DERIVADOS por regla prefijo 2X-A × categoría {central, repetidor} (2X-A-LB accesorio fuera) — s324",
+            diferido="gate léxico s324 (censo del radio de explosión): el core «2·x·a» del término DISPARA en el negativo sintético «2 x a» (normkey 3 chars). Lo adjudicado por Alberto (la guía → familia) ya lo cubre R1 vía doc_map a los miembros; el paraguas es modelado del autor → se somete al dúo antes de crearlo. El writer lo SALTA.")
         umb("2X-AT", "serie", X2AT, "Alberto s324 (16-ago): 2X-AT = sub-familia táctil de la 2X-A → apunta a sus modelos; derivados por prefijo 2X-AT- × {central, repetidor}")
         umb("2X-A Táctil", "serie", X2AT, "sinónimo de «2X-AT» (product_model de las guías rápidas); mismos miembros — s324")
         umb("VSN PLUS", "familia", VSN_PLUS, "Alberto s324 (16-ago): VSN-Plus tiene los modelos VSN 4 PLUS, VSN 8 PLUS, VSN 12 PLUS según MIEMI130")

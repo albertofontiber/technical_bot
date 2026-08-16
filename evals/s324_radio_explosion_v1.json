@@ -1,0 +1,626 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión",
+ "modo": "dry-run",
+ "utc": "20260816T111517Z",
+ "plan_sha": "9d1675fd8aeaded7",
+ "stats": {
+  "altas": 15,
+  "confirmadas": 7,
+  "retiradas": 2,
+  "aliases_quitados": 1,
+  "umbrellas": 3,
+  "doc_map_altas": 63,
+  "doc_map_modificadas": 2
+ },
+ "censo": {
+  "terminos_antes": 1667,
+  "terminos_despues": 1697,
+  "entran": 30,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "2X-AT",
+    "normkey": "2xat",
+    "core": "2[-\\s/.+]*x[-\\s/.+]*at",
+    "origen": "paraguas 2X-AT (11 ids)",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*1[-\\s/.+]*fb[-\\s/.+]*s",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb[-\\s/.+]*p",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb[-\\s/.+]*s",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*p"
+    ]
+   },
+   {
+    "termino": "2X-A Táctil",
+    "normkey": "2xatactil",
+    "core": "2[-\\s/.+]*x[-\\s/.+]*a[-\\s/.+]*tactil",
+    "origen": "paraguas 2X-A Táctil (11 ids)",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX1e",
+    "normkey": "dx1e",
+    "core": "dx[-\\s/.+]*1[-\\s/.+]*e",
+    "origen": "confirmar morley:dx1e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*1",
+     "dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m"
+    ]
+   },
+   {
+    "termino": "DX1e-20S",
+    "normkey": "dx1e20s",
+    "core": "dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*s",
+    "origen": "confirmar morley:dx1e-20s",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*1"
+    ]
+   },
+   {
+    "termino": "DX2",
+    "normkey": "dx2",
+    "core": "dx[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e",
+    "normkey": "dx2e",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e",
+    "origen": "confirmar morley:dx2e",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e-40M",
+    "normkey": "dx2e40m",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "confirmar morley:dx2e-40m",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e-40MP",
+    "normkey": "dx2e40mp",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*mp",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX4e",
+    "normkey": "dx4e",
+    "core": "dx[-\\s/.+]*4[-\\s/.+]*e",
+    "origen": "confirmar morley:dx4e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "DX4e-40L",
+    "normkey": "dx4e40l",
+    "core": "dx[-\\s/.+]*4[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*l",
+    "origen": "confirmar morley:dx4e-40l",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "FACP MODEL DX1e-20S",
+    "normkey": "facpmodeldx1e20s",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*s",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FACP MODEL DX2e-40M",
+    "normkey": "facpmodeldx2e40m",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FACP MODEL DX4e-40L",
+    "normkey": "facpmodeldx4e40l",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*4[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*l",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-ADPW-KIL",
+    "normkey": "kedbaadpwkil",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*kil",
+    "origen": "alta kidde:ke-dba-adpw-kil",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-ADPW-ZIT",
+    "normkey": "kedbaadpwzit",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*zit",
+    "origen": "alta kidde:ke-dba-adpw-zit",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3120W-SN",
+    "normkey": "kedp3120wsn",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w[-\\s/.+]*sn",
+    "origen": "alta kidde:ke-dp3120w-sn",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w"
+    ]
+   },
+   {
+    "termino": "KE-DP3120W-SNV",
+    "normkey": "kedp3120wsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3120w-snv",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w"
+    ]
+   },
+   {
+    "termino": "KE-DP3121B",
+    "normkey": "kedp3121b",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*b",
+    "origen": "alta kidde:ke-dp3121b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121B-SNV",
+    "normkey": "kedp3121bsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*b[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3121b-snv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W",
+    "normkey": "kedp3121w",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w",
+    "origen": "alta kidde:ke-dp3121w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W-SN",
+    "normkey": "kedp3121wsn",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w[-\\s/.+]*sn",
+    "origen": "alta kidde:ke-dp3121w-sn",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W-SNV",
+    "normkey": "kedp3121wsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3121w-snv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-IU3111-ZME",
+    "normkey": "keiu3111zme",
+    "core": "ke[-\\s/.+]*iu[-\\s/.+]*3111[-\\s/.+]*zme",
+    "origen": "alta kidde:ke-iu3111-zme",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-MBX-1",
+    "normkey": "niombx1",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*mbx[-\\s/.+]*1",
+    "origen": "alta kidde:n-io-mbx-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-MBX-2",
+    "normkey": "niombx2",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*mbx[-\\s/.+]*2",
+    "origen": "alta kidde:n-io-mbx-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-SBX-1G",
+    "normkey": "niosbx1g",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*sbx[-\\s/.+]*1[-\\s/.+]*g",
+    "origen": "alta kidde:n-io-sbx-1g",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NX2/R/R",
+    "normkey": "nx2rr",
+    "core": "nx[-\\s/.+]*2[-\\s/.+]*r[-\\s/.+]*r",
+    "origen": "alta notifier:nx2-r-r",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NX5/R/R",
+    "normkey": "nx5rr",
+    "core": "nx[-\\s/.+]*5[-\\s/.+]*r[-\\s/.+]*r",
+    "origen": "alta notifier:nx5-r-r",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN 12 PLUS",
+    "normkey": "vsn12plus",
+    "core": "vsn[-\\s/.+]*12[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn-12-plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN PLUS",
+    "normkey": "vsnplus",
+    "core": "vsn[-\\s/.+]*plus",
+    "origen": "paraguas VSN PLUS (3 ids)",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*plus[-\\s/.+]*2"
+    ]
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "DX2",
+    "id": "morley:dx2e",
+    "tipo": "variante-tipografica",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "DX2e-40MP",
+    "id": "morley:dx2e-40m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX1e-20S",
+    "id": "morley:dx1e-20s",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX2e-40M",
+    "id": "morley:dx2e-40m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX4e-40L",
+    "id": "morley:dx4e-40l",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?": {
+    "antes": [],
+    "despues": [
+     "2x-at"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "avisos_muy_corto": [
+   "DX2"
+  ],
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "planeados": [
+   {
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "source_file": "4188-1132-ES issue 3_04_2025_Qref",
+    "pm_prev": "CLSS-10",
+    "pm_nuevo": "INSPIRE E10/E15",
+    "documents_pm_actual": "CLSS-10",
+    "motivo": "la Qref ES estaba etiquetada CLSS-10 (pasarela cloud, 9 chunks) pero nombra INSPIRE ×13 / E10 ×11; doc_map ya apunta a inspire-e10/e15",
+    "chunks_doc": 18,
+    "chunks_pm_prev": 18
+   },
+   {
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "source_file": "MI_KIDDE_KE_IO3144_631e.pdf",
+    "pm_prev": "KE-IO3144/KE-IU3110",
+    "pm_nuevo": "KE-IO3122/KE-IO3144",
+    "documents_pm_actual": "KE-IO3144/KE-IU3110",
+    "motivo": "KE-IU3110 no aparece en el contenido; el doc trata KE-IO3122 y KE-IO3144 (Alberto 16-ago)",
+    "chunks_doc": 33,
+    "chunks_pm_prev": 33
+   }
+  ],
+  "aplicados": [],
+  "backup": [
+   {
+    "id": "63a4acc6-20a8-4201-ae97-f6888c2f1062",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "09ae499b-90ae-46b4-a5e7-138bfb5cf94b",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "fd092752-a693-4581-b039-34f8d2399829",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "ad28ab54-cf7e-41a1-923d-9c4ad1332b47",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "8314ee68-5c2f-472d-aafe-740b824ca1d9",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "d781b7e9-903d-43d7-982b-f91524911181",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "6028d684-ea74-495f-aedc-811fcb32ad98",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "eebf5032-7834-4009-b6ce-270ac7f766e8",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "e62023ee-0b15-4fee-8a03-eaa68f4e722a",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "8db55998-3225-4f65-a2d7-4846f670165f",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "6d681e21-d54f-4556-aa80-2f821ac70418",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "f189ca9f-2393-44c8-8537-ee2ffe4bdfa2",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "b9d94ffd-7c4f-4f68-952f-eb199a2cfb2c",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "5da3714b-426a-4ff7-bdba-ee3ba8e49cf8",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "b0ccc191-c1d1-4919-b4bc-609a9d581e3b",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "438f0cd8-7b0f-43a0-bbcb-4ed18ef80e33",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "6c3ba6ff-746f-4abf-9069-12c8873a6b8d",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "720da4f3-1453-4c49-bac9-b157b7d6d685",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "product_model_prev": "CLSS-10"
+   },
+   {
+    "id": "aa9056e3-2265-4b9b-a002-dcdf23c907db",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "081c13b0-2d53-4dc4-af0b-0b91b11a6100",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "8a505843-61b3-4ef8-8a60-0afc5e747cf5",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "5b034703-f546-4bcb-85de-0ee0cd060422",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "f6db6d9a-c694-4201-ba1d-9e0d677e0009",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "57cb32a3-ea42-4e83-bd40-433c579400c8",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "ce30d4c6-ccf7-4d2a-b853-59a8e5ddcbb4",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "4be85b91-0d1f-4d26-b157-aa2cee3f3153",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "16761c46-9b5d-40dc-9ad3-2128c4b294af",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "84b91314-96c5-4798-95c6-d783c188204f",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "361aa80a-0bcc-4244-839c-db612a6be99b",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "74c9059b-ee36-400a-820e-509dea793aff",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "9691cd08-e17d-47a0-8d86-bab1a542e30a",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "180ca670-18f8-4ffb-8ce9-72fcaa83a67f",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "0b45cf4d-31ed-423a-bc98-fc6059485bca",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "78be0f84-79d4-4432-893b-cbce168bc01a",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "25edc1b5-0ada-4a10-9376-264ac570e7b3",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "ccc901bd-99c5-428f-8d94-988b7930dc29",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "81d425c1-a7f8-49e6-9b76-7e84bfd0a60d",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "cc894597-b64b-48b8-87ee-3dbd7f5f50b1",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "7fda0e85-8c32-4979-8532-9cf2924beac5",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "e8f95d5b-5805-4d8e-988f-294873fd83b2",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "fb620477-f778-44a6-9368-c97068fcadba",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "46d4903f-046f-40fe-aa73-533536e861a7",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "645853e4-751d-450d-9a9f-1852b93acb3f",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "515256e5-3ffc-4a41-a8ee-790528d193c5",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "bc4abf49-a721-43e8-979c-9afc12d93b1d",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "eda04fb1-6f69-4c62-9777-b61d027969fb",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "8242e16c-4990-4fc4-bc4a-3460f26ac8f4",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "624ed6d7-1f7e-4148-a5aa-382739406379",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "f7b407f9-1351-41a6-90b9-e2fd74c7a2f0",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "41861435-d82a-4fde-a6a0-0da51dd77a1b",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   },
+   {
+    "id": "bd0b7c2e-bb08-4f00-95f9-52094c785b79",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "product_model_prev": "KE-IO3144/KE-IU3110"
+   }
+  ],
+  "aborts": []
+ },
+ "tmp": "C:\\Users\\Admin\\AppData\\Local\\Temp\\s324_catalog_5u_gvnka"
+}

@@ -1,6 +1,6 @@
 {
  "que_es": "s324 — PLAN mecánico del LOTE FIRMADO (solo lectura: NO escribe catálogo ni Supabase).",
- "utc": "20260816T110827Z",
+ "utc": "20260816T111516Z",
  "reglas": "evals/s324_reglas_residuo_adjudicacion_v1.json",
  "constantes": {
   "ZX_CENTRALES": [
@@ -1221,31 +1221,24 @@
    "source_file": "MNDT1160",
    "entries": [
     {
-     "id": "systemsensor:exitpoint",
+     "id": "systemsensor:pf24v",
      "role": "primary",
      "scope": "doc",
      "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
     }
    ],
    "reglas": [
-    "§0.B+Alberto",
     "§0.B+Alberto"
    ],
    "citas": [
-    "Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*",
-    "08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación* **MN-DT-1160** **18 SEPTIEMBRE 2008**"
+    "Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*"
    ],
    "verificaciones": [
     {
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": [
-      "systemsensor:exitpoint"
-     ]
-    },
-    {
-     "token_exacto": 39
+     "ids_pendientes_de_este_lote": []
     }
    ]
   },
@@ -3379,16 +3372,16 @@
    "source_file": "Manual-de-Usuario-S3-T1-y-S-2-T1",
    "entries": [
     {
-     "id": "fidegas:s-3-t1",
+     "id": "fidegas:s3-t1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de S/3-T1"
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que nombra S/3-T1 (29 chunks); id existente"
     },
     {
-     "id": "fidegas:s-2-t1",
+     "id": "fidegas:s2-t1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de S/2-T1"
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que nombra S/2-T1 (22 chunks); id existente"
     }
    ],
    "reglas": [
@@ -3736,44 +3729,6 @@
   },
   {
    "row": {
-    "id": "fidegas:s-3-t1",
-    "canonical_model": "S/3-T1",
-    "estado": "activo",
-    "candidate": false,
-    "vendido_bajo": [
-     "Fidegas"
-    ],
-    "added_by": "s324-reglas",
-    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en Manual-de-Usuario-S3-T1-y-S-2-T1 (29 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
-    "familia": "S/x-T1"
-   },
-   "doc": "Manual-de-Usuario-S3-T1-y-S-2-T1",
-   "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
-   "cita": "no es posible conectar varios sensores entre sí, ni en serie ni en paralelo. ### Versión S/3-T1 envolvente ATEX: A) Colocar el prensaestopas ATEX en el SRG y apretarlo con una llave.",
-   "n_token": 29,
-   "regla": "R7"
-  },
-  {
-   "row": {
-    "id": "fidegas:s-2-t1",
-    "canonical_model": "S/2-T1",
-    "estado": "activo",
-    "candidate": false,
-    "vendido_bajo": [
-     "Fidegas"
-    ],
-    "added_by": "s324-reglas",
-    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en Manual-de-Usuario-S3-T1-y-S-2-T1 (22 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
-    "familia": "S/x-T1"
-   },
-   "doc": "Manual-de-Usuario-S3-T1-y-S-2-T1",
-   "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
-   "cita": "8 [Fidegas logo in top right corner] # 4. UBICACIÓN El sensor remoto Ref. S/3-T1 y S/2-T1 se debe situar de forma tal que cualquier acumulación de gas sea detectada antes de que",
-   "n_token": 22,
-   "regla": "R7"
-  },
-  {
-   "row": {
     "id": "notifier:nx2-r-r",
     "canonical_model": "NX2/R/R",
     "estado": "activo",
@@ -3809,24 +3764,6 @@
    "cita": "4 | → | (+) | | - | - | --- | | 3 | → | (+) | | 2 | → | (−) | | 1 | → | (−) | NX2/R/R y",
    "n_token": 1,
    "regla": "R7"
-  },
-  {
-   "row": {
-    "id": "systemsensor:exitpoint",
-    "canonical_model": "ExitPoint",
-    "estado": "activo",
-    "candidate": false,
-    "vendido_bajo": [
-     "System Sensor"
-    ],
-    "added_by": "s324-reglas",
-    "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MNDT1160 (39 chunks con el token); Alberto (s323): «el modelo es ExitPoint»; MNDT1160 lo nombra 31 chunks, PF24V 0"
-   },
-   "doc": "MNDT1160",
-   "document_id": "a0d6d342-28f1-484b-97b6-46a34af6c3cc",
-   "cita": "08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación* **MN-DT-1160** **18 SEPTIEMBRE 2008**",
-   "n_token": 39,
-   "regla": "§0.B+Alberto"
   }
  ],
  "products_confirmar": [
@@ -3964,7 +3901,8 @@
    "divergent": true,
    "candidate": false,
    "added_by": "s324-reglas",
-   "provenance": "Alberto s323 (437ee3f): alta de la FAMILIA 2X-A; miembros DERIVADOS por regla prefijo 2X-A × categoría {central, repetidor} (2X-A-LB accesorio fuera) — s324"
+   "provenance": "Alberto s323 (437ee3f): alta de la FAMILIA 2X-A; miembros DERIVADOS por regla prefijo 2X-A × categoría {central, repetidor} (2X-A-LB accesorio fuera) — s324",
+   "diferido": "gate léxico s324 (censo del radio de explosión): el core «2·x·a» del término DISPARA en el negativo sintético «2 x a» (normkey 3 chars). Lo adjudicado por Alberto (la guía → familia) ya lo cubre R1 vía doc_map a los miembros; el paraguas es modelado del autor → se somete al dúo antes de crearlo. El writer lo SALTA."
   },
   {
    "termino": "2X-AT",
@@ -4292,21 +4230,33 @@
   {
    "que": "996-130-000-3 manuel d'utilisation zx_hlsi",
    "aviso": "fragmento FRANCÉS de 1 chunk (páginas finales); misma clase que los PT retirados (política s65) pero SIN sí de Alberto para FR → se atesta por R1 y se propone baja aparte"
+  },
+  {
+   "que": "fidegas:s-3-t1",
+   "aviso": "ya existe 'fidegas:s3-t1' activo con esa grafía → solo doc_map"
+  },
+  {
+   "que": "fidegas:s-2-t1",
+   "aviso": "ya existe 'fidegas:s2-t1' activo con esa grafía → solo doc_map"
+  },
+  {
+   "que": "mndt1160 → ExitPoint",
+   "aviso": "ExitPoint es la LÍNEA y PF24V su modelo (I56-2961-000R: «EXITPOINT — PF24V Directional Sounder with Voice Messaging»); alias EXITPOINT→systemsensor:pf24v ya existe → el doc_map apunta a pf24v, que ES ExitPoint. No se crea producto duplicado."
   }
  ],
- "doc_map_altas_sin_fusionar": 74,
+ "doc_map_altas_sin_fusionar": 73,
  "autocheck_citas_altas": true,
  "autocheck_citas_confirmar": true,
  "resumen": {
   "doc_map_altas": 63,
   "doc_map_modificaciones": 2,
-  "products_altas": 18,
+  "products_altas": 15,
   "products_confirmar": 7,
   "products_retirar": 2,
   "aliases_quitar": 1,
   "umbrellas_altas": 4,
   "retags_db": 2,
   "no_aplicar": 57,
-  "avisos": 1
+  "avisos": 4
  }
 }
