@@ -3007,3 +3007,40 @@ sin registrar QUÉ chunk se acreditó, para que el forense no dependa de re-medi
 próximo censo por clases, o el próximo `synthesis-miss` compuesto que se use para cerrar una
 línea de trabajo. **Coste**: S para (b), M para (a). **Relacionado**: DEC-173/DEC-175 (banners
 s321), #77, DEC-094.
+
+## #83 — El revisor Fable 5 puede FABRICAR la transcripción de tools (0 `tool_use` reales) y el emparejamiento con Sol se rompe si HEAD se mueve durante el run — s324
+
+**Estado: OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
+imprime un log de `grep_repo`/`read_file`/`list_dir` con respuestas verosímiles… de ficheros que NO
+existen (`scripts/catalog_store.py`, `scripts/s324_radio_explosion.py`, `products.jsonl:509` con
+`candidate:true` falso). El `responses` JSON registra **0 bloques `tool_use`**: el modelo escribió el
+log como texto. Sus 5 hallazgos válidos salieron de los ficheros SEMILLA; el 6º se apoyó en el dato
+inventado (y aun así destapó una sobre-extensión real, por suerte). Además el runner declaró «NO
+emparejada» porque el autor commiteó (el predicado) mientras Fable corría → vista del repo distinta.
+**Por qué importa**: el dúo es el control anti-bias del método (Protocolo 3); una transcripción
+fabricada es indistinguible de una lectura real si nadie abre el responses JSON.
+**Qué hacer**: (1) el runner debe contar `tool_use` reales y estampar `tools_reales=N` en el tally +
+marcar `SIN_TOOLS` en el .md si N=0 (o rechazar la review cuando el modo tools está activo); (2)
+regla de operación: no mover HEAD mientras corre un dúo emparejado; (3) al completar el tally
+(regla C), abrir siempre el responses JSON, no solo el .md.
+
+## #84 — Ingestas VACÍAS: documentos activos cuyo texto extraído es una portada (<300 chars) — s324
+
+**Estado: CENSADO.** 1.068 activos → **2** con <300 chars: `HLSI-TI-007_VSN-4REL` (47 chars:
+«Honeywell · Honeywell Life Safety Iberia»; el PDF está en el bucket, sha 582de999…; Alberto: el
+modelo es VSN-4REL, módulo de 4 relés NFS-SUPRA/RP1R-SUPRA) y `Docs Morley-IAS Max - QR` (142 chars:
+un QR con URL). 95 más entre 300 y 1.500 chars, en su mayoría FAQ cortas legítimas. Es la clase «gap
+de manual ya ingestado» de Alberto: el documento cuenta como cubierto y no lo está.
+**Qué hacer**: re-ingesta con OCR de TI-007 (y atestar DESPUÉS, no antes — adjudicación registrada);
+baja o sustitución del QR; guardia de ingesta: aviso cuando un PDF produce <300 chars de texto.
+
+## #85 — `documents.product_model` conserva artefactos que E3 corrigió solo en `chunks_v2` — s324
+
+**Estado: OBSERVADO.** E3 (F3a) re-tagueó `chunks_v2.product_model` (579 chunks) pero
+`documents.product_model` sigue diciendo `TO-3200M` en `MIW-INT-Cuantos-expansores…`, `LOCAL-360` en
+los I56-13xx/SDX/FDX, `MM-82` en I56-4407, etc. (comprobado 16-ago al validar la Puerta A). No afecta
+al serving (el retriever usa el pm del chunk) pero sí a cualquier censo/derivación que lea la ficha
+(`documents.pm` es la fuente del draft de candidates E1: de ahí nacieron esos artefactos).
+**Qué hacer**: retag de `documents.product_model` al canónico del doc_map primario para los docs
+retagueados en E3 (mismo gate de findability), con recibo; y que el writer de retags toque siempre
+ambas capas (el de s324 ya lo hace).

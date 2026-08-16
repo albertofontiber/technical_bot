@@ -26,7 +26,50 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s323 — 15 ago 2026)
+## Estado actual (s324 — 16 ago 2026)
+
+**s324 — el residuo de los packets se adjudica por REGLAS, no por filas; y las puertas
+prueban antes de escribir (DEC-221).** Alberto no firmó 911 filas: firmó **7 reglas** (R1
+serie×categoría en el residuo · R2 confirmar solo modelos concretos nombrados como sujeto —
+las etiquetas de familia son paraguas, nunca producto · R3 OEM no amplía `vendido_bajo` ·
+R4 alta+doc_map solo con cita, jamás por ficha · R6 fuente retirada → no alta · R7 concatenados
+→ componentes con cita propia · R5 → BAJA de 6 fragmentos PT con hermano ES + OCR de TI-007).
+Con eso: **lote aplicado con recibo** (`evals/s324_lote_firmado_aplicar_20260816T113215Z.json`):
+doc_map **+57 filas / 225 entries** (§0.B completo + §1.A por reglas + docs sustentantes), **13
+altas** (KE-DP312x mini-familia + componentes R7), **7 confirmaciones** (DX1e/2e/4e + cajas —
+cierra el ÚNICO agujero de paraguas del catálogo, «Dimension» 0/3 → 3/3 — y VSN 12 PLUS), 2
+etiquetas retiradas (`2x-at`, `vsn-plus` → paraguas `2X-AT`/`2X-A Táctil`/`VSN PLUS`), 2 retags
+DB con CAS (Qref INSPIRE mal etiquetada `CLSS-10`; KE-IO3144/IU3110 → IO3122/IO3144), 7 docs
+retirados del corpus. **Todo por puertas que prueban**: cita verificada full-text en cada fila,
+freeze (sha×4 + fingerprint + snapshot), build-validar-backup-swap, CAS con rollback, **censo del
+radio de explosión** (detector del resolver 1.667→1.695, +28/−0; 0 gold perdidas; 0 disparos en
+36 negativos; `resolve_query` sobre las 51 gold: 0 pérdidas / 9 ganancias), verificación
+posterior en censo 0 fallos, suite 3.890 verde. **Dúo r32** (Sol 6/6 confirmados: freeze,
+atomicidad, CAS documents, censo solo-detector, **R1' no firmada**, sobre-afirmación; Fable 5/6 +
+1 premisa falsa) aplicado ENTERO antes de escribir. **Puerta A rehecha y VALIDADA** (predicado de
+reconstruibilidad: 5/5 positivos, 3/3 negativos) — 0/18 filas RETIRAR de E1b son de esa clase
+(palabras genéricas/part-numbers → siguen en cuarentena). Los packets que Alberto abre llevan el
+ESTADO fila a fila (✅ resuelto / ⏳ suyo). **Deuda nueva #83** (Fable fabricó una transcripción
+de tools: 0 `tool_use` reales; el emparejamiento se rompió al mover HEAD durante su run), **#84**
+(ingestas vacías <300 chars: TI-007 47 chars, QR Morley-IAS Max 142 → OCR/baja), **#85**
+(`documents.product_model` con artefactos residuales tras E3: TO-3200M, LOCAL-360…).
+
+**Qué sigue (s324 — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+(a) **lo que solo puede firmar Alberto** (todo listado en el bloque 🟢 al inicio de
+`s320_e1_packet_adjudicacion_v2.md`): **R1'** («si el doc NOMBRA modelos, atestar solo los
+nombrados» — 3 docs 2X-A/2X-AT en espera), §0.C/§0.D/§0.E de E1 (sus «sí» pasan por el gate del
+detector), nombres reales con barra (10), paraguas «2X-A» (frenado por el gate léxico), baja del
+fragmento FR `996-130`, VSN2-PLUS/«Plus2»; los bloques E1b (474) y E2 (562) siguen abiertos y su
+«sí» se aplica por lotes MEDIDOS (censo + gate), no en seco. (b) **Re-juicio K=5 cross-model** de
+la clase «confianza media con sujeto nombrado» (E1 14 + E1b 42) → lo convergente sube a bloque
+(NO se aplica). (c) **Re-derivar el snapshot E2** (`s320_e2_snapshot_derivado.py`) y pasar G1/G2
+tras el cambio de catálogo, antes de cualquier swap. (d) **#80/#81 plan v2 → dúo → aplicar (T3)**
+(defecto VIVO). (e) **FULL fresco v3.2** — sigue sin medirse el bot e2e desde el elefante; el censo
+de s324 NO mide retrieval/generación. (f) smoke de recepción en cloud (DEC-220). (g) OCR de TI-007
++ censo de ingestas vacías (#84). (h) #83: endurecer el runner Fable (exigir `tool_use` reales o
+marcar `sin_tools`) y no commitear durante un run emparejado.
+
+## Estado anterior (s323 — 15 ago 2026)
 
 **s323 — «dónde corre Claude» montado (DEC-220)**: las TRES superficies quedan
 cubiertas — **Cloud** (VM de Anthropic, sigue con el PC apagado), **Remote Control**

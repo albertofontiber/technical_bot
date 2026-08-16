@@ -17,6 +17,15 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s324 (16 ago 2026).** Catálogo gobernado tras el lote firmado (DEC-221): **1.670
+> productos** (976 consumibles · 611 candidate · 83 retirados/redirect), 1.752 alias, **24 paraguas**
+> (todos con miembros consumibles: el agujero «Dimension» quedó cerrado), **943 filas de doc_map**;
+> corpus **1.061 documentos activos** (7 retirados en s324: MA-DT-1160 + 6 fragmentos PT con hermano
+> ES). Detector del resolver: 1.695 términos resolubles. Producción SIN cambios de código; el
+> catálogo se despliega con `main`. La mecánica de escritura del catálogo (plan verificado full-text
+> → dry-run sobre copia con censo del radio de explosión → freeze → build/validar/backup/swap →
+> CAS con rollback → verificación posterior en censo) vive en `scripts/s324_lote_firmado_*.py`.
+>
 > **Estado s294 (2 ago 2026).** **Telemetría pre-técnicos puntos 1+5 EN PRODUCCIÓN**: cada
 > respuesta queda anclada a su consulta (`answer_messages`, todas sus partes) y un 👎 invita a
 > explicar, captura la prosa por intención explícita (`ForceReply` → reply anclado) y la escribe
