@@ -56,6 +56,7 @@ buena no es «la serie» (mezcla interfaces distintas) sino **serie × categorí
 - [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-`
       → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
       cita: «¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?»
+      ALBERTO: este archivo habla también de la ZX-A, ZX-E, ZX-2/5e, ZX2/5SE
 
 - [ ] `ds_kidde_2x_at_fr_fb_s_202602_es_4276`
       → `kidde:2x-at-fr-fb-s`
@@ -152,6 +153,7 @@ buena no es «la serie» (mezcla interfaces distintas) sino **serie × categorí
 - [ ] `ma-dt-1160`
       → `systemsensor:pf24v`
       cita: «Aplicaciones del *sonido direccional* para la protección de vidas # - ExitPoint™ -»
+      ALBERTO: elimina este documento del corpus, porque es una especie de paper hablando sobre un producto de ExitPoint pero no habla de características o de cómo usarlo.
 
 - [ ] `mie-mi-340_1`
       → `morley:exp-051`
@@ -168,14 +170,17 @@ buena no es «la serie» (mezcla interfaces distintas) sino **serie × categorí
 - [ ] `mndt1160`
       → `systemsensor:pf24v`
       cita: «Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*»
+      ALBERTO: el modelo es ExitPoint
 
 - [ ] `morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-`
       → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
       cita: «¿Se pueden pasar programaciones de ZX y Dimensión a Connexion DXC?»
+      ALBRETO: también habla de las centrales ZX y DX Dimension (que diría que el modelo es "DX", diferente a DXc), ya que el archivo va sobre como pasar de cualquiera de estas dos a la DXC
 
 - [ ] `niveles-de-control-de-acceso-de-la-central-dxc-conexion`
       → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
       cita: «Niveles de control de acceso de la central DXC,CONEXION»
+      
 
 - [ ] `no-puedo-hacer-rearme-o-silenciar-sirenas-en-la-vsn-lt`
       → `morley:vsn2-lt`, `morley:vsn4-lt`, `morley:vsn8-lt`, `morley:vsn12-lt`
