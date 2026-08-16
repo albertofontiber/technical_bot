@@ -1,0 +1,59 @@
+{
+ "que_es": "Adjudicaciones de Alberto sobre §0.B.1 (leídas de sus anotaciones en el packet)",
+ "decisiones": [
+  {
+   "doc": "con-que-sistema-operativo-es-compatible-el-programa-de-la-dxc-connexion",
+   "ids_actuales": [
+    "morley:dxc1",
+    "morley:dxc2",
+    "morley:dxc4"
+   ],
+   "alberto": "habla tambien de ZX-A, ZX-E, ZX-2/5e, ZX2/5SE",
+   "accion": "AMPLIAR ids con los productos ZX correspondientes"
+  },
+  {
+   "doc": "ma-dt-1160",
+   "ids_actuales": [
+    "systemsensor:pf24v"
+   ],
+   "alberto": "eliminar del corpus: es un paper sobre ExitPoint, no habla de caracteristicas ni de uso",
+   "accion": "RETIRAR DOCUMENTO (clase distinta: no es re-mapeo, es baja de corpus)"
+  },
+  {
+   "doc": "mndt1160",
+   "ids_actuales": [
+    "systemsensor:pf24v"
+   ],
+   "alberto": "el modelo es ExitPoint",
+   "accion": "RE-MAPEAR a ExitPoint (verificar si existe en catalogo o hay que darlo de alta)"
+  },
+  {
+   "doc": "morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-connexion-dxc",
+   "ids_actuales": [
+    "morley:dxc1",
+    "morley:dxc2",
+    "morley:dxc4"
+   ],
+   "alberto": "habla tambien de ZX y DX Dimension ('DX', distinto de DXc); el archivo va de migrar de cualquiera de esas a la DXc",
+   "accion": "AMPLIAR ids con ZX y DX"
+  }
+ ],
+ "sospecha_del_autor_no_adjudicada": {
+  "doc": "ds_kidde_2x_at_fr_s_202602_es_904a",
+  "problema": "el NOMBRE del fichero dice 2X-AT-FR-S (repetidor tactil de la serie 2X-A) pero la cita dice «Modelo: Central Kidde NC-PF» y los ids asignados son las 6 NC-PF. O el fichero esta mal nombrado, o la cita salio del documento equivocado. No lo toco: lo señalo.",
+  "estado": "ADJUDICADO por Alberto: es un REPETIDOR, modelo 2X-AT-FR-S",
+  "accion": "RE-MAPEAR de las 6 kidde:nc-pf* a kidde:2x-at-fr-s",
+  "id_existe_en_catalogo": true,
+  "lectura": "la fila venia en las 38 LIMPIAS y estaba MAL: la cita («Modelo: Central Kidde NC-PF») no pertenece a este documento. Es la clase de fallo que el verificador midio como 'la cita existe pero no en el doc atribuido' — aqui ademas arrastro los ids. Se corrige con la adjudicacion de Alberto."
+ },
+ "seccion_0B2": {
+  "dxc_guia de usuario_multiling": "OK (serie DX x central)",
+  "hd_ke_dt3101w_hab_202407_es_30e0": "OK (serie EXCELLENCE x detector)",
+  "hlsi-ti-001": "OK, misma adjudicacion que el archivo HLSI-TI-001; Alberto anade que TAMBIEN aplica a la VSN-RP1r+ -> verificar id en catalogo antes de aplicar",
+  "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide": "PENDIENTE (la unica sin hacer)"
+ },
+ "a_resolver_antes_de_aplicar": [
+  "RESUELTO por Alberto: la serie 2X-A se da de alta como kidde:2x-a (es la FAMILIA; muchos modelos pertenecen a ella). El namespace aritech propuesto por la pasada era erroneo.",
+  "PENDIENTE: verificar VSN-RP1r+ en catalogo antes de mapear hlsi-ti-001 a el."
+ ]
+}
