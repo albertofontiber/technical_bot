@@ -1,9 +1,10 @@
 # s320 E2 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟡 ESTADO s324 (2026-08-16 11:46Z)
-> Sin cambios de fondo: el bloque de 562 altas seguras y los 19 lotes por riesgo esperan tu sí. Nota: el catálogo gobernado cambió en s324 (+13 productos, +7 confirmaciones, +3 paraguas, −2 etiquetas), así que el snapshot candidato del detector se RE-DERIVARÁ (`scripts/s320_e2_snapshot_derivado.py`) y pasará de nuevo los gates G1/G2 (`scripts/s320_e2_gates.py`) antes del swap — los conteos de este fichero son del 15-ago.
+> ## 🟡 ESTADO s324 (2026-08-16 12:01Z)
+> El bloque de altas seguras y los lotes por riesgo esperan tu sí. El catálogo gobernado cambió en s324 (+13 productos, +7 confirmaciones, +3 paraguas, −2 etiquetas), así que el snapshot candidato se **re-derivó** (`s320_e2_snapshot_derivado.py`) y el split por riesgo se refrescó (`s322f_e2_altas_split_v1.json`): **1.326 altas = 596 en bloque + 730 individuales** (antes 1.235 = 562 + 669; las +91 son en su mayoría lo confirmado/dado de alta hoy). Gates: la variante **conservadora** (equivalencia con el snapshot vivo) **PASS** (0 pérdidas, voz idéntica); la completa sigue con las mismas 6 pérdidas conocidas de golds (VESDA-E-VEP, CCD-103, NFS-Supra, 40/40, MAD-472 — bajas que este packet adjudica). Los conteos del cuerpo de este fichero son del 15-ago; el bloque/lotes se regenerarán al aplicar tu sí.
 <!-- s324-estado:fin -->
+
 
 
 

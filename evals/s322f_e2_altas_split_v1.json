@@ -1,13 +1,13 @@
 {
  "que_es": "Split de las 1.235 ALTAS del packet E2 tras refrescarlas contra el estado de HOY. SECCIÓN 0 = un solo sí; SECCIÓN 1 = decisión una a una. PROPUESTA: no aplica nada.",
- "generado": "2026-08-15T10:00:35.565822+00:00",
+ "generado": "2026-08-16T12:00:50.374758+00:00",
  "fuente_packet": "C:\\dev\\technical_bot\\evals\\s320_e2_snapshot_diff_v1.json",
  "estado_de_hoy": {
-  "catalogo_commit": "b74d92c",
-  "terminos_resolubles_hoy": 1667,
+  "catalogo_commit": "2ef32b3",
+  "terminos_resolubles_hoy": 1695,
   "snapshot_vivo_modelos": 562,
   "snapshot_vivo_alias_base": 43,
-  "docs_activos": 1068,
+  "docs_activos": 1061,
   "chunks_leidos": 26215
  },
  "reglas": {
@@ -39,23 +39,23 @@
   "por_que": "el patrón del detector es \\b(core)(?!\\d) sin \\b de cierre y _base_aliases() ensancha solo: un término corto o común contamina TODAS las consultas (caso FUEGO)"
  },
  "resumen": {
-  "total_packet": 1235,
-  "obsoletas_por_refresco": 4,
-  "seccion_0_bloque": 562,
-  "seccion_1_individual": 669,
+  "total_packet": 1326,
+  "obsoletas_por_refresco": 0,
+  "seccion_0_bloque": 596,
+  "seccion_1_individual": 730,
   "individual_por_clase": {
    "NO-PRODUCTO": 3,
-   "RIESGO": 666
+   "RIESGO": 727
   },
   "individual_por_regla": {
-   "contiene-palabra-generica": 270,
-   "descripcion-no-codigo": 192,
-   "base-alias-riesgosa": 144,
-   "demasiado-corto": 105,
-   "puntuacion-de-prosa": 89,
-   "solo-letras-sin-digitos": 83,
-   "lleva-marca-delante": 47,
-   "palabra-comun-o-jerga": 39,
+   "contiene-palabra-generica": 281,
+   "descripcion-no-codigo": 201,
+   "base-alias-riesgosa": 163,
+   "demasiado-corto": 124,
+   "puntuacion-de-prosa": 94,
+   "solo-letras-sin-digitos": 86,
+   "lleva-marca-delante": 52,
+   "palabra-comun-o-jerga": 42,
    "prefijo-abreviado-de-catalogo": 31,
    "caracter-no-ascii-raro": 26,
    "artefacto-de-extraccion": 17,
@@ -63,17 +63,14 @@
    "parece-nombre-de-fichero": 10,
    "core-identico-a-modelo-vivo": 9,
    "sufijo-de-idioma": 9,
-   "colision-con-alias-base-vivo": 7,
+   "colision-con-alias-base-vivo": 8,
    "core-identico-a-otra-alta": 4,
    "numero-certificacion": 3,
    "posible-referencia-cpr": 1
   },
-  "obsoletas_por_motivo": {
-   "ya-no-resuelve-en-gobernado": 3,
-   "sin-atestacion-activa-hoy": 1
-  },
-  "sondas_ejecutadas": 214,
-  "sub_bloque_relajable_solo_letras": 52
+  "obsoletas_por_motivo": {},
+  "sondas_ejecutadas": 238,
+  "sub_bloque_relajable_solo_letras": 54
  },
  "top_peligrosos": [
   {
@@ -107,14 +104,6 @@
    ],
    "menciones_en_contenido": 78,
    "docs_distintos_muestra": 36
-  },
-  {
-   "model": "A10",
-   "reglas": [
-    "demasiado-corto"
-   ],
-   "menciones_en_contenido": 453,
-   "docs_distintos_muestra": 33
   },
   {
    "model": "M710",
@@ -238,9 +227,18 @@
    ],
    "menciones_en_contenido": 97,
    "docs_distintos_muestra": 12
+  },
+  {
+   "model": "2X-AT",
+   "reglas": [
+    "demasiado-corto",
+    "colision-con-alias-base-vivo"
+   ],
+   "menciones_en_contenido": 66,
+   "docs_distintos_muestra": 12
   }
  ],
- "nota_whisper": "518/562 filas del bloque tienen chunk_count=0 hoy. all_models() ordena por chunk_count desc y el hint de Whisper está capado a ~1000 chars, así que estas altas NO llegan al dictado: mejoran la query ESCRITA (y el imatch posterior), no la transcripción de voz.",
+ "nota_whisper": "550/596 filas del bloque tienen chunk_count=0 hoy. all_models() ordena por chunk_count desc y el hint de Whisper está capado a ~1000 chars, así que estas altas NO llegan al dictado: mejoran la query ESCRITA (y el imatch posterior), no la transcripción de voz.",
  "seccion_0_bloque": [
   {
    "model": "IBOX-BAC-NID3000",
@@ -250,7 +248,7 @@
     "notifier:ibox-bac-nid3000"
    ],
    "chunk_count_hoy": 85,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 85,
    "base_alias_generada": []
   },
   {
@@ -261,7 +259,7 @@
     "notifier:ibox-mbs-nid3000"
    ],
    "chunk_count_hoy": 79,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 79,
    "base_alias_generada": []
   },
   {
@@ -283,7 +281,7 @@
     "systemsensor:dh500acdc-e"
    ],
    "chunk_count_hoy": 46,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 46,
    "base_alias_generada": []
   },
   {
@@ -294,7 +292,7 @@
     "notifier:nrx-smt3"
    ],
    "chunk_count_hoy": 19,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 19,
    "base_alias_generada": []
   },
   {
@@ -305,7 +303,7 @@
     "notifier:nrx-m711"
    ],
    "chunk_count_hoy": 15,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 15,
    "base_alias_generada": []
   },
   {
@@ -327,7 +325,7 @@
     "notifier:sdx-751em"
    ],
    "chunk_count_hoy": 13,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 13,
    "base_alias_generada": []
   },
   {
@@ -338,7 +336,7 @@
     "systemsensor:cr-6ea"
    ],
    "chunk_count_hoy": 12,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 12,
    "base_alias_generada": []
   },
   {
@@ -371,7 +369,7 @@
     "systemsensor:im-10ea"
    ],
    "chunk_count_hoy": 11,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 11,
    "base_alias_generada": []
   },
   {
@@ -382,7 +380,7 @@
     "notifier:m701e-240"
    ],
    "chunk_count_hoy": 10,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 10,
    "base_alias_generada": []
   },
   {
@@ -393,7 +391,7 @@
     "notifier:m710-czr"
    ],
    "chunk_count_hoy": 10,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 10,
    "base_alias_generada": []
   },
   {
@@ -437,7 +435,7 @@
     "notifier:m701e"
    ],
    "chunk_count_hoy": 9,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 9,
    "base_alias_generada": []
   },
   {
@@ -540,6 +538,17 @@
    "base_alias_generada": []
   },
   {
+   "model": "KE-DP3121B",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "kidde:ke-dp3121b"
+   ],
+   "chunk_count_hoy": 6,
+   "chunk_count_packet": 6,
+   "base_alias_generada": []
+  },
+  {
    "model": "MI-CR6",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -558,7 +567,7 @@
     "notifier:wa-c-i02"
    ],
    "chunk_count_hoy": 6,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 6,
    "base_alias_generada": []
   },
   {
@@ -701,7 +710,18 @@
     "pepperl-fuchs:z728.h"
    ],
    "chunk_count_hoy": 3,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 3,
+   "base_alias_generada": []
+  },
+  {
+   "model": "N-IO-MBX-2",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "kidde:n-io-mbx-2"
+   ],
+   "chunk_count_hoy": 2,
+   "chunk_count_packet": 2,
    "base_alias_generada": []
   },
   {
@@ -712,7 +732,7 @@
     "notifier:mps-24ae"
    ],
    "chunk_count_hoy": 1,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 1,
    "base_alias_generada": []
   },
   {
@@ -1230,6 +1250,28 @@
    "base_alias_generada": []
   },
   {
+   "model": "ABM-16AT",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abm-16at"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "ABM-32A",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abm-32a"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "ACM-16AT",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -1483,6 +1525,17 @@
    "via_hoy": "exact",
    "ids": [
     "notifier:aem-32a"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "AFP4016",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:afp4016"
    ],
    "chunk_count_hoy": 0,
    "chunk_count_packet": 0,
@@ -2363,6 +2416,50 @@
    ]
   },
   {
+   "model": "CAT12",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:catalix-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "CAT220",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:catalix-220"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "Catalix 12",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:catalix-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "Catalix 220",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:catalix-220"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "CFA457",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -2401,6 +2498,50 @@
    "via_hoy": "exact",
    "ids": [
     "notifier:chs-4m"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "COMB12",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:combix-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "COMB220",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:combix-220"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "Combix 12",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:combix-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "Combix 220",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:combix-220"
    ],
    "chunk_count_hoy": 0,
    "chunk_count_packet": 0,
@@ -2712,11 +2853,55 @@
    ]
   },
   {
+   "model": "DX1e-20S",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx1e-20s"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "DX1e-40M",
    "clase": "SEGURO",
    "via_hoy": "exact",
    "ids": [
     "morley:dx1e-40m"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "DX2e-40M",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx2e-40m"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "DX2e-40MP",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "morley:dx2e-40m"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "DX4e-40L",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx4e-40l"
    ],
    "chunk_count_hoy": 0,
    "chunk_count_packet": 0,
@@ -3286,6 +3471,61 @@
    "base_alias_generada": []
   },
   {
+   "model": "GA-520",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:ga-520-co"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "GD-520",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:gd-520-co"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "G-MTSLB1",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-mtslb1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "G-MTSLB2",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-mtslb2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "G-OUT16",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-out16"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "HEF20RL",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -3596,6 +3836,28 @@
    "base_alias_generada": []
   },
   {
+   "model": "interruptor AKS-1",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:aks-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "Jack-1",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:apj-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "KE-DM3010",
    "clase": "SEGURO",
    "via_hoy": "alias",
@@ -3764,6 +4026,17 @@
    "base_alias_generada": [
     "L20-SGMI2X"
    ]
+  },
+  {
+   "model": "LCD600",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:lcd-6000"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
   },
   {
    "model": "LCR3 CO",
@@ -4803,6 +5076,39 @@
    "base_alias_generada": []
   },
   {
+   "model": "MTSLB2",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "MULTISCAN G-MTSLB1",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "MULTISCAN G-MTSLB2",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
    "model": "Multisystem++S1",
    "clase": "SEGURO",
    "via_hoy": "alias",
@@ -5579,6 +5885,19 @@
    "base_alias_generada": []
   },
   {
+   "model": "SMART 2 catalítico",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "sensitron:smart-2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "SMART-2"
+   ]
+  },
+  {
    "model": "SMART3G-C3",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -5968,6 +6287,54 @@
    ]
   },
   {
+   "model": "VEP-1P",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "VEP-A00",
+   "clase": "SEGURO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": []
+  },
+  {
+   "model": "VEP-A00-1P",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VEP-A00"
+   ]
+  },
+  {
+   "model": "VEP-A00-P",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "xtralis:vep-a00-p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VEP-A00"
+   ]
+  },
+  {
    "model": "VEP-A10-P",
    "clase": "SEGURO",
    "via_hoy": "exact",
@@ -6302,6 +6669,19 @@
    "chunk_count_hoy": 0,
    "chunk_count_packet": 0,
    "base_alias_generada": []
+  },
+  {
+   "model": "VSN 12 PLUS",
+   "clase": "SEGURO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:vsn-12-plus"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VSN-12"
+   ]
   },
   {
    "model": "VSN-200",
@@ -7280,6 +7660,351 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "G-100-2SE",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-2se"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-4",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-4"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-8",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-8"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-R-12",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-r-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100-R"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100-R' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-R-24",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-r-24"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100-R"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100-R' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-R16",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-r16"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-100-R8",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-100-r8"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-100' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-500-2LR",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-500-2lr"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-500"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-500' (4 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-500-B 32",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-500-s-32"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-500-B"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-500-B' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-500-S-32",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-500-s-32"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-500-S"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-500-S' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "G-500-S-64",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-500-s-64"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "G-500-S"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'G-500-S' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GA-500-EP",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:ga-500-ep"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "GA-500"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'GA-500' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GA-520-CO",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:ga-520-co"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "GA-520"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'GA-520' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GD-500-EP",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:gd-500-ep"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "GD-500"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'GD-500' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GD-520-CO",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:gd-520-co"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "GD-520"
+   ],
+   "motivos": [
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'GD-520' (5 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "IS 28 Banshee",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -7310,7 +8035,7 @@
     "hosiden:is-28-mk-4-banshee"
    ],
    "chunk_count_hoy": 0,
-   "chunk_count_packet": 16,
+   "chunk_count_packet": 0,
    "base_alias_generada": [
     "IS-28-Mk"
    ],
@@ -8161,7 +8886,7 @@
     "morley:mi-lpb2-s2i"
    ],
    "chunk_count_hoy": 38,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 38,
    "base_alias_generada": [
     "MI-LPB2"
    ],
@@ -8552,7 +9277,7 @@
     "pfannenberg:py-x-l-15-cpr"
    ],
    "chunk_count_hoy": 21,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 21,
    "base_alias_generada": [
     "PY-X-L-15"
    ],
@@ -8575,7 +9300,7 @@
     "morley:vsn-4-plus"
    ],
    "chunk_count_hoy": 3,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 3,
    "base_alias_generada": [
     "VSN-4"
    ],
@@ -9392,6 +10117,29 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "FACP MODEL DX1e-20S",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "morley:dx1e-20s"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "FACP-MODEL-DX1e"
+   ],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['model']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "FACP MODEL DX1e-40M",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -9402,6 +10150,52 @@
    "chunk_count_packet": 0,
    "base_alias_generada": [
     "FACP-MODEL-DX1e"
+   ],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['model']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "FACP MODEL DX2e-40M",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "morley:dx2e-40m"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "FACP-MODEL-DX2e"
+   ],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['model']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "FACP MODEL DX4e-40L",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "morley:dx4e-40l"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "FACP-MODEL-DX4e"
    ],
    "motivos": [
     {
@@ -10050,6 +10844,48 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "caja anunciador ABF-2",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:abf-2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['caja']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "caja anunciador ABF-4",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:abf-4"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['caja']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "interfaz FLG2100",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -10210,6 +11046,27 @@
     {
      "regla": "contiene-palabra-generica",
      "detalle": "código + sustantivo genérico suelto (['sensores', 'remotos']): probablemente el catálogo deba guardarlo sin la coletilla"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "serie AFP4000",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:afp4016"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['serie']): probablemente el catálogo deba guardarlo sin la coletilla"
     }
    ],
    "reglas": [
@@ -13374,6 +14231,84 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "caja de anunciador ABF-1",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:abf-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['caja']): probablemente el catálogo deba guardarlo sin la coletilla"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "4 tokens / 24 chars / conectores de lengua natural ['de']"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "caja de anunciador ABS-1",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:abs-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['caja']): probablemente el catálogo deba guardarlo sin la coletilla"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "4 tokens / 24 chars / conectores de lengua natural ['de']"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "caja de anunciador ABS-2",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:abs-2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['caja']): probablemente el catálogo deba guardarlo sin la coletilla"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "4 tokens / 24 chars / conectores de lengua natural ['de']"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "cards of 4 relays",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -14573,6 +15508,62 @@
     {
      "regla": "contiene-palabra-generica",
      "detalle": "código + sustantivo genérico suelto (['type']): probablemente el catálogo deba guardarlo sin la coletilla"
+    },
+    {
+     "regla": "puntuacion-de-prosa",
+     "detalle": "lleva coma/dos puntos/paréntesis: es una frase extraída del manual, no un código"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica",
+    "puntuacion-de-prosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "VEP-A00-1P (1 tubería)",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VEP-A00-1P-(1"
+   ],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['tuberia']): probablemente el catálogo deba guardarlo sin la coletilla"
+    },
+    {
+     "regla": "puntuacion-de-prosa",
+     "detalle": "lleva coma/dos puntos/paréntesis: es una frase extraída del manual, no un código"
+    }
+   ],
+   "reglas": [
+    "contiene-palabra-generica",
+    "puntuacion-de-prosa"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "VEP-A00-P (4 tuberías)",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VEP-A00-P-(4"
+   ],
+   "motivos": [
+    {
+     "regla": "contiene-palabra-generica",
+     "detalle": "código + sustantivo genérico suelto (['tuberias']): probablemente el catálogo deba guardarlo sin la coletilla"
     },
     {
      "regla": "puntuacion-de-prosa",
@@ -17320,7 +18311,7 @@
    "evidencia": {
     "chunks_con_pm": 0,
     "menciones_en_contenido": 453,
-    "docs_distintos_muestra": 33,
+    "docs_distintos_muestra": 5,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -17349,6 +18340,146 @@
     "chunks_con_pm": 0,
     "menciones_en_contenido": 145,
     "docs_distintos_muestra": 11,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ABF-1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abf-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('abf1')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 24,
+    "docs_distintos_muestra": 10,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ABF-2",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abf-2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('abf2')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 8,
+    "docs_distintos_muestra": 4,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ABF-4",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abf-4"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('abf4')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 14,
+    "docs_distintos_muestra": 6,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ABS-1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abs-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('abs1')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 14,
+    "docs_distintos_muestra": 8,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ABS-2",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:abs-2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('abs2')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 6,
+    "docs_distintos_muestra": 4,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -17438,6 +18569,62 @@
    }
   },
   {
+   "model": "ADP-4",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:adp-4"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('adp4')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 14,
+    "docs_distintos_muestra": 6,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "AKS-1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:aks-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('aks1')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 31,
+    "docs_distintos_muestra": 11,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
    "model": "AMG-1",
    "clase": "RIESGO",
    "via_hoy": "exact",
@@ -17466,6 +18653,34 @@
    }
   },
   {
+   "model": "APJ-1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:apj-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('apj1')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 5,
+    "docs_distintos_muestra": 3,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
    "model": "ARM-4",
    "clase": "RIESGO",
    "via_hoy": "exact",
@@ -17489,6 +18704,34 @@
     "chunks_con_pm": 0,
     "menciones_en_contenido": 30,
     "docs_distintos_muestra": 4,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "ARV-1",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:apj-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('arv1')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 1,
+    "docs_distintos_muestra": 1,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -17858,6 +19101,118 @@
    }
   },
   {
+   "model": "DX1e",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx1e"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('dx1e')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 19,
+    "docs_distintos_muestra": 3,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "DX2",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "morley:dx2e"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "3 caracteres útiles ('dx2')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 33,
+    "docs_distintos_muestra": 5,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "DX2e",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx2e"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('dx2e')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 19,
+    "docs_distintos_muestra": 3,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "DX4e",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "morley:dx4e"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('dx4e')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 19,
+    "docs_distintos_muestra": 3,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
    "model": "DXc1",
    "clase": "RIESGO",
    "via_hoy": "exact",
@@ -18048,6 +19403,34 @@
    "evidencia": {
     "chunks_con_pm": 0,
     "menciones_en_contenido": 2,
+    "docs_distintos_muestra": 1,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "G-IN8",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:g-in8"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('gin8')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 1,
     "docs_distintos_muestra": 1,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
@@ -18665,6 +20048,62 @@
     "chunks_con_pm": 0,
     "menciones_en_contenido": 26,
     "docs_distintos_muestra": 6,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "PS3",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:ps3"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "3 caracteres útiles ('ps3')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 14,
+    "docs_distintos_muestra": 6,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "PS5",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "notifier:ps5"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "3 caracteres útiles ('ps5')"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 42,
+    "docs_distintos_muestra": 10,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -19334,6 +20773,119 @@
    }
   },
   {
+   "model": "S/2-T1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "fidegas:s2-t1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "S-2"
+   ],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('s2t1')"
+    },
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'S-2' (2 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto",
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 14,
+    "docs_distintos_muestra": 1,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "S/3-T1",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "fidegas:s3-t1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "S-3"
+   ],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('s3t1')"
+    },
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'S-3' (2 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto",
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 15,
+    "docs_distintos_muestra": 2,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "2X-AT",
+   "clase": "RIESGO",
+   "via_hoy": "paraguas",
+   "ids": [
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "demasiado-corto",
+     "detalle": "4 caracteres útiles ('2xat')"
+    },
+    {
+     "regla": "colision-con-alias-base-vivo",
+     "detalle": "ya se detecta hoy como alias-base de '2X-AT-F2'; darlo de alta cambia la forma canónica devuelta, no añade detección"
+    }
+   ],
+   "reglas": [
+    "demasiado-corto",
+    "colision-con-alias-base-vivo"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 66,
+    "docs_distintos_muestra": 12,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
    "model": "VSN2",
    "clase": "RIESGO",
    "via_hoy": "exact",
@@ -19478,6 +21030,48 @@
     {
      "regla": "descripcion-no-codigo",
      "detalle": "2 tokens / 9 chars / conectores de lengua natural ['el']"
+    }
+   ],
+   "reglas": [
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GALILEO MULTISCAN G-MTSLB1",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "3 tokens / 26 chars"
+    }
+   ],
+   "reglas": [
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "GALILEO MULTISCAN G-MTSLB2",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "3 tokens / 26 chars"
     }
    ],
    "reglas": [
@@ -19662,6 +21256,27 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "conector de telefonía Jack-1",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:apj-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "4 tokens / 28 chars / conectores de lengua natural ['de']"
+    }
+   ],
+   "reglas": [
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "la NFS 2-8",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -19783,7 +21398,7 @@
     "hosiden:is-28-mk-4-banshee"
    ],
    "chunk_count_hoy": 16,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 16,
    "base_alias_generada": [
     "IS-28-Mk-4"
    ],
@@ -19958,6 +21573,48 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "Notifier PS3",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:ps3"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "lleva-marca-delante",
+     "detalle": "empieza por el fabricante ('notifier'): el detector debería llevar el código desnudo, no 'marca + modelo'"
+    }
+   ],
+   "reglas": [
+    "lleva-marca-delante"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "Notifier PS5",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:ps5"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "lleva-marca-delante",
+     "detalle": "empieza por el fabricante ('notifier'): el detector debería llevar el código desnudo, no 'marca + modelo'"
+    }
+   ],
+   "reglas": [
+    "lleva-marca-delante"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "Testifire 1000",
    "clase": "RIESGO",
    "via_hoy": "exact",
@@ -20013,6 +21670,73 @@
     {
      "regla": "lleva-marca-delante",
      "detalle": "empieza por el fabricante ('vesda'): el detector debería llevar el código desnudo, no 'marca + modelo'"
+    }
+   ],
+   "reglas": [
+    "lleva-marca-delante"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "VESDA-E VEP-A00",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "lleva-marca-delante",
+     "detalle": "empieza por el fabricante ('vesda-e'): el detector debería llevar el código desnudo, no 'marca + modelo'"
+    }
+   ],
+   "reglas": [
+    "lleva-marca-delante"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "VESDA-E VEP-A00-1P",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-1p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VESDA-E-VEP-A00"
+   ],
+   "motivos": [
+    {
+     "regla": "lleva-marca-delante",
+     "detalle": "empieza por el fabricante ('vesda-e'): el detector debería llevar el código desnudo, no 'marca + modelo'"
+    }
+   ],
+   "reglas": [
+    "lleva-marca-delante"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "VESDA-E VEP-A00-P",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "xtralis:vep-a00-p"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "VESDA-E-VEP-A00"
+   ],
+   "motivos": [
+    {
+     "regla": "lleva-marca-delante",
+     "detalle": "empieza por el fabricante ('vesda-e'): el detector debería llevar el código desnudo, no 'marca + modelo'"
     }
    ],
    "reglas": [
@@ -20357,7 +22081,7 @@
     "lda:one-500"
    ],
    "chunk_count_hoy": 69,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 69,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -20733,6 +22457,76 @@
     {
      "regla": "base-alias-riesgosa",
      "detalle": "_base_aliases() añadiría 'FS-1300-Flame' (11 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "palabra-comun-o-jerga",
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 1,
+    "docs_distintos_muestra": 1,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "Serie G-100-R",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-100-r-12"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "Serie-G-100"
+   ],
+   "motivos": [
+    {
+     "regla": "palabra-comun-o-jerga",
+     "detalle": "sus únicas palabras sueltas son jerga PCI/común: ['serie'] — clase FUEGO"
+    },
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'Serie-G-100' (9 útiles), que matchea mucho más ancho que el término"
+    }
+   ],
+   "reglas": [
+    "palabra-comun-o-jerga",
+    "base-alias-riesgosa"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 1,
+    "docs_distintos_muestra": 1,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "Serie G-500-S",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-500-s-32"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "Serie-G-500"
+   ],
+   "motivos": [
+    {
+     "regla": "palabra-comun-o-jerga",
+     "detalle": "sus únicas palabras sueltas son jerga PCI/común: ['serie'] — clase FUEGO"
+    },
+    {
+     "regla": "base-alias-riesgosa",
+     "detalle": "_base_aliases() añadiría 'Serie-G-500' (9 útiles), que matchea mucho más ancho que el término"
     }
    ],
    "reglas": [
@@ -22344,6 +24138,88 @@
    "recomendacion": "decidir una a una"
   },
   {
+   "model": "Conector de llave del anunciador (AKS-1)",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:aks-1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "puntuacion-de-prosa",
+     "detalle": "lleva coma/dos puntos/paréntesis: es una frase extraída del manual, no un código"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "6 tokens / 40 chars / conectores de lengua natural ['de', 'del']"
+    }
+   ],
+   "reglas": [
+    "puntuacion-de-prosa",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB1 (Light)",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb1"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "MULTISCAN-G-MTSLB1"
+   ],
+   "motivos": [
+    {
+     "regla": "puntuacion-de-prosa",
+     "detalle": "lleva coma/dos puntos/paréntesis: es una frase extraída del manual, no un código"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "3 tokens / 26 chars"
+    }
+   ],
+   "reglas": [
+    "puntuacion-de-prosa",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB2 (Parking)",
+   "clase": "RIESGO",
+   "via_hoy": "alias",
+   "ids": [
+    "notifier:g-mtslb2"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [
+    "MULTISCAN-G-MTSLB2"
+   ],
+   "motivos": [
+    {
+     "regla": "puntuacion-de-prosa",
+     "detalle": "lleva coma/dos puntos/paréntesis: es una frase extraída del manual, no un código"
+    },
+    {
+     "regla": "descripcion-no-codigo",
+     "detalle": "3 tokens / 28 chars"
+    }
+   ],
+   "reglas": [
+    "puntuacion-de-prosa",
+    "descripcion-no-codigo"
+   ],
+   "recomendacion": "decidir una a una"
+  },
+  {
    "model": "FAAST: 8100E",
    "clase": "RIESGO",
    "via_hoy": "alias",
@@ -22499,7 +24375,7 @@
     "morley:firecontrol"
    ],
    "chunk_count_hoy": 8,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 8,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -22515,6 +24391,62 @@
     "chunks_con_pm": 8,
     "menciones_en_contenido": 13,
     "docs_distintos_muestra": 3,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "KE-DBA-ADPW-KIL",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "kidde:ke-dba-adpw-kil"
+   ],
+   "chunk_count_hoy": 2,
+   "chunk_count_packet": 2,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "solo-letras-sin-digitos",
+     "detalle": "no es un código alfanumérico (la mezcla letras+dígitos es lo que hace inequívoco a un modelo); puede ser prefijo de palabra"
+    }
+   ],
+   "reglas": [
+    "solo-letras-sin-digitos"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 2,
+    "menciones_en_contenido": 7,
+    "docs_distintos_muestra": 2,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "KE-DBA-ADPW-ZIT",
+   "clase": "RIESGO",
+   "via_hoy": "exact",
+   "ids": [
+    "kidde:ke-dba-adpw-zit"
+   ],
+   "chunk_count_hoy": 2,
+   "chunk_count_packet": 2,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "solo-letras-sin-digitos",
+     "detalle": "no es un código alfanumérico (la mezcla letras+dígitos es lo que hace inequívoco a un modelo); puede ser prefijo de palabra"
+    }
+   ],
+   "reglas": [
+    "solo-letras-sin-digitos"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 2,
+    "menciones_en_contenido": 7,
+    "docs_distintos_muestra": 2,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -22751,7 +24683,7 @@
     "morley:mi-dcmoe"
    ],
    "chunk_count_hoy": 7,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 7,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -23423,7 +25355,7 @@
     "notifier:nfxi-bf-wch"
    ],
    "chunk_count_hoy": 4,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 4,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -23591,7 +25523,7 @@
     "notifier:nrx-opt"
    ],
    "chunk_count_hoy": 12,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 12,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -23619,7 +25551,7 @@
     "notifier:nrx-rep"
    ],
    "chunk_count_hoy": 12,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 12,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -23759,7 +25691,7 @@
     "notifier:nrxi-gate"
    ],
    "chunk_count_hoy": 12,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 12,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -24247,7 +26179,7 @@
     "detnov:firebeam-blue"
    ],
    "chunk_count_hoy": 28,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 28,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -24285,7 +26217,7 @@
     "notifier:sentox-idi+"
    ],
    "chunk_count_hoy": 49,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 49,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -24722,7 +26654,7 @@
     "signaline:signaline-locatorplus"
    ],
    "chunk_count_hoy": 16,
-   "chunk_count_packet": 0,
+   "chunk_count_packet": 16,
    "base_alias_generada": [],
    "motivos": [
     {
@@ -24779,6 +26711,41 @@
     "chunks_con_pm": 0,
     "menciones_en_contenido": 27,
     "docs_distintos_muestra": 1,
+    "muestra_capada_en": 200,
+    "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
+   }
+  },
+  {
+   "model": "serie Dimension",
+   "clase": "RIESGO",
+   "via_hoy": "paraguas",
+   "ids": [
+    "morley:dx1e",
+    "morley:dx2e",
+    "morley:dx4e"
+   ],
+   "chunk_count_hoy": 0,
+   "chunk_count_packet": 0,
+   "base_alias_generada": [],
+   "motivos": [
+    {
+     "regla": "solo-letras-sin-digitos",
+     "detalle": "no es un código alfanumérico (la mezcla letras+dígitos es lo que hace inequívoco a un modelo); puede ser prefijo de palabra"
+    },
+    {
+     "regla": "palabra-comun-o-jerga",
+     "detalle": "sus únicas palabras sueltas son jerga PCI/común: ['serie', 'dimension'] — clase FUEGO"
+    }
+   ],
+   "reglas": [
+    "solo-letras-sin-digitos",
+    "palabra-comun-o-jerga"
+   ],
+   "recomendacion": "decidir una a una",
+   "evidencia": {
+    "chunks_con_pm": 0,
+    "menciones_en_contenido": 145,
+    "docs_distintos_muestra": 3,
     "muestra_capada_en": 200,
     "como_leerlo": "muchas menciones repartidas en MUCHOS documentos = la cadena es genérica (riesgo FUEGO); muchas menciones en 1-2 documentos = es su propio manual"
    }
@@ -24943,231 +26910,13 @@
    "recomendacion": "decidir una a una"
   }
  ],
- "obsoletas": [
-  {
-   "model": "100m Detector",
-   "via_packet": "alias",
-   "motivo": "ya-no-resuelve-en-gobernado",
-   "detalle": "el término salió de _resolvable_terms (alias revocado, producto retirado/candidate o renombrado) entre el 12-ago y hoy"
-  },
-  {
-   "model": "50m Detector",
-   "via_packet": "alias",
-   "motivo": "ya-no-resuelve-en-gobernado",
-   "detalle": "el término salió de _resolvable_terms (alias revocado, producto retirado/candidate o renombrado) entre el 12-ago y hoy"
-  },
-  {
-   "model": "FD2705-10R",
-   "via_packet": "exact",
-   "motivo": "ya-no-resuelve-en-gobernado",
-   "detalle": "el término salió de _resolvable_terms (alias revocado, producto retirado/candidate o renombrado) entre el 12-ago y hoy"
-  },
-  {
-   "model": "ZXr-P",
-   "ids": [
-    "morley:zxr-p"
-   ],
-   "via_hoy": "exact",
-   "motivo": "sin-atestacion-activa-hoy",
-   "detalle": "ningún producto suyo tiene doc_map a documento ACTIVO con chunks servibles y su normkey no aparece como product_model",
-   "doc_map_hoy": [
-    {
-     "source_file": "MIE-MI-431rv2",
-     "status": "needs_review",
-     "chunks": 18
-    }
-   ],
-   "accion_sugerida": "revisar el STATUS del documento (si está en needs_review, el alta depende de activarlo, no del término)"
-  }
- ],
- "refresco_notas": [
-  {
-   "model": "CR-6EA",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 12
-  },
-  {
-   "model": "DH500ACDC-E",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 46
-  },
-  {
-   "model": "Firebeam Blue",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 28
-  },
-  {
-   "model": "FIRECONTROL",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 8
-  },
-  {
-   "model": "IBOX-BAC-NID3000",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 85
-  },
-  {
-   "model": "IBOX-MBS-NID3000",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 79
-  },
-  {
-   "model": "IM-10EA",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 11
-  },
-  {
-   "model": "IS 28 Mk 4",
-   "campo": "chunk_count",
-   "packet": 16,
-   "hoy": 0
-  },
-  {
-   "model": "IS 28 Mk 4 Banshee",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 16
-  },
-  {
-   "model": "M701E",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 9
-  },
-  {
-   "model": "M701E-240",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 10
-  },
-  {
-   "model": "M710-CZR",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 10
-  },
-  {
-   "model": "MI-DCMOE",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 7
-  },
-  {
-   "model": "MI-LPB2-S2I",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 38
-  },
-  {
-   "model": "MPS-24AE",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 1
-  },
-  {
-   "model": "NFXI-BF-WCH",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 4
-  },
-  {
-   "model": "NRXI-GATE",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 12
-  },
-  {
-   "model": "NRX-M711",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 15
-  },
-  {
-   "model": "NRX-OPT",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 12
-  },
-  {
-   "model": "NRX-REP",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 12
-  },
-  {
-   "model": "NRX-SMT3",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 19
-  },
-  {
-   "model": "ONE 500",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 69
-  },
-  {
-   "model": "PY X-L-15-CPR",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 21
-  },
-  {
-   "model": "SDX-751EM",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 13
-  },
-  {
-   "model": "SENTOX IDI+",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 49
-  },
-  {
-   "model": "Signaline LocatorPlus",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 16
-  },
-  {
-   "model": "VSN 4 PLUS",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 3
-  },
-  {
-   "model": "W*A-*C-I02",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 6
-  },
-  {
-   "model": "Z728.H",
-   "campo": "chunk_count",
-   "packet": 0,
-   "hoy": 3
-  },
-  {
-   "model": "ZXr-A",
-   "campo": "via",
-   "packet": "alias",
-   "hoy": "exact",
-   "ids_hoy": [
-    "morley:zxr-a"
-   ]
-  }
- ],
+ "obsoletas": [],
+ "refresco_notas": [],
  "sub_bloque_relajable_solo_letras": [
   "DX Connexion",
   "FIRECONTROL",
+  "KE-DBA-ADPW-KIL",
+  "KE-DBA-ADPW-ZIT",
   "LT-ACC-HUB-POE",
   "LT-ACC-HUB-PWR",
   "LT-ACC-TST",

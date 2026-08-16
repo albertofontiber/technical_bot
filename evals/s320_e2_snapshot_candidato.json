@@ -1,18 +1,18 @@
 {
  "build": {
   "table": "chunks_v2",
-  "generated_at": "2026-08-13T22:29:11.075796+00:00",
+  "generated_at": "2026-08-16T11:52:19.835305+00:00",
   "fuente": "catalogo-gobernado (data/catalog) via _resolvable_terms + atestacion-activa (E2 DEC-213)",
   "colisiones_excluidas": 0,
-  "n_distinct": 1670,
-  "n_included": 1496,
-  "n_excluded": 174
+  "n_distinct": 1695,
+  "n_included": 1591,
+  "n_excluded": 104
  },
  "models": [
   {
    "model": "ID3000",
    "manufacturer": "Notifier",
-   "chunk_count": 713,
+   "chunk_count": 693,
    "source": "static-pattern",
    "via": "exact"
   },
@@ -26,7 +26,7 @@
   {
    "model": "AFP-400",
    "manufacturer": "Notifier",
-   "chunk_count": 377,
+   "chunk_count": 375,
    "source": "static-pattern",
    "via": "exact"
   },
@@ -66,6 +66,13 @@
    "via": "exact"
   },
   {
+   "model": "2X-A Táctil",
+   "manufacturer": "Aritech",
+   "chunk_count": 270,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
+  },
+  {
    "model": "CAD-250",
    "manufacturer": "Detnov",
    "chunk_count": 266,
@@ -89,7 +96,7 @@
   {
    "model": "DXc",
    "manufacturer": "Morley",
-   "chunk_count": 212,
+   "chunk_count": 211,
    "source": "static-pattern",
    "via": "paraguas"
   },
@@ -152,7 +159,7 @@
   {
    "model": "AFP4000",
    "manufacturer": "Notifier",
-   "chunk_count": 152,
+   "chunk_count": 154,
    "source": "static-pattern",
    "via": "exact"
   },
@@ -234,6 +241,13 @@
    "via": "homonimo-candidate"
   },
   {
+   "model": "VSN PLUS",
+   "manufacturer": "Morley",
+   "chunk_count": 106,
+   "source": "static-pattern",
+   "via": "paraguas"
+  },
+  {
    "model": "VSN-RP1r",
    "manufacturer": "Morley",
    "chunk_count": 105,
@@ -269,6 +283,13 @@
    "via": "paraguas"
   },
   {
+   "model": "IBOX-BAC-NID3000",
+   "manufacturer": "Notifier",
+   "chunk_count": 85,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "FLX-010",
    "manufacturer": "Xtralis",
    "chunk_count": 84,
@@ -287,6 +308,13 @@
    "manufacturer": "Morley",
    "chunk_count": 82,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "IBOX-MBS-NID3000",
+   "manufacturer": "Notifier",
+   "chunk_count": 79,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -315,6 +343,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 71,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "ONE 500",
+   "manufacturer": "LDA audioTech",
+   "chunk_count": 69,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -437,6 +472,13 @@
    "via": "exact"
   },
   {
+   "model": "MIW-INT",
+   "manufacturer": "Morley",
+   "chunk_count": 50,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "DH500",
    "manufacturer": "Notifier",
    "chunk_count": 49,
@@ -444,24 +486,31 @@
    "via": "exact"
   },
   {
-   "model": "VSN 2-4",
-   "manufacturer": "Morley",
+   "model": "SENTOX IDI+",
+   "manufacturer": "Notifier",
    "chunk_count": 49,
    "source": "static-pattern",
-   "via": "alias"
+   "via": "exact"
   },
   {
-   "model": "MIW-INT",
+   "model": "VSN 2-4",
    "manufacturer": "Morley",
    "chunk_count": 48,
-   "source": "catalogo-gobernado",
-   "via": "exact"
+   "source": "static-pattern",
+   "via": "alias"
   },
   {
    "model": "RP1002E",
    "manufacturer": "Notifier",
    "chunk_count": 47,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "DH500ACDC-E",
+   "manufacturer": "Pfannenberg",
+   "chunk_count": 46,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -504,6 +553,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 39,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "MI-LPB2-S2I",
+   "manufacturer": "Morley",
+   "chunk_count": 38,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -591,6 +647,13 @@
    "via": "exact"
   },
   {
+   "model": "Firebeam Blue",
+   "manufacturer": "Detnov",
+   "chunk_count": 28,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "NAS-10",
    "manufacturer": "Notifier",
    "chunk_count": 28,
@@ -668,6 +731,13 @@
    "via": "exact"
   },
   {
+   "model": "UCIP-GPRS",
+   "manufacturer": "Morley",
+   "chunk_count": 24,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "ASW2367",
    "manufacturer": "Aritech",
    "chunk_count": 23,
@@ -696,13 +766,6 @@
    "via": "exact"
   },
   {
-   "model": "UCIP-GPRS",
-   "manufacturer": "Morley",
-   "chunk_count": 22,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "LCD-6000",
    "manufacturer": "Notifier",
    "chunk_count": 21,
@@ -710,18 +773,11 @@
    "via": "exact"
   },
   {
-   "model": "PY X-L-15",
+   "model": "PY X-L-15-CPR",
    "manufacturer": "Pfannenberg",
    "chunk_count": 21,
    "source": "catalogo-gobernado",
-   "via": "alias"
-  },
-  {
-   "model": "ART 535-x",
-   "manufacturer": "Securiton",
-   "chunk_count": 20,
-   "source": "catalogo-gobernado",
-   "via": "alias"
+   "via": "exact"
   },
   {
    "model": "FLG2100",
@@ -740,6 +796,13 @@
   {
    "model": "LocatorPlus-EN",
    "manufacturer": "LGM Products",
+   "chunk_count": 19,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NRX-SMT3",
+   "manufacturer": "Notifier",
    "chunk_count": 19,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -829,13 +892,6 @@
    "via": "exact"
   },
   {
-   "model": "SMB500",
-   "manufacturer": "Notifier",
-   "chunk_count": 17,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "TUL500EN",
    "manufacturer": "Venitem",
    "chunk_count": 17,
@@ -843,15 +899,22 @@
    "via": "exact"
   },
   {
-   "model": "IS 28 Mk 4",
+   "model": "IS 28 Mk 4 Banshee",
    "manufacturer": "Hosiden Besson",
    "chunk_count": 16,
    "source": "catalogo-gobernado",
-   "via": "alias"
+   "via": "exact"
   },
   {
    "model": "NRX-TFIX58",
    "manufacturer": "Notifier",
+   "chunk_count": 16,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "Signaline LocatorPlus",
+   "manufacturer": "Signaline",
    "chunk_count": 16,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -889,6 +952,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 15,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NRX-M711",
+   "manufacturer": "Notifier",
+   "chunk_count": 15,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -976,13 +1046,6 @@
    "via": "exact"
   },
   {
-   "model": "FD2705R",
-   "manufacturer": "Aritech",
-   "chunk_count": 13,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "INSPIRE",
    "manufacturer": "Notifier",
    "chunk_count": 13,
@@ -1001,6 +1064,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 13,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "SDX-751EM",
+   "manufacturer": "Notifier",
+   "chunk_count": 13,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -1027,6 +1097,13 @@
   {
    "model": "CMX-10RM",
    "manufacturer": "Morley",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "CR-6EA",
+   "manufacturer": "System Sensor",
    "chunk_count": 12,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1074,7 +1151,28 @@
    "via": "exact"
   },
   {
+   "model": "NRX-OPT",
+   "manufacturer": "Notifier",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NRX-REP",
+   "manufacturer": "Notifier",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "NRX-WCP",
+   "manufacturer": "Notifier",
+   "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "NRXI-GATE",
    "manufacturer": "Notifier",
    "chunk_count": 12,
    "source": "catalogo-gobernado",
@@ -1112,6 +1210,13 @@
    "model": "VGS-EXP",
    "manufacturer": "Notifier",
    "chunk_count": 12,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "IM-10EA",
+   "manufacturer": "System Sensor",
+   "chunk_count": 11,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
@@ -1156,6 +1261,20 @@
    "chunk_count": 10,
    "source": "catalogo-gobernado",
    "via": "alias"
+  },
+  {
+   "model": "M701E-240",
+   "manufacturer": "Notifier",
+   "chunk_count": 10,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "M710-CZR",
+   "manufacturer": "Notifier",
+   "chunk_count": 10,
+   "source": "static-pattern",
+   "via": "exact"
   },
   {
    "model": "MI-CZ6",
@@ -1214,13 +1333,6 @@
    "via": "exact"
   },
   {
-   "model": "Z728",
-   "manufacturer": "Pepperl-Fuchs",
-   "chunk_count": 10,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "2X-AT-FR-S",
    "manufacturer": "Aritech",
    "chunk_count": 9,
@@ -1232,6 +1344,13 @@
    "manufacturer": "Notifier",
    "chunk_count": 9,
    "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "M701E",
+   "manufacturer": "Notifier",
+   "chunk_count": 9,
+   "source": "static-pattern",
    "via": "exact"
   },
   {
@@ -1314,6 +1433,13 @@
   {
    "model": "FHSD8330",
    "manufacturer": "Edwards",
+   "chunk_count": 8,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "FIRECONTROL",
+   "manufacturer": "Morley",
    "chunk_count": 8,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1431,8 +1557,22 @@
    "via": "exact"
   },
   {
+   "model": "MI-DCMOE",
+   "manufacturer": "Morley",
+   "chunk_count": 7,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "PA-RZ1",
    "manufacturer": "Morley",
+   "chunk_count": 7,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "Z728",
+   "manufacturer": "Pepperl-Fuchs",
    "chunk_count": 7,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1529,6 +1669,13 @@
    "via": "exact"
   },
   {
+   "model": "KE-DP3121B",
+   "manufacturer": "Kidde",
+   "chunk_count": 6,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "KE-IO3122",
    "manufacturer": "Kidde",
    "chunk_count": 6,
@@ -1547,6 +1694,13 @@
    "manufacturer": "Morley",
    "chunk_count": 6,
    "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "W*A-*C-I02",
+   "manufacturer": "Notifier",
+   "chunk_count": 6,
+   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -1788,6 +1942,13 @@
    "via": "exact"
   },
   {
+   "model": "NFXI-BF-WCH",
+   "manufacturer": "Notifier",
+   "chunk_count": 4,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "VSN-TER",
    "manufacturer": "Morley",
    "chunk_count": 4,
@@ -1942,16 +2103,16 @@
    "via": "exact"
   },
   {
-   "model": "VSN-232",
+   "model": "VSN 4 PLUS",
    "manufacturer": "Morley",
    "chunk_count": 3,
    "source": "static-pattern",
    "via": "exact"
   },
   {
-   "model": "BA1",
-   "manufacturer": "Notifier",
-   "chunk_count": 2,
+   "model": "Z728.H",
+   "manufacturer": "Pepperl-Fuchs",
+   "chunk_count": 3,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
@@ -1963,8 +2124,36 @@
    "via": "exact"
   },
   {
+   "model": "FD2705R",
+   "manufacturer": "Aritech",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "IC-485S",
    "manufacturer": "Notifier",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ISO-RS232",
+   "manufacturer": "Notifier",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DBA-ADPW-KIL",
+   "manufacturer": "Kidde",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DBA-ADPW-ZIT",
+   "manufacturer": "Kidde",
    "chunk_count": 2,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1986,6 +2175,13 @@
   {
    "model": "MMX-102E",
    "manufacturer": "Notifier",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "N-IO-MBX-2",
+   "manufacturer": "Kidde",
    "chunk_count": 2,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -2019,6 +2215,13 @@
    "via": "exact"
   },
   {
+   "model": "SMB500",
+   "manufacturer": "System Sensor",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "STS3REL",
    "manufacturer": "Notifier",
    "chunk_count": 2,
@@ -2047,14 +2250,14 @@
    "via": "exact"
   },
   {
-   "model": "CCM3000",
+   "model": "BA1",
    "manufacturer": "Notifier",
    "chunk_count": 1,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
-   "model": "ISO-RS232",
+   "model": "CCM3000",
    "manufacturer": "Notifier",
    "chunk_count": 1,
    "source": "catalogo-gobernado",
@@ -2063,6 +2266,13 @@
   {
    "model": "LX-300",
    "manufacturer": "Morley",
+   "chunk_count": 1,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "MPS-24AE",
+   "manufacturer": "Notifier",
    "chunk_count": 1,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -2121,7 +2331,7 @@
    "manufacturer": "Morley",
    "chunk_count": 1,
    "source": "static-pattern",
-   "via": "alias"
+   "via": "exact"
   },
   {
    "model": "-2A",
@@ -2196,13 +2406,6 @@
   {
    "model": "100R",
    "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "alias"
-  },
-  {
-   "model": "100m Detector",
-   "manufacturer": "Aritech",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -2565,6 +2768,13 @@
    "via": "exact"
   },
   {
+   "model": "2X-AT",
+   "manufacturer": "Aritech",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
+  },
+  {
    "model": "2X-AT-F1-FB-S",
    "manufacturer": "Aritech",
    "chunk_count": 0,
@@ -2740,13 +2950,6 @@
    "via": "alias"
   },
   {
-   "model": "50m Detector",
-   "manufacturer": "Aritech",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "alias"
-  },
-  {
    "model": "5251HTME",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -2915,6 +3118,55 @@
    "via": "exact"
   },
   {
+   "model": "ABF-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABF-2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABF-4",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABM-16AT",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABM-32A",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABS-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ABS-2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "ACM-16AT",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -3055,6 +3307,13 @@
    "via": "exact"
   },
   {
+   "model": "ADP-4",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "ADP-N3E",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -3118,6 +3377,13 @@
    "via": "exact"
   },
   {
+   "model": "AFP4016",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "AIS-GALD1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -3126,6 +3392,13 @@
   },
   {
    "model": "AIS-GALS1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "AKS-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -3265,6 +3538,13 @@
    "via": "exact"
   },
   {
+   "model": "APJ-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "APS-6R",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -3307,7 +3587,21 @@
    "via": "exact"
   },
   {
+   "model": "ART 535-x",
+   "manufacturer": "Securiton",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "ART. 1469",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "ARV-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -4098,6 +4392,20 @@
    "via": "alias"
   },
   {
+   "model": "CAT12",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "CAT220",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "CFA457",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -4154,6 +4462,20 @@
    "via": "exact"
   },
   {
+   "model": "COMB12",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "COMB220",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "CPU-2",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -4194,13 +4516,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "CR-6EA",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "CR-6EA Six Relay Control Module",
@@ -4273,6 +4588,20 @@
    "via": "alias"
   },
   {
+   "model": "Catalix 12",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "Catalix 220",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "Centro de Control de Audio VCC-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -4322,6 +4651,20 @@
    "via": "alias"
   },
   {
+   "model": "Combix 12",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "Combix 220",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "Concentrador, PoE, Gen 3",
    "manufacturer": "Xtralis",
    "chunk_count": 0,
@@ -4337,6 +4680,13 @@
   },
   {
    "model": "Conector de llamadas remoto RPJ-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "Conector de llave del anunciador (AKS-1)",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -4511,13 +4861,6 @@
    "via": "alias"
   },
   {
-   "model": "DH500ACDC-E",
-   "manufacturer": "Pfannenberg",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "DH500ACDCs",
    "manufacturer": "Pfannenberg",
    "chunk_count": 0,
@@ -4665,7 +5008,63 @@
    "via": "paraguas"
   },
   {
+   "model": "DX1e",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "DX1e-20S",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "DX1e-40M",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "DX2",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "DX2e",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "DX2e-40M",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "DX2e-40MP",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "DX4e",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "DX4e-40L",
    "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -5078,7 +5477,28 @@
    "via": "alias"
   },
   {
+   "model": "FACP MODEL DX1e-20S",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "FACP MODEL DX1e-40M",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "FACP MODEL DX2e-40M",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "FACP MODEL DX4e-40L",
    "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -5106,13 +5526,6 @@
    "via": "alias"
   },
   {
-   "model": "FD2705-10R",
-   "manufacturer": "Aritech",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "FDKM2100X",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -5129,13 +5542,6 @@
   {
    "model": "FFT-7S",
    "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "FIRECONTROL",
-   "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -5288,13 +5694,6 @@
    "via": "alias"
   },
   {
-   "model": "Firebeam Blue",
-   "manufacturer": "Detnov",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "Fireray 100R",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -5330,6 +5729,125 @@
    "via": "alias"
   },
   {
+   "model": "G-100",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
+  },
+  {
+   "model": "G-100-2SE",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-4",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-8",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-R-12",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-R-24",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-R16",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-100-R8",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-500",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
+  },
+  {
+   "model": "G-500-2LR",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-500-B 32",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "G-500-S-32",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-500-S-64",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-IN8",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-MTSLB1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-MTSLB2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "G-OUT16",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "G217100",
    "manufacturer": "Pfannenberg",
    "chunk_count": 0,
@@ -5342,6 +5860,62 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
+  },
+  {
+   "model": "GA-500-EP",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "GA-520",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "GA-520-CO",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "GALILEO MULTISCAN G-MTSLB1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "GALILEO MULTISCAN G-MTSLB2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "GD-500-EP",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "GD-520",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "GD-520-CO",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
   },
   {
    "model": "Galileo Multiscan++ SIL 1",
@@ -5470,20 +6044,6 @@
    "via": "alias"
   },
   {
-   "model": "IBOX-BAC-NID3000",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "IBOX-MBS-NID3000",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "IBOX-MBS-NID3000_EN",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -5610,13 +6170,6 @@
    "via": "exact"
   },
   {
-   "model": "IM-10EA",
-   "manufacturer": "System Sensor",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "IM-10EA Ten Input Monitor Module",
    "manufacturer": "System Sensor",
    "chunk_count": 0,
@@ -5645,11 +6198,11 @@
    "via": "alias"
   },
   {
-   "model": "IS 28 Mk 4 Banshee",
+   "model": "IS 28 Mk 4",
    "manufacturer": "Hosiden Besson",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
-   "via": "exact"
+   "via": "alias"
   },
   {
    "model": "IS 28 Mk 4 Banshee Audible Warning Device",
@@ -5751,6 +6304,13 @@
   },
   {
    "model": "IntesisBox_MODBUS_SVR_NID3000",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "Jack-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -6059,6 +6619,13 @@
   },
   {
    "model": "LAZO OPAL X2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "LCD600",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -6513,13 +7080,6 @@
    "via": "exact"
   },
   {
-   "model": "M701E",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "M701E Single Output Module with Supervised Output",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -6534,21 +7094,7 @@
    "via": "alias"
   },
   {
-   "model": "M701E-240",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "M710",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "M710-CZR",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "static-pattern",
@@ -6821,13 +7367,6 @@
    "via": "exact"
   },
   {
-   "model": "MI-DCMOE",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "MI-DMM2I",
    "manufacturer": "Morley",
    "chunk_count": 0,
@@ -6910,13 +7449,6 @@
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
-  },
-  {
-   "model": "MI-LPB2-S2I",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "MI-MM3E-S2 Monitor Module",
@@ -7178,13 +7710,6 @@
    "via": "exact"
   },
   {
-   "model": "MPS-24AE",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "MPS-24B",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7281,6 +7806,41 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
+  },
+  {
+   "model": "MTSLB2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB1 (Light)",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "MULTISCAN G-MTSLB2 (Parking)",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "Main Board AMB 32",
@@ -7501,7 +8061,7 @@
   },
   {
    "model": "NCO-100",
-   "manufacturer": "Morley",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -7654,13 +8214,6 @@
    "via": "exact"
   },
   {
-   "model": "NFXI-BF-WCH",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "NFXI-FLX-010",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7731,34 +8284,6 @@
    "via": "exact"
   },
   {
-   "model": "NRX-M711",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "NRX-OPT",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "NRX-REP",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "NRX-SMT3",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "NRX-TDIFF",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -7774,13 +8299,6 @@
   },
   {
    "model": "NRX-WS-WW",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "NRXI-GATE",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -7808,18 +8326,25 @@
    "via": "alias"
   },
   {
-   "model": "OM-R2",
-   "manufacturer": "Morley",
+   "model": "Notifier PS3",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
   },
   {
-   "model": "ONE 500",
-   "manufacturer": "LDA audioTech",
+   "model": "Notifier PS5",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
-   "via": "exact"
+   "via": "alias"
+  },
+  {
+   "model": "OM-R2",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "ONE-BC",
@@ -8109,11 +8634,25 @@
    "via": "exact"
   },
   {
-   "model": "PY X-L-15-CPR",
-   "manufacturer": "Pfannenberg",
+   "model": "PS3",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
+  },
+  {
+   "model": "PS5",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "PY X-L-15",
+   "manufacturer": "Pfannenberg",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "PY X-M-05",
@@ -8438,6 +8977,20 @@
    "via": "alias"
   },
   {
+   "model": "S/2-T1",
+   "manufacturer": "Fidegas",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S/3-T1",
+   "manufacturer": "Fidegas",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "S1604VB",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -8592,13 +9145,6 @@
    "via": "exact"
   },
   {
-   "model": "SDX-751EM",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
-  },
-  {
    "model": "SENSOR SMART 2",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -8611,13 +9157,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "SENTOX IDI+",
-   "manufacturer": "Notifier",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "SETOX-4",
@@ -8713,6 +9252,13 @@
   {
    "model": "SLP-001",
    "manufacturer": "LGM Products",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "SMART 2 catalítico",
+   "manufacturer": "Sensitron",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -8886,6 +9432,20 @@
    "via": "alias"
   },
   {
+   "model": "Serie G-100-R",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "Serie G-500-S",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "Serie MPS",
    "manufacturer": "Morley",
    "chunk_count": 0,
@@ -8933,13 +9493,6 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
-  },
-  {
-   "model": "Signaline LocatorPlus",
-   "manufacturer": "LGM Products",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
   },
   {
    "model": "Signaline LocatorPlus (SLP-001)",
@@ -9257,6 +9810,48 @@
    "via": "exact"
   },
   {
+   "model": "VEP-1P",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "VEP-A00",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "VEP-A00-1P",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "VEP-A00-1P (1 tubería)",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "VEP-A00-P",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "VEP-A00-P (4 tuberías)",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "VEP-A10-P",
    "manufacturer": "Xtralis",
    "chunk_count": 0,
@@ -9321,6 +9916,27 @@
   },
   {
    "model": "VESDA VLF-500",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "VESDA-E VEP-A00",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "VESDA-E VEP-A00-1P",
+   "manufacturer": "Xtralis",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "VESDA-E VEP-A00-P",
    "manufacturer": "Xtralis",
    "chunk_count": 0,
    "source": "static-pattern",
@@ -9579,18 +10195,18 @@
    "via": "alias"
   },
   {
+   "model": "VSN 12 PLUS",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "VSN 2-4-8-12",
    "manufacturer": "Morley",
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
-  },
-  {
-   "model": "VSN 4 PLUS",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "exact"
   },
   {
    "model": "VSN 8 PLUS",
@@ -9640,6 +10256,13 @@
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "alias"
+  },
+  {
+   "model": "VSN-232",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
   },
   {
    "model": "VSN-232 card",
@@ -9819,13 +10442,6 @@
   {
    "model": "Vision Plus 2",
    "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
-   "model": "W*A-*C-I02",
-   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -10048,13 +10664,6 @@
    "via": "exact"
   },
   {
-   "model": "Z728.H",
-   "manufacturer": "Pepperl-Fuchs",
-   "chunk_count": 0,
-   "source": "catalogo-gobernado",
-   "via": "exact"
-  },
-  {
    "model": "Z978",
    "manufacturer": "Pepperl-Fuchs",
    "chunk_count": 0,
@@ -10160,13 +10769,6 @@
    "via": "exact"
   },
   {
-   "model": "ZXr-P",
-   "manufacturer": "Morley",
-   "chunk_count": 0,
-   "source": "static-pattern",
-   "via": "alias"
-  },
-  {
    "model": "aplicación de comprobación de equipos analógicos POL-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -10209,8 +10811,50 @@
    "via": "alias"
   },
   {
+   "model": "caja anunciador ABF-2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "caja anunciador ABF-4",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "caja de anunciador ABF-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "caja de anunciador ABS-1",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "caja de anunciador ABS-2",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "cards of 4 relays",
    "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "conector de telefonía Jack-1",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -10238,6 +10882,13 @@
   },
   {
    "model": "interfaz FLG2100",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "interruptor AKS-1",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -10385,7 +11036,7 @@
   },
   {
    "model": "sensores remotos NCO-100",
-   "manufacturer": "Morley",
+   "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -10396,6 +11047,20 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
+  },
+  {
+   "model": "serie AFP4000",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
+  },
+  {
+   "model": "serie Dimension",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
   },
   {
    "model": "serie ID2000",
@@ -10500,39 +11165,7 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "ABF-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABF-2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABF-4",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABM-16AT",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABM-32A",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABS-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ABS-2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "ACM-8RF",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ADP-4",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -10548,14 +11181,6 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "AFP4016",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "AKS-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "Anunciador AFM-16AF",
    "motivo": "sin-atestacion-activa"
   },
@@ -10568,75 +11193,7 @@
    "motivo": "cinturon-anti-ruido"
   },
   {
-   "model": "APJ-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "ARV-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "CAC-10F",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "caja anunciador ABF-2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "caja anunciador ABF-4",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "caja de anunciador ABF-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "caja de anunciador ABS-1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "caja de anunciador ABS-2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "CAT12",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "CAT220",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Catalix 12",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Catalix 220",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "COMB12",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "COMB220",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Combix 12",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Combix 220",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Conector de llave del anunciador (AKS-1)",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "conector de telefonía Jack-1",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -10728,119 +11285,35 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "G-100",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-2SE",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-4",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-8",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-R-12",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-R16",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-R-24",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-100-R8",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-500",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-500-2LR",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-500-B 32",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-500-S-32",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-500-S-64",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GA-500-EP",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GA-520",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GA-520-CO",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GALILEO MULTISCAN G-MTSLB1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GALILEO MULTISCAN G-MTSLB2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GD-500-EP",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GD-520",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "GD-520-CO",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-IN8",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-MTSLB1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-MTSLB2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "G-OUT16",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "INA",
    "motivo": "cinturon-anti-ruido"
   },
   {
-   "model": "interruptor AKS-1",
+   "model": "KE-DP3120W-SN",
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "Jack-1",
+   "model": "KE-DP3120W-SNV",
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "LCD600",
+   "model": "KE-DP3121B-SNV",
+   "motivo": "sin-atestacion-activa"
+  },
+  {
+   "model": "KE-DP3121W",
+   "motivo": "sin-atestacion-activa"
+  },
+  {
+   "model": "KE-DP3121W-SN",
+   "motivo": "sin-atestacion-activa"
+  },
+  {
+   "model": "KE-DP3121W-SNV",
+   "motivo": "sin-atestacion-activa"
+  },
+  {
+   "model": "KE-IU3111-ZME",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -10948,26 +11421,6 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "MTSLB2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "MULTISCAN G-MTSLB1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "MULTISCAN G-MTSLB1 (Light)",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "MULTISCAN G-MTSLB2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "MULTISCAN G-MTSLB2 (Parking)",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "NAC-REM",
    "motivo": "sin-atestacion-activa"
   },
@@ -10980,11 +11433,11 @@
    "motivo": "cinturon-anti-ruido"
   },
   {
-   "model": "Notifier PS3",
+   "model": "N-IO-MBX-1",
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "Notifier PS5",
+   "model": "N-IO-SBX-1G",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -10996,23 +11449,7 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "PS3",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "PS5",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "S/2-T1",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "S/2-T2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "S/3-T1",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -11020,27 +11457,7 @@
    "motivo": "sin-atestacion-activa"
   },
   {
-   "model": "serie AFP4000",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "serie Dimension",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Serie G-100-R",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "Serie G-500-S",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
    "model": "SERIE PAN AVD2",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "SMART 2 catalítico",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -11085,42 +11502,6 @@
   },
   {
    "model": "UG-3-A5O",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-1P",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-A00",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-A00-1P",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-A00-1P (1 tubería)",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-A00-P",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VEP-A00-P (4 tuberías)",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VESDA-E VEP-A00",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VESDA-E VEP-A00-1P",
-   "motivo": "sin-atestacion-activa"
-  },
-  {
-   "model": "VESDA-E VEP-A00-P",
    "motivo": "sin-atestacion-activa"
   },
   {
@@ -11178,6 +11559,10 @@
   {
    "model": "ZXHE",
    "motivo": "cinturon-anti-ruido"
+  },
+  {
+   "model": "ZXr-P",
+   "motivo": "sin-atestacion-activa"
   }
  ]
 }
