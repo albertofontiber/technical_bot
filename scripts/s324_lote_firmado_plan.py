@@ -157,6 +157,19 @@ plan = {"que_es": __doc__.strip().splitlines()[0], "utc": None, "reglas": REGLAS
         "umbrellas_altas": [], "retags_db": [], "no_aplicar": [], "avisos": []}
 
 
+def cenir_a_nombrados(txt: str, ids: list[str]) -> tuple[list[str], list[str], dict]:
+    """R1' (refinamiento evidencial de serie × categoría): si el documento NOMBRA explícitamente
+    modelos de la serie (token exacto del canonical), la atestación se ciñe a los nombrados; la
+    lista derivada de la serie solo se usa cuando el documento no nombra ninguno (guías de
+    familia sin tabla de modelos: FAAST, fragmento ZX). Evita atestar sub-series con manual
+    propio (2X-AT dentro del manual 2X-A: 0 menciones)."""
+    tokens = {i: n_token(txt, P[i]["canonical_model"]) for i in ids if i in P}
+    nombrados = [i for i in ids if tokens.get(i)]
+    if nombrados:
+        return nombrados, [i for i in ids if i not in nombrados], tokens
+    return ids, [], tokens
+
+
 def entrada(doc_row, ids, regla, cita, detalle, verif, role="primary"):
     return {"document_id": doc_row["id"], "source_file": doc_row["source_pdf_filename"],
             "entries": [{"id": i, "role": role, "scope": "doc",
@@ -206,6 +219,11 @@ def main() -> None:
                 plan["no_aplicar"].append({"que": sf, "motivo": "cita NO verifica full-text hoy", "cita": f["cita"]}); continue
             if verif["ids_inexistentes_hoy"]:
                 plan["no_aplicar"].append({"que": sf, "motivo": f"ids inexistentes {verif['ids_inexistentes_hoy']}"}); continue
+            if f.get("ids_por_serie_x_categoria") and regla == "§0.B":
+                ids2, excl, toks = cenir_a_nombrados(txt, ids)
+                verif["tokens_en_doc"] = toks
+                if excl:
+                    verif["excluidos_por_R1prima"] = excl; ids = ids2; regla = "§0.B (R1')"
             plan["doc_map_altas"].append(entrada(d, ids, regla, f["cita"], detalle, verif))
 
         # ═══ A2 · §0.B.2 (4 «piden tu ojo», adjudicadas) ═══
@@ -224,8 +242,13 @@ def main() -> None:
             d = doc(c, sf) or {"id": tb_por_sf[key]["document_id"], "source_pdf_filename": tb_por_sf[key]["source_file"], "status": "?"}
             txt = texto(c, d["id"])
             ok = cita_ok(txt, f["cita"])
-            plan["doc_map_altas"].append(entrada(d, ids, "§0.B.2+Alberto", f["cita"], detalle,
-                                                 {"cita_full_text": ok, "n_ids": len(ids)}))
+            verif = {"cita_full_text": ok, "n_ids": len(ids)}
+            if len(ids) > 3 and not key.startswith("hlsi-ti-001"):   # lista derivada 2X-A: ceñir a nombrados; RP1r = adjudicación explícita de Alberto (el token «RP1r» es el NOMBRE DE LA SERIE, no el modelo)
+                ids2, excl, toks = cenir_a_nombrados(txt, ids)
+                verif["tokens_en_doc"] = toks
+                if excl:
+                    verif["excluidos_por_R1prima"] = excl; ids = ids2
+            plan["doc_map_altas"].append(entrada(d, ids, "§0.B.2+Alberto", f["cita"], detalle, verif))
             if not ok:
                 plan["avisos"].append({"que": sf, "aviso": "cita §0.B.2 no verifica full-text hoy (se mantiene: adjudicación explícita de Alberto)"})
 
@@ -249,8 +272,10 @@ def main() -> None:
                 plan["no_aplicar"].append({"que": sf, "motivo": "documento no localizado"}); continue
             txt = texto(c, d["id"])
             cita = ((tb or {}).get("llm") or {}).get("cita") or ""
-            verif = {"cita_full_text": cita_ok(txt, cita) if cita else None,
-                     "tokens_en_doc": {i: n_token(txt, P[i]["canonical_model"]) for i in ids if i in P}}
+            ids2, excl, toks = cenir_a_nombrados(txt, ids) if regla.startswith("R1") else (ids, [], {i: n_token(txt, P[i]["canonical_model"]) for i in ids if i in P})
+            verif = {"cita_full_text": cita_ok(txt, cita) if cita else None, "tokens_en_doc": toks}
+            if excl:
+                verif["excluidos_por_R1prima"] = excl; ids = ids2; regla = regla + " (R1')"
             plan["doc_map_altas"].append(entrada(d, ids, regla, cita, detalle, verif))
         plan["avisos"].append({"que": "996-130-000-3 manuel d'utilisation zx_hlsi",
                                "aviso": "fragmento FRANCÉS de 1 chunk (páginas finales); misma clase que los PT retirados (política s65) pero SIN sí de Alberto para FR → se atesta por R1 y se propone baja aparte"})

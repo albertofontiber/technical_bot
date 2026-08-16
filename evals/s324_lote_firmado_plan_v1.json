@@ -1,6 +1,6 @@
 {
  "que_es": "s324 — PLAN mecánico del LOTE FIRMADO (solo lectura: NO escribe catálogo ni Supabase).",
- "utc": "20260816T111516Z",
+ "utc": "20260816T111817Z",
  "reglas": "evals/s324_reglas_residuo_adjudicacion_v1.json",
  "constantes": {
   "ZX_CENTRALES": [
@@ -986,7 +986,15 @@
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": []
+     "ids_pendientes_de_este_lote": [],
+     "tokens_en_doc": {
+      "kidde:nc-pf2": 0,
+      "kidde:nc-pf2-sc": 0,
+      "kidde:nc-pf4": 0,
+      "kidde:nc-pf4-sc": 0,
+      "kidde:nc-pf8": 0,
+      "kidde:nc-pf8-sc": 0
+     }
     }
    ]
   },
@@ -1042,7 +1050,15 @@
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": []
+     "ids_pendientes_de_este_lote": [],
+     "tokens_en_doc": {
+      "kidde:nc-pf2": 0,
+      "kidde:nc-pf2-sc": 0,
+      "kidde:nc-pf4": 0,
+      "kidde:nc-pf4-sc": 0,
+      "kidde:nc-pf8": 0,
+      "kidde:nc-pf8-sc": 0
+     }
     }
    ]
   },
@@ -1212,7 +1228,15 @@
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": []
+     "ids_pendientes_de_este_lote": [],
+     "tokens_en_doc": {
+      "kidde:nc-pf2": 2,
+      "kidde:nc-pf2-sc": 2,
+      "kidde:nc-pf4": 2,
+      "kidde:nc-pf4-sc": 2,
+      "kidde:nc-pf8": 2,
+      "kidde:nc-pf8-sc": 2
+     }
     }
    ]
   },
@@ -1556,7 +1580,15 @@
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": []
+     "ids_pendientes_de_este_lote": [],
+     "tokens_en_doc": {
+      "kidde:nc-pf2": 0,
+      "kidde:nc-pf2-sc": 0,
+      "kidde:nc-pf4": 0,
+      "kidde:nc-pf4-sc": 0,
+      "kidde:nc-pf8": 0,
+      "kidde:nc-pf8-sc": 0
+     }
     }
    ]
   },
@@ -1612,7 +1644,15 @@
      "cita_full_text": true,
      "n_chunks_texto": true,
      "ids_inexistentes_hoy": [],
-     "ids_pendientes_de_este_lote": []
+     "ids_pendientes_de_este_lote": [],
+     "tokens_en_doc": {
+      "kidde:nc-pf2": 0,
+      "kidde:nc-pf2-sc": 0,
+      "kidde:nc-pf4": 0,
+      "kidde:nc-pf4-sc": 0,
+      "kidde:nc-pf8": 0,
+      "kidde:nc-pf8-sc": 0
+     }
     }
    ]
   },
@@ -1858,7 +1898,47 @@
    "verificaciones": [
     {
      "cita_full_text": true,
-     "n_ids": 38
+     "n_ids": 38,
+     "tokens_en_doc": {
+      "kidde:2x-ae1": 0,
+      "kidde:2x-ae2": 0,
+      "kidde:2x-ae2-p": 0,
+      "kidde:2x-af1": 0,
+      "kidde:2x-af1-fb": 0,
+      "kidde:2x-af1-fb-s": 0,
+      "kidde:2x-af1-s": 0,
+      "kidde:2x-af1-scfb": 0,
+      "kidde:2x-af1-scfb-s": 0,
+      "kidde:2x-af2": 0,
+      "kidde:2x-af2-09": 0,
+      "kidde:2x-af2-fb": 0,
+      "kidde:2x-af2-fb-p": 0,
+      "kidde:2x-af2-fb-prt": 0,
+      "kidde:2x-af2-fb-prt-p": 0,
+      "kidde:2x-af2-fb-s": 0,
+      "kidde:2x-af2-p": 0,
+      "kidde:2x-af2-prt": 0,
+      "kidde:2x-af2-prt-p": 0,
+      "kidde:2x-af2-s": 0,
+      "kidde:2x-af2-scfb": 0,
+      "kidde:2x-af2-scfb-p": 0,
+      "kidde:2x-af2-scfb-s": 0,
+      "kidde:2x-afr": 0,
+      "kidde:2x-afr-fb": 0,
+      "kidde:2x-afr-fb-s": 0,
+      "kidde:2x-afr-s": 0,
+      "kidde:2x-at-f1-fb-s": 0,
+      "kidde:2x-at-f2": 0,
+      "kidde:2x-at-f2-fb": 0,
+      "kidde:2x-at-f2-fb-p": 0,
+      "kidde:2x-at-f2-fb-s": 0,
+      "kidde:2x-at-f2-p": 0,
+      "kidde:2x-at-f2-s": 0,
+      "kidde:2x-at-fr": 0,
+      "kidde:2x-at-fr-fb": 0,
+      "kidde:2x-at-fr-fb-s": 0,
+      "kidde:2x-at-fr-s": 0
+     }
     }
    ]
   },
@@ -2311,74 +2391,68 @@
    "source_file": "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf",
    "entries": [
     {
-     "id": "kidde:2x-at-f1-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
-    },
-    {
      "id": "kidde:2x-at-f2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-f2-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-f2-fb-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-f2-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-f2-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-f2-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-fr",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-fr-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-fr-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     },
     {
      "id": "kidde:2x-at-fr-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
     }
    ],
    "reglas": [
-    "R1"
+    "R1 (R1')"
    ],
    "citas": [
     "2X-AT Series Quick Start Guide"
@@ -2398,7 +2472,10 @@
       "kidde:2x-at-fr-fb": 1,
       "kidde:2x-at-fr-fb-s": 1,
       "kidde:2x-at-fr-s": 1
-     }
+     },
+     "excluidos_por_R1prima": [
+      "kidde:2x-at-f1-fb-s"
+     ]
     }
    ]
   },
@@ -2436,233 +2513,161 @@
      "id": "kidde:2x-ae1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-ae2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-ae2-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-scfb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-scfb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-af2-09",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-prt",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-prt-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-prt",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-prt-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f1-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb-p",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-p",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-fb",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
     }
    ],
    "reglas": [
-    "R1"
+    "R1 (R1')"
    ],
    "citas": [
     "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels."
@@ -2709,7 +2714,21 @@
       "kidde:2x-at-fr-fb": 0,
       "kidde:2x-at-fr-fb-s": 0,
       "kidde:2x-at-fr-s": 0
-     }
+     },
+     "excluidos_por_R1prima": [
+      "kidde:2x-af2-09",
+      "kidde:2x-at-f1-fb-s",
+      "kidde:2x-at-f2",
+      "kidde:2x-at-f2-fb",
+      "kidde:2x-at-f2-fb-p",
+      "kidde:2x-at-f2-fb-s",
+      "kidde:2x-at-f2-p",
+      "kidde:2x-at-f2-s",
+      "kidde:2x-at-fr",
+      "kidde:2x-at-fr-fb",
+      "kidde:2x-at-fr-fb-s",
+      "kidde:2x-at-fr-s"
+     ]
     }
    ]
   },
@@ -2721,233 +2740,161 @@
      "id": "kidde:2x-ae1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-ae2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-ae2-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-scfb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af1-scfb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-af2-09",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-prt",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-prt-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-prt",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-prt-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb-p",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-af2-scfb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-fb",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-fb-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     },
     {
      "id": "kidde:2x-afr-s",
      "role": "primary",
      "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f1-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb-p",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-p",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-f2-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-fb",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-fb-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
-    },
-    {
-     "id": "kidde:2x-at-fr-s",
-     "role": "primary",
-     "scope": "doc",
-     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+     "provenance": "s324 R1 (R1') (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
     }
    ],
    "reglas": [
-    "R1"
+    "R1 (R1')"
    ],
    "citas": [
     "KIDDE COMMERCIAL # 2X-A Series Operation Manual P/N 00-3280-505-4003-02"
@@ -2994,7 +2941,21 @@
       "kidde:2x-at-fr-fb": 0,
       "kidde:2x-at-fr-fb-s": 0,
       "kidde:2x-at-fr-s": 0
-     }
+     },
+     "excluidos_por_R1prima": [
+      "kidde:2x-af2-09",
+      "kidde:2x-at-f1-fb-s",
+      "kidde:2x-at-f2",
+      "kidde:2x-at-f2-fb",
+      "kidde:2x-at-f2-fb-p",
+      "kidde:2x-at-f2-fb-s",
+      "kidde:2x-at-f2-p",
+      "kidde:2x-at-f2-s",
+      "kidde:2x-at-fr",
+      "kidde:2x-at-fr-fb",
+      "kidde:2x-at-fr-fb-s",
+      "kidde:2x-at-fr-s"
+     ]
     }
    ]
   },
