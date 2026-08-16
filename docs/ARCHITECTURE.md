@@ -22,7 +22,7 @@
 > retirados/redirect), 1.744 alias (−14 descriptivos «2 zonas»… retirados por el gate), **25 paraguas** (+STRATOS),
 > **977 filas de doc_map / 2.905 entries**; corpus **1.054 documentos activos / 105 retirados** (7 más esta noche:
 > Vision Supra idiomas, MADT190P, ETDT312/314, MADT742, MNDT1202, ASD Rail). Detector del resolver: 1.744
-> términos. Producción SIN cambios de código. **E1b preparado**: 11 planes por bloque con dry-run 11/11 PASS
+> términos. Producción SIN cambios de código. **E1b preparado**: 13 planes por bloque (11 + 2 del re-juicio K=5) con dry-run 13/13 PASS
 > (`evals/s324c_e1b_bloques_censo_v1.md`), NADA aplicado. **Etapa 3**: población de serving = 1 hecho (`hp017#1`);
 > los «flips» son varianza de síntesis (replay congelado 4/4); D1 no construido (DEC-175 banner).
 >
