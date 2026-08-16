@@ -133,6 +133,14 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
             p["estado"] = "retirado"
             p["provenance"] = (p.get("provenance") or "") + f" | s324 retirado: {rt['motivo']}"
             stats["retiradas"] += 1
+    stats["redirects"] = 0
+    for rd in plan.get("products_redirect", []):          # id → redirect_to (namespace correcto); el id NO se borra ni se recicla
+        p = by_id[rd["id"]]
+        if p["estado"] != "redirect" and rd["redirect_to"] in ids:
+            p["estado"] = "redirect"; p["redirect_to"] = rd["redirect_to"]
+            p["candidate"] = False
+            p["provenance"] = (p.get("provenance") or "") + f" | s324 redirect → {rd['redirect_to']}: {rd['motivo']}"
+            stats["redirects"] += 1
     quitar = {(a["alias"], a["id"]) for a in plan["aliases_quitar"]}
     n0 = len(aliases)
     aliases = [a for a in aliases if (a.get("alias"), a.get("id")) not in quitar]

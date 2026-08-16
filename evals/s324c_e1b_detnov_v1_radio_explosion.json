@@ -1,0 +1,236 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T213139Z",
+ "plan_sha": "b3d19cd2e88c61eb",
+ "freeze": {
+  "catalog_shas": {
+   "products": "ee8e321c244f9010",
+   "aliases": "fb51f4495438309a",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "2915fcfed186501e"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 1,
+  "confirmadas": 8,
+  "retiradas": 0,
+  "aliases_quitados": 14,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 1,
+  "redirects": 1,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1731,
+  "terminos_despues": 1744,
+  "entran": 13,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "CAD-250B",
+    "normkey": "cad250b",
+    "core": "cad[-\\s/.+]*250[-\\s/.+]*b",
+    "origen": "confirmar detnov:cad-250b",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cad[-\\s/.+]*250"
+    ]
+   },
+   {
+    "termino": "CAD-250-BLED",
+    "normkey": "cad250bled",
+    "core": "cad[-\\s/.+]*250[-\\s/.+]*bled",
+    "origen": "confirmar detnov:cad-250-bled",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cad[-\\s/.+]*250"
+    ]
+   },
+   {
+    "termino": "CAD-250LBLED",
+    "normkey": "cad250lbled",
+    "core": "cad[-\\s/.+]*250[-\\s/.+]*lbled",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cad[-\\s/.+]*250"
+    ]
+   },
+   {
+    "termino": "CCD-102",
+    "normkey": "ccd102",
+    "core": "ccd[-\\s/.+]*102",
+    "origen": "confirmar detnov:ccd-102",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CCD-103",
+    "normkey": "ccd103",
+    "core": "ccd[-\\s/.+]*103",
+    "origen": "alta detnov:ccd-103",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CCD-104",
+    "normkey": "ccd104",
+    "core": "ccd[-\\s/.+]*104",
+    "origen": "confirmar detnov:ccd-104",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CCD-108",
+    "normkey": "ccd108",
+    "core": "ccd[-\\s/.+]*108",
+    "origen": "confirmar detnov:ccd-108",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CCD-112",
+    "normkey": "ccd112",
+    "core": "ccd[-\\s/.+]*112",
+    "origen": "confirmar detnov:ccd-112",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "detnov Graphical Software SGD-151",
+    "normkey": "detnovgraphicalsoftwaresgd151",
+    "core": "detnov[-\\s/.+]*graphical[-\\s/.+]*software[-\\s/.+]*sgd[-\\s/.+]*151",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "detnov Graphic Software - SGD 151",
+    "normkey": "detnovgraphicsoftwaresgd151",
+    "core": "detnov[-\\s/.+]*graphic[-\\s/.+]*software[-\\s/.+]*sgd[-\\s/.+]*151",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-250",
+    "normkey": "scd250",
+    "core": "scd[-\\s/.+]*250",
+    "origen": "confirmar detnov:scd-250",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SDG-151",
+    "normkey": "sdg151",
+    "core": "sdg[-\\s/.+]*151",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SGD-151",
+    "normkey": "sgd151",
+    "core": "sgd[-\\s/.+]*151",
+    "origen": "confirmar detnov:sgd-151",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "CAD-250 B",
+    "id": "detnov:cad-250b",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAD-250LBLED",
+    "id": "detnov:cad-250-bled",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "detnov Graphical Software SGD-151",
+    "id": "detnov:sgd-151",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "detnov Graphic Software - SGD 151",
+    "id": "detnov:sgd-151",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SCD250",
+    "id": "detnov:scd-250",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SDG-151",
+    "id": "detnov:sgd-151",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?": {
+    "antes": [],
+    "despues": [
+     "ccd-103"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {
+   "En la CCD-103, ¿cómo desactivo un detector individual?": [
+    "ccd-103"
+   ]
+  },
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?": {
+    "allowed_sources_nuevas": [
+     "CCD-103_Manual_ES_FR_GB_IT"
+    ],
+    "ids_nuevos": [
+     "detnov:ccd-103"
+    ],
+    "detected": [
+     "ccd-103"
+    ]
+   }
+  },
+  "efecto_docmap": {
+   "detnov:ccd-103": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "CCD-103_Manual_ES_FR_GB_IT"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}
