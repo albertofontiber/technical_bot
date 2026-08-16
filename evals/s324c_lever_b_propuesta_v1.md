@@ -168,3 +168,35 @@ del trigger en filas de reserva/document-local (no replayadas) · qué facetas e
 a `94cbb0ce` frente a `a7a78a13` (no leí `evidence_coverage_facets`) · si la duplicación de
 revisiones CAD-250 mueve el pool de hp001 · por qué el hub sumó «≥2+2=4» (yo cuento 4 golds sin
 hp012) · efecto de D1 fuera de los 39 golds (tráfico real).
+
+---
+
+## ADENDA post-dúo r33 (Sol xhigh 6 · Fable 5 emparejado, 14 `tool_use` reales) — el diseño se PARA antes de construir
+
+**Sol (5 medios + 1 menor, 6/6 verificados contra el código):** (1) «los flips son estabilidad de síntesis, ningún
+lever de serving los toca» está sobre-afirmado — base y oráculo son generaciones independientes y la composición
+servida es estocástica (DEC-097): hace falta **replay sobre composición congelada** antes de descartar serving; (2) D1
+NO es una vista pasiva: `must_preserve._chunk_text` usa `coverage_context_content` (paridad de vista) y
+`answer_planner.py:1413-1429` construye obligaciones desde `served_coverage_cards` → puede crear anexos nuevos; G3
+debe atribuir el rescate y comparar trazas; (3) el «precedente exacto» de tablas es falso: una fila pipe tiene
+límites sintácticos locales (`post_rerank_coverage.py:354-390`), una lista no tiene fin inequívoco (líneas partidas,
+sublistas, OCR, pasos numerados) — el diseño no define dónde para; (4) freeze-contract de G3 incompleto (hash,
+commit, golds, config, modelos/prompts, revalidación); (5) veredicto no exhaustivo (ON 2/3 y OFF 2/3 sin casilla;
+«invención sin subida» sin umbral); (m) construir el seam antes de G0/G2 invierte medir-antes-de-construir: 6/30
+mide disparos, no beneficio — sobre-ingeniería para una población efectiva de un hecho.
+
+**Fable (3 medios + 1 especulativo + 1 menor):** `LOGICAL_RECORD_COVERAGE` se resuelve como **constante de módulo**
+(`post_rerank_coverage.py:331`) → un proceso offline que togglee env sin reload no cambia conducta: divergencia
+silenciosa prod↔offline, y la precondición de coherencia instrumento/serving no está declarada en G3; **sustitución
+de denominador**: la puerta DEC-175 es población en hechos que el lever LEVANTA (= 1, `hp017#1`), no el 6/30 del
+defecto estético — Alberto debe adjudicar con el 1; el bullet diana [1427:1690] solo se alcanza transitivamente (si el
+parser de bloque rompe en el blanco, D1 no paga ni su único hecho → pinearlo como test); anclas sin `src/rag/`.
+
+**Decisión (hub, 16-ago 23:00):** **NO se construye D1 en esta sesión.** Lo que sigue, medir-antes-de-construir y en
+este orden: (a) **fix de DATOS** CCD-103 (adjudicación de Alberto: confirmar por ficha + namespace Detnov) — es lo que
+desbloquea `hp015` sin lever; (b) **prueba offline $0-2** del parser de bloque sobre el chunk `d27b1a1b` de `hp017#1`
+(¿el cierre alcanza [1427:1690]?) + censo de TODAS las lanes (no solo estructurales) — si el beneficio no existe
+offline, no hay seam; (c) **replay sobre composición congelada** (N=3-5) para clasificar los flips (cat001/cat008/
+cat016/hp005#3) como inestabilidad de síntesis o serving; (d) corregir la aritmética del banner DEC-175 (población de
+hoy por gold = {hp017, hp005, hp015, hp001}; hp012#3 y cat017#2 están OK en el FULL 16-ago) con la cifra de cabecera
+**«1 hecho pagable por serving»**. Cifra para Alberto: **1**, no 6/30.
