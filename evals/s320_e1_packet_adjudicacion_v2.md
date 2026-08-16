@@ -1,5 +1,26 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
+<!-- s324-estado:inicio -->
+> ## 🟢 ESTADO s324 (2026-08-16 11:46Z) — lo que ya NO tienes que decidir, y lo que sí
+> **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
+> - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
+> - **§1.A** (13): 10 resueltas por tus REGLAS R1/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`) — 3 quedan pendientes de **R1'** (abajo).
+> - **§1.B** (84): las de R6 (7) y R7 (23+4) están RESUELTAS con prueba (altas aplicadas o descartadas); acrónimos cortos (17) y confianza media (14) siguen en cuarentena; todo marcado fila a fila.
+> - Retirados del corpus: MA-DT-1160 (tu adjudicación) + 6 fragmentos PT con hermano ES.
+>
+> **PENDIENTE DE TI (lo único que queda en este fichero):**
+> 1. **R1'** (3 docs: GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf, MI_KIDDE_2X_AT_F2_FB_07d4.pdf, MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf): «si el documento NOMBRA modelos de la serie, atestar solo los nombrados» — ¿OK? (Sol r32: es criterio nuevo, no lo firmaste.)
+> 2. **§0.C** (32 altas) · **§0.D** (17 retirar) · **§0.E** (3): tus tres «sí» en bloque siguen abiertos — pero OJO: las altas/confirmaciones pasan por el gate del detector (censo del radio de explosión) antes de escribirse, como este lote.
+> 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
+> 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
+> 5. Baja del fragmento FR `996-130-000-3 manuel d'utilisation ZX` (1 chunk) — ¿sí?
+> 6. Abiertos no bloqueantes: VSN2-PLUS / «Plus2» (solo en docs NFS-SUPRA/UCIP); OCR de HLSI-TI-007.
+>
+> Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
+<!-- s324-estado:fin -->
+
+
+
 **SUPERSEDE a `evals/s320_e1_packet_adjudicacion_v1.md`.**
 Aquel packet te pedía **253 casillas** una a una (§1 colisiones, §2 tier B,
 §3 candidates, §4 product_model sucio). Cuatro pasadas hermanas han refrescado cada
@@ -245,69 +266,101 @@ No son altas duplicadas: es el mismo producto atestado dos veces.
 En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 filas.
 
 - [ ] `aritech:2x-a` (2X-A) → **ALTA** · rol TITULO · doc `00-3280-507-4009-03_r003_2x-a_series_quick_installation_g…`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 1 / global 43 en 18 docs · cita ✓ «Guía de instalación rápida de la serie 2X-A»
       ALBERTO: aquí 
 - [ ] `kidde:ke-asa-auxr` (KE-ASA-AUXR) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_ASA_AUXR_f28f.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 8 en 7 docs · cita ✓ «# KE-ASA-AUXR Intelligent addressable notification accessory - deep base (red)»
 - [ ] `kidde:ke-dba-adpw-kil` (KE-DBA-ADPW-KIL) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DBA_ADPW_KIL_202501_ING_c855.pdf`
+      ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
       menciones estrictas doc 3 / global 11 en 2 docs · cita ✓ «# KE-DBA-ADPW-KIL **Intelligent addressable base accessory - Kilsen adapter (White)**»
 - [ ] `kidde:ke-dba-adpw-zit` (KE-DBA-ADPW-ZIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DBA_ADPW_ZIT_202501_ING_ed63.pdf`
+      ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
       menciones estrictas doc 3 / global 11 en 2 docs · cita ✓ «The KE-DBA-ADPW-ZIT is an Excellence series base adapter.»
 - [ ] `kidde:ke-dba-capw` (KE-DBA-CAPW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_CAPW_202407_ING_d87d.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 4 / global 5 en 2 docs · cita ✓ «KIDDE COMMERCIAL # KE-DBA-CAPW **Accesorio base direccionable inteligente - Tapa (Blanca)**»
 - [ ] `kidde:ke-dba-ipw` (KE-DBA-IPW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_IPW_202407_ING_ffaf.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 3 / global 7 en 3 docs · cita ✓ «KIDDE™ COMMERCIAL # KE-DBA-IPW Accesorio base direccionable inteligente - base resistente a la…»
 - [ ] `kidde:ke-dba-ipw` (KE-DBA-IPW) → **ALTA** · rol TITULO · doc `MI_KE_DBA_IPW_202407_ES_cc56.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 3 / global 7 en 3 docs · cita ✓ «KE-DBA-IPW IP Accessory for Standard Mounting Base Installation Sheet»
 - [ ] `kidde:ke-dba-recw` (KE-DBA-RECW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_RECW_202407_ES_bb2b.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 3 / global 10 en 4 docs · cita ✓ «KE-DBA-RECW Accesorio base direccionable inteligente - base empotrada (blanca)»
 - [ ] `kidde:ke-dba-recw` (KE-DBA-RECW) → **ALTA** · rol TITULO · doc `MI_KE_DBA_RECW_202407_ES_aacc.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 3 / global 10 en 4 docs · cita ✓ «KE-DBA-RECW Recess Accessory for Standard Mounting Base Installation Sheet»
 - [ ] `kidde:ke-dba-tagw` (KE-DBA-TAGW) → **ALTA** · rol TITULO · doc `HD_KE_DBA_TAGW_202407_ES_4b26.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 5 / global 12 en 8 docs · cita ✓ «KIDDE COMMERCIAL # KE-DBA-TAGW Accesorio base direccionable inteligente - Etiqueta de direcció…»
 - [ ] `kidde:ke-dm3110r-ip` (KE-DM3110R-IP) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_IP_202412_ES_8165.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 3 en 2 docs · cita ✓ «KE-DM3110R-IP Pulsador direccionable inteligente de la Serie Excellence con aislador - para ex…»
 - [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 3 / global 3 en 1 doc · cita ✓ «The KE-DM3110R-KIT is a red, single action indoor MCP with a House-on-Fire functional indicato…»
 - [ ] `kidde:ke-dm3110r-kit` (KE-DM3110R-KIT) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 3 en 1 doc · cita ✓ «KE-DM3110R-KIT **Excellence Series intelligent addressable manual call point with isolator and…»
 - [ ] `kidde:ke-dp3021b` (KE-DP3021B) → **ALTA** · rol TITULO · doc `HD_KE_DP3021B_202407_ES_861a.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 6 en 4 docs · cita ✓ «KIDDE COMMERCIAL # KE-DP3021B Detector de calor/óptico dual direccionable inteligente serie Ex…»
 - [ ] `kidde:ke-dp3021w` (KE-DP3021W) → **ALTA** · rol TITULO · doc `HD_KE_DP3021W_202407_ES_778e.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 9 en 7 docs · cita ✓ «KIDDE™ COMMERCIAL # KE-DP3021W ## Detector de calor/óptico dual direccionable inteligente seri…»
 - [ ] `kidde:ke-iu3110` (KE-IU3110) → **ALTA** · rol TITULO · doc `HD_KE_IU3110_202407_ES_42d6.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 7 / global 19 en 6 docs · cita ✓ «KE-IU3110 Unidad inteligente direccionable de 1 entrada con aislador»
 - [ ] `kidde:ke-iu3110` (KE-IU3110) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MI_KE_IU3110_202407_ES_5e36.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 6 / global 19 en 6 docs · cita ✓ «Product identification | KE-IU3110»
 - [ ] `kidde:n-io-mbx-2` (N-IO-MBX-2) → **ALTA** · rol TITULO · doc `DS_KIDDE_N_IO_MBX_2_202505_ES_b34f.pdf`
+      ↳ **s324:** ✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta
       menciones estrictas doc 3 / global 19 en 7 docs · cita ✓ «La N-IO-MBX-2 es una caja de montaje en superficie diseñada para alojar módulos que requieren…»
 - [ ] `kidde:n-io-sbx-2g` (N-IO-SBX-2G) → **ALTA** · rol TITULO · doc `DS_KIDDE_N_IO_SBX_2G_202505_ES_6eb1.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 4 / global 5 en 2 docs · cita ✓ «N-IO-SBX-2G Caja para 1 módulo con carril DIN (grande)»
 - [ ] `morley:dxc-connexion` (DXc Connexion) → **ALTA** · rol TITULO · doc `No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controle…`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 21 en 14 docs · cita ✓ «DXC Connexion - Avería F. Alimentación externa»
 - [ ] `morley:mod-rs-232` (MOD.RS-232) → **ALTA** · rol TITULO · doc `MIE-MI-330`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 1 / global 1 en 1 doc · cita ✓ «# TARJETA DE COMUNICACIONES RS-232 # MOD.RS-232 # MANUAL DE INSTALACIÓN»
 - [ ] `morley:mod-rs-485` (MOD.RS-485) → **ALTA** · rol TITULO · doc `MIE-MI-390`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 1 / global 1 en 1 doc · cita ✓ «# TARJETA DE COMUNICACIONES RS-485 # MOD.RS-485 # MANUAL DE INSTALACIÓN»
 - [ ] `morley:vision-supra` (Vision Supra) → **ALTA** · rol TITULO · doc `30012012 TARJETAS IDIOMAS VISION SUPRA rev A`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 4 en 2 docs · cita ✓ «321XXX TARJETAS IDIOMAS VISION SUPRA FECHA: 26/01/2011 REV: A DESCRIPCIÓN: LANZAMIENTO»
 - [ ] `notifier:clss-configuration-tool` (CLSS Configuration Tool) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `4188-1124-PT issue 4_01-2026_To.pdf`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 4 / global 21 en 6 docs · cita ✓ «Honeywell no recomienda la instalación de más de una instancia del programa CLSS Configuration…»
 - [ ] `notifier:id2net` (ID²NET) → **ALTA** · rol TITULO · doc `MADT190P_01_C`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 74 en 10 docs · cita ✓ «# RED DIGITAL E INTELIGENTE # ID<sup>2</sup>net»
 - [ ] `notifier:id2net` (ID²NET) → **ALTA** · rol TITULO · doc `MADT190_01`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 61 / global 75 en 13 docs · cita ✓ «# RED DIGITAL E INTELIGENTE # ID²net»
 - [ ] `notifier:kit-gas` (KIT-GAS) → **ALTA** · rol TITULO · doc `HLSI-MN-627`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 2 / global 4 en 3 docs · cita ✓ «KIT-GAS ## Teclado de mano para calibración de los detectores de gas de la <ins>serie SMART 3<…»
 - [ ] `notifier:nfxi-bsf-wch` (NFXI-BSF-WCH) → **ALTA** · rol TABLA_DE_MODELOS · doc `D 1147-1 BRH Notifier`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «S40/40M XXXXX, donde XXXXX define el modelo según los requisitos anteriores»
 - [ ] `spectrex:40-40r` (40-40R) → **ALTA** · rol TITULO · doc `MNDT724_40-40R`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «DETECTOR DE LLAMA INFRARROJO IR # MODELO S40/40R»
 - [ ] `spectrex:40-40u` (40-40U) → **ALTA** · rol TABLA_DE_MODELOS · doc `MNDT723_40-40U`
+      ↳ **s324:** ⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)
       menciones estrictas doc 0 / global 0 en 0 docs · cita ✓ «| Tipo de combustible | Distancia máxima (metros)<br/>40/40U y UB |»
 
 ### §0.D — Candidates → **RETIRAR** (17)
@@ -524,195 +577,249 @@ hay que adjudicar.
 **ambiguedad:termino-multi-modelo** — 23
 
 - [ ] `avotec:doa-fj-cpd` (DOA FJ/CPD)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «**DOA FJ/CPD** – Fire alarm sounding device for fire signalling conform to regulatio…»
       doc `Manual Rotulo REXD-103_EN` · estrictas doc 2 / global 2 en 1 doc
 - [ ] `fidegas:s-2-t1-y-s-3-t1` (S/2-T1 y S/3-T1)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «SENSOR REMOTO # S/3-T1 y S/2-T1 ## TÓXICOS»
       doc `Manual-de-Usuario-S3-T1-y-S-2-T1` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(S/3-T1 y S/2-T1)
       el juez propone otra grafía: `S/3-T1 y S/2-T1`
 - [ ] `kidde:ke-dba-adpw-kil-ke-dba-adpw-zit` (KE-DBA-ADPW-KIL/KE-DBA-ADPW-ZIT)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «| KE-DBA-ADPW-KIL | Adaptor Accessory for Kilsen Mounting Bases |»
       doc `G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-DBA-ADPW-KIL y KE-DBA-ADPW-ZIT (serie KE-DBA-ADPW)`
 - [ ] `kidde:ke-dba-labw-l1s-ke-dba-labw-l2s-ke-dba-labw-l3s-ke-dba-labw-l4s` (KE-DBA-LABW-L1S/KE-DBA-LABW-L2S/KE-DBA-LABW-L3S/KE-DBA-LABW-L4S)
+      ↳ **s324:** ✅ RESUELTO por R7: ningún componente L1S..L4S aparece como token → no se da de alta (el juez propone KE-DBA-LABW-S: si quieres ese alta, dilo)
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «El KE-DBA-LABW-S es un juego de etiquetas adhesivas de la serie Excellence de format…»
       doc `HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
       el juez propone otra grafía: `KE-DBA-LABW-S`
 - [ ] `kidde:ke-dp3121b-ke-dp3121b-snv` (KE-DP3121B/KE-DP3121B-SNV)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE™ COMMERCIAL # KE-DP3121B-SNV»
       doc `DS_KIDDE_KE_DP3121B_SNV_202503_ES_b5bc.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-DP3121B-SNV`
 - [ ] `kidde:ke-dp3121w-ke-dp3121w-sn` (KE-DP3121W/KE-DP3121W-SN)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE COMMERCIAL # KE-DP3121W-SN Detector de calor/óptico dual direccionable intelig…»
       doc `DS_KIDDE_KE_DP3121W_SN_202503_ES_5938.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-DP3121W-SN`
 - [ ] `kidde:ke-dp3121w-ke-dp3121w-sn-ke-dp3121w-snv` (KE-DP3121W/KE-DP3121W-SN/KE-DP3121W-SNV)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «KIDDE COMMERCIAL # KE-DP3121W-SNV Detector de calor/óptico dual direccionable inteli…»
       doc `DS_KIDDE_KE_DP3121W_SNV_202503_ES_8699.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
       el juez propone otra grafía: `KE-DP3121W-SNV`
 - [ ] `kidde:ke-iu3111-zme-kit-2x-ae1-09` (KE-IU3111-ZME/KIT 2X-AE1-09)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE™ COMMERCIAL # KE-IU3111-ZME»
       doc `DS_KIDDE_KE_IU3111_ZME_f908.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-IU3111-ZME`
 - [ ] `kidde:ke-iu3111-zme-kit-2x-ae1-09` (KE-IU3111-ZME/KIT 2X-AE1-09)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «KE-IU3111-ZME Intelligent Addressable Zone Monitoring Unit (device type 1ZMxi)»
       doc `MI_KE_IU3111_ZME_202407_ES_fde1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
       el juez propone otra grafía: `KE-IU3111-ZME`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-MBX-1 Caja para módulos carril DIN»
       doc `DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «N-IO-MBX Series DIN Rail Module Box Installation Sheet»
       doc `MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)); ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)`
 - [ ] `kidde:n-io-sbx-1g-n-io-sbx-2g` (N-IO-SBX-1G/N-IO-SBX-2G)
+      ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-SBX-1G Caja para 1 módulo con carril DIN (pequeño)»
       doc `DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-SBX-1G)
       el juez propone otra grafía: `N-IO-SBX-1G`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf»
       doc `DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
       el juez propone otra grafía: `9-30520`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf»
       doc `MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
       el juez propone otra grafía: `MiniLaser Expansion Housing`
 - [ ] `morley:efs-em-8` (EFS/EM 8)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Panel de control de incendios de 8 zonas EFS/EM 8 # Manual de instalación, puesta en…»
       doc `MS8.pdf` · estrictas doc 9 / global 18 en 2 docs · otros motivos: ambiguedad:mismo-termino-propuesto-a-dos-fabricantes
 - [ ] `notifier:conv232-485` (CONV232/485)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza alta · cita ✓ «Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. Ref.: CONV…»
       doc `TIDT110.pdf` · estrictas doc 3 / global 4 en 2 docs
 - [ ] `notifier:efs-em-8` (EFS/EM 8)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Panel de control de incendios de 8 zonas EFS/EM 8 # Manual de instalación, puesta en…»
       doc `FS8` · estrictas doc 9 / global 18 en 2 docs · otros motivos: ambiguedad:mismo-termino-propuesto-a-dos-fabricantes
 - [ ] `notifier:nx2-r-r-y-nx5-r-r` (NX2/R/R y NX5/R/R)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — NX2/R/R y NX5/R/R: nombre con barra, 1 sola mención en tabla (dúo r32): ¿alta?
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «| 1 | → | (−) | NX2/R/R y NX5/R/R»
       doc `EMA24RS2R_NX2y5-R-R` · estrictas doc 1 / global 1 en 1 doc · otros motivos: juez:confianza-media; juez:propone-otra-grafia(NX2/R/R; NX5/R/R)
       el juez propone otra grafía: `NX2/R/R; NX5/R/R`
 - [ ] `notifier:pul-d-ext` (PUL-D/EXT)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza media · cita ✗ «PUL-D/EXT 1035 [CE mark logo] Honeywell Life Safety Iberia, SL.»
       doc `PUL-DEXT_Instrucciones multi` · estrictas doc 1 / global 1 en 1 doc · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
 - [ ] `notifier:pul-p-ext` (PUL-P/EXT)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza alta · cita ✓ «PUL-P/EXT** 1035 CE Honeywell Life Safety Iberia, SL.»
       doc `PUL-PEXT_Instrucciones multi` · estrictas doc 1 / global 1 en 1 doc
 - [ ] `sensitron:sts-ckd` (STS/CKD+)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Manual de instrucciones # STS/CKD+»
       doc `MT4508-CKDPLUS REV 0.pdf` · estrictas doc 1 / global 4 en 4 docs
 - [ ] `spectrex:20-20mi` (20/20MI)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «CONFIGURACIÓN DEL DETECTOR DE LLAMA 20/20MI»
       doc `MADT696_01` · estrictas doc 5 / global 50 en 3 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `spectrex:20-20r` (20/20R)
+      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «DETECTOR DE LLAMA DE UN ÚNICO ESPECTRO INFRARROJO ## Modelo «20/20R»»
       doc `MNDT713.pdf` · estrictas doc 2 / global 5 en 2 docs
 
 **riesgo-lexico:acronimo-corto-sin-digitos** — 17
 
 - [ ] `morley:miw` (MIW)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Serie MIW Equipos Vía Radio Analógicos»
       doc `MIW-al-sustituir-las-baterias-de-un-equipo-se…` · estrictas doc 1 / global 70 en 11 docs
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «# ACTUALIZACIÓN DE HISTÓRICO DEL TG El programa ActualizaHis.exe es el encargado de…»
       doc `Actulización histórico TG` · estrictas doc 9 / global 164 en 18 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «# TG - He cambiado el nombre del plano y ahora el plano y los equipos han desapareci…»
       doc `Al cambiar-el-nombre-del-plano-a desaparecido…` · estrictas doc 6 / global 87 en 11 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «¿Como solucionar la incidencia *"TABLE IS FULL"* en el software gráfico *TG*?»
       doc `Como-solucionar-la-incidencia-TABLE-IS-FULL-e…` · estrictas doc 5 / global 76 en 14 docs
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «Poner la contraseña por defecto del programa de gestión gráfica TG»
       doc `Poner-la-contraseña-por-defecto-del-programa-…` · estrictas doc 4 / global 90 en 3 docs · otros motivos: juez:confianza-media; sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Puedo migrar / actualizar un TG versión 5.XX a versión 7.XX»
       doc `Requisitos-del-PC-para-el-TG-Version-5-XX.pdf` · estrictas doc 3 / global 96 en 4 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «el programa gráfico TG funciona en modo EDITOR y no habrá comunicación con las centr…»
       doc `TG-ATENCION-El-sistema-no-encuentra-la-protec…` · estrictas doc 6 / global 23 en 9 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «¿Como ampliar una/as licencia/s de un TG?»
       doc `TG-Como ampliar-licencias.pdf` · estrictas doc 8 / global 93 en 2 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Acceda al programa TG con una clave que le permita alcanzar al menú de **Configuraci…»
       doc `TG-Como-borrar-elementos-de-un-plano.pdf` · estrictas doc 3 / global 162 en 11 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Después de instalar el programa gráfico (en adelante TG) debe proceder a la generaci…»
       doc `TG-Como-cargar-añadir-planos.pdf` · estrictas doc 9 / global 115 en 4 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «¿Como se debe de hacer una copia de seguridad del proyecto para la versión 7 del TG?»
       doc `TG-Como-hacer-una-copia-de-seguridad-del-proy…` · estrictas doc 7 / global 148 en 20 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Puede realizar estas indicaciones con el TG arrancado, tanto en Modo Editor como en…»
       doc `TG-Como-puedo-ver-los-equipos-que-no-estan-re…` · estrictas doc 3 / global 109 en 14 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «debe acceder a la utilidad que acompaña al software gráfico TG»
       doc `TG-Como-reparar-Historico-Provisional.pdf` · estrictas doc 12 / global 85 en 12 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Cierre el programa gráfico **TG**»
       doc `TG-Que-clave-tiene-si-se-instala-en-idioma-In…` · estrictas doc 7 / global 120 en 9 docs
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «# TG - SE HA SUPERADO EL MÁXIMO DE LICENCIAS.»
       doc `TG-SE-HA-SUPERADO-EL-MAXIMO-DE-LICENCIAS.pdf` · estrictas doc 9 / global 53 en 13 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:tg` (TG)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✗ «Programa gráfico de gestión, tipo TG de Notifier»
       doc `TG-como-se-configuran-sonidos-ante-eventos.pdf` · estrictas doc 2 / global 92 en 6 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo; sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
 - [ ] `morley:vsn` (VSN)
+      ↳ **s324:** ⏳ en cuarentena (acrónimo corto): el predicado validado NO lo cubre; no se da de alta sin tu sí
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza media · cita ✗ «VSN-RP1R-PLUS2, VSN-Plus y VSN-2PLUS»
       doc `No-funcionan-las-teclas-de-la-central-VSN.pdf` · estrictas doc 2 / global 119 en 19 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo; contradiccion:artefacto-con-fuerte-senal-de-sujeto
 
 **juez:confianza-media** — 14
 
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «quick installation information for your 2X-A control panel»
       doc `00-3280-507-4003-03_r003_2x-a_series_quick_in…` · estrictas doc 0 / global 0 en 0 docs · otros motivos: atencion:etiqueta-270-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `2X-A`
 - [ ] `kidde:kit-2x-afr-c-09` (KIT 2X-AFR-C-09)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «KIDDE™ COMMERCIAL # 2X-AFR-C ## Repetidor de incendios direccionable - Compacto»
       doc `DS_KIDDE_KIT_2X_AFR_C_09_202412_ES_c976.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-AFR-C`
 - [ ] `kidde:zlsm-md` (ZLSM-MD)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «## Kidde MiniLaser»
       doc `DS_KIDDE_ZLSM_MD_202604_ES_8d42.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: atencion:etiqueta-87-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `MiniLaser`
 - [ ] `kidde:zlsm-md` (ZLSM-MD)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_MD_202604_ING_1875.pdf»
       doc `MI_KIDDE_ZLSM_MD_202604_ING_1875.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; atencion:etiqueta-87-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `MiniLaser`
 - [ ] `kidde:zlsm-mr` (ZLSM-MR)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_MR_202604_ING_252a.pdf»
       doc `MI_KIDDE_ZLSM_MR_202604_ING_252a.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `MiniLaser I/O Functional Module`
 - [ ] `morley:fl-20` (FL-20)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «La serie LT MI-FL20 forma parte de la familia Fire Alarm Aspiration Sensing Technolo…»
       doc `I56-3956-201_PT Morley Loop FAAST LT QIG.pdf` · estrictas doc 0 / global 0 en 3 docs
       el juez propone otra grafía: `FAAST LT (serie FL20)`
 - [ ] `morley:morley-ias-max` (Morley-IAS Max)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «Documentación Morley-IAS Max https://buildings.honeywell.com/gb/en/lp/morleymaxtech»
       doc `Docs Morley-IAS Max - QR` · estrictas doc 1 / global 1 en 1 doc
 - [ ] `notifier:hssd` (HSSD)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza media · cita ✓ «Los **detectores HSSD** deben montarse fuera de la cámara frigorífica»
       doc `MADT731_01` · estrictas doc 18 / global 70 en 3 docs · otros motivos: contradiccion:artefacto-con-fuerte-senal-de-sujeto
 - [ ] `notifier:madt-606` (MADT-606)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza media · cita ✗ «Documento de origen: MADT606»
       doc `MADT606` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo
 - [ ] `notifier:nfs-32-001` (NFS-32-001)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «D1056-1_NFXI-BS-BSF»
       doc `D1056-1_NFXI-BS-BSF` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `NFXI-BS-BSF`
 - [ ] `notifier:repetidor-serie-1000` (REPETIDOR SERIE 1000)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «# Repetidor de la Serie 1000 Fire alarm control panel»
       doc `MNDT213.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(Repetidor de la Serie 1000)
       el juez propone otra grafía: `Repetidor de la Serie 1000`
 - [ ] `notifier:securnet-plus-02` (SECURNET PLUS 02)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza media · cita ✓ «**ADEMDUM** | SECURNET PLUS 02<br/>Fecha: 19 / 03 / 2001»
       doc `MADT575_02` · estrictas doc 1 / global 1 en 1 doc
       el juez propone otra grafía: `SECURNET PLUS`
 - [ ] `spectrex:40-40l` (40-40L)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «Modelo S40/40L, LB y S40/40L4, L4B»
       doc `MNDT722_40-40L` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:propone-otra-grafia(S40/40L)
       el juez propone otra grafía: `S40/40L`
 - [ ] `xtralis:vesda` (VESDA)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza media · cita ✗ «La Pantalla de reconocimiento inmediato del detector VESDA VLF muestra los niveles d…»
       doc `HSLI_IN_020_Tabla equivalencia TG` · estrictas doc 3 / global 91 en 7 docs · otros motivos: cita:no-verificada-a-texto-completo; contradiccion:artefacto-con-fuerte-senal-de-sujeto
       el juez propone otra grafía: `VESDA-VLF/VLF-250 (y otros modelos de la gama VESDA)`
@@ -720,25 +827,32 @@ hay que adjudicar.
 **obsoleta:doc-fuente-no-activo** — 7
 
 - [ ] `notifier:ir3-s20` (IR³ S20)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza baja · cita ✗ sin cita en el recibo
       doc `MNDT694` · estrictas doc 0 / global 0 en 0 docs · otros motivos: obsoleta:el-doc-ya-no-declara-ese-product_model; juez:confianza-baja; cita:no-verificada-a-texto-completo
       el juez propone otra grafía: `S20/20SI`
 - [ ] `notifier:smart-twin` (SMART TWIN)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «INSTRUCCIÓN TÉCNICA PARA LOS DETECTORES SMART TWIN»
       doc `MNDT606` · estrictas doc 0 / global 1 en 1 doc
 - [ ] `notifier:spectrex` (SPECTREX)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza alta · cita ✓ «SPECTREX INC. ofrece una garantía al Comprador/Distribuidor sobre los componentes su…»
       doc `MNDT690` · estrictas doc 0 / global 145 en 13 docs · otros motivos: obsoleta:el-doc-ya-no-declara-ese-product_model; contradiccion:artefacto-con-fuerte-senal-de-sujeto
 - [ ] `notifier:tg-notifier` (TG-NOTIFIER)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «TG NOTIFIER VER. 3.2 NOTIFIER ESPAÑA presenta una nueva versión de su programa de gr…»
       doc `MNDT951_v5-87` · estrictas doc 0 / global 42 en 13 docs · otros motivos: obsoleta:el-doc-ya-no-declara-ese-product_model; colision:id-ya-existe-en-el-catalogo-gobernado
 - [ ] `spectrex:20-20i` (20/20I)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «El Modelo 20/20I de Spectrex es un detector de llama de triple espectro infrarrojo d…»
       doc `MNDT700_C` · estrictas doc 0 / global 9 en 4 docs · otros motivos: ambiguedad:termino-multi-modelo; fabricante:discrepa-de-la-ficha-del-documento
 - [ ] `spectrex:20-20lb` (20/20LB)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **PRODUCTO_REAL** · rol TABLA_DE_MODELOS · confianza alta · cita ✓ «el modelo 20/20LB incluye la opción de Prueba Incorporada (BIT), mientras que el 20/…»
       doc `MNDT720` · estrictas doc 0 / global 13 en 3 docs · otros motivos: obsoleta:el-doc-ya-no-declara-ese-product_model; ambiguedad:termino-multi-modelo; fabricante:discrepa-de-la-ficha-del-documento
 - [ ] `spectrex:20-20ub` (20/20UB)
+      ↳ **s324:** ✅ RESUELTO por R6 (fuente retirada → no se da de alta): no decides nada
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza alta · cita ✓ «La diferencia entre el modelo 20/20U y 20/20UB es que el Modelo 20/20UB incluye una…»
       doc `MNDT710_B` · estrictas doc 0 / global 12 en 1 doc · otros motivos: obsoleta:el-doc-ya-no-declara-ese-product_model; ambiguedad:termino-multi-modelo; fabricante:discrepa-de-la-ficha-del-documento
 
@@ -775,6 +889,7 @@ hay que adjudicar.
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # KE-DBA-SKTW **Intelligent addressable base accessory - trim skirt…»
       doc `HD_KE_DBA_SKTW_202407_ING_2da9.pdf` · estrictas doc 4 / global 8 en 3 docs
 - [ ] `notifier:nfs-32-001` (NFS-32-001)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **NORMA_O_CERTIFICACION** · rol FRASE_TECNICA · confianza alta · cita ✓ «French Fire Sound AFNOR<br/>NFS 32-001»
       doc `D838-1_kac sounders` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `NF S 32-001`
@@ -782,10 +897,12 @@ hay que adjudicar.
 **atencion:etiqueta-270-chunks-sin-aparecer-verbatim** — 2
 
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «This document lists the products compatible for use with your 2X-A Series fire alarm…»
       doc `bcn-3100035-en_r006_2x-a_series_addressable_c…` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-A Series`
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «2X-A and ZP2-A Series Addressable Control Panel Compatibility List (900 Series Proto…»
       doc `bcn-3100036-en_r002_2x-a_and_zp2-a_series_add…` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-A`
@@ -807,6 +924,7 @@ hay que adjudicar.
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza alta · cita ✓ «MIE-MA-100_01_C 27/07/04 Morley-IAS ESPAÑA 1 de 4»
       doc `MIE-MA-100_01.pdf` · estrictas doc 4 / global 8 en 2 docs
 - [ ] `xtralis:vesda` (VESDA)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza alta · cita ✓ «Instalación y programación del sistema de aspiración Vesda»
       doc `Cursos formacion_Marzo 2026.pdf` · estrictas doc 8 / global 88 en 11 docs
 
@@ -855,6 +973,7 @@ hay que adjudicar.
 **juez:veredicto-no-bloqueable(NO_DECIDIBLE)** — 1
 
 - [ ] `kidde:zlsm-mr` (ZLSM-MR)
+      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
       **NO_DECIDIBLE** · rol NO_APARECE · confianza media · cita ✓ «AIRSENSE # 9-30521 **Módulo funcional de entrada/salida MiniLaser**»
       doc `DS_KIDDE_ZLSM_MR_202604_ES_6a09.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `9-30521`
@@ -862,6 +981,7 @@ hay que adjudicar.
 **sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo** — 1
 
 - [ ] `kidde:ke-dp3121b` (KE-DP3121B)
+      ↳ **s324:** ✅ ALTA aplicada (R4) · cita verificada en HD_KE_DP3121B_202407_ES_8c51.pdf
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # KE-DP3121B **Detector de calor/óptico dual direccionable intelige…»
       doc `HD_KE_DP3121B_202407_ES_8c51.pdf` · estrictas doc 2 / global 26 en 7 docs
 
