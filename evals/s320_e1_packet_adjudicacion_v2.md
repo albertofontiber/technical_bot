@@ -1,7 +1,7 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 19:35Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 19:45Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
 > - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
@@ -18,6 +18,7 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
 
 
 
@@ -400,7 +401,7 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:nfxi-bsf-wch` · cita verificada en HOP-138-9ES issue 5_11-2025_In · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
-      ↳ **s324:** ⏳ PENDIENTE DE TI — STRATOS es la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): por R2 una etiqueta de familia no es producto. ¿Doy de alta los modelos Stratos-HSSD y Stratos-Micra (y STRATOS como paraguas)?
+      ↳ **s324:** ✅ RESUELTO (tu «este doc es paraguas»): STRATOS = paraguas de familia con sus modelos ya catalogados bajo nombre Notifier (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); MADT731_02 → doc_map a los 3; retirados 2 alias erróneos (Stratos-HSSD→SenseNET, Stratos-HSSD detector→MiniLáser25) · recibo `s324b_stratos_aplicar_*.json`
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
       ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `spectrex:s40-40m` · cita verificada en MNDT725_40-40M · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
@@ -428,9 +429,11 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
 - [ ] `fidegas:el-11` (EL-11) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `Manual-de-Usuario-S3-2`
       estrictas 0 · mayúsculas 0 · como fragmento 1 · cita ✓ «Elaborado y aprobado en Revisión 21 el 11/2018 por Dpto. Calidad.»
       razón: «EL-11» nace de la fecha «el 11/2018»; el producto real del manual es el sensor remoto S/3-2.
+      ALBERTO: Modelo S/3-2
 - [ ] `fidegas:el-11` (EL-11) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `Manual-de-Usuario-S3-IR-y-S-2-IR`
       estrictas 0 · mayúsculas 0 · como fragmento 1 · cita ✓ «Elaborado y aprobado en Revisión 13 el 11/2018 por Dpto. Calidad»
       razón: «EL-11» nace de la fecha «el 11/2018»; el producto real del manual es el sensor remoto S/3-IR y S/2-IR.
+      ALBERTO: Modelos S/3-IR y S/2-IR
 - [ ] `morley:de-80` (DE-80) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `TG-Cuales-son-los-requisitos-del-PC-para-el-progr…`
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «Se requiere un disco duro con un mínimo de 80 Gb de espacio libre»
       razón: Nació de la preposición española «de 80» en medidas (80 Gb, 80 columnas, 80 caracteres); nunca aparece como modelo.
@@ -981,10 +984,12 @@ hay que adjudicar.
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «*STRATOS* HSSD® # DETECTOR DE HUMO DE # ALTA SENSIBILIDAD»
       doc `MNDT730.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`
+      ALBERTO: modelo que propone el juez
 - [ ] `notifier:stratos-hssd` (STRATOS HSSD)
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Central SENSENET (Stratos-HSSD)»
       doc `MNDT730P.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`
+      ALBERTO: versión portuguesa, retirar doc.
 
 **contradiccion:artefacto-con-fuerte-senal-de-sujeto** — 2
 

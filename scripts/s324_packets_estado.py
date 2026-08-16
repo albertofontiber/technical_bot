@@ -117,7 +117,7 @@ def main() -> None:
         elif rec0c and fid == "morley:vision-supra":
             est_id[fid] = "✅ RESUELTO (tu «baja, confirmo»): documento retirado del corpus; sin alta"
         elif rec0c and fid == "notifier:stratos":
-            est_id[fid] = "⏳ PENDIENTE DE TI — STRATOS es la GAMA de aspiración AirSense (el corpus nombra Stratos-HSSD ×6 y Stratos-Micra ×5): por R2 una etiqueta de familia no es producto. ¿Doy de alta los modelos Stratos-HSSD y Stratos-Micra (y STRATOS como paraguas)?"
+            est_id[fid] = "✅ RESUELTO (tu «este doc es paraguas»): STRATOS = paraguas de familia con sus modelos ya catalogados bajo nombre Notifier (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); MADT731_02 → doc_map a los 3; retirados 2 alias erróneos (Stratos-HSSD→SenseNET, Stratos-HSSD detector→MiniLáser25) · recibo `s324b_stratos_aplicar_*.json`"
         elif rec0c and fid == "notifier:nfxi-bsf-wch":
             est_id[fid] = "✅ ALTA aplicada como `notifier:nfxi-bsf-wch` (grafía firmada; 3 docs INSPIRE) + alias `NFXI-BSF-WC` (5 docs AM-8200) — si WC y WCH fueran DOS productos, dilo y se separan"
         else:
