@@ -3095,9 +3095,29 @@ del `MC-380` (`pm=CAD-250`)**, el manual compartido de la serie que documenta AV
 fuera** (M710/MI-DMMI con columna `M700`/lista); `hp012` 30% (`MPDT-280`); `cat009` 40%; `hp005/hp008` 3%.
 Esos chunks **no aportan obligaciones estructuradas** aunque el catálogo los declare del producto.
 
-**Lo que esto decide y lo que NO**: decide que #84 es daño real de serving, no solo metadata (2 golds con
-más de la mitad de su material primary excluido). NO decide el fix: sigue exigiendo dúo + delta en eval
-(Protocolo 2). Y ojo al control: 2 golds sin modelo en la query se EXCLUYEN (la función devuelve `[]` por
+**Lo que esto decide y lo que NO** — ⚠️ **CORREGIDO el 16-ago tarde, tras cruzarlo con el FULL**: escribí
+«decide que #84 es daño real de serving». **Falso tal como estaba escrito**: lo medido eran CHUNKS
+EXCLUIDOS, no fallos. Cruzado contra el FULL del mismo día (`s100_factlevel_full_v3_20260816.yaml`),
+**#84 no explica NI UN SOLO miss**:
+
+| gold | % material primary FUERA | clases hoy |
+|---|---|---|
+| `hp021` | 62,1% | OK · OK — **sin fallos** |
+| `hp006` | 47,9% | OK · OK — **sin fallos** |
+| `cat009` | 40,0% | OK — **sin fallos** |
+| `hp012` | 30,5% | 4× OK — **sin fallos** |
+| `hp008` | 2,7% | 5× OK — **sin fallos** |
+| `cat008` · `hp005` · `hp011` | 100% · 2,7% · 0,8% | 1 `synthesis-miss` cada uno — **servido y omitido ⇒ no es alineado** |
+
+Y el sospechoso obvio —`cat011#1`, `retrieval-miss` con submotivo **`model-filter`**— **no es #84**: su
+pregunta no nombra modelo, luego `_product_aligned_chunks` devuelve `[]` **por diseño** (es el control C1
+del propio censo).
+
+⇒ **REPRIORIDAD**: #84 sigue siendo un defecto estructural real y medido (12,7% del material primary del
+producto no se alinea; la columna NO es la aplicabilidad), pero su **coste medido hoy sobre los 40 dev es
+CERO misses**. **No urge.** Si algún día se toca, sigue exigiendo dúo + delta en eval (Protocolo 2) — y
+ahora con un baseline incómodo: cualquier fix tendrá que demostrar que mueve algo, porque hoy no hay nada
+medido que mover. Y ojo al control: 2 golds sin modelo en la query se EXCLUYEN (la función devuelve `[]` por
 diseño — no es #84), y `hp021` está en la población porque ya existe (DEC-224).
 
 ## #85 — El guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con distinta semántica que su consumidor: un `"0"` (APAGADO) dispara el guard del ENCENDIDO (s321)

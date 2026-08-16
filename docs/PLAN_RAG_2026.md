@@ -65,13 +65,22 @@ la clase «confianza media con sujeto nombrado» (E1 14 + E1b 42) → lo converg
 (NO se aplica). (c) **Re-derivar el snapshot E2** (`s320_e2_snapshot_derivado.py`) y pasar G1/G2
 tras el cambio de catálogo, antes de cualquier swap. (d) **#80/#81**: las fases A (repunte 49), B (resolución TIPADA en la ingesta) y C
 (gate de invariantes corpus↔catálogo) quedaron APLICADAS en s323 (PRs #266–#268); resta solo el
-backfill #81 por igualdad exacta de sha → packet (pocos o ningún caso, y es lo correcto). (e) **FULL fresco v3.2** — sigue sin medirse el bot e2e desde el elefante; el censo
+backfill #81 por igualdad exacta de sha → packet (pocos o ningún caso, y es lo correcto). (e) ~~**FULL fresco v3.2** — sigue sin medirse el bot e2e desde el elefante~~ **HECHO (16-ago tarde, PR #273): 116/135 OK (86%), paridad con s291; los 6 golds de la sentada por hecho = lo pretendido, 0 regresiones; fila 2026-08-16b en el scoreboard.** El censo; el censo
 de s324 NO mide retrieval/generación. (f) smoke de recepción en cloud (DEC-220). (g) OCR de TI-007
 + censo de ingestas vacías (#87). (h) #86: endurecer el runner Fable (exigir `tool_use` reales o
-marcar `sin_tools`) y no commitear durante un run emparejado. (i) **Lo de la sesión paralela
-s321-ruler (mismo día, mañana): su «Qué sigue» sigue vigente en el bloque siguiente** — cablear la
-conducta (a) de `mismatch`, reescribir DEC-186, #84 medir daño en serving, sonda hp013#1, re-medir
-factlevel (smoke antes del full).
+marcar `sin_tools`) y no commitear durante un run emparejado. (i) **s321-ruler: su «Qué sigue» de la MAÑANA está SUPERADO por la tarde autónoma (PRs #273/#274).**
+Estado real de los 5: **re-medir factlevel HECHO** (smoke #271 + FULL #273) · **#84 medido** — y ver la
+corrección en `TECH_DEBT #84`: **0 misses atribuibles** · **sonda `hp013#1` hecha** (NO_ALCANZABLE; sale
+de la población de lever B, que queda en ≥2) · **conducta (a) del `mismatch` NO cableada A PROPÓSITO**
+(DEC-226: 4 subsistemas + una decisión de producto de Alberto) · **DEC-186b NO escrita A PROPÓSITO**
+(reconciliación de 4 docs + prereg + pregunta cero de Alberto).
+(j) **NUEVO, del FULL — la cola de síntesis DIMENSIONADA**: de los 19 hechos no-OK, **12 son de síntesis
+y 10 de ellos son «servido y OMITIDO»** (el carrier llega al generador y el LLM no lo dice), repartidos
+**1 por gold en 10 preguntas distintas** — no hay preguntas rotas, hay UN mecanismo. Solo **4 de los 12
+tienen sonda de alcanzabilidad** (Protocolo 4): `hp017#2` y `hp003#4` **atacables PROBADOS** (0/5→5/5),
+`hp011#2` **no** (0/5→0/5), `cat017#2` ya flipeó a OK. **Los 8 restantes están SIN SONDAR, ~$1 cada uno**
+⇒ el movimiento barato y correcto antes de diseñar ningún lever es **sondarlos** y saber si hay población
+(la pregunta abierta de DEC-175). Análisis: `evals/s321_full_analisis_fallos_v1.md`; **encargo listo para ejecutar** (los 8 con su modo, su `--span-grep` propuesto y las 3 trampas conocidas): `evals/s321_encargo_sondas_etapa3_v1.md`.
 
 ## Estado anterior (s321-ruler — 16 ago 2026, sesión paralela)
 
