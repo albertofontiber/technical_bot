@@ -1,0 +1,1590 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220438Z",
+ "plan_sha": "de85d983af0c4b3f",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 81,
+  "retiradas": 0,
+  "aliases_quitados": 14,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1878,
+  "entran": 134,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "586T",
+    "normkey": "586t",
+    "core": "586[-\\s/.+]*t",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFM-16AT",
+    "normkey": "afm16at",
+    "core": "afm[-\\s/.+]*16[-\\s/.+]*at",
+    "origen": "confirmar notifier:afm-16at",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "afm[-\\s/.+]*16[-\\s/.+]*atf",
+     "afm[-\\s/.+]*16[-\\s/.+]*atx"
+    ]
+   },
+   {
+    "termino": "AFM-32A",
+    "normkey": "afm32a",
+    "core": "afm[-\\s/.+]*32[-\\s/.+]*a",
+    "origen": "confirmar notifier:afm-32a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AIM-200",
+    "normkey": "aim200",
+    "core": "aim[-\\s/.+]*200",
+    "origen": "confirmar notifier:aim-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AM-200",
+    "normkey": "am200",
+    "core": "am[-\\s/.+]*200",
+    "origen": "confirmar notifier:am-200",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*2000"
+    ]
+   },
+   {
+    "termino": "AM-200 Control Panel",
+    "normkey": "am200controlpanel",
+    "core": "am[-\\s/.+]*200[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AM-8200N",
+    "normkey": "am8200n",
+    "core": "am[-\\s/.+]*8200[-\\s/.+]*n",
+    "origen": "confirmar notifier:am-8200n",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*8200"
+    ]
+   },
+   {
+    "termino": "AM-8200N AW70PC0",
+    "normkey": "am8200naw70pc0",
+    "core": "am[-\\s/.+]*8200[-\\s/.+]*n[-\\s/.+]*aw[-\\s/.+]*70[-\\s/.+]*pc[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*8200"
+    ]
+   },
+   {
+    "termino": "AM-8200N-KLCD (tarjeta frontal equipada)",
+    "normkey": "am8200nklcd(tarjetafrontalequipada)",
+    "core": "am[-\\s/.+]*8200[-\\s/.+]*n[-\\s/.+]*klcd[-\\s/.+]*tarjeta[-\\s/.+]*frontal[-\\s/.+]*equipada",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*8200"
+    ]
+   },
+   {
+    "termino": "AM-82N-TOP (estructura de montaje asociada)",
+    "normkey": "am82ntop(estructurademontajeasociada)",
+    "core": "am[-\\s/.+]*82[-\\s/.+]*n[-\\s/.+]*top[-\\s/.+]*estructura[-\\s/.+]*de[-\\s/.+]*montaje[-\\s/.+]*asociada",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*82[-\\s/.+]*n[-\\s/.+]*top"
+    ]
+   },
+   {
+    "termino": "AMG-X4",
+    "normkey": "amgx4",
+    "core": "amg[-\\s/.+]*x[-\\s/.+]*4",
+    "origen": "confirmar notifier:amg-x4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ANUNCIADOR LCD-80TM",
+    "normkey": "anunciadorlcd80tm",
+    "core": "anunciador[-\\s/.+]*lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AW70PC0",
+    "normkey": "aw70pc0",
+    "core": "aw[-\\s/.+]*70[-\\s/.+]*pc[-\\s/.+]*0",
+    "origen": "confirmar notifier:aw70pc0",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AW70PC0 (tarjeta CPU)",
+    "normkey": "aw70pc0(tarjetacpu)",
+    "core": "aw[-\\s/.+]*70[-\\s/.+]*pc[-\\s/.+]*0[-\\s/.+]*tarjeta[-\\s/.+]*cpu",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AW70PP1 (tarjeta de alimentación CN1)",
+    "normkey": "aw70pp1(tarjetadealimentacioncn1)",
+    "core": "aw[-\\s/.+]*70[-\\s/.+]*pp[-\\s/.+]*1[-\\s/.+]*tarjeta[-\\s/.+]*de[-\\s/.+]*alimentacion[-\\s/.+]*cn[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BE-1010N",
+    "normkey": "be1010n",
+    "core": "be[-\\s/.+]*1010[-\\s/.+]*n",
+    "origen": "confirmar notifier:be-1010n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BE-2020N",
+    "normkey": "be2020n",
+    "core": "be[-\\s/.+]*2020[-\\s/.+]*n",
+    "origen": "confirmar notifier:be-2020n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BE-400",
+    "normkey": "be400",
+    "core": "be[-\\s/.+]*400",
+    "origen": "confirmar notifier:be-400",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BX-501",
+    "normkey": "bx501",
+    "core": "bx[-\\s/.+]*501",
+    "origen": "confirmar notifier:bx-501",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BX-501 Base",
+    "normkey": "bx501base",
+    "core": "bx[-\\s/.+]*501[-\\s/.+]*base",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-3 tamaño D",
+    "normkey": "cab3tamanod",
+    "core": "cab[-\\s/.+]*3[-\\s/.+]*tamano[-\\s/.+]*d",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-400AA",
+    "normkey": "cab400aa",
+    "core": "cab[-\\s/.+]*400[-\\s/.+]*aa",
+    "origen": "confirmar notifier:cab-400aa",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-A3",
+    "normkey": "caba3",
+    "core": "cab[-\\s/.+]*a[-\\s/.+]*3",
+    "origen": "confirmar notifier:cab-a3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-A3 - Gabinete de Hilera Singular",
+    "normkey": "caba3gabinetedehilerasingular",
+    "core": "cab[-\\s/.+]*a[-\\s/.+]*3[-\\s/.+]*gabinete[-\\s/.+]*de[-\\s/.+]*hilera[-\\s/.+]*singular",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-B3",
+    "normkey": "cabb3",
+    "core": "cab[-\\s/.+]*b[-\\s/.+]*3",
+    "origen": "confirmar notifier:cab-b3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-B3 - Gabinete de Hilera Doble",
+    "normkey": "cabb3gabinetedehileradoble",
+    "core": "cab[-\\s/.+]*b[-\\s/.+]*3[-\\s/.+]*gabinete[-\\s/.+]*de[-\\s/.+]*hilera[-\\s/.+]*doble",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-C3",
+    "normkey": "cabc3",
+    "core": "cab[-\\s/.+]*c[-\\s/.+]*3",
+    "origen": "confirmar notifier:cab-c3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-C3 - Gabinete de Hilera Triple",
+    "normkey": "cabc3gabinetedehileratriple",
+    "core": "cab[-\\s/.+]*c[-\\s/.+]*3[-\\s/.+]*gabinete[-\\s/.+]*de[-\\s/.+]*hilera[-\\s/.+]*triple",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-D3",
+    "normkey": "cabd3",
+    "core": "cab[-\\s/.+]*d[-\\s/.+]*3",
+    "origen": "confirmar notifier:cab-d3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-D3 - Gabinete de Hilera Cuádruple",
+    "normkey": "cabd3gabinetedehileracuadruple",
+    "core": "cab[-\\s/.+]*d[-\\s/.+]*3[-\\s/.+]*gabinete[-\\s/.+]*de[-\\s/.+]*hilera[-\\s/.+]*cuadruple",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "chip del AMG-X4",
+    "normkey": "chipdelamgx4",
+    "core": "chip[-\\s/.+]*del[-\\s/.+]*amg[-\\s/.+]*x[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMX-10",
+    "normkey": "cmx10",
+    "core": "cmx[-\\s/.+]*10",
+    "origen": "confirmar notifier:cmx-10",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cmx[-\\s/.+]*10[-\\s/.+]*rm"
+    ]
+   },
+   {
+    "termino": "CMX-10R",
+    "normkey": "cmx10r",
+    "core": "cmx[-\\s/.+]*10[-\\s/.+]*r",
+    "origen": "confirmar notifier:cmx-10r",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cmx[-\\s/.+]*10[-\\s/.+]*rm"
+    ]
+   },
+   {
+    "termino": "CPX-551",
+    "normkey": "cpx551",
+    "core": "cpx[-\\s/.+]*551",
+    "origen": "confirmar notifier:cpx-551",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CPX-751",
+    "normkey": "cpx751",
+    "core": "cpx[-\\s/.+]*751",
+    "origen": "confirmar notifier:cpx-751",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cpx[-\\s/.+]*751[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "cubierta del PCLB-5",
+    "normkey": "cubiertadelpclb5",
+    "core": "cubierta[-\\s/.+]*del[-\\s/.+]*pclb[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DIA-1010",
+    "normkey": "dia1010",
+    "core": "dia[-\\s/.+]*1010",
+    "origen": "confirmar notifier:dia-1010",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DIA-2020",
+    "normkey": "dia2020",
+    "core": "dia[-\\s/.+]*2020",
+    "origen": "confirmar notifier:dia-2020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "EIA-485",
+    "normkey": "eia485",
+    "core": "eia[-\\s/.+]*485",
+    "origen": "confirmar notifier:eia-485",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "eia[-\\s/.+]*485[-\\s/.+]*modulo[-\\s/.+]*interface"
+    ]
+   },
+   {
+    "termino": "EPROM AMG-X4",
+    "normkey": "epromamgx4",
+    "core": "eprom[-\\s/.+]*amg[-\\s/.+]*x[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAT3000",
+    "normkey": "fat3000",
+    "core": "fat[-\\s/.+]*3000",
+    "origen": "confirmar notifier:fat3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FDX-551",
+    "normkey": "fdx551",
+    "core": "fdx[-\\s/.+]*551",
+    "origen": "confirmar notifier:fdx-551",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "fdx[-\\s/.+]*551[-\\s/.+]*em",
+     "fdx[-\\s/.+]*551[-\\s/.+]*htem",
+     "fdx[-\\s/.+]*551[-\\s/.+]*rem"
+    ]
+   },
+   {
+    "termino": "FDX-551R",
+    "normkey": "fdx551r",
+    "core": "fdx[-\\s/.+]*551[-\\s/.+]*r",
+    "origen": "confirmar notifier:fdx-551r",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "fdx[-\\s/.+]*551[-\\s/.+]*rem"
+    ]
+   },
+   {
+    "termino": "FIL-NAS-2",
+    "normkey": "filnas2",
+    "core": "fil[-\\s/.+]*nas[-\\s/.+]*2",
+    "origen": "confirmar notifier:fil-nas-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "gabinete del PCLB-5",
+    "normkey": "gabinetedelpclb5",
+    "core": "gabinete[-\\s/.+]*del[-\\s/.+]*pclb[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "gama ID1000",
+    "normkey": "gamaid1000",
+    "core": "gama[-\\s/.+]*id[-\\s/.+]*1000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-131-206",
+    "normkey": "hop131206",
+    "core": "hop[-\\s/.+]*131[-\\s/.+]*206",
+    "origen": "confirmar notifier:hop-131-206",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-134-412",
+    "normkey": "hop134412",
+    "core": "hop[-\\s/.+]*134[-\\s/.+]*412",
+    "origen": "confirmar notifier:hop-134-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-208-111",
+    "normkey": "hop208111",
+    "core": "hop[-\\s/.+]*208[-\\s/.+]*111",
+    "origen": "confirmar notifier:hop-208-111",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HSP-121B",
+    "normkey": "hsp121b",
+    "core": "hsp[-\\s/.+]*121[-\\s/.+]*b",
+    "origen": "confirmar notifier:hsp-121b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ID1000",
+    "normkey": "id1000",
+    "core": "id[-\\s/.+]*1000",
+    "origen": "confirmar notifier:id1000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751",
+    "normkey": "idx751",
+    "core": "idx[-\\s/.+]*751",
+    "origen": "confirmar notifier:idx-751",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IPX-751",
+    "normkey": "ipx751",
+    "core": "ipx[-\\s/.+]*751",
+    "origen": "confirmar notifier:ipx-751",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IRX-751CTEM",
+    "normkey": "irx751ctem",
+    "core": "irx[-\\s/.+]*751[-\\s/.+]*ctem",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IRX-751CTEM-W",
+    "normkey": "irx751ctemw",
+    "core": "irx[-\\s/.+]*751[-\\s/.+]*ctem[-\\s/.+]*w",
+    "origen": "confirmar notifier:irx-751ctem-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "La central AM-200",
+    "normkey": "lacentralam200",
+    "core": "la[-\\s/.+]*central[-\\s/.+]*am[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-80",
+    "normkey": "lcd80",
+    "core": "lcd[-\\s/.+]*80",
+    "origen": "confirmar notifier:lcd-80",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-80TM",
+    "normkey": "lcd80tm",
+    "core": "lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "confirmar notifier:lcd-80tm",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-8200",
+    "normkey": "lcd8200",
+    "core": "lcd[-\\s/.+]*8200",
+    "origen": "confirmar notifier:lcd-8200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LIB-8200",
+    "normkey": "lib8200",
+    "core": "lib[-\\s/.+]*8200",
+    "origen": "confirmar notifier:lib-8200",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lib[-\\s/.+]*8200[-\\s/.+]*g",
+     "lib[-\\s/.+]*8200[-\\s/.+]*n"
+    ]
+   },
+   {
+    "termino": "LPX-751",
+    "normkey": "lpx751",
+    "core": "lpx[-\\s/.+]*751",
+    "origen": "confirmar notifier:lpx-751",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LTS-240",
+    "normkey": "lts240",
+    "core": "lts[-\\s/.+]*240",
+    "origen": "confirmar notifier:lts-240",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "M710-CZ",
+    "normkey": "m710cz",
+    "core": "m[-\\s/.+]*710[-\\s/.+]*cz",
+    "origen": "confirmar notifier:m710-cz",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "m[-\\s/.+]*710",
+     "m[-\\s/.+]*710[-\\s/.+]*czr"
+    ]
+   },
+   {
+    "termino": "minigabinete CAB-400AA",
+    "normkey": "minigabinetecab400aa",
+    "core": "minigabinete[-\\s/.+]*cab[-\\s/.+]*400[-\\s/.+]*aa",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MON-17B",
+    "normkey": "mon17b",
+    "core": "mon[-\\s/.+]*17[-\\s/.+]*b",
+    "origen": "confirmar notifier:mon-17b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MON-21",
+    "normkey": "mon21",
+    "core": "mon[-\\s/.+]*21",
+    "origen": "confirmar notifier:mon-21",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Monitor de 17pulgadas (431.8 mm) (MON-17B)",
+    "normkey": "monitorde17pulgadas(431.8mm)(mon17b)",
+    "core": "monitor[-\\s/.+]*de[-\\s/.+]*17[-\\s/.+]*pulgadas[-\\s/.+]*431[-\\s/.+]*8[-\\s/.+]*mm[-\\s/.+]*mon[-\\s/.+]*17[-\\s/.+]*b",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Monitor de 21pulgadas (533.4 mm) (MON-21)",
+    "normkey": "monitorde21pulgadas(533.4mm)(mon21)",
+    "core": "monitor[-\\s/.+]*de[-\\s/.+]*21[-\\s/.+]*pulgadas[-\\s/.+]*533[-\\s/.+]*4[-\\s/.+]*mm[-\\s/.+]*mon[-\\s/.+]*21",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NR45-24E",
+    "normkey": "nr4524e",
+    "core": "nr[-\\s/.+]*45[-\\s/.+]*24[-\\s/.+]*e",
+    "origen": "confirmar notifier:nr45-24e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nr[-\\s/.+]*45[-\\s/.+]*24"
+    ]
+   },
+   {
+    "termino": "NRT-586T",
+    "normkey": "nrt586t",
+    "core": "nrt[-\\s/.+]*586[-\\s/.+]*t",
+    "origen": "confirmar notifier:nrt-586t",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAN-AVD1",
+    "normkey": "panavd1",
+    "core": "pan[-\\s/.+]*avd[-\\s/.+]*1",
+    "origen": "confirmar notifier:pan-avd1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "pantalla alfanumérica LCD-80TM",
+    "normkey": "pantallaalfanumericalcd80tm",
+    "core": "pantalla[-\\s/.+]*alfanumerica[-\\s/.+]*lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PCLB-5",
+    "normkey": "pclb5",
+    "core": "pclb[-\\s/.+]*5",
+    "origen": "confirmar notifier:pclb-5",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-8200",
+    "normkey": "pk8200",
+    "core": "pk[-\\s/.+]*8200",
+    "origen": "confirmar notifier:pk-8200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-8200.EXE",
+    "normkey": "pk8200.exe",
+    "core": "pk[-\\s/.+]*8200[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK8200 1.2",
+    "normkey": "pk82001.2",
+    "core": "pk[-\\s/.+]*8200[-\\s/.+]*1[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000",
+    "normkey": "pkid3000",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "confirmar notifier:pk-id3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000 REV 2.03G",
+    "normkey": "pkid3000rev2.03g",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000[-\\s/.+]*rev[-\\s/.+]*2[-\\s/.+]*03[-\\s/.+]*g",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PRN2000",
+    "normkey": "prn2000",
+    "core": "prn[-\\s/.+]*2000",
+    "origen": "confirmar notifier:prn2000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PRN80",
+    "normkey": "prn80",
+    "core": "prn[-\\s/.+]*80",
+    "origen": "confirmar notifier:prn80",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "protector de la línea eléctrica HSP-121B",
+    "normkey": "protectordelalineaelectricahsp121b",
+    "core": "protector[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*linea[-\\s/.+]*electrica[-\\s/.+]*hsp[-\\s/.+]*121[-\\s/.+]*b",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PSU3A",
+    "normkey": "psu3a",
+    "core": "psu[-\\s/.+]*3[-\\s/.+]*a",
+    "origen": "confirmar notifier:psu3a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Ref.: 020-648",
+    "normkey": "ref.:020648",
+    "core": "ref[-\\s/.+]*020[-\\s/.+]*648",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "RTU01",
+    "normkey": "rtu01",
+    "core": "rtu[-\\s/.+]*01",
+    "origen": "confirmar notifier:rtu01",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2138SD",
+    "normkey": "s2138sd",
+    "core": "s[-\\s/.+]*2138[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2138sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2139SD",
+    "normkey": "s2139sd",
+    "core": "s[-\\s/.+]*2139[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2139sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2140ND",
+    "normkey": "s2140nd",
+    "core": "s[-\\s/.+]*2140[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2140nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2141ND",
+    "normkey": "s2141nd",
+    "core": "s[-\\s/.+]*2141[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2141nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2142CL",
+    "normkey": "s2142cl",
+    "core": "s[-\\s/.+]*2142[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2142cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2143CL",
+    "normkey": "s2143cl",
+    "core": "s[-\\s/.+]*2143[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2143cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2147HC",
+    "normkey": "s2147hc",
+    "core": "s[-\\s/.+]*2147[-\\s/.+]*hc",
+    "origen": "confirmar notifier:s2147hc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2170SD",
+    "normkey": "s2170sd",
+    "core": "s[-\\s/.+]*2170[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2170sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2171SD",
+    "normkey": "s2171sd",
+    "core": "s[-\\s/.+]*2171[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2171sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2172ND",
+    "normkey": "s2172nd",
+    "core": "s[-\\s/.+]*2172[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2172nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2173ND",
+    "normkey": "s2173nd",
+    "core": "s[-\\s/.+]*2173[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2173nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2174CL",
+    "normkey": "s2174cl",
+    "core": "s[-\\s/.+]*2174[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2174cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2175CL",
+    "normkey": "s2175cl",
+    "core": "s[-\\s/.+]*2175[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2175cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2311HC",
+    "normkey": "s2311hc",
+    "core": "s[-\\s/.+]*2311[-\\s/.+]*hc",
+    "origen": "confirmar notifier:s2311hc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SDX-551",
+    "normkey": "sdx551",
+    "core": "sdx[-\\s/.+]*551",
+    "origen": "confirmar notifier:sdx-551",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SDX-551TH",
+    "normkey": "sdx551th",
+    "core": "sdx[-\\s/.+]*551[-\\s/.+]*th",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Serie ID1000",
+    "normkey": "serieid1000",
+    "core": "serie[-\\s/.+]*id[-\\s/.+]*1000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "sistema LTS 240",
+    "normkey": "sistemalts240",
+    "core": "sistema[-\\s/.+]*lts[-\\s/.+]*240",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d Cl2",
+    "normkey": "smart3ccexdcl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d HCl",
+    "normkey": "smart3ccexdhcl",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*hcl",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d NO2",
+    "normkey": "smart3ccexdno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d SO2",
+    "normkey": "smart3ccexdso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n Cl2",
+    "normkey": "smart3ccexncl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n NO2",
+    "normkey": "smart3ccexnno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n SO2",
+    "normkey": "smart3ccexnso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d Cl2",
+    "normkey": "smart3cdexdcl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d HCl",
+    "normkey": "smart3cdexdhcl",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*hcl",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d NO2",
+    "normkey": "smart3cdexdno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d SO2",
+    "normkey": "smart3cdexdso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n Cl2",
+    "normkey": "smart3cdexncl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n NO2",
+    "normkey": "smart3cdexnno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n SO2",
+    "normkey": "smart3cdexnso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3G con pantalla",
+    "normkey": "smart3gconpantalla",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*con[-\\s/.+]*pantalla",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3G-D",
+    "normkey": "smart3gd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d",
+    "origen": "confirmar notifier:smart3g-d",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3"
+    ]
+   },
+   {
+    "termino": "SMART4",
+    "normkey": "smart4",
+    "core": "smart[-\\s/.+]*4",
+    "origen": "confirmar notifier:smart4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART4 (abreviado a SMT4)",
+    "normkey": "smart4(abreviadoasmt4)",
+    "core": "smart[-\\s/.+]*4[-\\s/.+]*abreviado[-\\s/.+]*a[-\\s/.+]*smt[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 4 (COPTIR) Multi-sensor",
+    "normkey": "smart4(coptir)multisensor",
+    "core": "smart[-\\s/.+]*4[-\\s/.+]*coptir[-\\s/.+]*multi[-\\s/.+]*sensor",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMT4",
+    "normkey": "smt4",
+    "core": "smt[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "STPL4",
+    "normkey": "stpl4",
+    "core": "stpl[-\\s/.+]*4",
+    "origen": "confirmar notifier:stpl4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-6000",
+    "normkey": "tg6000",
+    "core": "tg[-\\s/.+]*6000",
+    "origen": "confirmar notifier:tg-6000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000 VER 3.2",
+    "normkey": "tg6000ver3.2",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*ver[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TR-500",
+    "normkey": "tr500",
+    "core": "tr[-\\s/.+]*500",
+    "origen": "confirmar notifier:tr-500",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TR-500 Trim Ring",
+    "normkey": "tr500trimring",
+    "core": "tr[-\\s/.+]*500[-\\s/.+]*trim[-\\s/.+]*ring",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UDS-3",
+    "normkey": "uds3",
+    "core": "uds[-\\s/.+]*3",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UDS-3N",
+    "normkey": "uds3n",
+    "core": "uds[-\\s/.+]*3[-\\s/.+]*n",
+    "origen": "confirmar notifier:uds-3n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "unidad de terminación de transmisión RTU01",
+    "normkey": "unidaddeterminaciondetransmisionrtu01",
+    "core": "unidad[-\\s/.+]*de[-\\s/.+]*terminacion[-\\s/.+]*de[-\\s/.+]*transmision[-\\s/.+]*rtu[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UPDL-1020",
+    "normkey": "updl1020",
+    "core": "updl[-\\s/.+]*1020",
+    "origen": "confirmar notifier:updl-1020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UPDL-2020",
+    "normkey": "updl2020",
+    "core": "updl[-\\s/.+]*2020",
+    "origen": "confirmar notifier:updl-2020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VNS-2PLUS",
+    "normkey": "vns2plus",
+    "core": "vns[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vns[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "VSN-2PLUS",
+    "normkey": "vsn2plus",
+    "core": "vsn[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar notifier:vsn-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*2"
+    ]
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "020-648",
+    "id": "notifier:psu3a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "586T",
+    "id": "notifier:nrt-586t",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "997-512-000-1",
+    "id": "notifier:nfs8rel",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AM-200 Control Panel",
+    "id": "notifier:am-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AM - 8 2 00 N",
+    "id": "notifier:am-8200n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AM-8200N AW70PC0",
+    "id": "notifier:aw70pc0",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AM-8200N-KLCD (tarjeta frontal equipada)",
+    "id": "notifier:am-8200n",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AM-82N-TOP (estructura de montaje asociada)",
+    "id": "notifier:am-8200n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ANUNCIADOR LCD-80TM",
+    "id": "notifier:lcd-80tm",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AW70PC0 (tarjeta CPU)",
+    "id": "notifier:am-8200n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AW70PP1 (tarjeta de alimentación CN1)",
+    "id": "notifier:am-8200n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "BX-501 Base",
+    "id": "notifier:bx-501",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAB-3 tamaño D",
+    "id": "notifier:cab-d3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAB-A3 - Gabinete de Hilera Singular",
+    "id": "notifier:cab-a3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAB-B3 - Gabinete de Hilera Doble",
+    "id": "notifier:cab-b3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAB-C3 - Gabinete de Hilera Triple",
+    "id": "notifier:cab-c3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAB-D3 - Gabinete de Hilera Cuádruple",
+    "id": "notifier:cab-d3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "chip del AMG-X4",
+    "id": "notifier:amg-x4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "cubierta del PCLB-5",
+    "id": "notifier:pclb-5",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "EPROM AMG-X4",
+    "id": "notifier:amg-x4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FAT",
+    "id": "notifier:fat3000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "FDX",
+    "id": "notifier:fdx-551r",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "gabinete del PCLB-5",
+    "id": "notifier:pclb-5",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "gama ID1000",
+    "id": "notifier:id1000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "IRX-751CTEM",
+    "id": "notifier:irx-751ctem-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "La central AM-200",
+    "id": "notifier:am-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LTS",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "LTS 240",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "minigabinete CAB-400AA",
+    "id": "notifier:cab-400aa",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Monitor de 17pulgadas (431.8 mm) (MON-17B)",
+    "id": "notifier:mon-17b",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Monitor de 21pulgadas (533.4 mm) (MON-21)",
+    "id": "notifier:mon-21",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MULTI",
+    "id": "notifier:ipx-751",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "pantalla alfanumérica LCD-80TM",
+    "id": "notifier:lcd-80tm",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK8200",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK8200 1.2",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK-8200.EXE",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK-ID3000 REV 2.03G",
+    "id": "notifier:pk-id3000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "protector de la línea eléctrica HSP-121B",
+    "id": "notifier:hsp-121b",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Ref.: 020-648",
+    "id": "notifier:psu3a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SDX-551TH",
+    "id": "notifier:sdx-551",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Serie ID1000",
+    "id": "notifier:id1000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "sistema LTS 240",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d Cl2",
+    "id": "notifier:s2143cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d HCl",
+    "id": "notifier:s2147hc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d NO2",
+    "id": "notifier:s2141nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d SO2",
+    "id": "notifier:s2139sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n Cl2",
+    "id": "notifier:s2142cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n NO2",
+    "id": "notifier:s2140nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n SO2",
+    "id": "notifier:s2138sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d Cl2",
+    "id": "notifier:s2175cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d HCl",
+    "id": "notifier:s2311hc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d NO2",
+    "id": "notifier:s2173nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d SO2",
+    "id": "notifier:s2171sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n Cl2",
+    "id": "notifier:s2174cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n NO2",
+    "id": "notifier:s2172nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n SO2",
+    "id": "notifier:s2170sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3G con pantalla",
+    "id": "notifier:smart3g-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART4 (abreviado a SMT4)",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 4 (COPTIR) Multi-sensor",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMT4",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-6000 VER 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TR-500 Trim Ring",
+    "id": "notifier:tr-500",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UDS-3",
+    "id": "notifier:uds-3n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "unidad de terminación de transmisión RTU01",
+    "id": "notifier:rtu01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UPDL",
+    "id": "notifier:updl-1020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "UPDL 2020",
+    "id": "notifier:updl-2020",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UPDL.EXE",
+    "id": "notifier:updl-1020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "UPDOWN.EXE",
+    "id": "notifier:updl-2020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "VNS-2PLUS",
+    "id": "notifier:vsn-2plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

@@ -1,0 +1,528 @@
+{
+ "que_es": "s324c — E1b §0.A «confirmar» determinista — systemsensor (16) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "0a_systemsensor",
+ "titulo": "§0.A «confirmar» determinista — systemsensor (16)",
+ "seccion": "§0.A",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s322f_e1b_confirmar_encoger_v1.json → detalle.bloque (ruta=determinista)",
+ "utc": "20260816T220353Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "systemsensor:eco1000b",
+   "canonical_model": "ECO1000B",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "sensor with measurements: 60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD**",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «sensor with measurements: 60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD**»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000brelx",
+   "canonical_model": "ECO1000BRELx",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "labeled ECO1000(D)B, ECO1000(D)BSD, ECO1000(D)BRx, ECO1000(D)BRxSD] **Fig. / Abb. 2b** **ECO1000BRELx** [Wiring diagram showing terminals V-, V+ with numbered connection points 1, 2, 3, 4,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «labeled ECO1000(D)B, ECO1000(D)BSD, ECO1000(D)BRx, ECO1000(D)BRxSD] **Fig. / Abb. 2b** **ECO1000BRELx** [Wiring diagram showing terminals V-, V+ with numbered connection points 1, 2, 3, 4,»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000brx",
+   "canonical_model": "ECO1000BRx",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD**",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD**»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000brxsd",
+   "canonical_model": "ECO1000BRxSD",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "*ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with numbered connection",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «*ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with numbered connection»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000bsd",
+   "canonical_model": "ECO1000BSD",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000db",
+   "canonical_model": "ECO1000DB",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "measurements: 60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD**",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 5,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «measurements: 60mm and 50.8mm spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD**»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000dbrx",
+   "canonical_model": "ECO1000DBRx",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «spacing indicators] ** **Fig. / Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000dbrxsd",
+   "canonical_model": "ECO1000DBRxSD",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "**ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with numbered connection points 1, 2, 3, 4, 5",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «**ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with numbered connection points 1, 2, 3, 4, 5»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:eco1000dbsd",
+   "canonical_model": "ECO1000DBSD",
+   "doc": "I56-1652-023 ECO1005_ECO1005T_ECO1004T",
+   "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
+   "n_token": 1,
+   "cita": "/ Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en I56-1652-023 ECO1005_ECO1005T_ECO1004T: «/ Abb. 2a** **ECO1000B** **ECO1000DB** **ECO1000BRx** **ECO1000DBRx** **ECO1000BSD** **ECO1000DBSD** **ECO1000BRxSD** **ECO1000DBRxSD** [Wiring diagram showing terminals V-, V+ with»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:rts451key",
+   "canonical_model": "RTS451KEY",
+   "doc": "MIDT1041",
+   "document_id": "ae01f36c-750e-4765-a31b-84109aa20fdc",
+   "n_token": 13,
+   "cita": "de conducto. El detector de conducto DH500ACDC-E no puede rearmarse mediante RTS451/RTS451KEY. Debe rearmarse desde la central. Para instalar la bobina de prueba RTS451/RTS451KEY,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 9,
+    "docs_distintos_con_exacta": 6,
+    "n_ilike_hoy": 33,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Pfannenberg"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 9 chunks / 6 docs); cita verificada full-text en MIDT1041: «de conducto. El detector de conducto DH500ACDC-E no puede rearmarse mediante RTS451/RTS451KEY. Debe rearmarse desde la central. Para instalar la bobina de prueba RTS451/RTS451KEY,»",
+   "n_token_flexible": 13
+  },
+  {
+   "id": "systemsensor:wfd20en",
+   "canonical_model": "WFD20EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "DE APRIETE | | ---------------- | --------------------- | ------------------------- | | WFD20EN | 31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «DE APRIETE | | ---------------- | --------------------- | ------------------------- | | WFD20EN | 31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:wfd25en",
+   "canonical_model": "WFD25EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "| ------------------------- | | WFD20EN | 31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «| ------------------------- | | WFD20EN | 31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:wfd30en",
+   "canonical_model": "WFD30EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «31,8 mm + 1,6 mm | 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:wfd40en",
+   "canonical_model": "WFD40EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "| 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «| 40,7-47,5 NT-M | | WFD25EN | 1¼ pulg. + 1/16 pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:wfd60en",
+   "canonical_model": "WFD60EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | | WFD80EN | | | 3. Elimine las rebabas y los",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «pulg. | 30-35 FT-LB | | WFD30EN | | | | WFD40EN | 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | | WFD80EN | | | 3. Elimine las rebabas y los»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "systemsensor:wfd80en",
+   "canonical_model": "WFD80EN",
+   "doc": "WFDN_i56-4052-000r_ES",
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "n_token": 1,
+   "cita": "| 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | | WFD80EN | | | 3. Elimine las rebabas y los bordes afilados del orificio. Limpie y elimine el",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "System Sensor"
+   },
+   "provenance_add": "s324c E1b §0.A bloque systemsensor (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en WFDN_i56-4052-000r_ES: «| 50,8 mm + 1,6 mm | 61,6-67,8 MT-M | | WFD60EN | 2 pulg. + 1/16 pulg. | 45-50 FT-LB | | WFD80EN | | | 3. Elimine las rebabas y los bordes afilados del orificio. Limpie y elimine el»",
+   "n_token_flexible": 1
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "0 alias de los ids confirmados marcados descriptivo/peligroso (0 entrarían en el detector al confirmar; los 0 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 4 alias model-shaped/anclados al canonical."
+  },
+  {
+   "que": "alias de UNA palabra sin dígito (no cubiertos por R1-R4)",
+   "aviso": "4 alias de una sola palabra sin pinta de modelo (ECO1000(D)B, ECO1000(D)BRx, ECO1000(D)BRxSD, ECO1000(D)BSD…): los nombre-largo NO entran en el detector; los de tipo numero-de-parte/variante-tipografica SÍ (el gate mide palabra_comun/negativos). Se conservan salvo que el gate los señale."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [],
+ "alias_conservados": [
+  {
+   "alias": "ECO1000(D)B",
+   "id": "systemsensor:eco1000b",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BSD",
+   "id": "systemsensor:eco1000b",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BRx",
+   "id": "systemsensor:eco1000brx",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BRxSD",
+   "id": "systemsensor:eco1000brxsd",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  }
+ ],
+ "alias_palabra_suelta": [
+  {
+   "alias": "ECO1000(D)B",
+   "id": "systemsensor:eco1000b",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BSD",
+   "id": "systemsensor:eco1000b",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BRx",
+   "id": "systemsensor:eco1000brx",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ECO1000(D)BRxSD",
+   "id": "systemsensor:eco1000brxsd",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  }
+ ],
+ "riesgo_lexico": [
+  {
+   "id": "systemsensor:eco1000b",
+   "canonical_model": "ECO1000B",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "systemsensor:eco1000brx",
+   "canonical_model": "ECO1000BRx",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "systemsensor:eco1000brxsd",
+   "canonical_model": "ECO1000BRxSD",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "systemsensor:eco1000brelx",
+   "canonical_model": "ECO1000BRELx",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:eco1000bsd",
+   "canonical_model": "ECO1000BSD",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:eco1000db",
+   "canonical_model": "ECO1000DB",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:eco1000dbrx",
+   "canonical_model": "ECO1000DBRx",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:eco1000dbrxsd",
+   "canonical_model": "ECO1000DBRxSD",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:eco1000dbsd",
+   "canonical_model": "ECO1000DBSD",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:rts451key",
+   "canonical_model": "RTS451KEY",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd20en",
+   "canonical_model": "WFD20EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd25en",
+   "canonical_model": "WFD25EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd30en",
+   "canonical_model": "WFD30EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd40en",
+   "canonical_model": "WFD40EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd60en",
+   "canonical_model": "WFD60EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "systemsensor:wfd80en",
+   "canonical_model": "WFD80EN",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  }
+ ],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 16,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 0,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 0,
+  "avisos": 2,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 0,
+  "alias_conservados": 4,
+  "alias_palabra_suelta": 4,
+  "riesgo_lexico": 16,
+  "_filas_origen": 16
+ },
+ "_filas_origen": [
+  "systemsensor:eco1000b",
+  "systemsensor:eco1000brelx",
+  "systemsensor:eco1000brx",
+  "systemsensor:eco1000brxsd",
+  "systemsensor:eco1000bsd",
+  "systemsensor:eco1000db",
+  "systemsensor:eco1000dbrx",
+  "systemsensor:eco1000dbrxsd",
+  "systemsensor:eco1000dbsd",
+  "systemsensor:rts451key",
+  "systemsensor:wfd20en",
+  "systemsensor:wfd25en",
+  "systemsensor:wfd30en",
+  "systemsensor:wfd40en",
+  "systemsensor:wfd60en",
+  "systemsensor:wfd80en"
+ ]
+}

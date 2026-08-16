@@ -1,0 +1,2809 @@
+{
+ "que_es": "s324c — E1b §0.A «confirmar» determinista — notifier (83) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "0a_notifier",
+ "titulo": "§0.A «confirmar» determinista — notifier (83)",
+ "seccion": "§0.A",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s322f_e1b_confirmar_encoger_v1.json → detalle.bloque (ruta=determinista)",
+ "utc": "20260816T220353Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "notifier:afm-16at",
+   "canonical_model": "AFM-16AT",
+   "doc": "MNDT150.pdf",
+   "document_id": "d917a95d-a8f1-405c-ad86-edcba09f8ddb",
+   "n_token": 1,
+   "cita": "de Puntos** • ACM-8R • ACM-16AT, AEM-16AT • ACM-32A, AEM-32A • AFM-16A, AFM-32A, AFM-16AT • LDM-32, LDM-E32, LDM-R32 **LCD-80** El LCD-80 debe programarse en modo ACS (consulte",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 21,
+    "docs_distintos_con_exacta": 8,
+    "n_ilike_hoy": 26,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 21 chunks / 8 docs); cita verificada full-text en MNDT150.pdf: «de Puntos** • ACM-8R • ACM-16AT, AEM-16AT • ACM-32A, AEM-32A • AFM-16A, AFM-32A, AFM-16AT • LDM-32, LDM-E32, LDM-R32 **LCD-80** El LCD-80 debe programarse en modo ACS (consulte»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:afm-32a",
+   "canonical_model": "AFM-32A",
+   "doc": "MNDT150.pdf",
+   "document_id": "d917a95d-a8f1-405c-ad86-edcba09f8ddb",
+   "n_token": 1,
+   "cita": "- **Repetidores de Puntos** • ACM-8R • ACM-16AT, AEM-16AT • ACM-32A, AEM-32A • AFM-16A, AFM-32A, AFM-16AT • LDM-32, LDM-E32, LDM-R32 **LCD-80** El LCD-80 debe programarse en modo ACS",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 17,
+    "docs_distintos_con_exacta": 6,
+    "n_ilike_hoy": 20,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 17 chunks / 6 docs); cita verificada full-text en MNDT150.pdf: «- **Repetidores de Puntos** • ACM-8R • ACM-16AT, AEM-16AT • ACM-32A, AEM-32A • AFM-16A, AFM-32A, AFM-16AT • LDM-32, LDM-E32, LDM-R32 **LCD-80** El LCD-80 debe programarse en modo ACS»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:aim-200",
+   "canonical_model": "AIM-200",
+   "doc": "MNDT440.pdf",
+   "document_id": "79869dab-5224-41e4-a32b-98630d2f0898",
+   "n_token": 27,
+   "cita": "si los puntos esclavos fueran módulos MMX–1 y CMX–1. La función de autoprogramación del AIM-200 realizara la mayoría de las acciones programación. A continuación sugerimos algunas",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 39,
+    "docs_distintos_con_exacta": 7,
+    "n_ilike_hoy": 42,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 39 chunks / 7 docs); cita verificada full-text en MNDT440.pdf: «si los puntos esclavos fueran módulos MMX–1 y CMX–1. La función de autoprogramación del AIM-200 realizara la mayoría de las acciones programación. A continuación sugerimos algunas»",
+   "n_token_flexible": 31
+  },
+  {
+   "id": "notifier:am-200",
+   "canonical_model": "AM-200",
+   "doc": "MNDT105_A",
+   "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+   "n_token": 12,
+   "cita": "| ⌐Plate cable to frontal board ``` MN-DT-105 Página 24 ## 9.9 Placa base de la central \"AM-200\" [Technical wiring diagram showing the base plate of the AM-200 central control panel",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 9,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 29,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 9 chunks / 3 docs); cita verificada full-text en MNDT105_A: «| ⌐Plate cable to frontal board ``` MN-DT-105 Página 24 ## 9.9 Placa base de la central \"AM-200\" [Technical wiring diagram showing the base plate of the AM-200 central control panel»",
+   "n_token_flexible": 12
+  },
+  {
+   "id": "notifier:am-8200n",
+   "canonical_model": "AM-8200N",
+   "doc": "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+   "document_id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+   "n_token": 128,
+   "cita": "programados con el <ins>tipo de SW SND asociados a esta zona.</ins> ## 9.4: Programación AM-8200N En esta sección se configura el resto de centrales que estan dentro de la red de",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 40,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 107,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 40 chunks / 3 docs); cita verificada full-text en AM-8200N manual de usuario y programacion rev 3 30-10-2024: «programados con el <ins>tipo de SW SND asociados a esta zona.</ins> ## 9.4: Programación AM-8200N En esta sección se configura el resto de centrales que estan dentro de la red de»",
+   "n_token_flexible": 202
+  },
+  {
+   "id": "notifier:amg-x4",
+   "canonical_model": "AMG-X4",
+   "doc": "MIDT340",
+   "document_id": "b1048c70-2038-4e15-aa62-99ca030db16a",
+   "n_token": 8,
+   "cita": "no sea necesario los dos micrófonos, pida un AMG-E para utilizar en el segundo canal. ## AMG-X4 Generador de Mensajes de Audio Si se necesitan más de cuatro AMG-1, se requiere una",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 5,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 5,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 5 chunks / 1 docs); cita verificada full-text en MIDT340: «no sea necesario los dos micrófonos, pida un AMG-E para utilizar en el segundo canal. ## AMG-X4 Generador de Mensajes de Audio Si se necesitan más de cuatro AMG-1, se requiere una»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "notifier:aw70pc0",
+   "canonical_model": "AW70PC0",
+   "doc": "AM 8200G manual instalacion Rv 3",
+   "document_id": "b39751ab-44f5-47e9-a600-4c6e0765b7dc",
+   "n_token": 18,
+   "cita": "que programar la fecha y la hora (ver manual de programación). ## 6.4 Esquema de tarjeta AW70PC0 [Circuit board diagram showing the AW70PC0 board layout with the following labeled",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 13,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 13,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 13 chunks / 2 docs); cita verificada full-text en AM 8200G manual instalacion Rv 3: «que programar la fecha y la hora (ver manual de programación). ## 6.4 Esquema de tarjeta AW70PC0 [Circuit board diagram showing the AW70PC0 board layout with the following labeled»",
+   "n_token_flexible": 18
+  },
+  {
+   "id": "notifier:be-1010n",
+   "canonical_model": "BE-1010N",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 6,
+   "cita": "utilizada para identificar los componentes recibidos en un embarque del BE-2020N y/o del BE-1010N. Refiérase al Apéndice B de este manual para una lista del equipo opcional disponible.",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 1 docs); cita verificada full-text en 15088SP: «utilizada para identificar los componentes recibidos en un embarque del BE-2020N y/o del BE-1010N. Refiérase al Apéndice B de este manual para una lista del equipo opcional disponible.»",
+   "n_token_flexible": 6
+  },
+  {
+   "id": "notifier:be-2020n",
+   "canonical_model": "BE-2020N",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 7,
+   "cita": "Instalación ## Equipo Básico El equipo básico empacado para el AM2020 de NOTIFIER es el BE-2020N y el equipo básico empacado para el AFP1010 de NOTIFIER es el BE-1010N. La siguiente",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 5,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 6,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 5 chunks / 1 docs); cita verificada full-text en 15088SP: «Instalación ## Equipo Básico El equipo básico empacado para el AM2020 de NOTIFIER es el BE-2020N y el equipo básico empacado para el AFP1010 de NOTIFIER es el BE-1010N. La siguiente»",
+   "n_token_flexible": 7
+  },
+  {
+   "id": "notifier:be-400",
+   "canonical_model": "BE-400",
+   "doc": "MIDT170",
+   "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+   "n_token": 2,
+   "cita": "alarma. MI-DT-170b NOTIFIER ESPAÑA 5 # Componentes del Sistema ## Equipamiento Básico **BE-400:** El equipamiento básico incluye la CPU (CPU-400), una fuente de alimentación para la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 2,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 2 chunks / 2 docs); cita verificada full-text en MIDT170: «alarma. MI-DT-170b NOTIFIER ESPAÑA 5 # Componentes del Sistema ## Equipamiento Básico **BE-400:** El equipamiento básico incluye la CPU (CPU-400), una fuente de alimentación para la»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:bx-501",
+   "canonical_model": "BX-501",
+   "doc": "MIDT170",
+   "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+   "n_token": 16,
+   "cita": "un Detector Analógico ## Introducción. Cableado de los Detectores Analógicos La Base del BX-501 proporciona la conexión entre el Lazo de Comunicaciones y los detectores analógicos",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 20,
+    "docs_distintos_con_exacta": 5,
+    "n_ilike_hoy": 21,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 20 chunks / 5 docs); cita verificada full-text en MIDT170: «un Detector Analógico ## Introducción. Cableado de los Detectores Analógicos La Base del BX-501 proporciona la conexión entre el Lazo de Comunicaciones y los detectores analógicos»",
+   "n_token_flexible": 16
+  },
+  {
+   "id": "notifier:cab-400aa",
+   "canonical_model": "CAB-400AA",
+   "doc": "50253SP",
+   "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+   "n_token": 80,
+   "cita": "Figura 5-13; entonces, entre y apriete los tornillos de instalación. ### Instalación del CAB-400AA También se puede instalar el módulo a la esquina superior derecha del gabinete de la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 39,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 60,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 39 chunks / 3 docs); cita verificada full-text en 50253SP: «Figura 5-13; entonces, entre y apriete los tornillos de instalación. ### Instalación del CAB-400AA También se puede instalar el módulo a la esquina superior derecha del gabinete de la»",
+   "n_token_flexible": 81
+  },
+  {
+   "id": "notifier:cab-a3",
+   "canonical_model": "CAB-A3",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 14,
+   "cita": "Cajas Posteriores de las Series CAB-3 ## Cajas Posteriores de las Series CAB-3 ### CAB-A3 El CAB-A3 es el gabinete y el ensamblaje de la puerta para una hilera de montaje. Un",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 28,
+    "docs_distintos_con_exacta": 10,
+    "n_ilike_hoy": 28,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 28 chunks / 10 docs); cita verificada full-text en 15088SP: «Cajas Posteriores de las Series CAB-3 ## Cajas Posteriores de las Series CAB-3 ### CAB-A3 El CAB-A3 es el gabinete y el ensamblaje de la puerta para una hilera de montaje. Un»",
+   "n_token_flexible": 14
+  },
+  {
+   "id": "notifier:cab-b3",
+   "canonical_model": "CAB-B3",
+   "doc": "MNDT060",
+   "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+   "n_token": 2,
+   "cita": "19 MN-DT-060 NOTIFIER ESPAÑA, S.A. 20 # CAB-B3 [Technical drawing showing three views of CAB-B3 cabinet: Front view: Rectangular cabinet with two horizontal window openings in upper",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 25,
+    "docs_distintos_con_exacta": 11,
+    "n_ilike_hoy": 25,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 25 chunks / 11 docs); cita verificada full-text en MNDT060: «19 MN-DT-060 NOTIFIER ESPAÑA, S.A. 20 # CAB-B3 [Technical drawing showing three views of CAB-B3 cabinet: Front view: Rectangular cabinet with two horizontal window openings in upper»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:cab-c3",
+   "canonical_model": "CAB-C3",
+   "doc": "50253SP",
+   "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+   "n_token": 13,
+   "cita": "del Sistema ## CAB-C3 La Figura 12 muestra las dimensiones para un gabinete de la Serie CAB-C3. Un anillo embellecedor opcional TR-C3 está disponible para ser utilizado con un",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 27,
+    "docs_distintos_con_exacta": 10,
+    "n_ilike_hoy": 28,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 27 chunks / 10 docs); cita verificada full-text en 50253SP: «del Sistema ## CAB-C3 La Figura 12 muestra las dimensiones para un gabinete de la Serie CAB-C3. Un anillo embellecedor opcional TR-C3 está disponible para ser utilizado con un»",
+   "n_token_flexible": 13
+  },
+  {
+   "id": "notifier:cab-d3",
+   "canonical_model": "CAB-D3",
+   "doc": "MNDT060",
+   "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+   "n_token": 2,
+   "cita": "∅-5/8\" hole. Total height: 28-1/2\"] # CAB-D3 [Technical drawing showing three views of CAB-D3 cabinet: Front view: Rectangular cabinet with four horizontal window openings and",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 25,
+    "docs_distintos_con_exacta": 9,
+    "n_ilike_hoy": 25,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 25 chunks / 9 docs); cita verificada full-text en MNDT060: «∅-5/8\" hole. Total height: 28-1/2\"] # CAB-D3 [Technical drawing showing three views of CAB-D3 cabinet: Front view: Rectangular cabinet with four horizontal window openings and»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:cmx-10",
+   "canonical_model": "CMX-10",
+   "doc": "AM-8200 Manual Instalacion",
+   "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+   "n_token": 4,
+   "cita": "individuales serie<br/>700 | | | | | Módulos serie MA | | | | | MMX-10 NE | | | | | CMX-10 RE | | | | | Módulos aisladores | | | | | Sirenas direccionadas<br/>(alimentadas por",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 9,
+    "docs_distintos_con_exacta": 9,
+    "n_ilike_hoy": 36,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 9 chunks / 9 docs); cita verificada full-text en AM-8200 Manual Instalacion: «individuales serie<br/>700 | | | | | Módulos serie MA | | | | | MMX-10 NE | | | | | CMX-10 RE | | | | | Módulos aisladores | | | | | Sirenas direccionadas<br/>(alimentadas por»",
+   "n_token_flexible": 4
+  },
+  {
+   "id": "notifier:cmx-10r",
+   "canonical_model": "CMX-10R",
+   "doc": "MNDT960.pdf",
+   "document_id": "fb2bdd8d-76d4-4c24-a6ee-7d9929498f50",
+   "n_token": 1,
+   "cita": "convencional = Verde | IZM-1 o ZMX-1 | | ☒ CMX | Módulo de control = Rojo | CMX-2, CMX-10R | El hardware de la tarjeta no reconoce dos equipos que tienen la misma dirección (doble",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 11,
+    "docs_distintos_con_exacta": 10,
+    "n_ilike_hoy": 29,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 11 chunks / 10 docs); cita verificada full-text en MNDT960.pdf: «convencional = Verde | IZM-1 o ZMX-1 | | ☒ CMX | Módulo de control = Rojo | CMX-2, CMX-10R | El hardware de la tarjeta no reconoce dos equipos que tienen la misma dirección (doble»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:cpx-551",
+   "canonical_model": "CPX-551",
+   "doc": "MNDT285.pdf",
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "n_token": 1,
+   "cita": "| Descripción | | --------- | ----------------------------------------------------- | | CPX-551 | Detector iónico de humos. | | SDX-551 | Detector óptico de humos. | | SDX-551TH |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 25,
+    "docs_distintos_con_exacta": 15,
+    "n_ilike_hoy": 49,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 25 chunks / 15 docs); cita verificada full-text en MNDT285.pdf: «| Descripción | | --------- | ----------------------------------------------------- | | CPX-551 | Detector iónico de humos. | | SDX-551 | Detector óptico de humos. | | SDX-551TH |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:cpx-751",
+   "canonical_model": "CPX-751",
+   "doc": "MNDT150.pdf",
+   "document_id": "d917a95d-a8f1-405c-ad86-edcba09f8ddb",
+   "n_token": 3,
+   "cita": "de estas medidas a la central. (También disponible como detector de bajo perfil **CPX-751**) [Heat detector icon] **FDX-551/FDX-551R** Sensor Analógico Térmico (Temperatura",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 21,
+    "docs_distintos_con_exacta": 9,
+    "n_ilike_hoy": 35,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 21 chunks / 9 docs); cita verificada full-text en MNDT150.pdf: «de estas medidas a la central. (También disponible como detector de bajo perfil **CPX-751**) [Heat detector icon] **FDX-551/FDX-551R** Sensor Analógico Térmico (Temperatura»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:dia-1010",
+   "canonical_model": "DIA-1010",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 13,
+   "cita": "de la Pantalla Tabla de Contenidos ## Conexión de la Interface de la Pantalla El DIA-1010 y/o el DIA-2020 proporcionan acceso al CPU del sistema y el SIB opcional, y una",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 19,
+    "docs_distintos_con_exacta": 7,
+    "n_ilike_hoy": 19,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 19 chunks / 7 docs); cita verificada full-text en 15088SP: «de la Pantalla Tabla de Contenidos ## Conexión de la Interface de la Pantalla El DIA-1010 y/o el DIA-2020 proporcionan acceso al CPU del sistema y el SIB opcional, y una»",
+   "n_token_flexible": 13
+  },
+  {
+   "id": "notifier:dia-2020",
+   "canonical_model": "DIA-2020",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 13,
+   "cita": "Tabla de Contenidos ## Conexión de la Interface de la Pantalla El DIA-1010 y/o el DIA-2020 proporcionan acceso al CPU del sistema y el SIB opcional, y una interface de la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 18,
+    "docs_distintos_con_exacta": 6,
+    "n_ilike_hoy": 19,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 18 chunks / 6 docs); cita verificada full-text en 15088SP: «Tabla de Contenidos ## Conexión de la Interface de la Pantalla El DIA-1010 y/o el DIA-2020 proporcionan acceso al CPU del sistema y el SIB opcional, y una interface de la»",
+   "n_token_flexible": 13
+  },
+  {
+   "id": "notifier:eia-485",
+   "canonical_model": "EIA-485",
+   "doc": "50253SP",
+   "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+   "n_token": 114,
+   "cita": "50253SP:D 12/07/98 Conectando los Anunciadores Apéndice A: Anunciadores ## Conexión del EIA-485 de la Serie LDM y ACS **Guías de Conexión** Cuando este operando un anunciador de la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 40,
+    "docs_distintos_con_exacta": 14,
+    "n_ilike_hoy": 260,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 40 chunks / 14 docs); cita verificada full-text en 50253SP: «50253SP:D 12/07/98 Conectando los Anunciadores Apéndice A: Anunciadores ## Conexión del EIA-485 de la Serie LDM y ACS **Guías de Conexión** Cuando este operando un anunciador de la»",
+   "n_token_flexible": 115
+  },
+  {
+   "id": "notifier:fat3000",
+   "canonical_model": "FAT3000",
+   "doc": "997-669-005-3_Instal-Comm_ES",
+   "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+   "n_token": 44,
+   "cita": "de equipos opcionales # A5.4.3 Programación del FAT3000 y la placa ADP-N3E El repetidor FAT3000 y la placa ADP-N3E primero se deben programar para que puedan comunicarse correctamente",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 8,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 8,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 8 chunks / 1 docs); cita verificada full-text en 997-669-005-3_Instal-Comm_ES: «de equipos opcionales # A5.4.3 Programación del FAT3000 y la placa ADP-N3E El repetidor FAT3000 y la placa ADP-N3E primero se deben programar para que puedan comunicarse correctamente»",
+   "n_token_flexible": 44
+  },
+  {
+   "id": "notifier:fdx-551",
+   "canonical_model": "FDX-551",
+   "doc": "MNDT285.pdf",
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "n_token": 1,
+   "cita": "| | SDX-551 | Detector óptico de humos. | | SDX-551TH | Detector foto-térmico. | | FDX-551 | Detector térmico de temperatura fija. | | FDX-551R | Detector térmico",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 21,
+    "docs_distintos_con_exacta": 13,
+    "n_ilike_hoy": 70,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 21 chunks / 13 docs); cita verificada full-text en MNDT285.pdf: «| | SDX-551 | Detector óptico de humos. | | SDX-551TH | Detector foto-térmico. | | FDX-551 | Detector térmico de temperatura fija. | | FDX-551R | Detector térmico»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:fdx-551r",
+   "canonical_model": "FDX-551R",
+   "doc": "MNDT285.pdf",
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "n_token": 1,
+   "cita": "| Detector foto-térmico. | | FDX-551 | Detector térmico de temperatura fija. | | FDX-551R | Detector térmico termovelocimétrico. | | CPX-751 | Detector iónico de humos (bajo",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 13,
+    "docs_distintos_con_exacta": 9,
+    "n_ilike_hoy": 30,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 13 chunks / 9 docs); cita verificada full-text en MNDT285.pdf: «| Detector foto-térmico. | | FDX-551 | Detector térmico de temperatura fija. | | FDX-551R | Detector térmico termovelocimétrico. | | CPX-751 | Detector iónico de humos (bajo»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:fil-nas-2",
+   "canonical_model": "FIL-NAS-2",
+   "doc": "MNDT742_G.pdf",
+   "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+   "n_token": 3,
+   "cita": "protegida. MN-DT-742_G Manual de usuario e instalación. NAS-2 ## 3.4 Filtro de aire: FIL-NAS-2 El filtro de aire que se incluye con el equipo se encuentra ubicado entre la entrada de",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT742_G.pdf: «protegida. MN-DT-742_G Manual de usuario e instalación. NAS-2 ## 3.4 Filtro de aire: FIL-NAS-2 El filtro de aire que se incluye con el equipo se encuentra ubicado entre la entrada de»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:hop-131-206",
+   "canonical_model": "HOP-131-206",
+   "doc": "4188-1125-ES issue 5_11-2025_Li",
+   "document_id": "484dd402-3e32-4792-b81f-9f1419114154",
+   "n_token": 2,
+   "cita": "etiqueta del producto que muestra:] **NOTIFIER** by Honeywell Part No. / Artikel Nr. **HOP-131-206** Fire Alarm Control Panel Inspire E10 65 240W 50* 2-loop Brandmeldezentrale Inspire E10",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 4 docs); cita verificada full-text en 4188-1125-ES issue 5_11-2025_Li: «etiqueta del producto que muestra:] **NOTIFIER** by Honeywell Part No. / Artikel Nr. **HOP-131-206** Fire Alarm Control Panel Inspire E10 65 240W 50* 2-loop Brandmeldezentrale Inspire E10»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:hop-134-412",
+   "canonical_model": "HOP-134-412",
+   "doc": "HOP-338-9ES issue 4_01-2026_Op",
+   "document_id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+   "n_token": 2,
+   "cita": "*<br/>HOP-131-206<br/>HOP-134-412 | | **EN54-2, EN54-4**<br/>HOP-131-206 (EN54-2 & 4)<br/>HOP-134-412 (EN54-2 & 4) | | | **Zur Verwendung in Brandmeldeanlagen in Gebäuden<br/>und deren",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 3 docs); cita verificada full-text en HOP-338-9ES issue 4_01-2026_Op: «*<br/>HOP-131-206<br/>HOP-134-412 | | **EN54-2, EN54-4**<br/>HOP-131-206 (EN54-2 & 4)<br/>HOP-134-412 (EN54-2 & 4) | | | **Zur Verwendung in Brandmeldeanlagen in Gebäuden<br/>und deren»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:hop-208-111",
+   "canonical_model": "HOP-208-111",
+   "doc": "HOP-138-9ES issue 5_11-2025_In",
+   "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "n_token": 2,
+   "cita": "de Incendios # CENTRALES E10 Y E15 DE MONTAJE EN BASTIDOR El kit de montaje en bastidor (HOP-208-111). Se necesita kit para el montaje en bastidor del panel E10 y dos kits para el montaje",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en HOP-138-9ES issue 5_11-2025_In: «de Incendios # CENTRALES E10 Y E15 DE MONTAJE EN BASTIDOR El kit de montaje en bastidor (HOP-208-111). Se necesita kit para el montaje en bastidor del panel E10 y dos kits para el montaje»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:hsp-121b",
+   "canonical_model": "HSP-121B",
+   "doc": "15090SP",
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "n_token": 8,
+   "cita": "a la Figura2). 8. Conecte el cable de energía al protector de la línea electrica HSP-121B como es mostrado en la Figura3. Nota: El protector de la línea eléctrica HSP-121B tiene",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 15090SP: «a la Figura2). 8. Conecte el cable de energía al protector de la línea electrica HSP-121B como es mostrado en la Figura3. Nota: El protector de la línea eléctrica HSP-121B tiene»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "notifier:id1000",
+   "canonical_model": "ID1000",
+   "doc": "MPDT212.pdf",
+   "document_id": "ef245515-0c5a-41c0-8454-52bf70c8e4ab",
+   "n_token": 86,
+   "cita": "cualificado. ## 1.1 Nuevas Prestaciones La nueva actualización del software de la Serie ID1000 amplía la funcionalidad del software y permite utilizar las centrales con nuevos tipos",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 34,
+    "docs_distintos_con_exacta": 8,
+    "n_ilike_hoy": 195,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 34 chunks / 8 docs); cita verificada full-text en MPDT212.pdf: «cualificado. ## 1.1 Nuevas Prestaciones La nueva actualización del software de la Serie ID1000 amplía la funcionalidad del software y permite utilizar las centrales con nuevos tipos»",
+   "n_token_flexible": 88
+  },
+  {
+   "id": "notifier:idx-751",
+   "canonical_model": "IDX-751",
+   "doc": "MIDT190",
+   "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+   "n_token": 2,
+   "cita": "de seguridad) Y72221 - Aislador galvánico de seguridad intrínseca (para sensores IDX-751) *Leyenda:* *O/C: Colector abierto* Otros sensores: a. CPX-551E (ION) b. CPX-751E (ION -",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 10,
+    "docs_distintos_con_exacta": 5,
+    "n_ilike_hoy": 12,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 10 chunks / 5 docs); cita verificada full-text en MIDT190: «de seguridad) Y72221 - Aislador galvánico de seguridad intrínseca (para sensores IDX-751) *Leyenda:* *O/C: Colector abierto* Otros sensores: a. CPX-551E (ION) b. CPX-751E (ION -»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:ipx-751",
+   "canonical_model": "IPX-751",
+   "doc": "MIDT180",
+   "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+   "n_token": 2,
+   "cita": "c. SDX551E d. SDX751E e. SDX-551THE f. HPX751E g. FDX-551E h. FDX-551HTE i. FDX-551RE j. IPX-751 k. LPX-751 l. M500KAC m. M500DKM(R) n. M500DKMI o. MMX-1E p. MMX-101E q. MMX-102E r.",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 27,
+    "docs_distintos_con_exacta": 14,
+    "n_ilike_hoy": 29,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 27 chunks / 14 docs); cita verificada full-text en MIDT180: «c. SDX551E d. SDX751E e. SDX-551THE f. HPX751E g. FDX-551E h. FDX-551HTE i. FDX-551RE j. IPX-751 k. LPX-751 l. M500KAC m. M500DKM(R) n. M500DKMI o. MMX-1E p. MMX-101E q. MMX-102E r.»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:irx-751ctem-w",
+   "canonical_model": "IRX-751CTEM-W",
+   "doc": "HOP-138-9ES issue 5_11-2025_In",
+   "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "n_token": 1,
+   "cita": "SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Marfil) | | IRX-751CTEM-W | SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Blanco",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 4 docs); cita verificada full-text en HOP-138-9ES issue 5_11-2025_In: «SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Marfil) | | IRX-751CTEM-W | SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Blanco»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:lcd-80",
+   "canonical_model": "LCD-80",
+   "doc": "50253SP",
+   "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+   "n_token": 57,
+   "cita": "## Interfaces de Anunciador El panel de control proporciona el Modo de Terminal (LCD-80) y las interfaces del Modo ACS que proporciona el enlace de comunicación de alta",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 39,
+    "docs_distintos_con_exacta": 15,
+    "n_ilike_hoy": 189,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 39 chunks / 15 docs); cita verificada full-text en 50253SP: «## Interfaces de Anunciador El panel de control proporciona el Modo de Terminal (LCD-80) y las interfaces del Modo ACS que proporciona el enlace de comunicación de alta»",
+   "n_token_flexible": 57
+  },
+  {
+   "id": "notifier:lcd-80tm",
+   "canonical_model": "LCD-80TM",
+   "doc": "15088SP",
+   "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+   "n_token": 3,
+   "cita": "en los rociadores, indicaciones de señal supervisora e indicaciones de problemas. b. El LCD-80TM cual puede ser colocado remotamente hasta 3000 pies desde el panel de control tiene unas",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 16,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 16,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 16 chunks / 4 docs); cita verificada full-text en 15088SP: «en los rociadores, indicaciones de señal supervisora e indicaciones de problemas. b. El LCD-80TM cual puede ser colocado remotamente hasta 3000 pies desde el panel de control tiene unas»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:lcd-8200",
+   "canonical_model": "LCD-8200",
+   "doc": "PK-8200 manu-spa",
+   "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
+   "n_token": 8,
+   "cita": "añadirse hasta 16 dispositivos de este tipo para cada central. ## 1.8.2 - Programación LCD-8200 (parciales) Además de los citados arriba, se pueden definir otros 16 LCD añadidos para",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 32,
+    "docs_distintos_con_exacta": 6,
+    "n_ilike_hoy": 42,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 32 chunks / 6 docs); cita verificada full-text en PK-8200 manu-spa: «añadirse hasta 16 dispositivos de este tipo para cada central. ## 1.8.2 - Programación LCD-8200 (parciales) Además de los citados arriba, se pueden definir otros 16 LCD añadidos para»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "notifier:lib-8200",
+   "canonical_model": "LIB-8200",
+   "doc": "AM-8200 Manual Instalacion",
+   "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+   "n_token": 27,
+   "cita": "Manual de instalación Doc. AM-8200-ESP Rev. A.3 AM-8200 AM8200_manu-inst_ESP # 4.5 - LIB-8200 (Tarjeta de expansión lazo) [Circuit board diagram with the following labeled",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 17,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 25,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 17 chunks / 2 docs); cita verificada full-text en AM-8200 Manual Instalacion: «Manual de instalación Doc. AM-8200-ESP Rev. A.3 AM-8200 AM8200_manu-inst_ESP # 4.5 - LIB-8200 (Tarjeta de expansión lazo) [Circuit board diagram with the following labeled»",
+   "n_token_flexible": 27
+  },
+  {
+   "id": "notifier:lpx-751",
+   "canonical_model": "LPX-751",
+   "doc": "MIDT190",
+   "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+   "n_token": 1,
+   "cita": "k. FDX-551HTEM (Térmico temperatura alta - Tipo BS) l. FDX-551REM (Térmico- Tipo A1R) m. LPX-751 (VIEW); FSL-751E (VIEW) ZMX (Fuente alimentación (PSU) remota): a. ZMX-1 b. M710-CZ c.",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 20,
+    "docs_distintos_con_exacta": 13,
+    "n_ilike_hoy": 22,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 20 chunks / 13 docs); cita verificada full-text en MIDT190: «k. FDX-551HTEM (Térmico temperatura alta - Tipo BS) l. FDX-551REM (Térmico- Tipo A1R) m. LPX-751 (VIEW); FSL-751E (VIEW) ZMX (Fuente alimentación (PSU) remota): a. ZMX-1 b. M710-CZ c.»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonical_model": "LTS-240",
+   "doc": "MFDT1070",
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "n_token": 1,
+   "cita": "Tel.: 93 497 39 60; Fax: 93 465 86 35 # DETECTOR LINEAL DE TEMPERATURA POR FIBRA ÓPTICA LTS-240 **Sensa** [Image: A white rectangular control panel/detector unit with a blue horizontal",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 3 docs); cita verificada full-text en MFDT1070: «Tel.: 93 497 39 60; Fax: 93 465 86 35 # DETECTOR LINEAL DE TEMPERATURA POR FIBRA ÓPTICA LTS-240 **Sensa** [Image: A white rectangular control panel/detector unit with a blue horizontal»",
+   "n_token_flexible": 31
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonical_model": "M710-CZ",
+   "doc": "PK-8200 manu-spa",
+   "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
+   "n_token": 1,
+   "cita": "| M701<br/>M701-240K-DIN) | | | | | | | # 8 | None | M710 | | | | | | | # 9 | None | M710-CZ | | | | | | | # 10 | None | | | | | | | | # 11 | None | | | | | | | Así como para la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 19,
+    "docs_distintos_con_exacta": 11,
+    "n_ilike_hoy": 29,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 19 chunks / 11 docs); cita verificada full-text en PK-8200 manu-spa: «| M701<br/>M701-240K-DIN) | | | | | | | # 8 | None | M710 | | | | | | | # 9 | None | M710-CZ | | | | | | | # 10 | None | | | | | | | | # 11 | None | | | | | | | Así como para la»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:mcx-55m",
+   "canonical_model": "MCX-55M",
+   "doc": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+   "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+   "n_token": 1,
+   "cita": "(CLIP) | | MCX-55ME | Módulo 5 entradas y 5 salidas (salidas no supervisadas) | | MCX-55M | Módulo 5 entradas y 5 salidas (salidas no supervisadas) (CLIP) | | M721 | Módulo 2",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 5,
+    "docs_distintos_con_exacta": 5,
+    "n_ilike_hoy": 10,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 5 chunks / 5 docs); cita verificada full-text en AM-8100 manual de usuario y programacion rev 4 30-10-2024: «(CLIP) | | MCX-55ME | Módulo 5 entradas y 5 salidas (salidas no supervisadas) | | MCX-55M | Módulo 5 entradas y 5 salidas (salidas no supervisadas) (CLIP) | | M721 | Módulo 2»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "canonical_model": "MMX-10M",
+   "doc": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+   "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+   "n_token": 1,
+   "cita": "| | M701 | Módulo de salida | | MMX-10ME | Módulo MMX-10ME de 10 entradas | | MMX-10M | Módulo MMX-10ME de 10 entradas (CLIP) | | FL2022EI | FAAST 2 Canales 2 detectores | |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 9,
+    "docs_distintos_con_exacta": 9,
+    "n_ilike_hoy": 16,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 9 chunks / 9 docs); cita verificada full-text en AM-8100 manual de usuario y programacion rev 4 30-10-2024: «| | M701 | Módulo de salida | | MMX-10ME | Módulo MMX-10ME de 10 entradas | | MMX-10M | Módulo MMX-10ME de 10 entradas (CLIP) | | FL2022EI | FAAST 2 Canales 2 detectores | |»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:mon-17b",
+   "canonical_model": "MON-17B",
+   "doc": "50257SP",
+   "document_id": "94e12160-5ae2-49c8-82d1-dfb9e89341df",
+   "n_token": 1,
+   "cita": "de la NRT-586PW, NRT-586PF o NRT-586PWF. Los requisitos de la NRT-586P consisten del MON-17B, el MON-21, y el PCLB-4. 14 NOTI·FIRE·NET™ 50257:D1 04/28/98 **NOTI•FIRE•NET™** 50257:D1",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 2,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 6,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 2 chunks / 2 docs); cita verificada full-text en 50257SP: «de la NRT-586PW, NRT-586PF o NRT-586PWF. Los requisitos de la NRT-586P consisten del MON-17B, el MON-21, y el PCLB-4. 14 NOTI·FIRE·NET™ 50257:D1 04/28/98 **NOTI•FIRE•NET™** 50257:D1»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:mon-21",
+   "canonical_model": "MON-21",
+   "doc": "50257SP",
+   "document_id": "94e12160-5ae2-49c8-82d1-dfb9e89341df",
+   "n_token": 1,
+   "cita": "NRT-586PF o NRT-586PWF. Los requisitos de la NRT-586P consisten del MON-17B, el MON-21, y el PCLB-4. 14 NOTI·FIRE·NET™ 50257:D1 04/28/98 **NOTI•FIRE•NET™** 50257:D1 04/28/9815",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 2,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 2 chunks / 2 docs); cita verificada full-text en 50257SP: «NRT-586PF o NRT-586PWF. Los requisitos de la NRT-586P consisten del MON-17B, el MON-21, y el PCLB-4. 14 NOTI·FIRE·NET™ 50257:D1 04/28/98 **NOTI•FIRE•NET™** 50257:D1 04/28/9815»",
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "canonical_model": "NFS8REL",
+   "doc": "MADT015_02",
+   "document_id": "b7706a88-3ca0-4a69-889b-0ec6c2696916",
+   "n_token": 4,
+   "cita": "Tel.: 93 497 39 60; Fax: 93 465 86 35 # Instalación de la tarjeta de relé de 8 salidas NFS8REL La tarjeta de relé de 8 salidas dispone de ocho circuitos de salida de relé",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 2 docs); cita verificada full-text en MADT015_02: «Tel.: 93 497 39 60; Fax: 93 465 86 35 # Instalación de la tarjeta de relé de 8 salidas NFS8REL La tarjeta de relé de 8 salidas dispone de ocho circuitos de salida de relé»",
+   "n_token_flexible": 4
+  },
+  {
+   "id": "notifier:nr45-24e",
+   "canonical_model": "NR45-24E",
+   "doc": "15888SP",
+   "document_id": "24e196e9-2c26-4d0b-bd54-bd83053db178",
+   "n_token": 20,
+   "cita": "14 Alambrado en el Campo a la APS-6R** # Los Cargadores de Batería Remotos NR45-24 y NR45-24E Cuando más de 3 amperios son requeridos desde la MPS-24A/MPS-24AE o cuando los",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 8,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 17,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 8 chunks / 3 docs); cita verificada full-text en 15888SP: «14 Alambrado en el Campo a la APS-6R** # Los Cargadores de Batería Remotos NR45-24 y NR45-24E Cuando más de 3 amperios son requeridos desde la MPS-24A/MPS-24AE o cuando los»",
+   "n_token_flexible": 20
+  },
+  {
+   "id": "notifier:nrt-586t",
+   "canonical_model": "NRT-586T",
+   "doc": "15090SP",
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "n_token": 23,
+   "cita": "## Bolígrafo tipo Luz Instalado Si hay un bolígrafo tipo luz (LP-2) conectado a la NRT-586T que no esta respondiendo, el software del bolígrafo tipo luz puede necesitar ser",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 9,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 9,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 9 chunks / 1 docs); cita verificada full-text en 15090SP: «## Bolígrafo tipo Luz Instalado Si hay un bolígrafo tipo luz (LP-2) conectado a la NRT-586T que no esta respondiendo, el software del bolígrafo tipo luz puede necesitar ser»",
+   "n_token_flexible": 23
+  },
+  {
+   "id": "notifier:pan-avd1",
+   "canonical_model": "PAN-AVD1",
+   "doc": "PAN_AVD1.pdf",
+   "document_id": "7966c099-9a89-481b-a138-d1adc3731939",
+   "n_token": 6,
+   "cita": "MORLEY IAS FIRE SYSTEMS by Honeywell ESSER by Honeywell # LETRERO LUMINOSO CON VOZ PAN-AVD1 [Product image showing an illuminated exit sign with green running man symbol and arrow,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en PAN_AVD1.pdf: «MORLEY IAS FIRE SYSTEMS by Honeywell ESSER by Honeywell # LETRERO LUMINOSO CON VOZ PAN-AVD1 [Product image showing an illuminated exit sign with green running man symbol and arrow,»",
+   "n_token_flexible": 6
+  },
+  {
+   "id": "notifier:pclb-5",
+   "canonical_model": "PCLB-5",
+   "doc": "15090SP",
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "n_token": 9,
+   "cita": "del interruptor tiene que ser identificada en la agarradera del cable de energía PCLB-5 en la computadora. Solamente el equipo de alarma contra fuego puede ser alimentado desde",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 15090SP: «del interruptor tiene que ser identificada en la agarradera del cable de energía PCLB-5 en la computadora. Solamente el equipo de alarma contra fuego puede ser alimentado desde»",
+   "n_token_flexible": 10
+  },
+  {
+   "id": "notifier:pk-8200",
+   "canonical_model": "PK-8200",
+   "doc": "PK-8200 manu-spa",
+   "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
+   "n_token": 55,
+   "cita": "HONEYWELL LIFE SAFETY IBERIA # 1 - FUNCIONALIDAD DEL PROGRAMA Al ejecutar el programa PK-8200 se visualiza la siguiente pantalla: [Screenshot of NewPlant - PK-8200 Notifier Italy",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 21,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 21,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 21 chunks / 4 docs); cita verificada full-text en PK-8200 manu-spa: «HONEYWELL LIFE SAFETY IBERIA # 1 - FUNCIONALIDAD DEL PROGRAMA Al ejecutar el programa PK-8200 se visualiza la siguiente pantalla: [Screenshot of NewPlant - PK-8200 Notifier Italy»",
+   "n_token_flexible": 70
+  },
+  {
+   "id": "notifier:pk-id3000",
+   "canonical_model": "PK-ID3000",
+   "doc": "MCDT191",
+   "document_id": "53004592-9a57-4c00-ba0b-f5166a6a5418",
+   "n_token": 135,
+   "cita": "## Filtrado de eventos de red A partir de la versión 2.14, el programa de configuración PK-ID3000 dispone de la opción configurable de filtrado de acción de control y mensaje de estado.",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 40,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 134,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 40 chunks / 4 docs); cita verificada full-text en MCDT191: «## Filtrado de eventos de red A partir de la versión 2.14, el programa de configuración PK-ID3000 dispone de la opción configurable de filtrado de acción de control y mensaje de estado.»",
+   "n_token_flexible": 136
+  },
+  {
+   "id": "notifier:prn2000",
+   "canonical_model": "PRN2000",
+   "doc": "MIDT180",
+   "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+   "n_token": 8,
+   "cita": "y puesta en marcha ## 5.5 Impresora PRN2000 (Suministrada con el equipo) La impresora PRN2000 se suministra como un módulo preparado para su instalación y su colocación es muy",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 13,
+    "docs_distintos_con_exacta": 5,
+    "n_ilike_hoy": 13,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 13 chunks / 5 docs); cita verificada full-text en MIDT180: «y puesta en marcha ## 5.5 Impresora PRN2000 (Suministrada con el equipo) La impresora PRN2000 se suministra como un módulo preparado para su instalación y su colocación es muy»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "notifier:prn80",
+   "canonical_model": "PRN80",
+   "doc": "MIDT260",
+   "document_id": "38df6ce7-9696-45a4-80aa-ed372d7782b0",
+   "n_token": 1,
+   "cita": "compatibles con la central AM6000/2000: * Pantalla LCD-80 * Pantalla LCD600 * Impresora PRN80 ## *PANTALLA LCD-80* La pantalla alfanumérica LCD-80 es un equipo auxiliar que la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 4 docs); cita verificada full-text en MIDT260: «compatibles con la central AM6000/2000: * Pantalla LCD-80 * Pantalla LCD600 * Impresora PRN80 ## *PANTALLA LCD-80* La pantalla alfanumérica LCD-80 es un equipo auxiliar que la»",
+   "n_token_flexible": 4
+  },
+  {
+   "id": "notifier:psu3a",
+   "canonical_model": "PSU3A",
+   "doc": "MIDT1500_A",
+   "document_id": "bdff277f-aaab-4250-b27c-28b7e9c3848d",
+   "n_token": 25,
+   "cita": "ESPAÑA 8 de 9 # PSU3A (Ref.: 020-648) - Procedimiento de sustitución Para sustituir la PSU3A, retire la tapa y proceda según se indica a continuación: 1 Desconecte toda alimentación",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 21,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 21,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 21 chunks / 3 docs); cita verificada full-text en MIDT1500_A: «ESPAÑA 8 de 9 # PSU3A (Ref.: 020-648) - Procedimiento de sustitución Para sustituir la PSU3A, retire la tapa y proceda según se indica a continuación: 1 Desconecte toda alimentación»",
+   "n_token_flexible": 25
+  },
+  {
+   "id": "notifier:rtu01",
+   "canonical_model": "RTU01",
+   "doc": "MADT190_14",
+   "document_id": "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
+   "n_token": 8,
+   "cita": "conexión entre el módulo de entrada y el equipo de transmisión de avería la supervisa el RTU01 que está ubicado en el último equipo de transmisión de avería del circuito de",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 3 docs); cita verificada full-text en MADT190_14: «conexión entre el módulo de entrada y el equipo de transmisión de avería la supervisa el RTU01 que está ubicado en el último equipo de transmisión de avería del circuito de»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "notifier:s2138sd",
+   "canonical_model": "S2138SD",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2139sd",
+   "canonical_model": "S2139SD",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2140nd",
+   "canonical_model": "S2140ND",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a tierra de",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a tierra de»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2141nd",
+   "canonical_model": "S2141ND",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2142cl",
+   "canonical_model": "S2142CL",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a tierra de seguridad",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6 Conexión a tierra de seguridad»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2143cl",
+   "canonical_model": "S2143CL",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2147hc",
+   "canonical_model": "S2147HC",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las instrucciones de la sección 3.6»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2170sd",
+   "canonical_model": "S2170SD",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "equipo. **Los usuarios que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «equipo. **Los usuarios que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL,»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2171sd",
+   "canonical_model": "S2171SD",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2172nd",
+   "canonical_model": "S2172ND",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "**Los usuarios que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «**Los usuarios que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC,»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2173nd",
+   "canonical_model": "S2173ND",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2174cl",
+   "canonical_model": "S2174CL",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «que hayan adquirido uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD,»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2175cl",
+   "canonical_model": "S2175CL",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «uno de los siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:s2311hc",
+   "canonical_model": "S2311HC",
+   "doc": "MNDT626.pdf",
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "n_token": 2,
+   "cita": "siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 2 docs); cita verificada full-text en MNDT626.pdf: «siguientes modelos de detector: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, deben leer y seguir las»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:sdx-551",
+   "canonical_model": "SDX-551",
+   "doc": "MNDT285.pdf",
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "n_token": 2,
+   "cita": "tendrán estampado el código R4 en la etiqueta de producto. Los detectores fotoeléctricos SDX-551/751 podrán tener también el código H tras la referencia del modelo. ## NOTAS - La",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 19,
+    "docs_distintos_con_exacta": 13,
+    "n_ilike_hoy": 54,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 19 chunks / 13 docs); cita verificada full-text en MNDT285.pdf: «tendrán estampado el código R4 en la etiqueta de producto. Los detectores fotoeléctricos SDX-551/751 podrán tener también el código H tras la referencia del modelo. ## NOTAS - La»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:smart3g-d",
+   "canonical_model": "SMART3G-D",
+   "doc": "MNDT646_SMART3G toxic_SP-EN.pdf",
+   "document_id": "eb4f831e-80da-452a-b581-d26bbd578710",
+   "n_token": 2,
+   "cita": "dispone de pantalla, consulte las instrucciones que se suministran junto con el detector SMART3G-D con pantalla. ## 4.2 Pruebas Los detectores vienen calibrados de fábrica para detectar",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 2,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 2 chunks / 1 docs); cita verificada full-text en MNDT646_SMART3G toxic_SP-EN.pdf: «dispone de pantalla, consulte las instrucciones que se suministran junto con el detector SMART3G-D con pantalla. ## 4.2 Pruebas Los detectores vienen calibrados de fábrica para detectar»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:smart4",
+   "canonical_model": "SMART4",
+   "doc": "HOP-138-9ES issue 5_11-2025_In",
+   "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "n_token": 2,
+   "cita": "de infrarrojos, monóxido de carbono, óptico, térmico (Marfil) | | IRX-751CTEM-W | SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Blanco Puro) | |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 4,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 4 docs); cita verificada full-text en HOP-138-9ES issue 5_11-2025_In: «de infrarrojos, monóxido de carbono, óptico, térmico (Marfil) | | IRX-751CTEM-W | SMART4 sensor múltiple de infrarrojos, monóxido de carbono, óptico, térmico (Blanco Puro) | |»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:stpl4",
+   "canonical_model": "STPL4",
+   "doc": "MNDT515.pdf",
+   "document_id": "bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3",
+   "n_token": 2,
+   "cita": "triangle symbol with exclamation mark] *NOTA: Si adquiere la tarjeta de expansión STPL4 por separado, recuerde que antes de instalarla en la central PL4 debe desconectar todas",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 2,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 2 chunks / 1 docs); cita verificada full-text en MNDT515.pdf: «triangle symbol with exclamation mark] *NOTA: Si adquiere la tarjeta de expansión STPL4 por separado, recuerde que antes de instalarla en la central PL4 debe desconectar todas»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:tg-6000",
+   "canonical_model": "TG-6000",
+   "doc": "MPDT951_v5-87.pdf",
+   "document_id": "0903db56-30db-4df0-aad9-53c40dc551ea",
+   "n_token": 2,
+   "cita": "Pulsaremos \"1\"-TX y Enter- 10- Saldremos del menú de Programación. ## Configuración en TG-6000. | COM1 | COM1 | COM1 | COM1 | | -------------- | ------ |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 14,
+    "docs_distintos_con_exacta": 6,
+    "n_ilike_hoy": 14,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 14 chunks / 6 docs); cita verificada full-text en MPDT951_v5-87.pdf: «Pulsaremos \"1\"-TX y Enter- 10- Saldremos del menú de Programación. ## Configuración en TG-6000. | COM1 | COM1 | COM1 | COM1 | | -------------- | ------ |»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:tr-500",
+   "canonical_model": "TR-500",
+   "doc": "MNDT060",
+   "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+   "n_token": 2,
+   "cita": "4000TA\" showing a rectangular device with mounting brackets and multiple wire leads] ## TR-500 Trim Ring (Marco de Sujeción) Para el montaje semiempotrado de la cabina CAB-AA. [Trim",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 6,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 6,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 6 chunks / 3 docs); cita verificada full-text en MNDT060: «4000TA\" showing a rectangular device with mounting brackets and multiple wire leads] ## TR-500 Trim Ring (Marco de Sujeción) Para el montaje semiempotrado de la cabina CAB-AA. [Trim»",
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:uds-3n",
+   "canonical_model": "UDS-3N",
+   "doc": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+   "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+   "n_token": 3,
+   "cita": "UDS CXXLXXMXXX**\" donde XXX es la tercera dirección asignada a los módulos del panel UDS-3N. 2) \" **Avería de alimentación del módulo UDS CXXLXXMXXX**\" donde XXX es la sexta",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 9,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en AM-8100 manual de usuario y programacion rev 4 30-10-2024: «UDS CXXLXXMXXX**\" donde XXX es la tercera dirección asignada a los módulos del panel UDS-3N. 2) \" **Avería de alimentación del módulo UDS CXXLXXMXXX**\" donde XXX es la sexta»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:updl-1020",
+   "canonical_model": "UPDL-1020",
+   "doc": "MNDT285.pdf",
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "n_token": 15,
+   "cita": "las averías antes existentes. MN-DT-285_A NOTIFIER ESPAÑA 25 # Manejo del programa UPDL-1020 Una vez ejecutada la aplicación UPDL-1020, aparecerá la ventana principal en la que se",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 6,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 6,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Notifier"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 6 chunks / 1 docs); cita verificada full-text en MNDT285.pdf: «las averías antes existentes. MN-DT-285_A NOTIFIER ESPAÑA 25 # Manejo del programa UPDL-1020 Una vez ejecutada la aplicación UPDL-1020, aparecerá la ventana principal en la que se»",
+   "n_token_flexible": 15
+  },
+  {
+   "id": "notifier:updl-2020",
+   "canonical_model": "UPDL-2020",
+   "doc": "MCDT280",
+   "document_id": "3456a624-aa68-4f81-a261-ffac7481da9a",
+   "n_token": 10,
+   "cita": "erróneos. MC-DT-280 NOTIFIER ESPAÑA, S.A. 8 # CONVERSION Existen diferentes versiones de UPDL-2020. Cuando el formato de la base de datos del programa del fichero cambia de una versión a",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 4,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Spectrex"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 1 docs); cita verificada full-text en MCDT280: «erróneos. MC-DT-280 NOTIFIER ESPAÑA, S.A. 8 # CONVERSION Existen diferentes versiones de UPDL-2020. Cuando el formato de la base de datos del programa del fichero cambia de una versión a»",
+   "n_token_flexible": 11
+  },
+  {
+   "id": "notifier:vsn-2plus",
+   "canonical_model": "VSN-2PLUS",
+   "doc": "HLSI-MA-192_05 Quick Start Guide UCIP GPRS_GB",
+   "document_id": "61ef0e74-7d19-49d8-9180-b515049ada6e",
+   "n_token": 1,
+   "cita": "Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra; Morley-IAS: CONNEXION, VSN-2Plus and ESSER: ESS-2PLUS. UCIP-GPRS is shipped to be connected to the Honeywell GPRS APN to",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 5,
+    "docs_distintos_con_exacta": 5,
+    "n_ilike_hoy": 6,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Morley"
+   },
+   "provenance_add": "s324c E1b §0.A bloque notifier (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 5 chunks / 5 docs); cita verificada full-text en HLSI-MA-192_05 Quick Start Guide UCIP GPRS_GB: «Honeywell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra; Morley-IAS: CONNEXION, VSN-2Plus and ESSER: ESS-2PLUS. UCIP-GPRS is shipped to be connected to the Honeywell GPRS APN to»",
+   "n_token_flexible": 1
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [
+  {
+   "added_by": "f1-bulk",
+   "alias": "ADDRESSABLE INTERFACE MODULE",
+   "id": "notifier:aim-200",
+   "provenance": "s83:MNDT060",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo; R3 palabra genérica (panel/central/detector/módulo/software) sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "equipo FAT",
+   "id": "notifier:fat3000",
+   "provenance": "s83:997-669-005-3_Instal-Comm_ES",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Sensor Analógico Térmico",
+   "id": "notifier:fdx-551r",
+   "provenance": "s83:MNDT150",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "OMNISENSOR ('MULTI')",
+   "id": "notifier:ipx-751",
+   "provenance": "s83:MPDT190",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "SENSOR 'MULTI'",
+   "id": "notifier:ipx-751",
+   "provenance": "s83:MPDT190",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Sensores VIEW",
+   "id": "notifier:lpx-751",
+   "provenance": "s83:MCDT190",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "sistema LTS",
+   "id": "notifier:lts-240",
+   "provenance": "s83:MFDT1070",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Terminal de Informe de la Red",
+   "id": "notifier:nrt-586t",
+   "provenance": "s83:15090SP",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Terminal de Informe de Red",
+   "id": "notifier:nrt-586t",
+   "provenance": "s83:15090SP",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Terminal Reportera de Red",
+   "id": "notifier:nrt-586t",
+   "provenance": "s83:15090SP",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Abrazadera del Cable de Energía",
+   "id": "notifier:pclb-5",
+   "provenance": "s83:15090SP",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "TG NOTIFIER VER 3.2",
+   "id": "notifier:tg-6000",
+   "provenance": "s83:MNDT954",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": true
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "TGNOTIFIER VERSION 3.2",
+   "id": "notifier:tg-6000",
+   "provenance": "s83:MNDT954",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": true
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Marco de Sujeción",
+   "id": "notifier:tr-500",
+   "provenance": "s83:MNDT060",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  }
+ ],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [
+  {
+   "id": "notifier:id-3000",
+   "canonical_model": "ID-3000",
+   "bloque": "0a_notifier",
+   "motivo": "colisión: canonical «ID-3000» ya es consumible en notifier:id3000 (el validador rechaza canonical duplicado) — adjudicar (¿redirect notifier:id-3000 → notifier:id3000?)"
+  },
+  {
+   "id": "notifier:tg-1020",
+   "canonical_model": "TG-1020",
+   "bloque": "0a_notifier",
+   "motivo": "colisión: canonical «TG-1020» ya es consumible en desico:tg-1020 (el validador rechaza canonical duplicado) — adjudicar (¿redirect notifier:tg-1020 → desico:tg-1020?)"
+  }
+ ],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "14 alias de los ids confirmados marcados descriptivo/peligroso (2 entrarían en el detector al confirmar; los 12 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 69 alias model-shaped/anclados al canonical."
+  },
+  {
+   "que": "alias de UNA palabra sin dígito (no cubiertos por R1-R4)",
+   "aviso": "7 alias de una sola palabra sin pinta de modelo (FAT, FDX, LTS, MULTI, UPDL, UPDL.EXE, UPDOWN.EXE…): los nombre-largo NO entran en el detector; los de tipo numero-de-parte/variante-tipografica SÍ (el gate mide palabra_comun/negativos). Se conservan salvo que el gate los señale."
+  },
+  {
+   "que": "homónimo MCX-55M (notifier:mcx-55m)",
+   "aviso": "el término ya es homónimo (ids ['morley:mcx-55m', 'notifier:mcx-55m'], política fail-open, candidate=True): resolve() consulta el homónimo ANTES que exact ⇒ confirmar notifier:mcx-55m NO cambia la resolución (fail-open mientras el homónimo sea candidate); el término YA está en el detector vía homónimo. Confirmar el OTRO id del homónimo en otro bloque romperá el validador (canonical duplicado)."
+  },
+  {
+   "que": "homónimo MMX-10M (notifier:mmx-10m)",
+   "aviso": "el término ya es homónimo (ids ['morley:mmx-10m', 'notifier:mmx-10m'], política fail-open, candidate=True): resolve() consulta el homónimo ANTES que exact ⇒ confirmar notifier:mmx-10m NO cambia la resolución (fail-open mientras el homónimo sea candidate); el término YA está en el detector vía homónimo. Confirmar el OTRO id del homónimo en otro bloque romperá el validador (canonical duplicado)."
+  },
+  {
+   "que": "homónimo NFS8REL (notifier:nfs8rel)",
+   "aviso": "el término ya es homónimo (ids ['morley:nfs8rel', 'notifier:nfs8rel'], política fail-open, candidate=True): resolve() consulta el homónimo ANTES que exact ⇒ confirmar notifier:nfs8rel NO cambia la resolución (fail-open mientras el homónimo sea candidate); el término YA está en el detector vía homónimo. Confirmar el OTRO id del homónimo en otro bloque romperá el validador (canonical duplicado)."
+  },
+  {
+   "que": "colisiones con otros bloques",
+   "aviso": "3 canonicals de este bloque también se confirman en otro bloque (ver colisiones_cross_bloque): aplicar uno solo o adjudicar antes."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [
+  {
+   "id": "notifier:mcx-55m",
+   "canonical_norm": "mcx55m",
+   "tambien_en": [
+    "0a_morley:morley:mcx-55m"
+   ],
+   "aviso": "cada bloque pasa solo; si se aplican AMBOS, el segundo dry-run fallará (canonical duplicado entre consumibles) → adjudicar antes (redirect unresolved→marca / homónimo)"
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "canonical_norm": "mmx10m",
+   "tambien_en": [
+    "0a_morley:morley:mmx-10m"
+   ],
+   "aviso": "cada bloque pasa solo; si se aplican AMBOS, el segundo dry-run fallará (canonical duplicado entre consumibles) → adjudicar antes (redirect unresolved→marca / homónimo)"
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "canonical_norm": "nfs8rel",
+   "tambien_en": [
+    "0a_morley:morley:nfs8rel"
+   ],
+   "aviso": "cada bloque pasa solo; si se aplican AMBOS, el segundo dry-run fallará (canonical duplicado entre consumibles) → adjudicar antes (redirect unresolved→marca / homónimo)"
+  }
+ ],
+ "alias_conservados": [
+  {
+   "alias": "AM-200 Control Panel",
+   "id": "notifier:am-200",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "La central AM-200",
+   "id": "notifier:am-200",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AM - 8 2 00 N",
+   "id": "notifier:am-8200n",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AM-8200N-KLCD (tarjeta frontal equipada)",
+   "id": "notifier:am-8200n",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AM-82N-TOP (estructura de montaje asociada)",
+   "id": "notifier:am-8200n",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AW70PC0 (tarjeta CPU)",
+   "id": "notifier:am-8200n",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AW70PP1 (tarjeta de alimentación CN1)",
+   "id": "notifier:am-8200n",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "chip del AMG-X4",
+   "id": "notifier:amg-x4",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "EPROM AMG-X4",
+   "id": "notifier:amg-x4",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "AM-8200N AW70PC0",
+   "id": "notifier:aw70pc0",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "BX-501 Base",
+   "id": "notifier:bx-501",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "minigabinete CAB-400AA",
+   "id": "notifier:cab-400aa",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CAB-A3 - Gabinete de Hilera Singular",
+   "id": "notifier:cab-a3",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CAB-B3 - Gabinete de Hilera Doble",
+   "id": "notifier:cab-b3",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CAB-C3 - Gabinete de Hilera Triple",
+   "id": "notifier:cab-c3",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CAB-3 tamaño D",
+   "id": "notifier:cab-d3",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CAB-D3 - Gabinete de Hilera Cuádruple",
+   "id": "notifier:cab-d3",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "FAT",
+   "id": "notifier:fat3000",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "FDX",
+   "id": "notifier:fdx-551r",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "protector de la línea eléctrica HSP-121B",
+   "id": "notifier:hsp-121b",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "gama ID1000",
+   "id": "notifier:id1000",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "Serie ID1000",
+   "id": "notifier:id1000",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "MULTI",
+   "id": "notifier:ipx-751",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "IRX-751CTEM",
+   "id": "notifier:irx-751ctem-w",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "ANUNCIADOR LCD-80TM",
+   "id": "notifier:lcd-80tm",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "pantalla alfanumérica LCD-80TM",
+   "id": "notifier:lcd-80tm",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "LTS",
+   "id": "notifier:lts-240",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "LTS 240",
+   "id": "notifier:lts-240",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "sistema LTS 240",
+   "id": "notifier:lts-240",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "Monitor de 17pulgadas (431.8 mm) (MON-17B)",
+   "id": "notifier:mon-17b",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "Monitor de 21pulgadas (533.4 mm) (MON-21)",
+   "id": "notifier:mon-21",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "997-512-000-1",
+   "id": "notifier:nfs8rel",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "586T",
+   "id": "notifier:nrt-586t",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "cubierta del PCLB-5",
+   "id": "notifier:pclb-5",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "gabinete del PCLB-5",
+   "id": "notifier:pclb-5",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "PK8200",
+   "id": "notifier:pk-8200",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "PK8200 1.2",
+   "id": "notifier:pk-8200",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "PK-8200.EXE",
+   "id": "notifier:pk-8200",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "PK-ID3000 REV 2.03G",
+   "id": "notifier:pk-id3000",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "020-648",
+   "id": "notifier:psu3a",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "Ref.: 020-648",
+   "id": "notifier:psu3a",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "unidad de terminación de transmisión RTU01",
+   "id": "notifier:rtu01",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex n SO2",
+   "id": "notifier:s2138sd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex d SO2",
+   "id": "notifier:s2139sd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex n NO2",
+   "id": "notifier:s2140nd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex d NO2",
+   "id": "notifier:s2141nd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex n Cl2",
+   "id": "notifier:s2142cl",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex d Cl2",
+   "id": "notifier:s2143cl",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CC Ex d HCl",
+   "id": "notifier:s2147hc",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex n SO2",
+   "id": "notifier:s2170sd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex d SO2",
+   "id": "notifier:s2171sd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex n NO2",
+   "id": "notifier:s2172nd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex d NO2",
+   "id": "notifier:s2173nd",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex n Cl2",
+   "id": "notifier:s2174cl",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex d Cl2",
+   "id": "notifier:s2175cl",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3 CD Ex d HCl",
+   "id": "notifier:s2311hc",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SDX-551TH",
+   "id": "notifier:sdx-551",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART3G con pantalla",
+   "id": "notifier:smart3g-d",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART4 (abreviado a SMT4)",
+   "id": "notifier:smart4",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMART 4 (COPTIR) Multi-sensor",
+   "id": "notifier:smart4",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SMT4",
+   "id": "notifier:smart4",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "TG-6000 VER 3.2",
+   "id": "notifier:tg-6000",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "TR-500 Trim Ring",
+   "id": "notifier:tr-500",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "UDS-3",
+   "id": "notifier:uds-3n",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "UPDL",
+   "id": "notifier:updl-1020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "UPDL.EXE",
+   "id": "notifier:updl-1020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "UPDL 2020",
+   "id": "notifier:updl-2020",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "UPDOWN.EXE",
+   "id": "notifier:updl-2020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "VNS-2PLUS",
+   "id": "notifier:vsn-2plus",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  }
+ ],
+ "alias_palabra_suelta": [
+  {
+   "alias": "FAT",
+   "id": "notifier:fat3000",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "FDX",
+   "id": "notifier:fdx-551r",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "MULTI",
+   "id": "notifier:ipx-751",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "LTS",
+   "id": "notifier:lts-240",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "UPDL",
+   "id": "notifier:updl-1020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "UPDL.EXE",
+   "id": "notifier:updl-1020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "UPDOWN.EXE",
+   "id": "notifier:updl-2020",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  }
+ ],
+ "riesgo_lexico": [
+  {
+   "id": "notifier:am-8200n",
+   "canonical_model": "AM-8200N",
+   "flags": [],
+   "alias_activados_en_detector": 5,
+   "score": 2.5
+  },
+  {
+   "id": "notifier:pk-8200",
+   "canonical_model": "PK-8200",
+   "flags": [],
+   "alias_activados_en_detector": 3,
+   "score": 1.5
+  },
+  {
+   "id": "notifier:smart4",
+   "canonical_model": "SMART4",
+   "flags": [],
+   "alias_activados_en_detector": 3,
+   "score": 1.5
+  },
+  {
+   "id": "notifier:am-200",
+   "canonical_model": "AM-200",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:amg-x4",
+   "canonical_model": "AMG-X4",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:cab-d3",
+   "canonical_model": "CAB-D3",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:id1000",
+   "canonical_model": "ID1000",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:lcd-80tm",
+   "canonical_model": "LCD-80TM",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonical_model": "LTS-240",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:pclb-5",
+   "canonical_model": "PCLB-5",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:aw70pc0",
+   "canonical_model": "AW70PC0",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:bx-501",
+   "canonical_model": "BX-501",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:cab-400aa",
+   "canonical_model": "CAB-400AA",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:cab-a3",
+   "canonical_model": "CAB-A3",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:cab-b3",
+   "canonical_model": "CAB-B3",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:cab-c3",
+   "canonical_model": "CAB-C3",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:hsp-121b",
+   "canonical_model": "HSP-121B",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:irx-751ctem-w",
+   "canonical_model": "IRX-751CTEM-W",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:mon-17b",
+   "canonical_model": "MON-17B",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:mon-21",
+   "canonical_model": "MON-21",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:nrt-586t",
+   "canonical_model": "NRT-586T",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:pk-id3000",
+   "canonical_model": "PK-ID3000",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:psu3a",
+   "canonical_model": "PSU3A",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:rtu01",
+   "canonical_model": "RTU01",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2138sd",
+   "canonical_model": "S2138SD",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2139sd",
+   "canonical_model": "S2139SD",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2140nd",
+   "canonical_model": "S2140ND",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2141nd",
+   "canonical_model": "S2141ND",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2142cl",
+   "canonical_model": "S2142CL",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2143cl",
+   "canonical_model": "S2143CL",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2147hc",
+   "canonical_model": "S2147HC",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2170sd",
+   "canonical_model": "S2170SD",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2171sd",
+   "canonical_model": "S2171SD",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2172nd",
+   "canonical_model": "S2172ND",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2173nd",
+   "canonical_model": "S2173ND",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2174cl",
+   "canonical_model": "S2174CL",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2175cl",
+   "canonical_model": "S2175CL",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:s2311hc",
+   "canonical_model": "S2311HC",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:sdx-551",
+   "canonical_model": "SDX-551",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:smart3g-d",
+   "canonical_model": "SMART3G-D",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:tg-6000",
+   "canonical_model": "TG-6000",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:tr-500",
+   "canonical_model": "TR-500",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:uds-3n",
+   "canonical_model": "UDS-3N",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:updl-2020",
+   "canonical_model": "UPDL-2020",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:vsn-2plus",
+   "canonical_model": "VSN-2PLUS",
+   "flags": [],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "notifier:afm-16at",
+   "canonical_model": "AFM-16AT",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:afm-32a",
+   "canonical_model": "AFM-32A",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:aim-200",
+   "canonical_model": "AIM-200",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:be-1010n",
+   "canonical_model": "BE-1010N",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:be-2020n",
+   "canonical_model": "BE-2020N",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:be-400",
+   "canonical_model": "BE-400",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:cmx-10",
+   "canonical_model": "CMX-10",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:cmx-10r",
+   "canonical_model": "CMX-10R",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:cpx-551",
+   "canonical_model": "CPX-551",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:cpx-751",
+   "canonical_model": "CPX-751",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:dia-1010",
+   "canonical_model": "DIA-1010",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:dia-2020",
+   "canonical_model": "DIA-2020",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:eia-485",
+   "canonical_model": "EIA-485",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:fat3000",
+   "canonical_model": "FAT3000",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:fdx-551",
+   "canonical_model": "FDX-551",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:fdx-551r",
+   "canonical_model": "FDX-551R",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:fil-nas-2",
+   "canonical_model": "FIL-NAS-2",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:hop-131-206",
+   "canonical_model": "HOP-131-206",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:hop-134-412",
+   "canonical_model": "HOP-134-412",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:hop-208-111",
+   "canonical_model": "HOP-208-111",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:idx-751",
+   "canonical_model": "IDX-751",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:ipx-751",
+   "canonical_model": "IPX-751",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:lcd-80",
+   "canonical_model": "LCD-80",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:lcd-8200",
+   "canonical_model": "LCD-8200",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:lib-8200",
+   "canonical_model": "LIB-8200",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:lpx-751",
+   "canonical_model": "LPX-751",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonical_model": "M710-CZ",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:mcx-55m",
+   "canonical_model": "MCX-55M",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "canonical_model": "MMX-10M",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "canonical_model": "NFS8REL",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:nr45-24e",
+   "canonical_model": "NR45-24E",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:pan-avd1",
+   "canonical_model": "PAN-AVD1",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:prn2000",
+   "canonical_model": "PRN2000",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:prn80",
+   "canonical_model": "PRN80",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:stpl4",
+   "canonical_model": "STPL4",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:updl-1020",
+   "canonical_model": "UPDL-1020",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  }
+ ],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 81,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 14,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 2,
+  "avisos": 6,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 3,
+  "alias_conservados": 69,
+  "alias_palabra_suelta": 7,
+  "riesgo_lexico": 81,
+  "_filas_origen": 83
+ },
+ "_filas_origen": [
+  "notifier:afm-16at",
+  "notifier:afm-32a",
+  "notifier:aim-200",
+  "notifier:am-200",
+  "notifier:am-8200n",
+  "notifier:amg-x4",
+  "notifier:aw70pc0",
+  "notifier:be-1010n",
+  "notifier:be-2020n",
+  "notifier:be-400",
+  "notifier:bx-501",
+  "notifier:cab-400aa",
+  "notifier:cab-a3",
+  "notifier:cab-b3",
+  "notifier:cab-c3",
+  "notifier:cab-d3",
+  "notifier:cmx-10",
+  "notifier:cmx-10r",
+  "notifier:cpx-551",
+  "notifier:cpx-751",
+  "notifier:dia-1010",
+  "notifier:dia-2020",
+  "notifier:eia-485",
+  "notifier:fat3000",
+  "notifier:fdx-551",
+  "notifier:fdx-551r",
+  "notifier:fil-nas-2",
+  "notifier:hop-131-206",
+  "notifier:hop-134-412",
+  "notifier:hop-208-111",
+  "notifier:hsp-121b",
+  "notifier:id-3000",
+  "notifier:id1000",
+  "notifier:idx-751",
+  "notifier:ipx-751",
+  "notifier:irx-751ctem-w",
+  "notifier:lcd-80",
+  "notifier:lcd-80tm",
+  "notifier:lcd-8200",
+  "notifier:lib-8200",
+  "notifier:lpx-751",
+  "notifier:lts-240",
+  "notifier:m710-cz",
+  "notifier:mcx-55m",
+  "notifier:mmx-10m",
+  "notifier:mon-17b",
+  "notifier:mon-21",
+  "notifier:nfs8rel",
+  "notifier:nr45-24e",
+  "notifier:nrt-586t",
+  "notifier:pan-avd1",
+  "notifier:pclb-5",
+  "notifier:pk-8200",
+  "notifier:pk-id3000",
+  "notifier:prn2000",
+  "notifier:prn80",
+  "notifier:psu3a",
+  "notifier:rtu01",
+  "notifier:s2138sd",
+  "notifier:s2139sd",
+  "notifier:s2140nd",
+  "notifier:s2141nd",
+  "notifier:s2142cl",
+  "notifier:s2143cl",
+  "notifier:s2147hc",
+  "notifier:s2170sd",
+  "notifier:s2171sd",
+  "notifier:s2172nd",
+  "notifier:s2173nd",
+  "notifier:s2174cl",
+  "notifier:s2175cl",
+  "notifier:s2311hc",
+  "notifier:sdx-551",
+  "notifier:smart3g-d",
+  "notifier:smart4",
+  "notifier:stpl4",
+  "notifier:tg-1020",
+  "notifier:tg-6000",
+  "notifier:tr-500",
+  "notifier:uds-3n",
+  "notifier:updl-1020",
+  "notifier:updl-2020",
+  "notifier:vsn-2plus"
+ ]
+}

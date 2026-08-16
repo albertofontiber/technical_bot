@@ -1,0 +1,249 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220450Z",
+ "plan_sha": "e0fce6993e8ac316",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 16,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1764,
+  "entran": 20,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "ECO1000(D)B",
+    "normkey": "eco1000(d)b",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*d[-\\s/.+]*b",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000(D)BRx",
+    "normkey": "eco1000(d)brx",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*d[-\\s/.+]*brx",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000(D)BRxSD",
+    "normkey": "eco1000(d)brxsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*d[-\\s/.+]*brxsd",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000(D)BSD",
+    "normkey": "eco1000(d)bsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*d[-\\s/.+]*bsd",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000B",
+    "normkey": "eco1000b",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*b",
+    "origen": "confirmar systemsensor:eco1000b",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*l",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*nl",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*24[-\\s/.+]*l"
+    ]
+   },
+   {
+    "termino": "ECO1000BRELx",
+    "normkey": "eco1000brelx",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*brelx",
+    "origen": "confirmar systemsensor:eco1000brelx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000BRx",
+    "normkey": "eco1000brx",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*brx",
+    "origen": "confirmar systemsensor:eco1000brx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000BRxSD",
+    "normkey": "eco1000brxsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*brxsd",
+    "origen": "confirmar systemsensor:eco1000brxsd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000BSD",
+    "normkey": "eco1000bsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*bsd",
+    "origen": "confirmar systemsensor:eco1000bsd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000DB",
+    "normkey": "eco1000db",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*db",
+    "origen": "confirmar systemsensor:eco1000db",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000DBRx",
+    "normkey": "eco1000dbrx",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*dbrx",
+    "origen": "confirmar systemsensor:eco1000dbrx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000DBRxSD",
+    "normkey": "eco1000dbrxsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*dbrxsd",
+    "origen": "confirmar systemsensor:eco1000dbrxsd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000DBSD",
+    "normkey": "eco1000dbsd",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*dbsd",
+    "origen": "confirmar systemsensor:eco1000dbsd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "RTS451KEY",
+    "normkey": "rts451key",
+    "core": "rts[-\\s/.+]*451[-\\s/.+]*key",
+    "origen": "confirmar systemsensor:rts451key",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "rts[-\\s/.+]*451"
+    ]
+   },
+   {
+    "termino": "WFD20EN",
+    "normkey": "wfd20en",
+    "core": "wfd[-\\s/.+]*20[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd20en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD25EN",
+    "normkey": "wfd25en",
+    "core": "wfd[-\\s/.+]*25[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd25en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD30EN",
+    "normkey": "wfd30en",
+    "core": "wfd[-\\s/.+]*30[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd30en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD40EN",
+    "normkey": "wfd40en",
+    "core": "wfd[-\\s/.+]*40[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd40en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD60EN",
+    "normkey": "wfd60en",
+    "core": "wfd[-\\s/.+]*60[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd60en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD80EN",
+    "normkey": "wfd80en",
+    "core": "wfd[-\\s/.+]*80[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd80en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "ECO1000(D)B",
+    "id": "systemsensor:eco1000b",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ECO1000(D)BRx",
+    "id": "systemsensor:eco1000brx",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ECO1000(D)BRxSD",
+    "id": "systemsensor:eco1000brxsd",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ECO1000(D)BSD",
+    "id": "systemsensor:eco1000b",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

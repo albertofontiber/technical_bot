@@ -1,0 +1,185 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220447Z",
+ "plan_sha": "fc3c8e2cafd869a4",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 13,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1757,
+  "entran": 13,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "ESS12-2Plus",
+    "normkey": "ess122plus",
+    "core": "ess[-\\s/.+]*12[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess12-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS4-2Plus",
+    "normkey": "ess42plus",
+    "core": "ess[-\\s/.+]*4[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess4-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS8-2Plus",
+    "normkey": "ess82plus",
+    "core": "ess[-\\s/.+]*8[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess8-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "EXP-004",
+    "normkey": "exp004",
+    "core": "exp[-\\s/.+]*004",
+    "origen": "confirmar morley:exp-004",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "EXP-004B",
+    "normkey": "exp004b",
+    "core": "exp[-\\s/.+]*004[-\\s/.+]*b",
+    "origen": "confirmar morley:exp-004b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "EXP-005",
+    "normkey": "exp005",
+    "core": "exp[-\\s/.+]*005",
+    "origen": "confirmar morley:exp-005",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MCX-55",
+    "normkey": "mcx55",
+    "core": "mcx[-\\s/.+]*55",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "mcx[-\\s/.+]*55[-\\s/.+]*m"
+    ]
+   },
+   {
+    "termino": "MI-200",
+    "normkey": "mi200",
+    "core": "mi[-\\s/.+]*200",
+    "origen": "confirmar morley:mi-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12",
+    "normkey": "nfs12",
+    "core": "nfs[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12-Supra",
+    "normkey": "nfs12supra",
+    "core": "nfs[-\\s/.+]*12[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs12-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS4-Supra",
+    "normkey": "nfs4supra",
+    "core": "nfs[-\\s/.+]*4[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs4-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS8",
+    "normkey": "nfs8",
+    "core": "nfs[-\\s/.+]*8",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nfs[-\\s/.+]*8[-\\s/.+]*rel"
+    ]
+   },
+   {
+    "termino": "NFS8-Supra",
+    "normkey": "nfs8supra",
+    "core": "nfs[-\\s/.+]*8[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs8-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "MCX-55",
+    "id": "morley:mcx-55m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS12",
+    "id": "morley:nfs12-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS8",
+    "id": "morley:nfs8-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

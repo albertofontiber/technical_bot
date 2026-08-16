@@ -1,0 +1,474 @@
+{
+ "que_es": "s324c — E1b §0.A «confirmar» determinista — kidde (16) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "0a_kidde",
+ "titulo": "§0.A «confirmar» determinista — kidde (16)",
+ "seccion": "§0.A",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s322f_e1b_confirmar_encoger_v1.json → detalle.bloque (ruta=determinista)",
+ "utc": "20260816T220353Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "kidde:2010-1-sb",
+   "canonical_model": "2010-1-SB",
+   "doc": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+   "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+   "n_token": 8,
+   "cita": "automáticas y manuales. Si esta función es necesaria, instale una tarjeta de expansión 2010-1-SB y utilice distintas salidas para cada tipo de alarma. Manual de instalación de las",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 13,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 13,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 13 chunks / 3 docs); cita verificada full-text en bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf: «automáticas y manuales. Si esta función es necesaria, instale una tarjeta de expansión 2010-1-SB y utilice distintas salidas para cada tipo de alarma. Manual de instalación de las»",
+   "n_token_flexible": 8
+  },
+  {
+   "id": "kidde:ke-dm3010rs06",
+   "canonical_model": "KE-DM3010RS06",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "54-17:2005 | | Identyfikacja produktu \\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «54-17:2005 | | Identyfikacja produktu \\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27,»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3010rs18",
+   "canonical_model": "KE-DM3010RS18",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "identification \\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «identification \\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH,»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3010rs27",
+   "canonical_model": "KE-DM3010RS27",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | |»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3010rsch",
+   "canonical_model": "KE-DM3010RSCH",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3010rscl",
+   "canonical_model": "KE-DM3010RSCL",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości użytkowych | |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości użytkowych | |»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3110rs06",
+   "canonical_model": "KE-DM3110RS06",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "| | Identificación del producto<br/>\\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «| | Identificación del producto<br/>\\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH,»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3110rs18",
+   "canonical_model": "KE-DM3110RS18",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "\\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL,",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «\\[1] | KE-DM3010R, KE-DM3110R,<br/>KE-DM3010RS06, KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL,»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3110rs27",
+   "canonical_model": "KE-DM3110RS27",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie |",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110RS06,<br/>KE-DM3010RS18, KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie |»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3110rsch",
+   "canonical_model": "KE-DM3110RSCH",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110RS18,<br/>KE-DM3010RS27, KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:ke-dm3110rscl",
+   "canonical_model": "KE-DM3110RSCL",
+   "doc": "MI_KIDDE_KE_DM3110R_KIT_28a2.pdf",
+   "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
+   "n_token": 3,
+   "cita": "KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości użytkowych | | Deklarowane właściwości",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 7,
+    "docs_distintos_con_exacta": 3,
+    "n_ilike_hoy": 7,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Kidde"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 7 chunks / 3 docs); cita verificada full-text en MI_KIDDE_KE_DM3110R_KIT_28a2.pdf: «KE-DM3110RS27,<br/>KE-DM3010RSCH, KE-DM3110RSCH,<br/>KE-DM3010RSCL, KE-DM3110RSCL | | Przeznaczenie | Patrz Deklaracja właściwości użytkowych | | Deklarowane właściwości»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:nc-mc-0-o",
+   "canonical_model": "NC-MC-0-O",
+   "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf",
+   "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+   "n_token": 3,
+   "cita": "Dostępny również w kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Aritech"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf: «Dostępny również w kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:nc-mc-0-u",
+   "canonical_model": "NC-MC-0-U",
+   "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf",
+   "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+   "n_token": 3,
+   "cita": "ręczny ostrzegacz pożarowy – 560 Ω \\[2] | [1] Dostępny również w kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Aritech"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf: «ręczny ostrzegacz pożarowy – 560 Ω \\[2] | [1] Dostępny również w kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:nc-mc-0-w",
+   "canonical_model": "NC-MC-0-W",
+   "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf",
+   "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+   "n_token": 3,
+   "cita": "kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim (NC-MC-560-U). ##",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Aritech"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf: «kolorze niebieskim (NC-MC-0-U), zielonym (NC-MC-0-G), pomarańczowym (NC-MC-0-O), białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim (NC-MC-560-U). ##»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:nc-mc-0-y",
+   "canonical_model": "NC-MC-0-Y",
+   "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf",
+   "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+   "n_token": 3,
+   "cita": "azul (NC-MC-0-U), verde (NC-MC-0-G), naranja (NC-MC-0-O), blanco (NC-MC-0-W) y amarillo (NC-MC-0-Y). [2] También disponible en azul (NC-MC-560-U). # Instalación **Precaución:** La",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Aritech"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf: «azul (NC-MC-0-U), verde (NC-MC-0-G), naranja (NC-MC-0-O), blanco (NC-MC-0-W) y amarillo (NC-MC-0-Y). [2] También disponible en azul (NC-MC-560-U). # Instalación **Precaución:** La»",
+   "n_token_flexible": 3
+  },
+  {
+   "id": "kidde:nc-mc-560-u",
+   "canonical_model": "NC-MC-560-U",
+   "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf",
+   "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+   "n_token": 3,
+   "cita": "białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim (NC-MC-560-U). ## Instalacja **Uwaga:** Ten produkt musi być instalowany i serwisowany przez",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 3,
+    "docs_distintos_con_exacta": 1,
+    "n_ilike_hoy": 3,
+    "banderas": [],
+    "coherencia_fabricante": "distinto",
+    "fabricante_del_manual": "Aritech"
+   },
+   "provenance_add": "s324c E1b §0.A bloque kidde (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 3 chunks / 1 docs); cita verificada full-text en 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf: «białym (NC-MC-0-W), i żółtym (NC-MC-0-Y). [2] Dostępny również w kolorze niebieskim (NC-MC-560-U). ## Instalacja **Uwaga:** Ten produkt musi być instalowany i serwisowany przez»",
+   "n_token_flexible": 3
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "0 alias de los ids confirmados marcados descriptivo/peligroso (0 entrarían en el detector al confirmar; los 0 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 0 alias model-shaped/anclados al canonical."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [],
+ "alias_conservados": [],
+ "alias_palabra_suelta": [],
+ "riesgo_lexico": [
+  {
+   "id": "kidde:2010-1-sb",
+   "canonical_model": "2010-1-SB",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3010rs06",
+   "canonical_model": "KE-DM3010RS06",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3010rs18",
+   "canonical_model": "KE-DM3010RS18",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3010rs27",
+   "canonical_model": "KE-DM3010RS27",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3010rsch",
+   "canonical_model": "KE-DM3010RSCH",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3010rscl",
+   "canonical_model": "KE-DM3010RSCL",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3110rs06",
+   "canonical_model": "KE-DM3110RS06",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3110rs18",
+   "canonical_model": "KE-DM3110RS18",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3110rs27",
+   "canonical_model": "KE-DM3110RS27",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3110rsch",
+   "canonical_model": "KE-DM3110RSCH",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:ke-dm3110rscl",
+   "canonical_model": "KE-DM3110RSCL",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:nc-mc-0-o",
+   "canonical_model": "NC-MC-0-O",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:nc-mc-0-u",
+   "canonical_model": "NC-MC-0-U",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:nc-mc-0-w",
+   "canonical_model": "NC-MC-0-W",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:nc-mc-0-y",
+   "canonical_model": "NC-MC-0-Y",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:nc-mc-560-u",
+   "canonical_model": "NC-MC-560-U",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  }
+ ],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 16,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 0,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 0,
+  "avisos": 1,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 0,
+  "alias_conservados": 0,
+  "alias_palabra_suelta": 0,
+  "riesgo_lexico": 16,
+  "_filas_origen": 16
+ },
+ "_filas_origen": [
+  "kidde:2010-1-sb",
+  "kidde:ke-dm3010rs06",
+  "kidde:ke-dm3010rs18",
+  "kidde:ke-dm3010rs27",
+  "kidde:ke-dm3010rsch",
+  "kidde:ke-dm3010rscl",
+  "kidde:ke-dm3110rs06",
+  "kidde:ke-dm3110rs18",
+  "kidde:ke-dm3110rs27",
+  "kidde:ke-dm3110rsch",
+  "kidde:ke-dm3110rscl",
+  "kidde:nc-mc-0-o",
+  "kidde:nc-mc-0-u",
+  "kidde:nc-mc-0-w",
+  "kidde:nc-mc-0-y",
+  "kidde:nc-mc-560-u"
+ ]
+}
