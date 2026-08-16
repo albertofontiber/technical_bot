@@ -3650,3 +3650,27 @@ variable nunca cambia durante la sesión».
 Queda decidido y sin cablear lo que más se va a notar: ante «el ASD535 de Detnov», el bot debe
 **corregir la marca y responder en el mismo turno** (conducta (a), decisión de producto de Alberto).
 Hoy corrige y pide confirmar. Y `hp002` no lo mide — el harness no pasa por esa ruta.
+
+## s324 (16 ago 2026) — Alberto adjudica reglas, no filas; y por primera vez el lote entra por puertas que prueban
+
+La sesión empezó con una pregunta de Alberto que era casi un reproche amable: ¿no podías hacer tú
+la revisión exhaustiva con el adversarial y ahorrarme el trabajo manual? La respuesta honesta fue
+que esa revisión ya se había hecho (el encogido de s322i) y que las 911 filas que quedaban «una a
+una» no habían caído por un juez inseguro sino por falta de una regla. Así que en vez de un review
+más, le puse siete reglas sobre la mesa. Las contestó en tres mensajes, con precisiones que solo
+él tenía: KE-DP3120W es una mini-familia; VSN PLUS son 4/8/12 según MIEMI130; 2X-AT es la sub-familia
+táctil; los FAAST «solo Notifier» son en realidad VESDA — «ese ejercicio ya lo hicimos», y el repo
+lo confirmó (DEC-062/083, catalog_gt). Y R5 se convirtió, con su instinto, en la baja de seis
+fragmentos portugueses con hermano español completo.
+
+Lo demás fue construir la máquina que convierte reglas en filas SIN fiarse de nadie: un plan que
+verifica cada cita contra el texto completo, un writer con freeze, backup, swap y CAS, y un censo
+del radio de explosión que mide lo que r30 había avisado que nadie medía. La máquina cazó cosas
+antes de escribir —dos productos que ya existían con otra grafía, un ExitPoint que ya era alias de
+PF24V, un paraguas «2X-A» que dispara en «2 x a»— y el dúo cazó lo que la máquina no veía: Sol, que
+el freeze era de papel y la escritura no atómica; y que R1', el refinamiento que a mí me parecía
+obvio, no lo había firmado nadie. Fable acertó cinco veces desde las semillas… y fabricó una
+transcripción de tools con ficheros que no existen (deuda #86). Aplicado, verificado en censo,
+suite verde. Alberto vuelve a un packet con marcas fila a fila y una lista corta de lo que solo él
+puede decidir. La Puerta A, la que r30 tumbó, quedó por fin validada contra su doble control; su
+resultado honesto es que 0 de las 18 filas RETIRAR son de la clase que cubre. DEC-221.
