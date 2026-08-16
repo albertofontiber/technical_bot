@@ -3608,3 +3608,45 @@ misma familia que el defecto que pretendían arreglar.
 Cero filas tocadas en los tres casos. La lección no es que los dúos funcionen —eso ya se
 sabía—, es que el autor produjo el mismo error tres veces con tres disfraces distintos, y
 que sin el control habría escrito los tres. DEC-220.
+
+## s321 (15-16 ago 2026) — La sentada que empezó por un ítem y acabó arreglando la regla con la que se mide
+
+Alberto abrió preguntando qué le recomendaba para el ítem 2 del packet B2 (`hp011#2`) y qué
+ficheros mirar. Al ir a la evidencia del ítem apareció que el recibo de s305 —el «techo del
+modelo», DEC-186— **nunca había leído al juez**: `sum()` sobre el dict que devuelve
+`judge_conveyed21` da siempre 2. De ahí salió medio día de tirar del hilo: re-juzgar las 9
+respuestas guardadas, comprobar que el «NO alcanzable» de `hp017#2` que cerró la etapa 3 durante
+meses no era una medición sino la etiqueta de un guard, endurecer la sonda para que un negativo
+exija prueba de entrega y cobertura atestada, y reabrir DEC-173/175 con un censo que da población
+≥3 donde se había decidido con 1. Se coordinó con una sesión paralela compartiendo árbol de
+trabajo (cuatro colisiones de numeración, un `git add -A` que barrió 24.000 líneas ajenas y se
+deshizo, un `--body -` que dejó una PR con un carácter de cuerpo).
+
+Después vino la sentada de verdad, y Alberto la hizo **con criterio propio en cada ítem**: rechazó
+el demote de `cat018` («no quiero falsear los misses» — la única casilla que mejoraba el marcador
+sin tocar el bot); propuso el criterio de anclar en el pasaje con más «empaque» que, medido, se
+convirtió en **DEC-221** («anclar en el que da el mecanismo»); leyó las dos reglas por defecto de la
+PEARL mejor que yo (la Regla 1 anula porque comparte disparador; la Regla 2 no se cruza) y luego
+cazó que **A5.4 es una sección de ejemplos** cuando Sol y yo la habíamos leído como norma en dos
+rondas; razonó el ISO-X por lógica pura («si lo acotara no verías 'Tierra' en pantalla») y llegó
+al mismo sitio que la tabla de la p71 (**DEC-223**); y pilló que el 2222 iba como supplementary
+contra su propia marca. Dos de esas cuatro cosas ni Sol ni Fable las vieron.
+
+La aplicación fue el commit largo: render de 17 páginas con ±1 (que cazó que el chunk «p26» del
+MI-716 contiene la p27 física), GPT-5.5 leyendo en frío las mismas imágenes (7/7 coincidentes),
+localización ES+EN por `doc_map` y no por `product_model` (porque `product_model` discrepa del
+catálogo en el 35% de los documentos — **#84**, y me había hecho descartar el manual que
+desambiguaba el ISO-X), seis upserts con un script que valida las seis en memoria antes de
+escribir una, y la cascada s277 + canarios en el mismo commit. La migración de índices que Sol
+pedía en dos rondas **no hizo falta**: `hp017#2` es un release_guard con anclas selladas y no se
+parte; simulado antes, verificado después, 42/42.
+
+Y en medio, el pequeño susto útil: un test que pasaba en solitario y se **apagaba en la suite**
+—su `except` etiquetaba un `AssertionError` como «falta entorno»—, destapado porque `s156`
+mutaba `os.environ` al construir un prompt y una variable con valor `"0"` (apagado) disparaba un
+guard escrito para cazar el encendido (**#85**). Cerrado con el detector puesto: «ninguno: la
+variable nunca cambia durante la sesión».
+
+Queda decidido y sin cablear lo que más se va a notar: ante «el ASD535 de Detnov», el bot debe
+**corregir la marca y responder en el mismo turno** (conducta (a), decisión de producto de Alberto).
+Hoy corrige y pide confirmar. Y `hp002` no lo mide — el harness no pasa por esa ruta.

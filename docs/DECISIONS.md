@@ -6776,7 +6776,14 @@ sentada B2) y de una propuesta de Alberto:
   específica, **ya que, si no, esta será anulada**» — singulariza la regla crítica **y explica el
   efecto**. Va en un recuadro de aviso, con icono y subrayado.
 - **A5.4** (física p45): «las **dos reglas** por defecto… **Deben eliminarse** si se van a crear
-  reglas personalizadas» — instrucción de limpieza, sin mecanismo.
+  reglas personalizadas» — sin mecanismo. **[CORREGIDO s321, cazado por Alberto]**: A5.4 es la
+  sección «**Ejemplos** de reglas de causa-efecto» y esa frase es un paso del **Ejemplo 1**
+  («*¿Cómo crear una regla para permitir una **evacuación por etapas**…?*»), NO una instrucción
+  general del apéndice. Al llamarla «instrucción de limpieza» esta DEC —y Sol en dos rondas de
+  dúo— leímos un ejemplo como norma. La diferencia real entre A5.2 y A5.4 es de **alcance**:
+  advertencia general (una regla) vs. paso de un caso concreto que programa la propia evacuación
+  (dos reglas). Y ese caso es justo el que la lectura de Alberto anticipaba: la Regla 2 (tecla
+  EVACUACIÓN) solo se cruza con la programación cuando lo que se programa es la evacuación.
 
 No se contradicen: son compatibles y de distinto propósito. Medido: con el chunk de A5.2 delante
 el bot transmite el hecho **3/3 a 5/5**; con el de A5.4, **0/3**
@@ -6931,3 +6938,68 @@ una página.
 **Artefactos**: `evals/s312_goldreview_b2_packet_v3.md` (ítem 5) · workflow `wf_38d0cbac-aaf` (9
 agentes: 5 lentes de evidencia + 3 refutadores + síntesis) · verificación a mano contra `chunks_v2` y
 `data/catalog/doc_map.jsonl` en el mismo turno (regla C).
+
+## DEC-224 (s321) — Sentada B2 APLICADA al ruler (6 golds, dúo r-emparejado v1→v4); y la conducta ante marca↔producto errónea pasa a (a) «corregir Y responder» — decisión de PRODUCTO de Alberto, PENDIENTE de cablear
+
+- **Fecha**: 16 ago 2026 (s321). **Impacto**: MEDIO-ALTO — toca el patrón de medida (ruler) y fija
+  una conducta de serving. **Decide**: Alberto (DEC-025 para los golds; producto para la conducta).
+
+### A · Lo aplicado al ruler (un solo commit, cascada s277 incluida — DEC-218)
+
+| ítem | gold | qué | cores |
+|---|---|---|---|
+| 3 | `hp017` | **#2 se CONSERVA** (nombra solo la Regla 1 = coherente con la lectura de Alberto; y es `release_guard` de s277 con anclas selladas — partirlo habría movido el sha del contrato). **+1 `supplementary` «Regla 2»**: describe la diferencia de ALCANCE A5.2/A5.4-Ej.1, sin afirmar «no anula» (el manual no lo dice). No condiciona PASS. | 5→5 |
+| 4 | `cat018` | **split #2** → (a) asociación CBE + (b) Tipo SW/TIPO ID con la regla de **p65** («la central no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general») y la tabla p40-41 (23 tipos). Ambas CORE (Alberto: «no quiero falsear los misses» — adjudicó en CONTRA de la única casilla que mejoraba el marcador sin tocar el bot). `gold_answer` punto 3 alineado. | 4→5 |
+| 5 | `hp006` | **#2 → `supplementary`** + texto reescrito (aísla CORTOCIRCUITOS, no tierra) + las **dos** frases del `gold_answer` + procedencia (offset +7, `acuerdo` corregido) + `citations` creado (f71/f77). DEC-223. | 4→3 |
+| 6 | `cat020` | `valor` = **el marcado por Alberto** («niveles por defecto del protocolo Morley-IAS»; v2-v4 lo habían cambiado sin declararlo — Fable). Texto con los DOS ejes (España + protocolo). Deja de disparar `_is_meta_ref` ⇒ entra al denominador de factlevel. | 3→3 |
+| 8 | `hp002` | Enunciado **INTACTO** («de Detnov» = estímulo `oem-relabel`; `hp019` es el control con la marca correcta — asimetría deliberada). **+1 core «Securiton AG»** al final: HECHO de fabricante (portada + p18 «Fabricante = Securiton»), SIN meta-instrucción. | 5→6 |
+| 9 | `hp021` | **ALTA**: ruta AJUSTES > AVANZADO (core) + acceso candado/2222 (core, UNO como adjudicó Alberto) + 2 suppl. Estrato `sintesis-completitud`. Verificado COMPLETO: render 160dpi ±1, GPT-5.5 en frío, localización ES+EN por doc_map. | +2 |
+
+**Verificación (RULER_DESIGN §2, punto por punto)**: (1) localización exhaustiva ES+EN por `doc_map`
+—no por `product_model` (TECH_DEBT #84)— para los tres golds con cores nuevos →
+`evals/s321_localizacion_es_en_v1.json`; (2)+(3) render 160dpi de 17 páginas con ±1 →
+`logs/render/s321/`; (4) doble señal GPT-5.5 en frío sobre 7 páginas → `evals/s321_cross_verify_v1.txt`,
+**coincidente en las 7**. **El render ±1 cazó un off-by-one**: el chunk «p26» del MI-716 contiene el
+diagrama que físicamente está en **p27** (PDF apaisado, dos páginas por hoja) — ambos modelos lo vieron;
+la cita de `hp021` es p27. Es exactamente para lo que el paso 3 existe.
+
+**Cascada s277 (DEC-218)**: builder → contrato+prereg_v1; pins copiados a mano a prereg_v2/v3 y scorer
+(`da79055e/fbfc97cc → 7c39ba69/511bc020`); canarios s203/s204/s205 re-anclados al ledger
+(`a306b126 → 59df5f99`, diff de UNA línea cada uno); manifest histórico **intacto**. 24/24 tests.
+**La migración de índices que Sol pedía NO hizo falta**: al no partir `hp017#2`, las 42 claves históricas
+OK del ledger s113 siguen válidas (simulado ANTES de escribir, verificado DESPUÉS contra el YAML real).
+
+**El dúo (4 rondas: v1→v4, todas registradas en `evals/adversarial_review_log.jsonl`)**: Sol NO SÓLIDO en
+v1/v2, 7 en v3, 7 en v4; Fable emparejado sobre v4 (ts=2026-08-16T11:51:02): **sin críticos**, 3 medios.
+**Cero falsos positivos** en las cuatro rondas tras regla C. Lo que el dúo NO cazó y sí cazó Alberto: el
+2222 como supplementary en `hp021` (contra su marca explícita) y que A5.4 es un EJEMPLO. Lo que el dúo
+cazó y yo tenía mal: `product_model` como filtro (→ #84), `load_dev()` sin filtro de estado, el harness
+que no atraviesa `mismatch`, `hp006` sin `citations`, dos frases ISO-X en vez de una, `cat020` con el
+`valor` cambiado sin declarar, la meta-instrucción en el core de `hp002`, mezcla de denominadores.
+
+**Fuera del ruler, declarado**: «FORC/CON/CONV/GSND/GSTR sí aceptan CBE» (p39 solo lista); «distribuido por
+Detnov» (ningún chunk del ASD535 lo dice); «Guía Avanzada = MC-380» (va en `notes` de hp021, anclado en
+doc_map, no como hecho); «el MI-716 no documenta AVANZADO» (ausencia: exigiría render de 48 pp).
+
+### B · La conducta ante «el ASD535 de Detnov» — decisión de PRODUCTO, PENDIENTE de cablear
+
+**Estado real HOY** (verificado en código, no en el packet — que decía «rechaza» y era inexacto):
+`src/orchestrator/turn_plan.py:451-460` detecta la marca mencionada, resuelve `marca_de_modelo` en el
+catálogo y si no coincide devuelve `ruta="mismatch"`; `src/bot/telegram_bot.py:1178-1189` responde
+literal «*El ASD535 es un producto de Securiton, no de Detnov. ¿Te refieres al ASD535 de Securiton? Si es
+así, dime tu pregunta y te ayudo.*» y **retorna sin llamar al RAG** = corrige y pide confirmar (b).
+
+**Decisión de Alberto: (a)** — corregir la marca **y responder en el mismo turno**. Prefiere fluidez con
+el riesgo declarado (asume aparato correcto, marca equivocada). **Alternativas**: (b) como hoy — un turno
+más, más seguro si el técnico se equivocó de aparato; (c) rechazar seco — no existía.
+
+**Qué exige cablear**: que la ruta `mismatch` corrija **y siga a `_process_query`** con el modelo
+resuelto. Es serving ⇒ dúo + flag-off + PR propio. **NO entra en esta PR.**
+
+**Cómo se mide** — y esto es lo que Sol v4 cazó y hay que tener claro: el harness
+(`test_bot_vs_gold.run_bot`) llama a `execute_rag_turn` directo y **no atraviesa `mismatch`** ⇒ `hp002`
+mide si el GENERADOR nombra a Securiton ante «de Detnov», **no** la conducta de serving. La conducta (a)
+se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testigo end-to-end.
+
+**Artefactos**: `evals/s321_sentada_b2_conjunto_de_escritura_v{1,2,3,4}.md` · `scripts/s321_aplicar_sentada_b2.py`
+(falla-cerrado: valida las 6 en memoria antes de escribir) · `evals/s312_goldreview_b2_packet_v3.md`.

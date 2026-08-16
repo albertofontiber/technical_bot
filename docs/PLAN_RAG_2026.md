@@ -26,7 +26,38 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s323 — 15 ago 2026)
+## Estado actual (s321 — 16 ago 2026)
+
+**s321 — la sentada B2 APLICADA al ruler (DEC-224), y por el camino el instrumento se
+arregló dos veces.** Arrancó como una pregunta de Alberto sobre el ítem 2 del packet y
+acabó así: (1) **DEC-186 en revisión** — el «techo del modelo» de s305 nunca leyó al juez
+(`sum()` sobre un dict → constante 2; TECH_DEBT #75) y su «NO alcanzable» de `hp017#2` no
+era una medición: la sonda de alcanzabilidad se **endureció** (prueba de entrega +
+cobertura atestada, `scripts/reachability_verdict.py`, 10 tests) y **DEC-173/175 reabiertas**
+(la población de lever B es ≥3, no 1). (2) **DEC-221**: el gold se ancla en el pasaje que da
+el **mecanismo** — nació de un caso (PEARL A5.2/A5.4) y se pagó solo en el siguiente (ISO-X
+p17/p77). (3) **DEC-223**: el ISO-X **no** acota un fallo de tierra — cerrado dentro del manual
+aplicable, y con el razonamiento de Alberto («si lo acotara no verías 'Tierra'»). (4) **DEC-224**:
+los 6 golds de la sentada escritos vía `gold_store` con verificación COMPLETA (render ±1 →
+cazó un off-by-one en MI-716; GPT-5.5 en frío coincidente 7/7; localización ES+EN por
+`doc_map`), cascada s277 + canarios en el mismo commit, **sin migración de índices** (no partir
+`hp017#2`, que es release_guard). Y la **conducta ante marca↔producto errónea pasa a (a)
+«corregir Y responder»** — decisión de producto, **pendiente de cablear** (serving, dúo, PR
+propio); `hp002` NO es su testigo (el harness no atraviesa `mismatch`). Deuda nueva: **#83**
+(capa visual de criticidad perdida), **#84** (`product_model` ≠ aplicabilidad: 35% de discrepancia
+con `doc_map`, censo ejecutado), **#85** (guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con
+distinta semántica que su consumidor). Y un guard que se apagaba en silencio en la suite
+(`test_s321_reachability_delivery_proof`) — arreglado junto con la fuga de entorno de `s156` que
+lo destapaba. Dúo: 4 rondas Sol (v1→v4) + Fable emparejado, **0 falsos positivos**; lo que el dúo
+no cazó lo cazó Alberto dos veces (2222 como suppl; A5.4 es un EJEMPLO).
+
+**Qué sigue**: (1) cablear la conducta (a) de `mismatch` (dúo + flag + smoke del bot real);
+(2) reescribir DEC-186 con su número real (dúo propio) y la raíz de #75; (3) #84 medir el daño
+en serving antes de tocar `_product_aligned_chunks`; (4) sonda `hp013#1` para afinar la población
+de lever B; (5) re-medir factlevel (los golds cambiaron: 4 cores nuevos, 1 demote, 1 entra al
+denominador) — smoke antes del full.
+
+## Estado anterior (s323 — 15 ago 2026)
 
 **s323 — «dónde corre Claude» montado (DEC-220)**: las TRES superficies quedan
 cubiertas — **Cloud** (VM de Anthropic, sigue con el PC apagado), **Remote Control**
