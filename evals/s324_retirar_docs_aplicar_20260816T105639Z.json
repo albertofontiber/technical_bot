@@ -1,0 +1,184 @@
+{
+ "que_es": "s324 — BAJA de corpus (documents.status='retired') de documentos adjudicados por Alberto.",
+ "modo": "aplicar",
+ "utc": "20260816T105639Z",
+ "plan": [
+  {
+   "doc": "4188-1132-PT issue 4_04_2025-Qref.pdf",
+   "document_id": "0a33955c-8334-4213-b1fb-faad7a78d010",
+   "clase": "fragmento-pt",
+   "motivo": "fragmento PT (1 pág.) de la Qref INSPIRE E10/E15; ES completa 18 chunks",
+   "chunks": 1,
+   "product_model": "INSPIRE E10/E15",
+   "hermano_es": {
+    "doc": "4188-1132-ES issue 3_04_2025_Qref",
+    "chunks": 18
+   },
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MIE-MI-120P.pdf",
+   "document_id": "8452f936-1ff7-4917-b4b6-3aa4b2108867",
+   "clase": "fragmento-pt",
+   "motivo": "fragmento PT (leyenda del frontal, Rev 001) del manual VSN 2-4; ES Rev 005 con 48 chunks",
+   "chunks": 1,
+   "product_model": "VSN 2-4",
+   "hermano_es": {
+    "doc": "MIEMI120rev05.pdf",
+    "chunks": 48
+   },
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MIEMU520P.pdf",
+   "document_id": "bbcae371-11de-401e-9959-24b2443ee362",
+   "clase": "fragmento-pt",
+   "motivo": "fragmento PT (1 pág.) del manual Dimension; ES con 68 chunks",
+   "chunks": 1,
+   "product_model": "Dimension",
+   "hermano_es": {
+    "doc": "MIE-MU-520rv02.pdf",
+    "chunks": 68
+   },
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "4188-1124-PT issue 4_01-2026_To.pdf",
+   "document_id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+   "clase": "fragmento-pt",
+   "motivo": "fragmento PT (6 chunks) de CLSS Configuration Tool; ES issue 6 con 116 chunks",
+   "chunks": 6,
+   "product_model": "CLSS Configuration Tool",
+   "hermano_es": {
+    "doc": "4188-1124-ES issue 6_01-2026_To",
+    "chunks": 116
+   },
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "I56-3956-201_PT Morley Loop FAAST LT QIG.pdf",
+   "document_id": "96779f28-2c7c-40d0-9c9e-bcc534d03bbd",
+   "clase": "fragmento-pt",
+   "motivo": "fragmento PT (2 chunks) de la QIG FAAST LT; ES con 22 chunks",
+   "chunks": 2,
+   "product_model": "FL-20",
+   "hermano_es": {
+    "doc": "I56-3956-201_ES Morley Loop FAAST LT QIG.pdf",
+    "chunks": 22
+   },
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MNDT1003P",
+   "document_id": "886efa3a-5e92-4225-8887-831543fcfedf",
+   "clase": "fragmento-pt",
+   "motivo": "hoja BA1 de 1 página duplicada en PT; ES propia (1 chunk) con doc_map propio",
+   "chunks": 1,
+   "product_model": "BA1",
+   "hermano_es": {
+    "doc": "MNDT1003",
+    "chunks": 1
+   },
+   "doc_map_entries_a_quitar": [
+    "notifier:ba1"
+   ]
+  },
+  {
+   "doc": "MA-DT-1160",
+   "document_id": "8cb4f404-fe75-4a00-ba11-2bc34b7e8c3c",
+   "clase": "adjudicacion-s323",
+   "motivo": "Alberto (s323): eliminar del corpus — paper sobre ExitPoint, no habla de características ni de uso",
+   "chunks": 14,
+   "product_model": "ExitPoint",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  }
+ ],
+ "rechazadas": [],
+ "backup": [
+  {
+   "document_id": "0a33955c-8334-4213-b1fb-faad7a78d010",
+   "status_prev": "active",
+   "notes_prev": "s65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad = consenso de chunks cross-checked, diseño v2 A1).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "8452f936-1ff7-4917-b4b6-3aa4b2108867",
+   "status_prev": "active",
+   "notes_prev": null,
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "bbcae371-11de-401e-9959-24b2443ee362",
+   "status_prev": "active",
+   "notes_prev": null,
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+   "status_prev": "active",
+   "notes_prev": "s65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad = consenso de chunks cross-checked, diseño v2 A1).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "96779f28-2c7c-40d0-9c9e-bcc534d03bbd",
+   "status_prev": "active",
+   "notes_prev": null,
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "886efa3a-5e92-4225-8887-831543fcfedf",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": {
+    "document_id": "886efa3a-5e92-4225-8887-831543fcfedf",
+    "entries": [
+     {
+      "id": "notifier:ba1",
+      "provenance": "s83 found_by=both",
+      "role": "primary",
+      "scope": "doc"
+     }
+    ],
+    "source_file": "MNDT1003P"
+   }
+  },
+  {
+   "document_id": "8cb4f404-fe75-4a00-ba11-2bc34b7e8c3c",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  }
+ ],
+ "aplicado": [
+  {
+   "document_id": "0a33955c-8334-4213-b1fb-faad7a78d010",
+   "status": "retired"
+  },
+  {
+   "document_id": "8452f936-1ff7-4917-b4b6-3aa4b2108867",
+   "status": "retired"
+  },
+  {
+   "document_id": "bbcae371-11de-401e-9959-24b2443ee362",
+   "status": "retired"
+  },
+  {
+   "document_id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+   "status": "retired"
+  },
+  {
+   "document_id": "96779f28-2c7c-40d0-9c9e-bcc534d03bbd",
+   "status": "retired"
+  },
+  {
+   "document_id": "886efa3a-5e92-4225-8887-831543fcfedf",
+   "status": "retired"
+  },
+  {
+   "document_id": "8cb4f404-fe75-4a00-ba11-2bc34b7e8c3c",
+   "status": "retired"
+  }
+ ],
+ "reversion": "PATCH documents set status=<status_prev> por document_id; doc_map: restaurar doc_map_prev"
+}

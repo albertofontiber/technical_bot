@@ -1,0 +1,1610 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260816T113215Z",
+ "plan_sha": "aa8a081ec09930d3",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "35a6aee6cd81cfb2",
+   "aliases": "2618d5187ef42985",
+   "umbrellas": "e78e3b3e45f7ac26",
+   "doc_map": "1203bd924ebd5265"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "17bec4f27eac1014"
+ },
+ "stats": {
+  "altas": 13,
+  "confirmadas": 7,
+  "retiradas": 2,
+  "aliases_quitados": 1,
+  "umbrellas": 3,
+  "doc_map_altas": 57,
+  "doc_map_modificadas": 2
+ },
+ "censo_post": {
+  "terminos_antes": 1667,
+  "terminos_despues": 1695,
+  "entran": 28,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "2X-AT",
+    "normkey": "2xat",
+    "core": "2[-\\s/.+]*x[-\\s/.+]*at",
+    "origen": "paraguas 2X-AT (11 ids)",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*1[-\\s/.+]*fb[-\\s/.+]*s",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb[-\\s/.+]*p",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*fb[-\\s/.+]*s",
+     "2[-\\s/.+]*x[-\\s/.+]*at[-\\s/.+]*f[-\\s/.+]*2[-\\s/.+]*p"
+    ]
+   },
+   {
+    "termino": "2X-A Táctil",
+    "normkey": "2xatactil",
+    "core": "2[-\\s/.+]*x[-\\s/.+]*a[-\\s/.+]*tactil",
+    "origen": "paraguas 2X-A Táctil (11 ids)",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX1e",
+    "normkey": "dx1e",
+    "core": "dx[-\\s/.+]*1[-\\s/.+]*e",
+    "origen": "confirmar morley:dx1e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*1",
+     "dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m"
+    ]
+   },
+   {
+    "termino": "DX1e-20S",
+    "normkey": "dx1e20s",
+    "core": "dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*s",
+    "origen": "confirmar morley:dx1e-20s",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*1"
+    ]
+   },
+   {
+    "termino": "DX2",
+    "normkey": "dx2",
+    "core": "dx[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e",
+    "normkey": "dx2e",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e",
+    "origen": "confirmar morley:dx2e",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e-40M",
+    "normkey": "dx2e40m",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "confirmar morley:dx2e-40m",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX2e-40MP",
+    "normkey": "dx2e40mp",
+    "core": "dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*mp",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DX4e",
+    "normkey": "dx4e",
+    "core": "dx[-\\s/.+]*4[-\\s/.+]*e",
+    "origen": "confirmar morley:dx4e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "DX4e-40L",
+    "normkey": "dx4e40l",
+    "core": "dx[-\\s/.+]*4[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*l",
+    "origen": "confirmar morley:dx4e-40l",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "dx[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "FACP MODEL DX1e-20S",
+    "normkey": "facpmodeldx1e20s",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*1[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*s",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FACP MODEL DX2e-40M",
+    "normkey": "facpmodeldx2e40m",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*2[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FACP MODEL DX4e-40L",
+    "normkey": "facpmodeldx4e40l",
+    "core": "facp[-\\s/.+]*model[-\\s/.+]*dx[-\\s/.+]*4[-\\s/.+]*e[-\\s/.+]*40[-\\s/.+]*l",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-ADPW-KIL",
+    "normkey": "kedbaadpwkil",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*kil",
+    "origen": "alta kidde:ke-dba-adpw-kil",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-ADPW-ZIT",
+    "normkey": "kedbaadpwzit",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*zit",
+    "origen": "alta kidde:ke-dba-adpw-zit",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3120W-SN",
+    "normkey": "kedp3120wsn",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w[-\\s/.+]*sn",
+    "origen": "alta kidde:ke-dp3120w-sn",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w"
+    ]
+   },
+   {
+    "termino": "KE-DP3120W-SNV",
+    "normkey": "kedp3120wsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3120w-snv",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dp[-\\s/.+]*3120[-\\s/.+]*w"
+    ]
+   },
+   {
+    "termino": "KE-DP3121B",
+    "normkey": "kedp3121b",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*b",
+    "origen": "alta kidde:ke-dp3121b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121B-SNV",
+    "normkey": "kedp3121bsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*b[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3121b-snv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W",
+    "normkey": "kedp3121w",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w",
+    "origen": "alta kidde:ke-dp3121w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W-SN",
+    "normkey": "kedp3121wsn",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w[-\\s/.+]*sn",
+    "origen": "alta kidde:ke-dp3121w-sn",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3121W-SNV",
+    "normkey": "kedp3121wsnv",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3121[-\\s/.+]*w[-\\s/.+]*snv",
+    "origen": "alta kidde:ke-dp3121w-snv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-IU3111-ZME",
+    "normkey": "keiu3111zme",
+    "core": "ke[-\\s/.+]*iu[-\\s/.+]*3111[-\\s/.+]*zme",
+    "origen": "alta kidde:ke-iu3111-zme",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-MBX-1",
+    "normkey": "niombx1",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*mbx[-\\s/.+]*1",
+    "origen": "alta kidde:n-io-mbx-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-MBX-2",
+    "normkey": "niombx2",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*mbx[-\\s/.+]*2",
+    "origen": "alta kidde:n-io-mbx-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-SBX-1G",
+    "normkey": "niosbx1g",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*sbx[-\\s/.+]*1[-\\s/.+]*g",
+    "origen": "alta kidde:n-io-sbx-1g",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN 12 PLUS",
+    "normkey": "vsn12plus",
+    "core": "vsn[-\\s/.+]*12[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn-12-plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN PLUS",
+    "normkey": "vsnplus",
+    "core": "vsn[-\\s/.+]*plus",
+    "origen": "paraguas VSN PLUS (3 ids)",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*plus[-\\s/.+]*2"
+    ]
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "DX2",
+    "id": "morley:dx2e",
+    "tipo": "variante-tipografica",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "DX2e-40MP",
+    "id": "morley:dx2e-40m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX1e-20S",
+    "id": "morley:dx1e-20s",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX2e-40M",
+    "id": "morley:dx2e-40m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FACP MODEL DX4e-40L",
+    "id": "morley:dx4e-40l",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?": {
+    "antes": [],
+    "despues": [
+     "2x-at"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "avisos_muy_corto": [
+   "DX2"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?": {
+    "allowed_sources_nuevas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "zxe"
+    ]
+   },
+   "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?": {
+    "allowed_sources_nuevas": [
+     "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "DXC-Connexion-Ajuste-contraste-display.pdf",
+     "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+     "DXC-No-puedo-comunicar-con-la-central.pdf",
+     "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf",
+     "DXC-Puedo-anular-la-clave-de-usuario-y-acceder-directamente-al-teclado.pdf",
+     "DXC-Referencias-repuestos.pdf",
+     "DXC-puedo-cambiar-la-clave-de-nivel-3.pdf",
+     "DXc-Conexion-Como-solucionar-la-averia-de-Estado-Inconsistente-Anulado.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "dxc"
+    ]
+   },
+   "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?": {
+    "allowed_sources_nuevas": [
+     "hlsi-ti-001"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "rp1r"
+    ]
+   },
+   "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?": {
+    "allowed_sources_nuevas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "zxe"
+    ]
+   },
+   "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?": {
+    "allowed_sources_nuevas": [
+     "ASD Harsh Environments_SP"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "faast lt-200"
+    ]
+   },
+   "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?": {
+    "allowed_sources_nuevas": [
+     "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "DXC-Connexion-Ajuste-contraste-display.pdf",
+     "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+     "DXC-No-puedo-comunicar-con-la-central.pdf",
+     "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf",
+     "DXC-Puedo-anular-la-clave-de-usuario-y-acceder-directamente-al-teclado.pdf",
+     "DXC-Referencias-repuestos.pdf",
+     "DXC-puedo-cambiar-la-clave-de-nivel-3.pdf",
+     "DXc-Conexion-Como-solucionar-la-averia-de-Estado-Inconsistente-Anulado.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "dxc"
+    ]
+   },
+   "En la central Kidde 2X-AF2, ¿cómo se configuran las zonas (agrupar detectores y pulsadores) y cuántas zonas admite?": {
+    "allowed_sources_nuevas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "2x-af2"
+    ]
+   },
+   "¿Cómo amplío una central 2X-AF2 con un lazo adicional (tarjeta 2X-A-LB)?": {
+    "allowed_sources_nuevas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "2x-af2",
+     "2x-a-lb"
+    ]
+   },
+   "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?": {
+    "allowed_sources_nuevas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+     "2x-at-f2-161721-es",
+     "2x-at-f2-fb-161721-es",
+     "2x-at-f2-fb-p-161721-es",
+     "2x-at-f2-fb-s-161721-es",
+     "2x-at-f2-p-161721-es",
+     "2x-at-f2-s-161721-es",
+     "DS_KIDDE_2X_AT_FR_FB_S_202602_ES_4276.pdf",
+     "DS_KIDDE_2X_AT_FR_S_202602_ES_904a.pdf",
+     "DS_KIDDE_2X_AT_FR_S_98dc.pdf"
+    ],
+    "ids_nuevos": [
+     "kidde:2x-at-f1-fb-s",
+     "kidde:2x-at-f2",
+     "kidde:2x-at-f2-fb",
+     "kidde:2x-at-f2-fb-p",
+     "kidde:2x-at-f2-fb-s",
+     "kidde:2x-at-f2-p",
+     "kidde:2x-at-f2-s",
+     "kidde:2x-at-fr",
+     "kidde:2x-at-fr-fb",
+     "kidde:2x-at-fr-fb-s",
+     "kidde:2x-at-fr-s"
+    ],
+    "detected": [
+     "2x-at"
+    ]
+   }
+  },
+  "efecto_docmap": {
+   "fidegas:s2-t1": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-T1-y-S-2-T1"
+    ]
+   },
+   "fidegas:s3-t1": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-T1-y-S-2-T1"
+    ]
+   },
+   "kidde:2x-ae1": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-ae2": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-ae2-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1-fb": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1-fb-s": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1-scfb": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af1-scfb-s": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-09": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-prt": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-prt-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-prt": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-prt-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-s": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb-p": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-afr": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-afr-fb": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-afr-fb-s": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-afr-s": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf"
+    ]
+   },
+   "kidde:2x-at-f1-fb-s": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2-fb": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2-fb-p": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2-fb-s": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2-p": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-f2-s": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-fr": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-fr-fb": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es"
+    ]
+   },
+   "kidde:2x-at-fr-fb-s": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+     "DS_KIDDE_2X_AT_FR_FB_S_202602_ES_4276.pdf"
+    ]
+   },
+   "kidde:2x-at-fr-s": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+     "DS_KIDDE_2X_AT_FR_S_202602_ES_904a.pdf",
+     "DS_KIDDE_2X_AT_FR_S_98dc.pdf"
+    ]
+   },
+   "kidde:ke-dba-adpw-kil": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf"
+    ]
+   },
+   "kidde:ke-dba-adpw-zit": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf"
+    ]
+   },
+   "kidde:ke-dp3120w-sn": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dp3120w-snv": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dp3121b": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HD_KE_DP3121B_202407_ES_8c51.pdf"
+    ]
+   },
+   "kidde:ke-dp3121b-snv": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_DP3121B_SNV_202503_ES_b5bc.pdf",
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dp3121w": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dp3121w-sn": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_DP3121W_SN_202503_ES_5938.pdf",
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dp3121w-snv": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_DP3121W_SNV_202503_ES_8699.pdf",
+     "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    ]
+   },
+   "kidde:ke-dt3101w-hab": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "HD_KE_DT3101W_HAB_202407_ES_30e0.pdf"
+    ]
+   },
+   "kidde:ke-io3122": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MI_KIDDE_KE_IO3144_631e.pdf"
+    ]
+   },
+   "kidde:ke-io3144": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MI_KIDDE_KE_IO3144_631e.pdf"
+    ]
+   },
+   "kidde:ke-iu3111-zme": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_IU3111_ZME_f908.pdf",
+     "MI_KE_IU3111_ZME_202407_ES_fde1.pdf"
+    ]
+   },
+   "kidde:n-io-mbx-1": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf",
+     "MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf"
+    ]
+   },
+   "kidde:n-io-mbx-2": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf"
+    ]
+   },
+   "kidde:n-io-sbx-1g": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf"
+    ]
+   },
+   "kidde:nc-pf2": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 9,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "kidde:nc-pf2-sc": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 8,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "kidde:nc-pf4": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 9,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "kidde:nc-pf4-sc": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 9,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "kidde:nc-pf8": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 9,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "kidde:nc-pf8-sc": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 9,
+    "ganadas": [
+     "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+     "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+     "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+     "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+     "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+     "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf"
+    ]
+   },
+   "morley:dx1e": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:dx2e": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:dx4e": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:dxc1": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 26,
+    "ganadas": [
+     "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "DXC-Connexion-Ajuste-contraste-display.pdf",
+     "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+     "DXC-No-puedo-comunicar-con-la-central.pdf",
+     "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf"
+    ]
+   },
+   "morley:dxc2": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 26,
+    "ganadas": [
+     "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "DXC-Connexion-Ajuste-contraste-display.pdf",
+     "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+     "DXC-No-puedo-comunicar-con-la-central.pdf",
+     "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf"
+    ]
+   },
+   "morley:dxc4": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 26,
+    "ganadas": [
+     "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "DXC-Connexion-Ajuste-contraste-display.pdf",
+     "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+     "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+     "DXC-No-puedo-comunicar-con-la-central.pdf",
+     "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf"
+    ]
+   },
+   "morley:exp-051": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MIE-MI-340_1.pdf"
+    ]
+   },
+   "morley:mi-fl2011ei": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "morley:mi-fl2012ei": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "morley:mi-fl2022ei": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "morley:mi-osi-rie": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "OSID-Es-necesario-resetear-la-barrera-de-forma-externa.pdf"
+    ]
+   },
+   "morley:vsn-12-plus": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf"
+    ]
+   },
+   "morley:vsn-4-plus": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf"
+    ]
+   },
+   "morley:vsn-8-plus": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf"
+    ]
+   },
+   "morley:vsn12-lt": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf",
+     "No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf"
+    ]
+   },
+   "morley:vsn2-lt": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf",
+     "No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf"
+    ]
+   },
+   "morley:vsn4-lt": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf",
+     "No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf"
+    ]
+   },
+   "morley:vsn8-lt": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf",
+     "No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf"
+    ]
+   },
+   "morley:zx10se": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx1e": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx1se": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx2e": {
+    "fuentes_antes": 7,
+    "fuentes_despues": 10,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx2se": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx5e": {
+    "fuentes_antes": 7,
+    "fuentes_despues": 10,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zx5se": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+     "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf"
+    ]
+   },
+   "morley:zxae": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ]
+   },
+   "morley:zxee": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ]
+   },
+   "morley:zxr-a": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MIE-MI-431rv2_1.pdf"
+    ]
+   },
+   "morley:zxr-p": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MIE-MI-431rv2_1.pdf"
+    ]
+   },
+   "notifier:faast-8100e": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl0111e-hs": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl0112e-hs": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl0122e-hs": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl2011ei-hs": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl2012ei-hs": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:fl2022ei-hs": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:nfs-2-8": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "Finales-de-linea-de-las-centrales-convencionales.pdf"
+    ]
+   },
+   "notifier:nfxi-asd11-hs": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:nfxi-asd12-hs": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:nfxi-asd22-hs": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "ASD Harsh Environments_SP"
+    ]
+   },
+   "notifier:rp1r": {
+    "fuentes_antes": 10,
+    "fuentes_despues": 10,
+    "ganadas": []
+   },
+   "notifier:rp1r-supra": {
+    "fuentes_antes": 16,
+    "fuentes_despues": 17,
+    "ganadas": [
+     "hlsi-ti-001"
+    ]
+   },
+   "notifier:ucip": {
+    "fuentes_antes": 21,
+    "fuentes_despues": 23,
+    "ganadas": [
+     "UCIP-Como-enviar-datos-de-equipos-y-no-solo-eventos-de-zonas.pdf",
+     "UCIP-Que-datos-necesito-de-la-receptora.pdf"
+    ]
+   },
+   "notifier:vsn-2plus": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "notifier:vsn-4rel": {
+    "fuentes_antes": 7,
+    "fuentes_despues": 7,
+    "ganadas": []
+   },
+   "systemsensor:pf24v": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MNDT1160"
+    ]
+   }
+  },
+  "findability_retags": [
+   {
+    "doc": "4188-1132-ES issue 3_04_2025_Qref",
+    "pm_nuevo": "INSPIRE E10/E15",
+    "entries_primarias": [
+     "notifier:e10",
+     "notifier:e15",
+     "notifier:inspire-e10",
+     "notifier:inspire-e15"
+    ],
+    "casan": [
+     "notifier:e10",
+     "notifier:e15",
+     "notifier:inspire-e10"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "MI_KIDDE_KE_IO3144_631e.pdf",
+    "pm_nuevo": "KE-IO3122/KE-IO3144",
+    "entries_primarias": [
+     "kidde:ke-io3122",
+     "kidde:ke-io3144"
+    ],
+    "casan": [
+     "kidde:ke-io3122",
+     "kidde:ke-io3144"
+    ],
+    "ok": true
+   }
+  ],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [
+   {
+    "doc": "4188-1132-ES issue 3_04_2025_Qref",
+    "chunks": 18,
+    "documents": 1
+   },
+   {
+    "doc": "MI_KIDDE_KE_IO3144_631e.pdf",
+    "chunks": 33,
+    "documents": 1
+   }
+  ],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [
+   {
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "source_file": "4188-1132-ES issue 3_04_2025_Qref",
+    "pm_prev": "CLSS-10",
+    "pm_nuevo": "INSPIRE E10/E15",
+    "documents_pm_actual": "CLSS-10",
+    "motivo": "la Qref ES estaba etiquetada CLSS-10 (pasarela cloud, 9 chunks) pero nombra INSPIRE ×13 / E10 ×11; doc_map ya apunta a inspire-e10/e15",
+    "chunks_doc": 18,
+    "chunks_pm_prev": 18,
+    "documents_status": "active"
+   },
+   {
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "source_file": "MI_KIDDE_KE_IO3144_631e.pdf",
+    "pm_prev": "KE-IO3144/KE-IU3110",
+    "pm_nuevo": "KE-IO3122/KE-IO3144",
+    "documents_pm_actual": "KE-IO3144/KE-IU3110",
+    "motivo": "KE-IU3110 no aparece en el contenido; el doc trata KE-IO3122 y KE-IO3144 (Alberto 16-ago)",
+    "chunks_doc": 33,
+    "chunks_pm_prev": 33,
+    "documents_status": "active"
+   }
+  ],
+  "backup_chunks": [
+   {
+    "doc": "4188-1132-ES issue 3_04_2025_Qref",
+    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+    "documents_pm_prev": "CLSS-10",
+    "chunks": [
+     {
+      "id": "63a4acc6-20a8-4201-ae97-f6888c2f1062",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "09ae499b-90ae-46b4-a5e7-138bfb5cf94b",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "fd092752-a693-4581-b039-34f8d2399829",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "ad28ab54-cf7e-41a1-923d-9c4ad1332b47",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "8314ee68-5c2f-472d-aafe-740b824ca1d9",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "d781b7e9-903d-43d7-982b-f91524911181",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "6028d684-ea74-495f-aedc-811fcb32ad98",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "eebf5032-7834-4009-b6ce-270ac7f766e8",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "e62023ee-0b15-4fee-8a03-eaa68f4e722a",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "8db55998-3225-4f65-a2d7-4846f670165f",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "6d681e21-d54f-4556-aa80-2f821ac70418",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "f189ca9f-2393-44c8-8537-ee2ffe4bdfa2",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "b9d94ffd-7c4f-4f68-952f-eb199a2cfb2c",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "5da3714b-426a-4ff7-bdba-ee3ba8e49cf8",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "b0ccc191-c1d1-4919-b4bc-609a9d581e3b",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "438f0cd8-7b0f-43a0-bbcb-4ed18ef80e33",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "6c3ba6ff-746f-4abf-9069-12c8873a6b8d",
+      "product_model_prev": "CLSS-10"
+     },
+     {
+      "id": "720da4f3-1453-4c49-bac9-b157b7d6d685",
+      "product_model_prev": "CLSS-10"
+     }
+    ]
+   },
+   {
+    "doc": "MI_KIDDE_KE_IO3144_631e.pdf",
+    "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+    "documents_pm_prev": "KE-IO3144/KE-IU3110",
+    "chunks": [
+     {
+      "id": "aa9056e3-2265-4b9b-a002-dcdf23c907db",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "081c13b0-2d53-4dc4-af0b-0b91b11a6100",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "8a505843-61b3-4ef8-8a60-0afc5e747cf5",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "5b034703-f546-4bcb-85de-0ee0cd060422",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "f6db6d9a-c694-4201-ba1d-9e0d677e0009",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "57cb32a3-ea42-4e83-bd40-433c579400c8",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "ce30d4c6-ccf7-4d2a-b853-59a8e5ddcbb4",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "4be85b91-0d1f-4d26-b157-aa2cee3f3153",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "16761c46-9b5d-40dc-9ad3-2128c4b294af",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "84b91314-96c5-4798-95c6-d783c188204f",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "361aa80a-0bcc-4244-839c-db612a6be99b",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "74c9059b-ee36-400a-820e-509dea793aff",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "9691cd08-e17d-47a0-8d86-bab1a542e30a",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "180ca670-18f8-4ffb-8ce9-72fcaa83a67f",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "0b45cf4d-31ed-423a-bc98-fc6059485bca",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "78be0f84-79d4-4432-893b-cbce168bc01a",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "25edc1b5-0ada-4a10-9376-264ac570e7b3",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "ccc901bd-99c5-428f-8d94-988b7930dc29",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "81d425c1-a7f8-49e6-9b76-7e84bfd0a60d",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "cc894597-b64b-48b8-87ee-3dbd7f5f50b1",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "7fda0e85-8c32-4979-8532-9cf2924beac5",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "e8f95d5b-5805-4d8e-988f-294873fd83b2",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "fb620477-f778-44a6-9368-c97068fcadba",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "46d4903f-046f-40fe-aa73-533536e861a7",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "645853e4-751d-450d-9a9f-1852b93acb3f",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "515256e5-3ffc-4a41-a8ee-790528d193c5",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "bc4abf49-a721-43e8-979c-9afc12d93b1d",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "eda04fb1-6f69-4c62-9777-b61d027969fb",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "8242e16c-4990-4fc4-bc4a-3460f26ac8f4",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "624ed6d7-1f7e-4148-a5aa-382739406379",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "f7b407f9-1351-41a6-90b9-e2fd74c7a2f0",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "41861435-d82a-4fde-a6a0-0da51dd77a1b",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     },
+     {
+      "id": "bd0b7c2e-bb08-4f00-95f9-52094c785b79",
+      "product_model_prev": "KE-IO3144/KE-IU3110"
+     }
+    ]
+   }
+  ]
+ },
+ "backup_dir": "evals\\s324_lote_backup_20260816T113215Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev · Backup DURABLE en git: `git checkout af95f49 -- data/catalog/` (estado exacto anterior al lote); el backup_dir local es una copia de trabajo no versionada.",
+ "nota_censo_post": "El primer censo post dio STOP por un artefacto del propio censo: el backup_dir solo tenia los 4 .jsonl escritos y `cs.load(backup)` cargaba SIN homonyms.jsonl → en la vista 'antes' el homonimo RP1r resolvia por exact a notifier:rp1r (falsa expansion) y en la 'despues' (dir real, con homonimos) no → 'perdida' ficticia. Recalculado con el backup COMPLETO (homonyms/relations/docrel copiados, identicos): veredicto arriba."
+}

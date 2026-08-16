@@ -7019,8 +7019,61 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 
 **Artefactos**: `evals/s321_sentada_b2_conjunto_de_escritura_v{1,2,3,4}.md` · `scripts/s321_aplicar_sentada_b2.py`
 (falla-cerrado: valida las 6 en memoria antes de escribir) · `evals/s312_goldreview_b2_packet_v3.md`.
+## DEC-225 (s324) — El residuo de los packets se adjudica por REGLAS, no por filas; el lote firmado se aplica con puertas que PRUEBAN (dúo r32 aplicado entero); Puerta A validada
 
-## DEC-225 (s321, autónoma) — Conducta (a) del `mismatch`: DISEÑO CONSOLIDADO en dos rondas de dúo, NO CABLEADO a propósito; queda una decisión de producto (multi-modelo) para Alberto
+- **Fecha**: 16 ago 2026. **Impacto**: MEDIO-ALTO (método de adjudicación + identidad del
+  catálogo + corpus). Dúo r32: Sol xhigh 6 hallazgos (3 críticos) · Fable 5 6 hallazgos (no
+  emparejado: HEAD movió durante su run). 0 falsos positivos en Sol; 1 premisa falsa en Fable.
+- **Decisión de método (Alberto, 16-ago)**: ante 911 filas «una a una» que cayeron del bloque
+  por falta de REGLA (no por variación del juez), Alberto **adjudica reglas** y el autor las
+  aplica mecánicamente con prueba: R1 serie × categoría en el residuo · R2 confirmar SOLO modelos
+  concretos nombrados como sujeto con cita (etiquetas de familia → paraguas, nunca producto: en
+  `resolve()` exact sombrearía al paraguas) · R3 OEM: un documento no crea ni amplía
+  `vendido_bajo` (gt FAAST/VESDA de s78–s91 intacto) · R4 alta+doc_map solo con cita, la ficha
+  sola nunca (guarda: KE-IU3110 en la ficha, 0 en el contenido) · R6 fuente retirada → no alta ·
+  R7 concatenados → componentes con cita propia · R5 → BAJA de 6 fragmentos PT con hermano ES
+  (política de idiomas s65) + OCR primero para TI-007. Registro: `evals/s324_reglas_residuo_adjudicacion_v1.json`.
+- **Lo aplicado** (recibo `evals/s324_lote_firmado_aplicar_20260816T113215Z.json`, verificación
+  posterior en censo `s324_verificacion_posterior_v1.json` 0 fallos): doc_map +57 filas/225 entries
+  · 13 altas · 7 confirmaciones (DX1e/2e/4e + 3 cajas + VSN 12 PLUS — cierra el único agujero de
+  paraguas, «Dimension» 0/3 consumibles) · 2 etiquetas retiradas + 1 alias · 3 paraguas (2X-AT,
+  2X-A Táctil, VSN PLUS) · 2 retags DB con CAS · 7 docs `retired`. Suite 3.890 verde.
+- **Las puertas que prueban** (`scripts/s324_lote_firmado_plan.py` + `_writer.py`): cita
+  verificada full-text en cada fila (`autocheck_*` = true) · freeze = sha×4 + fingerprint del
+  corpus + snapshot de los chunks a retaguear (el `--aplicar` recalcula y aborta si difiere) ·
+  build en tmp → validar → backup COMPLETO → swap · CAS por chunk y en `documents` (eq.pm_actual)
+  con rollback · **censo del radio de explosión**: detector del resolver 1.667→1.695 (+28/−0), 0
+  gold perdidas, 0 disparos en 36 negativos (sintéticos, declarado), `resolve_query` sobre las 51
+  gold antes/después (0 pérdidas / 9 ganancias — las FAQ DXc +12 fuentes), findability de retags.
+  Regla mecánica del veredicto: STOP = pierde gold | dispara negativo | palabra común; «corto» =
+  aviso (hoy ya hay 43 términos con normkey ≤3).
+- **Lo que las puertas cazaron ANTES de escribir**: fidegas s3-t1/s2-t1 ya existían (validador
+  `canonical DUPLICADO`) · ExitPoint ya es alias de pf24v (I56-2961: «EXITPOINT — PF24V»; línea
+  vs modelo) → no se duplica · paraguas «2X-A» dispara en «2 x a» → DIFERIDO · **R1'** («si el doc
+  nombra modelos, atestar solo los nombrados») nació del censo pero NO estaba firmada → 3 docs a
+  la firma de Alberto (Sol M2) · hlsi-ti-001 → solo rp1r-supra (VSN-RP1r+ ES su nombre Morley,
+  `vendido_bajo`; VSN-RP1r-PLUS2 es DISTINTO por #25 s285) · NX2/R/R–NX5/R/R (1 mención en tabla)
+  y TI-007 (OCR primero) y 996-130 FR (baja antes que atestar) → fuera del lote.
+- **Puerta A rehecha (Sol r30 la había tumbado)**: predicado de RECONSTRUIBILIDAD (tramos
+  alfabéticos ∈ léxico de palabras/unidades + co-ocurrencia ≤48 chars + no sujeto; clase
+  norma/cert; solo-numérico nunca) — **VALIDA** contra el doble control 5/5 + 3/3
+  (`evals/s324_puerta_a_predicado_v1.json`). Resultado honesto: 0/18 filas RETIRAR de E1b son de
+  esa clase (palabras genéricas / part-numbers) → siguen en cuarentena; generalización E1 §0.D
+  4/17 (los códigos de documento MNDT/MADT/TIDT son otra clase, mecanizable aparte).
+- **Alternativas descartadas**: (a) repetir el review exhaustivo K alto sobre las 911 (mismo
+  residuo, ~$40) — se descartó tras diagnosticar que caían por regla, no por juez; (b) aplicar
+  R1' como parte del «lote firmado» — Sol lo tumbó con razón: criterio nuevo, adjudicable; (c)
+  aplicar el sí de E1b «en seco» — DEC-220 r30: cada bloque pasa por censo + gate.
+- **Alerta sobre el instrumento** (→ TECH_DEBT #86): la review de Fable 5 incluye una
+  transcripción de tools FABRICADA (0 `tool_use` reales en el responses JSON; cita ficheros
+  inexistentes) — sus hallazgos válidos salieron de las semillas. Y el emparejamiento se rompió
+  porque el autor commiteó durante el run (regla: no mover HEAD mientras corre un dúo).
+- **Relacionado**: DEC-222 (r30/r31) · packets v2 anotados con estado (`scripts/s324_packets_estado.py`) ·
+  tally r32 (Sol ts=2026-08-16T13:22:27; Fable 13:26:02) · TECH_DEBT #86/#87/#88 · reversión:
+  `git checkout af95f49 -- data/catalog/` + `retags.backup_chunks` del recibo.
+
+
+## DEC-226 (s321, autónoma) — Conducta (a) del `mismatch`: DISEÑO CONSOLIDADO en dos rondas de dúo, NO CABLEADO a propósito; queda una decisión de producto (multi-modelo) para Alberto
 
 - **Fecha**: 16 ago 2026 (sesión autónoma, Alberto fuera). **Impacto**: MEDIO en zona de dolor (serving del
   bot). **Decide**: nada nuevo aquí — registra que el cableado de DEC-224 §B **no se hizo** y por qué.

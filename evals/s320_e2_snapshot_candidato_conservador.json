@@ -1,12 +1,12 @@
 {
  "build": {
   "table": "chunks_v2",
-  "generated_at": "2026-08-13T22:30:29.792659+00:00",
+  "generated_at": "2026-08-16T11:53:05.612591+00:00",
   "fuente": "catalogo-gobernado (data/catalog) via _resolvable_terms + atestacion-activa (E2 DEC-213)",
   "colisiones_excluidas": 0,
-  "n_distinct": 1670,
+  "n_distinct": 1695,
   "n_included": 591,
-  "n_excluded": 52
+  "n_excluded": 72
  },
  "models": [
   {
@@ -3578,7 +3578,11 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
-   "model": "G-500",
+   "model": "IBOX BACNET",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "EL-6500",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3586,7 +3590,11 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
-   "model": "G-100",
+   "model": "SENTOX IDI",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "PA400",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3594,7 +3602,19 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "IBOX MODBUS SERVER",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "iBox Modbus Server",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "TO-60",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "FROM-01",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3602,11 +3622,31 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "theFirebeam BLUE",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "CASE-32",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "CABOTO-19",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "SP-20",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "THE-6500",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "UNIT-15",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "CLSS-10",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3642,6 +3682,10 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "WITH-48",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "DE-15",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
@@ -3655,6 +3699,18 @@
   },
   {
    "model": "NFPA-13",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "OF-48V",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "TO-28",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "AT-60",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3682,7 +3738,15 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "MM-82",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "OF-60",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "CLSS Configuration Tool",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
@@ -3730,6 +3794,10 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "FL-20",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "ID3004",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
@@ -3746,6 +3814,14 @@
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
+   "model": "Dimension",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "ECN-96-200",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
    "model": "EQUIPO-20",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
@@ -3759,6 +3835,10 @@
   },
   {
    "model": "TIDT-105",
+   "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
+  },
+  {
+   "model": "TO-3200M",
    "motivo": "sin-atestacion-activa → ADJUDICAR (conservado)"
   },
   {
