@@ -434,8 +434,9 @@ def main() -> int:
         try:
             stats = aplicar_plan(plan, tmp, CATALOG_DIR)          # construye y VALIDA en tmp
             backup_dir.mkdir(parents=True, exist_ok=True)
-            for n in JSONL:
-                shutil.copy(CATALOG_DIR / FILES[n], backup_dir / FILES[n])
+            for n in FILES:                                       # backup COMPLETO (también homonyms/relations/docrel:
+                if (CATALOG_DIR / FILES[n]).exists():             # el censo post carga el backup como catálogo entero)
+                    shutil.copy(CATALOG_DIR / FILES[n], backup_dir / FILES[n])
             for n in JSONL:                                       # swap (tras validar)
                 shutil.copy(tmp / FILES[n], CATALOG_DIR / FILES[n])
         except Exception as e:
