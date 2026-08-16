@@ -1,0 +1,67 @@
+{
+ "que_es": "s324 (16-ago-2026) — Adjudicación de Alberto de las REGLAS que resuelven el residuo §1 de los packets E1/E1b (en vez de firmar fila a fila). Cada regla se aplica después por la puerta gobernada, con cita verificada a texto completo, dry-run, dúo adversarial ANTES de escribir y censo posterior. NADA APLICADO en este fichero: es el registro de la adjudicación.",
+ "contexto": "Propuesta de s324: el encogido s322i ya fue la revisión exhaustiva con verificador adversarial (568/568 citas); las 911 filas de §1 cayeron por falta de REGLA o por hechos mecánicos, no por variación del juez. Repetir el review devolvería el mismo residuo. Lo que encoge el trabajo manual: (1) reglas de Alberto por clase, (2) puertas que prueban (split con cita por componente, predicado de reconstruibilidad validado con el doble control, censo del radio de explosión + gate medido antes de cualquier confirmación), (3) re-juicio K=5 cross-model SOLO en la clase «confianza media con sujeto nombrado».",
+ "correccion_al_mapa_de_s323": "Los 4 bloques de E1b (474 confirmaciones) NO se aplican con el «sí» de Alberto solo: r30 (DEC-220) demostró que quitar `candidate` activa alias + paraguas + términos del detector (catalog_resolver.py:142-153). Antes de aplicar cualquier confirmación (bloque o residuo) hace falta el censo del radio de explosión por fila + gate medido por lote. Es trabajo del autor, no de Alberto.",
+ "reglas": {
+  "R1": {
+   "enunciado": "«serie × categoría» se aplica también al residuo de doc_map: manuales/FAQ que nombran una FAMILIA (ZX, DX/Dimension, 2X-A, INSPIRE…) y no un modelo atestan a los productos de esa serie Y esa categoría (centrales de la serie X, no «la serie X»).",
+   "alberto": "OK",
+   "filas_que_desbloquea": ["996-130-000-3 manuel d'utilisation zx_hlsi", "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx", "miemu520p (Dimension, si R2 permite los candidates dx1e/dx2e/dx4e)", "mi_kidde_2x_at_f2_fb_07d4 (familia 2X-A, adjudicada 437ee3f)", "mu_kidde_2x_at_fr_fb_s_6c31 (familia 2X-A)", "asd harsh environments_sp (familia FAAST — el doc no nombra NINGÚN modelo, solo «FAAST» ×5 chunks; entra por paraguas)"]
+  },
+  "R2": {
+   "enunciado": "Un doc_map PUEDE promover un candidate (quitarle la marca) si el documento lo nombra como SUJETO con cita verificada a texto completo. Pasa por el gate del detector como cualquier confirmación.",
+   "alberto": "SIN RESPUESTA en el mensaje del 16-ago (se le vuelve a preguntar con las 3 filas concretas)",
+   "filas_que_desbloquea": ["finales-de-linea-de-las-centrales-convencionales → notifier:vsn-plus (candidate)", "gr_kidde_2x_at_fr_fb_s_27cf → kidde:2x-at (candidate; el doc es «2X-AT Series Quick Start Guide»)", "miemu520p → morley:dx1e, morley:dx2e, morley:dx4e (candidates)"]
+  },
+  "R3": {
+   "enunciado": "OEM: un documento cuyo sujeto se vende bajo dos marcas atesta bajo ambas (`vendido_bajo`), no elige una.",
+   "alberto": "OK, pero cuidado: hay FAAST que solo se venden bajo Notifier, no bajo las dos.",
+   "guarda_derivada_del_matiz": "R3 NUNCA crea ni amplía `vendido_bajo` desde un documento. Un doc_map solo apunta a ids que YA existen activos bajo ese namespace; la decisión de bajo qué marcas se vende un producto vive en la FILA del catálogo (una vez por producto), no en cada documento. Si la fila está mal, se corrige la fila, no el mapa.",
+   "hallazgo_para_alberto": "El catálogo hoy declara vendido_bajo ['Notifier','Morley-IAS'] en notifier:fl0111e-hs / fl0112e-hs / fl0122e-hs (FAAST LT) y en fl2011ei-hs / fl2012ei-hs / fl2022ei-hs; los SKU Morley existen solo para la serie 20xx (morley:mi-fl2011ei / mi-fl2012ei / mi-fl2022ei). Si los FAAST «solo Notifier» son los FL01xx, esas 3 filas tienen vendido_bajo incorrecto → pendiente de que Alberto señale cuáles.",
+   "dato_del_doc_faast": "asd harsh environments_sp (Xtralis/System Sensor, 6 chunks): menciones ilike de cualquier modelo FL*/MI-FL*/NFXI*/8100E = 0; «FAAST» = 5 chunks; «System Sensor» = 1; Notifier/Morley/Xtralis = 0. Es un documento de FAMILIA → R1 (paraguas FAAST), no una decisión OEM por documento."
+  },
+  "R4": {
+   "enunciado": "Token de PORTADA/título que NO está en catálogo + cita verificada a texto completo que lo nombra como sujeto → alta + doc_map en un movimiento, pasando por el gate del detector. La ficha (nombre de fichero / product_model) sola NUNCA da un alta: solo el contenido.",
+   "alberto": "pidió ejemplos (16-ago) — pendiente",
+   "ejemplos_con_datos_reales": [
+    {
+     "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (Kidde, 45 chunks, hoja de instalación de familia)",
+     "product_model_ficha": "KE-DP3120W/KE-DP3120W-SN/KE-DP3120W-SNV/KE-DP3121B/KE-DP3121B-SNV/KE-DP3121W/KE-DP3121W-SN/KE-DP3121W-SNV",
+     "en_catalogo_hoy": ["kidde:ke-dp3120w"],
+     "menciones_token_exacto_en_contenido": {"KE-DP3120W": 0, "KE-DP3120W-SN": 6, "KE-DP3120W-SNV": 6, "KE-DP3121B": 0, "KE-DP3121B-SNV": 8, "KE-DP3121W": 3, "KE-DP3121W-SN": 6, "KE-DP3121W-SNV": 4},
+     "lectura": "El doc es la hoja de las variantes CON sirena/VAD (SN/SNV) — nombra 6 modelos que NO están en catálogo (3-8 chunks cada uno) y NO nombra nunca como token completo el único que sí está (KE-DP3120W, la base sin sirena; solo aparece como prefijo). KE-DP3121B tampoco: 0 exactas. R4 daría de alta los 6 nombrados y el doc_map apuntaría a ellos; converge con R7 (los candidates concatenados ke-dp3121b-ke-dp3121b-snv, ke-dp3121w-ke-dp3121w-sn, ke-dp3121w-ke-dp3121w-sn-ke-dp3121w-snv se parten en las mismas grafías) y con las DS existentes (DS_KIDDE_KE_DP3121B_SNV, DS_KIDDE_KE_DP3121W_SN, DS_KIDDE_KE_DP3121W_SNV).",
+     "que_se_firmaria": "ALTA de KE-DP3120W-SN, KE-DP3120W-SNV, KE-DP3121B-SNV, KE-DP3121W, KE-DP3121W-SN, KE-DP3121W-SNV bajo kidde (con cita verificada cada uno) + doc_map del MI a esos 6; kidde:ke-dp3120w se queda como está (su alta viene de la DS 3102984, no de este MI). KE-DP3121B: NO alta (0 citas propias)."
+    },
+    {
+     "doc": "MI_KIDDE_KE_IO3144_631e.pdf (Kidde, 33 chunks)",
+     "product_model_ficha": "KE-IO3144/KE-IU3110",
+     "en_catalogo_hoy": ["kidde:ke-io3144", "kidde:ke-io3122"],
+     "menciones_token_exacto_en_contenido": {"KE-IO3122": 8, "KE-IO3144": 8, "KE-IU3110": 0, "KE-IU3111": 0},
+     "lectura": "La ficha dice KE-IU3110 pero el contenido lo nombra CERO veces (ni por subcadena): es un error de etiqueta. El doc cubre KE-IO3122 + KE-IO3144 (8 chunks cada uno), ambos ya en catálogo. R4 NO da ningún alta aquí (la guarda funciona: la ficha sola no vale); el doc_map va a io3122 + io3144 (el MULTI del juez) y el product_model se corrige por retag (clase §0.E)."
+    }
+   ]
+  },
+  "R5": {
+   "enunciado": "Documento cuyo contenido ingestado no nombra al sujeto (una sola página, portada) pero cuyo nombre de fichero y product_model son coherentes con un id activo del catálogo → atestación por FICHA aceptada. Alternativa: se quedan sin atestar (siguen sirviéndose, sin identidad en must_preserve).",
+   "alberto": "pidió ejemplos (16-ago) — pendiente",
+   "ejemplos_con_datos_reales": [
+    {"doc": "HLSI-TI-007_VSN-4REL (Morley, 1 chunk)", "contenido_ingestado_COMPLETO": "**Honeywell** **Honeywell Life Safety Iberia**", "chars": 47, "id_candidato_por_ficha": "notifier:vsn-4rel (activo; morley:vsn-4rel redirige a él)", "lectura": "No es un caso de atestación: es una INGESTA VACÍA (escaneo del que el texto se perdió). Lo correcto es re-ingestar con OCR o retirar; atestarlo daría identidad a un chunk sin contenido. Hay exactamente OTRO igual en el corpus activo: «Docs Morley-IAS Max - QR» (142 chars: un QR con URL). Censo: 1.068 activos, 0 sin chunks, 2 con <300 chars, 95 con 300-1500 chars (FAQ cortas en su mayoría), 171 con 1 chunk."},
+    {"doc": "MIE-MI-120P.pdf (Morley, 1 chunk, 1.977 chars)", "contenido_ingestado_resumen": "Leyenda del panel frontal (en portugués): «● VISION ● BATTERY», Teclado Remoto, Silenciar Sirenes Remotas, Rádio SIMO, Rearme, LEDs Alimentação/Falo-Isolado…", "id_candidato_por_ficha": "morley:vsn2 (activo) — pm «VSN 2-4»", "lectura": "El texto sí es una página real (el frontal de la central Vision 2-4) pero no nombra VSN2/VSN4; además el alias que resuelve a morley:vsn2 nació de la revisión hermana de este mismo documento (s83:MIEMI120rev05) → atribución circular. Bajo riesgo: atestarlo por ficha es coherente y reversible."},
+    {"doc": "4188-1132-PT issue 4_04_2025-Qref.pdf (Notifier, 1 chunk, 670 chars)", "contenido_ingestado_resumen": "Paso «05 Selecionar LER DISPOSITIVOS…» de una guía rápida en portugués (aprendizaje de dispositivos del lazo, diálogo Loop Protocol/Opal). No aparece «INSPIRE».", "id_candidato_por_ficha": "notifier:inspire-e10 + notifier:inspire-e15 (activos)", "lectura": "Página real de la QREF de INSPIRE (mismo código de documento 4188-1132 que la familia INSPIRE E10/E15). Atestación por ficha coherente y de bajo riesgo."}
+   ],
+   "recomendacion_del_autor": "R5 = SÍ para páginas reales con ficha coherente (MIE-MI-120P, 4188-1132-PT), y las 2 ingestas vacías (<300 chars) NO se atestan: van a re-ingesta con OCR o baja de corpus (decisión aparte, clase «gap de manual ya ingestado»)."
+  },
+  "R6": {
+   "enunciado": "Candidate cuya ÚNICA fuente es un documento retirado (no activo) → retirar (estado retirado, reversible; no borra la fila).",
+   "alberto": "OK",
+   "filas_que_desbloquea": "E1 §1.B grupo obsoleta:doc-fuente-no-activo (7)"
+  },
+  "R7": {
+   "enunciado": "Grafía concatenada `A/B` (artefacto de extracción) → se sustituye por A y B SOLO si cada componente tiene cita propia verificada a texto completo; el id concatenado se retira. Los componentes nuevos entran como alta y pasan por el gate del detector.",
+   "alberto": "OK",
+   "filas_que_desbloquea": "E1 §1.B grupo ambiguedad:termino-multi-modelo (23) + mismo-id-con-grafias-distintas (4); converge con R4 en la familia KE-DP312x"
+  }
+ },
+ "siguiente_paso_del_autor": "Con R1/R6/R7 firmadas: dry-run de las tres reglas sobre el residuo (sin escribir), censo del radio de explosión por fila para toda alta/confirmación implicada, predicado de reconstruibilidad validado contra el doble control (positivos MM-82/TO-3200M/OF-48V/LOCAL-360/EN-54-25; negativos VSN 2Plus/PL4-E/34110400), y todo ello al dúo Sol+Fable ANTES de aplicar (Protocolo 3, zona de dolor catálogo).",
+ "verificacion": "Menciones contadas HOY (16-ago) sobre chunks_v2 en Supabase con regex de token exacto (frontera [^A-Za-z0-9-]) e ilike; catálogo leído de data/catalog/products.jsonl vía catalog_store._read_jsonl."
+}
