@@ -34,204 +34,199 @@ cita verificada contra el CONTENIDO COMPLETO del documento (≤200 chars, espaci
 normalizados) + sin ambigüedad estructural**. Una confianza alta cuya cita no
 verifica se degradó a media y cayó a la §1: por eso el bloque es asentible de una vez.
 
-### §0.A — Colisiones de identidad: **repuntar `doc_map`** (49)
+### §0.A — Colisiones de identidad (49) · ✅ **YA APLICADO, no firmes nada**
 
-Las 49 son la MISMA clase: `fantasma_ya_retirado`. La fila del mapa apunta a un `document_id`
-**retirado y con CERO filas** en `chunks_v2`/`chunks`/`enunciados`/`visual_assets`/
-`group_members`, su `sha` es pseudo-backfill y su nota apunta al id vivo: es una ficha
-fantasma de s65, no un duplicado real. **No hay supersede que hacer** (una ficha de 0
-chunks nunca fue una revisión) y **`documents` no se toca**.
+Era la avería del anexo `must_preserve`: el mapa apuntaba a fichas vacías. Se
+reparó en la fase A del mismo día y está **medido**: de **0/191 a 191/191**
+entradas atestando. Recibo: `evals/s323_fase_a_repunte_aplicar_*.json`.
 
-- Impacto MEDIDO (no teorizado): la atestación del anexo `must_preserve` (join por
-  `document_id`) **falla hoy en 49 docs** con el id servido y **atestaría con el id
-  fantasma en 49**. `allowed_sources`: INTACTO — catalog_resolver indexa por source_file y el del doc_map coincide exactamente con el de los chunks del activo en las 49
-- Entradas del catálogo afectadas: **191**.
-- Acción por fila: `doc_map` → repuntar `document_id` (mapa → actual). `source_file` intacto.
+### §0.B — `doc_map` tier B, REHECHO con la regla **serie × categoría** (38 limpias + 4 a tu criterio)
 
-**Los 9 gates dan lo mismo en las 49 filas** (comprobado al ensamblar, no supuesto),
-así que se declaran UNA vez en vez de repetirlos en cada línea:
+**Por qué se rehizo** (lo viste tú): la guía de la serie 2X-A se asignaba a 2
+productos de los 40 de esa serie. El documento no nombra ni un modelo. La regla
+buena no es «la serie» (mezcla interfaces distintas) sino **serie × categoría**:
+«centrales de la serie NC», no «la serie NC».
 
-  - `actual_sirve_chunks_v2` = **True**
-  - `actual_status` = **active**
-  - `doc_map_source_file_coincide_con_chunks_del_actual` = **True**
-  - `id_mapa_en_otros_ficheros_del_catalogo` = **False**
-  - `mapa_sin_filas_en_ninguna_satelite` = **True**
-  - `mapa_status` = **retired**
-  - `mismo_blob_por_nombre` = **True**
-  - `nota_apunta_al_actual` = **True**
-  - `sha_mapa_es_pseudo_backfill` = **True**
-  - seam medible en las 49: atesta con el id **fantasma**=True, con el id
-    **servido**=False → repuntar arregla la atestación.
+#### §0.B.1 — LIMPIAS: un solo «sí» las cubre todas
 
-Lo único que cambia por fila es el par de ids y la sonda que lo demuestra:
+- [ ] `averia-de-resistencia-de-baterias-en-central-dxc`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Tengo avería de resistencia de baterías en central DXc»
 
-**tier_a (16)**
+- [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?»
 
-- [ ] `mndt150` · 16 entradas · mapa 3e7328bf… → actual d917a95d… · sonda `notifier:id-200`
-- [ ] `mndt250` · 4 entradas · mapa 309b9f8a… → actual ee4a01b8… · sonda `notifier:am-6000`
-- [ ] `mndt255` · 1 entrada · mapa 8595c7c4… → actual afacdf35… · sonda `notifier:lcd-6000`
-- [ ] `mndt260` · 2 entradas · mapa cf07a74d… → actual 446da5f5… · sonda `notifier:am-2000`
-- [ ] `mndt390` · 1 entrada · mapa 609f0e11… → actual 49a08cd1… · sonda `notifier:udact`
-- [ ] `mndt440` · 1 entrada · mapa 351ff649… → actual 79869dab… · sonda `notifier:nib-96`
-- [ ] `mndt530p` · 5 entradas · mapa a3845c17… → actual 754f1b80… · sonda `notifier:park-2000`
-- [ ] `mndt744i_b` · 1 entrada · mapa 80789d8b… → actual 7cb57a84… · sonda `notifier:nas-1u`
-- [ ] `mndt960i` · 1 entrada · mapa 18429c41… → actual c295d7f9… · sonda `notifier:pol-1`
-- [ ] `mpdt170` · 2 entradas · mapa 890d5cf6… → actual 80b23534… · sonda `notifier:afp-300`
-- [ ] `mpdt230` · 2 entradas · mapa 6d46b4a2… → actual 3e4bd0bb… · sonda `notifier:afp4000`
-- [ ] `mpdt281` · 2 entradas · mapa 3a7e439f… → actual 932ac246… · sonda `notifier:afp1010`
-- [ ] `nco-10-multinglingual` · 1 entrada · mapa b7cb94d1… → actual c2ae8cae… · sonda `notifier:nco-10`
-- [ ] `smart 2_mt251_ita-eng` · 2 entradas · mapa 2f3536bc… → actual 0d4e7b1a… · sonda `sensitron:smart-2`
-- [ ] `tidt104` · 1 entrada · mapa c39c0456… → actual 2c8e62dd… · sonda `unresolved:id3000`
-- [ ] `tidt108` · 1 entrada · mapa 3737c7f5… → actual 2b925c7b… · sonda `unresolved:id3000`
+- [ ] `ds_kidde_2x_at_fr_fb_s_202602_es_4276`
+      → `kidde:2x-at-fr-fb-s`
+      cita: «# 2X-AT-FR-FB-S **Repetidor de central de incendios direccionable con pantalla táctil y controles de»
 
-**tier_b (9)**
+- [ ] `ds_kidde_2x_at_fr_s_202602_es_904a`
+      → `kidde:2x-at-fr-s`
+      cita: «# 2X-AT-FR-S **Repetidor de central de incendios direccionable con pantalla táctil, caja pequeña**»
 
-- [ ] `33976_13_vesda-e_vep-a00-p_product_guide_a4_spanish_lores` · 3 entradas · mapa 23ff1fcf… → actual b22fdb7f… · sonda `xtralis:vep-a00-1p`
-- [ ] `mndt500` · 6 entradas · mapa 643e3377… → actual 90787236… · sonda `notifier:g-500-s-32`
-- [ ] `mndt503` · 5 entradas · mapa 9ccb9c98… → actual acf63276… · sonda `notifier:g-100-4`
-- [ ] `mndt506` · 6 entradas · mapa 1cd40961… → actual f2a27fb6… · sonda `notifier:g-100-r-12`
-- [ ] `mndt515` · 3 entradas · mapa b6169b43… → actual bfb0fed7… · sonda `notifier:pl4`
-- [ ] `mndt615` · 1 entrada · mapa 700af1a7… → actual c4f3d893… · sonda `notifier:smart-2`
-- [ ] `rp1r - man ita r.a2` · 1 entrada · mapa 6972bec7… → actual 03cf3cca… · sonda `notifier:rp1r`
-- [ ] `tg-1020-tec` · 1 entrada · mapa 4682b6f7… → actual 288e3202… · sonda `unresolved:tg-1020`
-- [ ] `tg-1020-usu` · 1 entrada · mapa abb55e52… → actual 2ad4e69f… · sonda `unresolved:tg-1020`
+- [ ] `ds_kidde_2x_at_fr_s_98dc`
+      → `kidde:2x-at-fr-s`
+      cita: «KIDDE COMMERCIAL # 2X-AT-FR-S **Addressable fire panel repeater w touchscreen, small cabinet**»
 
-**tier_c (24)**
+- [ ] `dxc-connexion-ajuste-contraste-display`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «# DXC / Connexion - Ajuste contraste display **Question** Ajuste contraste display DXc»
 
-- [ ] `mndt1300_e` · 2 entradas · mapa 7268b1ad… → actual d61cc3d7… · sonda `notifier:ps3`
-- [ ] `mndt1300i_e` · 2 entradas · mapa a05f27f7… → actual a9a45a96… · sonda `notifier:ps3`
-- [ ] `mndt350` · 23 entradas · mapa 0b90a14c… → actual 2d7f3a79… · sonda `notifier:transponder-serie-xp`
-- [ ] `mndt400` · 4 entradas · mapa 996551c8… → actual c604426a… · sonda `notifier:lcd-80`
-- [ ] `mndt402` · 1 entrada · mapa 83763f33… → actual 3a58b47d… · sonda `notifier:lcd-80tm`
-- [ ] `mndt410` · 15 entradas · mapa 65a37e17… → actual 5403c7ed… · sonda `notifier:acm-16at`
-- [ ] `mndt520` · 4 entradas · mapa 621aa70f… → actual 3493f571… · sonda `notifier:g-mtslb1`
-- [ ] `mndt575` · 1 entrada · mapa 7e554fdb… → actual 6c784967… · sonda `notifier:securnet-plus`
-- [ ] `mndt605` · 4 entradas · mapa 12d9af3e… → actual c54c20a4… · sonda `notifier:ga-500-ep`
-- [ ] `mndt607` · 1 entrada · mapa 9c69590f… → actual f478ca19… · sonda `notifier:smart-1`
-- [ ] `mndt625` · 2 entradas · mapa a798da74… → actual 7601da55… · sonda `notifier:smart-3-cc`
-- [ ] `mndt626` · 15 entradas · mapa 25b925bd… → actual 0ef10ac7… · sonda `notifier:s2138sd`
-- [ ] `mndt635` · 2 entradas · mapa 89b21f27… → actual 359934f9… · sonda `notifier:lisa-2-eex-d`
-- [ ] `mndt646_smart3g toxic_sp-en` · 16 entradas · mapa 43436831… → actual eb4f831e… · sonda `notifier:s2138sd`
-- [ ] `mndt650` · 3 entradas · mapa c84ca057… → actual be99c95b… · sonda `notifier:smart-2`
-- [ ] `mndt655` · 4 entradas · mapa 537879d2… → actual 12278b1f… · sonda `notifier:catalix-12`
-- [ ] `mndt741` · 1 entrada · mapa 2fc17b63… → actual 53dc8e94… · sonda `notifier:nas`
-- [ ] `mndt742p_f` · 1 entrada · mapa 9c595e46… → actual 16aa7584… · sonda `notifier:nas-2`
-- [ ] `mndt951i_v7-1` · 1 entrada · mapa 0beb5d94… → actual 9600e30e… · sonda `notifier:tg-notifier`
-- [ ] `mndt954` · 1 entrada · mapa 48a64d46… → actual a8bb21cf… · sonda `notifier:tg-6000`
-- [ ] `mpdt212` · 6 entradas · mapa 3413c8ee… → actual ef245515… · sonda `notifier:id1002`
-- [ ] `mpdt280` · 9 entradas · mapa 228a47c5… → actual e6ccaa2e… · sonda `notifier:afp1010`
-- [ ] `mpdt951_v5-87` · 1 entrada · mapa 7c2bdff2… → actual 0903db56… · sonda `notifier:tg-notifier`
-- [ ] `pan_avd1` · 2 entradas · mapa bb36bddd… → actual 7966c099… · sonda `notifier:pan-avd1`
+- [ ] `dxc-connexion-averia-f-alimentacion-externa`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «# DXC Connexion - Avería F. Alimentación externa **Question** La central DXC Connexión indica **"FAL»
 
-### §0.B — `doc_map` tier B: **altas de entrada** (42)
+- [ ] `dxc-connexion-averia-nueva-f-alimentacion-externa`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «La central DXC Connexión indica "*NUEVA F.A. EXT.*"»
 
-Docs cuyo `product_model` resolvía a varios ids y quedaba ambiguo. Gate de bloque
-(los 7 se cumplen en las 42):
-  1. la fila sigue viva tras el refresco contra el estado de hoy
-  2. veredicto accionable (IDS_CORRECTOS|OTROS_IDS|MULTI) con ids != []
-  3. confianza alta DESPUÉS de degradar por cita no verificada
-  4. cita verificada a TEXTO COMPLETO del documento (espacios normalizados)
-  5. todos los ids en el menú cerrado y consumibles (activo, no-candidate)
-  6. ningún token del pm clasificado como «producto real que falta»
-  7. acuerdo K=2 en veredicto y en conjunto de ids (sin temperature el muestreo no es determinista: una pasada no distingue convicción de azar)
+- [ ] `dxc-connexion-compatibilidad-de-programas-con-versiones`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «No todas las versiones del software de configuración **MK-DXC Configuration Tools** se pueden usar c»
 
-Juez `claude-fable-5`. Veredictos del lote completo: IDS_CORRECTOS:alta=43, MULTI:media=4, MULTI:alta=4, OTROS_IDS:alta=2, IDS_CORRECTOS:media=1, OTROS_IDS:media=1
+- [ ] `dxc-no-puedo-comunicar-con-la-central`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Para comunicar con las centrales DXC Connexión necesita:»
 
-- [ ] `00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es` (Aritech · 7 chunks · pm «2X-A/2X-AT-F2/2X-AT-F2-FB»)
-      → **IDS_CORRECTOS** · `kidde:2x-at-f2`, `kidde:2x-at-f2-fb` · cita ✓ «Guía de funcionamiento rápido de la serie 2X-A»
-      ⚑ OEM/reventa: documento de **Aritech**, ids bajo **kidde**
-      tokens del pm sin id (familia/serie, no se dan de alta): `2X-A`
-- [ ] `averia-de-resistencia-de-baterias-en-central-dxc` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Tengo avería de resistencia de baterías en central DXc»
-- [ ] `bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide` (Kidde · 8 chunks · pm «NC/NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **IDS_CORRECTOS** · `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc` · cita ✓ «Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC»
-      tokens del pm sin id (familia/serie, no se dan de alta): `NC`
-- [ ] `bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide` (Kidde · 4 chunks · pm «NC/NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **IDS_CORRECTOS** · `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc` · cita ✓ «Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC»
-      tokens del pm sin id (familia/serie, no se dan de alta): `NC`
-- [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-dxc-connexion` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?»
-- [ ] `ds_kidde_2x_at_fr_fb_s_202602_es_4276` (Aritech · 5 chunks · pm «2X-AT-FR-FB-S»)
-      → **IDS_CORRECTOS** · `kidde:2x-at-fr-fb-s` · cita ✓ «# 2X-AT-FR-FB-S **Repetidor de central de incendios direccionable con pantalla táctil y controles de bomberos…»
-      ⚑ OEM/reventa: documento de **Aritech**, ids bajo **kidde**
-- [ ] `ds_kidde_2x_at_fr_s_202602_es_904a` (Aritech · 5 chunks · pm «2X-AT-FR-S»)
-      → **IDS_CORRECTOS** · `kidde:2x-at-fr-s` · cita ✓ «# 2X-AT-FR-S **Repetidor de central de incendios direccionable con pantalla táctil, caja pequeña**»
-      ⚑ OEM/reventa: documento de **Aritech**, ids bajo **kidde**
-- [ ] `ds_kidde_2x_at_fr_s_98dc` (Aritech · 4 chunks · pm «2X-AT-FR-S»)
-      → **IDS_CORRECTOS** · `kidde:2x-at-fr-s` · cita ✓ «KIDDE COMMERCIAL # 2X-AT-FR-S **Addressable fire panel repeater w touchscreen, small cabinet**»
-      ⚑ OEM/reventa: documento de **Aritech**, ids bajo **kidde**
-- [ ] `dxc-conexion-como-solucionar-la-averia-de-estado-inconsistente-anulado` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «# DXc/Conexion ¿Como solucionar la avería de Estado Inconsistente Anulado?»
-- [ ] `dxc-configuracion-de-la-tarjeta-232-aislada-para-comunicarse-con-el-tg` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Para que la central DXc, comunique con el TG, deberá activar el protocolo de comunicaciones en las opciones g…»
-- [ ] `dxc-connexion-ajuste-contraste-display` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «# DXC / Connexion - Ajuste contraste display **Question** Ajuste contraste display DXc»
-- [ ] `dxc-connexion-averia-f-alimentacion-externa` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «# DXC Connexion - Avería F. Alimentación externa **Question** La central DXC Connexión indica **"FALLO F.A. E…»
-- [ ] `dxc-connexion-averia-nueva-f-alimentacion-externa` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «La central DXC Connexión indica "*NUEVA F.A. EXT.*"»
-- [ ] `dxc-connexion-como-solucionar-la-averia-de-ent-placa-1-o-2` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «¿Como poder solucionar las averías de Entrada de Placa 1 o 2 en la DXc / Conexion?»
-- [ ] `dxc-connexion-compatibilidad-de-programas-con-versiones` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «No todas las versiones del software de configuración **MK-DXC Configuration Tools** se pueden usar con cualqu…»
-- [ ] `dxc-no-puedo-comunicar-con-la-central` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Para comunicar con las centrales DXC Connexión necesita:»
-- [ ] `dxc-opciones-de-disparo-de-programas-matrices` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Las opciones de disparo de programas y sus funciones en la central DXc son:»
-- [ ] `dxc-porque-al-activan-elementos-en-alarma-no-se-enciende-su-led` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «En la central DXC Connexión con el fin de aprovechar al máximo la corriente del lazo, solo **las cuatro prime…»
-- [ ] `dxc-puedo-anular-la-clave-de-usuario-y-acceder-directamente-al-teclado` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «# DXC ¿Puedo anular la clave de usuario y acceder directamente al teclado?»
-- [ ] `dxc-puedo-cambiar-la-clave-de-nivel-3` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «La clave de acceso a centrales Morley modelo DXc por defecto es **9898 y NO** puede ser modificada»
-- [ ] `dxc-referencias-repuestos` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «# DXC - Referencias repuestos **Question** ¿Necesito saber la referencia de un determinado repuesto para la D…»
-- [ ] `dxc-tipos-abreviaturas-de-equipos` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Principales abreviaturas / tipos de equipos en la central DXc»
-- [ ] `dxc-tipos-de-accion-para-entradas` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Los tipos de acción para entradas y sus funciones para la central DXc son:»
-- [ ] `dxc_connexion averia-de-resistencia-de-baterias` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Tengo avería de resistencia de baterías en central DXc»
-- [ ] `dxc_guia de usuario_multiling` (Morley · 6 chunks · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Guía de usuario para centrales de detección de incendios de la serie DX Connexion»
-- [ ] `eventos-averias-de-equipos-en-dxc` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Eventos de equipos en la central DXc (NO RESPONDE, EQUIPO NUEVO, DOBLE DIRECCION, TIPO EQUIPO CAMBIADO)»
-- [ ] `g_inst_kidde_nc_pfx_202502_es_ac3d` (Kidde · 9 chunks · pm «NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **IDS_CORRECTOS** · `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc` · cita ✓ «Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC»
-- [ ] `g_uso_kidde_nc_pfx_202502_es_99d2` (Kidde · 4 chunks · pm «NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **MULTI** · `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc` · cita ✓ «Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC»
-- [ ] `hd_ke_dt3101w_hab_202407_es_30e0` (Kidde · 5 chunks · pm «KE-DT3101W-HAB»)
-      → **IDS_CORRECTOS** · `kidde:ke-dt3101w-hab` · cita ✓ «KE-DT3101W-HAB ## Detector de calor direccionable inteligente serie Excellence con aislador»
-- [ ] `hlsi-ti-001` (Notifier · 1 chunk · pm «RP1r»)
-      → **IDS_CORRECTOS** · `notifier:rp1r-supra` · cita ✓ «Centrales de extinción de la Serie RP1r»
-- [ ] `inc___doci_141_gu__a_r__pida_kidde_nc_pf__1__fcb9` (Kidde · 2 chunks · pm «NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **IDS_CORRECTOS** · `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc` · cita ✓ «| **Modelo:** | Central Kidde NC-PF | | **Asunto:** | Guía rápida de usuario |»
-- [ ] `ma-dt-1160` (Notifier · 14 chunks · pm «ExitPoint»)
-      → **IDS_CORRECTOS** · `systemsensor:pf24v` · cita ✓ «Aplicaciones del *sonido direccional* para la protección de vidas # - ExitPoint™ -»
-      ⚑ OEM/reventa: documento de **Notifier**, ids bajo **systemsensor**
-- [ ] `mi_kidde_nc_pfx_202502_es_62f8` (Kidde · 133 chunks · pm «NC-PF2/NC-PF4/NC-PF8/NC-PF2-SC/NC-PF4-SC/NC-PF8-SC»)
-      → **IDS_CORRECTOS** · `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc` · cita ✓ «Manual de instalación de las centrales de incendio convencionales de la Serie NC»
-- [ ] `mie-mi-340_1` (Morley · 2 chunks · pm «EXP-051»)
-      → **IDS_CORRECTOS** · `morley:exp-051` · cita ✓ «IMPRESORA MATRICIAL DE PUERTA MOD.EXP-051 ## MANUAL DE INSTALACIÓN»
-- [ ] `mie-mi-431rv2_1` (Morley · 18 chunks · pm «ZXR50A/ZXR50P»)
-      → **OTROS_IDS** · `morley:zxr-a`, `morley:zxr-p` · cita ✓ «MANUAL DE INSTALACIÓN Y FUNCIONAMIENTO ZXr-A/ZXr-P»
-- [ ] `mndt1160` (Notifier · 51 chunks · pm «EXITPOINT»)
-      → **IDS_CORRECTOS** · `systemsensor:pf24v` · cita ✓ «Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*»
-      ⚑ OEM/reventa: documento de **Notifier**, ids bajo **systemsensor**
-- [ ] `morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-connexion-dxc` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «¿Se pueden pasar programaciones de ZX y Dimensión a Connexion DXC?»
-- [ ] `niveles-de-control-de-acceso-de-la-central-dxc-conexion` (Morley · 1 chunk · pm «DXc»)
-      → **IDS_CORRECTOS** · `morley:dxc1`, `morley:dxc2`, `morley:dxc4` · cita ✓ «Niveles de control de acceso de la central DXC,CONEXION»
-- [ ] `no-puedo-hacer-rearme-o-silenciar-sirenas-en-la-vsn-lt` (Morley · 1 chunk · pm «VSN-LT»)
-      → **IDS_CORRECTOS** · `morley:vsn2-lt`, `morley:vsn4-lt`, `morley:vsn8-lt`, `morley:vsn12-lt` · cita ✓ «conectando el puente KEY que se encuentra en el canto inferior izquierdo de la tarjeta de las centrales VSN-LT»
-- [ ] `osid-es-necesario-resetear-la-barrera-de-forma-externa` (Morley · 1 chunk · pm «OSID»)
-      → **IDS_CORRECTOS** · `morley:mi-osi-rie` · cita ✓ «# OSID ¿Es necesario resetear la barrera de forma externa?»
-- [ ] `ucip-como-enviar-datos-de-equipos-y-no-solo-eventos-de-zonas` (Morley · 1 chunk · pm «UCIP»)
-      → **IDS_CORRECTOS** · `notifier:ucip` · cita ✓ «# UCIP - Como enviar datos de equipos y no solo eventos de zonas»
-      ⚑ OEM/reventa: documento de **Morley**, ids bajo **notifier**
-- [ ] `ucip-que-datos-necesito-de-la-receptora` (Morley · 1 chunk · pm «UCIP»)
-      → **IDS_CORRECTOS** · `notifier:ucip` · cita ✓ «# UCIP - ¿Que datos necesito de la receptora?»
-      ⚑ OEM/reventa: documento de **Morley**, ids bajo **notifier**
+- [ ] `dxc-porque-al-activan-elementos-en-alarma-no-se-enciende-s`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «En la central DXC Connexión con el fin de aprovechar al máximo la corriente del lazo, solo **las cua»
+
+- [ ] `dxc-puedo-anular-la-clave-de-usuario-y-acceder-directament`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «# DXC ¿Puedo anular la clave de usuario y acceder directamente al teclado?»
+
+- [ ] `dxc-referencias-repuestos`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «# DXC - Referencias repuestos **Question** ¿Necesito saber la referencia de un determinado repuesto »
+
+- [ ] `dxc-puedo-cambiar-la-clave-de-nivel-3`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «La clave de acceso a centrales Morley modelo DXc por defecto es **9898 y NO** puede ser modificada»
+
+- [ ] `dxc-conexion-como-solucionar-la-averia-de-estado-inconsist`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «# DXc/Conexion ¿Como solucionar la avería de Estado Inconsistente Anulado?»
+
+- [ ] `dxc-configuracion-de-la-tarjeta-232-aislada-para-comunicar`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Para que la central DXc, comunique con el TG, deberá activar el protocolo de comunicaciones en las o»
+
+- [ ] `dxc-connexion-como-solucionar-la-averia-de-ent-placa-1-o-2`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «¿Como poder solucionar las averías de Entrada de Placa 1 o 2 en la DXc / Conexion?»
+
+- [ ] `dxc-opciones-de-disparo-de-programas-matrices`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Las opciones de disparo de programas y sus funciones en la central DXc son:»
+
+- [ ] `dxc-tipos-abreviaturas-de-equipos`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Principales abreviaturas / tipos de equipos en la central DXc»
+
+- [ ] `dxc-tipos-de-accion-para-entradas`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Los tipos de acción para entradas y sus funciones para la central DXc son:»
+
+- [ ] `dxc_connexion averia-de-resistencia-de-baterias`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Tengo avería de resistencia de baterías en central DXc»
+
+- [ ] `eventos-averias-de-equipos-en-dxc`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Eventos de equipos en la central DXc (NO RESPONDE, EQUIPO NUEVO, DOBLE DIRECCION, TIPO EQUIPO CAMBIA»
+
+- [ ] `g_inst_kidde_nc_pfx_202502_es_ac3d` · **serie NC × central** (6 ids; la pasada original proponía 6)
+      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
+      cita: «Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC»
+
+- [ ] `g_uso_kidde_nc_pfx_202502_es_99d2` · **serie NC × central** (6 ids; la pasada original proponía 6)
+      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
+      cita: «Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC»
+
+- [ ] `inc___doci_141_gu__a_r__pida_kidde_nc_pf__1__fcb9`
+      → `kidde:nc-pf2`, `kidde:nc-pf4`, `kidde:nc-pf8`, `kidde:nc-pf2-sc`, `kidde:nc-pf4-sc`, `kidde:nc-pf8-sc`
+      cita: «| **Modelo:** | Central Kidde NC-PF | | **Asunto:** | Guía rápida de usuario |»
+
+- [ ] `ma-dt-1160`
+      → `systemsensor:pf24v`
+      cita: «Aplicaciones del *sonido direccional* para la protección de vidas # - ExitPoint™ -»
+
+- [ ] `mie-mi-340_1`
+      → `morley:exp-051`
+      cita: «IMPRESORA MATRICIAL DE PUERTA MOD.EXP-051 ## MANUAL DE INSTALACIÓN»
+
+- [ ] `mie-mi-431rv2_1`
+      → `morley:zxr-a`, `morley:zxr-p`
+      cita: «MANUAL DE INSTALACIÓN Y FUNCIONAMIENTO ZXr-A/ZXr-P»
+
+- [ ] `mi_kidde_nc_pfx_202502_es_62f8` · **serie NC × central** (6 ids; la pasada original proponía 6)
+      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
+      cita: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»
+
+- [ ] `mndt1160`
+      → `systemsensor:pf24v`
+      cita: «Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*»
+
+- [ ] `morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «¿Se pueden pasar programaciones de ZX y Dimensión a Connexion DXC?»
+
+- [ ] `niveles-de-control-de-acceso-de-la-central-dxc-conexion`
+      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      cita: «Niveles de control de acceso de la central DXC,CONEXION»
+
+- [ ] `no-puedo-hacer-rearme-o-silenciar-sirenas-en-la-vsn-lt`
+      → `morley:vsn2-lt`, `morley:vsn4-lt`, `morley:vsn8-lt`, `morley:vsn12-lt`
+      cita: «conectando el puente KEY que se encuentra en el canto inferior izquierdo de la tarjeta de las centra»
+
+- [ ] `osid-es-necesario-resetear-la-barrera-de-forma-externa`
+      → `morley:mi-osi-rie`
+      cita: «# OSID ¿Es necesario resetear la barrera de forma externa?»
+
+- [ ] `ucip-como-enviar-datos-de-equipos-y-no-solo-eventos-de-zon`
+      → `notifier:ucip`
+      cita: «# UCIP - Como enviar datos de equipos y no solo eventos de zonas»
+
+- [ ] `ucip-que-datos-necesito-de-la-receptora`
+      → `notifier:ucip`
+      cita: «# UCIP - ¿Que datos necesito de la receptora?»
+
+- [ ] `bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_qui` · **serie NC × central** (6 ids; la pasada original proponía 6)
+      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
+      cita: «Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC»
+
+- [ ] `bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_qui` · **serie NC × central** (6 ids; la pasada original proponía 6)
+      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
+      cita: «Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC»
+
+
+#### §0.B.2 — PIDEN TU OJO: la máquina se para y te lo pasa
+
+- [ ] `00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide`
+      motivo: **documento de SERIE 2X-A (categoria NO declarada)**
+      cita: «Guía de funcionamiento rápido de la serie 2X-A»
+      asignación de la pasada original: `kidde:2x-at-f2`, `kidde:2x-at-f2-fb`
+      → TU DECISIÓN: 
+
+- [ ] `dxc_guia de usuario_multiling`
+      motivo: **documento de SERIE DX x categoria central**
+      cita: «Guía de usuario para centrales de detección de incendios de la serie DX Connexion»
+      asignación de la pasada original: `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
+      → TU DECISIÓN: 
+
+- [ ] `hd_ke_dt3101w_hab_202407_es_30e0`
+      motivo: **documento de SERIE EXCELLENCE x categoria detector**
+      cita: «KE-DT3101W-HAB ## Detector de calor direccionable inteligente serie Excellence con aislador»
+      asignación de la pasada original: `kidde:ke-dt3101w-hab`
+      → TU DECISIÓN: 
+
+- [ ] `hlsi-ti-001`
+      motivo: **documento de SERIE RP1R x categoria central**
+      cita: «Centrales de extinción de la Serie RP1r»
+      asignación de la pasada original: `notifier:rp1r-supra`
+      → TU DECISIÓN: 
 
 ### §0.C — Candidates → **ALTA** (32)
 
