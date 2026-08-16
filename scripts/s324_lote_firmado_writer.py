@@ -384,8 +384,16 @@ def revertir_retags(c, aplicados_filas: list[dict]) -> list[dict]:
 
 # ───────────────────────── main ─────────────────────────
 def main() -> int:
+    global PLAN, CENSO
     ap = argparse.ArgumentParser(); ap.add_argument("--aplicar", action="store_true")
+    ap.add_argument("--plan", default=str(PLAN), help="plan JSON (por defecto el lote firmado de s324)")
+    ap.add_argument("--censo", default=None, help="fichero del censo/dry-run (por defecto evals/<plan>_radio_explosion.json si --plan≠default)")
     args = ap.parse_args(); modo = "aplicar" if args.aplicar else "dry-run"
+    PLAN = Path(args.plan) if Path(args.plan).is_absolute() else ROOT / args.plan
+    if args.censo:
+        CENSO = Path(args.censo) if Path(args.censo).is_absolute() else ROOT / args.censo
+    elif PLAN != ROOT / "evals" / "s324_lote_firmado_plan_v1.json":
+        CENSO = PLAN.with_name(PLAN.stem.replace("_plan", "") + "_radio_explosion.json")
     plan = json.loads(PLAN.read_text(encoding="utf-8"))
     plan_sha = sha_file(PLAN)
     utc = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -430,7 +438,7 @@ def main() -> int:
         if aborts:
             print("ABORT preflight retags:", aborts); return 4
         tmp = Path(tempfile.mkdtemp(prefix="s324_catalog_"))
-        backup_dir = ROOT / "evals" / f"s324_lote_backup_{utc}"
+        backup_dir = ROOT / "evals" / f"{PLAN.stem.replace('_plan_v1','').replace('_plan','')}_backup_{utc}"
         try:
             stats = aplicar_plan(plan, tmp, CATALOG_DIR)          # construye y VALIDA en tmp
             backup_dir.mkdir(parents=True, exist_ok=True)
@@ -463,7 +471,7 @@ def main() -> int:
                                             "backup_chunks": [{"doc": f["source_file"], "document_id": f["document_id"], "documents_pm_prev": f["documents_pm_actual"], "chunks": f["backup"]} for f in pre]},
               "backup_dir": str(backup_dir.relative_to(ROOT)),
               "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"}
-    out = ROOT / "evals" / f"s324_lote_firmado_aplicar_{utc}.json"
+    out = ROOT / "evals" / f"{PLAN.stem.replace('_plan_v1','').replace('_plan','')}_aplicar_{utc}.json"
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{estado} · {stats} · retags {[(x['doc'][:40], x['chunks']) for x in rt['aplicados']]} aborts {rt['aborts']} · censo post {cz and cz['veredicto']}")
     print("recibo:", out.relative_to(ROOT))

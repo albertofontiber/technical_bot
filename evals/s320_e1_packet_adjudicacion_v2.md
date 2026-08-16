@@ -1,15 +1,15 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 11:46Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 18:50Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
-> - **§1.A** (13): 10 resueltas por tus REGLAS R1/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`) — 3 quedan pendientes de **R1'** (abajo).
+> - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
 > - **§1.B** (84): las de R6 (7) y R7 (23+4) están RESUELTAS con prueba (altas aplicadas o descartadas); acrónimos cortos (17) y confianza media (14) siguen en cuarentena; todo marcado fila a fila.
 > - Retirados del corpus: MA-DT-1160 (tu adjudicación) + 6 fragmentos PT con hermano ES.
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
-> 1. **R1'** (3 docs: GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf, MI_KIDDE_2X_AT_F2_FB_07d4.pdf, MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf): «si el documento NOMBRA modelos de la serie, atestar solo los nombrados» — ¿OK? (Sol r32: es criterio nuevo, no lo firmaste.)
+> 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: 3 docs, 62 entries (recibo `s324b_r1prima_aplicar_*.json`).
 > 2. **§0.C** (32 altas) · **§0.D** (17 retirar) · **§0.E** (3): tus tres «sí» en bloque siguen abiertos — pero OJO: las altas/confirmaciones pasan por el gate del detector (censo del radio de explosión) antes de escribirse, como este lote.
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
@@ -18,6 +18,7 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
 
 
 

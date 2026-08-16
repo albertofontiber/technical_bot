@@ -47,7 +47,9 @@ def norm(s): return re.sub(r"\s+", " ", s or "").strip()
 
 
 def main() -> int:
-    plan = json.loads((ROOT / "evals/s324_lote_firmado_plan_v1.json").read_text(encoding="utf-8"))
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--plan", default="evals/s324_lote_firmado_plan_v1.json"); args = ap.parse_args()
+    plan = json.loads((ROOT / args.plan).read_text(encoding="utf-8"))
     cat = cs.load(CATALOG_DIR)
     dm = {r["document_id"]: r for r in cat.doc_map}
     fallos, ok = [], {"doc_map": 0, "entries": 0, "altas": 0, "confirmaciones": 0, "retiradas": 0, "umbrellas": 0, "retags": 0}
@@ -118,7 +120,7 @@ def main() -> int:
                 ok["retags"] += 1
     out = {"que_es": __doc__.strip().splitlines()[0], "utc": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"),
            "verificado": ok, "fallos": fallos, "veredicto": "PASS" if not fallos else "FAIL"}
-    (ROOT / "evals/s324_verificacion_posterior_v1.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    (ROOT / "evals" / (Path(args.plan).stem.replace("_plan_v1", "").replace("_plan", "") + "_verificacion_posterior_v1.json")).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(out["verificado"]), "· fallos:", len(fallos), "·", out["veredicto"])
     for f in fallos[:20]:
         print("  FALLO", f)

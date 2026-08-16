@@ -1,0 +1,369 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260816T185028Z",
+ "plan_sha": "411f9d34afc4b54e",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "10af5b57f264e736",
+   "aliases": "e05d4f801e1569d7",
+   "umbrellas": "24d96389cf7ba705",
+   "doc_map": "41cc4994f06bccd0"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 3,
+  "doc_map_modificadas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1695,
+  "terminos_despues": 1695,
+  "entran": 0,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "En la central Kidde 2X-AF2, ¿cómo se configuran las zonas (agrupar detectores y pulsadores) y cuántas zonas admite?": {
+    "allowed_sources_nuevas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "2x-af2"
+    ]
+   },
+   "¿Cómo amplío una central 2X-AF2 con un lazo adicional (tarjeta 2X-A-LB)?": {
+    "allowed_sources_nuevas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "2x-af2",
+     "2x-a-lb"
+    ]
+   },
+   "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?": {
+    "allowed_sources_nuevas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "2x-at"
+    ]
+   }
+  },
+  "efecto_docmap": {
+   "kidde:2x-ae1": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-ae2": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-ae2-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1-fb": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1-fb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1-s": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1-scfb": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af1-scfb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb": {
+    "fuentes_antes": 6,
+    "fuentes_despues": 8,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-prt": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-prt-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-fb-s": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-prt": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-prt-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb": {
+    "fuentes_antes": 6,
+    "fuentes_despues": 8,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-af2-scfb-s": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-afr": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-afr-fb": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 7,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-afr-fb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-afr-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf"
+    ]
+   },
+   "kidde:2x-at-f2": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-f2-fb": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-f2-fb-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-f2-fb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-f2-p": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-f2-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-fr": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-fr-fb": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-fr-fb-s": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   },
+   "kidde:2x-at-fr-s": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals\\s324b_r1prima_backup_20260816T185028Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}
