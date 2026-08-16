@@ -401,7 +401,11 @@ def test_cifras_de_control():
     # 120→121 (s317/#72): + http_pool.py (raíz) — cliente HTTP compartido de
     # proceso; 55 sitios de serving migrados del patrón cliente-por-llamada
     # (perfil: 14 clientes/consulta = ~10 s/turno). Producto transversal.
-    assert len(MODULOS) == 121, (
+    # 121→122 (s323/fase C): + rag/identidad_gate.py — los invariantes de
+    # coherencia corpus↔catálogo (#80/#81). Vive en src/ y no en scripts/ porque
+    # la INGESTA lo ejecuta en cada corrida: es lógica de producción. El primer
+    # cableado lo puso en scripts/ y ESTE MISMO contrato lo cazó.
+    assert len(MODULOS) == 122, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

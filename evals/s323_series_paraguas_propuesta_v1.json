@@ -1,0 +1,141 @@
+{
+ "que_es": "s323 — PROPUESTA de paraguas de SERIE + re-mapeo de los documentos de serie.",
+ "paraguas": [
+  {
+   "termino": "2X-A",
+   "n_miembros": 39,
+   "ids": [
+    "kidde:2x-a-lb",
+    "kidde:2x-ae1",
+    "kidde:2x-ae2",
+    "kidde:2x-ae2-p",
+    "kidde:2x-af1",
+    "kidde:2x-af1-fb",
+    "kidde:2x-af1-fb-s",
+    "kidde:2x-af1-s",
+    "kidde:2x-af1-scfb",
+    "kidde:2x-af1-scfb-s",
+    "kidde:2x-af2",
+    "kidde:2x-af2-09",
+    "kidde:2x-af2-fb",
+    "kidde:2x-af2-fb-p",
+    "kidde:2x-af2-fb-prt",
+    "kidde:2x-af2-fb-prt-p",
+    "kidde:2x-af2-fb-s",
+    "kidde:2x-af2-p",
+    "kidde:2x-af2-prt",
+    "kidde:2x-af2-prt-p",
+    "kidde:2x-af2-s",
+    "kidde:2x-af2-scfb",
+    "kidde:2x-af2-scfb-p",
+    "kidde:2x-af2-scfb-s",
+    "kidde:2x-afr",
+    "kidde:2x-afr-fb",
+    "kidde:2x-afr-fb-s",
+    "kidde:2x-afr-s",
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "subfamilias": {
+    "evacuacion (2X-AE)": [
+     "2X-AE1",
+     "2X-AE2",
+     "2X-AE2-P"
+    ],
+    "otros": [
+     "2X-A-LB"
+    ],
+    "repetidor (2X-AFR)": [
+     "2X-AFR",
+     "2X-AFR-FB",
+     "2X-AFR-FB-S",
+     "2X-AFR-S"
+    ],
+    "tactil (2X-AT)": [
+     "2X-AT-F1-FB-S",
+     "2X-AT-F2",
+     "2X-AT-F2-FB",
+     "2X-AT-F2-FB-P",
+     "2X-AT-F2-FB-S",
+     "2X-AT-F2-P",
+     "2X-AT-F2-S",
+     "2X-AT-FR",
+     "2X-AT-FR-FB",
+     "2X-AT-FR-FB-S",
+     "2X-AT-FR-S"
+    ],
+    "teclado (2X-AF)": [
+     "2X-AF1",
+     "2X-AF1-FB",
+     "2X-AF1-FB-S",
+     "2X-AF1-S",
+     "2X-AF1-SCFB",
+     "2X-AF1-SCFB-S",
+     "2X-AF2",
+     "2X-AF2-09",
+     "2X-AF2-FB",
+     "2X-AF2-FB-P",
+     "2X-AF2-FB-PRT",
+     "2X-AF2-FB-PRT-P",
+     "2X-AF2-FB-S",
+     "2X-AF2-P",
+     "2X-AF2-PRT",
+     "2X-AF2-PRT-P",
+     "2X-AF2-S",
+     "2X-AF2-SCFB",
+     "2X-AF2-SCFB-P",
+     "2X-AF2-SCFB-S"
+    ]
+   },
+   "aviso": "OJO: las subfamilias NO son homogeneas para un documento de OPERACION — el tactil, el repetidor y el de teclado tienen interfaces distintas. Un documento de serie que describa UNA interfaz no deberia expandirse a todas."
+  },
+  {
+   "termino": "NC",
+   "n_miembros": 11,
+   "ids": [
+    "kidde:nc-mc-0-g",
+    "kidde:nc-mc-0-r",
+    "kidde:nc-mc-100-r",
+    "kidde:nc-mc-470-r",
+    "kidde:nc-mc-560-r",
+    "kidde:nc-pf2",
+    "kidde:nc-pf2-sc",
+    "kidde:nc-pf4",
+    "kidde:nc-pf4-sc",
+    "kidde:nc-pf8",
+    "kidde:nc-pf8-sc"
+   ],
+   "subfamilias": {
+    "otros": [
+     "NC-MC-0-G",
+     "NC-MC-0-R",
+     "NC-MC-100-R",
+     "NC-MC-470-R",
+     "NC-MC-560-R",
+     "NC-PF2",
+     "NC-PF2-SC",
+     "NC-PF4",
+     "NC-PF4-SC",
+     "NC-PF8",
+     "NC-PF8-SC"
+    ]
+   },
+   "aviso": "OJO: las subfamilias NO son homogeneas para un documento de OPERACION — el tactil, el repetidor y el de teclado tienen interfaces distintas. Un documento de serie que describa UNA interfaz no deberia expandirse a todas."
+  }
+ ],
+ "notas": [],
+ "hallazgo_al_construirlos": [
+  "2X-A: 39 miembros activos en CUATRO subfamilias con interfaces distintas — teclado (2X-AF, 20), tactil (2X-AT, 11), repetidor (2X-AFR, 4) y evacuacion (2X-AE, 3). Una GUIA DE FUNCIONAMIENTO describe UNA interfaz: la del documento tiene teclas F1-F4 y rueda, no pantalla tactil. Expandirla a las 39 citaria el manual equivocado a quien pregunte por un 2X-AT.",
+  "NC: mi regla '^NC-' capturo 11 miembros que MEZCLAN pulsadores (NC-MC-*) con las centrales NC-PF. La guia es de CENTRALES. El termino 'serie NC' no basta como criterio: hay que acotar por tipo de producto. Es el mismo error de fondo que este trabajo persigue — parecerse no es ser.",
+  "CONCLUSION: el paraguas de serie es la unidad de IDENTIDAD correcta, pero NO resuelve sola la asignacion de un documento: un documento de serie debe mapear a la INTERSECCION serie x tipo-de-producto-que-documenta. Eso exige el dato de categoria de #76 (que ya existe para Kidde) y una decision de Alberto por documento."
+ ]
+}
