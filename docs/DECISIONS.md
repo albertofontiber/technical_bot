@@ -4333,6 +4333,14 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > alcanza; hechos NO-OK adicionales con beneficio literal = 0; dispara en 6/27 filas estructurales (no 6/30) y cambia la
 > vista de filas que soportan 9 hechos OK. **Veredicto: NO construir** salvo GO explícito de Alberto sobre «1» (y entonces
 > pinear A como test y hacer G2 — oráculo del bloque cerrado en posición de lane — antes de G3).
+> **Replay sobre composición congelada hecho esa noche** ($5,44; `scripts/s324c_replay_congelado.py`, mecanismo
+> `gen_answer_only` de s289/DEC-168: N=5 respuestas sobre la MISMA vista + N=3 turnos frescos, juez `judge_conveyed21`
+> K=5 THRESH_FIRM 4 intacto): los 4 «flips» (`cat001#3` 3/5, `cat008#3` 1/5, `cat016#1` 2/5, `hp005#3` 4/5 con la vista
+> idéntica; 0/12 frescos reproducen ids+orden por el rerank no determinista y aun así la varianza dominante es de la
+> RESPUESTA — una componente del hecho entra o no; juez bimodal 28/32) ⇒ **4/4 SÍNTESIS INESTABLE, 0 SERVING**: los flips
+> NO son población de un lever de serving y con N=3 el FULL/sonda los etiqueta «flip» o «stable-miss» por azar. Responde
+> con dato la pregunta que quedaba a Alberto («¿cuenta un flip como población?»): no para serving. La población de
+> serving sigue en **1 hecho** (`hp017#1`).
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
