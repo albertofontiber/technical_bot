@@ -219,19 +219,19 @@ buena no es «la serie» (mezcla interfaces distintas) sino **serie × categorí
       motivo: **documento de SERIE DX x categoria central**
       cita: «Guía de usuario para centrales de detección de incendios de la serie DX Connexion»
       asignación de la pasada original: `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      → TU DECISIÓN: 
+      → TU DECISIÓN: OK
 
 - [ ] `hd_ke_dt3101w_hab_202407_es_30e0`
       motivo: **documento de SERIE EXCELLENCE x categoria detector**
       cita: «KE-DT3101W-HAB ## Detector de calor direccionable inteligente serie Excellence con aislador»
       asignación de la pasada original: `kidde:ke-dt3101w-hab`
-      → TU DECISIÓN: 
+      → TU DECISIÓN: OK
 
 - [ ] `hlsi-ti-001`
       motivo: **documento de SERIE RP1R x categoria central**
       cita: «Centrales de extinción de la Serie RP1r»
       asignación de la pasada original: `notifier:rp1r-supra`
-      → TU DECISIÓN: 
+      → TU DECISIÓN: misma adjudicación que el archivo "HLSI-TI-001".diría que también aplica a la "VSN-RP1r+"
 
 ### §0.C — Candidates → **ALTA** (32)
 
@@ -246,6 +246,7 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
 
 - [ ] `aritech:2x-a` (2X-A) → **ALTA** · rol TITULO · doc `00-3280-507-4009-03_r003_2x-a_series_quick_installation_g…`
       menciones estrictas doc 1 / global 43 en 18 docs · cita ✓ «Guía de instalación rápida de la serie 2X-A»
+      ALBERTO: aquí 
 - [ ] `kidde:ke-asa-auxr` (KE-ASA-AUXR) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_ASA_AUXR_f28f.pdf`
       menciones estrictas doc 2 / global 8 en 7 docs · cita ✓ «# KE-ASA-AUXR Intelligent addressable notification accessory - deep base (red)»
 - [ ] `kidde:ke-dba-adpw-kil` (KE-DBA-ADPW-KIL) → **ALTA** · rol TITULO · doc `DS_KIDDE_KE_DBA_ADPW_KIL_202501_ING_c855.pdf`

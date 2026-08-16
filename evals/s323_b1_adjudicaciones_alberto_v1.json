@@ -45,5 +45,15 @@
   "accion": "RE-MAPEAR de las 6 kidde:nc-pf* a kidde:2x-at-fr-s",
   "id_existe_en_catalogo": true,
   "lectura": "la fila venia en las 38 LIMPIAS y estaba MAL: la cita («Modelo: Central Kidde NC-PF») no pertenece a este documento. Es la clase de fallo que el verificador midio como 'la cita existe pero no en el doc atribuido' — aqui ademas arrastro los ids. Se corrige con la adjudicacion de Alberto."
- }
+ },
+ "seccion_0B2": {
+  "dxc_guia de usuario_multiling": "OK (serie DX x central)",
+  "hd_ke_dt3101w_hab_202407_es_30e0": "OK (serie EXCELLENCE x detector)",
+  "hlsi-ti-001": "OK, misma adjudicacion que el archivo HLSI-TI-001; Alberto anade que TAMBIEN aplica a la VSN-RP1r+ -> verificar id en catalogo antes de aplicar",
+  "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide": "PENDIENTE (la unica sin hacer)"
+ },
+ "a_resolver_antes_de_aplicar": [
+  "§0.C propone dar de ALTA `aritech:2x-a`, pero Alberto ya adjudico que la serie 2X-A es KIDDE (logo en portada + nota de prensa de Kidde Commercial). El namespace de esa alta parece equivocado: deberia ser `kidde:2x-a`. Su anotacion quedo cortada ('ALBERTO: aqui'), asi que NO se asume: se pregunta.",
+  "VSN-RP1r+ : verificar que existe como producto antes de mapear hlsi-ti-001 a el."
+ ]
 }
