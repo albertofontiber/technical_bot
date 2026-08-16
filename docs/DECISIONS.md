@@ -7146,3 +7146,50 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Recibos**: Sol v1 ts=2026-08-16T13:08:52 · Sol v2 ts=2026-08-16T14:12:49 · 0 falsos positivos en 11
   hallazgos verificados. Fable se emparejará sobre la v3 en la sesión dedicada.
 
+## DEC-227 (s324b/c, autónoma nocturna) — Etapa 3 MEDIDA antes de construir: población de serving = 1 hecho, los «flips» son síntesis inestable, D1 NO se construye; los lotes firmados por Alberto (R1', §0.C, STRATOS, §0.D/§0.E, Detnov) aplicados con puertas; los bloques E1b PREPARADOS (11/11 PASS) sin aplicar
+
+- **Fecha**: 16-17 ago 2026 (misma sesión que DEC-225; Alberto adjudicó por la tarde y durmió con «OK, a por
+  ello» sobre el plan nocturno). **Impacto**: ALTO en zona de dolor (retrieval/síntesis + catálogo).
+- **Decide (1) — el lever de etapa 3 NO se construye todavía, con dato**: la sonda de alcanzabilidad de los 8
+  «servido y omitido» del FULL 16-ago (agente de medición, ~$11-13, `evals/s321_poblacion_etapa3_v1.md`) dio 7
+  ALCANZABLE / 1 NO (`hp009#0`, entrega 3/3 + cobertura); pero la población por gold de HOY es {hp017, hp005,
+  hp015, hp001} = 4 y **no es una clase**: `hp015` era DATOS (CCD-103 candidate → resuelto esta noche), `hp001#2`
+  within-doc NO-GO 3×, `hp005#3` omisión inestable, y solo `hp017#1` lo levanta un lever de serving. La propuesta
+  D1 «cierre de bloque de lista» (`evals/s324c_lever_b_propuesta_v1.md`) pasó por el **dúo r33** (Sol 6 hallazgos ·
+  Fable 5 con 14 `tool_use` reales): no es vista pasiva, listas sin fin inequívoco, denominador 1 → **medir antes**.
+  Medido esa noche: **prueba offline D1** ($0, código real de coverage, fidelidad 40/40) — alcanza `hp017#1` SOLO con
+  la definición A (blanco no rompe), 0 hechos NO-OK adicionales, toca 6/27 filas estructurales y 9 hechos OK; y
+  **replay congelado** ($5,44) — los 4 flips son **SÍNTESIS INESTABLE 4/4** con la vista idéntica (juez bimodal), no
+  serving. ⇒ Cifra de cabecera de DEC-175: **1 hecho pagable por serving**; D1 solo con GO explícito de Alberto sobre
+  «1» (y entonces A pineada + G2 antes de G3). Los tres de conducta («negar la premisa» `hp009#0`, `hp013#1`,
+  `hp011#2`) van a gold-review: `evals/s324c_goldreview_conducta_packet_v1.md` (3 opciones cada uno; nada aplicado).
+- **Alternativas descartadas**: (a) construir D1 esta noche «apoyándome en el adversarial» (Alberto lo sugirió) —
+  el dúo r33 lo paró y la medición confirmó población 1; construir sobre 1 hecho es el sesgo #51 (proxy por
+  eval); (b) atacar los 19 «no OK» del FULL hasta >95% OK — son heterogéneos (12 síntesis de los que 8 son
+  «servido y omitido», 4 conducta, resto retrieval/datos): no hay UN lever, y los flips son varianza de síntesis
+  que un lever de serving no toca; (c) tomar el «≥4 alcanzables» como población — sustitución de denominador
+  (Fable r33): un «alcanzable» no es un hecho pagable.
+- **Decide (2) — lotes firmados aplicados con las puertas de DEC-225** (cada uno con plan verificado full-text,
+  dry-run + censo del radio de explosión, freeze, backup, verificación posterior 0 fallos): **R1'** (3 docs
+  2X-A/2X-AT → solo modelos NOMBRADOS, 62 entries) · **§0.C** (21 altas incl. software ID²NET/CLSS Configuration
+  Tool, 7 alias, 26 doc_map, 2 bajas; revisor Fable standalone 6 hallazgos aplicados: paraguas «2X-A» DIFERIDO
+  con pregunta explícita, NFXI-BSF-WCH grafía firmada + alias WC, FAQ DXc cita propia, alias ASCII ID2net/IDNet)
+  · **STRATOS** = paraguas de familia (LaserStar-HSSD-2, MINILÁSER25, MINILASER 100; −2 alias erróneos) ·
+  **§0.D/§0.E** (5 docs retirados, altas Fidegas S/3-2, S/3-IR, S/2-IR y EMA1224B4R/W, TG confirmado SOFTWARE
+  con gate léxico 0/96, MADT731_06 → HSSD-2, 5 retags) · **Detnov E1b** (8 confirmaciones + `detnov:ccd-103` alta
+  con redirect desde `unresolved:ccd-103`; el gate cazó 14 alias descriptivos —«2 zonas», «4 zonas», «Conventional
+  panels with…»— que la confirmación ACTIVABA: retirados antes; tráfico real +1 detección = TP). Cada «sí» de
+  Alberto vino con nota en el packet canónico; lo que solo él firma sigue ⏳ marcado fila a fila.
+- **Decide (3) — E1b PREPARADO, no aplicado**: 11 planes por bloque + dry-run del gate **11/11 PASS** (422
+  confirmables verificadas full-text, 40 `no_aplicar` con propuesta —colisiones canonical/alias/paraguas y
+  grafías—, **125 alias descriptivos que se retirarían antes**, regla nueva del clasificador «truncación ambigua de
+  familia» nacida del gate: `VSN12` disparaba «vsn 12»); `evals/s324c_e1b_bloques_censo_v1.md`. Un «sí» por bloque =
+  re-dry-run del mismo sha + `--aplicar`. Cross-bloque morley↔unresolved / morley↔notifier: exige adjudicar homónimos.
+- **Colateral**: `test_s307` (cota de la lista plana de inventario) se acopló a los DATOS del catálogo (Notifier ya
+  tiene productos clasificados → la vista agrupada tomaba el turno): el test fuerza ahora la ruta plana. Lección:
+  los tests de render de inventario no deben depender de qué marca tiene clasificación.
+- **Recibos**: `evals/s324b_r1prima_aplicar_*`, `s324b_lote_0c_aplicar_20260816T193507Z`, `s324b_stratos_aplicar_*`,
+  `s324c_lote_0de_aplicar_*`, `s324c_e1b_detnov_aplicar_20260816T213209Z`, sondas `s293_reachability_*` (8) ·
+  dúo r33 Sol ts=2026-08-16T22:52:37 / Fable 22:55:15 · `s324c_d1_prueba_offline_v1` · `s324c_replay_congelado_flips_v1`
+  · LEVER_DIGEST fila «Etapa 3 / síntesis» sobrescrita in-place · TECH_DEBT #89 (5 defectos de la sonda).
+- **Relacionado**: DEC-173/175 (banner corregido) · DEC-225 · DEC-224 (gold-review vía `gold_store`).
