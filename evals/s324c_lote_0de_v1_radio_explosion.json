@@ -1,0 +1,320 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T201800Z",
+ "plan_sha": "b6071a47229aac5b",
+ "freeze": {
+  "catalog_shas": {
+   "products": "8a3d93737d4c30b6",
+   "aliases": "4494efb1462b11a4",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "117b32aade8b3e98"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "1a97d95179cd1a1d"
+ },
+ "stats": {
+  "altas": 4,
+  "confirmadas": 1,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 6,
+  "doc_map_modificadas": 2,
+  "aliases_altas": 1
+ },
+ "censo": {
+  "terminos_antes": 1723,
+  "terminos_despues": 1731,
+  "entran": 8,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "EMA1224B4R/W",
+    "normkey": "ema1224b4rw",
+    "core": "ema[-\\s/.+]*1224[-\\s/.+]*b[-\\s/.+]*4[-\\s/.+]*r[-\\s/.+]*w",
+    "origen": "alta notifier:ema1224b4r-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/2-IR",
+    "normkey": "s2ir",
+    "core": "s[-\\s/.+]*2[-\\s/.+]*ir",
+    "origen": "alta fidegas:s2-ir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/3-2",
+    "normkey": "s32",
+    "core": "s[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "alta fidegas:s3-2",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/3-IR",
+    "normkey": "s3ir",
+    "core": "s[-\\s/.+]*3[-\\s/.+]*ir",
+    "origen": "alta fidegas:s3-ir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG",
+    "normkey": "tg",
+    "core": "tg",
+    "origen": "confirmar notifier:tg",
+    "riesgo": [
+     "muy_corto",
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": [
+     "tg[-\\s/.+]*1020",
+     "tg[-\\s/.+]*gsm",
+     "tg[-\\s/.+]*ip[-\\s/.+]*1",
+     "tg[-\\s/.+]*ip[-\\s/.+]*10",
+     "tg[-\\s/.+]*ip[-\\s/.+]*100"
+    ]
+   },
+   {
+    "termino": "TG-2000",
+    "normkey": "tg2000",
+    "core": "tg[-\\s/.+]*2000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-400",
+    "normkey": "tg400",
+    "core": "tg[-\\s/.+]*400",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-AFP200",
+    "normkey": "tgafp200",
+    "core": "tg[-\\s/.+]*afp[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "TG-2000",
+    "id": "notifier:tg",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-400",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-AFP200",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-HONEYWELL",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [
+   "S/3-2",
+   "TG"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "fidegas:s2-ir": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-IR-y-S-2-IR"
+    ]
+   },
+   "fidegas:s3-2": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-2"
+    ]
+   },
+   "fidegas:s3-ir": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-IR-y-S-2-IR"
+    ]
+   },
+   "notifier:ema1224b4r-w": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "D686 EMA1224B4R_W NS4R"
+    ]
+   },
+   "notifier:laserstar-hssd-2": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MADT731_06"
+    ]
+   },
+   "notifier:tg": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion"
+    ]
+   }
+  },
+  "findability_retags": [
+   {
+    "doc": "Manual-de-Usuario-S3-2",
+    "pm_nuevo": "S/3-2",
+    "entries_primarias": [
+     "fidegas:s3-2"
+    ],
+    "casan": [
+     "fidegas:s3-2"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+    "pm_nuevo": "S/3-IR/S/2-IR",
+    "entries_primarias": [
+     "fidegas:s3-ir",
+     "fidegas:s2-ir"
+    ],
+    "casan": [
+     "fidegas:s3-ir",
+     "fidegas:s2-ir"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "D686 EMA1224B4R_W NS4R",
+    "pm_nuevo": "EMA1224B4R/W",
+    "entries_primarias": [
+     "notifier:ema1224b4r-w"
+    ],
+    "casan": [
+     "notifier:ema1224b4r-w"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+    "pm_nuevo": "TG",
+    "entries_primarias": [
+     "notifier:tg"
+    ],
+    "casan": [
+     "notifier:tg"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "MADT731_06",
+    "pm_nuevo": "LaserStar-HSSD-2",
+    "entries_primarias": [
+     "notifier:laserstar-hssd-2"
+    ],
+    "casan": [
+     "notifier:laserstar-hssd-2"
+    ],
+    "ok": true
+   }
+  ],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [
+  {
+   "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+   "source_file": "Manual-de-Usuario-S3-2",
+   "pm_prev": "EL-11",
+   "pm_nuevo": "S/3-2",
+   "documents_pm_actual": "EL-11",
+   "motivo": "pm sucio EL-11 (fecha «el 11/2018») → modelo(s) del título (Alberto §0.D)",
+   "chunks_doc": 22,
+   "chunks_pm_prev": 22,
+   "documents_status": "active"
+  },
+  {
+   "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+   "source_file": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+   "pm_prev": "EL-11",
+   "pm_nuevo": "S/3-IR/S/2-IR",
+   "documents_pm_actual": "EL-11",
+   "motivo": "pm sucio EL-11 (fecha «el 11/2018») → modelo(s) del título (Alberto §0.D)",
+   "chunks_doc": 24,
+   "chunks_pm_prev": 24,
+   "documents_status": "active"
+  },
+  {
+   "document_id": "0cb982a1-389c-4ae6-9e6d-2278b9f96cd6",
+   "source_file": "D686 EMA1224B4R_W NS4R",
+   "pm_prev": "EN-54-3",
+   "pm_nuevo": "EMA1224B4R/W",
+   "documents_pm_actual": "EN-54-3",
+   "motivo": "pm sucio EN-54-3 (norma) → modelo del título (Alberto §0.E)",
+   "chunks_doc": 1,
+   "chunks_pm_prev": 1,
+   "documents_status": "active"
+  },
+  {
+   "document_id": "ca284693-a7bc-44c2-aa42-be1e6e5a29c4",
+   "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+   "pm_prev": "DE-80",
+   "pm_nuevo": "TG",
+   "documents_pm_actual": "DE-80",
+   "motivo": "pm sucio DE-80 («de 80 …») → TG (Alberto §0.D)",
+   "chunks_doc": 1,
+   "chunks_pm_prev": 1,
+   "documents_status": "active"
+  },
+  {
+   "document_id": "77683de5-4245-4410-a649-84867318d981",
+   "source_file": "MADT731_06",
+   "pm_prev": "MADT-731",
+   "pm_nuevo": "LaserStar-HSSD-2",
+   "documents_pm_actual": "MADT-731",
+   "motivo": "pm = código del documento → modelo adjudicado por Alberto (HSSD-2 = LaserStar-HSSD-2 en catálogo)",
+   "chunks_doc": 7,
+   "chunks_pm_prev": 7,
+   "documents_status": "active"
+  }
+ ],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

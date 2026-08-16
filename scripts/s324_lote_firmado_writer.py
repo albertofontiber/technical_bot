@@ -123,6 +123,9 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
         if p.get("candidate"):
             p["candidate"] = False
             p["provenance"] = (p.get("provenance") or "") + " | " + cf["provenance_add"]
+            cl = (plan.get("clasificacion_confirmados") or {}).get(cf["id"])
+            if cl and "clasificacion" not in p:
+                p["clasificacion"] = cl
             stats["confirmadas"] += 1
     for rt in plan["products_retirar"]:
         p = by_id[rt["id"]]

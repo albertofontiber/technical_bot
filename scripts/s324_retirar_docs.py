@@ -85,13 +85,24 @@ BAJAS_S324B = [
 ]
 
 
+BAJAS_S324C = [   # §0.D revisado por Alberto (16-ago): «retira también el documento del corpus» / «elimina el doc del corpus»
+    ("ETDT312", "adjudicacion-alberto", None, None, "Alberto §0.D: retirar el documento (hoja de 1 pág. «Etiquetas suministradas con el NAS-2»)"),
+    ("ETDT314", "adjudicacion-alberto", None, None, "Alberto §0.D: retirar el documento (hoja de 1 pág. «Etiquetas suministradas con el NAS-1u»)"),
+    ("MADT742", "adjudicacion-alberto", None, None, "Alberto §0.D: «elimina el doc del corpus» (hoja de advertencia multilingüe, 1 chunk)"),
+    ("MNDT1202", "adjudicacion-alberto", None, None, "Alberto §0.D: «elimina el doc del corpus» (aviso «Aerosol para limpieza de detectores», 1 chunk)"),
+    ("ASD IN Rail Transportation Applications_ES", "adjudicacion-alberto", None, None, "Alberto §0.E: «elimina documento del corpus» (folleto de aplicación FAAST en transporte ferroviario, pm basura MARCH-2011, 2 chunks)"),
+]
+
+
 def main() -> int:
     global BAJAS
     ap = argparse.ArgumentParser(); ap.add_argument("--aplicar", action="store_true")
-    ap.add_argument("--lote", default="s324", choices=["s324", "s324b"])
+    ap.add_argument("--lote", default="s324", choices=["s324", "s324b", "s324c"])
     args = ap.parse_args(); modo = "aplicar" if args.aplicar else "dry-run"
     if args.lote == "s324b":
         BAJAS = BAJAS_S324B
+    if args.lote == "s324c":
+        BAJAS = BAJAS_S324C
     doc_map = _read_jsonl(CATALOG_DIR / "doc_map.jsonl")
     dm_por_doc = {r["document_id"]: r for r in doc_map}
     dm_por_sf = {r["source_file"].lower(): r for r in doc_map}

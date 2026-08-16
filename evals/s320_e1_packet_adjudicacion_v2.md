@@ -1,7 +1,7 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 19:45Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 20:19Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
 > - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
@@ -10,6 +10,7 @@
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
 > 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: 3 docs, 62 entries (recibo `s324b_r1prima_aplicar_*.json`).
+> 2b. ~~**§0.D**~~ ~~**§0.E**~~ — **REVISADOS por ti y APLICADOS** (16-ago): 17 artefactos no creados; 5 documentos retirados del corpus (ETDT312/314, MADT742, MNDT1202, ASD Rail); altas S/3-2, S/3-IR, S/2-IR, EMA1224B4R/W; TG confirmado como software; MADT731_06 → HSSD-2; 5 retags de pm sucio. Quedan 3 preguntas tuyas (MADT015_01, MNDT600, MNDT701 — marcadas ⏳ en sus filas).
 > 2. ~~**§0.C**~~ — **REVISADO por ti y APLICADO** (16-ago; tus 10 notas consolidadas bajo cada fila con mi respuesta `↳ s324b`; revisor Fable 6 hallazgos aplicados): 21 altas + 7 alias + 26 filas doc_map + 2 bajas de corpus (Vision Supra idiomas, MADT190P PT), recibo `s324b_lote_0c_aplicar_*.json`. Quedan DOS preguntas tuyas de §0.C (paraguas «2X-A» y STRATOS, marcadas ⏳ en sus filas) y **§0.D** (17 retirar) · **§0.E** (3).
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
@@ -18,6 +19,7 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
 
 
 
@@ -427,58 +429,90 @@ pasada detectó **48 artefactos** sobre **39 ids únicos**; clases: `codigo_del_
 Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detector.
 
 - [ ] `fidegas:el-11` (EL-11) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `Manual-de-Usuario-S3-2`
+      ↳ **s324:** ✅ RESUELTO: EL-11 no se crea (era «el 11/2018»); tus modelos S/3-2 y S/3-IR + S/2-IR DADOS DE ALTA con doc_map y retag del pm · recibo `s324c_lote_0de_aplicar_20260816T201817Z.json`
       estrictas 0 · mayúsculas 0 · como fragmento 1 · cita ✓ «Elaborado y aprobado en Revisión 21 el 11/2018 por Dpto. Calidad.»
       razón: «EL-11» nace de la fecha «el 11/2018»; el producto real del manual es el sensor remoto S/3-2.
       ALBERTO: Modelo S/3-2
 - [ ] `fidegas:el-11` (EL-11) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `Manual-de-Usuario-S3-IR-y-S-2-IR`
+      ↳ **s324:** ✅ RESUELTO: EL-11 no se crea (era «el 11/2018»); tus modelos S/3-2 y S/3-IR + S/2-IR DADOS DE ALTA con doc_map y retag del pm · recibo `s324c_lote_0de_aplicar_20260816T201817Z.json`
       estrictas 0 · mayúsculas 0 · como fragmento 1 · cita ✓ «Elaborado y aprobado en Revisión 13 el 11/2018 por Dpto. Calidad»
       razón: «EL-11» nace de la fecha «el 11/2018»; el producto real del manual es el sensor remoto S/3-IR y S/2-IR.
       ALBERTO: Modelos S/3-IR y S/2-IR
 - [ ] `morley:de-80` (DE-80) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `TG-Cuales-son-los-requisitos-del-PC-para-el-progr…`
+      ↳ **s324:** ✅ RESUELTO: DE-80 no se crea; TG confirmado como SOFTWARE (`notifier:tg`, alias TG-HONEYWELL; gate léxico PASS: 0 disparos en 96 consultas reales) · FAQ → doc_map + retag pm
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «Se requiere un disco duro con un mínimo de 80 Gb de espacio libre»
       razón: Nació de la preposición española «de 80» en medidas (80 Gb, 80 columnas, 80 caracteres); nunca aparece como modelo.
+      ALBERTO: TG me suena que es el software y que ya ha salido en ocasiones anteriores, pero revísalo por si acaso.
 - [ ] `morley:ma120` (MA120) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `HLSI_MA102_bis2.pdf`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 2 · mayúsculas 2 · como fragmento 0 · cita ✓ «HLSI_MA120. 16 mayo 2008»
       razón: MA120 solo aparece en el pie de página como código del documento HLSI, junto a la fecha, nunca como producto.
+      ALBERTO: OK a retirar
 - [ ] `morley:miein-004` (MIEIN-004) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `Relacion-de-producto-obsoleto-de-Morley-IAS-by-Ho…`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 0 · mayúsculas 1 · como fragmento 1 · cita ✓ «https://morley-ias.es/documentacion/morley/manualesdes/MIEIN004.pdf»
       razón: MIEIN004 es el nombre del fichero PDF enlazado (código de documento), no un modelo de producto.
+      ALBERTO: OK a retirar
 - [ ] `notifier:etdt-312` (ETDT-312) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `ETDT312`
+      ↳ **s324:** ✅ RETIRADO + documento ETDT312 retirado del corpus (tu nota)
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «NOTIFIER® by Honeywell ET-DT-312 03-01-06 1 de 1»
       razón: «ET-DT-312» es la referencia del documento (patrón tipo MA-DT-015); el contenido trata etiquetas del sistema NAS-2.
+      ALBERTO: OK a retirar. retira también el documento del corpus.
 - [ ] `notifier:etdt-314` (ETDT-314) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `ETDT314`
+      ↳ **s324:** ✅ RETIRADO + documento ETDT314 retirado del corpus (tu nota)
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «by Honeywell ET-DT-314 19-01-07 1 de 1»
       razón: «ET-DT-314» es la referencia del documento en la cabecera; el manual trata de etiquetas del NAS-1u, no de un producto ETDT-314.
+      ALBERTO: OK a retirar. retira también el documento del corpus.
 - [ ] `notifier:madt-015` (MADT-015) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MADT015_01`
+      ↳ **s324:** ⏳ PENDIENTE DE TI — el texto no nombra el modelo; sus hermanas MADT015_02/_03 ya están mapeadas a NFS8REL/NFS2-8 ⇒ ¿NFS2-8 (no FS2)? FS2-1/2/4 no existen en catálogo
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «MA-DT-015_01_C (997-502) 27/07/04 NOTIFIER ESPAÑA»
       razón: «MADT-015» deriva del código de documento MA-DT-015 en la cabecera del manual; nunca aparece como modelo comercial.
+      ALBERTO: ¿puede estar asociado a los modelos de la serie FS" i.e. FS2-1, FS2-2 y FS2-4, en base al esquema de bormes? 
 - [ ] `notifier:madt-731` (MADT-731) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MADT731_06`
+      ↳ **s324:** ✅ RETIRADO; MADT731_06 → doc_map `notifier:laserstar-hssd-2` (= HSSD-2, tu adjudicación con URL) + retag pm
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «MA-DT-731_06»
       razón: MADT-731 deriva del código de documento MA-DT-731_06; el manual es una guía genérica de puntos de muestreo capilares, sin tal modelo.
+      ALBERTO: Pertenece al modelo HSSD-2, que he visto el mismo doc en esta web: https://www.notifier.es/index.php/component/zoo/category/hssd-2
 - [ ] `notifier:madt-742` (MADT-742) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MADT742`
+      ↳ **s324:** ✅ RETIRADO + documento MADT742 retirado del corpus (tu nota)
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «MA-DT-742; 24/12/2007 1 de 1»
       razón: El término deriva del código de documento MA-DT-742, igual que el artefacto conocido MA-DT-015; no aparece como producto.
+      ALBERTO: elimina el doc del corpus.
 - [ ] `notifier:mndt-1202` (MNDT-1202) → **RETIRAR** · ARTEFACTO_EXTRACCION / NO_APARECE · doc `MNDT1202`
+      ↳ **s324:** ✅ RETIRADO + documento MNDT1202 retirado del corpus (tu nota)
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «# Aerosol para limpieza de detectores»
       razón: MNDT-1202 no aparece en el texto; deriva del nombre del fichero MNDT1202, un código de documento como MNDT690.
+      ALBERTO: elimína el doc del corpus.
 - [ ] `notifier:mndt-600` (MNDT-600) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT600`
+      ↳ **s324:** ⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-600_A** 06 ABRIL 2011»
       razón: «MNDT-600» deriva del código de manual MN-DT-600_A; es un documento genérico de notas de mantenimiento, no un modelo.
+      ALBERTO: aplica a los detectores de gas smart (sensitron). viendo la portada del doc, parece que uno de los modelos es el Smart3 GD3, y el otro "SMART3 GD2", utilizado para Butano. ¿puedes revisar en el corpus si tenemos el documento?
 - [ ] `notifier:mndt-701` (MNDT-701) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT701.pdf`
+      ↳ **s324:** ⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-701**<br/>**13 OCTUBRE 1997**<br/>**Versión 1.0**»
       razón: MNDT-701 no aparece verbatim; deriva de MN-DT-701, referencia del manual (como MA-DT-015), no un modelo de producto.
+      ALBERTO: parece el software para los detectores de llama Triple IR (también denominado IR3).
 - [ ] `notifier:s20` (S20) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `MNDT696`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 64 · mayúsculas 64 · como fragmento 64 · cita ✓ «DETECTOR DE LLAMA DE TRIPLE ESPECTRO INFRARROJO IR<sup>3</sup> MODELO S20/20MI»
       razón: Las 64 menciones del documento y 44 del resto van seguidas de más código: «S20» es fragmento del modelo completo S20/20MI.
+      Alberto: Modelo S20/20MI
 - [ ] `notifier:tidt-060` (TIDT-060) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `TIDT060.pdf`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «TI-DT-060 05/05/03 1 de 1 # Información Técnica»
       razón: TI-DT-060 es la referencia del documento de Información Técnica, no un modelo; los productos reales son ID50, AM2000, VeriFire, etc.
+      alberto: es un documento de compatibilidades de software de carga y descarga con un listado de modelos, por lo que es normal que trate diferentes modelos pero solo lo haga de forma muy tangencial, porque la clave es si el software es o no compatible. 
 - [ ] `notifier:tidt-101` (TIDT-101) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `TIDT101.pdf`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «Información técnica TI-DT-101»
       razón: TIDT-101 deriva del código de documento TI-DT-101; es un procedimiento de actualización de software, no un producto.
+      Alberto: parece referirse al software TG, en concreto a la actualización de versión, por lo que parece importante para ese software aunque efectivamente no trata sobre ningún modelo físico concreto.
 - [ ] `sound-alert:some-58` (SOME-58) → **RETIRAR** · ARTEFACTO_EXTRACCION / FRASE_TECNICA · doc `ExitPoint- WP ENG`
+      ↳ **s324:** ✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «Interdisciplinary research is promoted through some 58 home departments and some 58 resea…»
       razón: Nace de la frase inglesa «some 58» (unos 58 departamentos); nunca aparece como modelo exacto ni en mayúsculas.
+      Alberto: ya hemos tratado la versión en Español de este documento y la hemos eliminado del corpus, así que aquí haz lo mismo.
 
 ### §0.E — `product_model` sucio: **2 RETAG + 1 MANTENER** (3)
 
@@ -490,23 +524,29 @@ Gates de bloque: `k_unanime`, `citas_verificadas`, `confianza_alta`, `modelos_at
 K=3 pasadas del juez `claude-fable-5`, unanimidad exigida.
 
 - [ ] `asd in rail transportation applications_es` · pm actual «MARCH-2011» · Notifier · 2 chunks
+      ↳ **s324:** ✅ RETIRADO del corpus (tu nota §0.E)
       veredicto **RETAG** → product_model `FAAST` · confianza alta · cita ✓
       cita: «la tecnología de detección de incendios por aspiración FAAST™ combina técnicas avanzadas de filtraje en tres etapas»
       razón: El valor sucio 'MARCH-2011' es basura extraída de la nota al pie de prensa ('Manchester Evening News, March 2011'). El documento es un folleto de aplicación (transporte ferroviario/metro) de la famil…
       aplicar: documents.pm 'MARCH-2011' → 'FAAST' · chunks_v2.pm 'MARCH-2011' → 'FAAST' en 2 chunks · doc_map: NO se propone alta. El modelo es un PARAGUAS (familia) y resolve() expande 13 miembros qu…
       ⚑ residuo que NO cierra este sí: Al ser FAAST un token paraguas ('divergent': true, 'expand': true), queda pendiente la adjudicación gobernada del doc_map a los 13 miembros del catálogo, o decidir si el folleto aplica a to…
+      ALBERTO: elimina documento del corpus.
 - [ ] `compatibilidad-entre-equipos-notifier-y-morley` · pm actual «unknown» · Morley · 1 chunk
+      ↳ **s324:** ✅ MANTENER (tu nota): sin producto que mapear; la FAQ sigue en el corpus y es servible por retrieval para «¿equipos Notifier en central Morley?»
       veredicto **MANTENER** → product_model `unknown` · confianza alta · cita ✓
       cita: «No, no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comuni…»
       razón: Es una FAQ genérica de compatibilidad marca-a-marca (Notifier vs Morley). El texto completo no imprime ningún modelo de producto: el censo de candidatos por regex está vacío y la respuesta habla de '…
       aplicar: documents.pm SIN CAMBIO · chunks_v2.pm SIN CAMBIO · doc_map: sin fila (correcto: no hay producto que mapear)
       ⚑ residuo que NO cierra este sí: ¿Debería este tipo de FAQ de marca a marca tener una categoría propia (p.ej. product_model='N/A-brand-faq') en vez de 'unknown' para distinguirlo de documentos con modelo aún no identificad…
+      Alberto: aquí más que asignar a un modelo, deberías tener en memoria este documento para indicar esto "no es posible instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier, pués los protocolos de comunicación son distintos y los equipos no comunicarán, además la central indicará una avería, AVERÍA DE TRANSMISIÓN", con referencia al documento.
 - [ ] `d686 ema1224b4r_w ns4r` · pm actual «EN-54-3» · Notifier · 1 chunk
+      ↳ **s324:** ✅ APLICADO (tu «aplica a EMA1224B4R/W»): alta `notifier:ema1224b4r-w` + doc_map + retag pm EN-54-3 → EMA1224B4R/W · recibo `s324c_lote_0de_aplicar_20260816T201817Z.json`
       veredicto **RETAG** → product_model `EMA1224B4R/W` · confianza alta · cita ✓
       cita: «INSTALLATION INSTRUCTIONS FOR WALL MOUNT SOUNDERS TYPE EMA1224B4R/W»
       razón: El valor actual 'EN-54-3' es una norma (citada dos veces como requisito EN54-3), no un producto. El documento imprime en su título un único modelo, EMA1224B4R/W, y todo el contenido (tonos, especific…
       aplicar: documents.pm 'EN-54-3' → 'EMA1224B4R/W' · chunks_v2.pm 'EN-54-3' → 'EMA1224B4R/W' en 1 chunks · doc_map: alta de fila BLOQUEADA: el modelo no existe en el catálogo gobernado → requiere primero a…
       ⚑ residuo que NO cierra este sí: ¿El catálogo gobernado distingue EMA1224B4R y EMA1224B4W como dos SKUs separados (lo que convertiría esto en MULTI), o acepta el token compuesto EMA1224B4R/W tal como lo imprime KAC?
+      Alberto: aplica a EMA1224B4R/W
 
 ---
 
@@ -546,6 +586,7 @@ Motivos de caída (del recibo, uno por línea):
       sujeto según el juez: Manual de usuario en francés de la central de detección de incendios Morley-IAS serie ZX (solo páginas finales de notas y contacto)
       menciones máximas del sujeto en el documento: 1
       **por qué NO entra en bloque**: confianza media
+      ALBERTO: baja del corpus.
 - [ ] `asd harsh environments_sp` (Xtralis · 6 chunks · vigente)
       ↳ **s324:** ✅ APLICADO (R1) → 13 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «FAAST» · pm chunks «FAAST» · tokens sin id: —

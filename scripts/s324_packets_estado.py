@@ -123,6 +123,24 @@ def main() -> None:
         else:
             est_id[fid] = "✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector"
 
+    # §0.D (17 RETIRAR revisados por Alberto) y §0.E (3), aplicados en s324c
+    rec0de = sorted((ROOT / "evals").glob("s324c_lote_0de_aplicar_*.json")); rec0de = rec0de[-1].name if rec0de else None
+    if rec0de:
+        for f in tri["seccion_0b_retirar_en_bloque"]:
+            est_id[f["id"]] = "✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea"
+        est_id["fidegas:el-11"] = "✅ RESUELTO: EL-11 no se crea (era «el 11/2018»); tus modelos S/3-2 y S/3-IR + S/2-IR DADOS DE ALTA con doc_map y retag del pm · recibo `" + rec0de + "`"
+        est_id["morley:de-80"] = "✅ RESUELTO: DE-80 no se crea; TG confirmado como SOFTWARE (`notifier:tg`, alias TG-HONEYWELL; gate léxico PASS: 0 disparos en 96 consultas reales) · FAQ → doc_map + retag pm"
+        est_id["notifier:etdt-312"] = "✅ RETIRADO + documento ETDT312 retirado del corpus (tu nota)"
+        est_id["notifier:etdt-314"] = "✅ RETIRADO + documento ETDT314 retirado del corpus (tu nota)"
+        est_id["notifier:madt-742"] = "✅ RETIRADO + documento MADT742 retirado del corpus (tu nota)"
+        est_id["notifier:mndt-1202"] = "✅ RETIRADO + documento MNDT1202 retirado del corpus (tu nota)"
+        est_id["notifier:madt-731"] = "✅ RETIRADO; MADT731_06 → doc_map `notifier:laserstar-hssd-2` (= HSSD-2, tu adjudicación con URL) + retag pm"
+        est_id["notifier:madt-015"] = "⏳ PENDIENTE DE TI — el texto no nombra el modelo; sus hermanas MADT015_02/_03 ya están mapeadas a NFS8REL/NFS2-8 ⇒ ¿NFS2-8 (no FS2)? FS2-1/2/4 no existen en catálogo"
+        est_id["notifier:mndt-600"] = "⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?"
+        est_id["notifier:mndt-701"] = "⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id"
+        est_doc["asd in rail transportation applications_es"] = "✅ RETIRADO del corpus (tu nota §0.E)"
+        est_doc["compatibilidad-entre-equipos-notifier-y-morley"] = "✅ MANTENER (tu nota): sin producto que mapear; la FAQ sigue en el corpus y es servible por retrieval para «¿equipos Notifier en central Morley?»"
+        est_doc["d686 ema1224b4r_w ns4r"] = "✅ APLICADO (tu «aplica a EMA1224B4R/W»): alta `notifier:ema1224b4r-w` + doc_map + retag pm EN-54-3 → EMA1224B4R/W · recibo `" + rec0de + "`"
     t = E1.read_text(encoding="utf-8")
     # UNA sola pasada (la segunda llamada borraba las marcas de la primera) y claves normalizadas
     # (source_file de la DB lleva .pdf y mayúsculas; la casilla del packet, el slug en minúsculas)
@@ -141,6 +159,7 @@ def main() -> None:
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
 > 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: {len(pend_r1)} docs, {sum(len(p['R1prima_cenida']) for p in pend_r1)} entries (recibo `s324b_r1prima_aplicar_*.json`).
+> 2b. ~~**§0.D**~~ ~~**§0.E**~~ — **REVISADOS por ti y APLICADOS** (16-ago): 17 artefactos no creados; 5 documentos retirados del corpus (ETDT312/314, MADT742, MNDT1202, ASD Rail); altas S/3-2, S/3-IR, S/2-IR, EMA1224B4R/W; TG confirmado como software; MADT731_06 → HSSD-2; 5 retags de pm sucio. Quedan 3 preguntas tuyas (MADT015_01, MNDT600, MNDT701 — marcadas ⏳ en sus filas).
 > 2. ~~**§0.C**~~ — **REVISADO por ti y APLICADO** (16-ago; tus 10 notas consolidadas bajo cada fila con mi respuesta `↳ s324b`; revisor Fable 6 hallazgos aplicados): 21 altas + 7 alias + 26 filas doc_map + 2 bajas de corpus (Vision Supra idiomas, MADT190P PT), recibo `s324b_lote_0c_aplicar_*.json`. Quedan DOS preguntas tuyas de §0.C (paraguas «2X-A» y STRATOS, marcadas ⏳ en sus filas) y **§0.D** (17 retirar) · **§0.E** (3).
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
