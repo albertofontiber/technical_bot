@@ -1,7 +1,7 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 20:19Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 21:37Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
 > - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
@@ -19,6 +19,7 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
 
 
 
