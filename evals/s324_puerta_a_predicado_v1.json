@@ -1,0 +1,807 @@
+{
+ "que_es": "s324 — PUERTA A rehecha: predicado de RECONSTRUIBILIDAD, validado contra el DOBLE CONTROL",
+ "utc": "20260816T112516Z",
+ "validacion": {
+  "positivos": [
+   {
+    "term": "MM-82",
+    "segmentos": [
+     "mm",
+     "82"
+    ],
+    "clase": "frase/medida colapsada",
+    "artefacto": true,
+    "prueba": "*\n\nMI-DCMOE\n\nI56-4407-001\n\n93 mm\n82 mm\n\n22 mm\n\n**EN INSTALLATION ",
+    "motivo": "todos los tramos ['mm', '82'] son palabras/unidades comunes y co-ocurren en 5 chars",
+    "source_file": "I56-4407-001 MI-DCMOE",
+    "es_sujeto": null,
+    "n_chars_texto": 13921,
+    "puerta_a": true
+   },
+   {
+    "term": "TO-3200M",
+    "segmentos": [
+     "to",
+     "3200",
+     "m"
+    ],
+    "clase": "frase/medida colapsada",
+    "artefacto": true,
+    "prueba": "ected in series, extending up to 3200m] Gran distancia (hasta 3200m)",
+    "motivo": "todos los tramos ['to', '3200', 'm'] son palabras/unidades comunes y co-ocurren en 8 chars",
+    "source_file": "MIW-INT-Cuantos-expansores-puedo-conectar-al-Interface-pasarela",
+    "es_sujeto": null,
+    "n_chars_texto": 1550,
+    "puerta_a": true
+   },
+   {
+    "term": "OF-48V",
+    "segmentos": [
+     "of",
+     "48",
+     "v"
+    ],
+    "clase": "frase/medida colapsada",
+    "artefacto": true,
+    "prueba": "s carrying voltages in excess of 48V are suitably fused.\n\n----\n\nTh",
+    "motivo": "todos los tramos ['of', '48', 'v'] son palabras/unidades comunes y co-ocurren en 6 chars",
+    "source_file": "I56-4422-000 M701E-240",
+    "es_sujeto": null,
+    "n_chars_texto": 13666,
+    "puerta_a": true
+   },
+   {
+    "term": "LOCAL-360",
+    "segmentos": [
+     "local",
+     "360"
+    ],
+    "clase": "frase/medida colapsada",
+    "artefacto": true,
+    "prueba": "ach sensor light to provide a local 360° visible sensor indication. T",
+    "motivo": "todos los tramos ['local', '360'] son palabras/unidades comunes y co-ocurren en 9 chars",
+    "source_file": "I56-1320-001 SDX-751TEM",
+    "es_sujeto": null,
+    "n_chars_texto": 21379,
+    "puerta_a": true
+   },
+   {
+    "term": "EN-54-25",
+    "segmentos": [
+     "en",
+     "54",
+     "25"
+    ],
+    "clase": "norma/certificación",
+    "artefacto": true,
+    "prueba": "s sensor base.\n\nThis device conforms to EN54-25, EN54-5 (Class A1R) and EN54-7. It comp",
+    "motivo": "código de norma/certificación literal en el texto",
+    "source_file": "I56-4205-001 NRX-SMT3 Web",
+    "es_sujeto": null,
+    "n_chars_texto": 22990,
+    "puerta_a": true
+   }
+  ],
+  "negativos": [
+   {
+    "term": "VSN 2Plus",
+    "segmentos": [
+     "vsn",
+     "2",
+     "plus"
+    ],
+    "clase": null,
+    "artefacto": false,
+    "prueba": null,
+    "motivo": "tramo(s) que NO son palabra/unidad común: ['vsn', 'plus'] → es un código, no una frase colapsada",
+    "source_file": "MF_HSF_280_rv004",
+    "es_sujeto": null,
+    "n_chars_texto": 49607,
+    "puerta_a": false
+   },
+   {
+    "term": "PL4-E",
+    "segmentos": [
+     "pl",
+     "4",
+     "e"
+    ],
+    "clase": null,
+    "artefacto": false,
+    "prueba": null,
+    "motivo": "tramo(s) que NO son palabra/unidad común: ['pl'] → es un código, no una frase colapsada",
+    "source_file": "MNDT515",
+    "es_sujeto": null,
+    "n_chars_texto": 58494,
+    "puerta_a": false
+   },
+   {
+    "term": "34110400",
+    "segmentos": [
+     "34110400"
+    ],
+    "clase": null,
+    "artefacto": false,
+    "prueba": null,
+    "motivo": "solo numérico: nunca artefacto por predicado (puede ser part-number)",
+    "source_file": "55310600 Manual TCD-106 kit_ES",
+    "es_sujeto": null,
+    "n_chars_texto": 16112,
+    "puerta_a": false
+   }
+  ]
+ },
+ "valida": true,
+ "filas_retirar": [
+  {
+   "term": "1.5KE51CA",
+   "segmentos": [
+    "1",
+    "5",
+    "ke",
+    "51",
+    "ca"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['ke', 'ca'] → es un código, no una frase colapsada",
+   "source_file": "MADT100_01",
+   "es_sujeto": null,
+   "n_chars_texto": 4947,
+   "puerta_a": false,
+   "id": "notifier:1.5ke51ca",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "AD-PE",
+   "segmentos": [
+    "ad",
+    "pe"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['ad', 'pe'] → es un código, no una frase colapsada",
+   "source_file": "MNDT650",
+   "es_sujeto": null,
+   "n_chars_texto": 34133,
+   "puerta_a": false,
+   "id": "notifier:ad-pe",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "C-160-14-TO1A",
+   "segmentos": [
+    "c",
+    "160",
+    "14",
+    "to",
+    "1",
+    "a"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": "ONAIS\n\n## Placa Principal\n\n## C-160-14-TO1A Rev.01\n\n## PLACA OPCIONAL DE ",
+   "motivo": "todos los tramos ['c', '160', '14', 'to', '1', 'a'] son palabras/unidades comunes y co-ocurren en 13 chars",
+   "source_file": "MNDT040P",
+   "es_sujeto": "titular",
+   "n_chars_texto": 10675,
+   "puerta_a": false,
+   "id": "notifier:c-160-14-to1a",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "34115311",
+   "segmentos": [
+    "34115311"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "solo numérico: nunca artefacto por predicado (puede ser part-number)",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "es_sujeto": null,
+   "n_chars_texto": 16112,
+   "puerta_a": false,
+   "id": "unresolved:34115311",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "1X-F8-SC",
+   "segmentos": [
+    "1",
+    "x",
+    "f",
+    "8",
+    "sc"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['x', 'sc'] → es un código, no una frase colapsada",
+   "source_file": "nc-pf8-sc-161721-es",
+   "es_sujeto": null,
+   "n_chars_texto": 6707,
+   "puerta_a": false,
+   "id": "kidde:1x-f8-sc",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "SP-200",
+   "segmentos": [
+    "sp",
+    "200"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['sp'] → es un código, no una frase colapsada",
+   "source_file": "MIE-MI-110",
+   "es_sujeto": "titular",
+   "n_chars_texto": 77507,
+   "puerta_a": false,
+   "id": "morley:sp-200",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "29087",
+   "segmentos": [
+    "29087"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "solo numérico: nunca artefacto por predicado (puede ser part-number)",
+   "source_file": "MADT100_01",
+   "es_sujeto": "referencia comercial",
+   "n_chars_texto": 4947,
+   "puerta_a": false,
+   "id": "notifier:29087",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "FS-2",
+   "segmentos": [
+    "fs",
+    "2"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['fs'] → es un código, no una frase colapsada",
+   "source_file": "FS2-1",
+   "es_sujeto": null,
+   "n_chars_texto": 56529,
+   "puerta_a": false,
+   "id": "notifier:fs-2",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "FS-4",
+   "segmentos": [
+    "fs",
+    "4"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['fs'] → es un código, no una frase colapsada",
+   "source_file": "FS2-1",
+   "es_sujeto": null,
+   "n_chars_texto": 56529,
+   "puerta_a": false,
+   "id": "notifier:fs-4",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "PL4-E",
+   "segmentos": [
+    "pl",
+    "4",
+    "e"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['pl'] → es un código, no una frase colapsada",
+   "source_file": "MNDT515",
+   "es_sujeto": null,
+   "n_chars_texto": 58494,
+   "puerta_a": false,
+   "id": "notifier:pl4-e",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "TG",
+   "segmentos": [
+    "tg"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['tg'] → es un código, no una frase colapsada",
+   "source_file": "Tg-Honeywell_Tecnico",
+   "es_sujeto": "titular",
+   "n_chars_texto": 298543,
+   "puerta_a": false,
+   "id": "notifier:tg",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "TX",
+   "segmentos": [
+    "tx"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['tx'] → es un código, no una frase colapsada",
+   "source_file": "MIDT212",
+   "es_sujeto": "titular",
+   "n_chars_texto": 119725,
+   "puerta_a": false,
+   "id": "notifier:tx",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "34110400",
+   "segmentos": [
+    "34110400"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "solo numérico: nunca artefacto por predicado (puede ser part-number)",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "es_sujeto": null,
+   "n_chars_texto": 16112,
+   "puerta_a": false,
+   "id": "unresolved:34110400",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "55350007",
+   "segmentos": [
+    "55350007"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "solo numérico: nunca artefacto por predicado (puede ser part-number)",
+   "source_file": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES",
+   "es_sujeto": null,
+   "n_chars_texto": 0,
+   "puerta_a": false,
+   "id": "unresolved:55350007",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "FL20XX EI-HS",
+   "segmentos": [
+    "fl",
+    "20",
+    "xx",
+    "ei",
+    "hs"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['fl', 'xx', 'ei', 'hs'] → es un código, no una frase colapsada",
+   "source_file": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+   "es_sujeto": null,
+   "n_chars_texto": 1759,
+   "puerta_a": false,
+   "id": "unresolved:fl20xx-ei-hs",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "MI-FL20XXXX EI-HS",
+   "segmentos": [
+    "mi",
+    "fl",
+    "20",
+    "xxxx",
+    "ei",
+    "hs"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['mi', 'fl', 'xxxx', 'ei', 'hs'] → es un código, no una frase colapsada",
+   "source_file": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+   "es_sujeto": null,
+   "n_chars_texto": 1759,
+   "puerta_a": false,
+   "id": "unresolved:mi-fl20xxxx-ei-hs",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "NFXI-ASD-XXXX-HS",
+   "segmentos": [
+    "nfxi",
+    "asd",
+    "xxxx",
+    "hs"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['nfxi', 'asd', 'xxxx', 'hs'] → es un código, no una frase colapsada",
+   "source_file": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+   "es_sujeto": null,
+   "n_chars_texto": 1759,
+   "puerta_a": false,
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  },
+  {
+   "term": "VSN 2Plus",
+   "segmentos": [
+    "vsn",
+    "2",
+    "plus"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['vsn', 'plus'] → es un código, no una frase colapsada",
+   "source_file": "MF_HSF_280_rv004",
+   "es_sujeto": null,
+   "n_chars_texto": 49607,
+   "puerta_a": false,
+   "id": "unresolved:vsn-2plus",
+   "en_catalogo": true,
+   "candidate": true,
+   "veredicto_llm": "RETIRAR"
+  }
+ ],
+ "resumen": {
+  "filas_retirar_evaluadas": 18,
+  "pasan_puerta_a": 0,
+  "generalizacion_e1_0D": "4/17"
+ },
+ "generalizacion_e1_0D": [
+  {
+   "term": "EL-11",
+   "segmentos": [
+    "el",
+    "11"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": "ado y aprobado en Revisión 21 el 11/2018 por Dpto. Calidad. Const",
+   "motivo": "todos los tramos ['el', '11'] son palabras/unidades comunes y co-ocurren en 5 chars",
+   "source_file": "Manual-de-Usuario-S3-2",
+   "es_sujeto": null,
+   "n_chars_texto": 38722,
+   "puerta_a": true,
+   "id": "fidegas:el-11",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": "S/3-2"
+  },
+  {
+   "term": "EL-11",
+   "segmentos": [
+    "el",
+    "11"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": "ado y aprobado en Revisión 13 el 11/2018 por Dpto. Calidad. Const",
+   "motivo": "todos los tramos ['el', '11'] son palabras/unidades comunes y co-ocurren en 5 chars",
+   "source_file": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+   "es_sujeto": null,
+   "n_chars_texto": 50401,
+   "puerta_a": true,
+   "id": "fidegas:el-11",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": "S/3-IR y S/2-IR"
+  },
+  {
+   "term": "DE-80",
+   "segmentos": [
+    "de",
+    "80"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": "e un disco duro con un mínimo de 80 Gb de espacio libre para la i",
+   "motivo": "todos los tramos ['de', '80'] son palabras/unidades comunes y co-ocurren en 5 chars",
+   "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa",
+   "es_sujeto": null,
+   "n_chars_texto": 2070,
+   "puerta_a": true,
+   "id": "morley:de-80",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MA120",
+   "segmentos": [
+    "ma",
+    "120"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": " / Normalmente Cerrado)\n\nHLSI_MA120. 16 mayo 2008\n\nAnexo. Central",
+   "motivo": "todos los tramos ['ma', '120'] son palabras/unidades comunes y co-ocurren en 5 chars",
+   "source_file": "HLSI_MA102_bis2",
+   "es_sujeto": null,
+   "n_chars_texto": 12718,
+   "puerta_a": true,
+   "id": "morley:ma120",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MIEIN-004",
+   "segmentos": [
+    "miein",
+    "004"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['miein'] → es un código, no una frase colapsada",
+   "source_file": "Relacion-de-producto-obsoleto-de-Morley-IAS-by-Honeywell",
+   "es_sujeto": null,
+   "n_chars_texto": 497,
+   "puerta_a": false,
+   "id": "morley:miein-004",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "ETDT-312",
+   "segmentos": [
+    "etdt",
+    "312"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['etdt'] → es un código, no una frase colapsada",
+   "source_file": "ETDT312",
+   "es_sujeto": null,
+   "n_chars_texto": 2288,
+   "puerta_a": false,
+   "id": "notifier:etdt-312",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "ETDT-314",
+   "segmentos": [
+    "etdt",
+    "314"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['etdt'] → es un código, no una frase colapsada",
+   "source_file": "ETDT314",
+   "es_sujeto": null,
+   "n_chars_texto": 1790,
+   "puerta_a": false,
+   "id": "notifier:etdt-314",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MADT-015",
+   "segmentos": [
+    "madt",
+    "015"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['madt'] → es un código, no una frase colapsada",
+   "source_file": "MADT015_01",
+   "es_sujeto": null,
+   "n_chars_texto": 35540,
+   "puerta_a": false,
+   "id": "notifier:madt-015",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MADT-731",
+   "segmentos": [
+    "madt",
+    "731"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['madt'] → es un código, no una frase colapsada",
+   "source_file": "MADT731_06",
+   "es_sujeto": null,
+   "n_chars_texto": 14806,
+   "puerta_a": false,
+   "id": "notifier:madt-731",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MADT-742",
+   "segmentos": [
+    "madt",
+    "742"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['madt'] → es un código, no una frase colapsada",
+   "source_file": "MADT742",
+   "es_sujeto": null,
+   "n_chars_texto": 2520,
+   "puerta_a": false,
+   "id": "notifier:madt-742",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MNDT-1202",
+   "segmentos": [
+    "mndt",
+    "1202"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['mndt'] → es un código, no una frase colapsada",
+   "source_file": "MNDT1202",
+   "es_sujeto": null,
+   "n_chars_texto": 1329,
+   "puerta_a": false,
+   "id": "notifier:mndt-1202",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MNDT-600",
+   "segmentos": [
+    "mndt",
+    "600"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['mndt'] → es un código, no una frase colapsada",
+   "source_file": "MNDT600",
+   "es_sujeto": null,
+   "n_chars_texto": 28463,
+   "puerta_a": false,
+   "id": "notifier:mndt-600",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "MNDT-701",
+   "segmentos": [
+    "mndt",
+    "701"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['mndt'] → es un código, no una frase colapsada",
+   "source_file": "MNDT701",
+   "es_sujeto": null,
+   "n_chars_texto": 11749,
+   "puerta_a": false,
+   "id": "notifier:mndt-701",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "S20",
+   "segmentos": [
+    "s",
+    "20"
+   ],
+   "clase": "frase/medida colapsada",
+   "artefacto": true,
+   "prueba": "RARROJO IR<sup>3</sup> MODELO S20/20MI\n\n# Manual de Instruccion",
+   "motivo": "todos los tramos ['s', '20'] son palabras/unidades comunes y co-ocurren en 3 chars",
+   "source_file": "MNDT696",
+   "es_sujeto": "titular",
+   "n_chars_texto": 105033,
+   "puerta_a": false,
+   "id": "notifier:s20",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": "S20/20MI"
+  },
+  {
+   "term": "TIDT-060",
+   "segmentos": [
+    "tidt",
+    "060"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['tidt'] → es un código, no una frase colapsada",
+   "source_file": "TIDT060",
+   "es_sujeto": null,
+   "n_chars_texto": 3713,
+   "puerta_a": false,
+   "id": "notifier:tidt-060",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "TIDT-101",
+   "segmentos": [
+    "tidt",
+    "101"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['tidt'] → es un código, no una frase colapsada",
+   "source_file": "TIDT101",
+   "es_sujeto": null,
+   "n_chars_texto": 5278,
+   "puerta_a": false,
+   "id": "notifier:tidt-101",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  },
+  {
+   "term": "SOME-58",
+   "segmentos": [
+    "some",
+    "58"
+   ],
+   "clase": null,
+   "artefacto": false,
+   "prueba": null,
+   "motivo": "tramo(s) que NO son palabra/unidad común: ['some'] → es un código, no una frase colapsada",
+   "source_file": "ExitPoint- WP ENG",
+   "es_sujeto": null,
+   "n_chars_texto": 24121,
+   "puerta_a": false,
+   "id": "sound-alert:some-58",
+   "veredicto_llm": "ARTEFACTO_EXTRACCION",
+   "termino_real_llm": null
+  }
+ ]
+}
