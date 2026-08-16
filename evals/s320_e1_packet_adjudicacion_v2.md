@@ -1,7 +1,7 @@
 # s320 E1 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟢 ESTADO s324 (2026-08-16 22:07Z) — lo que ya NO tienes que decidir, y lo que sí
+> ## 🟢 ESTADO s324 (2026-08-16 22:29Z) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — 41 filas doc_map.
 > - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
@@ -19,6 +19,8 @@
 >
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
+
+
 
 
 
@@ -871,69 +873,69 @@ hay que adjudicar.
 **juez:confianza-media** — 14
 
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ✅ RESUELTO por re-juicio K=5 cross-model CONVERGENTE 4/5 ARTEFACTO → no se crea (di lo contrario si discrepas) · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «quick installation information for your 2X-A control panel»
       doc `00-3280-507-4003-03_r003_2x-a_series_quick_in…` · estrictas doc 0 / global 0 en 0 docs · otros motivos: atencion:etiqueta-270-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `2X-A`
 - [ ] `kidde:kit-2x-afr-c-09` (KIT 2X-AFR-C-09)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «KIDDE™ COMMERCIAL # 2X-AFR-C ## Repetidor de incendios direccionable - Compacto»
       doc `DS_KIDDE_KIT_2X_AFR_C_09_202412_ES_c976.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-AFR-C`
 - [ ] `kidde:zlsm-md` (ZLSM-MD)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «## Kidde MiniLaser»
       doc `DS_KIDDE_ZLSM_MD_202604_ES_8d42.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: atencion:etiqueta-87-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `MiniLaser`
 - [ ] `kidde:zlsm-md` (ZLSM-MD)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_MD_202604_ING_1875.pdf»
       doc `MI_KIDDE_ZLSM_MD_202604_ING_1875.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; atencion:etiqueta-87-chunks-sin-aparecer-verbatim
       el juez propone otra grafía: `MiniLaser`
 - [ ] `kidde:zlsm-mr` (ZLSM-MR)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_MR_202604_ING_252a.pdf»
       doc `MI_KIDDE_ZLSM_MR_202604_ING_252a.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `MiniLaser I/O Functional Module`
 - [ ] `morley:fl-20` (FL-20)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «La serie LT MI-FL20 forma parte de la familia Fire Alarm Aspiration Sensing Technolo…»
       doc `I56-3956-201_PT Morley Loop FAAST LT QIG.pdf` · estrictas doc 0 / global 0 en 3 docs
       el juez propone otra grafía: `FAAST LT (serie FL20)`
 - [ ] `morley:morley-ias-max` (Morley-IAS Max)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 cross-model (3× sonnet-5 + 2× gpt-5.5, cita verificada) CONVERGENTE 5/5 PRODUCTO_REAL → propuesto para ALTA · `s324c_rejuicio_k5_v1.md`
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «Documentación Morley-IAS Max https://buildings.honeywell.com/gb/en/lp/morleymaxtech»
       doc `Docs Morley-IAS Max - QR` · estrictas doc 1 / global 1 en 1 doc
 - [ ] `notifier:hssd` (HSSD)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 3, 'PRODUCTO_REAL': 2}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza media · cita ✓ «Los **detectores HSSD** deben montarse fuera de la cámara frigorífica»
       doc `MADT731_01` · estrictas doc 18 / global 70 en 3 docs · otros motivos: contradiccion:artefacto-con-fuerte-senal-de-sujeto
 - [ ] `notifier:madt-606` (MADT-606)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ✅ RESUELTO por re-juicio K=5 cross-model CONVERGENTE 5/5 ARTEFACTO → no se crea (di lo contrario si discrepas) · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza media · cita ✗ «Documento de origen: MADT606»
       doc `MADT606` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo
 - [ ] `notifier:nfs-32-001` (NFS-32-001)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «D1056-1_NFXI-BS-BSF»
       doc `D1056-1_NFXI-BS-BSF` · estrictas doc 0 / global 0 en 0 docs · otros motivos: cita:no-verificada-a-texto-completo; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `NFXI-BS-BSF`
 - [ ] `notifier:repetidor-serie-1000` (REPETIDOR SERIE 1000)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 cross-model (3× sonnet-5 + 2× gpt-5.5, cita verificada) CONVERGENTE 5/5 PRODUCTO_REAL → propuesto para ALTA (grafía propuesta: «Repetidor de la Serie 1000») · `s324c_rejuicio_k5_v1.md`
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «# Repetidor de la Serie 1000 Fire alarm control panel»
       doc `MNDT213.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(Repetidor de la Serie 1000)
       el juez propone otra grafía: `Repetidor de la Serie 1000`
 - [ ] `notifier:securnet-plus-02` (SECURNET PLUS 02)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 3, 'PRODUCTO_REAL': 2}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza media · cita ✓ «**ADEMDUM** | SECURNET PLUS 02<br/>Fecha: 19 / 03 / 2001»
       doc `MADT575_02` · estrictas doc 1 / global 1 en 1 doc
       el juez propone otra grafía: `SECURNET PLUS`
 - [ ] `spectrex:40-40l` (40-40L)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 3, 'PRODUCTO_REAL': 2}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «Modelo S40/40L, LB y S40/40L4, L4B»
       doc `MNDT722_40-40L` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:propone-otra-grafia(S40/40L)
       el juez propone otra grafía: `S40/40L`
 - [ ] `xtralis:vesda` (VESDA)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 3, 'PRODUCTO_REAL': 2}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza media · cita ✗ «La Pantalla de reconocimiento inmediato del detector VESDA VLF muestra los niveles d…»
       doc `HSLI_IN_020_Tabla equivalencia TG` · estrictas doc 3 / global 91 en 7 docs · otros motivos: cita:no-verificada-a-texto-completo; contradiccion:artefacto-con-fuerte-senal-de-sujeto
       el juez propone otra grafía: `VESDA-VLF/VLF-250 (y otros modelos de la gama VESDA)`
@@ -1003,7 +1005,7 @@ hay que adjudicar.
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # KE-DBA-SKTW **Intelligent addressable base accessory - trim skirt…»
       doc `HD_KE_DBA_SKTW_202407_ING_2da9.pdf` · estrictas doc 4 / global 8 en 3 docs
 - [ ] `notifier:nfs-32-001` (NFS-32-001)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **NORMA_O_CERTIFICACION** · rol FRASE_TECNICA · confianza alta · cita ✓ «French Fire Sound AFNOR<br/>NFS 32-001»
       doc `D838-1_kac sounders` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `NF S 32-001`
@@ -1011,12 +1013,12 @@ hay que adjudicar.
 **atencion:etiqueta-270-chunks-sin-aparecer-verbatim** — 2
 
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ✅ RESUELTO por re-juicio K=5 cross-model CONVERGENTE 4/5 ARTEFACTO → no se crea (di lo contrario si discrepas) · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «This document lists the products compatible for use with your 2X-A Series fire alarm…»
       doc `bcn-3100035-en_r006_2x-a_series_addressable_c…` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-A Series`
 - [ ] `aritech:2x-a-tactil` (2X-A Táctil)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ✅ RESUELTO por re-juicio K=5 cross-model CONVERGENTE 4/5 ARTEFACTO → no se crea (di lo contrario si discrepas) · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «2X-A and ZP2-A Series Addressable Control Panel Compatibility List (900 Series Proto…»
       doc `bcn-3100036-en_r002_2x-a_and_zp2-a_series_add…` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `2X-A`
@@ -1040,7 +1042,7 @@ hay que adjudicar.
       **ARTEFACTO_EXTRACCION** · rol CODIGO_DE_DOCUMENTO · confianza alta · cita ✓ «MIE-MA-100_01_C 27/07/04 Morley-IAS ESPAÑA 1 de 4»
       doc `MIE-MA-100_01.pdf` · estrictas doc 4 / global 8 en 2 docs
 - [ ] `xtralis:vesda` (VESDA)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 3, 'PRODUCTO_REAL': 2}) → decides tú · `s324c_rejuicio_k5_v1.md`
       **ARTEFACTO_EXTRACCION** · rol NOMBRE_DE_FABRICANTE_O_GAMA · confianza alta · cita ✓ «Instalación y programación del sistema de aspiración Vesda»
       doc `Cursos formacion_Marzo 2026.pdf` · estrictas doc 8 / global 88 en 11 docs
 
@@ -1089,7 +1091,7 @@ hay que adjudicar.
 **juez:veredicto-no-bloqueable(NO_DECIDIBLE)** — 1
 
 - [ ] `kidde:zlsm-mr` (ZLSM-MR)
-      ↳ **s324:** ⏳ confianza media: pendiente de re-juicio K=5 o de tu sí
+      ↳ **s324:** ⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {'ARTEFACTO_EXTRACCION': 5}; término AUSENTE del texto) → decides tú · `s324c_rejuicio_k5_v1.md`
       **NO_DECIDIBLE** · rol NO_APARECE · confianza media · cita ✓ «AIRSENSE # 9-30521 **Módulo funcional de entrada/salida MiniLaser**»
       doc `DS_KIDDE_ZLSM_MR_202604_ES_6a09.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `9-30521`

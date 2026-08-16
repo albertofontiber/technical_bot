@@ -1,8 +1,8 @@
-# s324c — E1b: censo del radio de explosión POR BLOQUE (dry-run) · 20260816T220541Z
+# s324c — E1b: censo del radio de explosión POR BLOQUE (dry-run) · 20260816T222859Z
 
 > ## NADA APLICADO — para el «sí» de Alberto, bloque a bloque
-> **Ojo con la nomenclatura:** las «R1…R6» de ESTE fichero son las reglas del CLASIFICADOR DE ALIAS DESCRIPTIVOS (qué alias se retiran antes de confirmar), NO las reglas de adjudicación R1–R7 del residuo (`evals/s324_reglas_residuo_adjudicacion_v1.json`). Verificado por el autor de la sesión (17-ago 00:xx): `plan_sha` de los 11 recibos = sha del plan en disco (método del writer), catálogo `data/catalog/*` intacto, totales 422 confirmar / 40 no_aplicar / 125 alias a retirar / 4 retirar.
-> Un plan por bloque (`evals/s324c_e1b_bloque_<nombre>_plan_v1.json`) + su gate (`…_v1_radio_explosion.json`, dry-run del writer, nunca `--aplicar`); sin LLM ($0). El bloque detnov (§0.A) ya se aplicó y no está aquí. Fila confirmable = token literal ≥1 + cita verbatim verificada full-text en su documento; lo que no verifica, ya estaba aplicado o colisiona (canonical duplicado / alias ajeno / paraguas: la puerta lo rechaza) va a `no_aplicar` con motivo. Alias descriptivos de los ids confirmados → `aliases_quitar` (R1 multipalabra sin token de modelo · R2 «N zonas» · R3 panel/central/detector/módulo/software sin modelo · R4 OCR O/0 · R6 truncación ambigua de familia — nace del gate: «VSN12» disparó «vsn 12»); los model-shaped se conservan; los sin dígito no entran hoy en el detector (se retiran por higiene: filtra `entra_en_detector=false` para conservarlos).
+> **Ojo con la nomenclatura:** las «R1…R6» de ESTE fichero son las reglas del CLASIFICADOR DE ALIAS DESCRIPTIVOS (qué alias se retiran antes de confirmar), NO las reglas de adjudicación R1–R7 del residuo (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
+> Un plan por bloque (`evals/s324c_e1b_bloque_<nombre>_plan_v1.json`) + su gate (`…_v1_radio_explosion.json`, dry-run del writer, nunca `--aplicar`); sin LLM ($0). El bloque detnov (§0.A) ya se aplicó y no está aquí. Los bloques `k5_*` son las filas de §1 «una a una» cuyo re-juicio K=5 cross-model (s324c, `evals/s324c_rejuicio_k5_v1.md`) convergió ≥4/5 — propuesta, con el mismo gate. Fila confirmable = token literal ≥1 + cita verbatim verificada full-text en su documento; lo que no verifica, ya estaba aplicado o colisiona (canonical duplicado / alias ajeno / paraguas: la puerta lo rechaza) va a `no_aplicar` con motivo. Alias descriptivos de los ids confirmados → `aliases_quitar` (R1 multipalabra sin token de modelo · R2 «N zonas» · R3 panel/central/detector/módulo/software sin modelo · R4 OCR O/0 · R6 truncación ambigua de familia — nace del gate: «VSN12» disparó «vsn 12»); los model-shaped se conservan; los sin dígito no entran hoy en el detector (se retiran por higiene: filtra `entra_en_detector=false` para conservarlos).
 
 | bloque | filas | confirmables | no_aplicar | alias a retirar (entran en detector) | +términos | gold perdidas | negativos | tráfico real | VEREDICTO |
 |---|---|---|---|---|---|---|---|---|---|
@@ -17,6 +17,8 @@
 | 0b | 129 | 105 | 24 | 40 (7) | 161 | 0/0 | 0/36 | 2/96 | **PASS** |
 | 0c | 144 | 138 | 6 | 45 (15) | 164 | 0/0 | 0/36 | 0/96 | **PASS** |
 | 0d | 4 | 4 (retirar) | 0 | 0 (0) | 0 | 0/0 | 0/36 | 0/96 | **PASS** |
+| k5_confirmar | 34 | 31 | 3 | 7 (3) | 31 | 0/0 | 0/36 | 0/96 | **PASS** |
+| k5_retirar | 1 | 0 (retirar) | 1 | 0 (0) | 0 | 0/0 | 0/36 | 0/96 | **PASS** |
 
 gold perdidas = patrón/resolver (51 gold) · negativos = frases sintéticas del writer · tráfico real = consultas de `query_logs` con detección nueva.
 
@@ -33,6 +35,8 @@ gold perdidas = patrón/resolver (51 gold) · negativos = frases sintéticas del
 - **0b** (§0.B) — **PASS** · no_aplicar 6 ya aplicado, 18 colisión (notifier:inspire, notifier:notifier-inspire-e10, notifier:notifier-inspire-e15, unresolved:id50, unresolved:id60, unresolved:tg-gsm, unresolved:tg-honeywell, unresolved:vsn-co…) · más arriesgadas: `notifier:nas` [muy_corto, sin_digitos, acronimo_corto, palabra_comun:nas]; `notifier:securnet-plus` [sin_digitos, multipalabra, palabra_comun:plus; +1 alias]; `notifier:mini-vista` [sin_digitos, multipalabra, palabra_comun:mini/vista]; `notifier:transponder-serie-xp` [sin_digitos, multipalabra, palabra_comun:transponder/serie]; `xtralis:honeywell-smartconfig-app` [sin_digitos, multipalabra, palabra_comun:honeywell/app] · tráfico real: «¿Cuáles son las características técnicas de la central »→cs4: probable TP; «¿Qué resistencia de fin de línea hay que instalar en la»→nfs supra: probable TP · gold con detección nueva: 2 (['cs4']; ['nfs supra']) · muy cortos: BM-1, BP-1, BP-3, CMX, CS4, DP-1, DS 5, G-10 · homónimos (sin efecto en resolución): E10, E15
 - **0c** (§0.C) — **PASS** · no_aplicar 2 sin token literal, 4 colisión (notifier:sdx-751-tem, unresolved:tg-ip-1-sec, morley:vsn4-2plus, unresolved:vsn4-2plus, morley:vsn8-2plus, unresolved:vsn8-2plus) · más arriesgadas: `unresolved:vision-supra` [sin_digitos, multipalabra, palabra_comun:vision; +2 alias]; `testifire:solo-725` [multipalabra, palabra_comun:solo; +1 alias]; `notifier:smart-1` [multipalabra, palabra_comun:smart]; `notifier:tg-6000-net` [multipalabra, palabra_comun:net]; `notifier:ucip-modbus-e20m` [multipalabra; +6 alias]
 - **0d** (§0.D) — **PASS**
+- **k5_confirmar** (§1·K5) — **PASS** · no_aplicar 3 sin token literal (unresolved:ds-10--tas, unresolved:ds-10--tav, unresolved:ds-10-gl) · más arriesgadas: `notifier:smart-3-cd` [multipalabra, palabra_comun:smart]; `notifier:amg-zc` [sin_digitos, acronimo_corto]; `fidegas:cs4-analgica` [multipalabra; +2 alias]; `notifier:gc-1` [muy_corto]; `notifier:nfs-plus` [sin_digitos] · muy cortos: GC-1 · homónimos (sin efecto en resolución): SP-200
+- **k5_retirar** (§1·K5) — **PASS** · no_aplicar 1 sin token literal
 
 ## No medido
 

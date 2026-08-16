@@ -44,6 +44,7 @@ PY = sys.executable
 UTC = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 S322F = ROOT / "evals" / "s322f_e1b_confirmar_encoger_v1.json"
 S322Q = ROOT / "evals" / "s322_e1b_revisar_qa_v1.json"
+K5 = ROOT / "evals" / "s324c_rejuicio_k5_v1.json"
 PACKET = "evals/s320_e1b_packet_adjudicacion_v2.md"
 ADDED_BY = "s324c-e1b-bloques"
 WRITER = ROOT / "scripts" / "s324_lote_firmado_writer.py"
@@ -303,12 +304,29 @@ def cargar_bloques() -> dict[str, dict]:
     bloques["0d"] = {"seccion": "§0.D", "titulo": f"§0.D «revisar» → RETIRAR ({len(ret)})",
                      "fuente": "evals/s322_e1b_revisar_qa_v1.json → secciones.0_bloque_retirar",
                      "filas": ret, "tipo": "retirar_qa"}
+    # (s324c noche) §1 «una a una» re-juzgadas K=5 cross-model (3× sonnet-5 + 2× gpt-5.5, rúbrica original,
+    # texto completo, cita verificada): las CONVERGENTES (≥4/5) suben a bloque propuesto — mismo tratamiento
+    # que §0.C/§0.D (verificación full-text + gate). Fuente: evals/s324c_rejuicio_k5_v1.json (NADA aplicado).
+    if K5.exists():
+        k5 = json.loads(K5.read_text(encoding="utf-8"))
+        conv = {x["id"]: x for x in k5["filas"] if x.get("packet") == "E1b" and x.get("convergente") and x.get("en_bloque")}
+        ind = {r["id"]: r for r in q["secciones"].get("1_individual", [])}
+        k5c = [dict(ind[i], k5=conv[i]) for i in conv if i in ind and conv[i]["veredicto_mayoria"] == "CONFIRMAR"]
+        k5r = [dict(ind[i], k5=conv[i]) for i in conv if i in ind and conv[i]["veredicto_mayoria"] == "RETIRAR"]
+        if k5c:
+            bloques["k5_confirmar"] = {"seccion": "§1·K5", "titulo": f"§1 «una a una» re-juzgadas K=5 cross-model → CONFIRMAR convergente ≥4/5 ({len(k5c)})",
+                                      "fuente": "evals/s324c_rejuicio_k5_v1.json (E1b convergentes) × evals/s322_e1b_revisar_qa_v1.json → secciones.1_individual",
+                                      "filas": k5c, "tipo": "confirmar_qa"}
+        if k5r:
+            bloques["k5_retirar"] = {"seccion": "§1·K5", "titulo": f"§1 «una a una» re-juzgadas K=5 cross-model → RETIRAR convergente ≥4/5 ({len(k5r)})",
+                                     "fuente": "evals/s324c_rejuicio_k5_v1.json (E1b convergentes) × evals/s322_e1b_revisar_qa_v1.json → secciones.1_individual",
+                                     "filas": k5r, "tipo": "retirar_qa"}
     return bloques
 
 
 def plan_vacio(nombre: str, b: dict) -> dict:
     return {"que_es": f"s324c — E1b {b['titulo']} — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
-            "bloque": nombre, "titulo": b["titulo"], "seccion": b["seccion"], "packet": PACKET, "fuente_evidencia": b["fuente"], "utc": UTC,
+            "bloque": nombre, "titulo": b["titulo"], "seccion": b["seccion"], "tipo": b["tipo"], "packet": PACKET, "fuente_evidencia": b["fuente"], "utc": UTC,
             "pendiente_si_alberto": True,
             "doc_map_altas": [], "doc_map_modificaciones": [], "products_altas": [], "products_confirmar": [],
             "products_retirar": [], "products_redirect": [], "aliases_quitar": [], "aliases_altas": [], "umbrellas_altas": [],
@@ -407,7 +425,7 @@ def construir_plan(c, nombre: str, b: dict) -> dict:
                 plan["no_aplicar"].append({**base, "motivo": "la evidencia del juez no verifica full-text: " + "; ".join(motivos)}); continue
             plan["products_retirar"].append({
                 "id": pid, "canonical_model": cm, "estado": "retirado",
-                "motivo": f"E1b §0.D (revisar→retirar; sí de Alberto al bloque) — juez {'claude-fable-5'} RETIRAR alta: {llm.get('razon')} | qué es: {llm.get('que_es')} | cita en {v['doc']}: «{v['cita']}»",
+                "motivo": f"E1b {b['seccion']} (revisar→retirar; sí de Alberto al bloque) — juez {'claude-fable-5'} RETIRAR alta: {llm.get('razon')} | qué es: {llm.get('que_es')} | cita en {v['doc']}: «{v['cita']}»" + (f" | K=5 cross-model {x['k5']['n_votos_mayoria']}/{x['k5']['n_votos_validos']} RETIRAR ({x['k5']['votos_por_juez']})" if x.get('k5') else ""),
                 "doc": v["doc"], "document_id": v["document_id"], "n_token": v["n_token"], "cita": v["cita"],
                 "cita_juez": llm.get("cita"), "cita_juez_verifica": v["cita_ref_verifica"], "razon_juez": llm.get("razon"),
                 "que_es_juez": llm.get("que_es"), "n_frontera_hoy": x.get("n_frontera_hoy")})
@@ -457,8 +475,14 @@ def construir_plan(c, nombre: str, b: dict) -> dict:
                                   "provenance_doc": x.get("provenance_doc"), "provenance_chunks_hoy": x.get("provenance_chunks_hoy"), "clase": x.get("clase")}
             fila["juez"] = {"modelo": "claude-fable-5 (s322 QA)", "veredicto": llm.get("veredicto"), "confianza": llm.get("confianza"),
                             "razon": llm.get("razon"), "cita_juez": llm.get("cita"), "cita_juez_verifica_en_doc": v["cita_ref_verifica"]}
-            fila["provenance_add"] = (f"s324c E1b §0.C revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy={x.get('n_frontera_hoy')}); "
-                                      f"juez claude-fable-5 s322 CONFIRMAR alta: «{(llm.get('razon') or '')[:160]}»; cita verificada full-text en {v['doc']}: «{v['cita']}»")
+            fila["provenance_add"] = (f"s324c E1b {b['seccion']} revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy={x.get('n_frontera_hoy')}); "
+                                      f"juez claude-fable-5 s322 {llm.get('veredicto') or 'CONFIRMAR'} ({llm.get('confianza')}): «{(llm.get('razon') or '')[:160]}»; cita verificada full-text en {v['doc']}: «{v['cita']}»")
+            if x.get("k5"):
+                k = x["k5"]
+                fila["juez_k5"] = {"veredicto_mayoria": k["veredicto_mayoria"], "n_votos_mayoria": k["n_votos_mayoria"], "n_votos_validos": k["n_votos_validos"],
+                                   "votos_por_juez": k["votos_por_juez"], "cita_representativa": k.get("cita_representativa"), "recibo": "evals/s324c_rejuicio_k5_v1.json"}
+                fila["provenance_add"] += (f"; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): "
+                                           f"{k['veredicto_mayoria']} {k['n_votos_mayoria']}/{k['n_votos_validos']}")
         fila["n_token_flexible"] = v["n_token_flexible"]
         filas_ok.append(fila)
     # ── colisiones intra-bloque (mismo canonical normalizado en ≥2 ids del plan) ──
@@ -621,8 +645,9 @@ def escribir_censo(planes: dict[str, dict], resultados: dict[str, dict]) -> None
     """Censo COMPACTO (≤900 palabras): tabla por bloque + 3-5 filas más arriesgadas por bloque + señales del gate."""
     L = [f"# s324c — E1b: censo del radio de explosión POR BLOQUE (dry-run) · {UTC}\n",
          "> ## NADA APLICADO — para el «sí» de Alberto, bloque a bloque\n"
+         "> **Ojo con la nomenclatura:** las «R1…R6» de ESTE fichero son las reglas del CLASIFICADOR DE ALIAS DESCRIPTIVOS (qué alias se retiran antes de confirmar), NO las reglas de adjudicación R1–R7 del residuo (`evals/s324_reglas_residuo_adjudicacion_v1.json`).\n"
          "> Un plan por bloque (`evals/s324c_e1b_bloque_<nombre>_plan_v1.json`) + su gate (`…_v1_radio_explosion.json`, dry-run del writer, nunca `--aplicar`); sin LLM ($0). "
-         "El bloque detnov (§0.A) ya se aplicó y no está aquí. Fila confirmable = token literal ≥1 + cita verbatim verificada full-text en su documento; lo que no verifica, ya estaba aplicado o "
+         "El bloque detnov (§0.A) ya se aplicó y no está aquí. Los bloques `k5_*` son las filas de §1 «una a una» cuyo re-juicio K=5 cross-model (s324c, `evals/s324c_rejuicio_k5_v1.md`) convergió ≥4/5 — propuesta, con el mismo gate. Fila confirmable = token literal ≥1 + cita verbatim verificada full-text en su documento; lo que no verifica, ya estaba aplicado o "
          "colisiona (canonical duplicado / alias ajeno / paraguas: la puerta lo rechaza) va a `no_aplicar` con motivo. Alias descriptivos de los ids confirmados → `aliases_quitar` "
          "(R1 multipalabra sin token de modelo · R2 «N zonas» · R3 panel/central/detector/módulo/software sin modelo · R4 OCR O/0 · R6 truncación ambigua de familia — nace del gate: «VSN12» disparó «vsn 12»); "
          "los model-shaped se conservan; los sin dígito no entran hoy en el detector (se retiran por higiene: filtra `entra_en_detector=false` para conservarlos).\n",
@@ -630,9 +655,10 @@ def escribir_censo(planes: dict[str, dict], resultados: dict[str, dict]) -> None
     for nombre, plan in planes.items():
         r = resultados.get(nombre) or {}; cz = (r.get("censo") or {}).get("censo") or {}
         filas = len(plan.get("_filas_origen") or [])
-        conf = plan["resumen"]["products_retirar"] if plan["seccion"] == "§0.D" else plan["resumen"]["products_confirmar"]
+        es_ret = plan["seccion"] == "§0.D" or plan.get("tipo") == "retirar_qa"
+        conf = plan["resumen"]["products_retirar"] if es_ret else plan["resumen"]["products_confirmar"]
         n_q = plan["resumen"]["aliases_quitar"]; n_qd = sum(1 for a in plan["aliases_quitar"] if a.get("entra_en_detector"))
-        L.append(f"| {nombre} | {filas} | {conf}{' (retirar)' if plan['seccion']=='§0.D' else ''} | {plan['resumen']['no_aplicar']} | {n_q} ({n_qd}) | {cz.get('entran','–')} | "
+        L.append(f"| {nombre} | {filas} | {conf}{' (retirar)' if es_ret else ''} | {plan['resumen']['no_aplicar']} | {n_q} ({n_qd}) | {cz.get('entran','–')} | "
                  f"{len(cz.get('gold_perdidas') or {})}/{len(cz.get('resolver_gold_perdidas') or {})} | {len(cz.get('disparos_en_negativos') or {})}/{cz.get('negativos_probados','–')} | "
                  f"{len(cz.get('trafico_real_detecciones_nuevas') or {})}/{cz.get('trafico_real_consultas','–')} | **{r.get('veredicto','no medido')}** |")
     L.append("\ngold perdidas = patrón/resolver (51 gold) · negativos = frases sintéticas del writer · tráfico real = consultas de `query_logs` con detección nueva.\n")

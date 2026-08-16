@@ -1,0 +1,65 @@
+{
+ "que_es": "s324c — E1b §1 «una a una» re-juzgadas K=5 cross-model → RETIRAR convergente ≥4/5 (1) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "k5_retirar",
+ "titulo": "§1 «una a una» re-juzgadas K=5 cross-model → RETIRAR convergente ≥4/5 (1)",
+ "seccion": "§1·K5",
+ "tipo": "retirar_qa",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s324c_rejuicio_k5_v1.json (E1b convergentes) × evals/s322_e1b_revisar_qa_v1.json → secciones.1_individual",
+ "utc": "20260816T222859Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [
+  {
+   "id": "notifier:fs-2",
+   "canonical_model": "FS-2",
+   "bloque": "k5_retirar",
+   "motivo": "la evidencia del juez no verifica full-text: FS2-1: n_token=0 (flexible 0); chunks source_file≈FS2-1: n_token=0 (flexible 0)"
+  }
+ ],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "0 alias de los ids confirmados marcados descriptivo/peligroso (0 entrarían en el detector al confirmar; los 0 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 0 alias model-shaped/anclados al canonical."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [],
+ "alias_conservados": [],
+ "alias_palabra_suelta": [],
+ "riesgo_lexico": [],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 0,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 0,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 1,
+  "avisos": 1,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 0,
+  "alias_conservados": 0,
+  "alias_palabra_suelta": 0,
+  "riesgo_lexico": 0,
+  "_filas_origen": 1
+ },
+ "_filas_origen": [
+  "notifier:fs-2"
+ ]
+}

@@ -7180,11 +7180,19 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   con redirect desde `unresolved:ccd-103`; el gate cazó 14 alias descriptivos —«2 zonas», «4 zonas», «Conventional
   panels with…»— que la confirmación ACTIVABA: retirados antes; tráfico real +1 detección = TP). Cada «sí» de
   Alberto vino con nota en el packet canónico; lo que solo él firma sigue ⏳ marcado fila a fila.
-- **Decide (3) — E1b PREPARADO, no aplicado**: 11 planes por bloque + dry-run del gate **11/11 PASS** (422
+- **Decide (3) — E1b PREPARADO, no aplicado**: 11 planes por bloque (+2 K=5, abajo) + dry-run del gate **11/11 PASS** (422
   confirmables verificadas full-text, 40 `no_aplicar` con propuesta —colisiones canonical/alias/paraguas y
   grafías—, **125 alias descriptivos que se retirarían antes**, regla nueva del clasificador «truncación ambigua de
   familia» nacida del gate: `VSN12` disparaba «vsn 12»); `evals/s324c_e1b_bloques_censo_v1.md`. Un «sí» por bloque =
   re-dry-run del mismo sha + `--aplicar`. Cross-bloque morley↔unresolved / morley↔notifier: exige adjudicar homónimos.
+- **Decide (4) — re-juicio K=5 cross-model de la clase «confianza media»** (61 filas: E1 14 + E1b 47; 3× `claude-sonnet-5`
+  + 2× `gpt-5.5`, rúbrica ORIGINAL de cada packet, texto completo del doc como evidencia, voto válido solo con cita
+  verificada full-text; ≈$6,6): 39 convergentes ≥4/5 (E1b 34 CONFIRMAR + 1 RETIRAR `notifier:fs-2`; E1 PRODUCTO_REAL
+  `morley:morley-ias-max` y `notifier:repetidor-serie-1000`, ARTEFACTO `aritech:2x-a-tactil` y `notifier:madt-606`), 22
+  no convergentes (10 con desacuerdo cross-model Sonnet RET/ART vs GPT CONF/PROD; 5 con término AUSENTE y citas
+  inverificables por construcción). Lo convergente E1b sube a bloque **`k5_confirmar` PREPARADO** con el mismo gate (31
+  confirmables PASS; 3 DS-10 con grafía «--» no verifican; fs-2 sin doc resoluble). Propuesta, NADA aplicado; el
+  desacuerdo cross-model es la señal de que la clase no era «ruido del juez» sino filas de verdad ambiguas.
 - **Colateral**: `test_s307` (cota de la lista plana de inventario) se acopló a los DATOS del catálogo (Notifier ya
   tiene productos clasificados → la vista agrupada tomaba el turno): el test fuerza ahora la ruta plana. Lección:
   los tests de render de inventario no deben depender de qué marca tiene clasificación.

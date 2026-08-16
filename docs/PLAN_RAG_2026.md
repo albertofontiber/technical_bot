@@ -45,10 +45,12 @@ gold-review `evals/s324c_goldreview_conducta_packet_v1.md`.
 + 7 alias + 26 doc_map + 2 bajas; Fable standalone 6 hallazgos aplicados) · STRATOS = paraguas de familia · §0.D/§0.E
 (5 docs retirados, altas Fidegas S/3-2·S/3-IR·S/2-IR y EMA1224B4R/W, TG = software, MADT731_06 → HSSD-2, 5 retags)
 · **Detnov E1b** (8 confirmaciones + `detnov:ccd-103`; el gate cazó 14 alias descriptivos «2 zonas»… que la
-confirmación activaba → retirados antes). **E1b PREPARADO, NO aplicado**: 11 planes + dry-run **11/11 PASS** (422
-confirmables verificadas, 40 `no_aplicar` con propuesta, 125 alias descriptivos a retirar antes) —
-`evals/s324c_e1b_bloques_censo_v1.md`. Re-juicio K=5 cross-model de la clase «confianza media»: ver adenda al
-final de este bloque. Suite verde (3.9xx; `test_s307` desacoplado de los datos del catálogo). Deuda nueva #89
+confirmación activaba → retirados antes). **E1b PREPARADO, NO aplicado**: 13 planes + dry-run **13/13 PASS** (453
+confirmables verificadas, 44 `no_aplicar` con propuesta, 132 alias descriptivos a retirar antes) —
+`evals/s324c_e1b_bloques_censo_v1.md`. **Re-juicio K=5 cross-model** de las 61 «confianza media» (E1 14 + E1b 47; 3× sonnet-5 + 2× gpt-5.5, rúbrica original,
+texto completo, cita verificada; ≈$6,6): 39 convergentes ≥4/5 (E1b 34 CONFIRMAR + 1 RETIRAR; E1 2 PRODUCTO_REAL + 2
+ARTEFACTO), 22 no (10 con desacuerdo cross-model Sonnet↔GPT) → bloque `k5_confirmar` PREPARADO con el gate (31 PASS)
+— `evals/s324c_rejuicio_k5_v1.md`. Suite verde (3.891; `test_s307` desacoplado de los datos del catálogo). Deuda nueva #89
 (5 defectos del instrumento de sonda). Coste de la noche ≈ $25 (sondas ~$12, replay $5,44, K=5 ~$5-8, resto $0).
 
 **Qué sigue (s324c — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**

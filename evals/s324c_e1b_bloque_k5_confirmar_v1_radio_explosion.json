@@ -1,0 +1,432 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T222723Z",
+ "plan_sha": "ca8f4b3cdb0b605b",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 31,
+  "retiradas": 0,
+  "aliases_quitados": 7,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1775,
+  "entran": 31,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "1X-F8-SC",
+    "normkey": "1xf8sc",
+    "core": "1[-\\s/.+]*x[-\\s/.+]*f[-\\s/.+]*8[-\\s/.+]*sc",
+    "origen": "confirmar kidde:1x-f8-sc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "72051EI",
+    "normkey": "72051ei",
+    "core": "72051[-\\s/.+]*ei",
+    "origen": "confirmar notifier:72051ei",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AMG-ZC",
+    "normkey": "amgzc",
+    "core": "amg[-\\s/.+]*zc",
+    "origen": "confirmar notifier:amg-zc",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "art.1471",
+    "normkey": "art.1471",
+    "core": "art[-\\s/.+]*1471",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "BANI-G-24",
+    "normkey": "banig24",
+    "core": "bani[-\\s/.+]*g[-\\s/.+]*24",
+    "origen": "confirmar notifier:bani-g-24",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 (Analógica o Digital)",
+    "normkey": "cs4(analogicaodigital)",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*analogica[-\\s/.+]*o[-\\s/.+]*digital",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 Analógica",
+    "normkey": "cs4analogica",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*analogica",
+    "origen": "confirmar fidegas:cs4-analgica",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 Analógica Firmware 1.2",
+    "normkey": "cs4analogicafirmware1.2",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*analogica[-\\s/.+]*firmware[-\\s/.+]*1[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ETX-1",
+    "normkey": "etx1",
+    "core": "etx[-\\s/.+]*1",
+    "origen": "confirmar lda:etx-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI",
+    "normkey": "fl20xxei",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI-HS",
+    "normkey": "fl20xxeihs",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl20xx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "GC-1",
+    "normkey": "gc1",
+    "core": "gc[-\\s/.+]*1",
+    "origen": "confirmar notifier:gc-1",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICA-6",
+    "normkey": "ica6",
+    "core": "ica[-\\s/.+]*6",
+    "origen": "confirmar notifier:ica-6",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ISO232-ID3000",
+    "normkey": "iso232id3000",
+    "core": "iso[-\\s/.+]*232[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "confirmar notifier:iso232-id3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI",
+    "normkey": "mifl20xxxxei",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI-HS",
+    "normkey": "mifl20xxxxeihs",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:mi-fl20xxxx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N2BAS",
+    "normkey": "n2bas",
+    "core": "n[-\\s/.+]*2[-\\s/.+]*bas",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N2BAS_V01s",
+    "normkey": "n2bas_v01s",
+    "core": "n[-\\s/.+]*2[-\\s/.+]*bas[-\\s/.+]*v[-\\s/.+]*01[-\\s/.+]*s",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NAP 100AC",
+    "normkey": "nap100ac",
+    "core": "nap[-\\s/.+]*100[-\\s/.+]*ac",
+    "origen": "confirmar unresolved:nap-100ac",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nap[-\\s/.+]*100"
+    ]
+   },
+   {
+    "termino": "NFS-PLUS",
+    "normkey": "nfsplus",
+    "core": "nfs[-\\s/.+]*plus",
+    "origen": "confirmar notifier:nfs-plus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFXI-ASD-XXXX-HS",
+    "normkey": "nfxiasdxxxxhs",
+    "core": "nfxi[-\\s/.+]*asd[-\\s/.+]*xxxx[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:nfxi-asd-xxxx-hs",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PY X-MA-05-SSM",
+    "normkey": "pyxma05ssm",
+    "core": "py[-\\s/.+]*x[-\\s/.+]*ma[-\\s/.+]*05[-\\s/.+]*ssm",
+    "origen": "confirmar pyra:py-x-ma-05-ssm",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "py[-\\s/.+]*x[-\\s/.+]*ma[-\\s/.+]*05"
+    ]
+   },
+   {
+    "termino": "PY X-MA-10-SSM",
+    "normkey": "pyxma10ssm",
+    "core": "py[-\\s/.+]*x[-\\s/.+]*ma[-\\s/.+]*10[-\\s/.+]*ssm",
+    "origen": "confirmar pyra:py-x-ma-10-ssm",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "py[-\\s/.+]*x[-\\s/.+]*ma[-\\s/.+]*10"
+    ]
+   },
+   {
+    "termino": "Ref.: 230-539-009",
+    "normkey": "ref.:230539009",
+    "core": "ref[-\\s/.+]*230[-\\s/.+]*539[-\\s/.+]*009",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Ref.: 30752",
+    "normkey": "ref.:30752",
+    "core": "ref[-\\s/.+]*30752",
+    "origen": "confirmar notifier:ref.-30752",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Ref.: 30753",
+    "normkey": "ref.:30753",
+    "core": "ref[-\\s/.+]*30753",
+    "origen": "confirmar notifier:ref.-30753",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CD",
+    "normkey": "smart3cd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd",
+    "origen": "confirmar notifier:smart-3-cd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "soportes de pared SPR_250",
+    "normkey": "soportesdeparedspr_250",
+    "core": "soportes[-\\s/.+]*de[-\\s/.+]*pared[-\\s/.+]*spr[-\\s/.+]*250",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SPR250",
+    "normkey": "spr250",
+    "core": "spr[-\\s/.+]*250",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SPR_250",
+    "normkey": "spr_250",
+    "core": "spr[-\\s/.+]*250",
+    "origen": "confirmar detnov:spr_250",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TF-B3000",
+    "normkey": "tfb3000",
+    "core": "tf[-\\s/.+]*b[-\\s/.+]*3000",
+    "origen": "confirmar notifier:tf-b3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "30752",
+    "id": "notifier:ref.-30752",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "30753",
+    "id": "notifier:ref.-30753",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "art.1471",
+    "id": "menvier:1471",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "chip AMG-ZC",
+    "id": "notifier:amg-zc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "CS4 (Analógica o Digital)",
+    "id": "fidegas:cs4-analgica",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CS4 Analógica Firmware 1.2",
+    "id": "fidegas:cs4-analgica",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FL20XX EI",
+    "id": "unresolved:fl20xx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "F-SEN-SSE",
+    "id": "notifier:72051ei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "hammer",
+    "id": "menvier:1471",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "martelletto",
+    "id": "menvier:1471",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "MI-FL20XXXX EI",
+    "id": "unresolved:mi-fl20xxxx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "N2BAS",
+    "id": "morley:sp-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "N2BAS_V01s",
+    "id": "morley:sp-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS",
+    "id": "notifier:nfs-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "NFXI-ASD-XXXX",
+    "id": "unresolved:nfxi-asd-xxxx-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Ref.: 230-539-009",
+    "id": "unresolved:230-539-009",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "soportes de pared SPR_250",
+    "id": "detnov:spr_250",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SPR250",
+    "id": "detnov:spr_250",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [
+   "GC-1"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

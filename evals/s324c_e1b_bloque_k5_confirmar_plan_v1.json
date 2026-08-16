@@ -1,0 +1,1878 @@
+{
+ "que_es": "s324c — E1b §1 «una a una» re-juzgadas K=5 cross-model → CONFIRMAR convergente ≥4/5 (34) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "k5_confirmar",
+ "titulo": "§1 «una a una» re-juzgadas K=5 cross-model → CONFIRMAR convergente ≥4/5 (34)",
+ "seccion": "§1·K5",
+ "tipo": "confirmar_qa",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s324c_rejuicio_k5_v1.json (E1b convergentes) × evals/s322_e1b_revisar_qa_v1.json → secciones.1_individual",
+ "utc": "20260816T222715Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "detnov:spr_250",
+   "canonical_model": "SPR_250",
+   "doc": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+   "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+   "n_token": 1,
+   "cita": "correcta instalación de una torre de centrales o tótem necesitará los soportes de pared SPR_250 que le permitirán un montaje ordenado y sencillo. El soporte consta de dos planos de",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Detnov",
+    "provenance_doc": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "provenance_chunks_hoy": 94,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término se usa como referencia de un accesorio comercializable (soporte de pared) necesario para la instalación de las centrales CAD-250, es decir, como modelo de producto y no como fragmento o código espurio.",
+    "cita_juez": "Para la correcta instalación de una torre de centrales o tótem necesitará los soportes de pared SPR_250 que le permitirán un montaje ordenado y sencillo.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «El término se usa como referencia de un accesorio comercializable (soporte de pared) necesario para la instalación de las centrales CAD-250, es decir, como mode»; cita verificada full-text en Manual instalacion CAD-250 (MI_372_es_2024 e): «correcta instalación de una torre de centrales o tótem necesitará los soportes de pared SPR_250 que le permitirán un montaje ordenado y sencillo. El soporte consta de dos planos de»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Para la correcta instalación de una torre de centrales o tótem necesitará los soportes de pared SPR_250 que le permitirán un montaje ordenado y sencillo.",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "fidegas:03382",
+   "canonical_model": "03382",
+   "doc": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_token": 1,
+   "cita": "Repuesto | | ----------- | ----------- | --- | ----------- | ------------- | | 00051 | 03382 | O2 | (0-25)% v/v | 00158 | | 00052 | 03383 | O2 | (21-0)% v/v | 00170 | Lea",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Fidegas",
+    "provenance_doc": "Manual-de-Usuario-S3-T2-y-S2-T2",
+    "provenance_chunks_hoy": 24,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "«03382» aparece en una tabla de referencias como la referencia comercial del detector S/2-T2 para O2 (0-25)% v/v, es decir, usado como referencia de producto pedible del fabricante Fidegas.",
+    "cita_juez": "| Ref. S/3-T2 | Ref. S/2-T2 | Gas | Rango       | Ref. Repuesto |\n| ----------- | ----------- | --- | ----------- | ------------- |\n| 00051       | 03382       | O2  | (0-25)% v/v | 00158",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): ««03382» aparece en una tabla de referencias como la referencia comercial del detector S/2-T2 para O2 (0-25)% v/v, es decir, usado como referencia de producto pe»; cita verificada full-text en Manual-de-Usuario-S3-T2-y-S2-T2: «Repuesto | | ----------- | ----------- | --- | ----------- | ------------- | | 00051 | 03382 | O2 | (0-25)% v/v | 00158 | | 00052 | 03383 | O2 | (21-0)% v/v | 00170 | Lea»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "| Ref. S/3-T2 | Ref. S/2-T2 | Gas | Rango | Ref. Repuesto |\n| ----------- | ----------- | --- | ----------- | ------------- |\n| 00051 | 03382 | O2 | (0-25)% v/v | 00158 |",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "fidegas:03383",
+   "canonical_model": "03383",
+   "doc": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_token": 1,
+   "cita": "| ----------- | ------------- | | 00051 | 03382 | O2 | (0-25)% v/v | 00158 | | 00052 | 03383 | O2 | (21-0)% v/v | 00170 | Lea detenidamente el procedimiento para una correcto",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Fidegas",
+    "provenance_doc": "Manual-de-Usuario-S3-T2-y-S2-T2",
+    "provenance_chunks_hoy": 24,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "Aparece en la tabla de repuestos como referencia comercial del detector S/2-T2 para O2 rango (21-0)% v/v, es decir, como referencia de producto pedible del fabricante.",
+    "cita_juez": "| 00052       | 03383       | O2  | (21-0)% v/v | 00170         |",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «Aparece en la tabla de repuestos como referencia comercial del detector S/2-T2 para O2 rango (21-0)% v/v, es decir, como referencia de producto pedible del fabr»; cita verificada full-text en Manual-de-Usuario-S3-T2-y-S2-T2: «| ----------- | ------------- | | 00051 | 03382 | O2 | (0-25)% v/v | 00158 | | 00052 | 03383 | O2 | (21-0)% v/v | 00170 | Lea detenidamente el procedimiento para una correcto»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 4/4",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 4,
+    "n_votos_validos": 4,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "| 00052 | 03383 | O2 | (21-0)% v/v | 00170 |",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "fidegas:cs4-analgica",
+   "canonical_model": "CS4 Analógica",
+   "doc": "Manual-de-Usuario-CS4",
+   "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+   "n_token": 1,
+   "cita": "XXXX** **Fabricado por C.A.E.,S.L.** **www.fidegas.com** **CENTRAL DE ALARMAS** CE **CS4 Analógica Firmware 1.2** **Tensión: 110-230 Vac 50/60Hz** **Consumo 30W Clase II** ☐ **Nº Serie:",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "FIDEGAS",
+    "provenance_doc": "Manual-de-Usuario-CS4",
+    "provenance_chunks_hoy": 11,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término aparece en la etiqueta/placa de características de la central de alarmas del propio Manual-de-Usuario-CS4, identificando el modelo (versión analógica de la central CS4), reforzado por la distinción «Versión analógica» vs «Versión digital» en compatibilidades.",
+    "cita_juez": "**CENTRAL DE ALARMAS** CE\n**CS4 Analógica Firmware 1.2**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «El término aparece en la etiqueta/placa de características de la central de alarmas del propio Manual-de-Usuario-CS4, identificando el modelo (versión analógica»; cita verificada full-text en Manual-de-Usuario-CS4: «XXXX** **Fabricado por C.A.E.,S.L.** **www.fidegas.com** **CENTRAL DE ALARMAS** CE **CS4 Analógica Firmware 1.2** **Tensión: 110-230 Vac 50/60Hz** **Consumo 30W Clase II** ☐ **Nº Serie:»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**CENTRAL DE ALARMAS** CE\n**CS4 Analógica Firmware 1.2**\n**Tensión: 110-230 Vac 50/60Hz**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "kidde:1x-f8-sc",
+   "canonical_model": "1X-F8-SC",
+   "doc": "nc-pf8-sc-161721-es.pdf",
+   "document_id": "e9d0d989-7d21-4681-b7f1-1ee88fb45001",
+   "n_token": 1,
+   "cita": "benefits building owners and installation/maintenance companies alike. ## The Panel The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Kidde",
+    "provenance_doc": "nc-pf8-sc-161721-es",
+    "provenance_chunks_hoy": 4,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "El documento es la ficha del NC-PF8-SC (título y product_model coinciden) y la única mención de 1X-F8-SC aparece describiendo exactamente ese mismo panel: es un residuo de edición de la ficha original re-marcada, no un modelo Kidde propio del catálogo.",
+    "cita_juez": "The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 RETIRAR (media): «El documento es la ficha del NC-PF8-SC (título y product_model coinciden) y la única mención de 1X-F8-SC aparece describiendo exactamente ese mismo panel: es un»; cita verificada full-text en nc-pf8-sc-161721-es.pdf: «benefits building owners and installation/maintenance companies alike. ## The Panel The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support.",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "lda:etx-1",
+   "canonical_model": "ETX-1",
+   "doc": "NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO rev1_1_4",
+   "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+   "n_token": 3,
+   "cita": "CONEXIÓN A SISTEMAS El equipo dispone de una bahía de conexión donde integra un módulo ETX-1, que permite la conexión a sistemas tanto de megafonía, como integrar sistemas de",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "LDA",
+    "provenance_doc": "NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO rev1_1_4",
+    "provenance_chunks_hoy": 81,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra ETX-1 usado como designación de un módulo hardware concreto de LDA, mencionado en dos manuales de equipos distintos (serie NEO y ZES-22), lo que indica que es un componente/producto real y no un artefacto de extracción.",
+    "cita_juez": "El equipo dispone de una bahía de conexión donde integra un módulo ETX-1, que permite la conexión a sistemas tanto de megafonía, como integrar sistemas de terceros.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra ETX-1 usado como designación de un módulo hardware concreto de LDA, mencionado en dos manuales de equipos distintos (serie NEO y ZES-22), l»; cita verificada full-text en NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO rev1_1_4: «CONEXIÓN A SISTEMAS El equipo dispone de una bahía de conexión donde integra un módulo ETX-1, que permite la conexión a sistemas tanto de megafonía, como integrar sistemas de»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "El equipo dispone de una bahía de conexión donde integra un módulo ETX-1, que permite la conexión a sistemas tanto de megafonía, como integrar sistemas de terceros. El módulo ETX-1 se suministra de se",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 3
+  },
+  {
+   "id": "menvier:1471",
+   "canonical_model": "1471",
+   "doc": "RIF_08791_01 - AC1469_It-eng.pdf",
+   "document_id": "29a4ee2c-3152-4e85-a7ca-992a0092e5aa",
+   "n_token": 4,
+   "cita": "disponibile svitando il tappo con una moneta. **NON USARE IL MARTELLETTO ART. 1471** *Waterproof break glass call point. It is possible to obtain a protection degree IP66",
+   "medida_e1b": {
+    "n_frontera_hoy": 5,
+    "n_substring_hoy": 5,
+    "marca_fila": "Menvier CSA",
+    "provenance_doc": "RIF_08791_01 - AC1469_It-eng",
+    "provenance_chunks_hoy": 1,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "En el documento de origen de Menvier CSA, «1471» se usa como número de artículo (art. 1471) que designa el martelletto/martillo, un accesorio comercial del fabricante; el resto de menciones en otros documentos son coincidencias numéricas irrelevantes.",
+    "cita_juez": "La rottura del vetro tramite pressione o martelletto (art.1471) provoca immediatamente lo scatto del microinterruttore interno ad uno scambio.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=5); juez claude-fable-5 s322 CONFIRMAR (media): «En el documento de origen de Menvier CSA, «1471» se usa como número de artículo (art. 1471) que designa el martelletto/martillo, un accesorio comercial del fabr»; cita verificada full-text en RIF_08791_01 - AC1469_It-eng.pdf: «disponibile svitando il tappo con una moneta. **NON USARE IL MARTELLETTO ART. 1471** *Waterproof break glass call point. It is possible to obtain a protection degree IP66»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**NON USARE IL MARTELLETTO ART. 1471**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 4
+  },
+  {
+   "id": "morley:sp-200",
+   "canonical_model": "SP-200",
+   "doc": "MIE-MI-110.pdf",
+   "document_id": "39a17062-7c8a-4bc2-ad43-6757043022d8",
+   "n_token": 1,
+   "cita": "\"sounder 6 V\" connections shown Pag. 25 Pag. 26 ## 9.10 Placa de módulo de extinción \"SP-200\" [Technical diagram showing circuit board layout with the following labeled components:]",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "Morley IAS",
+    "provenance_doc": "MIE-MI-110 (brand-tier=mecanico) | x-brand→candidate",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "En ambos chunks «SP-200» aparece únicamente como el nombre de una placa de circuito interna (módulo de extinción) dentro de los manuales de otros productos (MI-200 y AM-200), no como un modelo comercial propio.",
+    "cita_juez": "## 9.10 Placa de módulo de extinción \"SP-200\"",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 RETIRAR (media): «En ambos chunks «SP-200» aparece únicamente como el nombre de una placa de circuito interna (módulo de extinción) dentro de los manuales de otros productos (MI-»; cita verificada full-text en MIE-MI-110.pdf: «\"sounder 6 V\" connections shown Pag. 25 Pag. 26 ## 9.10 Placa de módulo de extinción \"SP-200\" [Technical diagram showing circuit board layout with the following labeled components:]»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 4/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 4,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "RETIRAR": 1,
+      "CONFIRMAR": 2
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "## 9.10 Placa de módulo de extinción \"SP-200\"",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:210-5033",
+   "canonical_model": "210-5033",
+   "doc": "MADT100_01",
+   "document_id": "548a194b-95a6-4320-a2a2-b680589de3ce",
+   "n_token": 2,
+   "cita": "ESPAÑA 3 de 3 ## 2. Instrucciones para la instalación del reductor de transitorios (210-5033) Algunos solenoides, cuando se activan, pueden hacer que el relé del circuito de salida",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Notifier",
+    "provenance_doc": "MADT100_01",
+    "provenance_chunks_hoy": 4,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término aparece como referencia comercial explícita («ref.: 210-5033») de un componente concreto (reductor de transitorios/diodo supresor) incluido en el kit del RP1001E, es decir, usado como referencia de producto y no como fragmento accidental.",
+    "cita_juez": "Reductor de transitorios bipolar 1.5KE51CA\nref.: 210-5033",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «El término aparece como referencia comercial explícita («ref.: 210-5033») de un componente concreto (reductor de transitorios/diodo supresor) incluido en el kit»; cita verificada full-text en MADT100_01: «ESPAÑA 3 de 3 ## 2. Instrucciones para la instalación del reductor de transitorios (210-5033) Algunos solenoides, cuando se activan, pueden hacer que el relé del circuito de salida»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Reductor de transitorios bipolar 1.5KE51CA\nref.: 210-5033",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:72051ei",
+   "canonical_model": "72051EI",
+   "doc": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+   "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+   "n_token": 1,
+   "cita": "– 30/10/2024 PÁGINA - 25 # Ejemplo de programación de un sensor con tipo HW \"F-SEN-SSE\". 72051EI (detector de alta sensibilidad) ## Pestaña principal (Progr. Typo HW y escritura",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "Notifier",
+    "provenance_doc": "AM-8100 manual de usuario y programacion rev 4 30-10-20",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "En dos manuales distintos «72051EI» se cita como referencia concreta de un detector de alta sensibilidad asociado al tipo HW F-SEN-SSE, es decir, se usa como modelo de producto (detector) en un contexto técnico de programación.",
+    "cita_juez": "Ejemplo de programación de un sensor con tipo HW \"F-SEN-SSE\". 72051EI (detector de alta sensibilidad)",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «En dos manuales distintos «72051EI» se cita como referencia concreta de un detector de alta sensibilidad asociado al tipo HW F-SEN-SSE, es decir, se usa como mo»; cita verificada full-text en AM-8100 manual de usuario y programacion rev 4 30-10-2024: «– 30/10/2024 PÁGINA - 25 # Ejemplo de programación de un sensor con tipo HW \"F-SEN-SSE\". 72051EI (detector de alta sensibilidad) ## Pestaña principal (Progr. Typo HW y escritura»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "# Ejemplo de programación de un sensor con tipo HW \"F-SEN-SSE\". 72051EI (detector de alta sensibilidad)",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:amg-zc",
+   "canonical_model": "AMG-ZC",
+   "doc": "MIDT340",
+   "document_id": "b1048c70-2038-4e15-aa62-99ca030db16a",
+   "n_token": 2,
+   "cita": "funciones de grupo del AMG-X4 se muestran en la Tabla 3.2. ## Código de Audio de Zona (AMG-ZC) Los códigos de zona están disponibles a través de una versión de software del chip de",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Notifier",
+    "provenance_doc": "MIDT340",
+    "provenance_chunks_hoy": 61,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia presenta AMG-ZC como un chip/versión de EPROM con nombre propio y sección dedicada («Código de Audio de Zona (AMG-ZC)»), es decir, un componente comercial opcional del AMG-1, no un fragmento ni referencia espuria.",
+    "cita_juez": "El chip AMG-ZC permite al AMG-1 indicar el punto del anunciador que está en alarma.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia presenta AMG-ZC como un chip/versión de EPROM con nombre propio y sección dedicada («Código de Audio de Zona (AMG-ZC)»), es decir, un componente co»; cita verificada full-text en MIDT340: «funciones de grupo del AMG-X4 se muestran en la Tabla 3.2. ## Código de Audio de Zona (AMG-ZC) Los códigos de zona están disponibles a través de una versión de software del chip de»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 4/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 4,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 1,
+      "RETIRAR": 1
+     }
+    },
+    "cita_representativa": "Código de Audio de Zona (AMG-ZC)\n\nLos códigos de zona están disponibles a través de una versión de software del chip de la EPROM AMG-1. El chip AMG-ZC permite al AMG-1",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:bani-g-24",
+   "canonical_model": "BANI-G-24",
+   "doc": "TIDT089",
+   "document_id": "ab5c121f-8353-4ad9-8562-969de0e80569",
+   "n_token": 1,
+   "cita": "Funciona correctamente * ID50: Funciona correctamente 3- Aislador galvánico para sirena BANI-G-24 (Referencia nuestra AIS-GALS1, referencia de Pepperl es KFD2-SD-Ex1.48.90A ) En este",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "NOTIFIER",
+    "provenance_doc": "TIDT089",
+    "provenance_chunks_hoy": 3,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término se usa como modelo concreto de sirena en una nota técnica de compatibilidad con aisladores galvánicos, incluyendo instrucciones de conexionado específicas de esa sirena (bornes +, C, S.S., F.S., B). Es coherente con la serie de sirenas BANI de Notifier.",
+    "cita_juez": "3- Aislador galvánico para sirena BANI-G-24 (Referencia nuestra AIS-GALS1, referencia de Pepperl es KFD2-SD-Ex1.48.90A )",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «El término se usa como modelo concreto de sirena en una nota técnica de compatibilidad con aisladores galvánicos, incluyendo instrucciones de conexionado especí»; cita verificada full-text en TIDT089: «Funciona correctamente * ID50: Funciona correctamente 3- Aislador galvánico para sirena BANI-G-24 (Referencia nuestra AIS-GALS1, referencia de Pepperl es KFD2-SD-Ex1.48.90A ) En este»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "3- Aislador galvánico para sirena BANI-G-24 (Referencia nuestra AIS-GALS1, referencia de Pepperl es KFD2-SD-Ex1.48.90A )",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:gc-1",
+   "canonical_model": "GC-1",
+   "doc": "manco-N",
+   "document_id": "38e238fa-b3c8-4532-8d1d-b05eccc7524e",
+   "n_token": 1,
+   "cita": "# INSTALACIÓN Este detector está previsto para trabajar conjuntamente con modulos de zona GC-1 Es aconsejable colocar el detector a unos 40 cm del suelo, ya que el CO es más pesado",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 1,
+    "marca_fila": "Notifier",
+    "provenance_doc": "manco-N",
+    "provenance_chunks_hoy": 8,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El manual del NCO-10 menciona GC-1 como módulo de zona compatible con el detector, es decir, aparece como un producto concreto en una indicación de compatibilidad/instalación.",
+    "cita_juez": "Este detector está previsto para trabajar conjuntamente con modulos de zona GC-1",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «El manual del NCO-10 menciona GC-1 como módulo de zona compatible con el detector, es decir, aparece como un producto concreto en una indicación de compatibilid»; cita verificada full-text en manco-N: «# INSTALACIÓN Este detector está previsto para trabajar conjuntamente con modulos de zona GC-1 Es aconsejable colocar el detector a unos 40 cm del suelo, ya que el CO es más pesado»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Este detector está previsto para trabajar conjuntamente con modulos de zona GC-1",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:ica-6",
+   "canonical_model": "ICA-6",
+   "doc": "MIDT250_A",
+   "document_id": "8ddcac3f-7884-4345-bf1b-f2bbb3a31ca3",
+   "n_token": 2,
+   "cita": "2 lado inferior 2 lado superior MI-DT-250_A NOTIFIER ESPAÑA 6 # INSTALACIÓN DEL CHASIS «ICA-6» [Technical installation diagram showing cabinet with labeled components: (D) left",
+   "medida_e1b": {
+    "n_frontera_hoy": 3,
+    "n_substring_hoy": 2,
+    "marca_fila": "Notifier",
+    "provenance_doc": "MIDT250_A",
+    "provenance_chunks_hoy": 49,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "«ICA-6» aparece como designación de modelo de un componente concreto (chasis de ampliación) en el despiece del sistema AM-6000, con capítulo propio de instalación en el manual, igual que otras referencias comerciales (BE-600A, LIB600, BPS-600).",
+    "cita_juez": "* Chasis ampliación ICA 6",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=3); juez claude-fable-5 s322 CONFIRMAR (media): ««ICA-6» aparece como designación de modelo de un componente concreto (chasis de ampliación) en el despiece del sistema AM-6000, con capítulo propio de instalaci»; cita verificada full-text en MIDT250_A: «2 lado inferior 2 lado superior MI-DT-250_A NOTIFIER ESPAÑA 6 # INSTALACIÓN DEL CHASIS «ICA-6» [Technical installation diagram showing cabinet with labeled components: (D) left»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "# INSTALACIÓN DEL CHASIS «ICA-6»",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:iso232-id3000",
+   "canonical_model": "ISO232-ID3000",
+   "doc": "UCIP-Conexionado-con-ID3000.pdf",
+   "document_id": "8dd14204-0a1c-4121-bc0a-f125e6114903",
+   "n_token": 3,
+   "cita": "derecha, negativo, Tx y Rx. 2. Conecte el Negativo de **UART1** a **0v** de la tarjeta **ISO232-ID3000** 3. Conecte **Rx** de **UART1** a **Tx** de la tarjeta **ISO232-ID3000** 4. Conecte",
+   "medida_e1b": {
+    "n_frontera_hoy": 3,
+    "n_substring_hoy": 1,
+    "marca_fila": "Honeywell",
+    "provenance_doc": "UCIP-Conexionado-con-ID3000",
+    "provenance_chunks_hoy": 1,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "media",
+    "razon": "El término se usa como nombre de una tarjeta física en instrucciones de conexionado, pero los otros chunks («ISO232 ID3000/DXc», «ISO232 (Central) a 1 UCIP») sugieren que ISO232 es la tarjeta/puerto y ID3000 la central, por lo que «ISO232-ID3000» podría ser una concatenación ad-hoc y no una referencia comercial. No hay tabla de modelos ni lista de pedido que lo confirme como modelo.",
+    "cita_juez": "Conecte el Negativo de **UART1** a **0v** de la tarjeta **ISO232-ID3000**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=3); juez claude-fable-5 s322 NO_DECIDIBLE (media): «El término se usa como nombre de una tarjeta física en instrucciones de conexionado, pero los otros chunks («ISO232 ID3000/DXc», «ISO232 (Central) a 1 UCIP») su»; cita verificada full-text en UCIP-Conexionado-con-ID3000.pdf: «derecha, negativo, Tx y Rx. 2. Conecte el Negativo de **UART1** a **0v** de la tarjeta **ISO232-ID3000** 3. Conecte **Rx** de **UART1** a **Tx** de la tarjeta **ISO232-ID3000** 4. Conecte»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Conecte el Negativo de **UART1** a **0v** de la tarjeta **ISO232-ID3000**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 3
+  },
+  {
+   "id": "notifier:nfs-plus",
+   "canonical_model": "NFS-PLUS",
+   "doc": "NFS4_NFS8-2PLUS_MANU_ITA",
+   "document_id": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
+   "n_token": 2,
+   "cita": "lines decreasing in size with a downward-pointing triangle) below the connection.] **NFS-PLUS** **Installazione e programmazione** **PAGINA - 6** **NFS-PLUS_MANU-INST/PROG.** **Doc.",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Notifier",
+    "provenance_doc": "NFS4_NFS8-2PLUS_MANU_ITA",
+    "provenance_chunks_hoy": 3,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "media",
+    "razon": "«NFS-PLUS» solo aparece en el pie de página de un manual cuyo producto declarado es NFS-2PLUS (documento NFS4_NFS8-2PLUS). Podría ser el nombre de familia o una variante abreviada/truncada de NFS-2PLUS, pero un único pie de página no basta para confirmarlo como modelo comercial ni para descartarlo positivamente.",
+    "cita_juez": "**NFS-PLUS**                                    **Installazione e programmazione**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 NO_DECIDIBLE (media): ««NFS-PLUS» solo aparece en el pie de página de un manual cuyo producto declarado es NFS-2PLUS (documento NFS4_NFS8-2PLUS). Podría ser el nombre de familia o una»; cita verificada full-text en NFS4_NFS8-2PLUS_MANU_ITA: «lines decreasing in size with a downward-pointing triangle) below the connection.] **NFS-PLUS** **Installazione e programmazione** **PAGINA - 6** **NFS-PLUS_MANU-INST/PROG.** **Doc.»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "NFS-PLUS_MANU-INST/PROG.** **Doc. M-126.1-NFS-ITA Rev A.5** **NOTIFIER ITALIA",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "notifier:ref.-30752",
+   "canonical_model": "Ref.: 30752",
+   "doc": "MIDT732",
+   "document_id": "a281a99e-2dea-44ac-b366-8b02d43d6454",
+   "n_token": 1,
+   "cita": "tubería de muestreo - Orificios de montaje Soporte de sujeción con una única entrada. Ref.: 30752 Right image labels: - Clavija de conexión - Prensaestopas a tierra - Retorno del aire -",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "NOTIFIER",
+    "provenance_doc": "MIDT732",
+    "provenance_chunks_hoy": 61,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La referencia 30752 identifica un accesorio comercializable concreto (soporte de sujeción de una entrada del MINILÁSER25), usado como referencia de pedido/producto, distinguido explícitamente de la Ref.: 30753.",
+    "cita_juez": "Soporte de sujeción con una única entrada. Ref.: 30752",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La referencia 30752 identifica un accesorio comercializable concreto (soporte de sujeción de una entrada del MINILÁSER25), usado como referencia de pedido/produ»; cita verificada full-text en MIDT732: «tubería de muestreo - Orificios de montaje Soporte de sujeción con una única entrada. Ref.: 30752 Right image labels: - Clavija de conexión - Prensaestopas a tierra - Retorno del aire -»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Soporte de sujeción con una única entrada. Ref.: 30752",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 0
+  },
+  {
+   "id": "notifier:ref.-30753",
+   "canonical_model": "Ref.: 30753",
+   "doc": "MIDT732",
+   "document_id": "a281a99e-2dea-44ac-b366-8b02d43d6454",
+   "n_token": 2,
+   "cita": "es necesario usar el soporte de sujeción con tubería de salida para retorno de aire (Ref.: 30753).* Muestreo por encima del falso techo y detector a la vista. [Diagram showing: A",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "NOTIFIER",
+    "provenance_doc": "MIDT732",
+    "provenance_chunks_hoy": 61,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra «Ref.: 30753» como referencia comercial de un accesorio concreto (soporte de sujeción con retorno de aire) del detector Miniláser 25, es decir, un artículo pedible con su propia referencia de fabricante.",
+    "cita_juez": "Soporte de sujeción con tubería de salida para retorno de aire. Ref.: 30753",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra «Ref.: 30753» como referencia comercial de un accesorio concreto (soporte de sujeción con retorno de aire) del detector Miniláser 25, es de»; cita verificada full-text en MIDT732: «es necesario usar el soporte de sujeción con tubería de salida para retorno de aire (Ref.: 30753).* Muestreo por encima del falso techo y detector a la vista. [Diagram showing: A»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Soporte de sujeción con tubería de salida para retorno de aire. Ref.: 30753",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 0
+  },
+  {
+   "id": "notifier:smart-3-cd",
+   "canonical_model": "SMART 3 CD",
+   "doc": "MNDT625",
+   "document_id": "7601da55-96b9-4991-b97a-0b0ce9b44030",
+   "n_token": 1,
+   "cita": "el 100% LIE, el led rojo de la placa base se iluminará para señalar AVERÍA y en el SMART 3 CD, con pantalla, se iluminarán todos los leds. La corriente de salida será de 23mA y para",
+   "medida_e1b": {
+    "n_frontera_hoy": 3,
+    "n_substring_hoy": 2,
+    "marca_fila": "Notifier",
+    "provenance_doc": "MNDT625 (brand-tier=mecanico) | alias-canonical-collision→candidate",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia usa «SMART 3 CD» como denominación de un detector concreto (la variante con pantalla de la familia SMART 3) que tiene su propio manual, no como fragmento de otro modelo ni como referencia normativa. Las variantes Ex d/Ex n listadas son derivados más específicos, pero aquí el texto nombra el modelo base con pantalla en sí.",
+    "cita_juez": "Si el detector suministrado dispone de pantalla, consulte el manual suministrado junto con el detector SMART 3 CD.",
+    "cita_juez_verifica_en_doc": false
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=3); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia usa «SMART 3 CD» como denominación de un detector concreto (la variante con pantalla de la familia SMART 3) que tiene su propio manual, no como fra»; cita verificada full-text en MNDT625: «el 100% LIE, el led rojo de la placa base se iluminará para señalar AVERÍA y en el SMART 3 CD, con pantalla, se iluminarán todos los leds. La corriente de salida será de 23mA y para»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Si la concentración de gas supera el 100% LIE, el led rojo de la placa base se iluminará para señalar AVERÍA y en el SMART 3 CD, con pantalla, se iluminarán todos los leds.",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "notifier:tf-b3000",
+   "canonical_model": "TF-B3000",
+   "doc": "MIDT190",
+   "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+   "n_token": 1,
+   "cita": "la principal y la de prolongación. Todos los tamaños requieren un kit de tapa principal TF-B3000. Los paneles más grandes requieren uno o dos kits de tapas de prolongación TFS-3000; Las",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Notifier",
+    "provenance_doc": "MIDT190",
+    "provenance_chunks_hoy": 106,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra «TF-B3000» usado como referencia de producto: es el código de un kit de tapa principal para la central ID3000, un accesorio pedible del fabricante.",
+    "cita_juez": "Todos los tamaños requieren un kit de tapa principal TF-B3000.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra «TF-B3000» usado como referencia de producto: es el código de un kit de tapa principal para la central ID3000, un accesorio pedible del fab»; cita verificada full-text en MIDT190: «la principal y la de prolongación. Todos los tamaños requieren un kit de tapa principal TF-B3000. Los paneles más grandes requieren uno o dos kits de tapas de prolongación TFS-3000; Las»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Todos los tamaños requieren un kit de tapa principal TF-B3000. Los paneles más grandes requieren uno o dos kits de tapas de prolongación TFS-3000",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "pyra:py-x-ma-05-ssm",
+   "canonical_model": "PY X-MA-05-SSM",
+   "doc": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT",
+   "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+   "n_token": 1,
+   "cita": "AC (PY X-MA-05 only) or<br/>24V DC (PY X-M-05-SSM and PY X-M-10-SSM) or | | | | 24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM) | | | Amb. Temp. | -40°C .. +66°C | | | 115V AC<br/>230V AC |",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "PYRA",
+    "provenance_doc": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-I",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término aparece en una tabla de especificaciones técnicas como designación de modelo (variante alimentada a 24V DC), junto a otro modelo hermano PY X-MA-10-SSM, lo que indica uso como producto y no fragmento aislado. Confianza media porque el nombre difiere ligeramente del modelo principal del manual (PY-X-M-05-SSM) y solo hay un chunk de evidencia.",
+    "cita_juez": "24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM)",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «El término aparece en una tabla de especificaciones técnicas como designación de modelo (variante alimentada a 24V DC), junto a otro modelo hermano PY X-MA-10-S»; cita verificada full-text en 085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT: «AC (PY X-MA-05 only) or<br/>24V DC (PY X-M-05-SSM and PY X-M-10-SSM) or | | | | 24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM) | | | Amb. Temp. | -40°C .. +66°C | | | 115V AC<br/>230V AC |»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM)",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "pyra:py-x-ma-10-ssm",
+   "canonical_model": "PY X-MA-10-SSM",
+   "doc": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT",
+   "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+   "n_token": 1,
+   "cita": "or<br/>24V DC (PY X-M-05-SSM and PY X-M-10-SSM) or | | | | 24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM) | | | Amb. Temp. | -40°C .. +66°C | | | 115V AC<br/>230V AC | Suitable for indoor and",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "PYRA",
+    "provenance_doc": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-I",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "El término aparece en una tabla de especificaciones técnicas de un manual de instalación, identificando qué variantes de modelo llevan alimentación 24V DC, es decir, usado como modelo de producto.",
+    "cita_juez": "24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM)",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «El término aparece en una tabla de especificaciones técnicas de un manual de instalación, identificando qué variantes de modelo llevan alimentación 24V DC, es d»; cita verificada full-text en 085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT: «or<br/>24V DC (PY X-M-05-SSM and PY X-M-10-SSM) or | | | | 24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM) | | | Amb. Temp. | -40°C .. +66°C | | | 115V AC<br/>230V AC | Suitable for indoor and»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "24V DC (PY X-MA-05-SSM and PY X-MA-10-SSM)",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:020-596",
+   "canonical_model": "020-596",
+   "doc": "MADT190_10",
+   "document_id": "ad53d9de-f52b-410f-8b0c-d530236b250a",
+   "n_token": 1,
+   "cita": "to PANEL CON TERMINACIÓN ELÉCTRICA Ref.: 004-099 and TAPA CIEGA Ref.: 236-653-009] **Kit 020-596** **Cuerpo 3U para conexión del cableado** ### Fijaciones típicas **A** Tuerca cautiva",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "unknown",
+    "provenance_doc": "MADT190_10",
+    "provenance_chunks_hoy": 9,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La referencia aparece como designación de un kit comercializable (cuerpo 3U para conexión del cableado) dentro de la documentación de montaje del MADT-190, es decir, como una referencia de producto/accesorio pedible, no como fragmento de OCR ni número suelto.",
+    "cita_juez": "**Kit 020-596**\n**Cuerpo 3U para conexión del cableado**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La referencia aparece como designación de un kit comercializable (cuerpo 3U para conexión del cableado) dentro de la documentación de montaje del MADT-190, es d»; cita verificada full-text en MADT190_10: «to PANEL CON TERMINACIÓN ELÉCTRICA Ref.: 004-099 and TAPA CIEGA Ref.: 236-653-009] **Kit 020-596** **Cuerpo 3U para conexión del cableado** ### Fijaciones típicas **A** Tuerca cautiva»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**Kit 020-596**\n**Cuerpo 3U para conexión del cableado**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:020-598",
+   "canonical_model": "020-598",
+   "doc": "MADT190_10",
+   "document_id": "ad53d9de-f52b-410f-8b0c-d530236b250a",
+   "n_token": 1,
+   "cita": "## REALICE EL MONTAJE COMO SE INDICA A CONTINUACIÓN ### Paneles ciegos 3U o 6U **Kit 020-598** **Panel ciego 3U** **(sin terminación** **eléctrica)** **Kit 020-594** **Panel ciego",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "unknown",
+    "provenance_doc": "MADT190_10",
+    "provenance_chunks_hoy": 9,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra «020-598» como referencia de un kit accesorio pedible (Kit 020-598, Panel ciego 3U) dentro de las instrucciones de montaje del rack, es decir, usado como referencia de producto y no como fragmento de texto.",
+    "cita_juez": "**Kit 020-598**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra «020-598» como referencia de un kit accesorio pedible (Kit 020-598, Panel ciego 3U) dentro de las instrucciones de montaje del rack, es dec»; cita verificada full-text en MADT190_10: «## REALICE EL MONTAJE COMO SE INDICA A CONTINUACIÓN ### Paneles ciegos 3U o 6U **Kit 020-598** **Panel ciego 3U** **(sin terminación** **eléctrica)** **Kit 020-594** **Panel ciego»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**Kit 020-598**\n**Panel ciego 3U**\n**(sin terminación**\n**eléctrica)**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:020-606",
+   "canonical_model": "020-606",
+   "doc": "MADT190_10",
+   "document_id": "ad53d9de-f52b-410f-8b0c-d530236b250a",
+   "n_token": 1,
+   "cita": "assembly points marked as A x 4, C x 2, B x 6, and TAPA CIEGA Ref.: 236-652-009] **Kit 020-606** **Cuerpo 6U para conexión del cableado** **Este kit también consta de:** * **24",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "unknown",
+    "provenance_doc": "MADT190_10",
+    "provenance_chunks_hoy": 9,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra «020-606» como referencia de un kit comercial concreto (Kit 020-606, cuerpo 6U para conexión del cableado), es decir, un artículo con referencia de pedido dentro del manual del MADT-190.",
+    "cita_juez": "**Kit 020-606**\n**Cuerpo 6U para conexión del cableado**",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra «020-606» como referencia de un kit comercial concreto (Kit 020-606, cuerpo 6U para conexión del cableado), es decir, un artículo con refer»; cita verificada full-text en MADT190_10: «assembly points marked as A x 4, C x 2, B x 6, and TAPA CIEGA Ref.: 236-652-009] **Kit 020-606** **Cuerpo 6U para conexión del cableado** **Este kit también consta de:** * **24»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**Kit 020-606**\n**Cuerpo 6U para conexión del cableado**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:230-539-009",
+   "canonical_model": "230-539-009",
+   "doc": "MADT190_10",
+   "document_id": "ad53d9de-f52b-410f-8b0c-d530236b250a",
+   "n_token": 2,
+   "cita": "showing three components connected by arrows: 1. Bottom: Universal mounting panel (Ref.: 230-539-009) - shown as a square panel with mounting holes 2. Middle: Panel showing ground",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "unknown",
+    "provenance_doc": "MADT190_10",
+    "provenance_chunks_hoy": 9,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra «230-539-009» como la referencia de pedido de un producto concreto (panel de montaje universal) que «se debe pedir por separado», es decir, un artículo comercial identificado por esa referencia.",
+    "cita_juez": "**PANEL DE MONTAJE UNIVERSAL**\nRef.: 230-539-009",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia muestra «230-539-009» como la referencia de pedido de un producto concreto (panel de montaje universal) que «se debe pedir por separado», es decir,»; cita verificada full-text en MADT190_10: «showing three components connected by arrows: 1. Bottom: Universal mounting panel (Ref.: 230-539-009) - shown as a square panel with mounting holes 2. Middle: Panel showing ground»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 4/4",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 4,
+    "n_votos_validos": 4,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "**PANEL DE MONTAJE UNIVERSAL**\nRef.: 230-539-009",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "unresolved:55350007",
+   "canonical_model": "55350007",
+   "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "document_id": "7f915cdf-68f5-4c17-9668-fca67d65795a",
+   "n_token": 2,
+   "cita": "for connecting the system to monoxide monitoring systems and remote management. REF: 55350007 The reduction of the noise level and increasing energy efficiency in activation of the",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "unknown",
+    "provenance_doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES",
+    "provenance_chunks_hoy": 0,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "La evidencia muestra que «55350007» aparece únicamente como referencia (REF) dentro del manual de la tarjeta TRMD-50X, que es el modelo real del producto (product_model: TRMD-50X). No se usa como nombre de modelo propio.",
+    "cita_juez": "REF: 55350007",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 RETIRAR (media): «La evidencia muestra que «55350007» aparece únicamente como referencia (REF) dentro del manual de la tarjeta TRMD-50X, que es el modelo real del producto (produ»; cita verificada full-text en 55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT: «for connecting the system to monoxide monitoring systems and remote management. REF: 55350007 The reduction of the noise level and increasing energy efficiency in activation of the»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "REF: 55350007\n\nLa reducción del nivel sonoro y el aumento de eficiencia energética en la activación de los grupos de extracción se realiza mediante un regulador de velocidad",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "unresolved:fl20xx-ei-hs",
+   "canonical_model": "FL20XX EI-HS",
+   "doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf",
+   "document_id": "9b687397-a9ea-4ab1-ba79-2539a44d640a",
+   "n_token": 1,
+   "cita": "LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido los pasos del artículo **\"FAAST LT",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Honeywell",
+    "provenance_doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+    "provenance_chunks_hoy": 1,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "Las «XX» funcionan como comodín para agrupar variantes (igual que en NFXI-ASD-XXXX-HS o MI-FL20XXXX), no como un modelo comercial concreto; es un patrón de familia de referencias, no una referencia vendible.",
+    "cita_juez": "MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 RETIRAR (media): «Las «XX» funcionan como comodín para agrupar variantes (igual que en NFXI-ASD-XXXX-HS o MI-FL20XXXX), no como un modelo comercial concreto; es un patrón de fami»; cita verificada full-text en FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf: «LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido los pasos del artículo **\"FAAST LT»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "Este artículo es válido para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:mi-fl20xxxx-ei-hs",
+   "canonical_model": "MI-FL20XXXX EI-HS",
+   "doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf",
+   "document_id": "9b687397-a9ea-4ab1-ba79-2539a44d640a",
+   "n_token": 1,
+   "cita": "artículo es válido para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Honeywell",
+    "provenance_doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+    "provenance_chunks_hoy": 1,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "El término contiene el comodín «XXXX» y se usa como patrón para agrupar toda una familia de referencias FAAST LT aplicables al artículo, no como un modelo comercial concreto.",
+    "cita_juez": "Este artículo es válido para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 RETIRAR (media): «El término contiene el comodín «XXXX» y se usa como patrón para agrupar toda una familia de referencias FAAST LT aplicables al artículo, no como un modelo comer»; cita verificada full-text en FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf: «artículo es válido para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  },
+  {
+   "id": "unresolved:nap-100ac",
+   "canonical_model": "NAP 100AC",
+   "doc": "HLSI-MN-601",
+   "document_id": "1fbbbff6-8bd0-48b1-b9eb-414825747119",
+   "n_token": 2,
+   "cita": "Sensor calibrado para **PROPANO**. 3.- Determinar el modelo de sonda utilizado, Ejem. NAP 100AC. 4.- En la tabla 1 de aproximación a gas patrón, leeremos el valor a obtener en el",
+   "medida_e1b": {
+    "n_frontera_hoy": 2,
+    "n_substring_hoy": 2,
+    "marca_fila": "Honeywell",
+    "provenance_doc": "HLSI-MN-601",
+    "provenance_chunks_hoy": 8,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "CONFIRMAR",
+    "confianza": "media",
+    "razon": "La evidencia usa «NAP 100AC» explícitamente como modelo de sonda sensora, y además existe una tabla técnica dedicada («Tabla de aproximaciones para NAP 100AC»), lo que lo trata como producto y no como fragmento espurio.",
+    "cita_juez": "3.- Determinar el modelo de sonda utilizado, Ejem. NAP 100AC.",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=2); juez claude-fable-5 s322 CONFIRMAR (media): «La evidencia usa «NAP 100AC» explícitamente como modelo de sonda sensora, y además existe una tabla técnica dedicada («Tabla de aproximaciones para NAP 100AC»),»; cita verificada full-text en HLSI-MN-601: «Sensor calibrado para **PROPANO**. 3.- Determinar el modelo de sonda utilizado, Ejem. NAP 100AC. 4.- En la tabla 1 de aproximación a gas patrón, leeremos el valor a obtener en el»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 5/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 5,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "CONFIRMAR": 2
+     }
+    },
+    "cita_representativa": "3.- Determinar el modelo de sonda utilizado, Ejem. NAP 100AC.",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 2
+  },
+  {
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "canonical_model": "NFXI-ASD-XXXX-HS",
+   "doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf",
+   "document_id": "9b687397-a9ea-4ab1-ba79-2539a44d640a",
+   "n_token": 1,
+   "cita": "para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido los pasos del",
+   "medida_e1b": {
+    "n_frontera_hoy": 1,
+    "n_substring_hoy": 1,
+    "marca_fila": "Honeywell",
+    "provenance_doc": "FAAST-LT-No-puedo-comunicar-con-el-equipo",
+    "provenance_chunks_hoy": 1,
+    "clase": "atestado_en_contenido"
+   },
+   "juez": {
+    "modelo": "claude-fable-5 (s322 QA)",
+    "veredicto": "RETIRAR",
+    "confianza": "media",
+    "razon": "El término aparece en una lista de familias de equipos donde «XXXX» es claramente un comodín para los dígitos variables del modelo (igual que en MI-FL20XXXX y FL20XX). No es un modelo comercial concreto sino un patrón que engloba varias referencias.",
+    "cita_juez": "MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS",
+    "cita_juez_verifica_en_doc": true
+   },
+   "provenance_add": "s324c E1b §1·K5 revisar→confirmar (sí de Alberto al bloque, packet E1b v2) — atestado con frontera de palabra (n_frontera_hoy=1); juez claude-fable-5 s322 RETIRAR (media): «El término aparece en una lista de familias de equipos donde «XXXX» es claramente un comodín para los dígitos variables del modelo (igual que en MI-FL20XXXX y F»; cita verificada full-text en FAAST-LT-No-puedo-comunicar-con-el-equipo.pdf: «para los equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS** Si ha seguido los pasos del»; re-juicio K=5 cross-model s324c (3× claude-sonnet-5 + 2× gpt-5.5, cita verificada full-text): CONFIRMAR 4/5",
+   "juez_k5": {
+    "veredicto_mayoria": "CONFIRMAR",
+    "n_votos_mayoria": 4,
+    "n_votos_validos": 5,
+    "votos_por_juez": {
+     "claude-sonnet-5": {
+      "CONFIRMAR": 3
+     },
+     "gpt-5.5": {
+      "RETIRAR": 1,
+      "CONFIRMAR": 1
+     }
+    },
+    "cita_representativa": "equipos FAAST LT, FAAST LT 200 (HS) autónomos o de lazo: **MI-FL20XXXX EI-HS – NFXI-ASD-XXXX-HS – FL20XX EI-HS – FL01XX E-HS y mismos modelos sin HS**",
+    "recibo": "evals/s324c_rejuicio_k5_v1.json"
+   },
+   "n_token_flexible": 1
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [
+  {
+   "added_by": "f1-bulk",
+   "alias": "Versión analógica",
+   "id": "fidegas:cs4-analgica",
+   "provenance": "s83:Manual-de-Usuario-CS4",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Código de Audio de Zona",
+   "id": "notifier:amg-zc",
+   "provenance": "s83:MIDT340",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Soporte de sujeción con una única entrada",
+   "id": "notifier:ref.-30752",
+   "provenance": "s83:MIDT732",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Soporte de sujeción con tubería de salida para retorno de aire",
+   "id": "notifier:ref.-30753",
+   "provenance": "s83:MIDT732",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "SMART 3 con pantalla",
+   "id": "notifier:smart-3-cd",
+   "provenance": "s83:MNDT625",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": true
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Cuerpo 3U para conexión del cableado",
+   "id": "unresolved:020-596",
+   "provenance": "s83:MADT190_10",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": true
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Cuerpo 6U para conexión del cableado",
+   "id": "unresolved:020-606",
+   "provenance": "s83:MADT190_10",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": true
+  }
+ ],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [
+  {
+   "id": "unresolved:ds-10--tas",
+   "canonical_model": "DS 10 -TAS",
+   "bloque": "k5_confirmar",
+   "motivo": "token literal del canonical NO verifica en la evidencia (n_token=0): 085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1); chunks source_file≈085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1) — no se inventa; si el corpus lo escribe con otra grafía, adjudicar canonical/alias",
+   "medida_e1b": {
+    "n_frontera_hoy": 1
+   }
+  },
+  {
+   "id": "unresolved:ds-10--tav",
+   "canonical_model": "DS 10 -TAV",
+   "bloque": "k5_confirmar",
+   "motivo": "token literal del canonical NO verifica en la evidencia (n_token=0): 085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1); chunks source_file≈085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1) — no se inventa; si el corpus lo escribe con otra grafía, adjudicar canonical/alias",
+   "medida_e1b": {
+    "n_frontera_hoy": 1
+   }
+  },
+  {
+   "id": "unresolved:ds-10-gl",
+   "canonical_model": "DS 10-GL",
+   "bloque": "k5_confirmar",
+   "motivo": "token literal del canonical NO verifica en la evidencia (n_token=0): 085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1); chunks source_file≈085501821n_DS10_Installation_manual_D-GB_F_IT: n_token=0 (flexible 1) — no se inventa; si el corpus lo escribe con otra grafía, adjudicar canonical/alias",
+   "medida_e1b": {
+    "n_frontera_hoy": 1
+   }
+  }
+ ],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "7 alias de los ids confirmados marcados descriptivo/peligroso (3 entrarían en el detector al confirmar; los 4 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 18 alias model-shaped/anclados al canonical."
+  },
+  {
+   "que": "alias de UNA palabra sin dígito (no cubiertos por R1-R4)",
+   "aviso": "5 alias de una sola palabra sin pinta de modelo (F-SEN-SSE, NFS, NFXI-ASD-XXXX, hammer, martelletto…): los nombre-largo NO entran en el detector; los de tipo numero-de-parte/variante-tipografica SÍ (el gate mide palabra_comun/negativos). Se conservan salvo que el gate los señale."
+  },
+  {
+   "que": "namespace unresolved: la marca NO se fabrica",
+   "aviso": "9 ids quedan en `unresolved:` (vendido_bajo tal cual está en el catálogo): confirmar solo levanta candidate=false; el fabricante del manual de la evidencia se anota por fila (medida_e1b.fabricante_del_manual) como pista para resolver la marca DESPUÉS, con adjudicación explícita (nunca automática)."
+  },
+  {
+   "que": "homónimo SP-200 (morley:sp-200)",
+   "aviso": "el término ya es homónimo (ids ['morley:sp-200', 'notifier:sp-200'], política fail-open, candidate=True): resolve() consulta el homónimo ANTES que exact ⇒ confirmar morley:sp-200 NO cambia la resolución (fail-open mientras el homónimo sea candidate); el término YA está en el detector vía homónimo. Confirmar el OTRO id del homónimo en otro bloque romperá el validador (canonical duplicado)."
+  },
+  {
+   "que": "canonical solo dígitos",
+   "aviso": "['03382', '03383', '1471', '210-5033', '020-596', '020-598', '020-606', '230-539-009', '55350007']: el detector excluye términos solo-dígitos ⇒ confirmar no añade término; efecto solo en resolver exact/alias y doc_map."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [],
+ "alias_conservados": [
+  {
+   "alias": "soportes de pared SPR_250",
+   "id": "detnov:spr_250",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "SPR250",
+   "id": "detnov:spr_250",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CS4 (Analógica o Digital)",
+   "id": "fidegas:cs4-analgica",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "CS4 Analógica Firmware 1.2",
+   "id": "fidegas:cs4-analgica",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "art.1471",
+   "id": "menvier:1471",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "hammer",
+   "id": "menvier:1471",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "martelletto",
+   "id": "menvier:1471",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "N2BAS",
+   "id": "morley:sp-200",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "N2BAS_V01s",
+   "id": "morley:sp-200",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "F-SEN-SSE",
+   "id": "notifier:72051ei",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "chip AMG-ZC",
+   "id": "notifier:amg-zc",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "NFS",
+   "id": "notifier:nfs-plus",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "30752",
+   "id": "notifier:ref.-30752",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "30753",
+   "id": "notifier:ref.-30753",
+   "tipo": "numero-de-parte",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "Ref.: 230-539-009",
+   "id": "unresolved:230-539-009",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "FL20XX EI",
+   "id": "unresolved:fl20xx-ei-hs",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "MI-FL20XXXX EI",
+   "id": "unresolved:mi-fl20xxxx-ei-hs",
+   "tipo": "nombre-largo",
+   "entra_en_detector": true
+  },
+  {
+   "alias": "NFXI-ASD-XXXX",
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  }
+ ],
+ "alias_palabra_suelta": [
+  {
+   "alias": "hammer",
+   "id": "menvier:1471",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "martelletto",
+   "id": "menvier:1471",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "F-SEN-SSE",
+   "id": "notifier:72051ei",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "NFS",
+   "id": "notifier:nfs-plus",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  },
+  {
+   "alias": "NFXI-ASD-XXXX",
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "tipo": "nombre-largo",
+   "entra_en_detector": false
+  }
+ ],
+ "riesgo_lexico": [
+  {
+   "id": "notifier:smart-3-cd",
+   "canonical_model": "SMART 3 CD",
+   "flags": [
+    "multipalabra",
+    "palabra_comun:smart"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 4.0
+  },
+  {
+   "id": "notifier:amg-zc",
+   "canonical_model": "AMG-ZC",
+   "flags": [
+    "sin_digitos",
+    "acronimo_corto"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 3.0
+  },
+  {
+   "id": "fidegas:cs4-analgica",
+   "canonical_model": "CS4 Analógica",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 2,
+   "score": 2.0
+  },
+  {
+   "id": "notifier:gc-1",
+   "canonical_model": "GC-1",
+   "flags": [
+    "muy_corto"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 2.0
+  },
+  {
+   "id": "notifier:nfs-plus",
+   "canonical_model": "NFS-PLUS",
+   "flags": [
+    "sin_digitos"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 2.0
+  },
+  {
+   "id": "unresolved:nfxi-asd-xxxx-hs",
+   "canonical_model": "NFXI-ASD-XXXX-HS",
+   "flags": [
+    "sin_digitos"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 2.0
+  },
+  {
+   "id": "unresolved:fl20xx-ei-hs",
+   "canonical_model": "FL20XX EI-HS",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 1,
+   "score": 1.5
+  },
+  {
+   "id": "unresolved:mi-fl20xxxx-ei-hs",
+   "canonical_model": "MI-FL20XXXX EI-HS",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 1,
+   "score": 1.5
+  },
+  {
+   "id": "detnov:spr_250",
+   "canonical_model": "SPR_250",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "morley:sp-200",
+   "canonical_model": "SP-200",
+   "flags": [],
+   "alias_activados_en_detector": 2,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:ref.-30752",
+   "canonical_model": "Ref.: 30752",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 1.0
+  },
+  {
+   "id": "notifier:ref.-30753",
+   "canonical_model": "Ref.: 30753",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 1.0
+  },
+  {
+   "id": "pyra:py-x-ma-05-ssm",
+   "canonical_model": "PY X-MA-05-SSM",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 1.0
+  },
+  {
+   "id": "pyra:py-x-ma-10-ssm",
+   "canonical_model": "PY X-MA-10-SSM",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 1.0
+  },
+  {
+   "id": "unresolved:nap-100ac",
+   "canonical_model": "NAP 100AC",
+   "flags": [
+    "multipalabra"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 1.0
+  },
+  {
+   "id": "menvier:1471",
+   "canonical_model": "1471",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "unresolved:230-539-009",
+   "canonical_model": "230-539-009",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 1,
+   "score": 0.5
+  },
+  {
+   "id": "fidegas:03382",
+   "canonical_model": "03382",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "fidegas:03383",
+   "canonical_model": "03383",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "kidde:1x-f8-sc",
+   "canonical_model": "1X-F8-SC",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "lda:etx-1",
+   "canonical_model": "ETX-1",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:210-5033",
+   "canonical_model": "210-5033",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:72051ei",
+   "canonical_model": "72051EI",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:bani-g-24",
+   "canonical_model": "BANI-G-24",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:ica-6",
+   "canonical_model": "ICA-6",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:iso232-id3000",
+   "canonical_model": "ISO232-ID3000",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "notifier:tf-b3000",
+   "canonical_model": "TF-B3000",
+   "flags": [],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "unresolved:020-596",
+   "canonical_model": "020-596",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "unresolved:020-598",
+   "canonical_model": "020-598",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "unresolved:020-606",
+   "canonical_model": "020-606",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  },
+  {
+   "id": "unresolved:55350007",
+   "canonical_model": "55350007",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  }
+ ],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 31,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 7,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 3,
+  "avisos": 5,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 0,
+  "alias_conservados": 18,
+  "alias_palabra_suelta": 5,
+  "riesgo_lexico": 31,
+  "_filas_origen": 34
+ },
+ "_filas_origen": [
+  "detnov:spr_250",
+  "fidegas:03382",
+  "fidegas:03383",
+  "fidegas:cs4-analgica",
+  "kidde:1x-f8-sc",
+  "lda:etx-1",
+  "menvier:1471",
+  "morley:sp-200",
+  "notifier:210-5033",
+  "notifier:72051ei",
+  "notifier:amg-zc",
+  "notifier:bani-g-24",
+  "notifier:gc-1",
+  "notifier:ica-6",
+  "notifier:iso232-id3000",
+  "notifier:nfs-plus",
+  "notifier:ref.-30752",
+  "notifier:ref.-30753",
+  "notifier:smart-3-cd",
+  "notifier:tf-b3000",
+  "pyra:py-x-ma-05-ssm",
+  "pyra:py-x-ma-10-ssm",
+  "unresolved:020-596",
+  "unresolved:020-598",
+  "unresolved:020-606",
+  "unresolved:230-539-009",
+  "unresolved:55350007",
+  "unresolved:ds-10--tas",
+  "unresolved:ds-10--tav",
+  "unresolved:ds-10-gl",
+  "unresolved:fl20xx-ei-hs",
+  "unresolved:mi-fl20xxxx-ei-hs",
+  "unresolved:nap-100ac",
+  "unresolved:nfxi-asd-xxxx-hs"
+ ]
+}
