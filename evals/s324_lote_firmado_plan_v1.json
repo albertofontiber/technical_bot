@@ -1,0 +1,4312 @@
+{
+ "que_es": "s324 — PLAN mecánico del LOTE FIRMADO (solo lectura: NO escribe catálogo ni Supabase).",
+ "utc": "20260816T110827Z",
+ "reglas": "evals/s324_reglas_residuo_adjudicacion_v1.json",
+ "constantes": {
+  "ZX_CENTRALES": [
+   "morley:zx10se",
+   "morley:zx1e",
+   "morley:zx1se",
+   "morley:zx2e",
+   "morley:zx2se",
+   "morley:zx5e",
+   "morley:zx5se"
+  ],
+  "FAAST": [
+   "notifier:fl0111e-hs",
+   "notifier:fl0112e-hs",
+   "notifier:fl0122e-hs",
+   "notifier:fl2011ei-hs",
+   "notifier:fl2012ei-hs",
+   "notifier:fl2022ei-hs",
+   "notifier:nfxi-asd11-hs",
+   "notifier:nfxi-asd12-hs",
+   "notifier:nfxi-asd22-hs",
+   "morley:mi-fl2011ei",
+   "morley:mi-fl2012ei",
+   "morley:mi-fl2022ei",
+   "notifier:faast-8100e"
+  ],
+  "DX_MODELOS": [
+   "morley:dx1e",
+   "morley:dx2e",
+   "morley:dx4e"
+  ],
+  "RP1R_CENTRALES": [
+   "notifier:rp1r-supra",
+   "notifier:rp1r",
+   "morley:vsn-rp1r",
+   "morley:vsn-rp1r-plus2"
+  ],
+  "VSN_PLUS": [
+   "morley:vsn-4-plus",
+   "morley:vsn-8-plus",
+   "morley:vsn-12-plus"
+  ],
+  "X2A": [
+   "kidde:2x-ae1",
+   "kidde:2x-ae2",
+   "kidde:2x-ae2-p",
+   "kidde:2x-af1",
+   "kidde:2x-af1-fb",
+   "kidde:2x-af1-fb-s",
+   "kidde:2x-af1-s",
+   "kidde:2x-af1-scfb",
+   "kidde:2x-af1-scfb-s",
+   "kidde:2x-af2",
+   "kidde:2x-af2-09",
+   "kidde:2x-af2-fb",
+   "kidde:2x-af2-fb-p",
+   "kidde:2x-af2-fb-prt",
+   "kidde:2x-af2-fb-prt-p",
+   "kidde:2x-af2-fb-s",
+   "kidde:2x-af2-p",
+   "kidde:2x-af2-prt",
+   "kidde:2x-af2-prt-p",
+   "kidde:2x-af2-s",
+   "kidde:2x-af2-scfb",
+   "kidde:2x-af2-scfb-p",
+   "kidde:2x-af2-scfb-s",
+   "kidde:2x-afr",
+   "kidde:2x-afr-fb",
+   "kidde:2x-afr-fb-s",
+   "kidde:2x-afr-s",
+   "kidde:2x-at-f1-fb-s",
+   "kidde:2x-at-f2",
+   "kidde:2x-at-f2-fb",
+   "kidde:2x-at-f2-fb-p",
+   "kidde:2x-at-f2-fb-s",
+   "kidde:2x-at-f2-p",
+   "kidde:2x-at-f2-s",
+   "kidde:2x-at-fr",
+   "kidde:2x-at-fr-fb",
+   "kidde:2x-at-fr-fb-s",
+   "kidde:2x-at-fr-s"
+  ],
+  "X2AT": [
+   "kidde:2x-at-f1-fb-s",
+   "kidde:2x-at-f2",
+   "kidde:2x-at-f2-fb",
+   "kidde:2x-at-f2-fb-p",
+   "kidde:2x-at-f2-fb-s",
+   "kidde:2x-at-f2-p",
+   "kidde:2x-at-f2-s",
+   "kidde:2x-at-fr",
+   "kidde:2x-at-fr-fb",
+   "kidde:2x-at-fr-fb-s",
+   "kidde:2x-at-fr-s"
+  ]
+ },
+ "doc_map_altas": [
+  {
+   "document_id": "eb749df8-87db-4800-90dd-7d65889822fa",
+   "source_file": "Averia-de-resistencia-de-baterias-en-central-DXc.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Tengo avería de resistencia de baterías en central DXc"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "0119436e-4676-4110-a351-9c8da48e472f",
+   "source_file": "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zxae",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zxee",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx5e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx2se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx5se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    }
+   ],
+   "reglas": [
+    "§0.B+Alberto"
+   ],
+   "citas": [
+    "¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "b08df410-5149-47e3-b3d1-ff8e788c67a6",
+   "source_file": "DS_KIDDE_2X_AT_FR_FB_S_202602_ES_4276.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-at-fr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# 2X-AT-FR-FB-S **Repetidor de central de incendios direccionable con pantalla táctil y controles de bomberos, caja pequ"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "1d45b3bc-1564-45d8-bcc9-873bacc73c6f",
+   "source_file": "DS_KIDDE_2X_AT_FR_S_202602_ES_904a.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# 2X-AT-FR-S **Repetidor de central de incendios direccionable con pantalla táctil, caja pequeña**"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "48d91c25-d2a6-4ed5-b6c9-32ee7712ead2",
+   "source_file": "DS_KIDDE_2X_AT_FR_S_98dc.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "KIDDE COMMERCIAL # 2X-AT-FR-S **Addressable fire panel repeater w touchscreen, small cabinet**"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "2dd5d3ba-07d2-471e-8ed9-249e206152ff",
+   "source_file": "DXC-Connexion-Ajuste-contraste-display.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# DXC / Connexion - Ajuste contraste display **Question** Ajuste contraste display DXc"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "2b2b32b0-7002-4722-ac06-414d45a8ed73",
+   "source_file": "DXC-Connexion-Averia-F-Alimentacion-externa.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# DXC Connexion - Avería F. Alimentación externa **Question** La central DXC Connexión indica **\"FALLO F.A. EXT.\"**"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "567038c2-2e10-4765-9f0e-1b4386877d27",
+   "source_file": "DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "La central DXC Connexión indica \"*NUEVA F.A. EXT.*\""
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "c93e42ea-725c-4401-8ad0-233e654ffa31",
+   "source_file": "DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "No todas las versiones del software de configuración **MK-DXC Configuration Tools** se pueden usar con cualquier versión"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "38882a58-85f5-48a1-83ac-6589c3dc94b2",
+   "source_file": "DXC-No-puedo-comunicar-con-la-central.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Para comunicar con las centrales DXC Connexión necesita:"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "c1a3d6cb-a9c9-4db4-983a-33477d1dbb33",
+   "source_file": "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "En la central DXC Connexión con el fin de aprovechar al máximo la corriente del lazo, solo **las cuatro primeras alarmas"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "df8ba722-0fb4-4f4c-ab04-03642009839f",
+   "source_file": "DXC-Puedo-anular-la-clave-de-usuario-y-acceder-directamente-al-teclado.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# DXC ¿Puedo anular la clave de usuario y acceder directamente al teclado?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "53bceeac-1896-47fe-a9cf-8894a1c19aa7",
+   "source_file": "DXC-Referencias-repuestos.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# DXC - Referencias repuestos **Question** ¿Necesito saber la referencia de un determinado repuesto para la DXC?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "56c8d6f1-a7c4-431b-89a7-58e7e9d373fe",
+   "source_file": "DXC-puedo-cambiar-la-clave-de-nivel-3.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "La clave de acceso a centrales Morley modelo DXc por defecto es **9898 y NO** puede ser modificada"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "ca8fabf2-3986-4349-ae35-d02e7c7200eb",
+   "source_file": "DXc-Conexion-Como-solucionar-la-averia-de-Estado-Inconsistente-Anulado.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# DXc/Conexion ¿Como solucionar la avería de Estado Inconsistente Anulado?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "24dbcd19-dada-4e04-b8aa-63bbd5f7db9e",
+   "source_file": "DXc-Configuracion-de-la-tarjeta-232-aislada-para-comunicarse-con-el-TG.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Para que la central DXc, comunique con el TG, deberá activar el protocolo de comunicaciones en las opciones generales"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "c4d2e158-cc93-49a7-81a2-9dd4ea2358e9",
+   "source_file": "DXc-Connexion-Como-solucionar-la-averia-de-Ent-Placa-1-o-2.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "¿Como poder solucionar las averías de Entrada de Placa 1 o 2 en la DXc / Conexion?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "2c970f38-1bf8-47d7-a005-e19f3f03839f",
+   "source_file": "DXc-Opciones-de-disparo-de-programas-Matrices.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Las opciones de disparo de programas y sus funciones en la central DXc son:"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "50fbe217-23b4-49ed-bfbe-3de19869db12",
+   "source_file": "DXc-Tipos-Abreviaturas-de-equipos.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Principales abreviaturas / tipos de equipos en la central DXc"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "52c3ab31-1ac3-4a8d-a758-8c66c3dcb85d",
+   "source_file": "DXc-Tipos-de-accion-para-entradas.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Los tipos de acción para entradas y sus funciones para la central DXc son:"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "5e878ee7-53eb-4b03-bda3-5fd5de306bba",
+   "source_file": "DXc_Connexion Averia-de-resistencia-de-baterias.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Tengo avería de resistencia de baterías en central DXc"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "accbda3e-465f-4f0a-ad17-5c62c24835e7",
+   "source_file": "Eventos-Averias-de-Equipos-en-DXc.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Eventos de equipos en la central DXc (NO RESPONDE, EQUIPO NUEVO, DOBLE DIRECCION, TIPO EQUIPO CAMBIADO)"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "9eb1b891-3ec8-4b08-902b-952f7c878635",
+   "source_file": "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "fa162139-6e55-4688-83fa-73da75262b11",
+   "source_file": "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "0e62bc73-4789-497c-bfbe-a8a6cbdb0097",
+   "source_file": "INC___DOCI_141_Gu__a_r__pida_Kidde_NC_PF__1__fcb9.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "| **Modelo:** | Central Kidde NC-PF | | **Asunto:** | Guía rápida de usuario |"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "400a8352-1ae2-4311-bfc0-c2001ac97972",
+   "source_file": "MIE-MI-340_1.pdf",
+   "entries": [
+    {
+     "id": "morley:exp-051",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "IMPRESORA MATRICIAL DE PUERTA MOD.EXP-051 ## MANUAL DE INSTALACIÓN"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "30c75a7c-36ef-4160-bd76-99d869d7ac77",
+   "source_file": "MIE-MI-431rv2_1.pdf",
+   "entries": [
+    {
+     "id": "morley:zxr-a",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:zxr-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "MANUAL DE INSTALACIÓN Y FUNCIONAMIENTO ZXr-A/ZXr-P"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "a136aaee-8280-4de1-bae8-aab6b16cbeef",
+   "source_file": "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Manual de instalación de las centrales de incendio convencionales de la Serie NC"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "a0d6d342-28f1-484b-97b6-46a34af6c3cc",
+   "source_file": "MNDT1160",
+   "entries": [
+    {
+     "id": "systemsensor:exitpoint",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    }
+   ],
+   "reglas": [
+    "§0.B+Alberto",
+    "§0.B+Alberto"
+   ],
+   "citas": [
+    "Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación*",
+    "08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación* **MN-DT-1160** **18 SEPTIEMBRE 2008**"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": [
+      "systemsensor:exitpoint"
+     ]
+    },
+    {
+     "token_exacto": 39
+    }
+   ]
+  },
+  {
+   "document_id": "0131512d-e62d-4c40-b6a6-2c776760c5cc",
+   "source_file": "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx10se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx1e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx1se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx2se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx5e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:zx5se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dx1e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    },
+    {
+     "id": "morley:dx4e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — anotación de Alberto en el packet (s323) sobre la fila limpia"
+    }
+   ],
+   "reglas": [
+    "§0.B+Alberto"
+   ],
+   "citas": [
+    "¿Se pueden pasar programaciones de ZX y Dimensión a Connexion DXC?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": [
+      "morley:dx1e",
+      "morley:dx2e",
+      "morley:dx4e"
+     ]
+    }
+   ]
+  },
+  {
+   "document_id": "767bde0f-e094-4bdb-a08b-e08cc8e5e0ba",
+   "source_file": "Niveles-de-control-de-acceso-de-la-central-DXC-CONEXION.pdf",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Niveles de control de acceso de la central DXC,CONEXION"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "6a88902d-573c-48be-954b-b305d5236380",
+   "source_file": "No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf",
+   "entries": [
+    {
+     "id": "morley:vsn2-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:vsn4-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:vsn8-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    },
+    {
+     "id": "morley:vsn12-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "conectando el puente KEY que se encuentra en el canto inferior izquierdo de la tarjeta de las centrales VSN-LT"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "4b18e783-f597-46c5-b5e2-6cd7b176d852",
+   "source_file": "OSID-Es-necesario-resetear-la-barrera-de-forma-externa.pdf",
+   "entries": [
+    {
+     "id": "morley:mi-osi-rie",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# OSID ¿Es necesario resetear la barrera de forma externa?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "228ffa26-296c-469e-a879-f6a0d9aec575",
+   "source_file": "UCIP-Como-enviar-datos-de-equipos-y-no-solo-eventos-de-zonas.pdf",
+   "entries": [
+    {
+     "id": "notifier:ucip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# UCIP - Como enviar datos de equipos y no solo eventos de zonas"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "0aab17df-dfe0-4a45-9a01-d47d77f251e1",
+   "source_file": "UCIP-Que-datos-necesito-de-la-receptora.pdf",
+   "entries": [
+    {
+     "id": "notifier:ucip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de producto (no de serie): asignacion original"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "# UCIP - ¿Que datos necesito de la receptora?"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "6b42ba50-0785-4a97-b6b6-08d9fbd1ac25",
+   "source_file": "bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "f4838615-6b1f-42f9-9d8a-9eda05b81c7f",
+   "source_file": "bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf",
+   "entries": [
+    {
+     "id": "kidde:nc-pf2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf2-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf4-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    },
+    {
+     "id": "kidde:nc-pf8-sc",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento de SERIE NC x categoria central"
+    }
+   ],
+   "reglas": [
+    "§0.B"
+   ],
+   "citas": [
+    "Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_chunks_texto": true,
+     "ids_inexistentes_hoy": [],
+     "ids_pendientes_de_este_lote": []
+    }
+   ]
+  },
+  {
+   "document_id": "63b73ee7-602d-449c-bc36-2c7f82a7a23c",
+   "source_file": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-ae1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-ae2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-ae2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af1-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-09",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-afr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-afr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-afr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-afr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-f2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-fr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    },
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto (437ee3f): la guía es de la FAMILIA 2X-A → serie 2X-A × {central, repetidor}; 2X-A-LB (accesorio) fuera"
+    }
+   ],
+   "reglas": [
+    "§0.B.2+Alberto"
+   ],
+   "citas": [
+    "Guía de funcionamiento rápido de la serie 2X-A"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_ids": 38
+    }
+   ]
+  },
+  {
+   "document_id": "142cdd92-548a-4f07-9659-3028c3e225b7",
+   "source_file": "DXc_Guia de usuario_multiling",
+   "entries": [
+    {
+     "id": "morley:dxc1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: OK (serie DX Connexion × central)"
+    },
+    {
+     "id": "morley:dxc2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: OK (serie DX Connexion × central)"
+    },
+    {
+     "id": "morley:dxc4",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: OK (serie DX Connexion × central)"
+    }
+   ],
+   "reglas": [
+    "§0.B.2+Alberto"
+   ],
+   "citas": [
+    "Guía de usuario para centrales de detección de incendios de la serie DX Connexion"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_ids": 3
+    }
+   ]
+  },
+  {
+   "document_id": "bb395b53-e18d-4901-81fe-d3e3c1abb91b",
+   "source_file": "HD_KE_DT3101W_HAB_202407_ES_30e0.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dt3101w-hab",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: OK (serie Excellence × detector; documento de producto)"
+    }
+   ],
+   "reglas": [
+    "§0.B.2+Alberto"
+   ],
+   "citas": [
+    "KE-DT3101W-HAB ## Detector de calor direccionable inteligente serie Excellence con aislador"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_ids": 1
+    }
+   ]
+  },
+  {
+   "document_id": "4d72c473-0203-43a2-a637-268b37e7d7f3",
+   "source_file": "hlsi-ti-001",
+   "entries": [
+    {
+     "id": "notifier:rp1r-supra",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: misma adjudicación que HLSI-TI-001 + «también aplica a la VSN-RP1r+» → serie RP1r × central de extinción (rp1r-supra, rp1r, vsn-rp1r, vsn-rp1r-plus2; OPC-RP1r software excluido)"
+    },
+    {
+     "id": "notifier:rp1r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: misma adjudicación que HLSI-TI-001 + «también aplica a la VSN-RP1r+» → serie RP1r × central de extinción (rp1r-supra, rp1r, vsn-rp1r, vsn-rp1r-plus2; OPC-RP1r software excluido)"
+    },
+    {
+     "id": "morley:vsn-rp1r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: misma adjudicación que HLSI-TI-001 + «también aplica a la VSN-RP1r+» → serie RP1r × central de extinción (rp1r-supra, rp1r, vsn-rp1r, vsn-rp1r-plus2; OPC-RP1r software excluido)"
+    },
+    {
+     "id": "morley:vsn-rp1r-plus2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 §0.B.2+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: misma adjudicación que HLSI-TI-001 + «también aplica a la VSN-RP1r+» → serie RP1r × central de extinción (rp1r-supra, rp1r, vsn-rp1r, vsn-rp1r-plus2; OPC-RP1r software excluido)"
+    }
+   ],
+   "reglas": [
+    "§0.B.2+Alberto"
+   ],
+   "citas": [
+    "Centrales de extinción de la Serie RP1r"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "n_ids": 4
+    }
+   ]
+  },
+  {
+   "document_id": "564b775d-294d-4d67-97ae-99d9c617b3ee",
+   "source_file": "996-130-000-3 Manuel d'utilisation ZX_hlsi",
+   "entries": [
+    {
+     "id": "morley:zx10se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx1e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx1se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx2se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx5e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    },
+    {
+     "id": "morley:zx5se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — serie ZX × central (paraguas gt ZXe+ZXSe); doc FR de 1 chunk — ver aviso"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "Manuel d'utilisation MORLEY-IAS Central de détection d’incendie ZX"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "morley:zx10se": 0,
+      "morley:zx1e": 0,
+      "morley:zx1se": 0,
+      "morley:zx2e": 0,
+      "morley:zx2se": 0,
+      "morley:zx5e": 0,
+      "morley:zx5se": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "9a8054ff-85cb-4a82-a0c2-e36e1b34323a",
+   "source_file": "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf",
+   "entries": [
+    {
+     "id": "morley:zx10se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx1e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx1se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx2se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx5e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:zx5se",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:dx1e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:dx2e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    },
+    {
+     "id": "morley:dx4e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ de las familias ZX y DX (Dimension) → serie × central"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "¿Con que Sistema Operativo es compatible el programa de la ZX y DX? **Answers** Los sistemas operativos que son compatibles con el programa de las centrales **ZX** y **DX**"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "morley:zx10se": 0,
+      "morley:zx1e": 0,
+      "morley:zx1se": 0,
+      "morley:zx2e": 0,
+      "morley:zx2se": 0,
+      "morley:zx5e": 0,
+      "morley:zx5se": 0,
+      "morley:dx1e": 0,
+      "morley:dx2e": 0,
+      "morley:dx4e": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "52c20421-70ff-4efd-a4dc-9eb41993f849",
+   "source_file": "ASD Harsh Environments_SP",
+   "entries": [
+    {
+     "id": "notifier:fl0111e-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:fl0112e-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:fl0122e-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:fl2011ei-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:fl2012ei-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:fl2022ei-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:nfxi-asd11-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:nfxi-asd12-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:nfxi-asd22-hs",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "morley:mi-fl2011ei",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "morley:mi-fl2012ei",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "morley:mi-fl2022ei",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    },
+    {
+     "id": "notifier:faast-8100e",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — guía de aplicación de la FAMILIA FAAST (paraguas gt, 13 miembros); el doc no nombra ningún modelo"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "Detección de humo por aspiración en ambientes agresivos FAAST FIRE ALARM ASPIRATION SENSING TECHNOLOGY"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "notifier:fl0111e-hs": 0,
+      "notifier:fl0112e-hs": 0,
+      "notifier:fl0122e-hs": 0,
+      "notifier:fl2011ei-hs": 0,
+      "notifier:fl2012ei-hs": 0,
+      "notifier:fl2022ei-hs": 0,
+      "notifier:nfxi-asd11-hs": 0,
+      "notifier:nfxi-asd12-hs": 0,
+      "notifier:nfxi-asd22-hs": 0,
+      "morley:mi-fl2011ei": 0,
+      "morley:mi-fl2012ei": 0,
+      "morley:mi-fl2022ei": 0,
+      "notifier:faast-8100e": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "aacf3f31-49d4-4128-98f9-887189fad761",
+   "source_file": "Finales-de-linea-de-las-centrales-convencionales.pdf",
+   "entries": [
+    {
+     "id": "notifier:nfs-2-8",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn2-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn4-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn8-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn12-lt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn-4-plus",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn-8-plus",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    },
+    {
+     "id": "morley:vsn-12-plus",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1+R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — FAQ: NFS2-8, familia VSN-LT, familia VSN-PLUS (4/8/12 según MIEMI130; vsn-12-plus se confirma en este lote); VSN2-PLUS queda candidate → fuera"
+    }
+   ],
+   "reglas": [
+    "R1+R2"
+   ],
+   "citas": [
+    "Los finales de línea para las centrales convencionales son; * **NFS2-8** La central está diseñada para trabajar con los siguientes equipos de final de línea"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "notifier:nfs-2-8": 0,
+      "morley:vsn2-lt": 0,
+      "morley:vsn4-lt": 0,
+      "morley:vsn8-lt": 0,
+      "morley:vsn12-lt": 0,
+      "morley:vsn-4-plus": 0,
+      "morley:vsn-8-plus": 0,
+      "morley:vsn-12-plus": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "e7e6b263-c608-4bf7-809f-52e69dcfd0c9",
+   "source_file": "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-at-f1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-f2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-fr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    },
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-AT Series Quick Start Guide» → sub-familia 2X-AT × {central, repetidor} (11); la etiqueta kidde:2x-at NO se promueve (R2: paraguas)"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "2X-AT Series Quick Start Guide"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "kidde:2x-at-f1-fb-s": 0,
+      "kidde:2x-at-f2": 1,
+      "kidde:2x-at-f2-fb": 1,
+      "kidde:2x-at-f2-fb-p": 1,
+      "kidde:2x-at-f2-fb-s": 1,
+      "kidde:2x-at-f2-p": 1,
+      "kidde:2x-at-f2-s": 1,
+      "kidde:2x-at-fr": 1,
+      "kidde:2x-at-fr-fb": 1,
+      "kidde:2x-at-fr-fb-s": 1,
+      "kidde:2x-at-fr-s": 1
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "956319e4-e914-4df0-8228-651dd34f669c",
+   "source_file": "HLSI-TI-007_VSN-4REL",
+   "entries": [
+    {
+     "id": "notifier:vsn-4rel",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R5 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — Alberto: «el modelo es VSN-4REL» (módulo de 4 relés NFS-SUPRA/RP1R-SUPRA, notifier.es); contenido ingestado = 47 chars → atestación por ficha + re-ingesta OCR pendiente"
+    }
+   ],
+   "reglas": [
+    "R5"
+   ],
+   "citas": [
+    ""
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": null,
+     "tokens_en_doc": {
+      "notifier:vsn-4rel": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "aa6457d4-92f9-498f-8c22-691607d01ce3",
+   "source_file": "MI_KIDDE_2X_AT_F2_FB_07d4.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-ae1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-ae2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-ae2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-09",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «installation manual for the 2X-A Series fire alarm, repeater and evacuation panels» → familia 2X-A × {central, repetidor}"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels."
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "kidde:2x-ae1": 1,
+      "kidde:2x-ae2": 1,
+      "kidde:2x-ae2-p": 1,
+      "kidde:2x-af1": 1,
+      "kidde:2x-af1-fb": 1,
+      "kidde:2x-af1-fb-s": 1,
+      "kidde:2x-af1-s": 1,
+      "kidde:2x-af1-scfb": 1,
+      "kidde:2x-af1-scfb-s": 1,
+      "kidde:2x-af2": 1,
+      "kidde:2x-af2-09": 0,
+      "kidde:2x-af2-fb": 1,
+      "kidde:2x-af2-fb-p": 1,
+      "kidde:2x-af2-fb-prt": 1,
+      "kidde:2x-af2-fb-prt-p": 1,
+      "kidde:2x-af2-fb-s": 1,
+      "kidde:2x-af2-p": 1,
+      "kidde:2x-af2-prt": 1,
+      "kidde:2x-af2-prt-p": 1,
+      "kidde:2x-af2-s": 1,
+      "kidde:2x-af2-scfb": 1,
+      "kidde:2x-af2-scfb-p": 1,
+      "kidde:2x-af2-scfb-s": 1,
+      "kidde:2x-afr": 1,
+      "kidde:2x-afr-fb": 1,
+      "kidde:2x-afr-fb-s": 1,
+      "kidde:2x-afr-s": 1,
+      "kidde:2x-at-f1-fb-s": 0,
+      "kidde:2x-at-f2": 0,
+      "kidde:2x-at-f2-fb": 0,
+      "kidde:2x-at-f2-fb-p": 0,
+      "kidde:2x-at-f2-fb-s": 0,
+      "kidde:2x-at-f2-p": 0,
+      "kidde:2x-at-f2-s": 0,
+      "kidde:2x-at-fr": 0,
+      "kidde:2x-at-fr-fb": 0,
+      "kidde:2x-at-fr-fb-s": 0,
+      "kidde:2x-at-fr-s": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "8e1c0623-a544-440e-be1c-2a9de7340ad9",
+   "source_file": "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf",
+   "entries": [
+    {
+     "id": "kidde:2x-ae1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-ae2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-ae2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af1-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-09",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-prt",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-prt-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-af2-scfb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-afr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f1-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-p",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-f2-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-fb-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    },
+    {
+     "id": "kidde:2x-at-fr-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R1 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — «2X-A Series Operation Manual» → familia 2X-A × {central, repetidor}"
+    }
+   ],
+   "reglas": [
+    "R1"
+   ],
+   "citas": [
+    "KIDDE COMMERCIAL # 2X-A Series Operation Manual P/N 00-3280-505-4003-02"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "kidde:2x-ae1": 1,
+      "kidde:2x-ae2": 1,
+      "kidde:2x-ae2-p": 1,
+      "kidde:2x-af1": 1,
+      "kidde:2x-af1-fb": 1,
+      "kidde:2x-af1-fb-s": 1,
+      "kidde:2x-af1-s": 1,
+      "kidde:2x-af1-scfb": 1,
+      "kidde:2x-af1-scfb-s": 1,
+      "kidde:2x-af2": 1,
+      "kidde:2x-af2-09": 0,
+      "kidde:2x-af2-fb": 1,
+      "kidde:2x-af2-fb-p": 1,
+      "kidde:2x-af2-fb-prt": 1,
+      "kidde:2x-af2-fb-prt-p": 1,
+      "kidde:2x-af2-fb-s": 1,
+      "kidde:2x-af2-p": 1,
+      "kidde:2x-af2-prt": 1,
+      "kidde:2x-af2-prt-p": 1,
+      "kidde:2x-af2-s": 1,
+      "kidde:2x-af2-scfb": 1,
+      "kidde:2x-af2-scfb-p": 1,
+      "kidde:2x-af2-scfb-s": 1,
+      "kidde:2x-afr": 1,
+      "kidde:2x-afr-fb": 1,
+      "kidde:2x-afr-fb-s": 1,
+      "kidde:2x-afr-s": 1,
+      "kidde:2x-at-f1-fb-s": 0,
+      "kidde:2x-at-f2": 0,
+      "kidde:2x-at-f2-fb": 0,
+      "kidde:2x-at-f2-fb-p": 0,
+      "kidde:2x-at-f2-fb-s": 0,
+      "kidde:2x-at-f2-p": 0,
+      "kidde:2x-at-f2-s": 0,
+      "kidde:2x-at-fr": 0,
+      "kidde:2x-at-fr-fb": 0,
+      "kidde:2x-at-fr-fb-s": 0,
+      "kidde:2x-at-fr-s": 0
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "source_file": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dp3120w-sn",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    },
+    {
+     "id": "kidde:ke-dp3120w-snv",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    },
+    {
+     "id": "kidde:ke-dp3121b-snv",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    },
+    {
+     "id": "kidde:ke-dp3121w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    },
+    {
+     "id": "kidde:ke-dp3121w-sn",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    },
+    {
+     "id": "kidde:ke-dp3121w-snv",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — hoja de instalación de las variantes con sirena/VAD; los 6 nombrados (token exacto 3-8 chunks) se dan de alta en este lote; KE-DP3120W (0 tokens) no se atesta"
+    }
+   ],
+   "reglas": [
+    "R4",
+    "R4",
+    "R4",
+    "R4",
+    "R4",
+    "R4",
+    "R4"
+   ],
+   "citas": [
+    "Excellence Series Intelligent Addressable Dual Optical and Dual Optical/Heat Detectors with Integrated Sounder/VAD Installation Sheet",
+    "| | Year of first CE marking | 2024 | | Declaration of Performance<br/>number<br/>KE-DP3120W-SN<br/>KE-DP3121W-SN<br/>KE-DP3120W-SNV<br/>KE-DP3121W/B-SNV |",
+    "ze zintegrowanym sygnalizatorem akustycznym i izolatorem zwarć (biała) | | KE-DP3120W-SNV | OSVi | Inteligentna adresowalna podwójna czujka optyczna ze zintegrowanym",
+    "ze zintegrowanym sygnalizatorem optyczno-akustycznym i izolatorem zwarć (biała) | | KE-DP3121B-SNV | OHSVi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym",
+    "de<br/>prestaciones<br/>KE-DP3120W-SN<br/>KE-DP3121W-SN<br/>KE-DP3120W-SNV<br/>KE-DP3121W/B-SNV | <br/><br/>3103052-ML<br/>3103042-ML<br/>3103051-ML<br/>3103040-ML | |",
+    "optyczna ze zintegrowanym sygnalizatorem akustycznym i izolatorem zwarć (biała) | | KE-DP3121W-SN | OHSi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym",
+    "ze zintegrowanym sygnalizatorem optyczno-akustycznym i izolatorem zwarć (biała) | | KE-DP3121W-SNV | OHSVi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym"
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {}
+    },
+    {
+     "token_exacto": 12
+    },
+    {
+     "token_exacto": 12
+    },
+    {
+     "token_exacto": 8
+    },
+    {
+     "token_exacto": 6
+    },
+    {
+     "token_exacto": 12
+    },
+    {
+     "token_exacto": 4
+    }
+   ]
+  },
+  {
+   "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+   "source_file": "MI_KIDDE_KE_IO3144_631e.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-io3122",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — el contenido nombra KE-IO3122 ×8 y KE-IO3144 ×8; KE-IU3110 ×0 (etiqueta errónea → retag en F)"
+    },
+    {
+     "id": "kidde:ke-io3144",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — el contenido nombra KE-IO3122 ×8 y KE-IO3144 ×8; KE-IU3110 ×0 (etiqueta errónea → retag en F)"
+    }
+   ],
+   "reglas": [
+    "R4"
+   ],
+   "citas": [
+    "This installation sheet includes information on the following 3000 Series input/output modules."
+   ],
+   "verificaciones": [
+    {
+     "cita_full_text": true,
+     "tokens_en_doc": {
+      "kidde:ke-io3122": 14,
+      "kidde:ke-io3144": 16
+     }
+    }
+   ]
+  },
+  {
+   "document_id": "9473e211-8f2f-4f59-b208-dd8dffe1fa6f",
+   "source_file": "HD_KE_DP3121B_202407_ES_8c51.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dp3121b",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de KE-DP3121B"
+    }
+   ],
+   "reglas": [
+    "R4"
+   ],
+   "citas": [
+    "módulos de E/S y accesorios, enriquecen la capacidad general del sistema Excellence. # KE-DP3121B **Detector de calor/óptico dual direccionable inteligente serie Excellence con aislador,"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 2
+    }
+   ]
+  },
+  {
+   "document_id": "c0995537-d8fa-47f6-8b8a-9c8da4be3c09",
+   "source_file": "DS_KIDDE_KE_DP3121B_SNV_202503_ES_b5bc.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dp3121b-snv",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento adicional que nombra KE-DP3121B-SNV (2 chunks)"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "COMMERCIAL # KE-DP3121B-SNV **Detector de calor/óptico dual direccionable inteligente serie Excellence con aislador,"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 2
+    }
+   ]
+  },
+  {
+   "document_id": "ba004f77-f200-42ad-9563-f0261f6377b8",
+   "source_file": "DS_KIDDE_KE_DP3121W_SN_202503_ES_5938.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dp3121w-sn",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento adicional que nombra KE-DP3121W-SN (2 chunks)"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "COMMERCIAL # KE-DP3121W-SN Detector de calor/óptico dual direccionable inteligente serie Excellence con aislador y"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 2
+    }
+   ]
+  },
+  {
+   "document_id": "fa85c7b8-73ce-4534-aff8-3ee32d280bb1",
+   "source_file": "DS_KIDDE_KE_DP3121W_SNV_202503_ES_8699.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dp3121w-snv",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento adicional que nombra KE-DP3121W-SNV (3 chunks)"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "COMMERCIAL # KE-DP3121W-SNV Detector de calor/óptico dual direccionable inteligente serie Excellence con aislador,"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 3
+    }
+   ]
+  },
+  {
+   "document_id": "ca92063d-9e8f-4e83-aed5-7a45f4095adf",
+   "source_file": "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-dba-adpw-kil",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de KE-DBA-ADPW-KIL"
+    },
+    {
+     "id": "kidde:ke-dba-adpw-zit",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de KE-DBA-ADPW-ZIT"
+    }
+   ],
+   "reglas": [
+    "R7",
+    "R7"
+   ],
+   "citas": [
+    "| White (similar to RAL 9016) | | Material | PC/ABS (KINGFA JH960-611) | | Weight<br/>KE-DBA-ADPW-KIL<br/>KE-DBA-ADPW-ZIT | <br/>76 g<br/>80 g | |",
+    "| | KE-DBA-ADPW-KIL | Accesorio adaptador para bases de montaje Kilsen | | KE-DBA-ADPW-ZIT | Accesorio adaptador para bases de montaje Ziton | El accesorio es un complemento"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 8
+    },
+    {
+     "token_exacto": 8
+    }
+   ]
+  },
+  {
+   "document_id": "429c2f6c-a742-49fd-a235-bb34e6049c81",
+   "source_file": "DS_KIDDE_KE_IU3111_ZME_f908.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-iu3111-zme",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de KE-IU3111-ZME"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "status indication for ease of maintenance * Local test features for ease of validation # KE-IU3111-ZME Intelligent addressable zone monitoring unit with isolator (ext. power) ## Technical"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 7
+    }
+   ]
+  },
+  {
+   "document_id": "c5bf341f-4846-47dd-9feb-75b667d6bb93",
+   "source_file": "MI_KE_IU3111_ZME_202407_ES_fde1.pdf",
+   "entries": [
+    {
+     "id": "kidde:ke-iu3111-zme",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento adicional que nombra KE-IU3111-ZME (7 chunks)"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "Device status LED ### Description This installation sheet includes information on the KE-IU3111-ZME Intelligent Addressable Zone Monitoring Unit (device type 1ZMxi). The module provides a"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 7
+    }
+   ]
+  },
+  {
+   "document_id": "81b7197a-f122-4ac1-aeb4-33e56128792b",
+   "source_file": "DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf",
+   "entries": [
+    {
+     "id": "kidde:n-io-mbx-1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de N-IO-MBX-1"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "ordenado * Aloje varias unidades DIN en una única ubicación en un caja estética # N-IO-MBX-1 Caja para módulos carril DIN ## Especificaciones técnicas ### Físico | Dimensiones"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 3
+    }
+   ]
+  },
+  {
+   "document_id": "92b152e3-f6e1-4506-9598-470ddef1aaed",
+   "source_file": "MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf",
+   "entries": [
+    {
+     "id": "kidde:n-io-mbx-1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento adicional que nombra N-IO-MBX-1 (11 chunks)"
+    },
+    {
+     "id": "kidde:n-io-mbx-2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de N-IO-MBX-2"
+    }
+   ],
+   "reglas": [
+    "R7",
+    "R7"
+   ],
+   "citas": [
+    "mm wide) with three horizontal rails] ## EN: Installation Sheet ### Figures **Figure 1: N-IO-MBX-1 views and measurements** (1) Earth studs **Figure 2: N-IO-MBX-2 views and measurements**",
+    "### Figures **Figure 1: N-IO-MBX-1 views and measurements** (1) Earth studs **Figure 2: N-IO-MBX-2 views and measurements** ### Description This installation sheet includes information"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 11
+    },
+    {
+     "token_exacto": 11
+    }
+   ]
+  },
+  {
+   "document_id": "3e598db2-d0f0-4f1e-acef-64f153bb9621",
+   "source_file": "DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf",
+   "entries": [
+    {
+     "id": "kidde:n-io-sbx-1g",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de N-IO-SBX-1G"
+    }
+   ],
+   "reglas": [
+    "R7"
+   ],
+   "citas": [
+    "los lados, lo que permite su instalación donde se requiera una caja. ## Aplicaciones El N-IO-SBX-1G está diseñado para usarse con módulos de control de la serie Excellence de tamaño"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 4
+    }
+   ]
+  },
+  {
+   "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
+   "source_file": "Manual-de-Usuario-S3-T1-y-S-2-T1",
+   "entries": [
+    {
+     "id": "fidegas:s-3-t1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de S/3-T1"
+    },
+    {
+     "id": "fidegas:s-2-t1",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de S/2-T1"
+    }
+   ],
+   "reglas": [
+    "R7",
+    "R7"
+   ],
+   "citas": [
+    "no es posible conectar varios sensores entre sí, ni en serie ni en paralelo. ### Versión S/3-T1 envolvente ATEX: A) Colocar el prensaestopas ATEX en el SRG y apretarlo con una llave.",
+    "8 [Fidegas logo in top right corner] # 4. UBICACIÓN El sensor remoto Ref. S/3-T1 y S/2-T1 se debe situar de forma tal que cualquier acumulación de gas sea detectada antes de que"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 29
+    },
+    {
+     "token_exacto": 22
+    }
+   ]
+  },
+  {
+   "document_id": "9e0a8f7d-e849-4ac6-aca0-79bcc70283f7",
+   "source_file": "EMA24RS2R_NX2y5-R-R",
+   "entries": [
+    {
+     "id": "notifier:nx2-r-r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de NX2/R/R"
+    },
+    {
+     "id": "notifier:nx5-r-r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — documento que sustenta el alta de NX5/R/R"
+    }
+   ],
+   "reglas": [
+    "R7",
+    "R7"
+   ],
+   "citas": [
+    "| 4 | → | (+) | | - | - | --- | | 3 | → | (+) | | 2 | → | (−) | | 1 | → | (−) | NX2/R/R y",
+    "4 | → | (+) | | - | - | --- | | 3 | → | (+) | | 2 | → | (−) | | 1 | → | (−) | NX2/R/R y"
+   ],
+   "verificaciones": [
+    {
+     "token_exacto": 1
+    },
+    {
+     "token_exacto": 1
+    }
+   ]
+  }
+ ],
+ "doc_map_modificaciones": [
+  {
+   "document_id": "f1c0c15b-86d2-4460-b2a1-e8462fb06d07",
+   "source_file": "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+   "entries_prev": [
+    "kidde:2x-at"
+   ],
+   "entries_nuevas": [
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "regla": "R1",
+   "detalle": "la QOG «2X-AT Series» apuntaba a la etiqueta; ahora a los 11 miembros de la sub-familia"
+  },
+  {
+   "document_id": "4eb9710c-8fa2-4ff3-9052-2704d666dcb9",
+   "source_file": "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente",
+   "entries_prev": [
+    "notifier:rp1r",
+    "notifier:rp1r-supra",
+    "notifier:vsn-2plus",
+    "notifier:vsn-plus",
+    "notifier:rp1r-supra",
+    "notifier:vsn-4rel"
+   ],
+   "entries_nuevas": [
+    "notifier:rp1r",
+    "notifier:rp1r-supra",
+    "notifier:vsn-2plus",
+    "notifier:vsn-4rel"
+   ],
+   "regla": "R2",
+   "detalle": "se quita la etiqueta vsn-plus (y una entry duplicada); qué modelo VSN PLUS trata la FAQ queda abierto (VSN2-PLUS/PLUS2 solo en docs NFS-SUPRA)"
+  }
+ ],
+ "products_altas": [
+  {
+   "row": {
+    "id": "kidde:ke-dp3120w-sn",
+    "canonical_model": "KE-DP3120W-SN",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (12 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "| | Year of first CE marking | 2024 | | Declaration of Performance<br/>number<br/>KE-DP3120W-SN<br/>KE-DP3121W-SN<br/>KE-DP3120W-SNV<br/>KE-DP3121W/B-SNV |",
+   "n_token": 12,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3120w-snv",
+    "canonical_model": "KE-DP3120W-SNV",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (12 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "ze zintegrowanym sygnalizatorem akustycznym i izolatorem zwarć (biała) | | KE-DP3120W-SNV | OSVi | Inteligentna adresowalna podwójna czujka optyczna ze zintegrowanym",
+   "n_token": 12,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3121b-snv",
+    "canonical_model": "KE-DP3121B-SNV",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (8 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "ze zintegrowanym sygnalizatorem optyczno-akustycznym i izolatorem zwarć (biała) | | KE-DP3121B-SNV | OHSVi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym",
+   "n_token": 8,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3121w",
+    "canonical_model": "KE-DP3121W",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (6 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "de<br/>prestaciones<br/>KE-DP3120W-SN<br/>KE-DP3121W-SN<br/>KE-DP3120W-SNV<br/>KE-DP3121W/B-SNV | <br/><br/>3103052-ML<br/>3103042-ML<br/>3103051-ML<br/>3103040-ML | |",
+   "n_token": 6,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3121w-sn",
+    "canonical_model": "KE-DP3121W-SN",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (12 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "optyczna ze zintegrowanym sygnalizatorem akustycznym i izolatorem zwarć (biała) | | KE-DP3121W-SN | OHSi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym",
+   "n_token": 12,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3121w-snv",
+    "canonical_model": "KE-DP3121W-SNV",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (4 chunks con el token); Alberto 16-ago: mini-familia KE-DP312x (base + variantes SN/SNV)",
+    "familia": "KE-DP312x"
+   },
+   "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "document_id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "cita": "ze zintegrowanym sygnalizatorem optyczno-akustycznym i izolatorem zwarć (biała) | | KE-DP3121W-SNV | OHSVi | Inteligentna adresowalna podwójna czujka optyczna/temperatury ze zintegrowanym",
+   "n_token": 4,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dp3121b",
+    "canonical_model": "KE-DP3121B",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R4 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en HD_KE_DP3121B_202407_ES_8c51.pdf (2 chunks con el token); SKU base negro con hoja propia",
+    "familia": "KE-DP312x"
+   },
+   "doc": "HD_KE_DP3121B_202407_ES_8c51.pdf",
+   "document_id": "9473e211-8f2f-4f59-b208-dd8dffe1fa6f",
+   "cita": "módulos de E/S y accesorios, enriquecen la capacidad general del sistema Excellence. # KE-DP3121B **Detector de calor/óptico dual direccionable inteligente serie Excellence con aislador,",
+   "n_token": 2,
+   "regla": "R4"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dba-adpw-kil",
+    "canonical_model": "KE-DBA-ADPW-KIL",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf (8 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "KE-DBA-ADPW"
+   },
+   "doc": "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf",
+   "document_id": "ca92063d-9e8f-4e83-aed5-7a45f4095adf",
+   "cita": "| White (similar to RAL 9016) | | Material | PC/ABS (KINGFA JH960-611) | | Weight<br/>KE-DBA-ADPW-KIL<br/>KE-DBA-ADPW-ZIT | <br/>76 g<br/>80 g | |",
+   "n_token": 8,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-dba-adpw-zit",
+    "canonical_model": "KE-DBA-ADPW-ZIT",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf (8 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "KE-DBA-ADPW"
+   },
+   "doc": "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf",
+   "document_id": "ca92063d-9e8f-4e83-aed5-7a45f4095adf",
+   "cita": "| | KE-DBA-ADPW-KIL | Accesorio adaptador para bases de montaje Kilsen | | KE-DBA-ADPW-ZIT | Accesorio adaptador para bases de montaje Ziton | El accesorio es un complemento",
+   "n_token": 8,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "kidde:ke-iu3111-zme",
+    "canonical_model": "KE-IU3111-ZME",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en DS_KIDDE_KE_IU3111_ZME_f908.pdf (7 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia"
+   },
+   "doc": "DS_KIDDE_KE_IU3111_ZME_f908.pdf",
+   "document_id": "429c2f6c-a742-49fd-a235-bb34e6049c81",
+   "cita": "status indication for ease of maintenance * Local test features for ease of validation # KE-IU3111-ZME Intelligent addressable zone monitoring unit with isolator (ext. power) ## Technical",
+   "n_token": 7,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "kidde:n-io-mbx-1",
+    "canonical_model": "N-IO-MBX-1",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf (3 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "N-IO-MBX"
+   },
+   "doc": "DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf",
+   "document_id": "81b7197a-f122-4ac1-aeb4-33e56128792b",
+   "cita": "ordenado * Aloje varias unidades DIN en una única ubicación en un caja estética # N-IO-MBX-1 Caja para módulos carril DIN ## Especificaciones técnicas ### Físico | Dimensiones",
+   "n_token": 3,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "kidde:n-io-mbx-2",
+    "canonical_model": "N-IO-MBX-2",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf (11 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "N-IO-MBX"
+   },
+   "doc": "MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf",
+   "document_id": "92b152e3-f6e1-4506-9598-470ddef1aaed",
+   "cita": "### Figures **Figure 1: N-IO-MBX-1 views and measurements** (1) Earth studs **Figure 2: N-IO-MBX-2 views and measurements** ### Description This installation sheet includes information",
+   "n_token": 11,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "kidde:n-io-sbx-1g",
+    "canonical_model": "N-IO-SBX-1G",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf (4 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "N-IO-SBX"
+   },
+   "doc": "DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf",
+   "document_id": "3e598db2-d0f0-4f1e-acef-64f153bb9621",
+   "cita": "los lados, lo que permite su instalación donde se requiera una caja. ## Aplicaciones El N-IO-SBX-1G está diseñado para usarse con módulos de control de la serie Excellence de tamaño",
+   "n_token": 4,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "fidegas:s-3-t1",
+    "canonical_model": "S/3-T1",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Fidegas"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en Manual-de-Usuario-S3-T1-y-S-2-T1 (29 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "S/x-T1"
+   },
+   "doc": "Manual-de-Usuario-S3-T1-y-S-2-T1",
+   "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
+   "cita": "no es posible conectar varios sensores entre sí, ni en serie ni en paralelo. ### Versión S/3-T1 envolvente ATEX: A) Colocar el prensaestopas ATEX en el SRG y apretarlo con una llave.",
+   "n_token": 29,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "fidegas:s-2-t1",
+    "canonical_model": "S/2-T1",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Fidegas"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en Manual-de-Usuario-S3-T1-y-S-2-T1 (22 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "S/x-T1"
+   },
+   "doc": "Manual-de-Usuario-S3-T1-y-S-2-T1",
+   "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
+   "cita": "8 [Fidegas logo in top right corner] # 4. UBICACIÓN El sensor remoto Ref. S/3-T1 y S/2-T1 se debe situar de forma tal que cualquier acumulación de gas sea detectada antes de que",
+   "n_token": 22,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "notifier:nx2-r-r",
+    "canonical_model": "NX2/R/R",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Notifier"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en EMA24RS2R_NX2y5-R-R (1 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "NX/R/R"
+   },
+   "doc": "EMA24RS2R_NX2y5-R-R",
+   "document_id": "9e0a8f7d-e849-4ac6-aca0-79bcc70283f7",
+   "cita": "| 4 | → | (+) | | - | - | --- | | 3 | → | (+) | | 2 | → | (−) | | 1 | → | (−) | NX2/R/R y",
+   "n_token": 1,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "notifier:nx5-r-r",
+    "canonical_model": "NX5/R/R",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Notifier"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 R7 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en EMA24RS2R_NX2y5-R-R (1 chunks con el token); componente de una grafía concatenada del draft E1 (§1.B), con cita propia",
+    "familia": "NX/R/R"
+   },
+   "doc": "EMA24RS2R_NX2y5-R-R",
+   "document_id": "9e0a8f7d-e849-4ac6-aca0-79bcc70283f7",
+   "cita": "4 | → | (+) | | - | - | --- | | 3 | → | (+) | | 2 | → | (−) | | 1 | → | (−) | NX2/R/R y",
+   "n_token": 1,
+   "regla": "R7"
+  },
+  {
+   "row": {
+    "id": "systemsensor:exitpoint",
+    "canonical_model": "ExitPoint",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "System Sensor"
+    ],
+    "added_by": "s324-reglas",
+    "provenance": "s324 §0.B+Alberto (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — cita verificada full-text en MNDT1160 (39 chunks con el token); Alberto (s323): «el modelo es ExitPoint»; MNDT1160 lo nombra 31 chunks, PF24V 0"
+   },
+   "doc": "MNDT1160",
+   "document_id": "a0d6d342-28f1-484b-97b6-46a34af6c3cc",
+   "cita": "08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # Sirena Direccional **EXITPOINT** **WITH VOICE MESSAGING** *Guía de Aplicación* **MN-DT-1160** **18 SEPTIEMBRE 2008**",
+   "n_token": 39,
+   "regla": "§0.B+Alberto"
+  }
+ ],
+ "products_confirmar": [
+  {
+   "id": "morley:dx1e",
+   "canonical_model": "DX1e",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 7,
+   "cita": "6.1 Teclado de control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (7 chunks); cita: «6.1 Teclado de control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado»"
+  },
+  {
+   "id": "morley:dx2e",
+   "canonical_model": "DX2e",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 15,
+   "cita": "de control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado del",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (15 chunks); cita: «de control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado del»"
+  },
+  {
+   "id": "morley:dx4e",
+   "canonical_model": "DX4e",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 14,
+   "cita": "control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado del sistema,",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (14 chunks); cita: «control ### 6.1.1 Definición de nivel Los paneles de control de incendios DX1e, DX2e y DX4e tienen 3 niveles de acceso. En todos los niveles los LED indican el estado del sistema,»"
+  },
+  {
+   "id": "morley:dx1e-20s",
+   "canonical_model": "DX1e-20S",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 14,
+   "cita": "# 3 Instalación ## 3.1 Identificación de la partes ### 3.1.1 Cabina pequeña Modelos: DX1e-20S [Technical diagram showing a small cabinet layout with the following labeled components:",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (14 chunks); cita: «# 3 Instalación ## 3.1 Identificación de la partes ### 3.1.1 Cabina pequeña Modelos: DX1e-20S [Technical diagram showing a small cabinet layout with the following labeled components:»"
+  },
+  {
+   "id": "morley:dx2e-40m",
+   "canonical_model": "DX2e-40M",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 7,
+   "cita": "Cable con termistor (cable with thermistor)] ### 3.1.2 Cabina Mediana Modelos: DX1e-40M DX2e-40M [Technical diagram showing a medium cabinet layout with the following labeled",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (7 chunks); cita: «Cable con termistor (cable with thermistor)] ### 3.1.2 Cabina Mediana Modelos: DX1e-40M DX2e-40M [Technical diagram showing a medium cabinet layout with the following labeled»"
+  },
+  {
+   "id": "morley:dx4e-40l",
+   "canonical_model": "DX4e-40L",
+   "doc": "MIE-MP-520rv04.pdf",
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "n_token": 6,
+   "cita": "printer) - Cable con termistor (cable with thermistor)] ### 3.1.3 Cabina Grande Modelos: DX4e-40L [Technical diagram showing a large cabinet layout with the following labeled components:",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIE-MP-520rv04.pdf (6 chunks); cita: «printer) - Cable con termistor (cable with thermistor)] ### 3.1.3 Cabina Grande Modelos: DX4e-40L [Technical diagram showing a large cabinet layout with the following labeled components:»"
+  },
+  {
+   "id": "morley:vsn-12-plus",
+   "canonical_model": "VSN 12 PLUS",
+   "doc": "MIEMI130.pdf",
+   "document_id": "153d05f2-81ed-496c-b6b2-8d699a591778",
+   "n_token": 1,
+   "cita": "manual de instalación, configuración y funcionamiento **VSN 4 PLUS** **VSN 8 PLUS** **VSN 12 PLUS** **doc. MIE-MI-130 rev.008** Morley-IAS España se reserva el derecho de realizar",
+   "provenance_add": "s324 R2 (regla adjudicada por Alberto 16-ago-2026, evals/s324_reglas_residuo_adjudicacion_v1.json) — modelo concreto nombrado como sujeto en MIEMI130.pdf (1 chunks); cita: «manual de instalación, configuración y funcionamiento **VSN 4 PLUS** **VSN 8 PLUS** **VSN 12 PLUS** **doc. MIE-MI-130 rev.008** Morley-IAS España se reserva el derecho de realizar»"
+  }
+ ],
+ "products_retirar": [
+  {
+   "id": "kidde:2x-at",
+   "motivo": "etiqueta de sub-familia (2X-A Táctil); pasa a paraguas «2X-AT»",
+   "estado_prev": "activo",
+   "candidate_prev": true
+  },
+  {
+   "id": "notifier:vsn-plus",
+   "motivo": "etiqueta de familia (VSN PLUS = 4/8/12 según MIEMI130); pasa a paraguas «VSN PLUS»",
+   "estado_prev": "activo",
+   "candidate_prev": true
+  }
+ ],
+ "aliases_quitar": [
+  {
+   "added_by": "f1-bulk",
+   "alias": "Visión VSN-Plus",
+   "id": "notifier:vsn-plus",
+   "provenance": "s83:RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-",
+   "tipo": "nombre-largo"
+  }
+ ],
+ "umbrellas_altas": [
+  {
+   "termino": "2X-A",
+   "tipo": "familia",
+   "ids": [
+    "kidde:2x-ae1",
+    "kidde:2x-ae2",
+    "kidde:2x-ae2-p",
+    "kidde:2x-af1",
+    "kidde:2x-af1-fb",
+    "kidde:2x-af1-fb-s",
+    "kidde:2x-af1-s",
+    "kidde:2x-af1-scfb",
+    "kidde:2x-af1-scfb-s",
+    "kidde:2x-af2",
+    "kidde:2x-af2-09",
+    "kidde:2x-af2-fb",
+    "kidde:2x-af2-fb-p",
+    "kidde:2x-af2-fb-prt",
+    "kidde:2x-af2-fb-prt-p",
+    "kidde:2x-af2-fb-s",
+    "kidde:2x-af2-p",
+    "kidde:2x-af2-prt",
+    "kidde:2x-af2-prt-p",
+    "kidde:2x-af2-s",
+    "kidde:2x-af2-scfb",
+    "kidde:2x-af2-scfb-p",
+    "kidde:2x-af2-scfb-s",
+    "kidde:2x-afr",
+    "kidde:2x-afr-fb",
+    "kidde:2x-afr-fb-s",
+    "kidde:2x-afr-s",
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "divergent": true,
+   "candidate": false,
+   "added_by": "s324-reglas",
+   "provenance": "Alberto s323 (437ee3f): alta de la FAMILIA 2X-A; miembros DERIVADOS por regla prefijo 2X-A × categoría {central, repetidor} (2X-A-LB accesorio fuera) — s324"
+  },
+  {
+   "termino": "2X-AT",
+   "tipo": "serie",
+   "ids": [
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "divergent": true,
+   "candidate": false,
+   "added_by": "s324-reglas",
+   "provenance": "Alberto s324 (16-ago): 2X-AT = sub-familia táctil de la 2X-A → apunta a sus modelos; derivados por prefijo 2X-AT- × {central, repetidor}"
+  },
+  {
+   "termino": "2X-A Táctil",
+   "tipo": "serie",
+   "ids": [
+    "kidde:2x-at-f1-fb-s",
+    "kidde:2x-at-f2",
+    "kidde:2x-at-f2-fb",
+    "kidde:2x-at-f2-fb-p",
+    "kidde:2x-at-f2-fb-s",
+    "kidde:2x-at-f2-p",
+    "kidde:2x-at-f2-s",
+    "kidde:2x-at-fr",
+    "kidde:2x-at-fr-fb",
+    "kidde:2x-at-fr-fb-s",
+    "kidde:2x-at-fr-s"
+   ],
+   "divergent": true,
+   "candidate": false,
+   "added_by": "s324-reglas",
+   "provenance": "sinónimo de «2X-AT» (product_model de las guías rápidas); mismos miembros — s324"
+  },
+  {
+   "termino": "VSN PLUS",
+   "tipo": "familia",
+   "ids": [
+    "morley:vsn-4-plus",
+    "morley:vsn-8-plus",
+    "morley:vsn-12-plus"
+   ],
+   "divergent": true,
+   "candidate": false,
+   "added_by": "s324-reglas",
+   "provenance": "Alberto s324 (16-ago): VSN-Plus tiene los modelos VSN 4 PLUS, VSN 8 PLUS, VSN 12 PLUS según MIEMI130"
+  }
+ ],
+ "retags_db": [
+  {
+   "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+   "source_file": "4188-1132-ES issue 3_04_2025_Qref",
+   "pm_prev": "CLSS-10",
+   "pm_nuevo": "INSPIRE E10/E15",
+   "documents_pm_actual": "CLSS-10",
+   "motivo": "la Qref ES estaba etiquetada CLSS-10 (pasarela cloud, 9 chunks) pero nombra INSPIRE ×13 / E10 ×11; doc_map ya apunta a inspire-e10/e15"
+  },
+  {
+   "document_id": "9ebab422-b033-43c7-b40b-af563883ef3d",
+   "source_file": "MI_KIDDE_KE_IO3144_631e.pdf",
+   "pm_prev": "KE-IO3144/KE-IU3110",
+   "pm_nuevo": "KE-IO3122/KE-IO3144",
+   "documents_pm_actual": "KE-IO3144/KE-IU3110",
+   "motivo": "KE-IU3110 no aparece en el contenido; el doc trata KE-IO3122 y KE-IO3144 (Alberto 16-ago)"
+  }
+ ],
+ "no_aplicar": [
+  {
+   "que": "ma-dt-1160",
+   "motivo": "documento RETIRADO en s324 (adjudicación s323)"
+  },
+  {
+   "que": "kidde:ke-dba-labw-l1s",
+   "motivo": "'KE-DBA-LABW-L1S' NO aparece como token exacto en 'HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:ke-dba-labw-l2s",
+   "motivo": "'KE-DBA-LABW-L2S' NO aparece como token exacto en 'HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:ke-dba-labw-l3s",
+   "motivo": "'KE-DBA-LABW-L3S' NO aparece como token exacto en 'HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:ke-dba-labw-l4s",
+   "motivo": "'KE-DBA-LABW-L4S' NO aparece como token exacto en 'HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:n-io-sbx-2g",
+   "motivo": "'N-IO-SBX-2G' NO aparece como token exacto en 'DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:zlsm-me",
+   "motivo": "'ZLSM-ME' NO aparece como token exacto en 'DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:zlsm-me",
+   "motivo": "'ZLSM-ME' NO aparece como token exacto en 'MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:zlsm-mr",
+   "motivo": "'ZLSM-MR' NO aparece como token exacto en 'DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "kidde:zlsm-mr",
+   "motivo": "'ZLSM-MR' NO aparece como token exacto en 'MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf' (regla R7: sin cita propia no hay alta)"
+  },
+  {
+   "que": "avotec:doa-fj-cpd",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "DOA FJ/CPD",
+   "doc": "Manual Rotulo REXD-103_EN"
+  },
+  {
+   "que": "morley:efs-em-8",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "EFS/EM 8",
+   "doc": "MS8.pdf"
+  },
+  {
+   "que": "notifier:conv232-485",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "CONV232/485",
+   "doc": "TIDT110.pdf"
+  },
+  {
+   "que": "notifier:efs-em-8",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "EFS/EM 8",
+   "doc": "FS8"
+  },
+  {
+   "que": "notifier:pul-d-ext",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "PUL-D/EXT",
+   "doc": "PUL-DEXT_Instrucciones multi"
+  },
+  {
+   "que": "notifier:pul-p-ext",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "PUL-P/EXT",
+   "doc": "PUL-PEXT_Instrucciones multi"
+  },
+  {
+   "que": "sensitron:sts-ckd",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "STS/CKD+",
+   "doc": "MT4508-CKDPLUS REV 0.pdf"
+  },
+  {
+   "que": "spectrex:20-20mi",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "20/20MI",
+   "doc": "MADT696_01"
+  },
+  {
+   "que": "spectrex:20-20r",
+   "motivo": "nombre de producto CON barra (no concatenación): R7 no aplica; PRODUCTO_REAL pendiente del sí de Alberto (clase §0.C)",
+   "canonical_model": "20/20R",
+   "doc": "MNDT713.pdf"
+  },
+  {
+   "que": "aritech:2x-a-tactil",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "kidde:kit-2x-afr-c-09",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "kidde:zlsm-md",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "kidde:zlsm-md",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "kidde:zlsm-mr",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "morley:fl-20",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "morley:morley-ias-max",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:hssd",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:madt-606",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:nfs-32-001",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:repetidor-serie-1000",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:securnet-plus-02",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "spectrex:40-40l",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "xtralis:vesda",
+   "motivo": "confianza media: re-juicio K=5 cross-model (tarea 6)"
+  },
+  {
+   "que": "notifier:ir3-s20",
+   "motivo": "R6: única fuente 'MNDT694' está retired → NO se da de alta"
+  },
+  {
+   "que": "notifier:smart-twin",
+   "motivo": "R6: única fuente 'MNDT606' está retired → NO se da de alta"
+  },
+  {
+   "que": "notifier:spectrex",
+   "motivo": "R6: única fuente 'MNDT690' está retired → NO se da de alta"
+  },
+  {
+   "que": "notifier:tg-notifier",
+   "motivo": "R6: única fuente 'MNDT951_v5-87' está retired → NO se da de alta"
+  },
+  {
+   "que": "spectrex:20-20i",
+   "motivo": "R6: única fuente 'MNDT700_C' está retired → NO se da de alta"
+  },
+  {
+   "que": "spectrex:20-20lb",
+   "motivo": "R6: única fuente 'MNDT720' está retired → NO se da de alta"
+  },
+  {
+   "que": "spectrex:20-20ub",
+   "motivo": "R6: única fuente 'MNDT710_B' está retired → NO se da de alta"
+  },
+  {
+   "que": "morley:miw",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:tg",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  },
+  {
+   "que": "morley:vsn",
+   "motivo": "riesgo léxico (acrónimo corto): Puerta A / predicado de reconstruibilidad (tarea 4)"
+  }
+ ],
+ "avisos": [
+  {
+   "que": "996-130-000-3 manuel d'utilisation zx_hlsi",
+   "aviso": "fragmento FRANCÉS de 1 chunk (páginas finales); misma clase que los PT retirados (política s65) pero SIN sí de Alberto para FR → se atesta por R1 y se propone baja aparte"
+  }
+ ],
+ "doc_map_altas_sin_fusionar": 74,
+ "autocheck_citas_altas": true,
+ "autocheck_citas_confirmar": true,
+ "resumen": {
+  "doc_map_altas": 63,
+  "doc_map_modificaciones": 2,
+  "products_altas": 18,
+  "products_confirmar": 7,
+  "products_retirar": 2,
+  "aliases_quitar": 1,
+  "umbrellas_altas": 4,
+  "retags_db": 2,
+  "no_aplicar": 57,
+  "avisos": 1
+ }
+}
