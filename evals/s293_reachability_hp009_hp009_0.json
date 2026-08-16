@@ -1,0 +1,113 @@
+{
+ "probe": "s293_reachability_v1",
+ "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo)",
+ "⚠️_sesion_de_la_medicion": "el prefijo `s293` del nombre y de `probe` lo deriva el script de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze.git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)",
+ "sello_freeze_PARCIAL": {
+  "git_sha": "2ab9a5a8f90cbceb3a39b7922f7fa4bff902e69b",
+  "CHUNKS_TABLE": "chunks_v2",
+  "RETRIEVAL_TOP_K": 50,
+  "RERANK_TOP_K": 10,
+  "RERANKER_BACKEND": "llm",
+  "MERGE_STRATEGY": "stamps",
+  "LLM_MAX_TOKENS": 3500,
+  "LLM_MODEL": "claude-sonnet-4-6",
+  "GENERATOR_PROMPT_VARIANT": "fidelity",
+  "juez": {
+   "model": "gpt-5.5",
+   "K": 5,
+   "THRESH_FIRM": 4
+  },
+  "INSTRUMENT_VERSION": "v3.2"
+ },
+ "sello_no_cubre": [
+  "huella/conteo del corpus",
+  "config del índice",
+  "versión de embeddings",
+  "seeds",
+  "closure del código"
+ ],
+ "qid": "hp009",
+ "fact": "hp009#0:Retorno",
+ "valor": "Retorno",
+ "texto": "El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales de Retorno (+/-) del mismo conector de lazo; NO se cierra con una resistencia de fin de linea",
+ "mode": "serve",
+ "inject": [
+  "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+  "dadab3e0-58d8-4346-b4fa-adf6b22f2c31"
+ ],
+ "span_grep": null,
+ "THRESH_FIRM": 4,
+ "cobertura_verificada": "leido chunk a8d7b1a4 (MIE-MI-530rv001 = Manual de Instalacion Paneles de Incendio ZX2e/ZX5e MORLEY-IAS, p19 idx24, §3.4.3.1 Conexionado de lazo analogico): «Inicie el cableado de cada lazo (+/-) desde un extremo del conector de lazo del panel. [...] Retorne el final del lazo al otro extremo del conector de lazo (+/-) del panel.» + Figura 9 «Inicio Lazo (+) OUT / Inicio Lazo (-) OUT [...] (+) Retorno / (-) Retorno» + Figura 10 «All lines form a complete loop circuit» — cubre el valor Retorno y el predicado (bucle cerrado: sale por Inicio Lazo OUT y vuelve por los terminales Retorno del mismo conector); leido chunk dadab3e0 (MIE-MI-530rv001 p17 idx21, §3.4.3 Lazos Analogicos): «El cableado de lazo analogico debe instalarse en bucle cerrado con los aisladores de cortocircuito necesarios [...]» — cubre «bucle cerrado». CAVEAT declarado: la negacion «NO se cierra con una resistencia de fin de linea» NO aparece literal en el manual (grep del doc: RFL solo se prescribe para sirenas 6.8k, idx25/27, y RS485 150 ohm, idx35); se infiere del bucle cerrado con retorno al panel. a8d7b1a4 NO esta en served_ids ni en pool_ids del FULL 16-ago (carrier nunca recuperado); sin chunk_index duplicados para idx24/idx21 (1 fila por idx, verificado s324b via REST source_file+chunk_index).",
+ "reps": [
+  {
+   "rep": 0,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+    "dadab3e0-58d8-4346-b4fa-adf6b22f2c31"
+   ],
+   "base_answer": "La resistencia de fin de línea (RFL) para los circuitos de sirenas de la ZXe es de **6.800 Ω (6,8 KΩ), 0,5 W mínimo** [F6].\n\n## Detalles de aplicación\n\n- Valor: **6.800 Ω (6,8 KΩ)** [F3][F6]\n- Potencia mínima: **0,5 W** [F6]\n- Se instala al final del circuito de sirenas, entre el terminal **+** y **−** de la última sirena [F1]\n- Si no se conectan sirenas en la salida, la RFL debe instalarse directamente en los terminales de la central [F1]\n- La supervisión del circuito se realiza mediante corriente inversa que lee esta resistencia, controlando apertura o cierre de la línea [F1]\n\n## Advertencias importantes\n\n- **No realizar ramales** en la conexión de sirenas convencionales: la supervisión solo actúa sobre la línea directa hasta la RFL; los ramales paralelos no quedan supervisados [F2]\n- Para campanas **sin polaridad**, instalar un diodo entre el terminal **+** y uno de los terminales de alimentación de la campana, para evitar consumos en supervisión [F1]\n- No se recomienda cable de longitud superior a **1 km**, ya que la capacitancia e inductancia del lazo pueden afectar al funcionamiento de la línea [F3]\n\n---\n\n**Nota:** Los fragmentos recuperados corresponden al ZX2e/ZX5e (manual MIE-MI-530rv001) y a la ZXAE/ZXEE (manual MIE-MI-310). Si tu equipo es un ZXe con otra denominación, confirma el modelo exacto para verificar que aplica el mismo valor.\n\nFuentes: Manual de Instalación Paneles de Incendio ZX2e/ZX5e (Documento No. MIE-MI-530, Revisión: 001); Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F4]",
+   "oracle_answer": "La resistencia de fin de línea (RFL) para los **circuitos de sirenas de placa** de la central ZXe es de **6.800 Ω** [F1][F2].\n\nPara el **lazo periférico RS-485**, la RFL es de **150 Ω, 0,5 W mínimo**, en cada extremo del lazo abierto [F7].\n\n---\n\n**Detalle por tipo de circuito:**\n\n**Circuitos de sirenas de placa (Salida A y Salida B):**\n- Resistencia final de línea de supervisión: **6.800 Ω** [F1][F2]\n- Se coloca al final de cada circuito de sirenas [F2]\n- ⚠️ No se deben realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la RFL; los ramales paralelos no podrán ser supervisados [F2]\n\n**Lazo RS-485 (periférico / red de centrales), instalación en abierto (cadena sencilla):**\n- Resistencia final de línea: **150 Ω, 0,5 W mínimo** [F7]\n- Se coloca entre terminales A y B en los extremos libres del principio y final de la cadena [F7]\n- Longitud máxima del lazo: **1,2 km** [F7]\n\n**Lazo analógico:**\n- Los fragmentos disponibles no especifican una RFL para el lazo analógico. El lazo analógico se realiza en **bucle cerrado** [F12], sin mención de resistencia de fin de línea en los fragmentos recuperados.\n\n---\n\nFuentes:\n- MIE-MI-530rv001, Revisión: 001 — Manual de Instalación ZX2e/ZX5e (Morley-IAS)\n- MIE-MI-310 — Manual de Instalación ZXAE/ZXEE (Morley-IAS)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Todo cableado debe ser verificado antes de su conexionado al panel.**\" [F12]\n- \"LAS SIGUIENTES MEDIDAS PRÁCTICAS SOBRE EL CABLEADO, DEBEN REALIZARSE ANTES DE CONECTAR AL PANEL, PARA ASEGURAR EL FUNCIONAMIENTO DEL SISTEMA Y EVITAR DAÑOS:\" [F12]\n- Nota: el manual también indica: \"- SIRENA A (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA A (-) - black line running parallel below, with notation \"Equipo no polarizado\" (non-polarized equipment) with symbol\" [F1]\n- Nota: el manual también indica: \"- SIRENA B (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA B (-) - black line running parallel below\" [F1]\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F3]",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 1,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+    "dadab3e0-58d8-4346-b4fa-adf6b22f2c31"
+   ],
+   "base_answer": "La resistencia de fin de línea (RFL) para los circuitos de sirenas de la ZXe es de **6.800 Ω (6,8 KΩ), 0,5 W mínimo** [F6].\n\nEsta RFL debe instalarse al final del circuito para la supervisión ante cortocircuito y circuito abierto [F6].\n\n**Detalles adicionales de instalación:**\n\n- El panel ZX2e dispone de **2 circuitos de sirenas** supervisados (Sirenas A y B) [F6].\n- El panel ZX5e dispone de **4 circuitos de sirenas** supervisados (Sirenas A, B, C y D) [F6].\n- Cada circuito admite un consumo máximo de **1 A** [F6].\n- No se deben realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la RFL; los ramales paralelos no podrán ser supervisados [F3].\n- No se recomienda cable de longitud superior a **1 km**, ya que la capacitancia e inductancia del lazo pueden afectar al funcionamiento de la línea [F3].\n- Si se instalan campanas sin polaridad, es necesario instalar un diodo para evitar consumos en supervisión [F1].\n\n> ⚠️ Si no se instalan sirenas en el circuito, debe conectarse igualmente la RFL directamente en los terminales de salida de la central para mantener la supervisión [F1].\n\n---\n\nFuente: Manual de Instalación Paneles de Incendio ZX2e / ZX5e — Documento No. MIE-MI-530, Revisión: 001 (MORLEY-IAS)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F4]\n- \"Debe instalarse siempre una resistencia RFL entre + y - de la última sirena para controlar la apertura o cierre de la línea de sirenas.\" (MIE-MI-310, p. 18) [F1]",
+   "oracle_answer": "La resistencia de fin de línea (RFL) para los **lazos de sirenas de placa** de la central Morley ZXe es de **6.800 Ω** [F1].\n\nPara el **lazo RS-485** (red de centrales o lazo periférico), la RFL es de **150 Ω, 0,5 W mínimo** [F4].\n\n---\n\n**Detalle por tipo de lazo:**\n\n**Sirenas de placa (Circuito A y B):**\n- Resistencia final de línea: **6.800 Ω** [F1]\n- Se coloca al final de cada circuito de sirenas (Salida A y Salida B)\n- Advertencia: no realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la RFL; los ramales paralelos no podrán ser supervisados [F2]\n\n**Lazo RS-485 (cadena abierta):**\n- Resistencia final de línea: **150 Ω, 0,5 W mínimo** [F4]\n- Se coloca entre terminales A y B en los extremos libres del principio y final de la cadena [F4]\n- Longitud máxima del lazo: **1,2 km** [F4]\n\n**Lazo analógico:**\n- Los fragmentos disponibles no especifican una RFL para el lazo analógico. El lazo analógico se realiza en **bucle cerrado** [F12] y la impedancia máxima admisible del cableado es de **40 Ω** [F5]. No se menciona resistencia de fin de línea para este tipo de lazo.\n\n---\n\nFuente: MIE-MI-530rv001 – Manual de Instalación Paneles de Incendio ZX2e/ZX5e (rev. 001, sin fecha registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Todo cableado debe ser verificado antes de su conexionado al panel.**\" [F12]\n- \"LAS SIGUIENTES MEDIDAS PRÁCTICAS SOBRE EL CABLEADO, DEBEN REALIZARSE ANTES DE CONECTAR AL PANEL, PARA ASEGURAR EL FUNCIONAMIENTO DEL SISTEMA Y EVITAR DAÑOS:\" [F12]\n- Nota: el manual también indica: \"- SIRENA A (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA A (-) - black line running parallel below, with notation \"Equipo no polarizado\" (non-polarized equipment) with symbol\" [F1]\n- Nota: el manual también indica: \"- SIRENA B (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA B (-) - black line running parallel below\" [F1]\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F3]",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 2,
+   "base_yes": 0,
+   "oracle_yes": 3,
+   "oracle_ids_admitidos": [
+    "dadab3e0-58d8-4346-b4fa-adf6b22f2c31",
+    "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+    "dadab3e0-58d8-4346-b4fa-adf6b22f2c31"
+   ],
+   "base_answer": "La resistencia de fin de línea (RFL) para los **circuitos de sirenas de placa** de la central ZXe es de **6.800 Ω** [F1].\n\nPara el **lazo RS-485** (red de centrales o lazo periférico), la RFL es de **150 Ω, 0,5 W mínimo**, colocada entre los terminales A y B en los extremos libres de la cadena [F4].\n\n---\n\n**Detalle por tipo de circuito:**\n\n- **Salidas de sirenas de placa (Circuito A y B):**\n  - RFL: **6.800 Ω** [F1]\n  - Se coloca al final de cada circuito de sirenas\n  - No se deben realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la RFL [F2]\n\n- **Lazo RS-485 en cadena abierta:**\n  - RFL: **150 Ω, 0,5 W mínimo** [F4]\n  - Se coloca entre terminales A y B en ambos extremos libres (inicio y final de la cadena) [F4]\n\n- **Lazo RS-485 en bucle cerrado:**\n  - No requiere RFL [F4]\n\n---\n\n**Nota:** Los fragmentos no especifican RFL para los lazos analógicos de la ZXe, ya que estos lazos no utilizan resistencia de fin de línea en su topología de dos hilos [F5].\n\n---\n\nFuente: Manual de Instalación ZX2e/ZX5e — MIE-MI-530rv001 (sin revisión registrada)\n\n---\n📋 **Información adicional del manual:**\n- Nota: el manual también indica: \"- SIRENA A (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA A (-) - black line running parallel below, with notation \"Equipo no polarizado\" (non-polarized equipment) with symbol\" [F1]\n- Nota: el manual también indica: \"- SIRENA B (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA B (-) - black line running parallel below\" [F1]\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F3]",
+   "oracle_answer": "## Resistencia de fin de línea en la Morley ZXe\n\nLa respuesta depende del tipo de circuito. Los fragmentos cubren tres casos distintos:\n\n---\n\n### 1. Circuitos de sirenas (Salidas A, B, C, D)\n\nLa RFL para los circuitos de sirenas es **6,8 kΩ (6800 Ω), 0,5 W mínimo** [F7].\n\n- Se instala al final de cada circuito de sirena [F7].\n- El circuito supervisa ante cortocircuito y circuito abierto [F7].\n- **No se deben realizar ramales** en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la RFL [F2].\n- No se recomienda cable de longitud superior a **1 km** en los circuitos de sirenas [F2].\n\n---\n\n### 2. Lazo analógico (detectores y módulos)\n\nEl lazo analógico **no utiliza resistencia de fin de línea**. Se instala en **bucle cerrado** (retorno al panel) [F11][F12]. La supervisión se realiza por la propia comunicación digital del lazo.\n\n---\n\n### 3. Lazo periférico RS-485\n\nLa RFL para el lazo RS-485 (periférico o red de centrales) es **150 Ω, 0,5 W mínimo**, colocada en cada extremo libre de la cadena [F9].\n\n- Aplica tanto en instalación en abierto (cadena sencilla) como referencia para lazo abierto [F9].\n- Longitud máxima: **1,2 km** [F9].\n\n---\n\n**Resumen rápido:**\n- Sirenas → **6800 Ω (0,5 W mín.)** [F7]\n- Lazo analógico → **sin RFL** (bucle cerrado) [F11]\n- RS-485 periférico → **150 Ω (0,5 W mín.)** [F9]\n\n---\n\nFuentes: Manual de Instalación Paneles de Incendio ZX2e / ZX5e (MIE-MI-530, Revisión: 001); Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\" (MIE-MI-310, p. 22) [F3]",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  }
+ ],
+ "veredicto": {
+  "n_reps": 3,
+  "base_firme": 0,
+  "oracle_firme": 0,
+  "alcanzable": false,
+  "max_oracle": 3,
+  "veredicto": "NO_ALCANZABLE",
+  "reps_sin_prueba_de_entrega": []
+ }
+}

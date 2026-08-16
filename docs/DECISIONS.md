@@ -4295,6 +4295,25 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > por encima de la población 1 que mató al lever; la puerta sigue sin cerrarse por población.
 > *(Este NO sí se ganó: con la sonda de ayer habría salido igual pero sin poder distinguirlo del NO
 > falso de `hp017#2`; hoy lleva prueba de entrega, cobertura y el texto del oráculo.)*
+>
+> **LOS 8 «SERVIDO Y OMITIDO» SONDADOS (s324b, 16-ago, encargo `evals/s321_encargo_sondas_etapa3_v1.md`;
+> agregado `evals/s321_poblacion_etapa3_v1.md`; recibos `evals/s293_reachability_{cat001_3,cat008_3,
+> cat016_1,hp005_3,hp009_0,hp015_0,hp015_2,hp017_1}.json`; ~$11-13, 14 invocaciones).** Veredictos literales del
+> instrumento: **7 ALCANZABLE / 1 NO_ALCANZABLE (`hp009#0`, con entrega 3/3 + cobertura atestada; máx 3/5) /
+> 0 INCONCLUYENTE finales**; `hp015#0` y `hp015#2` = un mismo gold ⇒ **6 observaciones ALCANZABLE / 1 NO**.
+> El dato que la vara canónica no separa y aquí importa: **3 de los ALCANZABLE son «flips»** (la BASE ya
+> transmite hoy sin oráculo: `cat001#3` 5/5 ×3, `cat008#3` 5/5 ×3, `cat016#1` 1/3) — contradicen su etiqueta
+> `conveyed_yes 0` del FULL 16-ago; el oráculo LEVANTA una base no firme en `hp005#3`, `hp015` y `hp017#1`
+> (0→5). **Cota inferior de población**: por la vara literal **≥7 golds** (≥2 + {cat001, cat008, cat016, hp005,
+> hp015}); contando solo donde el oráculo aporta sobre la base **≥4 golds** (≥2 + {hp005, hp015}; `hp017` ya
+> contado vía `hp017#2`). **En ambas lecturas ≥3 alcanzables nuevos ⇒ desenlace «≥3-4» del encargo: la
+> población deja de ser el bloqueador y el lever de etapa 3 vuelve a ser DISEÑABLE — con dúo, flag-off y gate,
+> y NO en esta sesión (regla 5 del encargo).** Adjudicación pendiente de Alberto: ¿cuenta un flip como
+> población? (el hub trabaja con la lectura conservadora, ≥4). Lo que NO dice: alcanzable ≠ GO (DEC-173); no
+> localiza retrieval vs síntesis; `hp009#0` es caso de conducta/gold-review (el modelo contesta «¿qué RFL?»
+> con las RFL que existen y no niega la premisa ni nombra `Retorno`), no de serving. Defectos del instrumento
+> vistos → TECH_DEBT #89. Sello parcial: el catálogo/doc_map mutó durante la medición (lote §0.C, familias
+> distintas de los golds medidos; declarado).
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
