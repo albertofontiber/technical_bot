@@ -41,6 +41,9 @@
  "sospecha_del_autor_no_adjudicada": {
   "doc": "ds_kidde_2x_at_fr_s_202602_es_904a",
   "problema": "el NOMBRE del fichero dice 2X-AT-FR-S (repetidor tactil de la serie 2X-A) pero la cita dice «Modelo: Central Kidde NC-PF» y los ids asignados son las 6 NC-PF. O el fichero esta mal nombrado, o la cita salio del documento equivocado. No lo toco: lo señalo.",
-  "estado": "PENDIENTE de que Alberto lo mire"
+  "estado": "ADJUDICADO por Alberto: es un REPETIDOR, modelo 2X-AT-FR-S",
+  "accion": "RE-MAPEAR de las 6 kidde:nc-pf* a kidde:2x-at-fr-s",
+  "id_existe_en_catalogo": true,
+  "lectura": "la fila venia en las 38 LIMPIAS y estaba MAL: la cita («Modelo: Central Kidde NC-PF») no pertenece a este documento. Es la clase de fallo que el verificador midio como 'la cita existe pero no en el doc atribuido' — aqui ademas arrastro los ids. Se corrige con la adjudicacion de Alberto."
  }
 }
