@@ -4327,6 +4327,12 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > y replay sobre composición congelada de los flips (Sol: base/oráculo independientes no localizan retrieval vs
 > síntesis). Los tres de conducta («negar la premisa»: `hp009#0`, `hp013#1`, `hp011#2`) → packet de gold-review
 > `evals/s324c_goldreview_conducta_packet_v1.md`.
+> **Prueba offline D1 hecha esa noche** ($0; `scripts/s324c_d1_prueba_offline.py`, replay del FULL 16-ago con la etapa de
+> coverage REAL importada, fidelidad 40/40 golds / 48 filas servidas): el cierre SÍ alcanza el bullet de `hp017#1` pero SOLO
+> con la definición A («línea en blanco entre ítems NO rompe el bloque»; +406 chars, 139 ajenos) — con B/B1 (Fable) no lo
+> alcanza; hechos NO-OK adicionales con beneficio literal = 0; dispara en 6/27 filas estructurales (no 6/30) y cambia la
+> vista de filas que soportan 9 hechos OK. **Veredicto: NO construir** salvo GO explícito de Alberto sobre «1» (y entonces
+> pinear A como test y hacer G2 — oráculo del bloque cerrado en posición de lane — antes de G3).
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
