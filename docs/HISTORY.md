@@ -3650,3 +3650,26 @@ variable nunca cambia durante la sesión».
 Queda decidido y sin cablear lo que más se va a notar: ante «el ASD535 de Detnov», el bot debe
 **corregir la marca y responder en el mismo turno** (conducta (a), decisión de producto de Alberto).
 Hoy corrige y pide confirmar. Y `hp002` no lo mide — el harness no pasa por esa ruta.
+
+## s321 tarde (16 ago 2026, autónoma) — Medir sí; cablear y reescribir, no sin él
+
+Alberto se fue unas horas y dejó el rumbo: seguir con el dúo en lo delicado, coordinarme con la otra
+sesión, no mergear. Lo que salió bien fue lo que se podía **medir**: el smoke y el full de factlevel
+sobre el ruler recién aplicado dieron paridad con s291 y, hecho por hecho, exactamente lo que la
+sentada pretendía — el split de `cat018` que él defendió contra el marcador sale OK+OK, el demote del
+ISO-X sale del denominador, el `valor` de `cat020` que él fijó entra y pasa. Y el censo de #84 convirtió
+una discrepancia de metadata en un daño de serving cuantificado: 309 chunks del manual de la AFP-400
+que el catálogo declara y el alineado no ve.
+
+Lo que salió bien de otra manera fue lo que **no** hice. Quise cablear la conducta (a) del `mismatch`
+—«corregir y responder»— y Sol, en dos rondas sin un solo falso positivo, fue moviendo el diseño de «un
+flag en el handler» a cuatro subsistemas y una decisión de producto que no es mía (¿qué pasa con dos
+marcas en la misma pregunta?). Quise reescribir DEC-186 con su número real y Sol, otras dos rondas,
+me devolvió tres veces a documentos que no había leído enteros — uno de ellos, el PLAN, con líneas que
+yo mismo había escrito por la mañana. Las dos cosas quedan como diseño consolidado para una sesión con
+él, y las dos son la misma lección de toda la sesión: concluir del titular sin leer el cuerpo. La
+diferencia hoy es que el dúo lo cazó antes de que tocara código.
+
+Un dato nuevo que sí se ganó: `hp013#1` bajó de escalón — el carrier PWR-R ya no entra ni al pool —,
+y el registro decía lo contrario desde hace semanas.
+

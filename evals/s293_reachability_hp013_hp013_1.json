@@ -1,0 +1,115 @@
+{
+ "probe": "s293_reachability_v1",
+ "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo)",
+ "⚠️_sesion_de_la_medicion": "el prefijo `s293` del nombre y de `probe` lo deriva el script de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze.git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)",
+ "sello_freeze_PARCIAL": {
+  "git_sha": "a6943060c56e3cf13bf14fc9f779bd912efa88bf",
+  "CHUNKS_TABLE": "chunks_v2",
+  "RETRIEVAL_TOP_K": 50,
+  "RERANK_TOP_K": 10,
+  "RERANKER_BACKEND": "llm",
+  "MERGE_STRATEGY": "stamps",
+  "LLM_MAX_TOKENS": 3500,
+  "LLM_MODEL": "claude-sonnet-4-6",
+  "GENERATOR_PROMPT_VARIANT": "fidelity",
+  "juez": {
+   "model": "gpt-5.5",
+   "K": 5,
+   "THRESH_FIRM": 4
+  },
+  "INSTRUMENT_VERSION": "v3.2"
+ },
+ "sello_no_cubre": [
+  "huella/conteo del corpus",
+  "config del índice",
+  "versión de embeddings",
+  "seeds",
+  "closure del código"
+ ],
+ "qid": "hp013",
+ "fact": "hp013#1:PWR-R",
+ "valor": "PWR-R",
+ "texto": "El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante, NO una bateria tampon a bordo. La unica bateria es de LITIO, en la placa LMB 35, para el reloj RTC",
+ "mode": "serve",
+ "inject": [
+  "a19e8735-0e84-471a-9224-4be148cc65b9",
+  "2365dfaa-45e5-4c65-9328-194441e375c9"
+ ],
+ "span_grep": null,
+ "THRESH_FIRM": 4,
+ "cobertura_verificada": "leido chunk a19e8735 (ADW535_TD p56 idx92): tabla de bornes '3 | PWR-R + | +9 hasta +30 V-CC | Cable de alimentacion redundante de la CDI' + '4 | PWR-R - | 0 V'; y 2365dfaa (p12 idx12) glosario 'PWR-R = Entrada de alimentacion redundante'. Ambos cubren el valor PWR-R y el predicado 'alimentacion redundante'. Sin chunk_index duplicados (verificado s321).",
+ "reps": [
+  {
+   "rep": 0,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "a19e8735-0e84-471a-9224-4be148cc65b9"
+   ],
+   "base_answer": "## Sustitución de la batería de litio en el ADW535\n\nLos fragmentos disponibles **no describen un procedimiento paso a paso para sustituir la batería de litio** sin perder configuración. Sin embargo, sí contienen información relevante que debes tener en cuenta:\n\n---\n\n### Lo que el manual SÍ indica sobre la batería de litio:\n\n**Ubicación:**\nLa batería de litio se encuentra en el **Main Board LMB 35** [F3] [F7].\n\n**Fallo de reloj asociado a la batería (código G80 / código 008):**\n- Significado: \"Fallo reloj\" [F10]\n- Causas posibles: la cinta aislante de la batería de litio aún no se ha retirado → retirar; el reloj no está ajustado; batería de litio defectuosa → sustituir [F10]\n\n**Primera puesta en marcha:**\nJusto antes del primer encendido del ADW 535, debe retirarse la cinta aislante de la batería de litio (LMB 35) [F6].\n\n**Dónde se almacena la configuración:**\nLos parámetros específicos del sistema se almacenan en la **EEPROM** del ADW 535 [F11]. La configuración **no** depende de la batería de litio para su conservación — la batería está asociada al **módulo de reloj RTC** [F7].\n\n**Tras trabajos de reparación en el LMB 35:**\nEl manual indica que si se sustituye el **dispositivo de control LSU 35 o el Main Board LMB 35**, deberá realizarse obligatoriamente un nuevo **reset inicial** [F2]. Esto afecta a los valores nominales del tubo sensor, no a los parámetros de configuración almacenados en EEPROM.\n\n---\n\n### Lo que el manual NO especifica en los fragmentos disponibles:\n\nEl manual **no describe el procedimiento concreto de extracción e inserción de la batería de litio** (tipo de batería, referencia, pasos de sustitución en caliente o en frío). Consulta el manual físico completo del ADW535 (T 140 358 e es) o contacta con el soporte técnico de Securiton/Detnov para ese procedimiento específico.\n\n---\n\n**Fuente:** ADW535 Descripción técnica, T 140 358 e es (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"* Antes de la puesta en marcha es imprescindible asegurarse de que el tubo sensor se ha soplado con aire comprimido o con hidrógeno después de su montaje (véase también el cap.\" [F6]\n- \"* Antes de encender la alimentación del ADW, debe asegurarse que todos los controles de incendios y las alertas remotas estén bloqueados o desconectados desde el ADW 535.\" [F6]",
+   "oracle_answer": "El procedimiento específico de sustitución de la batería de litio del ADW535 **no está descrito en los fragmentos disponibles**.\n\nLo que sí consta en el manual es relevante para entender el contexto:\n\n- La **batería de litio** es un componente del **Main Board LMB 35** [F1].\n- Los parámetros específicos del sistema (configuración) se almacenan en la **EEPROM** del ADW 535, no en la batería [F12]. La batería está asociada al **módulo de reloj RTC** [F1].\n- En la Tabla B de configuración, el parámetro **\"Fallo batería de litio / reloj\"** es monitorizable (on/off) [F5], lo que confirma que la batería alimenta el RTC, no la memoria de configuración.\n- Justo antes del **primer encendido**, el manual indica retirar la cinta aislante de la batería de litio del LMB 35 [F4], pero no describe el procedimiento de sustitución posterior.\n- El manual sí advierte que, tras **trabajos de reparación en el ADW 535** (incluyendo sustitución del LMB 35), puede ser necesario un nuevo **reset inicial** [F2][F3].\n\n**Conclusión práctica:** La configuración no se pierde al cambiar la batería porque reside en la EEPROM [F12], pero el procedimiento paso a paso de sustitución de la batería no está en los fragmentos recuperados.\n\nConsulta directamente el manual completo del ADW535 (T 140 358 e es) o contacta con el soporte técnico de **Securiton** (fabricante del ADW535) [F13] para obtener el procedimiento oficial de sustitución.\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F3]",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 1,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "a19e8735-0e84-471a-9224-4be148cc65b9"
+   ],
+   "base_answer": "El manual del ADW535 **no describe un procedimiento específico para sustituir la batería de litio** sin perder configuración. Lo que sí puedo decirte con base en los fragmentos disponibles es lo siguiente:\n\n---\n\n## Lo que el manual SÍ especifica sobre la batería y la configuración\n\n**Sobre la batería de litio:**\n- El ADW535 incorpora una **batería de litio** ubicada en el **Main Board LMB 35** [F2][F4].\n- Antes de la primera puesta en funcionamiento, debe retirarse la **cinta aislante de la batería de litio (LMB 35)** [F8].\n- Existe un parámetro configurable: **\"Fallo batería de litio / reloj\"** (on/off), guardado en posiciones de conmutador X01–X03 [F5].\n\n**Sobre dónde se almacena la configuración:**\n- Los parámetros específicos del sistema se almacenan en la **EEPROM** del ADW535 [F12].\n- El **reset de hardware** (interrupción de tensión o pulsador reset del LMB 35) **mantiene los parámetros programados** — las configuraciones específicas del sistema se conservan [F7].\n\n**Dato crítico sobre sustitución de la unidad:**\n- Si se sustituye la **unidad de evaluación completa** (el ADW535 entero), se pierde toda la configuración y hay que realizar una primera puesta en funcionamiento desde cero [F1].\n- Si se sustituye el **Main Board LMB 35**, el manual indica que es necesario realizar un **nuevo reset inicial** [F3].\n\n---\n\n## Conclusión práctica\n\nEl manual no especifica el procedimiento paso a paso para cambiar únicamente la batería de litio ni confirma si la configuración (EEPROM) se conserva durante ese proceso. Dado que el LMB 35 aloja tanto la batería como la EEPROM [F2][F12], **consulta directamente con el soporte técnico de Securiton/Detnov** antes de proceder, para confirmar si la sustitución de la batería requiere reset inicial posterior.\n\n---\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Por ello, cuando se realicen trabajos de mantenimiento en el ADW 535, es imprescindible desconectar previamente los controles de incendios y las alertas remotas de los sistemas de orden superior (CDI).\" [F7]\n- \"* Antes de la puesta en marcha es imprescindible asegurarse de que el tubo sensor se ha soplado con aire comprimido o con hidrógeno después de su montaje (véase también el cap.\" [F8]",
+   "oracle_answer": "El manual del ADW535 **no describe un procedimiento específico para sustituir la batería de litio sin perder configuración**. Los fragmentos disponibles no cubren ese procedimiento paso a paso.\n\nLo que sí está documentado y es relevante:\n\n**Sobre la batería de litio:**\n- El ADW535 incorpora una **batería de litio BR 2032** ubicada en el **Main Board LMB 35** [F5][F10].\n- El número de artículo de repuesto es **11-4000008-01-XX** [F10].\n- El código de fallo **G50/G60 código 008 «Fallo reloj»** puede estar causado por que «la cinta aislante de la batería de litio aún no se ha retirado» [F12].\n\n**Sobre dónde se almacena la configuración:**\n- Los parámetros del ADW535 se almacenan en **EEPROM** (módulo de memoria para los datos del sistema y la configuración del ADW) [F14].\n- Tras un **reset de hardware** (interrupción de tensión o pulsador reset), «los parámetros del ADW 535 programados con anterioridad se mantienen (configuraciones específicas del sistema)» [F4].\n\n**Advertencia importante:**\n- El manual indica que si se sustituye el **Main Board LMB 35** completo, «deberá realizarse obligatoriamente un nuevo reset inicial» y «deberán ajustarse nuevamente todas las configuraciones específicas del cliente» [F3][F6]. Esto aplica a sustitución de la placa, no necesariamente solo de la batería.\n- Cualquier trabajo de mantenimiento debe ser realizado por «personal autorizado y que haya sido formado por el fabricante del ADW 535» [F6].\n- Antes de cualquier intervención, es **imprescindible bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior** [F6].\n\n**Recomendación:** Para el procedimiento exacto de sustitución de la batería BR 2032 sin riesgo de pérdida de configuración, consulta directamente el manual completo físico (documento **T 140 358 e es**) o contacta con el soporte técnico de **Securiton** (fabricante del ADW535) [F14].\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)\n\n---\n📖 **Información adicional del manual:**\n- \"1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n\n3. Abrir la cubierta de la unidad de evaluación. Deberán efectuarse las siguientes mediciones:\n * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 10,8 a 13,8 V-CC (con 12 V-CC) o 21,6 a 27,6 V-CC (con 24 V-CC).\n * Leer la configuración establecida y los valores de presión de cada tubo sensor en la posición de conmutador *P* (véase el cap. 7.6.1) y compararlos con el protocolo de puesta en servicio.\" [F6]",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 2,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "2365dfaa-45e5-4c65-9328-194441e375c9",
+    "a19e8735-0e84-471a-9224-4be148cc65b9"
+   ],
+   "base_answer": "El manual del ADW535 **no describe un procedimiento específico para sustituir la batería de litio sin perder configuración**. Lo que sí puedo decirte con base en los fragmentos disponibles es lo siguiente:\n\n---\n\n## Lo que el manual SÍ especifica sobre la batería y la configuración\n\n**Sobre la batería de litio:**\n- La batería de litio está ubicada en el **Main Board LMB 35** [F4]\n- En la primera puesta en funcionamiento, debe retirarse la cinta aislante de la batería de litio del LMB 35 [F8]\n- Existe un parámetro configurable \"Fallo batería de litio / reloj\" (on/off) que se guarda en posiciones X01–X03 [F5]\n\n**Sobre dónde se almacena la configuración:**\n- Los parámetros específicos del sistema se almacenan en una **EEPROM** [F12]\n- El firmware está almacenado en la **Flash-PROM** [F12]\n- La configuración también puede guardarse en la **SD memory card** [F2]\n\n**Dato clave:** El reset de hardware (interrupción de tensión o pulsador reset) **mantiene los parámetros programados con anterioridad** (configuraciones específicas del sistema) [F7].\n\n---\n\n## Lo que el manual advierte sobre sustitución de componentes\n\nSi se sustituye la **unidad de evaluación completa** (el ADW535 entero), será necesario realizar un **reset inicial** y reajustar todas las configuraciones específicas del cliente [F1].\n\nSi se sustituye el **dispositivo de control LSU 35 o el Main Board LMB 35**, también será necesario un nuevo reset inicial [F3].\n\n---\n\n## Recomendación\n\nEl manual no especifica el procedimiento paso a paso para cambiar únicamente la batería de litio del LMB 35 sin afectar la configuración. Dado que:\n\n1. La configuración reside en la **EEPROM** (no en la batería) [F12]\n2. El reset de hardware conserva los parámetros [F7]\n3. Pero la sustitución del LMB 35 sí requiere reset inicial [F3]\n\n**Consulta directamente al soporte técnico de Securiton/Detnov** para confirmar si la sustitución de la batería de litio (sin cambiar el LMB 35 completo) requiere o no reset inicial, ya que el manual no lo detalla explícitamente.\n\n---\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"* Justo antes del primer encendido del ADW 535, debe retirarse la cinta aislante de la batería de litio (LMB 35).\" [F8]\n- \"* Antes del encendido deben montarse en la unidad de evaluación todos los módulos adicionales y conectarse al Main Board LMB 35 mediante el cable plano suministrado.\" [F8]",
+   "oracle_answer": "El manual del ADW535 **no describe un procedimiento específico para sustituir la batería de litio sin perder configuración**. Los fragmentos disponibles no cubren ese procedimiento paso a paso.\n\nLo que sí puedo confirmar a partir de los fragmentos:\n\n**Sobre la batería:**\n- El ADW535 incorpora una **batería de litio BR 2032** ubicada en el **Main Board LMB 35** [F1][F6]\n- El número de artículo de repuesto es **11-4000008-01-XX** [F10]\n- El código de fallo **008** indica \"Fallo reloj\" y puede estar relacionado con la batería de litio (por ejemplo, si la cinta aislante no se ha retirado) [F12]\n\n**Sobre la memoria de configuración:**\n- Los parámetros de configuración se almacenan en **EEPROM** (módulo de memoria para los datos del sistema y la configuración del ADW) [F14], que es una memoria no volátil independiente de la batería de litio\n- La batería de litio está asociada al **módulo de reloj RTC** [F1], no a la memoria de configuración\n\n**Sobre el reset de hardware (relevante si se interrumpe alimentación durante el cambio):**\n- El reset de hardware **mantiene los parámetros programados** (configuraciones específicas del sistema) [F3]\n- Sin embargo, provoca un disparo momentáneo del relé de fallo de aproximadamente **1 s** [F3], por lo que es imprescindible **desconectar previamente los controles de incendios y alertas remotas de la CDI de orden superior** antes de cualquier trabajo de mantenimiento [F3][F5]\n\n**Recomendación:**\nConsulta el manual completo del ADW535 (documento **T 140 358 e es**) o contacta directamente con **Securiton** (fabricante del ADW535) [F14] para obtener el procedimiento oficial de sustitución de batería.\n\n---\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  }
+ ],
+ "veredicto": {
+  "n_reps": 3,
+  "base_firme": 0,
+  "oracle_firme": 0,
+  "alcanzable": false,
+  "max_oracle": 0,
+  "veredicto": "NO_ALCANZABLE",
+  "reps_sin_prueba_de_entrega": []
+ }
+}
