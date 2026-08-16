@@ -1,5 +1,12 @@
 # s320 E2 — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
+<!-- s324-estado:inicio -->
+> ## 🟡 ESTADO s324 (2026-08-16 11:46Z)
+> Sin cambios de fondo: el bloque de 562 altas seguras y los 19 lotes por riesgo esperan tu sí. Nota: el catálogo gobernado cambió en s324 (+13 productos, +7 confirmaciones, +3 paraguas, −2 etiquetas), así que el snapshot candidato del detector se RE-DERIVARÁ (`scripts/s320_e2_snapshot_derivado.py`) y pasará de nuevo los gates G1/G2 (`scripts/s320_e2_gates.py`) antes del swap — los conteos de este fichero son del 15-ago.
+<!-- s324-estado:fin -->
+
+
+
 **SUPERSEDE a `evals/s320_e2_packet_adjudicacion_v1.md`.**
 Aquel packet listaba **1235 altas** del detector en 25 lotes de 50, todas con el mismo
 peso. Una pasada hermana las ha refrescado contra el estado de HOY (catálogo `b74d92c`,
