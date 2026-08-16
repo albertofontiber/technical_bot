@@ -31,7 +31,7 @@ def marcar(texto: str, estados: dict[str, str], clave_rx: str) -> tuple[str, int
     def rep(m):
         nonlocal n
         k = m.group(2)
-        est = estados.get(k) or estados.get(k.lower())
+        est = estados.get(k) or estados.get(k.lower()) or estados.get(re.sub(r"\.pdf$", "", k.lower()))
         if not est:
             return m.group(0)
         n += 1
@@ -100,11 +100,16 @@ def main() -> None:
         if f["id"] in aplicadas:
             est_id[f["id"]] = f"✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta"
         else:
-            est_id[f["id"]] = "⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)"
+            est_id[f["id"]] = "✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector"
 
     t = E1.read_text(encoding="utf-8")
-    t, n_doc = marcar(t, est_doc, r"[^`]+")
-    t, n_id = marcar(t, est_id, r"[a-z0-9_-]+:[a-z0-9._+-]+")
+    # UNA sola pasada (la segunda llamada borraba las marcas de la primera) y claves normalizadas
+    # (source_file de la DB lleva .pdf y mayúsculas; la casilla del packet, el slug en minúsculas)
+    est_todo = {re.sub(r"\.pdf$", "", k.lower()): v for k, v in est_doc.items()}
+    est_todo.update(est_id)
+    t, n_todo = marcar(t, est_todo, r"[^`]+")
+    n_doc = sum(1 for k in est_todo if ":" not in k and re.search(r"^- \[ \] `" + re.escape(k) + r"(\.pdf)?`", t, re.M | re.I))
+    n_id = n_todo - n_doc
     pend_r1 = plan.get("pendiente_alberto_R1prima", [])
     cuerpo = f"""> ## 🟢 ESTADO s324 ({utc}) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `{recibo}`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
@@ -115,7 +120,7 @@ def main() -> None:
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
 > 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: {len(pend_r1)} docs, {sum(len(p['R1prima_cenida']) for p in pend_r1)} entries (recibo `s324b_r1prima_aplicar_*.json`).
-> 2. **§0.C** (32 altas) · **§0.D** (17 retirar) · **§0.E** (3): tus tres «sí» en bloque siguen abiertos — pero OJO: las altas/confirmaciones pasan por el gate del detector (censo del radio de explosión) antes de escribirse, como este lote.
+> 2. ~~**§0.C**~~ — **REVISADO por ti (16-ago)**: aceptado salvo tus 10 notas, ya CONSOLIDADAS aquí desde tus copias `_AS`/`_AS2` (bajo cada fila, con mi respuesta `↳ s324b`). Queda: **§0.D** (17 retirar) · **§0.E** (3) → tus «sí». Todo pasa por el gate del detector antes de escribirse.
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
 > 5. Baja del fragmento FR `996-130-000-3 manuel d'utilisation ZX` (1 chunk) — ¿sí?
