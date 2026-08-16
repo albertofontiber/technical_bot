@@ -4314,6 +4314,19 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > con las RFL que existen y no niega la premisa ni nombra `Retorno`), no de serving. Defectos del instrumento
 > vistos → TECH_DEBT #89. Sello parcial: el catálogo/doc_map mutó durante la medición (lote §0.C, familias
 > distintas de los golds medidos; declarado).
+>
+> **CORRECCIÓN ARITMÉTICA Y CIFRA DE CABECERA (s324c, misma noche; propuesta `evals/s324c_lever_b_propuesta_v1.md`
+> + dúo r33 Sol/Fable, ambos aplicados):** la base «≥2» venía del FULL del 1-ago; en el FULL 16-ago `hp012#3` y
+> `cat017#2` están **OK** ⇒ la población de HOY por gold es **{hp017, hp005, hp015, hp001} = 4** — y NO es una clase:
+> `hp015` es un problema de DATOS (CCD-103 era candidate bajo `unresolved` → resuelto esa noche: `detnov:ccd-103`
+> confirmada), `hp005#3` es omisión inestable con carrier servido (base 5/0/5), `hp001#2` es within-doc (NO-GO
+> medido 3×), y **el único hecho que un lever de serving levanta con evidencia es `hp017#1`** (las tarjetas de
+> cobertura de 360 chars cortan el bullet «Instrucción de entrada» — D1 «cierre de bloque de lista»). Fable r33:
+> «sustitución de denominador — Alberto debe adjudicar con el 1, no con el 6/30». **Cifra de cabecera: 1 hecho
+> pagable por serving. D1 NO se construye hasta medirlo offline** (¿alcanza el bullet? ¿cuántos hechos no-OK toca?)
+> y replay sobre composición congelada de los flips (Sol: base/oráculo independientes no localizan retrieval vs
+> síntesis). Los tres de conducta («negar la premisa»: `hp009#0`, `hp013#1`, `hp011#2`) → packet de gold-review
+> `evals/s324c_goldreview_conducta_packet_v1.md`.
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
