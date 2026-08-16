@@ -204,6 +204,31 @@ por defecto» (ambas), y si quieres semántica específica de la Regla 1, como m
 > adelante. Voy con Sol — la premisa no sondada era «¿pagaría un lever?», que es otra pregunta; el
 > alcance lo resuelve la fuente. Pero el marco de medición del ítem sí se retira, arriba.)*
 >
+> ### ✅ s321 — CRITERIO ADOPTADO (DEC-221): se ancla en el pasaje que da el MECANISMO
+>
+> Alberto propuso anclar en el pasaje con más **empaque** en el manual —el de A5.2 va en recuadro
+> amarillo con icono «!»— y **declarar la inconsistencia de la fuente** en vez de elegir una y
+> borrar la otra. Su punto (2) se adopta tal cual. El (1) se midió antes de adoptarlo y **la señal
+> visual NO sirve**: el subrayado sobrevive a la extracción como `<ins>`, pero aparece en **1.412 de
+> 26.215 chunks (5,4%)** envolviendo mayoritariamente **títulos de sección** — como marca de
+> criticidad sería una máquina de falsos positivos. Y la caja con el icono, que es lo que de verdad
+> da el empaque, **la extracción la pierde** (deuda nueva `TECH_DEBT #83`).
+>
+> **Lo que sí discrimina, y vive en texto plano**: la A5.2 trae una marca explícita de criticidad
+> («**es fundamental**») y sobre todo **el mecanismo** —«ya que, si no, esta **será anulada**»—; la
+> A5.4 da la misma instrucción **sin explicar el efecto**. ⇒ criterio: **entre dos pasajes del mismo
+> manual, ancla en el que da el MECANISMO**. Escala a 30+ fabricantes sin depender de maquetación,
+> es pedagógicamente correcto (el porqué es lo que un técnico usa en obra) y **no es circular**: se
+> decide contra la fuente, no contra cómo respondió el modelo.
+>
+> **Y la inconsistencia se DECLARA**: A5.2 y A5.4 no se contradicen —una singulariza la regla
+> crítica, la otra da la limpieza completa— así que el gold puede llevar **las dos con su
+> jerarquía**, con la quote de A5.4 añadida a `citations`.
+>
+> ⇒ **Esto refuerza la ✏️ y desaconseja la ✅**: la ✅ («ambas reglas») ancla en A5.4, que es la que
+> NO da el mecanismo — y además es la que el bot ya reproduce solo (medido: A5.2 → 3/3 a 5/5;
+> A5.4 → 0/3).
+>
 > **Tuyo:** ¿la respuesta debe decirle al técnico **qué regla le anula el retardo y por qué**, o
 > basta «hay dos por defecto, bórralas»? Y: ¿en obra se borra **también la Regla 2** (tecla
 > EVACUACIÓN activa todos los equipos), o esa se conserva?
@@ -245,7 +270,34 @@ por defecto» (ambas), y si quieres semántica específica de la Regla 1, como m
 > **Escribe**: hp017 pasa de 5 a 6 cores · renumera `hp017#3→#4` · rompe el join con artefactos
 > congelados que indexan por `qid#idx`.
 
-`[ ] ✅ partir en dos (redacción "ambas reglas") · [ ] ✏️ partir + reformular (anota) · [ ] ❌ dejarlo compuesto`
+`[ ] ✅ partir en dos (redacción "ambas reglas") · [X] ✏️ partir + reformular (anota) · [ ] ❌ dejarlo compuesto`
+
+> ✏️ **ADJUDICADO (Alberto, s321) — APLICADO (DEC-224).** hp017#2 se CONSERVA (release_guard s277; ya nombra solo la Regla 1); +1 suppl «Regla 2» que describe la diferencia de alcance A5.2/A5.4-Ej.1 sin afirmar «no anula». Cazado por Alberto en la aplicación: **A5.4 es la sección de EJEMPLOS** — el «las dos» es un paso del Ejemplo 1 (evacuación por etapas), no una instrucción general.
+>
+> **La mitad (b) queda así:** «**Regla 1** (CUALQUIER entrada de alarma activa TODOS los equipos de
+> salida): hay que **borrarla** antes de programar causa-efecto específico, porque si no **anula** la
+> programación. La **Regla 2** (tecla EVACUACIÓN) **no interfiere** con reglas disparadas por alarma
+> y puede conservarse; solo procede borrarla si se va a programar la propia evacuación de forma
+> específica.»
+>
+> **Cómo se llegó, porque la lectura es de Alberto y disuelve el problema en vez de declararlo.**
+> Yo iba a anclar en A5.2 y **declarar la inconsistencia** con A5.4. Alberto encontró el mecanismo
+> que la explica: lo que obliga a borrar la Regla 1 es que **anula** lo tuyo, y eso pasa porque su
+> disparador —cualquier entrada de alarma— es **el mismo** al que responden tus reglas específicas.
+> La Regla 2 se dispara con la **tecla EVACUACIÓN**, así que no se cruza con ellas: conservarla no
+> rompe nada y borrarla sí quita funcionalidad. ⇒ **A5.2 y A5.4 dejan de ser inconsistentes**: la
+> primera es precisa (señala la única que anula en el caso normal), la segunda es genérica (limpieza
+> completa). Ninguna está mal.
+>
+> **Matiz declarado como DERIVACIÓN, no como texto del manual**: la Regla 2 sí anularía si se
+> programa algo específico **para la propia tecla EVACUACIÓN** (p. ej. evacuación por fases) — ahí
+> ambas reglas se comportan igual y solo cambia el disparador. El manual no lo dice; se deduce del
+> mecanismo. Es también cuando el «las dos» de A5.4 aplica.
+>
+> **Qué escribe**: split de `hp017#2` en dos cores ⇒ hp017 pasa de 5 a 6 · renumera `hp017#3→#4` ·
+> añadir al `citations` la quote de A5.4 (hoy no está) · rompe el join con artefactos congelados que
+> indexan por `qid#idx`. **Aplicación pendiente** junto con los ítems 4, 8 y 9, en UN commit con el
+> re-anclaje (ver el coste en la cabecera). Criterio de anclaje: `DEC-221`.
 
 ---
 
@@ -320,7 +372,23 @@ respecto de «cómo programar una CBE».
 > **Escribe**: +1 core (131→132 clasificados) · endurece PASS si ambas van CORE · renumera
 > `cat018#3` · falta escribir la quote verbatim de p7/p61 en `citations`.
 
-`[ ] ✅ partir en dos (ambas CORE) · [ ] ✅ partir con alcances distintos (CBE core · Tipo SW suppl) · [ ] ✏️ otra (anota) · [ ] ❌ dejarlo`
+`[X] ✅ partir en dos (ambas CORE) · [ ] ✅ partir con alcances distintos (CBE core · Tipo SW suppl) · [ ] ✏️ otra (anota) · [ ] ❌ dejarlo`
+
+> ✅ **ADJUDICADO (Alberto, s321) — APLICADO (DEC-224).** Split #2 → asociación CBE + Tipo SW/TIPO ID **con la regla de p65** («la central no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general» — mecanismo, verificado al píxel + GPT-5.5). Tabla p40-41 = 23 tipos, no 7. Iconos SND=sirena/STR=flash confirman SND como tipo de sirena.
+>
+> **Su razón, literal: «no quiero falsear los misses.»** Rechaza explícitamente el demote de la
+> mitad «Tipo SW» — que era, y el packet lo dice arriba, **la única casilla de toda la sentada que
+> mejora el marcador sin tocar el bot**: `core_facts()` filtra `tipo=='core'`, así que degradarlo
+> habría sacado del assessment un retrieval-miss real ya diagnosticado en s101. Adjudicar en contra
+> del propio marcador es la decisión correcta y queda registrada como tal.
+>
+> **Refuerzo de fuente (p41), que el alcance ya tenía delante**: «*los módulos de salida utilizados
+> para las funciones arriba indicadas **NO ACEPTAN CBE***» ⇒ el Tipo SW no es contexto previo
+> ajeno a la pregunta: determina **si la CBE es siquiera posible** en ese módulo. Con eso, «ambas
+> CORE» es coherente con la fuente y no solo con el alcance.
+>
+> **Qué escribe**: split de `cat018#2` en dos cores ⇒ +1 clasificado (131→132) · renumera
+> `cat018#3` · endurece PASS · falta la quote verbatim de p41 en `citations`.
 
 ---
 
@@ -381,7 +449,41 @@ acotación»; revertir eso exige tu criterio PCI, no mi prosa. **Decisión genui
 > secas deja el gold auto-contradictorio **y** encoge la cola de etapa 3 de 9 a 8 — aunque ojo:
 > *que el marcador baje no es argumento ni a favor ni en contra* (eso también sería circular).
 
-`[ ] ✅ demote a SUPPLEMENTARY (el ISO-X no es parte del acotado de TIERRA) · [ ] ✏️ se queda CORE (explica) · [ ] ❌ borrar el hecho`
+`[X] ✅ demote a SUPPLEMENTARY (el ISO-X no es parte del acotado de TIERRA) · [ ] ✏️ se queda CORE (explica) · [ ] ❌ borrar el hecho`
+
+> ✅ **ADJUDICADO (Alberto, s321) — APLICADO (DEC-224).** Demote + texto + las DOS frases del gold_answer (Sol cazó la segunda) + procedencia (offset +7) + `citations` creado (no existía). Traza completa y
+> durable en **`DEC-223`**; aquí solo el resumen operativo.
+>
+> **Se cierra dentro de la fuente aplicable** — no se impone teoría eléctrica sobre el manual:
+> - `MIDT170` **p71**, la MISMA página que el hecho cita: en la tabla «Funcionamiento del Lazo», la
+>   fila **Tierra** es igual en Estilo 6 y 7, y la fila **Corto** solo mejora al llegar al 7. Como el
+>   Estilo 7 es el que exige los ISO-X, **el manual documenta que los aisladores no compran nada
+>   frente a una tierra**.
+> - `MIDT170` **p77** (mecanismo): «*Un **cortocircuito**… El ISO-X detecta **este cortocircuito**…
+>   abriendo el lado positivo (terminal 4)*». `DEC-221` aplicado: p17 resume, p77 explica.
+> - `50253SP` **p98**: la misma frase con el término preciso («corto circuito»).
+> - La detección de tierra vive en la **MPS-400** (LED, TB1-3, puente JP2), no en el lazo.
+>
+> **El argumento de Alberto que lo cierra**: si el ISO-X acotara la tierra, no verías «Tierra» —
+> verías una rama caída. Verlo con el lazo funcionando prueba que ningún aislador se disparó.
+>
+> **La mitad procedimental (B) también resuelta, y NO por opinión**: el manual manda «*temporarily
+> place a jumper between Terminals 2 and 4 on each ISO-X while taking measurements*» — el fabricante
+> los trata como **estorbo para medir**, no como punto de corte. En 179 páginas, «ground fault» e
+> «ISO-X» **no coinciden en ninguna**.
+>
+> **Qué escribe el upsert** — el label NO basta: hay que **reescribir el `gold_answer` en el mismo
+> upsert**, retirando el inciso «*—en el lazo, mediante los aisladores ISO-X—*» (el método de mitades
+> se queda). Si no, el gold pide ante el juez lo que el label niega.
+>
+> ⚠️ **CORRECCIÓN al bloque s320d de más arriba**: `50253SP` **SÍ es manual de la AFP-400**
+> (`doc_map` línea 92: primary de `afp-300` **y** `afp-400`). Descartarlo por `product_model` fue mío
+> y fue un error — la captura de Alberto sobre `15088SP` sigue siendo correcta. **El método que este
+> packet recomienda (filtrar por `product_model`) es el que falla**: la aplicabilidad la responde el
+> `doc_map`. Censo del daño y dirección de arreglo en `TECH_DEBT #84`.
+>
+> 📄 **Si vas al manual**: el gold cita `p63 (f71)` pero el pie dice **64** — offset real 7, no el 8
+> registrado. Las citas impresas del gold van corridas una página.
 
 ---
 
@@ -444,7 +546,28 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 > denominador** (131→132) y, sobre la respuesta congelada, saldría **MISS** (0 menciones de
 > «España»). No añade un fallo: deja de ocultarlo.
 
-`[ ] ✅ aplicar · [ ] ✏️ otra redacción (anota) · [ ] ❌ dejarlo`
+`[ ] ✅ aplicar · [X] ✏️ otra redacción (anota) · [ ] ❌ dejarlo`
+
+> ✏️ **ADJUDICADO (Alberto, s321) — APLICADO (DEC-224).** `valor` = el marcado por Alberto (v2-v4 lo habían cambiado sin declarar — Fable); texto con los DOS ejes España+protocolo (Sol).
+>
+> **Por qué no ✅**: esa casilla significaba «aplicar lo del PLAN», y el PLAN proponía escribir el
+> valor como «*específicos de la **versión España***». La fuente lo contradice: los tres valores
+> viven bajo **§5.3.10.5 «Información específica según el PROTOCOLO» → §5.3.10.5.1 «…para protocolo
+> **Morley-IAS**»**. El documento es de variaciones de mercado; la **sección** es de protocolo.
+> Marcar ✅ habría anclado a un país lo que el manual ancla a un protocolo.
+>
+> **Redacción que se escribe**: `valor` → «**niveles por defecto del protocolo Morley-IAS**»
+> (prealarma 80% · alarma 100% · ajuste máximo de alarma 108%), citando
+> `DXc_Manual variaciones de mercado` p6.
+>
+> **Y se mantiene el `texto` intacto**: recortarlo porque puntúa bajo en el matcher sería afinar el
+> gold contra el instrumento. Si un texto legítimo aterriza como retrieval-miss falso, **el fallo es
+> del scorer** — podar golds uno a uno no escala a 30+ fabricantes.
+>
+> **Qué escribe**: el hecho **hoy no se mide** (`_is_meta_ref` dispara `continue` porque el `valor`
+> empieza por «Manual»). Con un `valor` de contenido **entra al denominador** (131→132) y sobre la
+> respuesta congelada saldría **MISS**. No añade un fallo: **deja de ocultarlo** — que es la misma
+> lógica del «no falsear los misses» del ítem 4.
 
 ---
 
@@ -581,6 +704,9 @@ de AJUSTES ⇒ quitarla puede hacer el hecho falso.
 
 ---
 
+> ✅ **APLICADO AL RULER (s321, 16-ago) — DEC-224.** **REDISEÑADO en la aplicación** (Sol v3/v4 + decisión de PRODUCTO de Alberto = conducta (a)): el enunciado **NO se armoniza** («de Detnov» es el estímulo; hp019 es el control — asimetría deliberada); +1 core «Securiton AG» al final (portada + p18 «Fabricante = Securiton»), sin meta-instrucción. **La corrección de marca NO la mide este gold**: el harness no atraviesa la ruta `mismatch` (Sol v4); se prueba con smoke del bot real cuando se cablee (a). Hoy el bot corrige y pide confirmar — NO «rechaza» como decía este packet.
+
+
 ## 9 · **NUEVO — candidato a gold de USO REAL** (CAD-171, menú avanzado) · **con el no-duplicado EJECUTADO**
 
 **El fallo (veredicto final s304, DEC-185)**: preguntaste la ruta al menú avanzado de la
@@ -636,6 +762,9 @@ de uso real.
 `[ ] ✅ crear el gold ASÍ (core=ruta, suppl=acceso) · [X] ✏️ crearlo con cambios (anota): tiene que mencionar candado + clave 2222, porque si no no va a poder acceder a "AVANZADO" en primer lugar. ¿seguro que lo del "2222" es supplementary en hp001? · [ ] ❌ no crearlo (hp001 basta)`
 
 ---
+
+> ✅ **APLICADO AL RULER (s321, 16-ago) — DEC-224.** `hp021` dado de ALTA con ficha completa: ruta AJUSTES > AVANZADO (core, **cita p27** — el render ±1 cazó que el chunk «p26» contiene la p27 física) + acceso candado/2222 (**core, UNO** — adjudicación de Alberto; su marca ✏️ lo pedía y la ficha v1 lo tenía mal como suppl) + 2 suppl. Estrato `sintesis-completitud`. Verificado COMPLETO (render 160dpi ±1 · GPT-5.5 en frío · localización ES+EN por doc_map).
+
 
 ## Qué NO te pido y qué cambió respecto a v1 (transparencia del dúo)
 

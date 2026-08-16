@@ -3007,3 +3007,108 @@ sin registrar QUÉ chunk se acreditó, para que el forense no dependa de re-medi
 próximo censo por clases, o el próximo `synthesis-miss` compuesto que se use para cerrar una
 línea de trabajo. **Coste**: S para (b), M para (a). **Relacionado**: DEC-173/DEC-175 (banners
 s321), #77, DEC-094.
+
+## #83 — La capa VISUAL de criticidad (recuadros de aviso, iconos) se pierde en la extracción: el corpus no distingue un párrafo normal de uno marcado como crítico (s321)
+
+**El hecho (medido).** En los manuales, el fabricante marca lo crítico con **recuadros de color e
+iconos** — el ejemplo canónico es `997-671-005-3_Configuration_ES` A5.2, donde «Es fundamental
+borrar la regla 1… será anulada» va en caja amarilla con icono «!». **Esa caja no llega al
+corpus.** Lo único que sobrevive es el subrayado, como `<ins>`.
+
+**Y `<ins>` NO sirve de sustituto**: aparece en **1.412 de 26.215 chunks (5,4%)** y envuelve
+mayoritariamente **títulos de sección**, no avisos. Como señal de criticidad sería una máquina de
+falsos positivos — comprobado con muestra en s321.
+
+**Consecuencia.** El sistema no puede distinguir «esto es una advertencia que el fabricante
+destacó» de «esto es prosa corriente». En un dominio donde el aviso destacado suele ser
+justamente lo que evita un fallo de instalación, es una pérdida semántica con consecuencias de
+seguridad, no solo de ranking.
+
+**Familia conocida**: es el mismo hueco que `#24` («la extracción de tablas pierde marcas visuales
+X/✓ → alucinación por relleno»). Ahí se perdió la semántica de una matriz; aquí, la de un aviso.
+
+**Fix cuando toque**: (a) preservar en la ingesta un marcador de bloque destacado (`callout`,
+`warning`) cuando el PDF lo trae como caja/icono — probablemente vía la ruta de visión que `#13`
+ya tiene diferida; (b) mientras tanto, y esto SÍ es barato: indexar los **marcadores léxicos** que
+sí sobreviven («Precaución», «ADVERTENCIA», «Es fundamental», «IMPORTANTE», «Nota») como señal
+débil de criticidad. **Trigger**: la próxima re-ingesta con visión, o el primer caso en que un
+aviso destacado no servido cause un fallo de seguridad. **Coste**: M para (a), S para (b).
+**Relacionado**: DEC-221 (el criterio que se adoptó EN LUGAR de esta señal), #24, #13.
+
+## #84 — `chunks_v2.product_model` NO es un filtro de aplicabilidad: discrepa del `doc_map` en el 35% de los documentos (s321, censo ejecutado)
+
+**Qué es.** `product_model` es una etiqueta **gruesa** por documento (`'Sistema 5000'`,
+`'2X-A Táctil'`, `'ICAM'`, o un SKU representativo). El `doc_map` es la capa gobernada de
+entity-linking (DEC-043/044) que declara **qué productos cubre** un documento. No son lo mismo — pero
+se han usado como si lo fueran.
+
+**Censo (EJECUTADO, no estimado — s321):**
+
+```
+documentos de chunks_v2 con primaries en doc_map : 780
+  la columna ALCANZA a todos los primaries        : 505
+  la columna NO alcanza a algún primary           : 275   (35%)
+    de esos, documentos con MÁS DE UN primary     : 227
+```
+
+**Por qué importa — dos daños distintos:**
+
+1. **Analítico (ya ha mordido dos veces).** Filtrar `product_model='AFP-400'` **oculta `50253SP`**,
+   que es primary de la AFP-400 según el `doc_map` pero lleva la columna a `AFP-300`. En s320d eso
+   llevó a descartar como «de otro panel» justo la fuente que desambiguaba el caso del ISO-X
+   (`DEC-223`). Es la misma clase que el fallo de `15088SP`, pero con el signo contrario: allí la
+   columna era demasiado ancha, aquí demasiado estrecha.
+2. **De serving (SIN MEDIR).** `src/rag/answer_planner.py:442 _product_aligned_chunks` decide con
+   esta columna qué chunks están «alineados con el producto» de la pregunta, y de ahí salen las
+   obligaciones estructuradas. Un documento cuya columna no nombra el modelo preguntado **no aporta
+   obligación**, aunque el catálogo lo declare primary de ese modelo. **Cuánto pesa está sin medir**:
+   hay que cuantificarlo antes de tocar nada.
+
+**Lo que NO es el arreglo.** Rellenar la columna con la lista de primaries: hay documentos con 26
+SKUs, y `_product_aligned_chunks` exige `len(declared_models) == 1` para aceptar un declarado
+ambiguo ⇒ meter la lista **empeoraría** el alineado. Sería tratar una relación N:M como un campo de
+texto.
+
+**Dirección probable** (NO decidida): que la pregunta de aplicabilidad la conteste el **catálogo**, y
+`product_model` se quede como etiqueta de visualización. Toca serving + esquema ⇒ **zona de dolor**:
+exige dúo completo (Protocolo 3) y medición previa del daño (Protocolo 2), no un parche de paso.
+
+**Guardarraíl inmediato, gratis**: en análisis, **nunca** usar `product_model` para decidir si un
+manual aplica a un modelo — consultar `data/catalog/doc_map.jsonl`. El packet de la sentada B2
+documenta hoy el método equivocado y queda anotado.
+
+## #85 — El guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con distinta semántica que su consumidor: un `"0"` (APAGADO) dispara el guard del ENCENDIDO (s321)
+
+**El desajuste**, verbatim:
+
+```python
+src/rag/generator.py:106        os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"      # "0" = APAGADO
+scripts/factlevel_assessment.py:206
+    assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "... ON rompe paridad bvg/DEC-075"
+```
+
+El consumidor real compara contra `"1"`; el guard usa **truthiness**. Como `"0"` es una cadena no
+vacía, **poner el flag explícitamente en APAGADO revienta un guard escrito para cazar el
+ENCENDIDO**. `src/flags.py:161` declara `default_fuente: None`, así que el guard es coherente con
+«ausente = apagado» — pero no con «apagado explícito».
+
+**Cómo se manifestó (s321).** `scripts/s156_frontier_synthesis_ceiling.py:53` (`_configure_runtime`)
+hace `os.environ.update(RUNTIME_ENV)` con `GENERATOR_INCLUDE_CONTEXT: "0"`, y un test llamaba a
+`build_prompt()` directamente ⇒ la variable quedaba puesta para el resto de la sesión de pytest y
+**cualquier test posterior que importase `factlevel_assessment` moría** con «pipeline fantasma».
+La FUGA ya está cerrada (fixture de contención en `tests/test_s156_frontier_synthesis_ceiling.py`);
+lo que queda abierto es **el desajuste semántico**, que sigue latente para el próximo que pase un
+`"0"` explícito — y `"0"` es lo natural de escribir.
+
+**Evidencia de que ya mordió antes**: `tests/test_s286e_factlevel_v3.py:255` sanea con
+`env["GENERATOR_INCLUDE_CONTEXT"] = ""` y comenta «el módulo assertea que está apagado» — usa
+cadena vacía, no `"0"`, precisamente porque `"0"` no funcionaría. El workaround está, la causa no.
+
+**Por qué NO se arregla de paso**: la línea vive en el instrumento de medición y su mensaje invoca
+la paridad `bvg`/DEC-075. Cambiar `assert not getenv(...)` por `assert getenv(...) != "1"` es
+correcto a primera vista, pero relaja un guard de paridad ⇒ **zona de dolor**: exige dúo (Protocolo
+3) y revisar si algún recibo histórico se apoyó en la lectura estricta. No es un parche de paso.
+
+**Mientras tanto**: quien invoque `factlevel_assessment` desde un proceso que pueda traer la
+variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
+`tests/test_s321_reachability_delivery_proof.py`.
