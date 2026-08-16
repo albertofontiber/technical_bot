@@ -134,6 +134,12 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
     n0 = len(aliases)
     aliases = [a for a in aliases if (a.get("alias"), a.get("id")) not in quitar]
     stats["aliases_quitados"] = n0 - len(aliases)
+    ya_alias = {norm_token(a["alias"]) for a in aliases}
+    stats["aliases_altas"] = 0
+    for a in plan.get("aliases_altas", []):
+        if norm_token(a["alias"]) in ya_alias:
+            continue
+        aliases.append(a); ya_alias.add(norm_token(a["alias"])); stats["aliases_altas"] += 1
     terms = {norm_token(u["termino"]) for u in umbrellas}
     for u in plan["umbrellas_altas"]:
         if norm_token(u["termino"]) in terms or u.get("diferido"):
@@ -296,7 +302,26 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
         casa = [pid for pid, rx in pats if rx.search(rt["pm_nuevo"])]
         findability.append({"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "entries_primarias": [pid for pid, _ in pats], "casan": casa, "ok": bool(casa)})
     stop_terminos = sorted({x for v in disparos_negativos.values() for x in v["nuevos"]})
-    veredicto = "PASS" if (not perdidas and not disparos_negativos and not resolver_perdidas
+    # Términos ADJUDICADOS por Alberto explícitamente (plan.adjudicados_por_alberto_para_el_gate):
+    # un disparo en un negativo SINTÉTICO (escrito por el autor) se declara como aviso, no como STOP.
+    adjudicados = {C.normkey(k) for k in (plan.get("adjudicados_por_alberto_para_el_gate") or {})}
+    disparos_no_adjudicados = {q: v for q, v in disparos_negativos.items()
+                               if any(C.normkey(x) not in adjudicados for x in v["nuevos"])}
+    # Negativos de TRÁFICO REAL (query_logs): detecciones NUEVAS del patrón — se listan (pueden ser
+    # verdaderos positivos si la consulta era sobre ese producto); STOP solo si el término es palabra común.
+    try:
+        from scripts.s324_lib import consultas_reales
+        with abierto(timeout=30.0) as c:
+            reales = consultas_reales(c)
+    except Exception as e:  # sin red: se declara
+        reales = []
+    disparos_reales = {}
+    for q in reales:
+        a, b = detecta(p0, q), detecta(p1, q)
+        nuevos = [x for x in b if C.normkey(x) not in {C.normkey(y) for y in a}]
+        if nuevos:
+            disparos_reales[q[:120]] = nuevos
+    veredicto = "PASS" if (not perdidas and not disparos_no_adjudicados and not resolver_perdidas
                           and all(f["ok"] for f in findability)
                           and not any("palabra_comun" in r["riesgo"] for r in por_termino)) else "STOP"
     return {"terminos_antes": len(t0), "terminos_despues": len(t1), "entran": len(entran), "salen": len(salen),
@@ -304,6 +329,8 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
             "gold_perdidas": perdidas, "gold_nuevas_detecciones": nuevas_en_gold,
             "negativos_probados": len(NEGATIVOS), "disparos_en_negativos": disparos_negativos,
             "terminos_que_disparan_negativos": stop_terminos,
+            "disparos_sinteticos_adjudicados_por_alberto": {q: v for q, v in disparos_negativos.items() if q not in disparos_no_adjudicados},
+            "trafico_real_consultas": len(reales), "trafico_real_detecciones_nuevas": disparos_reales,
             "avisos_muy_corto": [r["termino"] for r in por_termino if "muy_corto" in r["riesgo"]],
             "resolver_gold_perdidas": resolver_perdidas, "resolver_gold_ganancias": resolver_ganancias,
             "efecto_docmap": efecto_docmap, "findability_retags": findability,
@@ -415,7 +442,9 @@ def main() -> int:
                   "veredicto": veredicto}
         CENSO.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"dry-run · validador PASS en copia · {stats}")
-        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos {len(cz['disparos_en_negativos'])} · resolver: gold que pierden {len(cz['resolver_gold_perdidas'])}, ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
+        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos sintéticos {len(cz['disparos_en_negativos'])} (adjudicados {len(cz['disparos_sinteticos_adjudicados_por_alberto'])}) · tráfico real {cz['trafico_real_consultas']} consultas / {len(cz['trafico_real_detecciones_nuevas'])} detecciones nuevas · resolver: gold que pierden {len(cz['resolver_gold_perdidas'])}, ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
+        for q, v in list(cz["trafico_real_detecciones_nuevas"].items())[:8]:
+            print("   tráfico real detecta ahora:", q[:70], "→", v)
         for q, v in list(cz["resolver_gold_ganancias"].items())[:6]:
             print("   gold gana:", q[:60], "→ ids", v["ids_nuevos"][:4], "fuentes +", len(v["allowed_sources_nuevas"]))
         for q, v in cz["resolver_gold_perdidas"].items():

@@ -77,9 +77,21 @@ def ficha(c, nombre):
     return d
 
 
+BAJAS_S324B = [
+    ("30012012  TARJETAS IDIOMAS VISION SUPRA rev A", "adjudicacion-alberto", None, None,
+     "Alberto (16-ago): «baja, confirmo» — hoja de tarjetas de idiomas de la Vision Supra (rev A), sin valor técnico"),
+    ("MADT190P_01_C", "fragmento-pt", None,
+     "MADT190_01", "Alberto (16-ago): «Doc en PT, eliminaría porque MADT190_01 es la versión en español» — misma clase que los 6 PT"),
+]
+
+
 def main() -> int:
+    global BAJAS
     ap = argparse.ArgumentParser(); ap.add_argument("--aplicar", action="store_true")
+    ap.add_argument("--lote", default="s324", choices=["s324", "s324b"])
     args = ap.parse_args(); modo = "aplicar" if args.aplicar else "dry-run"
+    if args.lote == "s324b":
+        BAJAS = BAJAS_S324B
     doc_map = _read_jsonl(CATALOG_DIR / "doc_map.jsonl")
     dm_por_doc = {r["document_id"]: r for r in doc_map}
     dm_por_sf = {r["source_file"].lower(): r for r in doc_map}
@@ -146,7 +158,7 @@ def main() -> int:
     recibo = {"que_es": __doc__.strip().splitlines()[0], "modo": modo, "utc": utc,
               "plan": plan, "rechazadas": rechazadas, "backup": backup, "aplicado": aplicado,
               "reversion": "PATCH documents set status=<status_prev> por document_id; doc_map: restaurar doc_map_prev"}
-    out = ROOT / "evals" / f"s324_retirar_docs_{modo}_{utc}.json"
+    out = ROOT / "evals" / f"{args.lote}_retirar_docs_{modo}_{utc}.json"
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
     print("recibo:", out.relative_to(ROOT))
     return 0 if not rechazadas or not args.aplicar else 0
