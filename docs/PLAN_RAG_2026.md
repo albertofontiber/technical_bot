@@ -80,7 +80,7 @@ y 10 de ellos son «servido y OMITIDO»** (el carrier llega al generador y el LL
 tienen sonda de alcanzabilidad** (Protocolo 4): `hp017#2` y `hp003#4` **atacables PROBADOS** (0/5→5/5),
 `hp011#2` **no** (0/5→0/5), `cat017#2` ya flipeó a OK. **Los 8 restantes están SIN SONDAR, ~$1 cada uno**
 ⇒ el movimiento barato y correcto antes de diseñar ningún lever es **sondarlos** y saber si hay población
-(la pregunta abierta de DEC-175). Análisis: `evals/s321_full_analisis_fallos_v1.md`.
+(la pregunta abierta de DEC-175). Análisis: `evals/s321_full_analisis_fallos_v1.md`; **encargo listo para ejecutar** (los 8 con su modo, su `--span-grep` propuesto y las 3 trampas conocidas): `evals/s321_encargo_sondas_etapa3_v1.md`.
 
 ## Estado anterior (s321-ruler — 16 ago 2026, sesión paralela)
 
