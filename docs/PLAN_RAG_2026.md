@@ -51,7 +51,7 @@ confirmables verificadas, 44 `no_aplicar` con propuesta, 132 alias descriptivos 
 texto completo, cita verificada; ≈$6,6): 39 convergentes ≥4/5 (E1b 34 CONFIRMAR + 1 RETIRAR; E1 2 PRODUCTO_REAL + 2
 ARTEFACTO), 22 no (10 con desacuerdo cross-model Sonnet↔GPT) → bloque `k5_confirmar` PREPARADO con el gate (31 PASS)
 — `evals/s324c_rejuicio_k5_v1.md`. Suite verde (3.891; `test_s307` desacoplado de los datos del catálogo). Deuda nueva #89
-(5 defectos del instrumento de sonda). Coste de la noche ≈ $25 (sondas ~$12, replay $5,44, K=5 ~$5-8, resto $0).
+(5 defectos del instrumento de sonda). Coste de la noche ≈ $25 (sondas ~$12, replay $5,44, K=5 ≈$6,6, resto $0). **PR #276 abierta** (rama `claude/s324b-sondas-etapa3`; la mergea Alberto).
 
 **Qué sigue (s324c — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
 (a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =
