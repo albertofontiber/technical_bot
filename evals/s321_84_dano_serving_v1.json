@@ -1,0 +1,784 @@
+{
+ "que_mide": "s321_84_dano_serving.py — MEDIR (no arreglar) el daño de TECH_DEBT #84 en serving.",
+ "agregado": {
+  "golds_dev": 40,
+  "excluidos_C1_sin_modelo": 2,
+  "golds_medidos": 23,
+  "chunks_primary_total": 5998,
+  "alineados": 5236,
+  "alineados_solo_por_S141": 0,
+  "fuera": 762,
+  "pct_fuera": 12.7,
+  "golds_con_algun_fuera": 8,
+  "golds_con_mas_de_50pct_fuera": 2
+ },
+ "por_gold": [
+  {
+   "qid": "hp001",
+   "modelos": [
+    "CAD-250"
+   ],
+   "pids": [
+    "detnov:cad-250"
+   ],
+   "source_files_primary": [
+    "CAD-250-MC-380-es",
+    "CAD-250-MS-416-es",
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "Manual usuario CAD-250 (MU 376 es 2024 f)"
+   ],
+   "n_primary_chunks": 578,
+   "n_alineados": 578,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp002",
+   "modelos": [
+    "ASD535"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp003",
+   "modelos": [
+    "CAD-150"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp004",
+   "modelos": [
+    "DGD-600"
+   ],
+   "pids": [
+    "detnov:dgd-600"
+   ],
+   "source_files_primary": [
+    "55360004 Manual Detector Gas DGD-600 ES EN IT FR"
+   ],
+   "n_primary_chunks": 4,
+   "n_alineados": 4,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp005",
+   "modelos": [
+    "ID3000"
+   ],
+   "pids": [
+    "notifier:id-3000",
+    "notifier:id3000",
+    "unresolved:id3000"
+   ],
+   "source_files_primary": [
+    "MADT190_06",
+    "MADT190_11",
+    "MADT190_12",
+    "MADT190_13",
+    "MADT190_14",
+    "MADT951_01",
+    "MADT951_03",
+    "MCDT190",
+    "MCDT191",
+    "MFDT190",
+    "MIDT190",
+    "MPDT190",
+    "No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX",
+    "TG-Honeywell_Usuario_PT",
+    "TIDT096",
+    "TIDT104",
+    "TIDT108",
+    "UCIP-Conexionado-con-ID3000",
+    "tg-como-solucionar-problema-de-error-crc"
+   ],
+   "n_primary_chunks": 669,
+   "n_alineados": 651,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 18,
+   "pct_fuera": 2.7,
+   "product_model_de_los_fuera": [
+    [
+     "TG-NOTIFIER",
+     16
+    ],
+    [
+     "DT-951",
+     2
+    ]
+   ]
+  },
+  {
+   "qid": "hp006",
+   "modelos": [
+    "AFP-400"
+   ],
+   "pids": [
+    "notifier:afp-400"
+   ],
+   "source_files_primary": [
+    "50253SP",
+    "MADT170",
+    "MADT171",
+    "MADT951_01",
+    "MCDT170",
+    "MFDT170",
+    "MIDT170",
+    "MPDT170",
+    "madt236"
+   ],
+   "n_primary_chunks": 716,
+   "n_alineados": 373,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 343,
+   "pct_fuera": 47.9,
+   "product_model_de_los_fuera": [
+    [
+     "AFP-300",
+     309
+    ],
+    [
+     "VERIFIRE™ 300",
+     18
+    ],
+    [
+     "TG-NOTIFIER",
+     16
+    ]
+   ]
+  },
+  {
+   "qid": "hp007",
+   "modelos": [
+    "VESDA-E-VEP"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp008",
+   "modelos": [
+    "ID3000"
+   ],
+   "pids": [
+    "notifier:id-3000",
+    "notifier:id3000",
+    "unresolved:id3000"
+   ],
+   "source_files_primary": [
+    "MADT190_06",
+    "MADT190_11",
+    "MADT190_12",
+    "MADT190_13",
+    "MADT190_14",
+    "MADT951_01",
+    "MADT951_03",
+    "MCDT190",
+    "MCDT191",
+    "MFDT190",
+    "MIDT190",
+    "MPDT190",
+    "No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX",
+    "TG-Honeywell_Usuario_PT",
+    "TIDT096",
+    "TIDT104",
+    "TIDT108",
+    "UCIP-Conexionado-con-ID3000",
+    "tg-como-solucionar-problema-de-error-crc"
+   ],
+   "n_primary_chunks": 669,
+   "n_alineados": 651,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 18,
+   "pct_fuera": 2.7,
+   "product_model_de_los_fuera": [
+    [
+     "TG-NOTIFIER",
+     16
+    ],
+    [
+     "DT-951",
+     2
+    ]
+   ]
+  },
+  {
+   "qid": "hp009",
+   "modelos": [
+    "ZXE"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp010",
+   "modelos": [
+    "DXc"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp011",
+   "modelos": [
+    "RP1r"
+   ],
+   "pids": [
+    "notifier:rp1r"
+   ],
+   "source_files_primary": [
+    "HLSI-BT-001",
+    "HLSI-TI-001I",
+    "MN-DT-102I",
+    "MNDT102",
+    "MNDT102I_D FR",
+    "MNDT102I_D FR VSN-RP1r_hlsi",
+    "MNDT102P",
+    "RP1R - MAN ITA r.A2",
+    "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente"
+   ],
+   "n_primary_chunks": 118,
+   "n_alineados": 117,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 1,
+   "pct_fuera": 0.8,
+   "product_model_de_los_fuera": [
+    [
+     "RP1R-Supra",
+     1
+    ]
+   ]
+  },
+  {
+   "qid": "hp012",
+   "modelos": [
+    "AM-2020",
+    "AFP1010"
+   ],
+   "pids": [
+    "notifier:afp1010",
+    "notifier:am2020"
+   ],
+   "source_files_primary": [
+    "15088SP",
+    "BTDT032",
+    "MADT280",
+    "MADT281",
+    "MADT283",
+    "MADT284",
+    "MADT285",
+    "MADT285_01",
+    "MADT951_01",
+    "MFDT280",
+    "MPDT280",
+    "MPDT281"
+   ],
+   "n_primary_chunks": 643,
+   "n_alineados": 447,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 196,
+   "pct_fuera": 30.5,
+   "product_model_de_los_fuera": [
+    [
+     "MPDT-280",
+     127
+    ],
+    [
+     "AM2020 y AFP1010",
+     50
+    ],
+    [
+     "TG-NOTIFIER",
+     16
+    ],
+    [
+     "AM2020/AFP1010",
+     3
+    ]
+   ]
+  },
+  {
+   "qid": "hp013",
+   "modelos": [
+    "ADW535"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp014",
+   "modelos": [
+    "ID2000"
+   ],
+   "pids": [
+    "notifier:id2000"
+   ],
+   "source_files_primary": [
+    "MFDT180",
+    "MIDT180",
+    "MPDT180"
+   ],
+   "n_primary_chunks": 274,
+   "n_alineados": 274,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp015",
+   "modelos": [
+    "CCD-103"
+   ],
+   "pids": [
+    "unresolved:ccd-103"
+   ],
+   "source_files_primary": [
+    "CCD-103_Manual_ES_FR_GB_IT"
+   ],
+   "n_primary_chunks": 109,
+   "n_alineados": 109,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp017",
+   "modelos": [
+    "Pearl"
+   ],
+   "pids": [
+    "notifier:pearl"
+   ],
+   "source_files_primary": [
+    "997-669-005-3_Instal-Comm_ES",
+    "997-670-005-3_Operating_ES",
+    "997-670-007-3_Operating_PT",
+    "997-671-005-3_Configuration_ES",
+    "997-671-007-3_configuration_pt",
+    "Guia basica instalacion_PEARL",
+    "guia basico inst_pearl_port"
+   ],
+   "n_primary_chunks": 306,
+   "n_alineados": 306,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp018",
+   "modelos": [
+    "ZXE"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp019",
+   "modelos": [
+    "ASD535"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "hp020",
+   "modelos": [
+    "INSPIRE"
+   ],
+   "pids": [
+    "notifier:inspire"
+   ],
+   "source_files_primary": [
+    "Actualizacion del firmware de INSPIRE a R1.35"
+   ],
+   "n_primary_chunks": 1,
+   "n_alineados": 1,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat001",
+   "modelos": [
+    "Pearl"
+   ],
+   "pids": [
+    "notifier:pearl"
+   ],
+   "source_files_primary": [
+    "997-669-005-3_Instal-Comm_ES",
+    "997-670-005-3_Operating_ES",
+    "997-670-007-3_Operating_PT",
+    "997-671-005-3_Configuration_ES",
+    "997-671-007-3_configuration_pt",
+    "Guia basica instalacion_PEARL",
+    "guia basico inst_pearl_port"
+   ],
+   "n_primary_chunks": 306,
+   "n_alineados": 306,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat005",
+   "modelos": [],
+   "control": "C1_sin_modelo_en_query",
+   "n_primary_chunks": null
+  },
+  {
+   "qid": "cat007",
+   "modelos": [
+    "FAAST LT-200",
+    "FAAST LT"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat008",
+   "modelos": [
+    "M710",
+    "MI-DMMI"
+   ],
+   "pids": [
+    "morley:m710",
+    "morley:mi-dmmi",
+    "notifier:m710"
+   ],
+   "source_files_primary": [
+    "Conexionado-del-modulo-M710-MI-DMMI",
+    "I56-2005-002 M710 M720 M721 M701",
+    "I56-2006-004 MI-DMMI_DMM2I_D2ICMO"
+   ],
+   "n_primary_chunks": 42,
+   "n_alineados": 0,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 42,
+   "pct_fuera": 100.0,
+   "product_model_de_los_fuera": [
+    [
+     "M700",
+     24
+    ],
+    [
+     "MI-DMMI/MI-DMM2I/MI-D2ICMO",
+     17
+    ],
+    [
+     "ID-3000",
+     1
+    ]
+   ]
+  },
+  {
+   "qid": "cat009",
+   "modelos": [
+    "NFS-Supra"
+   ],
+   "pids": [
+    "notifier:nfs-supra"
+   ],
+   "source_files_primary": [
+    "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+    "HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015",
+    "HLSI-MN-025-I_NFS Supra Series FR 25_03_2014 Sbr",
+    "NFS-SUPRA-VISION-PLUS-2-Como-solucionar-el-Fallo-de-alimentacion",
+    "NFS-SUPRA-VSN12-2PLUS-Funcionamiento-de-la-central-en-modo-prueba",
+    "NFS-SUPRA-VSN2-PLUS-Entrada-Digital",
+    "Ver-Como-Cambiar-configuracion-de-las-Funciones-especiales-en-las-centrales-"
+   ],
+   "n_primary_chunks": 20,
+   "n_alineados": 12,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 8,
+   "pct_fuera": 40.0,
+   "product_model_de_los_fuera": [
+    [
+     "NFS Supra/Vision Plus2/VSN-Plus2/ESS-2Plus",
+     5
+    ],
+    [
+     "UNEEN-54-4",
+     1
+    ],
+    [
+     "NFS-SUPRA VSN12-2PLUS",
+     1
+    ],
+    [
+     "NFS-SUPRA-VSN2-PLUS",
+     1
+    ]
+   ]
+  },
+  {
+   "qid": "cat010",
+   "modelos": [
+    "IS-mA1"
+   ],
+   "pids": [
+    "e2s:is-ma1"
+   ],
+   "source_files_primary": [
+    "IS5001-F_IS-mA1_EN",
+    "manual IS MA1"
+   ],
+   "n_primary_chunks": 33,
+   "n_alineados": 33,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat011",
+   "modelos": [],
+   "control": "C1_sin_modelo_en_query",
+   "n_primary_chunks": null
+  },
+  {
+   "qid": "cat012",
+   "modelos": [
+    "AM-8200"
+   ],
+   "pids": [
+    "notifier:am-8200"
+   ],
+   "source_files_primary": [
+    "AM-8200 Manual Instalacion",
+    "AM-8200-manu-prog-spa",
+    "UCIP MODBUS AM8200 V5.1"
+   ],
+   "n_primary_chunks": 247,
+   "n_alineados": 247,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat013",
+   "modelos": [
+    "CAD-150",
+    "SDX-751"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat014",
+   "modelos": [
+    "DGD-600"
+   ],
+   "pids": [
+    "detnov:dgd-600"
+   ],
+   "source_files_primary": [
+    "55360004 Manual Detector Gas DGD-600 ES EN IT FR"
+   ],
+   "n_primary_chunks": 4,
+   "n_alineados": 4,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat015",
+   "modelos": [
+    "CAD-150"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat016",
+   "modelos": [
+    "CAD-150"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat017",
+   "modelos": [
+    "INSPIRE"
+   ],
+   "pids": [
+    "notifier:inspire"
+   ],
+   "source_files_primary": [
+    "Actualizacion del firmware de INSPIRE a R1.35"
+   ],
+   "n_primary_chunks": 1,
+   "n_alineados": 1,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat018",
+   "modelos": [
+    "AM-8200"
+   ],
+   "pids": [
+    "notifier:am-8200"
+   ],
+   "source_files_primary": [
+    "AM-8200 Manual Instalacion",
+    "AM-8200-manu-prog-spa",
+    "UCIP MODBUS AM8200 V5.1"
+   ],
+   "n_primary_chunks": 247,
+   "n_alineados": 247,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat019",
+   "modelos": [
+    "CAD-250"
+   ],
+   "pids": [
+    "detnov:cad-250"
+   ],
+   "source_files_primary": [
+    "CAD-250-MC-380-es",
+    "CAD-250-MS-416-es",
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "Manual usuario CAD-250 (MU 376 es 2024 f)"
+   ],
+   "n_primary_chunks": 578,
+   "n_alineados": 578,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat020",
+   "modelos": [
+    "DXc"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat021",
+   "modelos": [
+    "40-40"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat022",
+   "modelos": [
+    "40-40",
+    "40-40L"
+   ],
+   "pids": [],
+   "n_primary_chunks": 0,
+   "nota": "sin primaries en doc_map para el modelo"
+  },
+  {
+   "qid": "cat023",
+   "modelos": [
+    "ASD532"
+   ],
+   "pids": [
+    "securiton:asd-532"
+   ],
+   "source_files_primary": [
+    "ASD532_TD_T140421es_a"
+   ],
+   "n_primary_chunks": 210,
+   "n_alineados": 210,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "cat024",
+   "modelos": [
+    "MAD-472"
+   ],
+   "pids": [
+    "unresolved:mad-472"
+   ],
+   "source_files_primary": [
+    "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+    "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2"
+   ],
+   "n_primary_chunks": 4,
+   "n_alineados": 4,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 0,
+   "pct_fuera": 0.0,
+   "product_model_de_los_fuera": []
+  },
+  {
+   "qid": "hp021",
+   "modelos": [
+    "CAD-171"
+   ],
+   "pids": [
+    "detnov:cad-171"
+   ],
+   "source_files_primary": [
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "Datasheet-CAD-171-DS-737-en",
+    "Datasheet_CAD-171-DS-736-es",
+    "Manual_CAD-171-MI-716-es"
+   ],
+   "n_primary_chunks": 219,
+   "n_alineados": 83,
+   "n_alineados_solo_por_S141": 0,
+   "n_fuera": 136,
+   "pct_fuera": 62.1,
+   "product_model_de_los_fuera": [
+    [
+     "CAD-250",
+     136
+    ]
+   ]
+  }
+ ]
+}

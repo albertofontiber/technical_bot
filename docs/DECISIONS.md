@@ -3981,7 +3981,7 @@ v3.2 ~$4 · mapa N=2 ~$8.
 como 1ª fila de la serie: **OK 115/131 (88%) · synth 12 (10 estables) · rerank 0 · retrieval 2
 (centinela+techo) · corpus-gap 2 (cat013×2, clase FN verificada 8ª/9ª vez)**. Las etapas 1 y 2
 de la campaña están COMPLETADAS corpus-wide; la **cascada upstream→downstream quedó medida**
-(hp013#1 retrieval→synth: el serving nuevo ya sirve su carrier y el LLM lo omite). Cola de
+(hp013#1 retrieval→synth: el serving nuevo ya sirve su carrier y el LLM lo omite **[s321 tarde: YA NO — con corpus 26215 el carrier no entra ni al pool (FULL 16-ago `raw=0`); y con el carrier inyectado el oráculo tampoco lo transmite (sonda serve 0/5×3, ver DEC-175). Fue verdad en s291; hoy no.]**). Cola de
 etapa 3 = 9 synth estables (hp009 centinela excluido). (b) El lever **L2
 `OBLIGATION_WARNING_APPENDIX`** (clase hp002#4 SEGURIDAD) queda CONSTRUIDO default-off tras
 dúo r2 (Sol 8 + Fable 8, 0 FP, 14 resoluciones) y **V1 medido pre-build** ($0: clase 0-átomos
@@ -4279,6 +4279,22 @@ contabilidad de rechazos anotada antes de evaluar la forma B. La lección operat
 > *(Mi v1 del censo concluyó «inmedible» desde UN filtro que buscaba la firma CONTRARIA a la de
 > la clase — un carrier nunca recuperado da `raw=0`, no `raw>0`. Lo tumbaron los DOS revisores;
 > el «negativo cómodo» que yo mismo había dicho temer.)*
+>
+> **`hp013#1` SONDADO (s321 tarde, 16-ago, `evals/s293_reachability_hp013_hp013_1.json`)** —
+> primero `appendix`: **no construible** (el carrier PWR-R no está en los 12 servidos hoy; contradice
+> la línea 3984 «el serving nuevo ya sirve su carrier» — y el FULL del mismo día lo confirma: bajó a
+> `retrieval-miss`, `raw=0 in_pool=False`). Después `serve` con los dos carriers (`a19e8735` p56 tabla
+> de bornes + `2365dfaa` p12 glosario), 3 reps, guardas nuevas: entrega probada 3/3 (`admitidos_unicos=2,
+> faltan=[]`), cobertura atestada, sello parcial ⇒ **NO_ALCANZABLE, base 0/5 → oráculo 0/5 ×3**. Y lo
+> informativo es QUÉ dijo el oráculo con la tabla delante: las tres veces «la batería de litio de la
+> LMB35… no hay procedimiento», **sin mencionar PWR-R ni «redundante»** — la pregunta dice «batería
+> tampón» y el modelo se ancla en «batería»; el hecho exige NEGAR la premisa («no es una batería, es la
+> alimentación redundante»), y servir el carrier no le hace negarla. ⇒ `hp013#1` **NO es candidato de
+> serving** (ni retrieval ni apéndice pagan): es caso de conducta/gold-review, no de lever B. **La cota
+> inferior de la población de lever B queda en ≥2** (`hp001#2`, `hp012#3` + `hp017#2` probado) — sigue
+> por encima de la población 1 que mató al lever; la puerta sigue sin cerrarse por población.
+> *(Este NO sí se ganó: con la sonda de ayer habría salido igual pero sin poder distinguirlo del NO
+> falso de `hp017#2`; hoy lleva prueba de entrega, cobertura y el texto del oráculo.)*
 
 
 **Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
@@ -7055,3 +7071,32 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Relacionado**: DEC-222 (r30/r31) · packets v2 anotados con estado (`scripts/s324_packets_estado.py`) ·
   tally r32 (Sol ts=2026-08-16T13:22:27; Fable 13:26:02) · TECH_DEBT #86/#87/#88 · reversión:
   `git checkout af95f49 -- data/catalog/` + `retags.backup_chunks` del recibo.
+
+
+## DEC-226 (s321, autónoma) — Conducta (a) del `mismatch`: DISEÑO CONSOLIDADO en dos rondas de dúo, NO CABLEADO a propósito; queda una decisión de producto (multi-modelo) para Alberto
+
+- **Fecha**: 16 ago 2026 (sesión autónoma, Alberto fuera). **Impacto**: MEDIO en zona de dolor (serving del
+  bot). **Decide**: nada nuevo aquí — registra que el cableado de DEC-224 §B **no se hizo** y por qué.
+- **Lo que pasó**: la propuesta v1 («un flag en el handler, sin tocar el planificador») recibió de Sol 6
+  medios, todos verificados: viola el punto de decisión único (DEC-200: «el transporte EJECUTA el plan sin
+  re-examinar el texto»), la ruta nueva viola el CHECK cerrado de `query_logs.route` (y `logging_db:80-81`
+  lo declara bug del emisor), voz no pasa por `plan_turn`. La v2 (`fallback_ruta` + `rag_trace` +
+  `target_models_override`) recibió **1 crítico + 4 medios**, todos verificados: `rag_trace` NO es libre
+  (`runtime_trace.build_rag_serving_trace` es «the only runtime trace shape allowed» con enums cerrados —
+  una clave libre descarta la traza entera); F1 re-resuelve `target_models` DESPUÉS del override; y el
+  multi-modelo («ASD535 de Detnov y ADW535 de Securiton») no tiene contrato.
+- **Decisión de alcance (mía, declarada)**: el diseño correcto toca **cuatro subsistemas** (`TurnPlan`
+  con campo tipado `preambulo`; `runtime_trace` builder+validador; F1 con entrada explícita de modelo
+  resuelto; `_process_query`/`log_query` con respuesta compuesta) y **una decisión de producto** que no es
+  mía. Cablearlo sin Alberto sería construir sobre un contrato no decidido (Protocolo 2). **v3 = diseño
+  consolidado** en `evals/s321_mismatch_conducta_a_propuesta_v3.md`, para una sesión dedicada con dúo.
+- **LA DECISIÓN QUE QUEDA PARA ALBERTO** — multi-modelo/multi-marca en la misma pregunta:
+  (a) fuera de alcance: si hay más de un modelo, NO se aplica mismatch-answer (se responde como hoy) —
+  **recomendado** para el primer cableado; (b) emparejar marca↔modelo por proximidad y corregir solo el
+  par erróneo — contrato nuevo, más superficie; (c) otra.
+- **Evidencia colateral del FULL de factlevel (16-ago)**: el core nuevo `hp002#5:Securiton AG` sale
+  **rerank-miss** ⇒ el generador NO corrige la marca por sí solo desde el RAG. La conducta (a) es de
+  serving y hay que cablearla; `hp002` mide al generador, no la conducta (DEC-224 §B).
+- **Recibos**: Sol v1 ts=2026-08-16T13:08:52 · Sol v2 ts=2026-08-16T14:12:49 · 0 falsos positivos en 11
+  hallazgos verificados. Fable se emparejará sobre la v3 en la sesión dedicada.
+

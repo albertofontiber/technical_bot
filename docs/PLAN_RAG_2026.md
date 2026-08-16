@@ -98,7 +98,22 @@ distinta semántica que su consumidor). Y un guard que se apagaba en silencio en
 lo destapaba. Dúo: 4 rondas Sol (v1→v4) + Fable emparejado, **0 falsos positivos**; lo que el dúo
 no cazó lo cazó Alberto dos veces (2222 como suppl; A5.4 es un EJEMPLO).
 
-**Qué sigue**: (1) cablear la conducta (a) de `mismatch` (dúo + flag + smoke del bot real);
+**Tarde autónoma (16-ago, Alberto fuera; DEC-226)** — hecho: smoke (#271) y **FULL** (#273) de
+factlevel sobre el ruler nuevo: 116/135 OK, paridad con s291, los 6 golds de la sentada por hecho =
+exactamente lo pretendido, 0 regresiones; `hp013#1` bajó a retrieval-miss (raw=0). **#84 medido en
+serving**: 12,7% de chunks primary fuera del alineado, concentrado en 8/23 golds (hp006 48% · hp021 62% ·
+cat008 100%; S141 no rescata ninguno). Dos cosas se llevaron **a propósito sin cablear/escribir**
+tras dúo: la conducta (a) del `mismatch` (2 rondas Sol: 4 subsistemas + decisión de producto
+multi-modelo — `s321_mismatch_conducta_a_propuesta_v3.md`) y DEC-186b (2 rondas Sol NO SÓLIDO:
+reconciliación de 4 docs + prereg — `s321_dec186b_propuesta_v3.md`). 0 falsos positivos en 6 rondas.
+
+**Qué sigue**: (1) **decisión de producto** multi-modelo en `mismatch` (DEC-226 recomienda «fuera de
+alcance en v1») → sesión dedicada de cableado con dúo; (2) DEC-186b como reconciliación de
+DEC/PLAN×2/LEVER_DIGEST/#75 con vocabulario único + pregunta cero (¿medir el eje modelo?); (3) #84:
+proponer fix con dúo (el daño ya está medido) — el `doc_map` como fuente de aplicabilidad; (4)
+`hp013#1`: el carrier ya no entra al pool — ver sonda `serve`; (5) podar el PLAN (154 KB).
+
+**Qué sigue**: (antes de la tarde: (1) cablear la conducta (a);
 (2) reescribir DEC-186 con su número real (dúo propio) y la raíz de #75; (3) #84 medir el daño
 en serving antes de tocar `_product_aligned_chunks`; (4) sonda `hp013#1` para afinar la población
 de lever B; (5) re-medir factlevel (los golds cambiaron: 4 cores nuevos, 1 demote, 1 entra al

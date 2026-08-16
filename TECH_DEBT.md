@@ -3077,6 +3077,29 @@ exige dúo completo (Protocolo 3) y medición previa del daño (Protocolo 2), no
 manual aplica a un modelo — consultar `data/catalog/doc_map.jsonl`. El packet de la sentada B2
 documenta hoy el método equivocado y queda anotado.
 
+**DAÑO EN SERVING — MEDIDO (s321, 16-ago, `scripts/s321_84_dano_serving.py` → `evals/s321_84_dano_serving_v1.json`).**
+Sobre la FUNCIÓN REAL (`answer_planner._product_aligned_chunks`, sus 5 vías), 40 golds dev, chunks de los
+documentos que el `doc_map` declara PRIMARY del producto de cada pregunta:
+```
+golds medidos (con modelo en la query y primaries en doc_map) : 23
+chunks primary total                                          : 5.998
+  alineados                                                   : 5.236
+  alineados SOLO por la vía S141 (attested identity)          :     0   ← el gate no rescata ninguno
+  FUERA del alineado                                          :   762   (12,7%)
+golds con algún chunk primary fuera                           :  8 / 23
+golds con >50% del material primary fuera                     :  2
+```
+Concentrado, no difuso: **`hp006` (AFP-400) 48% fuera — 309 chunks de `50253SP` con `pm=AFP-300`** (el
+mismo manual que me hizo descartar la fuente del ISO-X, DEC-223); **`hp021` (CAD-171) 62% fuera — los 136
+del `MC-380` (`pm=CAD-250`)**, el manual compartido de la serie que documenta AVANZADO; **`cat008` 100%
+fuera** (M710/MI-DMMI con columna `M700`/lista); `hp012` 30% (`MPDT-280`); `cat009` 40%; `hp005/hp008` 3%.
+Esos chunks **no aportan obligaciones estructuradas** aunque el catálogo los declare del producto.
+
+**Lo que esto decide y lo que NO**: decide que #84 es daño real de serving, no solo metadata (2 golds con
+más de la mitad de su material primary excluido). NO decide el fix: sigue exigiendo dúo + delta en eval
+(Protocolo 2). Y ojo al control: 2 golds sin modelo en la query se EXCLUYEN (la función devuelve `[]` por
+diseño — no es #84), y `hp021` está en la población porque ya existe (DEC-224).
+
 ## #85 — El guard de paridad lee `GENERATOR_INCLUDE_CONTEXT` con distinta semántica que su consumidor: un `"0"` (APAGADO) dispara el guard del ENCENDIDO (s321)
 
 **El desajuste**, verbatim:
