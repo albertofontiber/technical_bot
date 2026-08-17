@@ -3184,6 +3184,10 @@ un QR con URL). 95 más entre 300 y 1.500 chars, en su mayoría FAQ cortas legí
 de manual ya ingestado» de Alberto: el documento cuenta como cubierto y no lo está.
 **Qué hacer**: re-ingesta con OCR de TI-007 (y atestar DESPUÉS, no antes — adjudicación registrada);
 baja o sustitución del QR; guardia de ingesta: aviso cuando un PDF produce <300 chars de texto.
+**s324d (17-ago)**: comprobado que el repo NO tiene pipeline OCR (PyMuPDF solo para contar páginas/overlay;
+`struck_ocr.py` es política de display, no OCR) ⇒ la re-ingesta OCR de TI-007 no es autónoma: o Alberto aporta el
+PDF ya OCR-izado (o el texto) y se ingesta por el pipeline normal, o se diseña el paso OCR (tesseract/ocrmypdf) con
+dúo. Los 2 docs censados siguen activos y sin cambio.
 
 ## #88 — `documents.product_model` conserva artefactos que E3 corrigió solo en `chunks_v2` — s324
 
