@@ -45,7 +45,7 @@ está **pineado por sha en un freeze-contract ACTIVO de CI** (`evals/s132_ci_evi
 `test_s130_prereg_has_portable_active_source_receipts` se puso rojo y me paró. Además, normalizar la ENTRADA es
 responsabilidad del orquestador: un solo punto, y los tres consumidores ven la misma página.
 
-Tests: `tests/test_s324d_page_content_guard.py` (9): caso real de TI-007; no-disparo con md legítimamente más
+Tests: `tests/test_s324d_page_content_guard.py` (13 tras el dúo): caso real de TI-007; no-disparo con md legítimamente más
 corto (ratio 0,87 y 0,30); no-disparo en páginas cortas; comportamiento previo intacto; auditoría; `sanear_record`
 no muta el original y es inerte sin degeneración; y el contrato de que el pipeline sanea ANTES de leer y de que
 `chunk.py` sigue con su `or` (freeze respetado).
@@ -80,3 +80,29 @@ que la densidad no ve— está corriendo aparte (`s324d_censo_cobertura_paginas`
 (c) ¿Los umbrales 0,25/500 son defendibles sin la distribución, o el diseño debería exigir medirla primero?
 (d) ¿El aviso de texto escaso debería BLOQUEAR la indexación en vez de declarar?
 (e) Cualquier claim de este documento que el código o los datos no sostengan.
+
+---
+
+## ADENDA — dúo r35 (17-ago): Sol GPT-5.6 xhigh 5 hallazgos + Fable 5 (11 `tool_use` reales) — TODOS verificados y APLICADOS
+
+**El emparejamiento se rompió y la causa está identificada:** lancé Fable con `--sol-ts` correcto, pero entre
+ambos runs **un agente de medición en background escribió ficheros nuevos** (`evals/s324d_censo_cobertura_paginas_*`),
+el snapshot del repo cambió y el runner rechazó unir los recibos («Sol y Fable no revisaron exactamente los mismos
+bytes ordenados»). La review de Fable se guardó como **standalone válida** (11 `tool_use` reales, auditoría #86
+activa) y sus hallazgos se aplican igual. **Lección para TECH_DEBT #86**: la regla no es sólo «no muevas HEAD
+durante un dúo emparejado» — es «que nadie escriba en el árbol», agentes incluidos.
+
+| # | Hallazgo | Quién | Verificación | Qué cambió |
+|---|---|---|---|---|
+| 1 | **CRÍTICO — `md` de sólo whitespace se perdía igual**: `page_content()` caía a `text`, pero `page_content_degradada()`/`sanear_record()` usaban OTRO criterio y no sustituían; `"\n\n"` es *truthy* para los consumidores ⇒ la página se perdía. Mi test probaba el helper, no la ruta cableada | Sol | cierto (dos criterios divergentes en el mismo módulo) | criterio **ÚNICO** `_degenerado()` que comparten `page_content`, `page_content_degradada`, `motivo_degeneracion`, `auditar_paginas` y `sanear_record`; test sobre la RUTA CABLEADA |
+| 2 | **Falso positivo realista**: una página de tabla/diagrama puede tener `md` compacto legítimo y `text` largo y disperso ⇒ sustituir EMPEORA | Fable | plausible y no acotado | tercera condición: un `md` **con estructura** (heading, lista, tabla, cita, bloque de código) NO se sustituye, mida lo que mida. El `md` de TI-007 (cabecera suelta) no la tiene |
+| 3 | **La auditoría no viajaba en todos los caminos**: `register_only`, `empty`, `empty_after_language`, `sin_indexar` la perdían, y `run()` no la persistía ni en `done` — justo donde acaba un documento roto | Sol + Fable (coincidentes) | cierto | `**audit` en los cuatro caminos + `_traza_extraccion()` persistida en el estado de los cinco estados; test que lo ancla |
+| 4 | **Un CUARTO consumidor, y en SERVING**: `rag/deep_lookup._item_text` (brazo `fetch_mode()=="llm"`) leía el store crudo con el mismo `or` ⇒ el outline del selector LLM seguía ciego justo en los docs rescatados | Fable | cierto (`deep_lookup.py:56-69`) | usa la misma guarda; declarado en el módulo |
+| 5 | **`chunk_provenance.materialize_raw_record` no está saneado** | Sol | cierto | **NO se sanea a propósito**: su contrato es reproducir el artefacto CRUDO con el chunker congelado y sólo lo usan scripts de auditoría s117/s135 (verificado); declarado en el módulo |
+| 6 | «Caso real» con `"X"*3708` y recuento de tests inflado (9 vs 8) | Sol + Fable | cierto | fixture con el JSON **real** del job (`tests/fixtures/s324d_ti007_llamaparse_page1.json`); el test comprueba que lo rescatado contiene `PROG`, `Z1`, `VSN-4REL`, `40 cm`; **13 tests** |
+| 7 | `texto_escaso` se mide tras el filtro de idioma (un `register_only` nunca se evalúa) | Fable | cierto | declarado en el código |
+
+**Condición del dúo que NO se pudo cumplir (declarada, no tapada):** Fable exigió correr `auditar_paginas` sobre el
+**store real de 966 JSON antes de mergear**. Ese store no está en este checkout **ni en el OneDrive de esta máquina**
+(busqué; sólo hay 2 JSON locales). Queda como condición pendiente en TECH_DEBT #87: con el store delante son minutos
+y $0. Mientras tanto, la guarda es conservadora (tres condiciones AND) y falla hacia el comportamiento actual.

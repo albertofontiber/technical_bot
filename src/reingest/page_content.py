@@ -29,18 +29,45 @@ chunker como instrumento) — tocarlo rompe el contrato y ese guardarraíl hizo 
 normalizar la ENTRADA es responsabilidad del orquestador, no de cada consumidor: así los tres ven la
 misma página saneada y no hay tres sitios donde el arreglo se pueda olvidar.
 
+**Alcance REAL de la guarda (dúo r35 — no son «tres consumidores», son cuatro y medio):**
+- `pipeline.process_file` → saneado (idioma, chunking, contextualización ven la página buena).
+- `rag/deep_lookup._item_text` (SERVING, brazo `fetch_mode()=="llm"`) → usa esta misma guarda desde
+  r35 (lo cazó Fable): construye el outline leyendo el store crudo, así que sin ella el selector LLM
+  seguiría ciego justo en los documentos que la guarda rescata.
+- `reingest/chunk_provenance.materialize_raw_record` → **NO saneado, a propósito**: su contrato es
+  reproducir determinísticamente lo que el chunker CONGELADO ve del artefacto CRUDO (lo usan sólo
+  los scripts de auditoría s117/s135, nunca la ingesta). Sanear ahí rompería la reproducibilidad de
+  esos experimentos. Si alguna vez se materializa PARA INGESTAR, hay que sanear antes.
+
 **Gap declarado (s324d):** el store de extracción del corpus (966 JSON de mayo) NO está en este
-checkout, así que estos umbrales NO se calibraron contra la distribución real de `len(md)/len(text)`
-— se eligieron conservadores, y la guarda falla hacia el comportamiento ACTUAL (usar `md`). Cuando
-el store esté disponible, medir la distribución y re-calibrar con recibo.
+checkout ni en el OneDrive de esta máquina (busqué: sólo hay 2 JSON locales), así que estos umbrales
+NO se calibraron contra la distribución real de `len(md)/len(text)` — se eligieron conservadores, y
+la guarda falla hacia el comportamiento ACTUAL (usar `md`). El dúo r35 pidió correr `auditar_paginas`
+sobre el store real ANTES de mergear; **no se pudo, y queda como condición pendiente** (TECH_DEBT
+#87): con el store delante son minutos y $0.
 """
 from __future__ import annotations
+
+import re as _re
 
 # Un markdown que mide menos de esta fracción del texto plano es sospechoso...
 RATIO_DEGENERADO = 0.25
 # ...y sólo se sustituye si además la pérdida absoluta es grande (evita falsos positivos en páginas
 # cortas: portadas, hojas de un párrafo, separadores).
 PERDIDA_ABSOLUTA_MIN = 500
+
+# (dúo r35, Fable) Tercera condición, contra la clase de falso positivo que ni Sol ni yo habíamos
+# acotado: una página de TABLA o DIAGRAMA puede tener un `md` legítimamente compacto (la tabla
+# renderizada) frente a un `text` largo y disperso (etiquetas posicionales sueltas) — ahí sustituir
+# EMPEORA el contenido. Un markdown con ESTRUCTURA (tabla, lista, heading, cita) es producto real
+# del agente y no se toca, mida lo que mida. El `md` de TI-007 (`**Honeywell Life Safety Iberia**`)
+# no tiene ninguna: es una cabecera suelta, que es la firma del colapso.
+_ESTRUCTURA_MD = _re.compile(r"^\s{0,3}(#{1,6}\s|[-*+]\s|\d+[.)]\s|\||>\s|```)", _re.M)
+
+
+def md_tiene_estructura(md: str) -> bool:
+    """¿El markdown trae estructura (heading, lista, tabla, cita, bloque de código)?"""
+    return bool(_ESTRUCTURA_MD.search(md or ""))
 
 
 def page_content(page: dict) -> str:
@@ -51,29 +78,49 @@ def page_content(page: dict) -> str:
         return text
     if not text.strip():
         return md
-    if len(md) < RATIO_DEGENERADO * len(text) and (len(text) - len(md)) >= PERDIDA_ABSOLUTA_MIN:
+    if _degenerado(md, text):
         return text
     return md
 
 
-def page_content_degradada(page: dict) -> bool:
-    """¿Esta página activa la guarda? (para declararlo en la traza de ingesta, no para decidir)."""
-    md = (page.get("md") or "")
-    text = (page.get("text") or "")
-    if not md.strip() or not text.strip():
+def _degenerado(md: str, text: str) -> bool:
+    """Criterio ÚNICO de degeneración. `page_content`, `page_content_degradada`, `auditar_paginas` y
+    `sanear_record` lo comparten a propósito: en r35 Sol cazó que yo tenía dos criterios distintos
+    (el helper caía a `text` con un `md` de sólo whitespace, pero el saneamiento cableado NO lo
+    sustituía — y `"\n\n"` es *truthy* para los consumidores, así que la página se perdía igual)."""
+    if not md.strip():
+        return bool(text.strip())
+    if not text.strip():
+        return False
+    if md_tiene_estructura(md):
         return False
     return len(md) < RATIO_DEGENERADO * len(text) and (len(text) - len(md)) >= PERDIDA_ABSOLUTA_MIN
 
 
+def page_content_degradada(page: dict) -> bool:
+    """¿Esta página activa la guarda? MISMO criterio que `page_content` (r35)."""
+    return _degenerado(page.get("md") or "", page.get("text") or "")
+
+
+def motivo_degeneracion(page: dict) -> str | None:
+    """Por qué se sanea esta página (para la traza; `None` si no se sanea)."""
+    md, text = (page.get("md") or ""), (page.get("text") or "")
+    if not _degenerado(md, text):
+        return None
+    return "md_vacio_o_whitespace" if not md.strip() else "md_colapsado_sin_estructura"
+
+
 def auditar_paginas(pages: list[dict]) -> dict:
-    """Censo de la guarda sobre un documento extraído: qué páginas la activan y cuánto texto se
-    habría perdido sin ella. Va al registro de estado del pipeline — un fallback silencioso es
-    justo lo que dejó a TI-007 en 47 chars sin que nadie se enterara."""
+    """Censo de la guarda sobre un documento extraído: qué páginas la activan, por qué motivo y
+    cuánto texto se habría perdido sin ella. Va al registro de estado del pipeline — un fallback
+    silencioso es justo lo que dejó a TI-007 en 47 chars sin que nadie se enterara."""
     afectadas, chars_rescatados = [], 0
     for p in pages or []:
-        if page_content_degradada(p):
+        motivo = motivo_degeneracion(p)
+        if motivo:
             md_n, text_n = len(p.get("md") or ""), len(p.get("text") or "")
-            afectadas.append({"page": p.get("page"), "md_chars": md_n, "text_chars": text_n})
+            afectadas.append({"page": p.get("page"), "md_chars": md_n, "text_chars": text_n,
+                              "motivo": motivo})
             chars_rescatados += text_n - md_n
     return {"paginas_con_md_degenerado": afectadas,
             "n_paginas_afectadas": len(afectadas),
@@ -95,10 +142,12 @@ def sanear_record(record: dict) -> tuple[dict, dict]:
         return record, auditoria
     nuevas = []
     for p in pages:
-        if page_content_degradada(p):
+        motivo = motivo_degeneracion(p)
+        if motivo:
             q = dict(p)
-            q["md"] = p.get("text") or ""
+            q["md"] = page_content(p)                       # criterio ÚNICO, no una copia de la regla
             q["md_degenerado_sustituido_por_text"] = True   # traza en el propio objeto
+            q["md_degenerado_motivo"] = motivo
             nuevas.append(q)
         else:
             nuevas.append(p)

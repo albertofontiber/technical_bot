@@ -101,6 +101,20 @@ def _save_json(path: str, data) -> None:
     raise last_exc
 
 
+def _traza_extraccion(result: dict) -> dict:
+    """(dúo r35) Lo que debe SOBREVIVIR en el estado persistido de cada documento: si la guarda de
+    markdown degenerado disparó y si el documento salió con texto escaso. Sin esto, la señal vive
+    sólo en un log efímero — el agujero que Sol y Fable cazaron por separado."""
+    out: dict = {}
+    md_deg = result.get("md_degenerado") or {}
+    if md_deg.get("n_paginas_afectadas"):
+        out["md_degenerado"] = {"paginas": md_deg["n_paginas_afectadas"],
+                                "chars_rescatados": md_deg["chars_rescatados"]}
+    if result.get("texto_escaso"):
+        out["texto_escaso"] = {"chars": result.get("chars")}
+    return out
+
+
 def process_file(record: dict, supabase: SupabaseHTTP | None,
                  dry_run: bool) -> dict:
     """Ejecuta B1-B8 sobre un documento extraído. Devuelve el registro de estado."""
@@ -114,17 +128,22 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
     if auditoria_md["n_paginas_afectadas"]:
         logger.warning("md DEGENERADO en %s: %d página(s) saneadas, %d chars rescatados del campo `text`",
                        source_path, auditoria_md["n_paginas_afectadas"], auditoria_md["chars_rescatados"])
+    # (dúo r35, Sol+Fable coincidentes) La auditoría viaja en TODOS los caminos de salida, no sólo
+    # en `done`: `register_only`, `empty`, `empty_after_language` y `sin_indexar` son precisamente
+    # donde acaba un documento con la extracción rota, y dejarla sólo en un `logger.warning` es la
+    # misma clase de «fallback silencioso» que esta guarda existe para eliminar.
+    audit = {"md_degenerado": auditoria_md}
 
     # B2 — política de idiomas a nivel de documento.
     prof = profile_document(record)
     if prof.verdict == "register_only":
         return {"status": "register_only", "language": prof.dominant,
-                "source_path": source_path}
+                "source_path": source_path, **audit}
 
     # B3/B4 — chunking estructural + marca de flowcharts.
     chunks = chunk_document(record)
     if not chunks:
-        return {"status": "empty", "source_path": source_path}
+        return {"status": "empty", "source_path": source_path, **audit}
 
     # B1 — idioma por chunk + filtro de política.
     for ch in chunks:
@@ -136,7 +155,7 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
     for idx, c in enumerate(kept):       # re-numerar tras el filtro
         c.chunk_index = idx
     if not kept:
-        return {"status": "empty_after_language", "source_path": source_path}
+        return {"status": "empty_after_language", "source_path": source_path, **audit}
 
     # B5 — metadata.
     sample = " ".join(c.content for c in kept[:4])
@@ -152,7 +171,9 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
         logger.warning("TEXTO ESCASO en %s: %d chars en %d chunk(s) (< %d). Revisa la extracción "
                        "antes de dar el documento por ingestado.",
                        source_path, chars_totales, len(kept), UMBRAL_TEXTO_ESCASO)
-    extra = {"chars": chars_totales, "texto_escaso": texto_escaso, "md_degenerado": auditoria_md}
+    # `texto_escaso` se mide sobre `kept` (post-filtro de idioma): un documento `register_only`
+    # nunca llega aquí — coherente con la política de idiomas, y declarado (Fable r35, menor).
+    extra = {"chars": chars_totales, "texto_escaso": texto_escaso, **audit}
 
     if dry_run:
         return {"status": "dry_run", "chunks": len(kept),
@@ -173,7 +194,7 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
         return {"status": "sin_indexar", "motivo": resolucion.estado.value,
                 "detalle": resolucion.detalle, "chunks": len(kept), "indexed": 0,
                 "duplicates": 0, "flow_diagram": flow,
-                "document_id": None, "source_path": source_path}
+                "document_id": None, "source_path": source_path, **extra}
 
     # B7 — contextual retrieval.
     contextualize_document(full_document_text(record), kept)
@@ -271,7 +292,8 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
         elif status == "register_only":
             registered.append({"sha256": sha, **result})
             state["files"][sha] = {"status": "register_only",
-                                   "language": result["language"]}
+                                   "language": result["language"],
+                                   **_traza_extraccion(result)}
             counts["register_only"] += 1
             logger.info("[%d/%d] register-only %s (idioma %s)",
                         i + 1, len(files), sha[:12], result["language"])
@@ -279,7 +301,8 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
             state["files"][sha] = {"status": "done", "chunks": result["chunks"],
                                    "indexed": result["indexed"],
                                    "duplicates": result["duplicates"],
-                                   "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+                                   "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                                   **_traza_extraccion(result)}
             counts["done"] += 1
             logger.info("[%d/%d] OK %s -> %d chunks indexados (%d dup, %d flowchart)",
                         i + 1, len(files), sha[:12], result["indexed"],
@@ -291,12 +314,13 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
             # como "vacio" en el resumen.
             state["files"][sha] = {"status": status,
                                    "motivo": result.get("motivo"),
-                                   "detalle": result.get("detalle")}
+                                   "detalle": result.get("detalle"),
+                                   **_traza_extraccion(result)}
             counts["sin_indexar"] = counts.get("sin_indexar", 0) + 1
             logger.warning("[%d/%d] SIN INDEXAR %s -> %s (%s)", i + 1, len(files),
                            sha[:12], result.get("motivo"), result.get("detalle"))
         else:  # empty / empty_after_language
-            state["files"][sha] = {"status": status}
+            state["files"][sha] = {"status": status, **_traza_extraccion(result)}
             counts["empty"] += 1
 
         if not dry_run:

@@ -22,6 +22,7 @@ Lo que ancla este fichero:
 from __future__ import annotations
 
 import inspect
+import json
 import os
 import sys
 
@@ -31,20 +32,32 @@ if ROOT not in sys.path:
 
 from src.reingest.page_content import (  # noqa: E402
     auditar_paginas,
+    md_tiene_estructura,
+    motivo_degeneracion,
     page_content,
     page_content_degradada,
     sanear_record,
 )
 
-# El caso real, con las cifras del job 1b73eb2d.
-TI007 = {"page": 1, "md": "\n\n**Honeywell Life Safety Iberia**", "text": "X" * 3708}
+# El caso REAL, byte a byte: página 1 de TI-007 tal como la devolvió LlamaParse (job 1b73eb2d).
+# (dúo r35, Sol+Fable: antes era `"X" * 3708` y el rótulo «caso real» estaba sobre-afirmado —
+# validaba los umbrales, no el contenido.)
+with open(os.path.join(ROOT, "tests", "fixtures", "s324d_ti007_llamaparse_page1.json"),
+          encoding="utf-8") as _fh:
+    _FIXTURE = json.load(_fh)
+TI007 = {"page": _FIXTURE["page"], "md": _FIXTURE["md"], "text": _FIXTURE["text"]}
 
 
 def test_el_caso_real_de_ti007_recupera_el_texto():
-    assert len(TI007["md"]) == 34
+    """Con el JSON REAL del job: md = la cabecera, text = el documento con el procedimiento."""
+    assert len(TI007["md"]) == 34 and len(TI007["text"]) == 3708
     out = page_content(TI007)
-    assert out == TI007["text"] and len(out) == 3708
+    assert out == TI007["text"]
+    # y lo rescatado es el CONTENIDO técnico, no un relleno sintético
+    for aguja in ("PROG", "Z1", "VSN-4REL", "40 cm"):
+        assert aguja in out
     assert page_content_degradada(TI007) is True
+    assert motivo_degeneracion(TI007) == "md_colapsado_sin_estructura"
 
 
 def test_no_dispara_con_un_markdown_legitimamente_mas_corto():
@@ -109,3 +122,61 @@ def test_el_pipeline_sanea_ANTES_de_leer_el_record_y_no_toca_el_chunker_congelad
     assert src.index("sanear_record(record)") < src.index("profile_document(record)") < src.index("chunk_document(record)")
     for mod in (chunk, contextualize, language):                       # intactos: siguen con su `or`
         assert 'p.get("md") or p.get("text")' in inspect.getsource(mod)
+
+
+# ── dúo r35: los agujeros que Sol y Fable cazaron ────────────────────────────────────────────
+def test_md_de_solo_whitespace_se_sanea_en_la_RUTA_CABLEADA():
+    """CRÍTICO de Sol: `page_content` caía a `text` con un md de sólo whitespace, pero `sanear_record`
+    NO sustituía (usaba otro criterio) y un md de whitespace es *truthy* para los consumidores ⇒ la
+    página se perdía igual. Ahora el criterio es ÚNICO y la ruta cableada lo cubre."""
+    p = {"page": 1, "md": "\n\n   ", "text": "B" * 3000}
+    assert motivo_degeneracion(p) == "md_vacio_o_whitespace"
+    saneado, aud = sanear_record({"sha256": "x", "result": {"pages": [p]}})
+    assert saneado["result"]["pages"][0]["md"] == p["text"]
+    assert aud["n_paginas_afectadas"] == 1
+
+
+def test_un_markdown_CON_ESTRUCTURA_nunca_se_sustituye_aunque_sea_corto():
+    """Fable: una página de TABLA o DIAGRAMA tiene md compacto legítimo y text largo y disperso;
+    sustituir ahí EMPEORA el contenido."""
+    tabla = {"md": "| Modelo | Zonas |\n|---|---|\n| CAD-150 | 2 |", "text": "X" * 6000}
+    lista = {"md": "- Primer paso\n- Segundo paso", "text": "X" * 6000}
+    heading = {"md": "# Instalación", "text": "X" * 6000}
+    cita = {"md": "> Aviso importante", "text": "X" * 6000}
+    for p in (tabla, lista, heading, cita):
+        assert md_tiene_estructura(p["md"]) is True
+        assert motivo_degeneracion(p) is None and page_content(p) == p["md"]
+    assert md_tiene_estructura(TI007["md"]) is False       # la cabecera suelta NO es estructura
+
+
+def test_la_auditoria_viaja_en_TODOS_los_caminos_de_salida_del_pipeline():
+    """Sol y Fable coincidieron: `register_only`, `empty`, `empty_after_language` y `sin_indexar`
+    perdían la auditoría, y son justo donde acaba un documento con la extracción rota."""
+    from src.reingest import pipeline
+    src = inspect.getsource(pipeline.process_file)
+    for camino in ('"status": "register_only"', '"status": "empty"',
+                   '"status": "empty_after_language"', '"status": "sin_indexar"'):
+        i = src.index(camino)
+        cola = src[i:i + 400]
+        assert "**audit" in cola or "**extra" in cola, f"{camino} pierde la auditoría"
+    # y el estado persistido la conserva
+    run_src = inspect.getsource(pipeline.run)
+    assert run_src.count("_traza_extraccion(result)") >= 4
+
+
+def test_la_traza_persistida_solo_declara_lo_que_paso():
+    from src.reingest.pipeline import _traza_extraccion
+    assert _traza_extraccion({"md_degenerado": {"n_paginas_afectadas": 0, "chars_rescatados": 0}}) == {}
+    t = _traza_extraccion({"md_degenerado": {"n_paginas_afectadas": 2, "chars_rescatados": 5000},
+                           "texto_escaso": True, "chars": 47})
+    assert t["md_degenerado"] == {"paginas": 2, "chars_rescatados": 5000}
+    assert t["texto_escaso"] == {"chars": 47}
+
+
+def test_el_cuarto_consumidor_de_serving_usa_la_misma_guarda():
+    """Fable: `deep_lookup._item_text` (brazo `fetch_mode()=="llm"`) leía el store crudo con el mismo
+    `or`, así que el outline del selector LLM seguía ciego en los docs que la ingesta rescata."""
+    from src.rag.deep_lookup import _item_text
+    assert _item_text(TI007) == TI007["text"]
+    assert _item_text({"value": "solo value"}) == "solo value"
+    assert _item_text({"md": "| a | b |", "text": "X" * 9000}) == "| a | b |"

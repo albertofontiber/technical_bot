@@ -3160,7 +3160,9 @@ variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
 **Estado: (1) RESUELTO en s324d (17-ago)** — el runner estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado`
 en el recibo, sufija el `.md` con `_SIN-TOOLS`, deja nota lateral y avisa por stderr (sin tocar el `.md`:
 contrato de sha del validador); tests `tests/test_s324d_fable_tools_audit.py`; spec en
-`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado)
+`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado — **ampliada en s324d r35: que
+NADIE escriba en el árbol de trabajo, agentes de background incluidos; un agente de medición creó ficheros entre el
+run de Sol y el de Fable, el snapshot cambió y el runner rechazó emparejar los recibos**)
 y **(3)** regla C (abrir el responses JSON) — quedan como disciplina, no como código. **Origen — OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
 imprime un log de `grep_repo`/`read_file`/`list_dir` con respuestas verosímiles… de ficheros que NO
 existen (`scripts/catalog_store.py`, `scripts/s324_radio_explosion.py`, `products.jsonl:509` con
@@ -3184,10 +3186,18 @@ un QR con URL). 95 más entre 300 y 1.500 chars, en su mayoría FAQ cortas legí
 de manual ya ingestado» de Alberto: el documento cuenta como cubierto y no lo está.
 **Qué hacer**: re-ingesta con OCR de TI-007 (y atestar DESPUÉS, no antes — adjudicación registrada);
 baja o sustitución del QR; guardia de ingesta: aviso cuando un PDF produce <300 chars de texto.
-**s324d (17-ago)**: comprobado que el repo NO tiene pipeline OCR (PyMuPDF solo para contar páginas/overlay;
-`struck_ocr.py` es política de display, no OCR) ⇒ la re-ingesta OCR de TI-007 no es autónoma: o Alberto aporta el
-PDF ya OCR-izado (o el texto) y se ingesta por el pipeline normal, o se diseña el paso OCR (tesseract/ocrmypdf) con
-dúo. Los 2 docs censados siguen activos y sin cambio.
+**s324d (17-ago) — RAÍZ REAL ENCONTRADA, NO ERA OCR (y el diagnóstico anterior de esta deuda estaba equivocado):**
+el PDF de `HLSI-TI-007_VSN-4REL` tiene **2.246 chars de texto NATIVO** (PyMuPDF) y el re-parse con la config real
+del corpus (`parse_page_with_agent` + `anthropic-sonnet-4.5`, job `1b73eb2d`, ~$0,06) devuelve **`md` = 34 chars y
+`text` = 3.708 chars EN EL MISMO JSON**. Los consumidores hacían `p.get("md") or p.get("text")`, que sólo cae a
+`text` si `md` es VACÍO ⇒ 47 chars en el corpus. **LlamaParse agentic YA es la capa de OCR** (LVM multimodal); no
+hace falta tesseract. **RESUELTO** con la guarda de markdown degenerado (`src/reingest/page_content.py`, saneado en
+`pipeline.process_file` + `deep_lookup._item_text`; dúo r35 Sol 5/5 + Fable 5/5 aplicados; 13 tests).
+**Censo de densidad** (26.215 chunks, 1.054 docs activos): mediana 2.632 chars/página, **19 docs** < 250 (mayoría
+fragmentos PT/FR/IT conocidos) ⇒ la patología no es masiva.
+**PENDIENTE (condición del dúo que no se pudo cumplir):** correr `auditar_paginas` sobre el **store real de 966 JSON**
+(no está en este checkout ni en el OneDrive de esta máquina) para calibrar `RATIO_DEGENERADO`/`PERDIDA_ABSOLUTA_MIN`
+contra la distribución real; y decidir el QR `Docs Morley-IAS Max` (142 chars).
 
 ## #88 — `documents.product_model` conserva artefactos que E3 corrigió solo en `chunks_v2` — s324
 
