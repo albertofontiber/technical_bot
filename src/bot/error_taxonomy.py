@@ -238,6 +238,43 @@ _CRITICO_LLM = Decision(
     ),
     con_codigo=True,
 )
+# (s324f) CUOTA AGOTADA: el mismo 429 que la saturación, pero por saldo. Va como
+# `LLM_FALLO` y no como `LLM_SATURADO` por una razón que se paga en la respuesta:
+# saturación es transitoria y reintentar sirve; sin saldo, reintentar falla
+# SIEMPRE hasta que una persona recargue. Decirle «prueba en unos minutos» a
+# quien no puede hacer nada al respecto es la mentira cómoda que esta tabla
+# prohíbe en su cabecera.
+#
+# Clase `llm_fallo` y no una propia porque el CHECK de `bot_errors` sólo admite
+# las seis clases de la migración 015, y una clase nueva exige migración
+# aplicada a mano. `llm_fallo` es además correcto: es un fallo determinista del
+# proveedor.
+#
+# ⚠️ PASO PENDIENTE, deliberadamente en dos tiempos (Alberto pidió el 17-ago
+# poder tener más de seis clases). `migrations/017_bot_errores_clase_cuota.sql`
+# está escrita y **sin aplicar**. El orden importa y no se puede invertir:
+#   1º se APLICA la 017 (abre el CHECK a `cuota_agotada`);
+#   2º y sólo entonces se cambia esta `clase=LLM_FALLO` por `clase=CUOTA_AGOTADA`
+#      y se añade la constante a `CLASES`.
+# Al revés, el bot escribiría una clase que el CHECK rechaza y **se perdería el
+# registro de la incidencia justo cuando más falta hace** — el fallo que este
+# código existe para hacer visible.
+#
+# `critico` como las credenciales: afecta a TODO EL MUNDO y no se arregla solo.
+# Es la severidad que dispara el aviso al operador — que es el único que puede
+# resolverlo.
+_CUOTA_AGOTADA_LLM = Decision(
+    clase=LLM_FALLO,
+    severidad="critico",
+    reintentable=False,
+    mensaje=(
+        "No puedo atenderte ahora mismo: el servicio de IA que necesito para "
+        "esto ha dejado de aceptar peticiones por un problema de la cuenta, no "
+        "por tu pregunta. Es cosa nuestra y ya está avisado el responsable — "
+        "reintentar no va a servir hasta que se resuelva. Código:"
+    ),
+    con_codigo=True,
+)
 
 
 # ---------------------------------------------------------- tablas nominales
@@ -309,6 +346,49 @@ _LLM_REINTENTABLE_NOMBRES = {
 }
 
 
+#: (s324f) Señales de que un 429 es CUOTA AGOTADA y no congestión. Nacen de un
+#: fallo real en el piloto: la primera usuaria invitada mandó un audio, la cuenta
+#: de OpenAI no tenía saldo, y el bot le contestó «estoy saturado, prueba en unos
+#: minutos» — una respuesta que la invita a repetir algo que NO va a funcionar
+#: nunca, y que además no avisa a nadie de que hay que pagar.
+#:
+#: Por qué por TEXTO y no por código: los dos casos comparten el 429. El SDK no
+#: los distingue en el tipo, y el único sitio donde el proveedor dice cuál es, es
+#: el cuerpo del error. Se aceptan las variantes de OpenAI y de Anthropic.
+#:
+#: LAS DOS DEGRADACIONES, declaradas (la segunda la señaló Fable en el dúo r40 y
+#: es la que importa, porque va en la dirección peligrosa):
+#:   · FALSO NEGATIVO — si un proveedor cambia su redacción, esto deja de
+#:     reconocerlo y el error vuelve a clasificarse como saturación, o sea a la
+#:     conducta de hoy. Se pierde la mejora, no se rompe nada.
+#:   · FALSO POSITIVO — una congestión REAL clasificada como cuota le diría al
+#:     técnico «reintentar no va a servir» cuando sí serviría, y mandaría un
+#:     aviso crítico falso al operador. Por eso las señales son frases
+#:     ESPECÍFICAS y no palabras sueltas: se descartó `"billing"`, que parecía
+#:     cubrir a los dos proveedores pero aparece también en los enlaces de ayuda
+#:     de un 429 de ritmo normal. Una señal ancha aquí cuesta más que una que
+#:     falta.
+_SENALES_CUOTA = (
+    "insufficient_quota",           # OpenAI, campo `type` del error
+    "no credits remaining",         # OpenAI, texto
+    "exceeded your current quota",  # OpenAI, texto clásico
+    "credit balance is too low",    # Anthropic
+)
+
+
+def _es_cuota_agotada(exc: BaseException) -> bool:
+    """¿Este 429 es «no hay saldo» en vez de «vas muy rápido»?
+
+    Mira el texto de la excepción, que es donde el proveedor lo dice. Nunca
+    lanza: un `str()` que explote no puede tumbar la clasificación (mismo
+    criterio que `_codigo_http`)."""
+    try:
+        texto = str(exc).lower()
+    except Exception:                                        # noqa: BLE001
+        return False
+    return any(senal in texto for senal in _SENALES_CUOTA)
+
+
 def _nombres_mro(exc: BaseException) -> list[str]:
     """`['anthropic.RateLimitError', 'anthropic.APIStatusError', …]`, de la clase
     concreta hacia arriba. El módulo se reduce a su raíz para que
@@ -375,6 +455,12 @@ def clasificar(exc: BaseException | None) -> Decision:
         if raiz not in _PROVEEDORES_LLM:
             continue
         codigo = _codigo_http(exc)
+        # (s324f) El 429 tiene DOS caras y hasta hoy sólo se veía una. Antes de
+        # llamarlo saturación se mira si el proveedor está diciendo «no hay
+        # saldo»: mismo código, consecuencia opuesta para quien pregunta.
+        if (codigo == 429 or corto in _LLM_SATURADO_NOMBRES) and \
+                _es_cuota_agotada(exc):
+            return _CUOTA_AGOTADA_LLM
         # 429 (límite) y 529 (sobrecargado de Anthropic) mandan sobre el nombre:
         # los SDK envuelven ambos en `APIStatusError` según versión.
         if codigo in (429, 529) or corto in _LLM_SATURADO_NOMBRES:

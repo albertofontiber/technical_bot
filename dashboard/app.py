@@ -137,8 +137,13 @@ def _cabeceras_seguridad(nonce: str) -> list:
       · `Cache-Control: no-store` — esto es lo más importante de la lista para
         el RGPD: sin ella, un proxy o el disco del navegador se quedan copias
         de páginas con identificadores de Telegram y preguntas de técnicos.
-      · `Referrer-Policy: no-referrer` — la URL del panel no viaja a ningún
-        sitio al pulsar un enlace externo.
+      · `Referrer-Policy: same-origin` — la URL del panel no viaja a ningún
+        sitio EXTERNO, y sí viaja dentro del propio panel. **(s324f) Era
+        `no-referrer`, y con eso el panel se saboteaba a sí mismo**: dejaba sin
+        `Referer` al respaldo del control de origen, así que un login legítimo
+        acababa en 403 cuando el navegador tampoco mandaba `Origin` (que es lo
+        normal en un formulario del mismo sitio). Frente a terceros protege
+        igual; hacia dentro, devuelve la señal que la defensa necesitaba.
     """
     return [
         ("content-security-policy",
@@ -147,7 +152,7 @@ def _cabeceras_seguridad(nonce: str) -> list:
          "form-action 'self'; base-uri 'none'; frame-ancestors 'none'"),
         ("x-content-type-options", "nosniff"),
         ("x-frame-options", "DENY"),
-        ("referrer-policy", "no-referrer"),
+        ("referrer-policy", "same-origin"),
         ("cache-control", "no-store, no-cache, must-revalidate, private"),
         ("pragma", "no-cache"),
         ("permissions-policy",
@@ -192,14 +197,42 @@ def _mismo_origen(peticion: Peticion) -> bool:
     de entrada desde otro sitio (login CSRF) trae `Origin: https://otro.sitio`
     y muere aquí.
 
-    Si no viene ni `Origin` ni `Referer`, se RECHAZA. Es la decisión estricta:
-    los navegadores actuales mandan `Origin` en todo POST, así que la ausencia
-    es o un cliente raro o alguien probando. Un panel de dos personas puede
-    permitirse esa dureza.
+    ⚠️ **(s324f) ESTO RECHAZABA EL LOGIN LEGÍTIMO, y se descubrió abriendo el
+    panel en un navegador de verdad — no lo vio ningún test.** La versión
+    anterior decía «los navegadores actuales mandan `Origin` en todo POST», y es
+    FALSO para el envío normal de un formulario del mismo sitio: varios
+    navegadores lo omiten precisamente porque no hay nada cruzado que declarar.
+    El respaldo previsto era `Referer`… que **el propio panel suprimía** con su
+    cabecera `Referrer-Policy: no-referrer`. Resultado: un formulario del panel,
+    servido por el panel, se quedaba sin ninguna de las dos señales y moría en su
+    propia defensa con un 403 que no explicaba nada.
+
+    Se arregla por los dos lados: aquí se acepta **`Sec-Fetch-Site: same-origin`**
+    —que los navegadores modernos sí mandan SIEMPRE y que un atacante no puede
+    falsificar desde otro sitio, porque la escribe el navegador— y en las
+    cabeceras se pasa a `Referrer-Policy: same-origin`, que devuelve el respaldo
+    sin filtrar la URL a terceros.
+
+    Si no viene NINGUNA de las tres señales, se RECHAZA. Esa dureza sí se
+    sostiene: un cliente que no manda ninguna no es un navegador haciendo su
+    trabajo normal.
     """
     anfitrion = (peticion.cabeceras.get("host") or "").strip().lower()
     if not anfitrion:
         return False
+
+    # 1) La señal que el navegador escribe él mismo y que no se puede falsificar
+    #    desde otro origen. `same-origin` es el propio panel; `none` es teclear
+    #    la URL a mano (no hay sitio de partida), que también es legítimo.
+    sitio = (peticion.cabeceras.get("sec-fetch-site") or "").strip().lower()
+    if sitio in ("same-origin", "none"):
+        return True
+    if sitio:
+        # La mandó y dice `cross-site` / `same-site`: es una respuesta EXPLÍCITA
+        # y manda sobre lo demás. No se sigue mirando.
+        return False
+
+    # 2) Navegadores viejos o clientes sin `Sec-Fetch-*`: Origin, y si no, Referer.
     origen = (peticion.cabeceras.get("origin") or "").strip()
     if not origen:
         origen = (peticion.cabeceras.get("referer") or "").strip()
@@ -387,9 +420,23 @@ def pagina_resumen(peticion: Peticion) -> Respuesta:
 
     ultimos = diario.filas[:7] if diario.estado == datos.OK else []
     consultas = sum(int(f.get("consultas_rag") or 0) for f in ultimos)
-    fallos = sum(int(f.get("filas_error") or 0) for f in ultimos)
     personas = max((int(f.get("usuarios_unicos") or 0) for f in ultimos),
                    default=0)
+
+    # (s324f) Los errores se cuentan de `bot_errors`, la fuente VIVA, y no de
+    # `filas_error` de la vista diaria — que cuenta el mecanismo HEREDADO de
+    # s286 (`query_logs` con `source='error'`).
+    #
+    # Cazado abriendo el panel: la portada decía **0 errores** la misma noche en
+    # que había DOS registrados, y la pestaña de Errores los enseñaba bien. El
+    # sitio donde uno mira primero daba el dato equivocado, que es peor que no
+    # dar ninguno: «0 errores» se lee como «todo va bien» y aquí significaba
+    # «estoy mirando donde ya no se escribe».
+    #
+    # Misma ventana de 7 días que el resto de la tarjeta, y misma función que
+    # usa la pestaña, para que las dos cifras no puedan volver a divergir.
+    incidencias, _heredadas = errores.leer(7)
+    fallos = (len(incidencias.filas) if incidencias.estado == datos.OK else 0)
 
     tarjetas = [
         _tarjeta_salud(salud),

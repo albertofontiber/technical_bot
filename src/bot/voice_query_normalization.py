@@ -18,6 +18,8 @@ from functools import lru_cache
 import re
 import unicodedata
 
+from .whisper_vocabulary import corregir_transcripcion
+
 
 _TOKEN_SEPARATOR = r"[\s\-/.+]*"
 _SPOKEN_SEPARATOR = r"[\s\-/.+,]+"
@@ -226,6 +228,18 @@ def normalize_voice_query(
     if not raw.strip():
         return VoiceQueryNormalization(raw=raw, normalized=raw)
 
+    # (s324f) Confusiones fonéticas de MARCAS, antes de mirar los modelos.
+    #
+    # Nace de un fallo del piloto: un audio sobre *Detnov* se transcribió «Death
+    # Knob» y el turno se quedó sin fabricante, así que el bot no encontró nada.
+    # Aquí y no en el borde de la transcripción: este módulo YA tiene el contrato
+    # correcto —«raw ASR stays visible and is logged unchanged; the retrieval
+    # form is explicit when it differs»—, de modo que el técnico sigue viendo lo
+    # que Whisper oyó y el histórico sigue guardando la transcripción real.
+    # Corregirlo antes habría hecho que el registro mintiera sobre lo producido
+    # por el proveedor, y una corrección equivocada sería invisible para todos.
+    trabajo = corregir_transcripcion(raw)
+
     if models is None:
         try:
             from ..rag.catalog import all_models, catalog_available
@@ -236,7 +250,7 @@ def normalize_voice_query(
         except Exception:
             return VoiceQueryNormalization(raw=raw, normalized=raw)
 
-    folded = _fold(raw)
+    folded = _fold(trabajo)
     matches: dict[tuple[int, int], dict[str, tuple[str, str]]] = {}
     for model_pattern in _compile_patterns(tuple(models)):
         for match in model_pattern.spoken.finditer(folded):
@@ -249,7 +263,7 @@ def normalize_voice_query(
             key = "".join(_segments(model_pattern.canonical))
             matches.setdefault((start, end), {})[key] = (
                 model_pattern.canonical,
-                raw[start:end],
+                trabajo[start:end],
             )
 
     # A spoken span must identify exactly one canonical key.  Prefer the
@@ -273,9 +287,11 @@ def normalize_voice_query(
     selected.sort(key=lambda item: item.start)
 
     if not selected:
-        return VoiceQueryNormalization(raw=raw, normalized=raw)
+        # Sin modelos que normalizar, pero puede haber una marca corregida: se
+        # devuelve como forma de búsqueda, con `raw` intacto.
+        return VoiceQueryNormalization(raw=raw, normalized=trabajo)
 
-    normalized = raw
+    normalized = trabajo
     for substitution in reversed(selected):
         normalized = (
             normalized[:substitution.start]

@@ -47,6 +47,13 @@ HASH_POR_VERSION = {
     # aportaciones aplica a todo el mundo, y la retirada del consentimiento se explica
     # en las dos capas.
     "v8": "69e913f8583a614a",
+    # s324f (v9, decisión de Alberto): la mención EXPRESA a que los datos salen de
+    # la UE baja de la primera capa a `/privacidad`. NO desaparece —informar de las
+    # transferencias es obligatorio y son ciertas—: cambia dónde se lee. La primera
+    # capa queda para lo que hay que saber antes de decidir si aceptas, y dice que
+    # hay proveedores implicados con el puente al detalle. Sube versión porque
+    # cambia lo que se le muestra al técnico, aunque el tratamiento sea el mismo.
+    "v9": "cb606b778d814473",
 }
 
 
@@ -70,7 +77,7 @@ def test_terms_version_es_tripwire():
     """Único pin EXACTO del proyecto. Los otros dos tests de términos (s286, s294)
     comprueban su propio dato + un suelo, para que una subida legítima no rompa tres
     tests a la vez sin señal."""
-    assert TERMS_VERSION == "v8"
+    assert TERMS_VERSION == "v9"
 
 
 def test_el_texto_de_los_terminos_esta_atado_a_su_version():
@@ -92,15 +99,39 @@ def test_el_texto_de_los_terminos_esta_atado_a_su_version():
 
 def test_la_primera_capa_lleva_lo_imprescindible():
     """Aviso en DOS capas. La primera es lo que hay que saber ANTES de aceptar: qué se
-    guarda, cuánto, quién lo ve, que hay terceros fuera de la UE, y el canal de derechos."""
+    guarda, cuánto, quién lo ve, que hay terceros implicados, y el canal de derechos.
+
+    (s324f, v9) La mención EXPRESA a las transferencias fuera de la UE bajó a la
+    segunda capa por decisión de Alberto. Aquí queda que hay proveedores y el
+    puente a `/privacidad`; que el detalle siga existiendo lo garantiza el test
+    de abajo, que es el que impide que «mover» acabe siendo «perder».
+    """
     import src.bot.telegram_bot as bot
 
     terms = bot._CONSENT_TERMS
     assert "audio original NO se guarda" in terms
     assert "24 meses" in terms
     assert "info@fontiber.com" in terms
-    assert "fuera de la UE" in terms
+    assert "proveedores" in terms              # hay terceros, y se dice
     assert "/privacidad" in terms              # el puente a la segunda capa
+
+
+def test_las_transferencias_fuera_de_la_ue_SIGUEN_declaradas():
+    """El control de la decisión de mover, no de quitar.
+
+    Informar de las transferencias internacionales es obligatorio y son ciertas:
+    Anthropic genera, Voyage busca, OpenAI transcribe y Telegram transporta, y
+    ninguno está en la UE. Al bajarlo a la segunda capa, este test es lo único
+    que separa «lo movimos» de «lo perdimos» — y `/privacidad` se lee SIN haber
+    aceptado nada, así que la información sigue disponible antes de decidir.
+    """
+    import src.bot.telegram_bot as bot
+
+    detalle = bot._PRIVACY_DETAIL
+    assert "fuera de la UE" in detalle
+    assert "Transferencias" in detalle
+    # y la primera capa deja el puente para llegar hasta aquí
+    assert "/privacidad" in bot._CONSENT_TERMS
 
 
 def test_la_primera_capa_no_vuelve_a_ser_un_muro():

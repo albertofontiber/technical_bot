@@ -15,10 +15,59 @@ Strategy:
 """
 
 import logging
+import re
 from collections.abc import Callable
 from functools import lru_cache
 
 logger = logging.getLogger(__name__)
+
+
+# ─────────────────────── corrección DESPUÉS de transcribir (s324f)
+#
+# POR QUÉ EXISTE, y por qué el hint no bastaba. En el piloto, una pregunta por
+# voz sobre *Detnov* se transcribió **«Death Knob»** — y el bot no encontró nada,
+# porque el fabricante había desaparecido de la pregunta. Lo revelador es que
+# «Detnov» YA ESTABA en el prompt que se le manda a Whisper: el prompt es una
+# pista de contexto, no un diccionario que obligue, y con 990 de 1000 caracteres
+# ocupados por códigos de modelo la señal de una marca se diluye. Meter los 30
+# fabricantes ahí habría diluido más, no menos.
+#
+# Un nombre de fabricante mal transcrito cuesta MUCHO más que un modelo mal
+# transcrito: sin marca, el turno entero se queda sin ancla y la respuesta es
+# «no tengo eso», que es justo la respuesta que hunde la confianza de quien
+# prueba el bot por primera vez.
+#
+# DISCIPLINA (la misma que `_MANUFACTURER_ALIASES` del retriever, curada a mano y
+# CORTA a propósito): aquí **sólo entra lo OBSERVADO en una transcripción real**.
+# Nada de confusiones hipotéticas: cada entrada inventada es una forma nueva de
+# corromper una pregunta que estaba bien. Al añadir una, se cita dónde se vio.
+_CONFUSIONES_OBSERVADAS: tuple[tuple[str, str], ...] = (
+    # 17-ago-2026, piloto: audio preguntando por Detnov → «Death Knob».
+    (r"death\s+knob", "Detnov"),
+)
+
+_CONFUSIONES = tuple(
+    (re.compile(rf"\b{patron}\b", re.IGNORECASE), correcto)
+    for patron, correcto in _CONFUSIONES_OBSERVADAS
+)
+
+
+def corregir_transcripcion(texto: str) -> str:
+    """Repara confusiones fonéticas CONOCIDAS de Whisper sobre nombres del dominio.
+
+    Se aplica a la transcripción antes de que nadie la use, así que la corrección
+    llega tanto a la búsqueda como a lo que se registra: si sólo se arreglara para
+    buscar, el histórico guardaría la pregunta corrupta y el diagnóstico
+    posterior mentiría.
+
+    Conservadora por construcción: límites de palabra, sin tocar nada que no esté
+    en la tabla, y devuelve la entrada tal cual si no hay coincidencia.
+    """
+    if not texto:
+        return texto
+    for patron, correcto in _CONFUSIONES:
+        texto = patron.sub(correcto, texto)
+    return texto
 
 
 # Static vocabulary base — manufacturer names + jargon that Whisper-es misreads.
