@@ -92,11 +92,18 @@ def test_welcome_sin_db_usa_el_fallback_sin_numero(monkeypatch):
     assert "*Notifier*" in texto                        # pero sí marcas reales
 
 
-def test_el_texto_legal_sigue_estatico_v7():
+def test_el_texto_legal_sigue_estatico_v8():
     """`_CONSENT_TERMS` es lo que la gente ACEPTÓ: nada puede entrar ahí sin bump de
     versión. Pin por HASH del texto completo (Sol s307: la subcadena no pinna byte-
-    identidad). Si falla: o alguien tocó el texto legal SIN bump a v8 — revertir — o
-    es el bump deliberado: actualizar hash Y TERMS_VERSION juntos."""
+    identidad). Si falla: o alguien tocó el texto legal SIN bump a v9 — revertir — o
+    es el bump deliberado: actualizar hash Y TERMS_VERSION juntos.
+
+    (s324f) Bump DELIBERADO v7 → v8 para abrir el piloto a Directores Generales. El
+    tripwire hizo exactamente su trabajo: cayó al cambiar el texto y obligó a mover
+    las dos cosas juntas. El detalle de qué cambió y por qué está en el mapa
+    `HASH_POR_VERSION` de `test_s295_rgpd_retencion.py`, que es el registro canónico
+    de versiones del aviso — aquí sólo se ancla la byte-identidad de la capa 1.
+    """
     import hashlib
     assert hashlib.sha256(bot._CONSENT_TERMS.encode("utf-8")).hexdigest() == (
-        "bb0f14908ec788b97dac332bb165d4fd2e8f0b5f16272fb920e258217b67ea3a")
+        "eba71c78ebfa4784a5c2b010491966a352f589a0c4defaf05b881719121400f5")

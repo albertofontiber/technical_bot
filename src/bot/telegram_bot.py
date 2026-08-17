@@ -780,13 +780,22 @@ def _welcome_text() -> str:
 # (PLAN, residuo RGPD) → la corrección de marcas VIAJA EN ESE BUMP, no antes. Además
 # infra-promete (decimos menos de lo que hay), que es el lado seguro de un aviso.
 _CONSENT_TERMS = (
-    "🤖 *Asistente técnico PCI* — _versión beta_\n\n"
-    "Te doy información de los manuales técnicos de *Notifier*, *Morley* y *Detnov*. "
-    "Puedes preguntarme por texto o por audio 🎤.\n\n"
+    # (s324f, v8) El bloque «EN DESARROLLO» va ANTES del de datos a propósito: es lo
+    # que más protege a un técnico que vaya a usar una respuesta en una instalación
+    # real. Y «una treintena» en vez de una lista cerrada — el v7 nombraba TRES
+    # marcas con 30 fabricantes en corpus, y ése es justo el error que caducó.
+    "🤖 *Asistente técnico* — _versión beta, en desarrollo_\n\n"
+    "Te doy información de los manuales técnicos de *una treintena de fabricantes* "
+    "(Notifier, Morley, Detnov, Kidde y más). Por texto o por audio 🎤.\n\n"
+    "⚠️ *EN DESARROLLO*: puedo equivocarme. Mis respuestas *no sustituyen al manual "
+    "oficial ni al criterio de un técnico cualificado* — contrástalas antes de usarlas "
+    "en una instalación. Si algo no cuadra, dímelo con 👎.\n\n"
     "⚠️ *Antes de empezar*\n\n"
     "Para mejorar el sistema, guardamos *las preguntas que respondo y mis respuestas*, junto "
     "con tu ID de Telegram, el nombre que nos des al aceptar y tus valoraciones 👍/👎. Si "
     "mandas un audio, guardamos solo su transcripción: el audio original NO se guarda.\n\n"
+    "*Quién responde de tus datos*: *Fontiber Industrial Partners, S.L.* — también si "
+    "trabajas en otra empresa del grupo: el responsable es Fontiber, no tu empresa.\n"
     "*Cuánto*: 24 meses vinculado a ti; después se retira tu identificador de tus consultas "
     "y valoraciones.\n"
     "*Quién lo ve*: el equipo técnico de Fontiber. Para funcionar, tus preguntas pasan por "
@@ -803,8 +812,11 @@ _CONSENT_TERMS = (
 _PRIVACY_DETAIL = (
     "📄 *Privacidad — detalle completo*\n\n"
     "*Responsable*: Fontiber Industrial Partners, S.L. · CIF B24984759 · Calle de la Palma "
-    "10, 28004 Madrid · *info@fontiber.com*\n"
-    "*Base jurídica*: tu consentimiento, el que das al enviar `/accept`.\n\n"
+    "10, 28004 Madrid · *info@fontiber.com* — Fontiber es el responsable del tratamiento "
+    "aunque trabajes en otra empresa del grupo.\n"
+    "*Base jurídica*: tu consentimiento, el que das al enviar `/accept`. Puedes retirarlo "
+    "cuando quieras escribiendo a *info@fontiber.com*; retirarlo no afecta a los "
+    "tratamientos ya hechos.\n\n"
     "*Qué se guarda*\n"
     "• Las preguntas que respondo: el texto que escribes o, si mandas un audio, solo su "
     "transcripción — el audio original NO se guarda (se transcribe y se descarta al "
@@ -819,7 +831,8 @@ _PRIVACY_DETAIL = (
     "corregir algo, y esa valoración puede tenerse en cuenta para reconocer o incentivar "
     "a quien más aporta. La marca la pone una persona al revisar, nunca el sistema, y "
     "**cualquier decisión sobre ti la toma una persona**, no un cálculo automático. No se "
-    "te perfila para ninguna otra cosa.\n\n"
+    "te perfila para ninguna otra cosa. Aplica a todas las personas que usen el "
+    "asistente.\n\n"
     "*Quién accede*: el equipo técnico de Fontiber Industrial Partners.\n\n"
     "*Quién más interviene* (por función, con quién lo hace hoy):\n"
     "• _Canal de mensajería_: *Telegram* — transporta toda la conversación\n"

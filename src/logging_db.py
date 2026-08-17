@@ -49,7 +49,7 @@ _RESPONSE_MAX_CHARS = 4096
 # lo cual ES una decision sobre la persona. Se declara: la marca de utilidad la pone una
 # PERSONA al revisar (nunca el sistema) y cualquier decision la toma una persona. Sin este
 # cambio, usar el feedback para un bonus contradiria lo prometido.
-TERMS_VERSION = "v7"
+TERMS_VERSION = "v8"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
