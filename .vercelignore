@@ -1,0 +1,25 @@
+# Qué NO sube al build de Vercel.
+#
+# El repo entero pesa ~717 MB (355 MB sólo `evals/`, que son recibos de
+# mediciones) y el panel necesita una fracción minúscula: él mismo, tres módulos
+# de `src` y una función de `scripts`. Sin esta lista el despliegue se pasa del
+# límite de bundle — y ese fallo aparece al desplegar, no al escribir el código.
+#
+# Se excluye TODO y se re-incluye lo justo, en vez de ir enumerando lo pesado: así
+# un directorio nuevo (otra tanda de evals, otro corpus) no engorda el bundle en
+# silencio. Si el panel necesita algo más, hay que añadirlo aquí a conciencia.
+
+/*
+
+!/api
+!/dashboard
+!/src
+!/scripts
+!/requirements.txt
+!/vercel.json
+
+# ...y dentro de lo re-incluido, fuera lo que no aporta: caché de bytecode
+# (8,4 MB sólo en `scripts/`), scripts archivados y tests.
+**/__pycache__
+**/*.pyc
+/scripts/archive
