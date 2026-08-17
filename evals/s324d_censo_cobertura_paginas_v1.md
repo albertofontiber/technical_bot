@@ -67,3 +67,44 @@ Mide lo que el censo de densidad no ve: páginas ENTERAS que no entraron. Contra
 5. **PDFs sin capa de texto o con fuente rota**: no hay verdad contra la que comparar; `ratio_texto` > 1 es normal (LlamaParse añade markdown de tablas y descripciones de imagen).
 6. **No medidos**: los 3 sin `source_url` y los 26 `document_id` con chunks que NO están activos (fuera de alcance).
 7. **No mide calidad del chunk** (orden, tablas rotas, secciones), solo presencia de texto.
+
+## Verificación del idioma del texto ausente
+
+Cierra el cabo suelto declarado: los 4 `texto_perdido` sin verificar y los 3 `paginas_perdidas_sin_idioma`, más las 2 confirmaciones. Método: fragmentos de ~35 palabras (en estos documentos NO falta ninguna página entera — falta texto DENTRO de páginas presentes), buscados en los chunks por palabras de ≥6 letras; idioma por palabras vacías.
+
+|documento|clase censo|ausente (chars)|idiomas|veredicto|
+|---|---|---:|---|---|
+|D 1149-1 BGL Notifier|texto_perdido|6.147|fr 4k, ? 1k|otro_idioma_por_politica|
+|D1056-1_NFXI-BS-BSF|texto_perdido|3.957|es 2k, ? 1k|castellano_perdido|
+|HLSI-MA-103 _Korte handleiding RP1r_|texto_perdido|1.463|nl 1k|otro_idioma_por_politica|
+|I56-1653-022 ECO1003|texto_perdido|10.338|de 7k, it 2k|otro_idioma_por_politica|
+|TMP2_QRefnotiES_Rev_1_4_HLSI 2018|paginas_perdidas_sin_idioma|2.318|? 2k, pt 254|castellano_perdido|
+|085501987j_PY X-M-05_10_Installation|paginas_perdidas_sin_idioma|20.432|it 6k, de 6k, fr 5k|otro_idioma_por_politica|
+|15088SP|paginas_perdidas_sin_idioma|30.635|? 28k, es 1k, otro 206|fuente_ilegible|
+|Installation manual_conduct detector|paginas_perdidas_es|9.803|de 6k, es 3k, sv 257|castellano_perdido|
+|HLSI-TI-007_VSN-4REL|texto_perdido|0|—|sano_reverificado|
+
+**Citas de lo que falta** (verbatim del PDF; en los `castellano_perdido`, el fragmento ausente más largo adjudicado al ESPAÑOL):
+- `D1056-1_NFXI-BS-BSF` p1: «Feueralarm Frankreich, AFNOR Allarme incendio francese - AFNOR Señal de alarma de incedio francesa AFNOR All Clear Fin d’alerte Entwarnungssignal Cessato allarme Borrar t»
+- `TMP2_QRefnotiES_Rev_1_4_HLSI 2018` p1: «de elementos corrosivos o vapores de condensación. Plantas comerciales e industriales. Atmósferas explosivas. Almacenes de material peligroso. Conductos de extracción. Lo»
+- `Installation manual_conduct detector` p5: «Tenga presente la forma la flecha en el pie, que deberá instalarse en la dirección del flujo de aire.tion. Luftzufuhr. Entrada de aire. Beispiel für eine Einbauposition v»
+
+**Lectura humana** (donde el detector no puede cerrar solo; amplía y corrige la sección «Verificado a ojo» de arriba):
+- `D1056-1_NFXI-BS-BSF` → **castellano_perdido**: Falta la tabla DIP entera, con su columna española: «Configuración», «Desactivado», «Activado», «Descripción», «tono», «conmutador» y «reserva» NO aparecen en ninguno de sus 2 chunks (verificado token a token contra el corpus).
+- `TMP2_QRefnotiES_Rev_1_4_HLSI 2018` → **castellano_perdido (ojo humano)**: La pág. 1 ausente es la portada ESPAÑOLA: «OGGIONI S.A.S. DETECTORES TÉRMICOS TMP2 … DETECTORES TÉRMICOS TERMOVELOCIMÉTRICOS TMP2 Manual de Usuario». El detector la deja en '?' porque una portada casi no lleva palabras vacías; leída, es castellano.
+- `15088SP` → **fuente_ilegible**: El texto nativo sale cifrado por una fuente rota («1RWD /RV 6LVWHPDV GH $ODUPD» = «Nota: Los Sistemas de Alarma»); el corpus (899.952 chars) SUPERA al nativo (528.328) porque LlamaParse lo OCRizó bien. No hay pérdida: hay fuente ilegible.
+- `HLSI-TI-007_VSN-4REL` → **sano_reverificado**: RE-INGESTADO después del censo (47 → 3.601 chars, 2 chunks, con el procedimiento PROG/Z1/40 cm dentro). Re-medido hoy: 0 chars de texto nativo ausentes. Su fila del censo refleja el estado ANTERIOR.
+
+**Reclasificaciones aplicadas** (el recuento por clase de arriba es el del censo ORIGINAL; estas filas lo corrigen):
+- `D 1149-1 BGL Notifier`: `texto_perdido` → `texto_perdido_otro_idioma` (otro_idioma_por_politica)
+- `D1056-1_NFXI-BS-BSF`: `texto_perdido` → `texto_perdido_es` (castellano_perdido)
+- `HLSI-MA-103 _Korte handleiding RP1r_Su`: `texto_perdido` → `texto_perdido_otro_idioma` (otro_idioma_por_politica)
+- `I56-1653-022 ECO1003`: `texto_perdido` → `texto_perdido_otro_idioma` (otro_idioma_por_politica)
+- `TMP2_QRefnotiES_Rev_1_4_HLSI 2018`: `paginas_perdidas_sin_idioma` → `paginas_perdidas_es` (castellano_perdido)
+- `085501987j_PY X-M-05_10_Installation_m`: `paginas_perdidas_sin_idioma` → `paginas_perdidas_otro_idioma` (otro_idioma_por_politica)
+- `15088SP`: `paginas_perdidas_sin_idioma` → `fuente_ilegible` (fuente_ilegible)
+- `HLSI-TI-007_VSN-4REL`: `texto_perdido` → `sano_reverificado` (sano_reverificado)
+
+Clases tras reclasificar: sano 842 · paginas_perdidas_otro_idioma 157 · escaneado_ocr_ok 43 · texto_perdido_otro_idioma 3 · sin_url 3 · paginas_perdidas_es 2 · escaneado_sin_texto 1 · texto_perdido_es 1 · sano_reverificado 1 · fuente_ilegible 1.
+
+> **Dato posterior al censo**: `HLSI-TI-007_VSN-4REL` ya está **RE-INGESTADO** (47 → 3.601 chars, 2 chunks, con el procedimiento PROG/Z1/40 cm dentro). Su fila del censo refleja el estado ANTERIOR: no está pendiente.

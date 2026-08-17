@@ -24,7 +24,85 @@
    "tokens_ausente": 0.35
   },
   "gb_descargados": 1.336,
-  "segundos": 17.1
+  "segundos": 17.1,
+  "verificacion_idioma": {
+   "que_es": "veredicto de idioma del TEXTO AUSENTE por fragmentos (~35 palabras) — s324d",
+   "utc": "2026-08-17T09:52:32Z",
+   "documentos_verificados": [
+    "D 1149-1 BGL Notifier",
+    "D1056-1_NFXI-BS-BSF",
+    "HLSI-MA-103 _Korte handleiding RP1r_Supra_NL.pdf",
+    "I56-1653-022 ECO1003",
+    "TMP2_QRefnotiES_Rev_1_4_HLSI 2018",
+    "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT",
+    "15088SP",
+    "Installation manual_conduct detector",
+    "HLSI-TI-007_VSN-4REL"
+   ],
+   "metodo": "fragmentos de ~35 palabras respetando líneas; ausente si <35 % de sus palabras de ≥6 letras están en los chunks; idioma por palabras vacías (19 idiomas)",
+   "reclasificaciones": [
+    {
+     "source_file": "D 1149-1 BGL Notifier",
+     "de": "texto_perdido",
+     "a": "texto_perdido_otro_idioma",
+     "motivo": "otro_idioma_por_politica"
+    },
+    {
+     "source_file": "D1056-1_NFXI-BS-BSF",
+     "de": "texto_perdido",
+     "a": "texto_perdido_es",
+     "motivo": "castellano_perdido"
+    },
+    {
+     "source_file": "HLSI-MA-103 _Korte handleiding RP1r_Supra_NL.pdf",
+     "de": "texto_perdido",
+     "a": "texto_perdido_otro_idioma",
+     "motivo": "otro_idioma_por_politica"
+    },
+    {
+     "source_file": "I56-1653-022 ECO1003",
+     "de": "texto_perdido",
+     "a": "texto_perdido_otro_idioma",
+     "motivo": "otro_idioma_por_politica"
+    },
+    {
+     "source_file": "TMP2_QRefnotiES_Rev_1_4_HLSI 2018",
+     "de": "paginas_perdidas_sin_idioma",
+     "a": "paginas_perdidas_es",
+     "motivo": "castellano_perdido"
+    },
+    {
+     "source_file": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT",
+     "de": "paginas_perdidas_sin_idioma",
+     "a": "paginas_perdidas_otro_idioma",
+     "motivo": "otro_idioma_por_politica"
+    },
+    {
+     "source_file": "15088SP",
+     "de": "paginas_perdidas_sin_idioma",
+     "a": "fuente_ilegible",
+     "motivo": "fuente_ilegible"
+    },
+    {
+     "source_file": "HLSI-TI-007_VSN-4REL",
+     "de": "texto_perdido",
+     "a": "sano_reverificado",
+     "motivo": "sano_reverificado"
+    }
+   ],
+   "clases_tras_reclasificar": {
+    "sano": 842,
+    "paginas_perdidas_otro_idioma": 157,
+    "escaneado_ocr_ok": 43,
+    "texto_perdido_otro_idioma": 3,
+    "sin_url": 3,
+    "paginas_perdidas_es": 2,
+    "escaneado_sin_texto": 1,
+    "texto_perdido_es": 1,
+    "sano_reverificado": 1,
+    "fuente_ilegible": 1
+   }
+  }
  },
  "documentos": [
   {
@@ -18412,7 +18490,39 @@
    "ratio_texto": 0.3873,
    "texto_nativo_perdido": 5469,
    "_ver": {},
-   "clase": "texto_perdido"
+   "clase": "texto_perdido_otro_idioma",
+   "clase_censo_original": "texto_perdido",
+   "veredicto_idioma": "otro_idioma_por_politica",
+   "idiomas_texto_ausente": {
+    "fr": 4522,
+    "?": 1625
+   },
+   "chars_texto_ausente": 6147,
+   "idioma_global_ausente": "otro",
+   "ratio_vocales_ausente": 0.419,
+   "cita_texto_ausente": "modules, une situation de défaut sera générée pour chaque adresse au-dessus de 99. Pour connaître les caractéristiques de l’isolateur, reportez-vous au document SP20-3250 disponible sur demande. (GER)Diese Produktgruppe wird in analogen adr",
+   "cita_pagina": 1,
+   "fragmentos_verificados": {
+    "ausente": 23,
+    "parcial": 3,
+    "presente": 7,
+    "inconcluyente": 1
+   },
+   "paginas_texto_ausente": {
+    "1": {
+     "chars": 4522,
+     "idioma": "fr",
+     "muestra": "addressable communication protocol. The Integrated Detector Base Strobe accepts a Series 200 Advanced detector. (Consult the panel instructions to confirm compatibility). Note: if the control equipment is not capable of "
+    },
+    "2": {
+     "chars": 1625,
+     "idioma": "?",
+     "muestra": "dip switch unit. The `tens` digits goes from 0 to 15 and the `units` from 0 to 9. *100 - 159 Only available with advanced protocol. (FRE)Pour régler l’une des 159 adresses disponibles pour le dispositif, utilisez les deu"
+    }
+   },
+   "accionable": false,
+   "chunks_ahora": 4,
+   "chars_corpus_ahora": 3460
   },
   {
    "document_id": "56098df1-42eb-45bc-8834-aa2003bfb3f0",
@@ -18657,7 +18767,41 @@
    "ratio_texto": 0.3325,
    "texto_nativo_perdido": 7214,
    "_ver": {},
-   "clase": "texto_perdido"
+   "clase": "texto_perdido_es",
+   "nota_humana": "Falta la tabla DIP entera, con su columna española: «Configuración», «Desactivado», «Activado», «Descripción», «tono», «conmutador» y «reserva» NO aparecen en ninguno de sus 2 chunks (verificado token a token contra el corpus).",
+   "veredicto_humano": "castellano_perdido",
+   "clase_censo_original": "texto_perdido",
+   "veredicto_idioma": "castellano_perdido",
+   "idiomas_texto_ausente": {
+    "es": 2161,
+    "?": 1796
+   },
+   "chars_texto_ausente": 3957,
+   "idioma_global_ausente": "?",
+   "ratio_vocales_ausente": 0.39,
+   "cita_texto_ausente": "Paramètre DIP Désactivé/1=Activé SW 1,2,3,4,5 DIP-Schaltereinstellung O=Aus/1=Ein SW 1,2,3,4,5 Impostazione DIP O=Off/1=On SW 1,2,3,4,5 Configuración DIP 0=Desactivado/1=Activado SW 1,2,3,4,5 Description Description Beschreibung Descrizione",
+   "cita_pagina": 1,
+   "fragmentos_verificados": {
+    "ausente": 16,
+    "parcial": 4,
+    "presente": 9,
+    "inconcluyente": 23
+   },
+   "paginas_texto_ausente": {
+    "1": {
+     "chars": 2161,
+     "idioma": "es",
+     "muestra": "Paramètre DIP Désactivé/1=Activé SW 1,2,3,4,5 DIP-Schaltereinstellung O=Aus/1=Ein SW 1,2,3,4,5 Impostazione DIP O=Off/1=On SW 1,2,3,4,5 Configuración DIP 0=Desactivado/1=Activado SW 1,2,3,4,5 Description Description Besc"
+    },
+    "2": {
+     "chars": 1796,
+     "idioma": "?",
+     "muestra": "Back up alarm HF & BS5839 Pt1 Alarme de secours HF & BS5839 Pt1 Rückfahralarm HF & BS5839 Pt1 Allarme di riserva AF & BS5839 Pt1 Alarma HF de reserva & BS5839 Pt1 Evacuate, DIN tone & PFEER Évacuer, signal DIN et PFEER E"
+    }
+   },
+   "accionable": true,
+   "chunks_ahora": 2,
+   "chars_corpus_ahora": 3594
   },
   {
    "document_id": "956319e4-e914-4df0-8228-651dd34f669c",
@@ -18696,7 +18840,27 @@
    "ratio_texto": 0.0209,
    "texto_nativo_perdido": 2205,
    "_ver": {},
-   "clase": "texto_perdido"
+   "clase": "sano_reverificado",
+   "nota_humana": "RE-INGESTADO después del censo (47 → 3.601 chars, 2 chunks, con el procedimiento PROG/Z1/40 cm dentro). Re-medido hoy: 0 chars de texto nativo ausentes. Su fila del censo refleja el estado ANTERIOR.",
+   "veredicto_humano": "sano_reverificado",
+   "clase_censo_original": "texto_perdido",
+   "veredicto_idioma": "sano_reverificado",
+   "idiomas_texto_ausente": {},
+   "chars_texto_ausente": 0,
+   "idioma_global_ausente": "?",
+   "ratio_vocales_ausente": 0.0,
+   "cita_texto_ausente": "",
+   "cita_pagina": null,
+   "fragmentos_verificados": {
+    "ausente": 0,
+    "parcial": 0,
+    "presente": 8,
+    "inconcluyente": 1
+   },
+   "paginas_texto_ausente": {},
+   "accionable": false,
+   "chunks_ahora": 2,
+   "chars_corpus_ahora": 3601
   },
   {
    "document_id": "92a7f437-f1f0-4588-baa0-abbddf365c1a",
@@ -19721,7 +19885,33 @@
    "ratio_texto": 0.3866,
    "texto_nativo_perdido": 6909,
    "_ver": {},
-   "clase": "texto_perdido"
+   "clase": "texto_perdido_otro_idioma",
+   "clase_censo_original": "texto_perdido",
+   "veredicto_idioma": "otro_idioma_por_politica",
+   "idiomas_texto_ausente": {
+    "nl": 1463
+   },
+   "chars_texto_ausente": 1463,
+   "idioma_global_ausente": "nl",
+   "ratio_vocales_ausente": 0.403,
+   "cita_texto_ausente": "Reset niet mogelijk tijdens de ingestelde tijd (minuten). Aardlek niveau Bepaalt de drempel waarde voor de aardlek detectie: 00 Lage gevoeligheid. 01 Medium gevoeligheid (Standaard) 02 Hoge gevoeligheid. Overwaking voor de uitgangen Voorzie",
+   "cita_pagina": 2,
+   "fragmentos_verificados": {
+    "ausente": 6,
+    "parcial": 29,
+    "presente": 5,
+    "inconcluyente": 2
+   },
+   "paginas_texto_ausente": {
+    "2": {
+     "chars": 1463,
+     "idioma": "nl",
+     "muestra": "UNE-EN 12094-1:2004 wetgeving, deel 4.17, omschrijft een vertragingstijd voor het activeren van het blusproces genaamd pre-alert or pre-soak tijd. Deze tijd kan aangepast worden van 00 tot 60 sec., met stappen van 5 sec."
+    }
+   },
+   "accionable": false,
+   "chunks_ahora": 3,
+   "chars_corpus_ahora": 4356
   },
   {
    "document_id": "b431095e-e030-4557-8d6b-de959481c39d",
@@ -23267,7 +23457,41 @@
      "muestra": "OGGIONI S.A.S. DETECTORES TÉRMICOS TMP2 Rev. 1.4 Date 06/04/2018 Manufactured by OGGIONI S.A.S. Italy - Distribuited from: Honeywell Life Safety Iberia Pau Vila, 15 – 19 08911 Badalona (BARCELONA) Tel.: 902 03 05 45 1 DETECTORES TÉRMICOS TERMOVELOCIMÉTRICOS TMP2 Manual de Usuario Manual de Utilizado"
     }
    },
-   "clase": "paginas_perdidas_sin_idioma"
+   "clase": "paginas_perdidas_es",
+   "nota_humana": "La pág. 1 ausente es la portada ESPAÑOLA: «OGGIONI S.A.S. DETECTORES TÉRMICOS TMP2 … DETECTORES TÉRMICOS TERMOVELOCIMÉTRICOS TMP2 Manual de Usuario». El detector la deja en '?' porque una portada casi no lleva palabras vacías; leída, es castellano.",
+   "veredicto_humano": "castellano_perdido (ojo humano)",
+   "clase_censo_original": "paginas_perdidas_sin_idioma",
+   "veredicto_idioma": "castellano_perdido",
+   "idiomas_texto_ausente": {
+    "?": 2064,
+    "pt": 254
+   },
+   "chars_texto_ausente": 2318,
+   "idioma_global_ausente": "?",
+   "ratio_vocales_ausente": 0.448,
+   "cita_texto_ausente": "Consumo entre 20/30 uA en estado normal > 20 mA en condición de Alarma Fusible 50 mA Proceso de autodiagnóstico. Salida mediante dos hilos. Aplicaciones típicas Los detectores TMP2 son especialmente adecuados para proteger ambientes muy pel",
+   "cita_pagina": 1,
+   "fragmentos_verificados": {
+    "ausente": 9,
+    "parcial": 7,
+    "presente": 22,
+    "inconcluyente": 1
+   },
+   "paginas_texto_ausente": {
+    "1": {
+     "chars": 2064,
+     "idioma": "?",
+     "muestra": "La señal eléctrica del circuito electrónico se transforma de forma efectiva en una salida que ofrece diferentes soluciones para el usuario. La placa electrónica, reducida al máximo, está fabricada utilizando tecnología S"
+    },
+    "2": {
+     "chars": 254,
+     "idioma": "pt",
+     "muestra": "Recomenda o uso de terminais de ligação, caso contrário as pontas do cabo de alimentação devem ser estanhadas. É preferivel evitar ligações na mesma fonte de alimentação que utilizam os detectores, já que as cargas indut"
+    }
+   },
+   "accionable": true,
+   "chunks_ahora": 3,
+   "chars_corpus_ahora": 7109
   },
   {
    "document_id": "b5db1f17-d817-4a99-9b6d-ef2441d7294a",
@@ -24225,7 +24449,39 @@
    "ratio_texto": 0.4085,
    "texto_nativo_perdido": 11039,
    "_ver": {},
-   "clase": "texto_perdido"
+   "clase": "texto_perdido_otro_idioma",
+   "clase_censo_original": "texto_perdido",
+   "veredicto_idioma": "otro_idioma_por_politica",
+   "idiomas_texto_ausente": {
+    "de": 7614,
+    "it": 2724
+   },
+   "chars_texto_ausente": 10338,
+   "idioma_global_ausente": "otro",
+   "ratio_vocales_ausente": 0.42,
+   "cita_texto_ausente": "Melderzentrale angeschlossen sind. Die Erkennungsmöglichkeiten sind für Rauchmelder begrenzt. Rauchmelder erkennen keinen Brand, der dort ausbricht, wo der Rauch den Melder nicht erreicht, und unterschiedliche Rauchmelder reagieren auf dive",
+   "cita_pagina": 2,
+   "fragmentos_verificados": {
+    "ausente": 37,
+    "parcial": 6,
+    "presente": 26,
+    "inconcluyente": 2
+   },
+   "paginas_texto_ausente": {
+    "1": {
+     "chars": 2724,
+     "idioma": "it",
+     "muestra": "10 years. RIVELATORE FOTOELETTRONICO DI FUMO ECO1003 ISTRUZIONI DI INSTALLAZIONE E MANUTENZIONE SPECIFICHE Tensione di alimentazione: 8-30VCC Corrente di riposo: 45µA tipico @ 24VDC, 25°C Massima corrente d’allarme: 80mA"
+    },
+    "2": {
+     "chars": 7614,
+     "idioma": "de",
+     "muestra": "Pittway Tecnologica Srl, Via Caboto 19/3, 34147 Trieste, Italy D700-02-01 I56-1653-022 Telecomando laser (Accessorio codice ECO1000RTU) Nota: questo test non verifica completamente la funzionalità del rivelatore. 1. Alli"
+    }
+   },
+   "accionable": false,
+   "chunks_ahora": 4,
+   "chars_corpus_ahora": 7628
   },
   {
    "document_id": "960b7196-2aa9-4909-8510-266a5dbe0580",
@@ -34272,7 +34528,55 @@
      "muestra": "8 Einbau in Bereichen, in denen Kondensationsprobleme entstehen könnten, z. B. im Außenbereich oder auf kalten Dachböden. 9 Die Montagehalterung wird flach geliefert. El soporte de montaje se suministra en forma plana. Sie können die Montagehalterung durch Biegen oder Formen ganz einfach an Rund- od"
     }
    },
-   "clase": "paginas_perdidas_es"
+   "clase": "paginas_perdidas_es",
+   "clase_censo_original": "paginas_perdidas_es",
+   "veredicto_idioma": "castellano_perdido",
+   "idiomas_texto_ausente": {
+    "de": 6053,
+    "es": 3493,
+    "sv": 257
+   },
+   "chars_texto_ausente": 9803,
+   "idioma_global_ausente": "?",
+   "ratio_vocales_ausente": 0.405,
+   "cita_texto_ausente": "Bei großen Temperaturschwankungen, z. B. im Außenbereich oder in Bereichen, die Außentemperaturen ausgesetzt sind (Dach, Dachböden) ist der Uniguard-Rauchmelder zu isolieren, siehe Abs. 9 Donde se produzcan grandes variaciones de temperatur",
+   "cita_pagina": 5,
+   "fragmentos_verificados": {
+    "ausente": 40,
+    "parcial": 14,
+    "presente": 67,
+    "inconcluyente": 4
+   },
+   "paginas_texto_ausente": {
+    "3": {
+     "chars": 257,
+     "idioma": "sv",
+     "muestra": "3 Funktionskontroll. 7 Kontrollera detektorn med rökdetektorprovare RDP-300. • För \"testhålspluggen\" åt sidan och spraya därefter kortvarigt. Vid utlöst larm lyser dioden röd på kretskortet och detektorn samt vid service"
+    },
+    "5": {
+     "chars": 3493,
+     "idioma": "es",
+     "muestra": "5 DEUTSCH Montage und Einbauposition. Installieren Sie den Uniguard-Rauchmelder so, dass die Richtungspfeile für den Luftstrom (siehe Form der Unterseite des Uniguard-Rauchmelders oder Oberseite des Gehäuses) in die Rich"
+    },
+    "6": {
+     "chars": 2123,
+     "idioma": "de",
+     "muestra": "6 1 5 2 3 4 Bohren Sie ein Loch in den Kanal: • Ohne Montagehalterung: ø 38 mm. • Mit Montagehalterung und/oder Venturirohr mit Zusatzgebläse: ø 51 mm (siehe Absatz 10). • Messen Sie den Kanaldurchmesser. • Kürzen Sie da"
+    },
+    "7": {
+     "chars": 1211,
+     "idioma": "de",
+     "muestra": "7 Rauchmelder-Test. 7 Überprüfen Sie den Rauchmelder mit dem Rauchmelder-Tester RDP-300. • Öffnen Sie die ”Testöffnung”, indem Sie den Stopfen entfernen, und geben Sie umgehend einen Sprühstoß des Aerosolsprays hinein. B"
+    },
+    "8": {
+     "chars": 2719,
+     "idioma": "de",
+     "muestra": "8 Einbau in Bereichen, in denen Kondensationsprobleme entstehen könnten, z. B. im Außenbereich oder auf kalten Dachböden. 9 Die Montagehalterung wird flach geliefert. El soporte de montaje se suministra en forma plana. S"
+    }
+   },
+   "accionable": true,
+   "chunks_ahora": 15,
+   "chars_corpus_ahora": 18038
   },
   {
    "document_id": "29a94dea-c2a7-4672-b028-b3e776d1de6d",
@@ -49442,7 +49746,91 @@
      "muestra": " 085 501 987j 20 30360-004-4j Passaggi per cavi Per garantire il grado di protezione indicato occorre montare passaggi per cavi con un grado di protezione IP 66 nelle aperture appositamente previste. Il nipplo a membrana fornito può essere sostituito da un raccordo pressacavo o da un connettore M12 "
     }
    },
-   "clase": "paginas_perdidas_sin_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "clase_censo_original": "paginas_perdidas_sin_idioma",
+   "veredicto_idioma": "otro_idioma_por_politica",
+   "idiomas_texto_ausente": {
+    "it": 6796,
+    "de": 6610,
+    "fr": 5739,
+    "otro": 1287
+   },
+   "chars_texto_ausente": 20432,
+   "idioma_global_ausente": "otro",
+   "ratio_vocales_ausente": 0.399,
+   "cita_texto_ausente": "085 501 987j 2 30360-004-4j Betriebsspannungsanschluss für Schallgeber Betriebsspannungsanschluss für Blitzleuchte Tonartenschalter AC-Version Betriebsspannungsanschluss für Schallgeber Betriebsspannungsan- schluss für Blitzleuchte Tonarten",
+   "cita_pagina": 2,
+   "fragmentos_verificados": {
+    "ausente": 77,
+    "parcial": 8,
+    "presente": 37,
+    "inconcluyente": 70
+   },
+   "paginas_texto_ausente": {
+    "1": {
+     "chars": 774,
+     "idioma": "de",
+     "muestra": "PY X-M/ PY X-MA- Blitzleuchte - Betriebs- und Montageanleitung 085 501 987j 1 30360-004-4j Maße PY X-M-xx PY X-MA-xx Technische Daten PY X-M-05 PY X-M-10 PY X-MA-05 PY X-MA-10 Blitzenergie 5 J 10 J 5 J Lagertemperatur -4"
+    },
+    "2": {
+     "chars": 3063,
+     "idioma": "de",
+     "muestra": "085 501 987j 2 30360-004-4j Betriebsspannungsanschluss für Schallgeber Betriebsspannungsanschluss für Blitzleuchte Tonartenschalter AC-Version Betriebsspannungsanschluss für Schallgeber Betriebsspannungsan- schluss für B"
+    },
+    "3": {
+     "chars": 1609,
+     "idioma": "de",
+     "muestra": "085 501 987j 3 30360-004-4j Widerstand für Leitungsüberwachung (1K Ohm) am Betriebsspannungsanschluss. Position des Widerstandes bei Parallelschaltung von mehreren Leuchten im letzten Gerät. Nicht benötigte Widerstände e"
+    },
+    "4": {
+     "chars": 1164,
+     "idioma": "de",
+     "muestra": "085 501 987j 4 30360-004-4j Kabeldurchführungen Zur Sicherstellung der angegebenen Schutzart sind an den dafür vorgesehenen Durchbrüchen Kabeldurchführungen mit einer Schutzart von IP 66 zu montieren. Der mitgelieferte M"
+    },
+    "9": {
+     "chars": 1287,
+     "idioma": "otro",
+     "muestra": "Instructions d’utilisation et de montage pour lampe flash PY X-M/ PY X-MA 085 501 987j 9 30360-004-4j Dimensions PY X-M-xx PY X-MA-xx Caractéristiques techniques PY X-M-05 PY X-M-10 PY X-MA-05 PY X-MA-10 Ènergie lumineus"
+    },
+    "10": {
+     "chars": 2779,
+     "idioma": "fr",
+     "muestra": "085 501 987j 10 30360-004-4j Version CA Régulateur du volume Interrupteur de tonalité Raccordement à la tension de service pour le feu flash Raccordement à la tension de service pour la sirène Admissions (valable pour le"
+    },
+    "11": {
+     "chars": 1810,
+     "idioma": "fr",
+     "muestra": "085 501 987j 11 30360-004-4j Option SSM (Module Soft-Start) (uniquement 24 V CC) : - Limitation de la pointe du courant à l’enclenchement à : PY X-M(A)-05 -SSM: : max. 2,1 A : max. 2,1 A PY X-M(A)-10 -SSM: : max. 2,1 A :"
+    },
+    "12": {
+     "chars": 1150,
+     "idioma": "fr",
+     "muestra": "085 501 987j 12 30360-004-4j Passages de câbles Afin de garantir le type de protection indiqué, des passages de câbles d’une protection IP 66 doivent être montés au niveau des perçages prévus à cet effet. Le raccord file"
+    },
+    "17": {
+     "chars": 1114,
+     "idioma": "it",
+     "muestra": "10 J 5 J 10 J Intensità luminosa nominale effettiva 44 cd (trasparente) 118 cd (trasparente.) 44 cd (trasparente) 118 cd (trasparente) Frequenza di sequenza flash 0,1 / 0,5 / 0,75 / 1 Hz Intensità sonora max. 43 VA 13W 2"
+    },
+    "18": {
+     "chars": 3207,
+     "idioma": "it",
+     "muestra": "085 501 987j 18 30360-004-4j Omologazioni (solo per dispositivi con marcatura) Regolamento sui prodotti da costruzione (305/2011/CEE) 16 PY X-M-05-SSM + PY X-M-10-SSM: VdS 0786-CPD-21499 Tensione nominale 24V CC Interval"
+    },
+    "19": {
+     "chars": 1068,
+     "idioma": "it",
+     "muestra": "085 501 987j 19 30360-004-4j Resistenze per monitoraggio cavi (1KOhm) sul collegamento della tensione d’esercizio. In caso di collegamento in parallelo di più apparecchi, la resistenza viene posizionata nell’ultimo appar"
+    },
+    "20": {
+     "chars": 1407,
+     "idioma": "it",
+     "muestra": "085 501 987j 20 30360-004-4j Passaggi per cavi Per garantire il grado di protezione indicato occorre montare passaggi per cavi con un grado di protezione IP 66 nelle aperture appositamente previste. Il nipplo a membrana "
+    }
+   },
+   "accionable": false,
+   "chunks_ahora": 25,
+   "chars_corpus_ahora": 83676
   },
   {
    "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
@@ -57952,7 +58340,357 @@
      "muestra": "7DEOD GH &RQWHQLGRV Memoria del Histórico 130 AM2020/AFP1010 PN 15088SP:H 10/21/98 )LJXUD\u001b\u0016 ,PSUHVR GHO +LVWyULFR GH OD )XQFLyQ (VSHFLDO GHO $0\u0015\u0013\u0015\u0013\u0012$)3\u0014\u0013\u0014\u0013 38/6( \u0014 ,1)250(6\u000f \u0015 +,6725,&2############################################### #\u0015 38/6(#\u0014 ,035\u000f\u0015 3$17$//$\u000f\u0016 0$18$/\u000f\u0017 5$1*2\u0012(67$'2#################"
     }
    },
-   "clase": "paginas_perdidas_sin_idioma"
+   "clase": "fuente_ilegible",
+   "nota_humana": "El texto nativo sale cifrado por una fuente rota («1RWD /RV 6LVWHPDV GH $ODUPD» = «Nota: Los Sistemas de Alarma»); el corpus (899.952 chars) SUPERA al nativo (528.328) porque LlamaParse lo OCRizó bien. No hay pérdida: hay fuente ilegible.",
+   "veredicto_humano": "fuente_ilegible",
+   "clase_censo_original": "paginas_perdidas_sin_idioma",
+   "veredicto_idioma": "fuente_ilegible",
+   "idiomas_texto_ausente": {
+    "?": 28432,
+    "es": 1997,
+    "otro": 206
+   },
+   "chars_texto_ausente": 30635,
+   "idioma_global_ausente": "?",
+   "ratio_vocales_ausente": 0.164,
+   "cita_texto_ausente": "###############7##########9\u0013\u0013\u0013#+#\u0013\u0017\u0018######/\u0013\u0014'\u0013\u0015 =\u0015\u0013\u0015 #################################################################$\u0013\u00143\u0013\u0016 1250$/#WHUPLF $1$/2* #PDQWHQLPLHQWR####################9\u0013\u0013\u0013#+#\u0013\u0017\u0018######/\u0013\u0014'\u0013\u0016 =\u0013\u0014 ################################",
+   "cita_pagina": 128,
+   "fragmentos_verificados": {
+    "ausente": 122,
+    "parcial": 114,
+    "presente": 1596,
+    "inconcluyente": 283
+   },
+   "paginas_texto_ausente": {
+    "18": {
+     "chars": 222,
+     "idioma": "?",
+     "muestra": "área cerrada, como en un armario o un cuarto de utilidades. 1RWD /DV GRV ELVDJUDV \\ ODV GRV OHQJHWDV GH DOLQHDFLyQ GHEHUiQ HVWDU DPDUUDGDV D OD FDMD SRVWHULRU DQWHV GH TXH FXDOTXLHU HTXLSR VHD PRQWDGR D OD FDMD SRVWHULR"
+    },
+    "28": {
+     "chars": 264,
+     "idioma": "?",
+     "muestra": "£35(&$8&,Ð1\u00045HPXHYD HO 7DEOHUR GH OD ,QWHUIDFH HQ 6HULH 6,%V FXLGDGRVDPHQWH\u000f SRUTXH ODV OHQJHWDV GH PHWDOHV HQ HO ,&$\u0010\u0017/ SXHGHQ URPSHU DOJXQRV GH ORV FRPSRQHQWHV GHO 6,%\u0011 1RWD 3DUD OD LQVWDODFLyQ GH ORV WDEOHURV GHO VLV"
+    },
+    "30": {
+     "chars": 382,
+     "idioma": "?",
+     "muestra": "AM2020. 1RWD /D LQVWDODFLyQ GH ORV PyGXORV GHO /,% TXH UHVXOWHQ HQ OD GXSOLFDFLyQ GH ORV Q~PHURV GHO 6/& GHO /,% QXQFD HV SHUPLWLGR\u0011 )LJXUD\u0014\u0014 (VTXHPD GH OD 1XPHUDFLyQ GHO 6/& GHO /,% GHO $)3\u0014\u0013\u0014\u0013 aplicaciones del AFP1010."
+    },
+    "35": {
+     "chars": 214,
+     "idioma": "?",
+     "muestra": "Terminal). )LJXUD\u0014 (QVDPEOH GHO ,QWHUIDFH GH OD 3DQWDOOD 1RWD (/ HQFKXIH GHO EORTXH GHO WHUPLQDO SXHGH VHU UHPRYLGR SDUD IDFLOLWDU HO DODPEUDGR HQ FDPSR GHO /&'\u0010\u001b\u0013 \\ ODV FRQH[LRQHV GH OD LPSUHVRUD UHPRWD YHD GHEDMR"
+    },
+    "36": {
+     "chars": 231,
+     "idioma": "?",
+     "muestra": "QR HV GH DOLPHQWDFLyQ OLPLWDGD\u0011 7RGR HO FDEOHDGR FRQHFWDGR D HVWRV WHUPLQDOHV WLHQH TXH TXHGDU D SRU OR PHQRV \u0014\u0012\u0017 SXOJDGDV \u0019\u0011\u0016\u0018 PP GHVGH HO FDEOHDGR GH DOLPHQWDFLyQ OLPLWDGD\u0011 5HILpUDVH D OD )LJXUD \u0015\u0014 SDUD PiV LQIRUPDFLyQ"
+    },
+    "42": {
+     "chars": 1139,
+     "idioma": "?",
+     "muestra": "FLUFXLWRV \\ UHOHYRV GH VDOLGD\u000f \\ VRSRUWDU ODV DODUPDV GH IXHJR HQ QR PHQRV GH \u0014\u0013 SRUFLHQWR GH ORV FLUFXLWRV GH ORV DSDUDWRV GH LQLFLDFLyQ VXMHWR D ORV UHTXLVLWRV GH ODV $XWRULGDGHV 7HQLHQGR OD -XULVGLFFLyQ /RFDO /$+- \u0011 "
+    },
+    "45": {
+     "chars": 207,
+     "idioma": "?",
+     "muestra": "VHU QHFHVDULR FDOFXODU ORV UHTXHULPLHQWRV HVSHFtILFRV GH OD IXHQWH VHFXQGDULD\u0011 (Q HVH FDVR\u000f VXPH OD FDUJD VHFXQGDULD GH QR DODUPD GH IXHJR REWHQLGRV HQ OD 7DEOD \u0018 DO WRWDO GH OD FRUULHQWH KDODGD GH DODUPD GH"
+    },
+    "46": {
+     "chars": 686,
+     "idioma": "es",
+     "muestra": "Tabla 8 Requerimientos para el Tamaño de la Batería 1RWD /RV 6LVWHPDV GH $ODUPD FRQWUD ,QFHQGLRV GH 3URSLHGDGHV \\ GH /RFDOHV SRU 1)3$\u001a\u0015 UHTXLHUH \u0015\u0017 KRUDV GH HQHUJtD VHFXQGDULD GH QR DODUPD GH IXHJR VHJXLGR SRU FLQFR PLQX"
+    },
+    "59": {
+     "chars": 316,
+     "idioma": "?",
+     "muestra": "1RWD \u0014\u0011 8WLOLFH ORV &DEOHV \u001a\u0014\u0013\u0016\u0016 R \u001a\u0018\u0013 \u001b VRQ ORV PLVPRV FDEOHV SHUR GH GLIHUHQWHV WDPDxRV SDUD WRGR HO FDEOHDPLHQWR\u0011 \u0015\u0011 (O -\u0016 \\ HO -\u0017 GH OD $36\u0010\u00195 \\ HO 3\u0014 \\ HO 3\u0015 GH OD $936\u0010\u0015\u0017 SXHGHQ VHU LQWHUFDPELDGRV\u0011 )LJXUD\u0016\u001b &RQILJX"
+    },
+    "60": {
+     "chars": 464,
+     "idioma": "?",
+     "muestra": "Solamente un CPU es requerido por sistema AM2020/AFP1010. )LJXUD\u0016 /RV &RQWDFWRV GH 3UREOHPD \\ GH $ODUPD GHO &38 1RWD /RV FRQWDFWRV SXHGHQ VHU FRQHFWDGRV D XQD IXHQWH GH DOLPHQWDFLyQ GH DOLPHQWDFLyQ OLPLWDGD R QR OLPLWDGD"
+    },
+    "61": {
+     "chars": 405,
+     "idioma": "?",
+     "muestra": "UHILpUDVH D ORV FLUFXLWRV GH OtQHD VHxDOL]DGRUHV FRPR XQ (QODFH GH ODV &RPXQLFDFLRQHV GH 'DWRV '&/ \u0011 8Q (VWLOR \u0017 GH OD 1)3$ HV HTXLYDOHQWH D XQ '&/%\u000f XQ (VWLOR \u0019 D XQ '&/$\u000f \\ XQ (VWLOR \u001a D XQ '&/5\u0011 1RWD 6L XVWHG HVWi H[S"
+    },
+    "67": {
+     "chars": 246,
+     "idioma": "?",
+     "muestra": "1RWD 5HILpUDVH DO $SpQGLFH $ \\ D ORV GLJLUDPRV GH LQVWDODFLyQ SURSRUFLRQDGRV FRQ FDGD GLVSRVLWLYR GHO OD]R SDUD VXV FODVLILFDFLRQHV \\ VXV HVSHFLILFDFLRQHV\u0011 2SHUDFLyQ “Flanqueando” cada dispositivo del Lazo SLC, creando z"
+    },
+    "72": {
+     "chars": 289,
+     "idioma": "?",
+     "muestra": "1RWD  3DUD FODVLILFDFLRQHV DGLFLRQDOHV\u000f UHILpUDVH DO $SpQGLFH $\u0011  3DUD OD FRQH[LyQ GH ORV GLVSRVLWLYRV LQLFLDGRUHV\u000f UHILpUDVH D ODV LQVWUXFFLRQHV GH LQVWDODFLyQ GHO IDEULFDQWH HPSDFDGDV FRQ HVWH GLVSRVLWLYR\u0011  3DUD PiV"
+    },
+    "73": {
+     "chars": 489,
+     "idioma": "?",
+     "muestra": "1RWD  3DUD FODVLILFDFLRQHV DGLFLRQDOHV\u000f UHILpUDVH DO $SpQGLFH $\u0011  3DUD OD FRQH[LyQ GH ORV GLVSRVLWLYRV LQLFLDGRUHV\u000f UHILpUDVH D ODV LQVWUXFFLRQHV GH LQVWDODFLyQ GHO IDEULFDQWH HPSDFDGDV FRQ HVWH GLVSRVLWLYR\u0011  3DUD HO "
+    },
+    "76": {
+     "chars": 206,
+     "idioma": "otro",
+     "muestra": "cableamiento del CMX. 1RWD (O &0; VH UHILHUH DO &0;\u0010\u0014 R DO &0;\u0010\u0015 D WUDYpV GHO UHVWR GH HVWH GRFXPHQWR\u000f KD PHQRV TXH VHD HVSHFLILFDGR GLIHUHQWHPHQWH\u0011 )LJXUD\u0018\u001a (O 0yGXOR GH &RQWURO &0; &RQH[LRQHV GHO /D]R 6/&"
+    },
+    "78": {
+     "chars": 505,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV El Módulo de Control 78 AM2020/AFP1010 PN 15088SP:H 10/21/98 1RWD 3DUD SURSRUFLRQDU XQD VXSHUYLVLyQ SUHFLVD\u000f ORV FDEOHV GHO FLUFXLWR GH OD DOLPHQWDFLyQ WLHQHQ TXH HVWDU URWRV HQ ORV WHUPLQDOHV \u0016 \\ \u0017 G"
+    },
+    "79": {
+     "chars": 765,
+     "idioma": "?",
+     "muestra": "El Módulo de Control 7DEOD GH &RQWHQLGRV AM2020/AFP1010 PN 15088SP:H 10/21/98 79 1RWD  3DUD SURSRUFLRQDU XQD VXSHUYLVLyQ SUHFLVD\u000f ORV FDEOHV GH VXSHUYLVLyQ WLHQHQ TXH VHU UHPRYLGRV HQ ORV WHUPLQDOHV \u0016 \\ \u0017 GHO &0; \\ QR H"
+    },
+    "80": {
+     "chars": 527,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV El Módulo de Control 80 AM2020/AFP1010 PN 15088SP:H 10/21/98 1RWD • &DGD OD]R GH OD DOLPHQWDFLyQ DXGLR\u0012YLVXDO WLHQH TXH VHU VXSHUYLVDGR SRU XQ 5HOHYR GH 6XSHUYLVLyQ GH OD $OLPHQWDFLyQ VHSDUDGR\u0011  3DUD"
+    },
+    "86": {
+     "chars": 124,
+     "idioma": "?",
+     "muestra": "\u0015 \u0016 3DU 7UHQ]DGR 5HFRPHQGDGR \u000e \u000e \u0010 \u0010 2WURV 'LVSRVLWLYRV ,QWHOLJHQWHV \u0016\u0010&200 287 \u0010 \u0015\u0010&200 287 \u000e \u0017 \u0014 &DEOHDGR 2SFLRQDO &ODVH $"
+    },
+    "89": {
+     "chars": 384,
+     "idioma": "?",
+     "muestra": "127,),5(1(7\u000f OD 9HUVLyQ \u0015\u0011\u0013\u000f \u0015\u0011\u0018\u000f R OD 0\u0015\u0011\u001a\u0011 /D RSHUDFLyQ LPSURSLD GHO VLVWHPD UHVXOWDUi VL ODV YHUVLRQHV QR VRQ ODV PLVPDV\u0011 7RGRV ORV Q~PHURV GH SDUWHV QR VRQ FRPSDWLEOHV HQWUH VL\u0011 0H]FOD LPSURSLD GH ORV Q~PHURV GH O"
+    },
+    "93": {
+     "chars": 828,
+     "idioma": "?",
+     "muestra": "Impresoras Remotas 7DEOD GH &RQWHQLGRV AM2020/AFP1010 PN 15088SP:H 10/21/98 93 )LJXUD\u001a\u0017 &RQH[LRQHV GHO &57 DO 6,% 1RWD  /DV VDOLGDV VRQ GH DOLPHQWDFLyQ OLPLWDGD SDUD ODV FODVLILFDFLRQHV GHO GLVSRVLWLYR\u0012FLUFXLWRV\u000f UHILpU"
+    },
+    "94": {
+     "chars": 151,
+     "idioma": "?",
+     "muestra": " +DJD ODV FRQH[LRQHV FRQ FDEOH GH SDU WUHQ]DGR \\ EOLQGDGR GH DOXPLQLR\u0011  0RGR GH &DOLGDG GH /HWUD &HUFDQD 1/4 QR SXHGH VHU HPSOHDGR HQ HVWD LPSUHVRUD."
+    },
+    "96": {
+     "chars": 291,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV Impresoras Remotas 96 AM2020/AFP1010 PN 15088SP:H 10/21/98 )LJXUD\u001a\u0019 &RQH[LRQHV GH OD ,PSUHVRUD .HOWURQ 1RWD  /DV VDOLGDV VRQ GH DOLPHQWDFLyQ OLPLWDGD SHUR QR VXSHUYLVDGDV\u0011  +DJD ODV FRQH[LRQHV FRQ F"
+    },
+    "99": {
+     "chars": 431,
+     "idioma": "?",
+     "muestra": "1RWD (O XVR GHO '$&7 6LVWHPDV GH $ODUPD FRQWUD ,QFHQGLRV GH OD (VWDFLyQ 6XSHUYLVRUD GH DFXHUGR D OD 1)3$ \u001a\u0015 QR HV SHUPLWLGR FXDQGR XQR R PiV GH ORV VLJXLHQWHV HVWiQ SUHVHQWHV HQ HO VLVWHPD 7UDQVSRQGHU ;3 FRQ XQD IXHQWH G"
+    },
+    "100": {
+     "chars": 843,
+     "idioma": "?",
+     "muestra": "1. (O XVR GH XQ '$&7 6LVWHPDV GH $ODUPD FRQWUD ,QFHQGLRV GH OD (VWDFLyQ 6XSHUYLVRUD GH DFXHUGR D OD 1)3$\u0010\u001a\u0015 QR HV SHUPLWLGR FXDQGR XQR R PiV GH ORV VLJXLHQWHV HVWiQ SUHVHQWH HQ HO VLVWHPD 6,%\u00101(7\u000f 7UDQVSRQGHU ;3 FRQ OD I"
+    },
+    "101": {
+     "chars": 395,
+     "idioma": "?",
+     "muestra": "1RWD 'XUDQWH OD 3URJUDPDFLyQ\u000f OD RSFLyQ ´\u001a\u0015%µ WLHQH TXH VHU HVFRJLGD GHVGH HO PHQ~ GH OD 1)3$\u0011 )LJXUD\u001a\u001b 6LVWHPD GH $ODUPD FRQWUD ,QFHQGLRV $X[LOLDU (Transmisión de la Señal de Alarma de Fuego) 1RWD (O FDEOHDGR HQWUH HO 0"
+    },
+    "105": {
+     "chars": 62,
+     "idioma": "?",
+     "muestra": "0DHVWUD 8QLGDG GH &RQWURO GH /RFDOHV 3URWHJLGRV (VFODYR 1,%\u0010 \u0019"
+    },
+    "106": {
+     "chars": 222,
+     "idioma": "es",
+     "muestra": "de los dispositivos iniciadores, refiérase a la Figura 52 hasta la Figura 56. )LJXUD\u001b\u0014 ,QWHUIDFH GH OD 8QLGDG 5HFHSWRUD GH OD (VWDFLyQ &HQWUDO \\ GHO 3URSLHWDULR\u00128QLGDG GH ORV /RFDOHV 3URWHJLGRV GH OD (VWDFLyQ &HQWUDO \\ G"
+    },
+    "111": {
+     "chars": 299,
+     "idioma": "es",
+     "muestra": "1RWD 9HD ODV SUHFDXFLRQHV DFHUFD GHO IXQFLRQDPLHQWR GH ORV 7UDQVSRQGHU ;3 DO SULQFLSLR GHO &DStWXOR 7UHV\u0011 3DUD PiV LQIRUPDFLyQ\u000f UHILpUDVH DO 0DQXDO GHO 6LVWHPD GH 7UDQVSRQGHU GH OD 6HULH ;3\u0011 $FHUFD GH ODV FRQWUDVHxDV El "
+    },
+    "118": {
+     "chars": 292,
+     "idioma": "?",
+     "muestra": "3DUD XQ $0\u0015\u0013\u0015\u0013\u0012$)3\u0014\u0013\u0014\u0013 HQ HO VLVWHPD 127,),5(1(7\u000f ODV RSHUDFLRQHV GH SURJUDPDFLyQ \\ GH OHFWXUD GH HVWDGR GHEHUiQ VLHPSUH VHU HMHFXWDGDV GHVGH HO 7HUPLQDO GH 5HSRUWH GH OD 5HG 157 \u0011 1XQFD WUDWH GH HMHFXWDU ODV RSHUDFLRQ"
+    },
+    "119": {
+     "chars": 235,
+     "idioma": "?",
+     "muestra": "$&78$/0(17( +$< \u0013\u0017 $936\u0010\u0015\u0017 ,167$/$'26 (1 (/ 6,67(0$ 1RWD (O Q~PHUR ´\u0013\u0017µ HQ OD SDQWDOOD VXSHULRU UHSUHVHQWD HO Q~PHUR WRWDO GH ODV IXHQWHV GH DOLPHQWDFLyQ $936 \\\u0012R $36\u0010\u00195 LQVWDODGDV HQ HO VLVWHPD\u0011 =21$6 \u0013\u0013\u0014 \u0010 \u0015\u0013\u0013 (67$1 $&"
+    },
+    "122": {
+     "chars": 307,
+     "idioma": "?",
+     "muestra": "debajo: 1RWD 'HVSXpV GH XQ UHFHVR GH XQ PLQXWR\u000f OD GLUHFFLyQ DVLJQDGD DO &RQWURO\u0010SRU\u0010(YHQWR &%( \\ HO SXQWR DQXQFLDGRU HV PRVWUDGD SDUD ODV ]RQDV \\ ORV DSDUDWRV\u0011 (O &RQWURO\u00103RU\u0010(YHQWR FRRSHUDWLYR HV PRVWUDGR SDUD ODV ]RQD"
+    },
+    "123": {
+     "chars": 278,
+     "idioma": "?",
+     "muestra": "Lectura de Punto 7DEOD GH &RQWHQLGRV AM2020/AFP1010 PN 15088SP:H 10/21/98 123 1RWD 8Q GHWHFWRU SXHGH VHU SHULyGLFDPHQWH SUREDGR GXUDQWH XQD OHFWXUD GH HVWDGR\u0011 (Q HVWH FDVR\u000f HO HVWDGR GHO GHWHFWRU VHUi QRUPDO SHUR HO SRUF"
+    },
+    "125": {
+     "chars": 299,
+     "idioma": "?",
+     "muestra": "fuego. 1RWD /D GLUHFFLyQ DVLJQDGD DO FRQWURO\u0010SRU\u0010HYHQWR \\ HO SXQWR DQXQFLDGRU HV PRVWUDGD SDUD ORV GLVSRVLWLYRV \\ ]RQDV GHVSXpV GH XQ UHFHVR GH XQ PLQXWR\u0011 (Q XQ VLVWHPD 127 27,) ,),5(1 1(7\u000f ODV HFXDFLRQHV GH FRQWURO\u0010"
+    },
+    "126": {
+     "chars": 313,
+     "idioma": "?",
+     "muestra": "127,),5(1(7). 1RWD /D GLUHFFLyQ DVLJQDGD DO SXQWR DQXQFLDGRU \\ DO FRQWURO\u0010SRU\u0010HYHQWR HV PRVWUDGD SDUD ORV GLVSRVLWLYRV \\ ]RQDV GHVSXpV GH XQ UHFHVR GH XQ PLQXWR\u0011 (O FRQWURO\u0010SRU\u0010HYHQWR FRRSHUDWLYR HV PRVWUDGR SDUD ODV ]"
+    },
+    "127": {
+     "chars": 194,
+     "idioma": "?",
+     "muestra": "1RWD 6RODPHQWH XQ LQIRUPH SXHGH VHU FRQGXFLGR D OD YH]\u0011 /RV LQIRUPHV QR VRQ PRVWUDGRV HQ HO ',$\u0011 /RV LQIRUPHV VRQ PRVWUDGRV HQ HO &57 \\\u0012R LPSUHVRV HQ OD LPSUHVRUD GHSHQGLHQGR VL ORV LQIRUPHV VRQ"
+    },
+    "128": {
+     "chars": 2987,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV Reportes 128 AM2020/AFP1010 PN 15088SP:H 10/21/98 1RWD /D $36\u0010\u00195 VHUi FRQWDGD FRPR XQD $936V HQ HO ,QIRUPH ,PSUHVR GH OD )XQFLyQ (VSHFLDO\u0011 )LJXUD\u001b\u0015 ,QIRUPH ,PSUHVR GH OD )XQFLyQ (VSHFLDO GHO $0\u0015\u0013\u0015\u0013\u0012$)"
+    },
+    "132": {
+     "chars": 531,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV Memoria del Histórico 132 AM2020/AFP1010 PN 15088SP:H 10/21/98 1RWDV  (O ]XPEDGRU SLH]R VHUi VLOHQFLDGR VRODPHQWH GHVSXpV GH TXH WRGRV ORV HYHQWRV KDOODQ VLGR UHFRQRFLGRV\u0011  /DV DODUPDV GH VHJXULGDG "
+    },
+    "135": {
+     "chars": 565,
+     "idioma": "?",
+     "muestra": "aparecerá:. £35(&$8&,Ð1\u0004 3DUD XQ $0\u0015\u0013\u0015\u0013\u0012$)3\u0014\u0013\u0014\u0013 FRQHFWDGR D XQ VLVWHPD 127,),5(1(7 TXH WDPELpQ LQFOX\\H XQ 157 R XQ SDQHO $)3\u0010\u0015\u0013\u0013\u000f HO PRGR UHFHSWRU QR HV VRSRUWDGR \\ HO UHFRQRFLPLHQWR GH EORTXH QR GHEHUi VHU LQKDELOLWDG"
+    },
+    "145": {
+     "chars": 747,
+     "idioma": "?",
+     "muestra": "del 127,),5(1(7 no pueden ser programadas o vistas bajo la Lectura de Estado. 1RWD &XDQGR XQ 7HUPLQDO 5HSRUWHUR GH OD 5HG 157 HVWi SUHVHQWH HQ HO 127,),5(1(7\u000f ODV RSHUDFLRQHV GH SURJUDPDFLyQ \\ GH OD OHFWXUD GH HVWD"
+    },
+    "149": {
+     "chars": 291,
+     "idioma": "?",
+     "muestra": "SURJUDPDFLyQ GH ORV SXQWRV LQVWDODGRV SXHGHQ VHU JXDUGDGRV HQ XQD EDVH GH GDWRV GH 9HUL)LUH DQWHV GH UHPRYHU HO /,%\u0011 (O XVR GH OD DSOLFDFLyQ GHO 9HUL)LUH SDUD OD UHSURJUDPDFLyQ GH SXQWRV SUHYLDPHQWH UHPRYLGRV HV DOWDPH"
+    },
+    "150": {
+     "chars": 292,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV Programación Parcial del Sistema 150 AM2020/AFP1010 PN 15088SP:H 10/21/98 SXQWRV LQVWDODGRV HQ ORV DQXQFLDGRUHV DIHFWDGRV WLHQHQ TXH VHU SULPHUDPHQWH UHPRYLGRV SDUD OD RSHUDFLyQ DSURSLDGD GHO VLVWHPD\u0011"
+    },
+    "155": {
+     "chars": 951,
+     "idioma": "?",
+     "muestra": "\u0019 (;7(4 ¢&DPELR OD 6XSHUYLVLyQ GH 7HUPLQDO\" ¢+DELOLWDU\u0012LQKDELOLWDU OD 6XSHUYLVLyQ GH 7HUPLQDO\" ¢&DPELR OD /tQHD GH (VWDGR GH 7HUPLQDO\" +DELOLWDU\u0012,QKDELOLWDU OD /tQHD GH (VWDGR GHO7HUPLQDO 6L 6L 1R ¢&DPELR OD 3URJ GH OD ,"
+    },
+    "157": {
+     "chars": 202,
+     "idioma": "?",
+     "muestra": "7UDQVSRQGHU ;3\u0011 /RV GLVSRVLWLYRV VRQ GHILQLGRV FRPR PyGXORV \\ GHWHFWRUHV LQWHOLJHQWHV\u0011 /RV WLSR GH LGHQWLILFDFLRQHV GH VRIWZDUH 3:5&\u000f 1&01\u000f 6&21 \\ 12$ QXQFD VHUiQ HQFODYDGRV EDMR HO (QFODYH SRU 'HIHFWR\u0011"
+    },
+    "161": {
+     "chars": 505,
+     "idioma": "?",
+     "muestra": "contienen un panel AFP-200 o una NRT. 1RWD /RV PyGXORV WLHQHQ TXH HVWDU FRQHFWDGRV HQ /D]R 6/& GHO /,% FRQ OD V GLUHFFLyQ HV DMXVWDGDV HQ RUGHQ SDUD SUHYHQLU ODV FRQGLFLRQHV GH SUREOHPD\u0011 /RV PyGXORV GH OD 1)3$ VHOHFFLRQD"
+    },
+    "162": {
+     "chars": 160,
+     "idioma": "?",
+     "muestra": "Monitoreados Si No 4=DACT (transmisor de comunicaciones) ¢&DPELR OD 3URJUDPDFLyQ GHO 8'$&7\" 6L ¢,QVWDOR HO 8'$&7\" (QWUH OD GLUHFFLyQ GH OD EDVH \u0014\u0010\u0016\u0015 6L 1R 12 1R"
+    },
+    "163": {
+     "chars": 520,
+     "idioma": "?",
+     "muestra": "programadas cuando se esta utilizando un SIB-NET. 1RWD 'XUDQWH XQD FDUJD\u0012GHVFDUJD\u000f OD FDSDFLGDG GH SURWHFFLyQ GH IXHJR GHO $0\u0015\u0013\u0015\u0013\u0012$)3\u0014\u0013\u0014\u0013 HVWi KDELOLWDGD HVWi OLPLWDGD D GHVFDUJDV \u0011 3DUD UHGXFLU HO ULHVJR GH EDVHV GH GDW"
+    },
+    "164": {
+     "chars": 2231,
+     "idioma": "?",
+     "muestra": "\u0014 \u0010 \u0016\u0015 \u0014 1RWH (O 8'$&7 VROR SXHGH SURJUDPDUVH R UHPRYHUVH GHO VLVWHPD D WUDYpV GHO 0HQ~ GH OD 3URJUDPDFLyQ 3DUFLDO GHO 6LVWHPD\u0011 (/ 8'$&7 WLHQH TXH VHU SURJUDPDGR HQ XQD GLUHFFLyQ LQVWDODGD GH DQXQFLDGRU\u0011 8QD YH] SURJUDPD"
+    },
+    "170": {
+     "chars": 264,
+     "idioma": "es",
+     "muestra": "detallada de las opciones de Programación Parcial de Punto sigue. 1RWD &DGD RSFLyQ EDMR OD 3URJUDPDFLyQ 3DUFLDO GHO 3XQWR RUGHQD DO SURJUDPDGRU D HQWUDU OD GLUHFFLyQ GHO GHWHFWRU\u000f PyGXOR\u000f R ]RQD TXH YD D VHU DIHFWDGD\u0011 /R"
+    },
+    "173": {
+     "chars": 211,
+     "idioma": "?",
+     "muestra": "FRQWURO FRQ ODV ,GHQWLILFDFLRQHV GH 6RIWZDUH GH 7(/(\u000f 3:5&\u000f $31'\u000f 731'\u000f \\ *31'\u0011 9HD ORV 7LSRV GH ,GHQWLILFDFLRQHV GH 6RIWZDUH SDUD XQD H[SOLFDFLyQ DFHUFD GH ORV WLSRV GH LGHQWLILFDFLRQHV GH VRIWZDUH\u0011 D1 D2 D3 D4"
+    },
+    "175": {
+     "chars": 579,
+     "idioma": "?",
+     "muestra": "6 6,\u000f 1 12 6 +$< &21752/ '( 6(16,%,/,'$' '( ',$\u001212&+( 3$5$ (67( (48,32\" 6 6,\u000f 1 12 6 1RWD /RV PyGXORV GH FRQWURO TXH DFWLYDQ D ORV PyGXORV GH PRQLWRUHR YtD FRQH[LRQHV ItVLFDV QR SXHGHQ 1RWD &DGD GHWHFWRU\u000f PyGXOR\u000f R ]RQD "
+    },
+    "177": {
+     "chars": 272,
+     "idioma": "?",
+     "muestra": "Programación Total de Punto 7DEOD GH &RQWHQLGRV AM2020/AFP1010 PN 15088SP:H 10/21/98 177 SHUPLWLHQGR DO SURJUDPDGRU HQWUDU GLVSRVLWLYRV\u000f ]RQDV GH VRIWZDUH R SXQWRV DQXQFLDGRUHV XQR GHWUiV GHO RWUR\u0011 8WLOLFH OD WHFOD GH UH"
+    },
+    "178": {
+     "chars": 240,
+     "idioma": "es",
+     "muestra": "38/6$5 $;;3<< 3$5$ $6,*1$&,21 '( 38172 $181&,$'25 $\u00153\u0017 1RWD /RV PyGXORV GH FRQWURO TXH DFWLYDQ D ORV PyGXORV GH PRQLWRUHR YtD XQD FRQH[LyQ ItVLFD QR GHEHUiQ WHQHU OD SUXHED GH UHFRUULGR KDELOLWDGD\u0011 Ejemplo: Programando l"
+    },
+    "179": {
+     "chars": 664,
+     "idioma": "?",
+     "muestra": "1RWD /RV GLVSRVLWLYRV TXH VRQ ERUUDGRV QR IXQFLRQDUDQ HQ QLQJXQD FDSDFLGDG KDVWD TXH VHDQ UHLQVWDODGRV EDMR OD 3URJUDPDFLyQ 7RWDO GH 3XQWR\u0011 35(&$8&,Ð1 \u0010 /RV GLVSRVLWLYRV TXH KDQ WHQLGR VXV /('V HQFODYDGRV WLHQHQ TXH UHJU"
+    },
+    "183": {
+     "chars": 235,
+     "idioma": "?",
+     "muestra": "(O SURJUDPDGRU 181&$ GHEHUi LQKDELOLWDU XQ SXQWR TXH HVWD HQ DODUPD\u0011 (O SURJUDPDGRU QXQFD GHEHUi HQFHQGHU XWLOL]DQGR OD RSFLyQ \u0015 GHO 0HQ~ GH (VWDGR GH $OWHUDFLyQ R SURJUDPDU XQ SXQWR LQKDELOLWDGR\u0011 /RV 7LSRV GH ,GHQWLILFD"
+    },
+    "184": {
+     "chars": 588,
+     "idioma": "?",
+     "muestra": "\u0013\u0016 \u0016\u001a3 \u0013\u0016\u0012\u0013\u0014\u0012 \u0016 1RWD /D KRUD PLOLWDU \\ OD KRUD FRQYHQFLRQDO VRQ ODV PLVPDV KRUDV SDUD OD \u0014 \u0013\u0013DP KDVWD HO PHGLRGtD\u0011 3DUD FRQYHUWLU OD KRUD FRQYHQFLRQDO D OD KRUD PLOLWDU SDUD ODV KRUDV GH \u0014 \u0013\u0013SP KDVWD OD PHGLDQRFKH UHPXHY"
+    },
+    "186": {
+     "chars": 1310,
+     "idioma": "?",
+     "muestra": "6 6,\u000f 1 12 1 1RWD $O ILQDOL]DU OD VHOHFFLyQ GH /,% GH OD SUXHED GH UHFRUULGR\u000f XQ SUREOHPD GH VLVWHPD HV JHQHUDGR SDUD LQGLFDU TXH HO SDQHO GH FRQWURO HVWi IXQFLRQDQGR EDMR SURWHFFLyQ OLPLWDGD\u0011 6RODPHQWH ORV /,%V VHOHFFLR"
+    },
+    "187": {
+     "chars": 262,
+     "idioma": "?",
+     "muestra": "7DEOD GH &RQWHQLGRV AM2020/AFP1010 PN 15088SP:H 10/21/98 187 SXHGH UHVXOWDU HQ XQD DFWLYDFLyQ QR GHVHDGD GH YDULRV PyGXORV GH VDOLGD\u0011 6L XQ UHDUPH GHO VLVWHPD RFXUUH GXUDQWH OD SUXHED GH UHFRUULGR\u000f VDOJD GH OD 3UXHED GH "
+    },
+    "188": {
+     "chars": 151,
+     "idioma": "?",
+     "muestra": "&DYLGDG GHO 0yGXOR GH 3UXHED /(' ,PiQ GH 3UXHED 6XSHUILFLH 3LQWDGD ,PiQ GH 3UXHED 6XSHUILFLH 3LQWDGD &DYLGDG GHO 0yGXOR GH 3UXHED /(' \u0015 /(' \u0014 \u001a\u0018\u0014PDJQW\u0011"
+    },
+    "191": {
+     "chars": 295,
+     "idioma": "?",
+     "muestra": "FRQ HO $0\u0015\u0013\u0015\u0013\u0012$)3\u0014\u0013\u0014\u0013\u0011 $Vt TXH\u000f XWLOLFH H[WUHPR FXLGDGR FXDQGR HVWH DVLJQDQGR ORV 7LSRV GH ,GHQWLILFDFLRQHV GH 6RIWZDUH D ORV FLUFXLWRV GHO 7UDQVSRQGHU ;3\u0011 3RU HMHPSOR\u000f XQ FLUFXLWR ;3 DVLJQDGR DO WLSR GH LGHQWLILFDFLyQ G"
+    },
+    "194": {
+     "chars": 464,
+     "idioma": "?",
+     "muestra": "VLGR SURJUDPDGD SDUD HVWRV GLVSRVLWLYRV\u000f HOORV SXHGHQ VHU DSDJDGRV XWLOL]DQGR OD IXQFLyQ GH $3$*$'2 GH &RQWURO EDMR HO 0HQ~ GH (VWDGR GH $OWHUDFLyQ R SXOVDQGR OD WHFOD DSURSLDGD GH SXQWR DQXQFLDGRU\u0011 'H ORV WLSRV DUULED\u000f "
+    },
+    "196": {
+     "chars": 286,
+     "idioma": "es",
+     "muestra": "que solamente produce una señal de problema, no una alarma. 1RWD (VWH WLSR GH VRIWZDUH SXHGH VHU XWLOL]DGR SDUD PRQLWRUHDU D OD DOLPHQWDFLyQ GH XQD )XHQWH GH $OLPHQWDFLyQ ,QLPWHUUXPSLEOH 836 EDMR ODV DSOLFDFLRQHV GH ORV "
+    },
+    "200": {
+     "chars": 300,
+     "idioma": "?",
+     "muestra": "\u0013\u0013\u0011\u0013\u0013\u0011\u0013\u0013 \u000f OD HFXDFLyQ VH HYDOXDUD FRPR YHUGDGHUD WDQ SURQWR OD HFXDFLyQ LQWHUQD VH HYDOXp FRPR YHUGDGHUD \\ TXHGDUi DVt SRU OD GXUDFLyQ LQGLFDGD\u000f KD PHQRV TXH OD HFXDFLyQ LQWHUQD VH KDJD IDOVD\u0011 6L QLQJXQD GXUDFLyQ HV HVS"
+    },
+    "201": {
+     "chars": 456,
+     "idioma": "?",
+     "muestra": ". 1RWD /D HFXDFLyQ 6'(/ FRPSOHWD FRQVXPH SRU OR PHQRV \u0014\u0014 E\\WHV LQFOX\\HQGR XQD HFXDFLyQ LQWHUQD GH \u0016 E\\WH \u0011 /D HFXDFLyQ LQWHUQD SXHGH VHU FRPSOHMD GH PXFKRV E\\WHV\u0011 6L XQ UHWUDVR GH FHUR HV HQWUDGR \u0013\u0013\u0011\u0013\u0013\u0011\u0013\u0013 \u000f OD HFXDFLyQ V"
+    },
+    "238": {
+     "chars": 571,
+     "idioma": "?",
+     "muestra": "SUREOHPDV SXHGH VHU JUDQGHPHQWH UHGXFLGR DO XWLOL]DU HO /,%\u0010\u0015\u0013\u0013$ R HO /,%\u0010\u0017\u0013\u0013 R H[FOXVLYDPHQWH HPSOHDU ]XPEDGRUHV HOHFWUyQLFRV FRPR HO 0$\u001266\u0010\u0015\u0017 HQ YH] GH PiV DSDUDWRV GH QRWLILFDFLyQ HOHFWURQLFDPHQWH UXLGRVRV FRPR FDPSDQ"
+    }
+   },
+   "accionable": false,
+   "chunks_ahora": 342,
+   "chars_corpus_ahora": 899952
   }
  ]
 }
