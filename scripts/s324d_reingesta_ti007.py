@@ -49,7 +49,7 @@ from src.reingest.extract import llamaparse_extract, load_key  # noqa: E402
 SB = os.environ["SUPABASE_URL"].rstrip("/")
 HS = {"apikey": os.environ["SUPABASE_SERVICE_KEY"],
       "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_KEY']}"}
-DOC = "HLSI-TI-007_VSN-4REL"
+DOC_DEFECTO = "HLSI-TI-007_VSN-4REL"
 MODE, MODEL = "parse_page_with_agent", "anthropic-sonnet-4.5"
 STORE = ROOT / "data" / "extraction" / "agent_anthropic-sonnet-45"
 # Agujas del procedimiento que HOY faltan en el corpus (verificadas en el texto nativo del PDF).
@@ -78,7 +78,15 @@ def chunks_actuales(c, doc_id: str) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--aplicar", action="store_true")
+    ap.add_argument("--doc", default=DOC_DEFECTO,
+                    help="source_pdf_filename del documento a re-ingestar (por defecto, TI-007)")
+    ap.add_argument("--agujas", default=None,
+                    help="tokens separados por coma que DEBEN aparecer tras la re-ingesta (verificación)")
     args = ap.parse_args()
+    global DOC, AGUJAS
+    DOC = args.doc
+    if args.agujas:
+        AGUJAS = [a.strip() for a in args.agujas.split(",") if a.strip()]
     modo = "aplicar" if args.aplicar else "dry-run"
     utc = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     recibo: dict = {"que_es": __doc__.strip().splitlines()[0], "modo": modo, "utc": utc, "doc": DOC}
