@@ -7136,7 +7136,15 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   resuelto; `_process_query`/`log_query` con respuesta compuesta) y **una decisión de producto** que no es
   mía. Cablearlo sin Alberto sería construir sobre un contrato no decidido (Protocolo 2). **v3 = diseño
   consolidado** en `evals/s321_mismatch_conducta_a_propuesta_v3.md`, para una sesión dedicada con dúo.
-- **LA DECISIÓN QUE QUEDA PARA ALBERTO** — multi-modelo/multi-marca en la misma pregunta:
+- **✅ ADJUDICADO POR ALBERTO (17-ago, s324e): opción (a)** — «vamos con la (a), pero deja anotado que lo
+  mejoraremos a futuro». Es decir: la corrección marca↔producto se aplica **sólo cuando hay UNA marca y UN
+  modelo** y no casan (que es el 100 % de los 👎 registrados hasta hoy: «me has dado información sobre productos
+  de Kidde…», «información sobre la ID3000 que no es de Detnov»); con varios modelos o varias marcas en la misma
+  pregunta, el bot responde como hoy sin intentar emparejar. **MEJORA FUTURA ANOTADA**: la opción (b)
+  —emparejar marca↔modelo por proximidad y corregir sólo el par erróneo— queda como evolución cuando el piloto
+  dé casos reales multi-modelo; no se descarta, se pospone por superficie de error (corregir mal es peor que no
+  corregir). Cablear con dúo, flag y PR propia; diseño consolidado en `evals/s321_mismatch_conducta_a_propuesta_v3.md`.
+- **LA DECISIÓN QUE QUEDABA PARA ALBERTO (ya adjudicada, arriba)** — multi-modelo/multi-marca en la misma pregunta:
   (a) fuera de alcance: si hay más de un modelo, NO se aplica mismatch-answer (se responde como hoy) —
   **recomendado** para el primer cableado; (b) emparejar marca↔modelo por proximidad y corregir solo el
   par erróneo — contrato nuevo, más superficie; (c) otra.
