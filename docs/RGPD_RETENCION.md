@@ -305,23 +305,30 @@ persona real, escrito aunque la invitación **nunca se canjee**) y `canjeada_por
 **directo** de quien abrió el enlace, que puede no ser el destinatario). Decir «entra en el
 mismo `[DECIDIR]` que `user_consent`» describe el hueco; no lo cierra.
 
-**Propuesta del asistente — NO implementada**, porque el plazo es una decisión de negocio y su
-defensa jurídica no es mía. Sigue el principio rector de esta matriz (DISOCIAR, no borrar):
+**Plazo ADJUDICADO por Alberto (17-ago, s324e): los MISMOS 24 meses que el resto de la
+matriz.** Su criterio —«debería ser consistente con el tiempo de mantenimiento del resto de
+tablas, para que sea más simple»— es el correcto, y hay un argumento que lo refuerza y que la
+propuesta inicial del asistente (6/12 meses) no tuvo en cuenta: **los 24 meses no son una
+convención de este documento, son un INVARIANTE DE LA BASE** — el rol `rgpd_retencion` lleva
+`interval '24 months'` cableado (s295/s299). Tres ventanas distintas habrían significado tres
+formas de incumplir, un aviso de privacidad que anuncia una sola cifra, y una explicación más
+larga al asesor. Una sola ventana es más simple de implementar, de auditar y de contar.
 
 | Fila | Cuándo | Qué se hace |
 |---|---|---|
-| Invitación **nunca canjeada** (caducada o anulada) | 6 meses desde `creada_at` | `nota = NULL`. Una llave que nadie usó no tiene nada que auditar, y `nota` es su único dato personal |
-| Invitación **canjeada**, con el acceso ya revocado | 12 meses desde `revocado_at` del alta | `nota = NULL`, `canjeada_por = NULL`. Se conservan fechas, `creada_por` y el hecho del canje: la traza «hubo un alta y la emitió X» sobrevive sin identificar a nadie |
-| Fila de `bot_allowlist` **revocada** | 12 meses desde `revocado_at` | `DELETE` (el `telegram_user_id` es la PK: no se puede disociar sin destruir la fila) |
+| Invitación **nunca canjeada** (caducada o anulada) | **24 meses** desde `creada_at` | `nota = NULL` (es el único dato personal de una llave que nadie usó) |
+| Invitación **canjeada**, con el acceso ya revocado | **24 meses** desde `revocado_at` del alta | `nota = NULL`, `canjeada_por = NULL`. Sobrevive «hubo un alta y la emitió X», que es la traza de auditoría sin la persona |
+| Fila de `bot_allowlist` **revocada** | **24 meses** desde `revocado_at` | **`DELETE`** — y esta es la excepción que hay que declarar: `telegram_user_id` es la clave primaria, así que **no se puede disociar sin destruir la fila**. Es el único sitio de la matriz donde la acción a los 24 meses es borrar en vez de disociar |
 | Fila de `bot_allowlist` **activa** | — | Se conserva mientras dure el acceso: es su finalidad |
 
-Mecanismo sugerido: **una política más en `rgpd_retencion_pasada`**, no un job nuevo — ya existe
-el rol, el recibo y el cron. Coste estimado: una función y dos `UPDATE`.
+Mecanismo: **una política más en `rgpd_retencion_pasada`**, no un job nuevo — el rol, el recibo
+y el cron ya existen, y con el mismo intervalo la función no necesita parámetro nuevo.
 
-**Quién decide qué**: el **plazo** (6/12 meses) lo fija **Alberto** — es cuánto tiempo quiere
-poder auditar quién invitó a quién. La **defensa jurídica** del plazo y si encaja con el resto
-de la matriz la valida el **abogado**, junto con el aviso v8. Hasta que ambos se pronuncien,
-esto queda como **gap declarado y abierto**, no como algo resuelto.
+**Sigue PENDIENTE (no implementado) y qué falta**: el plazo ya está decidido; falta (1) escribir
+la política en la función de la base y (2) la **validación del abogado**, que va en el mismo
+paquete que el aviso v8 y que el otro punto abierto (el aviso de canje comunica el nombre de
+perfil y alias de Telegram de quien canjea, que es un dato nuevo). Hasta (1) y (2), esto es un
+gap declarado con su plazo fijado, no un problema resuelto.
 
 Tres decisiones de diseño con efecto en protección de datos, declaradas:
 
