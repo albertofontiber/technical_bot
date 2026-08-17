@@ -352,7 +352,14 @@ ORDER BY table_name, privilege_type;
 -- Postgres llama a ese caso «unspecified», así que probarlo así no probaría
 -- nada. Sentencias sucesivas sí ven el efecto de la anterior.
 -- El primer UPDATE debe devolver UNA fila; el segundo, NINGUNA.
-BEGIN;
+-- ⚠️ SAVEPOINT, no BEGIN/ROLLBACK (s324e — INCIDENTE REAL al aplicar esta migración):
+-- el SQL Editor de Supabase ejecuta el fichero DENTRO de una transacción. Un `BEGIN` ahí
+-- NO abre una transacción nueva (Postgres avisa «there is already a transaction in
+-- progress») y el `ROLLBACK` que cerraba este bloque revertía **EL FICHERO ENTERO**, las
+-- tablas incluidas: la validación devolvía 1 —cierto dentro de la transacción— y después
+-- no quedaba nada creado. Un SAVEPOINT acota la reversión a esta prueba y funciona igual
+-- si el fichero se ejecuta suelto.
+SAVEPOINT prueba_un_solo_uso;
   INSERT INTO bot_invitaciones (token_hash, nota, creada_por, expira_at)
   VALUES (repeat('a', 64), 'prueba de la 016', 'validacion',
           now() + interval '1 day');
@@ -366,7 +373,8 @@ BEGIN;
   WHERE token_hash = repeat('a', 64) AND canjeada_at IS NULL
     AND revocada_at IS NULL AND expira_at > now()
   RETURNING canjeada_por AS segundo_canje_debe_devolver_0_filas;
-ROLLBACK;
+ROLLBACK TO SAVEPOINT prueba_un_solo_uso;
+RELEASE SAVEPOINT prueba_un_solo_uso;
 
 -- ALCANCE HONESTO DE C.6: esto demuestra que la CONDICIÓN del canje funciona,
 -- que es lo que depende de nosotros. La garantía frente a dos personas pulsando
@@ -389,3 +397,11 @@ ROLLBACK;
 -- Tras el DROP el bot vuelve a la conducta de hoy (con la puerta apagada):
 -- cualquiera que acepte los términos puede usarlo.
 -- ============================================================================
+
+-- ============================================================================
+-- FASE D — EXPONER EN LA API (s324e, segundo incidente real: las tablas existían y
+-- PostgREST seguía devolviendo 404). PostgREST cachea el esquema; una migración que crea
+-- tablas para que las use la API REST debe dejarlas visibles ella misma en vez de confiar
+-- en que el caché se refresque solo. Idempotente.
+-- ============================================================================
+NOTIFY pgrst, 'reload schema';

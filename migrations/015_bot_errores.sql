@@ -226,3 +226,7 @@ ORDER BY privilege_type, column_name;
 -- Tras el DROP, el bot sigue funcionando: `log_bot_error` detecta la tabla
 -- ausente y degrada al registro heredado de s286. Nada más que revertir.
 -- ============================================================================
+
+-- (s324e) Exponer en la API: PostgREST cachea el esquema y una tabla recién creada puede
+-- devolver 404 hasta que se recarga. Idempotente.
+NOTIFY pgrst, 'reload schema';
