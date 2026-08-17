@@ -346,35 +346,14 @@ WHERE table_name IN ('bot_allowlist', 'bot_invitaciones')
 GROUP BY table_name, privilege_type
 ORDER BY table_name, privilege_type;
 
--- C.6: prueba de vida del UN SOLO USO, en seco (el ROLLBACK no deja rastro).
--- Son DOS sentencias separadas a propósito: dos CTE que modifican datos dentro
--- de UNA sentencia comparten snapshot y no se ven entre sí — el manual de
--- Postgres llama a ese caso «unspecified», así que probarlo así no probaría
--- nada. Sentencias sucesivas sí ven el efecto de la anterior.
--- El primer UPDATE debe devolver UNA fila; el segundo, NINGUNA.
--- ⚠️ SAVEPOINT, no BEGIN/ROLLBACK (s324e — INCIDENTE REAL al aplicar esta migración):
--- el SQL Editor de Supabase ejecuta el fichero DENTRO de una transacción. Un `BEGIN` ahí
--- NO abre una transacción nueva (Postgres avisa «there is already a transaction in
--- progress») y el `ROLLBACK` que cerraba este bloque revertía **EL FICHERO ENTERO**, las
--- tablas incluidas: la validación devolvía 1 —cierto dentro de la transacción— y después
--- no quedaba nada creado. Un SAVEPOINT acota la reversión a esta prueba y funciona igual
--- si el fichero se ejecuta suelto.
-SAVEPOINT prueba_un_solo_uso;
-  INSERT INTO bot_invitaciones (token_hash, nota, creada_por, expira_at)
-  VALUES (repeat('a', 64), 'prueba de la 016', 'validacion',
-          now() + interval '1 day');
-
-  UPDATE bot_invitaciones SET canjeada_at = now(), canjeada_por = 1
-  WHERE token_hash = repeat('a', 64) AND canjeada_at IS NULL
-    AND revocada_at IS NULL AND expira_at > now()
-  RETURNING canjeada_por AS primer_canje_debe_devolver_1_fila;
-
-  UPDATE bot_invitaciones SET canjeada_at = now(), canjeada_por = 2
-  WHERE token_hash = repeat('a', 64) AND canjeada_at IS NULL
-    AND revocada_at IS NULL AND expira_at > now()
-  RETURNING canjeada_por AS segundo_canje_debe_devolver_0_filas;
-ROLLBACK TO SAVEPOINT prueba_un_solo_uso;
-RELEASE SAVEPOINT prueba_un_solo_uso;
+-- C.6: la prueba de vida del UN SOLO USO vive en un fichero APARTE:
+--      `migrations/016_validacion_un_solo_uso.sql`
+-- Por qué (s324e, dos incidentes reales al aplicar esta migración): esa prueba necesita
+-- deshacer lo que escribe, y CÓMO se deshace depende de si el cliente SQL abre o no una
+-- transacción por su cuenta — con `BEGIN/ROLLBACK` se revirtió el fichero entero en un
+-- cliente, y con `SAVEPOINT` falló con «can only be used in transaction blocks» en otro.
+-- Un fichero que CREA tablas no puede depender de eso: aquí no hay control de transacción
+-- de ningún tipo, y la prueba se ejecuta por separado cuando ya están creadas.
 
 -- ALCANCE HONESTO DE C.6: esto demuestra que la CONDICIÓN del canje funciona,
 -- que es lo que depende de nosotros. La garantía frente a dos personas pulsando
