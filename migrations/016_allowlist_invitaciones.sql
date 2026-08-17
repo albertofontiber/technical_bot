@@ -2,8 +2,24 @@
 -- 016 — `bot_allowlist` + `bot_invitaciones`: el control de acceso al piloto
 --       con Directores Generales (s324e).
 --
--- ⚠️ NO APLICADA. Igual que la 015, este fichero se deja preparado para que
---    Alberto lo revise y lo pegue en el SQL editor de Supabase cuando decida.
+-- ✅ APLICADA EN PRODUCCIÓN el 17-ago-2026, y costó DOS intentos por un defecto
+--    de este fichero, no del entorno. Se deja escrito porque la lección vale
+--    para toda migración futura del repo:
+--      · llevaba dentro una prueba del un-solo-uso envuelta en `BEGIN/ROLLBACK`.
+--        El SQL Editor de Supabase ejecuta el script ENTERO dentro de una
+--        transacción, así que ese `BEGIN` no abría una nueva y el `ROLLBACK`
+--        deshizo TAMBIÉN la creación de las tablas: la validación imprimía `1`
+--        (cierto dentro de la transacción) y después no quedaba nada;
+--      · el intento con `SAVEPOINT` falló con `25P01` en otro cliente.
+--    **Regla que queda**: un fichero que CREA no puede llevar dentro una prueba
+--    que necesita deshacerse, porque CÓMO se deshace depende del cliente SQL.
+--    La prueba vive ahora en `016_validacion_un_solo_uso.sql` y esta migración
+--    no lleva control de transacción de ningún tipo: solo DDL + GRANT + NOTIFY.
+--    (El `NOTIFY pgrst` también hizo falta: PostgREST cachea el esquema y
+--    devolvía 404 sobre tablas ya creadas.)
+--    Estado verificado tras aplicarla: `bot_allowlist` con la fila de bootstrap
+--    de Alberto, `bot_invitaciones` vacía, e invariante C.2 en verde (nadie con
+--    consentimiento activo se queda fuera).
 --
 -- ⚠️ Y ADEMÁS, EL ORDEN IMPORTA AQUÍ (a diferencia de la 015). El bot funciona
 --    sin estas tablas SOLO mientras `BOT_ALLOWLIST` esté en `off`, que es el

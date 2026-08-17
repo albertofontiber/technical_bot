@@ -414,7 +414,8 @@ def cmd_revocar_acceso(args) -> int:
     # es la suma. Se dicen los dos numeros porque el que decide es Alberto.
     # Los dos plazos NO se suman: la gracia se cuenta desde la ULTIMA
     # confirmacion de la base, no desde que caduca la cache, asi que el peor
-    # caso es el mayor de los dos. Medido, no estimado.
+    # caso es el mayor de los dos. Cifras DERIVADAS del diseno y ancladas en
+    # test offline (no hay observacion end-to-end contra Telegram).
     print(f"Efecto en el bot: hasta {int(access.TTL_FRESCO_S / 60)} min con la "
           f"base sana (cache de la puerta), y hasta "
           f"{int(access.GRACIA_DEGRADADA_S / 60)} min si Supabase esta caido "

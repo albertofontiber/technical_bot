@@ -94,9 +94,9 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
 ### 4.3.b. Invitar a un DG (s324e — acceso por invitación)
 
 **Orden de activación, una sola vez** (importa: el código se despliega solo y la migración la aplicas tú):
-1. Aplicar `migrations/016_allowlist_invitaciones.sql` (FASE A → B → C). La FASE B da de alta automáticamente a quien ya tenga consentimiento activo — o sea, a ti: no te quedas fuera.
+1. ✅ **HECHO (17-ago)**: `migrations/016_allowlist_invitaciones.sql` aplicada. La FASE B dio de alta automáticamente a quien ya tenía consentimiento activo — o sea, a ti: no te quedas fuera. (Costó dos intentos: la prueba del un-solo-uso que iba dentro llevaba `BEGIN/ROLLBACK` y el SQL Editor revirtió el fichero entero. Ahora esa prueba vive aparte, en `016_validacion_un_solo_uso.sql`.)
 2. `python -m scripts.s324e_invitaciones allowlist` → comprobar que tu fila está.
-3. En Railway: `BOT_ALLOWLIST_BOOTSTRAP=<tu telegram_user_id>` (tu red de seguridad si algo falla) y luego `BOT_ALLOWLIST=on`.
+3. ⏳ **PENDIENTE, y es lo que enciende el control**. En Railway: `BOT_ALLOWLIST_BOOTSTRAP=<tu telegram_user_id>` (tu red de seguridad si algo falla) y **después** `BOT_ALLOWLIST=on`. En ese orden: al revés te quedas fuera de tu propio bot si algo va mal.
 
 **Invitar (cada vez)**: `python -m scripts.s324e_invitaciones generar --nota "Juan Pérez, DG de Acme" --bot PCI_Soporte_tecnico_bot` → imprime el enlace **una sola vez** (en la base solo queda su huella); se lo mandas a esa persona; al pulsarlo queda dada de alta y el bot le enseña los términos. Caduca en **2 días** por defecto (`--dias`, máximo 7).
 
@@ -104,7 +104,7 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
 
 **Ver y quitar**: `listar` (pendientes/usadas/caducadas) · `allowlist` (quién tiene acceso) · `revocar-invitacion <id>` · `revocar-acceso <telegram_user_id> --motivo "…"`.
 
-**Cuánto tarda una revocación** (medido, no estimado): hasta **10 min** con la base sana — es la caché de la puerta — y hasta **60 min** si Supabase está caído, porque la puerta sigue sirviendo el último «sí» confirmado durante una hora de gracia (los dos plazos no se suman: la gracia cuenta desde la última confirmación). Efecto **inmediato**: reiniciar el servicio en Railway. Un turno ya en vuelo termina; el corte llega en el mensaje siguiente. ⚠️ **Un id que esté en `BOT_ALLOWLIST_BOOTSTRAP` no se revoca desde el script** — esa lista no pasa por la base; hay que quitarlo de la variable en Railway.
+**Cuánto tarda una revocación** (derivado del diseño y anclado en test offline; sin observación end-to-end todavía): hasta **10 min** con la base sana — es la caché de la puerta — y hasta **60 min** si Supabase está caído, porque la puerta sigue sirviendo el último «sí» confirmado durante una hora de gracia (los dos plazos no se suman: la gracia cuenta desde la última confirmación). Efecto **inmediato**: reiniciar el servicio en Railway. Un turno ya en vuelo termina; el corte llega en el mensaje siguiente. ⚠️ **Un id que esté en `BOT_ALLOWLIST_BOOTSTRAP` no se revoca desde el script** — esa lista no pasa por la base; hay que quitarlo de la variable en Railway.
 
 **Solo chat privado**: el bot rechaza grupos y supergrupos, aunque quien escriba esté autorizado (sus respuestas las leerían participantes no invitados). Recomendación de segunda capa, que es cosa tuya en [@BotFather](https://t.me/BotFather): `/setjoingroups` → **Disable**, y así el bot no puede ni ser añadido a un grupo.
 

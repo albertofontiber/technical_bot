@@ -318,6 +318,10 @@ def debe_avisar_del_grupo(chat_id: object) -> bool:
         return False
     if clave in _grupos_avisados:
         return False
+    if len(_grupos_avisados) >= CACHE_MAX_ENTRADAS:
+        # Misma cota, política más simple: no hay nada que caduque aquí, así que
+        # se vacía. El precio es repetir un aviso ya dado, que es inofensivo.
+        _grupos_avisados.clear()
     _grupos_avisados.add(clave)
     return True
 
@@ -410,6 +414,22 @@ class _Entrada:
 #: worker, que es la conducta correcta: un arranque limpio vuelve a preguntar.
 _cache: dict[int, _Entrada] = {}
 
+# COTA DE MEMORIA (2º revisor, menor 5). Las entradas caducan LÓGICAMENTE pero
+# nadie las borraba: como la clave es un `telegram_user_id` ajeno y CADA
+# desconocido deja su denegación cacheada, el diccionario crecía de forma
+# monótona con quien quisiera escribir al bot. A escala del piloto es
+# irrelevante —de ahí que el hallazgo sea menor y especulativo— pero es una
+# estructura sin cota alimentada desde fuera, en el componente que precisamente
+# atiende a los no autorizados, y eso se acota en vez de razonarse.
+#
+# Política, en este orden: primero se tira lo ya CADUCADO (que no cuesta nada
+# porque no se estaba usando) y, si aún no basta, lo más antiguo. Precio
+# declarado: tirar una entrada POSITIVA le cuesta a esa persona una consulta a
+# la base — y, si justo entonces Supabase está caído, pierde la gracia
+# degradada. Es el lado correcto del intercambio: bajo un flujo capaz de llenar
+# 10.000 entradas, lo que hay que proteger es que el worker siga en pie.
+CACHE_MAX_ENTRADAS = 10_000
+
 
 def reiniciar_cache() -> None:
     """Vacía la caché. Para los tests y para un eventual comando de operación —
@@ -417,6 +437,43 @@ def reiniciar_cache() -> None:
     _cache.clear()
     _uso.clear()
     _grupos_avisados.clear()
+
+
+def _podar_cache(ahora: float) -> None:
+    """Mantiene `_cache` bajo la cota. No hace nada hasta llegar a ella."""
+    if len(_cache) < CACHE_MAX_ENTRADAS:
+        return
+    for user_id in [u for u, e in _cache.items() if e.expira_en <= ahora]:
+        _cache.pop(user_id, None)
+    if len(_cache) < CACHE_MAX_ENTRADAS:
+        return
+    # Nada caducado que tirar. Se sacrifica el decil por (NEGATIVOS primero,
+    # luego los más antiguos). El orden importa y lo cazó su propio test: con
+    # «solo el más antiguo» una riada de denegaciones FRESCAS desalojaba antes
+    # que nada al DG legítimo —su confirmación es más vieja que la del último
+    # intruso— que es exactamente al revés de lo que hay que proteger. Perder un
+    # NO cuesta una consulta a la base; perder un SÍ le cuesta a esa persona la
+    # gracia degradada si justo entonces Supabase está caído.
+    sobra = max(1, len(_cache) // 10)
+    for user_id, _entrada in sorted(
+        _cache.items(), key=lambda par: (par[1].permitido, par[1].confirmado_en)
+    )[:sobra]:
+        _cache.pop(user_id, None)
+
+
+def _podar_uso(dia: str) -> None:
+    """Ídem para el contador diario: lo de otros días ya no sirve para nada."""
+    if len(_uso) < CACHE_MAX_ENTRADAS:
+        return
+    for user_id in [u for u, (d, _n) in _uso.items() if d != dia]:
+        _uso.pop(user_id, None)
+    if len(_uso) >= CACHE_MAX_ENTRADAS:
+        # Más de 10.000 personas distintas en un mismo día: no es el piloto. Se
+        # descarta lo más viejo por orden de inserción (el orden del dict), y
+        # esas personas recuperan cupo — un tope de gasto que se reinicia es
+        # mejor que un worker que se queda sin memoria.
+        for user_id in list(_uso)[: max(1, len(_uso) // 10)]:
+            _uso.pop(user_id, None)
 
 
 def recordar_alta(telegram_user_id: int, *, ahora: float | None = None) -> None:
@@ -499,6 +556,8 @@ def decidir(
     if estado not in ESTADOS:
         estado = INDETERMINADO
 
+    if estado in (AUTORIZADO, DESCONOCIDO):
+        _podar_cache(ahora)          # la cota, ANTES de crecer
     if estado == AUTORIZADO:
         _cache[user_id] = _Entrada(True, ahora, ahora + TTL_FRESCO_S)
         return _PERMITIDO_DB
@@ -554,6 +613,7 @@ def consumir_cuota(
 
     dia = dia or dia_utc()
     user_id = int(telegram_user_id)
+    _podar_uso(dia)
     dia_previo, consumido = _uso.get(user_id, (dia, 0))
     if dia_previo != dia:
         consumido = 0                      # día nuevo: el contador se sustituye

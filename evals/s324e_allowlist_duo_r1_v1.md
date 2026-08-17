@@ -1,7 +1,10 @@
 # s324e — Allowlist: resolución del dúo (Sol r1) + refuerzos de Alberto + criterio de GO
 
 Anexo de `s324e_allowlist_propuesta_v1.md`, que ya está corregido con todo lo de aquí.
-**Nada aplicado ni desplegado; sin commit.**
+Cubre **dos rondas**: el dúo (Sol, r1, 8 hallazgos) y el 2º revisor (Opus 5, r2, 5 hallazgos),
+más los tres refuerzos de Alberto. **Estado real**: commiteado (`df4752f`), **016 aplicada en
+producción el 17-ago**, y **Railway sin tocar** — que es lo único que falta para que el control
+exista de verdad.
 
 ## 1. Los tres refuerzos de Alberto
 
@@ -9,7 +12,7 @@ Anexo de `s324e_allowlist_propuesta_v1.md`, que ya está corregido con todo lo d
 |---|---|---|
 | R1 | Caducidad 7 → **2 días** | Default `2` (`access.DIAS_CADUCIDAD_DEFECTO`), `--dias` sigue existiendo pero **acotado a 7**, y la cota va también como `CHECK` en la 016 — el script no es el único cliente posible de la tabla. Docstring, ayuda y texto de salida actualizados. |
 | R2 | **Aviso de canje** | `canjear_invitacion` devuelve `ResultadoCanje(estado, nota, creada_por, invitacion_id)` en vez de una cadena; el bot avisa a `access.ids_bootstrap()` enfrentando «era para X» con «lo ha canjeado Y». Sin administradores configurados **no falla**: log y sigue. Un envío fallido va por `_reportar_error(update=None, etapa="aviso_canje")` — se clasifica y registra, pero **no se le contesta nada al DG**, que acaba de recibir «Invitación aceptada» y cuyo alta ya está confirmada. |
-| R3 | Latencia real de revocación | **Medida y corregida** (ver §3). El informe decía «≤10 min» y ese era solo el caso bueno. |
+| R3 | Latencia real de revocación | **Derivada del diseño, anclada en test y corregida dos veces** (ver §5): el informe decía «≤10 min», que era solo el caso bueno, y después «≤70 min», que era una suma mal hecha. |
 
 **Texto exacto del aviso** (el que recibirá Alberto):
 
@@ -75,8 +78,9 @@ encenderlo, no.**
 
 ## 5. Verificación (Protocolo 1)
 
-**Latencia de revocación — MEDIDA, no estimada.** Se recorrió el reloj segundo a segundo sobre
-`access.decidir` con la base doblada:
+**Latencia de revocación — DERIVADA del diseño y anclada en test**, no observada end-to-end
+(2º revisor, menor 4: no hay smoke contra Telegram, así que «medida» sobre-afirmaba). Se
+recorrió el reloj segundo a segundo sobre `access.decidir` con la base doblada:
 
 | Escenario | Deja de pasar a los | |
 |---|---|---|
@@ -93,10 +97,9 @@ y corregido en el script, en `DG_DEPLOYMENT` y en la propuesta.
 des-enviar una respuesta— y el corte llega en el mensaje siguiente. Anclado en
 `test_un_turno_en_curso_termina_pero_el_siguiente_ya_no_pasa`.
 
-**Suite completa**: `python -m pytest -q` → **4186 passed, 46 skipped, 0 failed** (10:49,
-exit 0). De ellos, **119 propios**, $0, sin red ni DB, con los ocho hallazgos y los tres
-refuerzos anclados (re-corridos 119/119 tras los últimos retoques posteriores a esa corrida,
-que solo tocaron docstrings y documentación). Dos de ellos son de anti-regresión pura: el doble de PostgREST **aplica los CHECK**
+**Suite completa**: `python -m pytest -q` → **4192 passed, 46 skipped, 0 failed** (9:31,
+exit 0). De ellos, **125 propios**, $0, sin red ni DB, con los ocho hallazgos y los tres
+refuerzos anclados, más los 5 del 2º revisor. Dos de ellos son de anti-regresión pura: el doble de PostgREST **aplica los CHECK**
 de la 016 (sin eso, el fallo de la re-admisión seguiría invisible) y `test_ptb_no_para_el_update_cuando_un_handler_lanza`
 pina la semántica de PTB que obliga a que la puerta no lance nunca.
 
@@ -105,6 +108,39 @@ aviso al administrador → puerta deja pasar → 2ª persona rebotada → **el m
 escribir en un grupo**, con el aviso una sola vez. Y contra el Supabase real, solo lectura, con
 las tablas ausentes: el script sale con mensaje claro y código 2.
 
-**Lo que sigue sin verificarse**: la 016 no se ha ejecutado en ningún Postgres (no hay
-docker/psql/psycopg en la máquina), así que los tres `CHECK`, los `GRANT` y el `INSERT…SELECT`
-del bootstrap están revisados a ojo y con un chequeo estático de sintaxis, no ejecutados.
+**Lo que sigue sin verificarse**: el `GRANT UPDATE` sobre la columna de conflicto solo se
+ejerce en una re-admisión, que todavía no ha ocurrido en producción. Y no hay smoke contra
+Telegram real: el canje no se ha probado con un enlace de verdad.
+
+## 6. Segunda ronda: 5 hallazgos de Opus 5 + el incidente al aplicar la 016
+
+**El incidente, porque la lección vale para todo el repo.** La 016 se aplicó el 17-ago **a la
+segunda**, y el defecto era del fichero: llevaba dentro la prueba del un-solo-uso envuelta en
+`BEGIN/ROLLBACK`. El SQL Editor de Supabase ejecuta el script entero dentro de una transacción,
+así que ese `BEGIN` no abría otra y el `ROLLBACK` **deshizo también la creación de las tablas**
+— con el agravante de que la validación imprimía `1`, que era cierto *dentro* de la
+transacción. El intento con `SAVEPOINT` falló con `25P01` en otro cliente.
+**Regla que queda: un fichero que CREA no puede llevar dentro una prueba que necesita
+deshacerse, porque CÓMO se deshace depende del cliente SQL.** La prueba vive ahora en
+`016_validacion_un_solo_uso.sql`; la 016 no lleva control de transacción de ningún tipo, solo
+DDL + GRANT + `NOTIFY pgrst, 'reload schema'` (que también hizo falta: PostgREST cacheaba el
+esquema y devolvía 404 sobre tablas ya creadas). Anclado en
+`test_la_prueba_de_un_solo_uso_vive_fuera_del_fichero_que_crea`.
+
+| # | Hallazgo | Resolución |
+|---|---|---|
+| 1 medio | «Es UN update condicional» es incompleto | **Aceptado y corregido en los tres sitios.** Lo atómico es el **quemado del token**; **canje+alta son dos peticiones REST sin transacción común** (la RPC se descartó en §2). §1 lo separa explícitamente y §3.6 declara la ventana. Test nuevo que la ejerce: `test_el_canje_y_el_alta_NO_comparten_transaccion`. Es el hallazgo más útil de la ronda: mis propios tests admitían la ventana mientras la prosa la presentaba como resuelta por el motor. |
+| 2 medio | Sin plazo ni purga (art. 5.1.e) | **Aceptado. Gap material declarado, propuesta escrita, NO implementada**: sección «PENDIENTE MATERIAL» en `RGPD_RETENCION.md` con plazos por tipo de fila (6 meses la invitación nunca canjeada, 12 el resto) y mecanismo (una política más en `rgpd_retencion_pasada`, no un job nuevo). **Decide Alberto el plazo; el abogado valida.** |
+| 3 medio | «Sin commit» era falso | **Aceptado**: cabecera actualizada al estado real — commiteado `df4752f`, 016 aplicada, **Railway sin tocar** (que es lo único que falta para que el control exista de verdad). |
+| 4 menor | «Latencia medida» sobre-afirma | **Aceptado**: son constantes **derivadas del diseño y ancladas en test offline**, no observación end-to-end. Corregido en anexo, propuesta, `DG_DEPLOYMENT` y el texto del script. |
+| 5 menor, especulativo | Crecimiento de memoria | **Aceptado e implementado** pese a ser especulativo: son estructuras sin cota alimentadas desde fuera, en el componente que atiende a los no autorizados. Cota de 10.000 con poda (caducado primero; **negativos antes que positivos**). |
+
+**Lo que el hallazgo 5 destapó de paso**: la primera versión de la poda desalojaba «lo más
+antiguo por confirmación», y **su propio test la tumbó** — una riada de denegaciones *frescas*
+echaba antes al DG legítimo, cuya confirmación es más vieja que la del último intruso. Justo al
+revés de lo que hay que proteger. Ahora los negativos caen primero: perder un NO cuesta una
+consulta; perder un SÍ cuesta la gracia degradada.
+
+**Nada discutido en esta ronda tampoco.** Matiz sobre el 3, sin consecuencia para el veredicto:
+el estado no era «inconsistente» por descuido sino por desfase temporal — el informe se escribió
+antes del commit del coordinador. La corrección es la misma.

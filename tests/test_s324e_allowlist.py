@@ -1048,12 +1048,37 @@ def test_la_migracion_016_existe_y_no_guarda_el_token_en_claro():
         assert f"ALTER TABLE public.{tabla} FORCE ROW LEVEL SECURITY" in sql
 
 
-def test_la_migracion_016_no_se_declara_aplicada():
+def test_la_migracion_016_declara_su_estado_real():
+    """La cabecera tiene que decir la VERDAD sobre si está aplicada. Nació
+    diciendo «NO APLICADA» y era cierto; se aplicó el 17-ago y entonces esta
+    misma aserción pasó a exigir una mentira — que es justo la clase de deriva
+    que el repo persigue. Ahora se comprueba lo que es verdad hoy."""
     sql = (ROOT / "migrations" / "016_allowlist_invitaciones.sql").read_text(
         encoding="utf-8")
-    assert "NO APLICADA" in sql, (
-        "la 016 la aplica Alberto a mano, como la 015: el fichero tiene que "
-        "decirlo en la cabecera"
+    assert "APLICADA EN PRODUCCIÓN" in sql
+    assert "NO APLICADA" not in sql
+
+
+def test_la_prueba_de_un_solo_uso_vive_fuera_del_fichero_que_crea():
+    """La lección del incidente real al aplicar la 016: un fichero que CREA no
+    puede llevar dentro una prueba que necesita deshacerse, porque CÓMO se
+    deshace depende del cliente SQL (el SQL Editor de Supabase envuelve el
+    script entero en una transacción, así que el `ROLLBACK` de la prueba se
+    llevó por delante las tablas recién creadas). Este test impide que vuelva."""
+    creacion = (ROOT / "migrations" / "016_allowlist_invitaciones.sql").read_text(
+        encoding="utf-8")
+    cuerpo = "\n".join(
+        linea for linea in creacion.split("\n") if not linea.strip().startswith("--")
+    )
+    for peligro in ("BEGIN;", "ROLLBACK;", "SAVEPOINT", "COMMIT;"):
+        assert peligro not in cuerpo, (
+            f"la 016 volvió a llevar control de transacción ({peligro}): es "
+            f"exactamente lo que dejó la base sin tablas el 17-ago"
+        )
+    validacion = ROOT / "migrations" / "016_validacion_un_solo_uso.sql"
+    assert validacion.exists(), "la prueba del un-solo-uso tiene que vivir aparte"
+    assert "NOTIFY pgrst" in creacion, (
+        "sin recargar el esquema, PostgREST devuelve 404 sobre las tablas nuevas"
     )
 
 
@@ -1443,6 +1468,77 @@ def test_la_revocacion_no_alcanza_a_los_ids_de_bootstrap(monkeypatch):
     revocado_en_base = _responde(access.DESCONOCIDO)
     assert access.decidir(ALBERTO, revocado_en_base).permitido
     assert revocado_en_base.llamadas == []
+
+
+def test_las_caches_no_crecen_sin_cota_con_desconocidos(monkeypatch):
+    """2º revisor, menor 5. La clave es un `telegram_user_id` AJENO y cada
+    desconocido dejaba su denegación cacheada para siempre: una estructura sin
+    cota alimentada desde fuera, y justo en el componente que atiende a los no
+    autorizados. A escala del piloto no muerde; se acota igual."""
+    monkeypatch.setattr(access, "CACHE_MAX_ENTRADAS", 100)
+    denegar = _responde(access.DESCONOCIDO)
+
+    for intruso in range(1000):
+        access.decidir(500000 + intruso, denegar, ahora=float(intruso))
+
+    assert len(access._cache) <= 100, (
+        f"la caché creció hasta {len(access._cache)}: sin cota"
+    )
+
+
+def test_la_poda_tira_primero_lo_caducado_y_conserva_lo_fresco(monkeypatch):
+    """El orden importa: tirar una entrada viva le cuesta a esa persona una
+    consulta a la base (y la gracia degradada si justo entonces está caída), así
+    que lo caducado se sacrifica primero."""
+    monkeypatch.setattr(access, "CACHE_MAX_ENTRADAS", 10)
+    viejo = _responde(access.DESCONOCIDO)
+    for intruso in range(9):
+        access.decidir(600000 + intruso, viejo, ahora=0.0)
+
+    # Un DG legítimo, confirmado MUCHO después: su entrada sigue fresca.
+    access.decidir(DG, _responde(access.AUTORIZADO), ahora=10_000.0)
+    for intruso in range(50):
+        access.decidir(700000 + intruso, viejo, ahora=10_001.0)
+
+    assert DG in access._cache, "la poda tiró la entrada viva y dejó caducadas"
+    assert access._cache[DG].permitido
+
+
+def test_el_contador_diario_tambien_esta_acotado(monkeypatch):
+    monkeypatch.setattr(access, "CACHE_MAX_ENTRADAS", 50)
+    for persona in range(500):
+        access.consumir_cuota(800000 + persona, limite=5, dia="2026-08-17")
+    assert len(access._uso) <= 50
+
+
+def test_el_censo_de_grupos_avisados_esta_acotado(monkeypatch):
+    monkeypatch.setattr(access, "CACHE_MAX_ENTRADAS", 20)
+    for grupo in range(200):
+        access.debe_avisar_del_grupo(-100000 - grupo)
+    assert len(access._grupos_avisados) <= 20
+
+
+def test_el_canje_y_el_alta_NO_comparten_transaccion(supabase):
+    """2º revisor, medio 1. Lo ATÓMICO es el quemado del token (un UPDATE
+    condicional que el motor serializa). El conjunto canje+alta son DOS
+    peticiones REST sin transacción común —la RPC transaccional se descartó en
+    §2— y esa ventana existe. El test la EJERCE: con el alta caída, el token se
+    quema y se devuelve; si la devolución también falla, queda quemado sin alta.
+
+    Está aquí para que la ventana sea imposible de olvidar al redactar: la
+    propuesta la presentaba como resuelta por el motor y no lo está."""
+    token = access.token_nuevo()
+    _invitar(supabase, token)
+    supabase.fallo_en_alta = True
+
+    assert _canjear(token, DG).estado == access.CANJE_INDETERMINADO
+    assert supabase.allowlist == [], "hubo alta pese a fallar el INSERT"
+    assert supabase.invitaciones[0]["canjeada_at"] is None, "compensación"
+
+    # Y la prueba de que son dos pasos: entre el UPDATE y el INSERT hay dos
+    # peticiones distintas, no una.
+    peticiones = [v.split()[0] for v in supabase.vistos]
+    assert peticiones.count("PATCH") >= 1 and peticiones.count("POST") >= 1
 
 
 def test_access_es_una_hoja_pura():
