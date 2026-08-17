@@ -5463,3 +5463,44 @@ autónoma: el repo no tiene OCR (PyMuPDF cuenta páginas; `struck_ocr` es polít
 **Lección.** «Con dúo, no de paso» no es un ritual: en instrumentos de medición el dúo caza lo que convierte un
 error de programación en un veredicto científico falso.
 
+## s324d tarde (17 ago 2026, autónoma) — El día que el instrumento resultó ser el problema
+
+Alberto pidió tres cosas por la mañana y marcó las cuatro prioridades por la tarde. Lo que salió no estaba en
+ninguna de las listas.
+
+**Perseguir un documento hasta el fondo.** TI-007 llevaba en el corpus con 47 chars y la deuda decía «hace falta
+OCR». No hacía falta: el PDF tenía 2.246 chars de texto nativo y LlamaParse devolvía 3.708 en el campo `text` del
+mismo JSON — con 34 en `md`. La ingesta hacía `md or text`, que sólo cae a `text` si `md` está **vacío**. Un `or`
+se había comido un documento entero. La guarda salió con dúo (Sol y Fable, 10 hallazgos, 0 falsos positivos) y dos
+guardarraíles del repo me pararon por el camino, ambos con razón: el freeze-contract que pinea el chunker por sha, y
+el contrato de imports que prohíbe `rag → reingest`. El módulo acabó donde la matriz manda. TI-007 pasó de 47 a
+3.601 chars con su procedimiento dentro.
+
+**Tirar del hilo equivocado, y saberlo tarde.** El siguiente documento con castellano perdido no era el mismo caso:
+ahí el markdown estaba entero y lo que lo mataba era el filtro de idioma por chunk, que en una ficha multilingüe
+—con las seis traducciones concatenadas dentro de la misma celda— adjudica «alemán» a un chunk que lleva 4.122 chars
+de español y lo tira. El 93 % del documento. Escribí el diagnóstico, escribí el fix, lo llevé al dúo… y sólo
+entonces medí el alcance: 2.146 chars de boilerplate en 13 documentos. Marginal. El orden correcto era el inverso, y
+lo dije en el cierre de la propuesta: la «pregunta cero» la apliqué tarde.
+
+**El revisor que me corrigió el razonamiento, no el código.** Fable no pudo correr (le pasé un fichero de 293 KB como
+semilla y reventó el presupuesto), Alberto adjudicó el fallback a Opus 5, y Opus dictaminó NO SÓLIDO. Tenía razón en
+lo importante: mi «0 casos accionables» estaba medido **por documento con umbral 500** mientras el fix que quería
+matar decide **por chunk con 400** — el mismatch de métrica que el Protocolo 4 lleva escrito con todas las letras y
+que cometí igual. Y una frase mía era directamente falsa: los 842 documentos «sanos» no tienen cero texto ausente,
+tienen menos de 500 chars, que es el mismo umbral de la cohorte: el suelo era tautológico. La opción que faltaba
+—declarar el drop, contar lo que el filtro tira— la propuso él, cuesta cero y es la que resuelve la medición.
+
+**Y lo que de verdad importaba estaba en otro sitio.** Medir los 15 hechos no-OK del ruler con cinco generaciones
+sobre la MISMA vista congelada costó nueve dólares y dijo esto: **nueve son inestables y sólo seis son defecto
+real**. El ruler, que etiqueta con una sola generación, clasifica ~60 % de sus fallos por azar. El 86 % del FULL
+lleva una barra de error que no estábamos contando, comparar dos FULL con N=1 puede dar deltas de puro ruido, y la
+cola de defectos que hay que atacar son seis, no quince. Después de dos días buscando levers de retrieval y de
+serving para subir los OKs —con un único hecho pagable al final de todo—, resulta que la pregunta era otra: la
+generación no es estable.
+
+**Lección.** Tres veces se movió el árbol durante un dúo (agentes en background, y yo mismo commiteando) y rompió dos
+emparejamientos: la regla ya no es «no muevas HEAD», es «nadie escribe mientras el dúo corre». Y la de fondo: cuando
+el número que mides tiene más varianza que el efecto que buscas, todo lo que decidas encima es ruido con formato de
+decisión.
+

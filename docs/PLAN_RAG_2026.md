@@ -59,7 +59,19 @@ r34 (Sol 7/7 + Fable 1/1 aplicados): sonda con oráculo `serve` PAREADO, guard d
 `JUEZ_INCOMPLETO`, recibo parcial honesto, coste real, `--receipt`; **#88 PREPARADO** (55 retags `documents.pm` →
 canónico E3, dry-run 55/55, nada aplicado); **#87**: sin pipeline OCR en el repo. Suite verde.
 
+**s324d tarde (17-ago, autónoma con Alberto en paralelo; DEC-229)**: **el hallazgo que cambia el rumbo — de los 15
+hechos no-OK del FULL, 9 son INESTABLES y sólo 6 son defecto real** (N=5 sobre vista congelada, $9,12): el ruler con
+N=1 clasifica ~60 % de sus no-OK **por azar**. **#87 RESUELTO con su raíz real** (no era OCR: `md or text` dejaba pasar
+un markdown degenerado; guarda en `src/ingestion/page_content.py`, dúo r35, TI-007 re-ingestado 47 → 3.601 chars).
+**#84 corregido**: su «medido» era un NO-DATO (el flag no existe en Railway; el sub-defecto real es el join doc_map
+exacto, 98/977 filas, 1 % de los chunks de golds). **#90 cerrada documentada** tras dúo r36 (Opus 5 dictaminó NO
+SÓLIDO mi propuesta: mismatch de métrica del settled + una afirmación falsa; recomendación E = declarar el drop, en la
+próxima ingesta). **#88 aplicado** (55 retags con CAS). Censo de corpus **completo 1.054/1.054**: 13 accionables,
+**ninguno sustenta un gold**.
+
 **Qué sigue (s324c/d — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+(0) **CABEZA DE COLA — el ruler y N=1**: decidir si los hechos no-OK se miden con N≥3 antes de etiquetarlos (9/15 son
+ruido hoy). Afecta a cómo se lee CUALQUIER delta y a qué cola de defectos se ataca (6, no 15). Diseño + dúo pendientes.
 (a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =
 re-dry-run del mismo sha + `--aplicar` (cross-bloque morley↔unresolved/notifier exige adjudicar homónimos); las
 3 preguntas de §0.D (MADT015_01 ¿NFS2-8?, MNDT600 ¿familia SMART 3?, MNDT701 sin id) · paraguas «2X-A» (¿con

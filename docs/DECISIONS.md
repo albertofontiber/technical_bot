@@ -7236,3 +7236,67 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   8 sondas con el instrumento nuevo — ~$12 sin pregunta que lo justifique hoy (la población está adjudicada como 1).
 - **Recibos**: `evals/s324d_sonda_endurecida_propuesta_v1.md` (+ADENDA) · tally ts=2026-08-17T10:39:29 (Sol 7/7, Fable
   1/1, 0 FP) · smokes `evals/s324d_reachability_smoke_hp017_1_{appendix,serve}.json` · `evals/s324d_retag_documents_pm_dry-run_*.json`.
+
+
+## DEC-229 (s324d, autónoma) — El ruler etiqueta ~60 % de sus «no OK» POR AZAR (9 de 15 son inestables con N=1); la raíz de #87 no era OCR sino un `or`; #84 se despriorizó con un no-dato; y #90 se cierra documentado sin tocar la política de idiomas
+
+- **Fecha**: 17 ago 2026 (sesión autónoma; Alberto trabajando en paralelo). **Impacto**: ALTO en zona de dolor
+  (instrumento de medida + ingesta). **Producción: sin cambios de código en serving.**
+- **Decide (1) — el instrumento: N=1 no basta para clasificar un hecho.** Medidos los **15** hechos no-OK del FULL
+  16-ago con **N=5 sobre vista CONGELADA** (mecanismo `gen_answer_only` de s289; juez `judge_conveyed21` K=5,
+  THRESH_FIRM 4 intacto; $9,12; `evals/s324d_estabilidad_sintesis_v1.md`; aritmética recomputada 15/15 por el autor):
+  **9 INESTABLES** (`cat001#3` 4/5, `hp015#0` 3/5, `cat020#1` 3/5, `hp005#0` 3/5, `cat008#3` y `cat008#1` 2/5,
+  `cat016#1`, `hp015#2`, `hp005#3` 1/5) y **6 ESTABLE_MISS** (`hp003#4`, `hp009#0`, `hp011#2`, `hp017#1`, `hp017#2`,
+  `cat018#1`). ⇒ (a) el «86 % OK» del FULL lleva una barra de error que no estábamos contando; (b) comparar dos FULL
+  con N=1 puede producir deltas que son ruido; (c) **la cola real de defectos es 6, no 15**, y 3 de esos 6 ya están en
+  el packet de gold-review de conducta. **Consecuencia de rumbo**: «atacar los no-OK» no es un problema de retrieval ni
+  de serving (ahí sólo había 1 hecho pagable) sino de **estabilidad de la generación**. Queda como cabeza de cola:
+  decidir si el ruler mide con N≥3 los no-OK. **No se ha cableado nada**: es una medición.
+- **Decide (2) — TECH_DEBT #87 RESUELTO con la raíz real, que no era la escrita.** La deuda decía «hace falta OCR».
+  Verificado en tres pasos: el PDF de `HLSI-TI-007_VSN-4REL` tiene 2.246 chars de texto NATIVO; el re-parse con la
+  config real del corpus devuelve **`md`=34 chars y `text`=3.708 en el MISMO JSON**; los consumidores hacían
+  `p.get("md") or p.get("text")`, que sólo cae a `text` si `md` es **vacío**. **LlamaParse agentic YA es la capa de
+  OCR**: no hace falta tesseract. Guarda de markdown degenerado en `src/ingestion/page_content.py` (saneado en
+  `pipeline.process_file` + `rag/deep_lookup`), 13 tests, **dúo r35** (Sol 5/5 + Fable 5/5, 0 FP, todos aplicados:
+  criterio único que cubre el `md` de whitespace, tercera condición «markdown con estructura no se sustituye»,
+  auditoría en los 5 caminos del estado, cuarto consumidor en serving). **TI-007 re-ingestado**: 47 → 3.601 chars con
+  el procedimiento (PROG/Z1/40 cm) verificado contra la DB. **Dos guardarraíles del repo me pararon y ambos tenían
+  razón**: el freeze-contract s130/s132 (`chunk.py` pineado por sha) y el contrato de imports (`rag → reingest`
+  prohibido) — de ahí que el módulo viva en `ingestion` y el censo de módulos suba a 123, explicado en el test.
+- **Decide (3) — TECH_DEBT #84: el «medido» era un NO-DATO.** `_product_aligned_chunks` sólo es alcanzable desde
+  `build_answer_plan`/`build_answer_conflicts`, que el generador invoca únicamente con
+  `ANSWER_OBLIGATION_PLANNER ∈ {guided, enforced}`; **en Railway el worker NO tiene esa variable** (censo GraphQL
+  propio, 40 vars) ⇒ en producción no corre, y el FULL tampoco la llevaba. Misma clase que DEC-186/s305.
+  **Sub-defecto NUEVO en código vivo**: el join `doc_map ↔ chunks_v2.source_file` es EXACTO y 98 de 977 filas sólo
+  casan tras normalizar `.pdf`/mayúsculas (`retriever.py:2351,2363`, `catalog_resolver.py:782`) ⇒ su atestación no
+  filtra y se les dispara el fetch de identidad aunque estén en el pool. **Impacto en golds: 12 de 1.194 chunks (1 %)
+  ⇒ no moverá los OKs**; higiene estructural, fix con dúo cuando toque.
+- **Decide (4) — TECH_DEBT #90 (filtro de idioma por chunk) se CIERRA DOCUMENTADO, sin tocar política.** El filtro
+  `_DROP_LANGUAGES` descarta chunks por su idioma dominante y en fichas multilingües (tabla con las seis traducciones
+  **concatenadas en la misma celda**) se lleva el castellano dentro: `D1056-1_NFXI-BS-BSF` vive en el corpus con 3.593
+  de sus 50.527 chars. **Dúo r36** (Sol 5/5 + **Opus 5** como pin alternativo adjudicado, 6/6; **dictaminó NO SÓLIDO**
+  y acertó): mi kill del fix usaba un umbral **por DOCUMENTO (≥500 chars de texto nativo ausente)** mientras el fix
+  decide **por CHUNK (≥400)** —mismatch de métrica del «settled», el fallo que el Protocolo 4 nombra— y mi frase «los
+  842 sano no tienen texto ausente» era **falsa** (`sano` = ausencia < 500). **Recomendación final: (E) DECLARAR EL
+  DROP** —contar y persistir los chunks/chars que el filtro descarta, coste ≈0, sin tocar política— **(B) queda
+  ABIERTA** (no matada) hasta medirla en su propia métrica, y **(D) no cambiar la política hoy**. Añadido de Opus: el
+  filtro **contradice un invariante declarado** (`retriever.py:2430`: «el corpus indexa ES, multilingüe-con-ES y
+  EN-only») ⇒ es desvío de política declarada, decisión de Alberto. **E se cablea en la próxima ingesta, no ahora**
+  (sólo se llena al ingestar; no da cifra retroactiva sin el store de 966 JSON, que no está en esta máquina).
+- **Alternativas descartadas**: (a) construir el fix de #90 hoy — el alcance medible no lo paga y el dúo demostró que
+  exige esquema + serving + contrato de generación, no una línea; (b) la excepción por documento para `D1056-1` —
+  RETIRADA: serving volvería a filtrarlo y el re-ingestador le asigna metadata incorrecta; (c) re-ingesta masiva del
+  corpus con la guarda #87 — sin presupuesto ni evidencia de que pague (el censo de cobertura, 1.054/1.054 documentos,
+  da **13 accionables y ninguno sustenta un gold**); (d) cablear el cambio de fuente de aplicabilidad de #84 — su
+  punto de consumo está apagado y el instrumento no puede medir el delta hoy.
+- **Colateral aplicado**: #88 (55 retags de `documents.product_model` al canónico E3, CAS, verificado) · E2
+  re-derivado (conservador PASS; CCD-103 ya no pierde) · PLAN podado 162 → 17 KB · #86 (auditoría de `tool_use`
+  reales) y #89 (sonda endurecida, dúo r34) cerrados · runner del segundo revisor con **conjunto CERRADO de pines
+  adjudicados** {fable-5, opus-5}, canónico intacto, con traza en el recibo.
+- **Lección de método (tres veces hoy)**: el árbol de trabajo se movió durante un dúo —por agentes en background y por
+  commits míos— y rompió dos emparejamientos. La regla de #86 se amplía: **durante un dúo emparejado NADIE escribe en
+  el árbol**. Y la propia: medir el alcance ANTES de diseñar; en #90 escribí dos propuestas antes de saber que el
+  fenómeno era marginal.
+- **Recibos**: tally r34 (2026-08-17T10:39:29), r35 (11:25:24), r36 (12:19:59) · `s324d_estabilidad_sintesis_v1` ·
+  `s324d_censo_cobertura_paginas_v1` · `s324d_90_filtro_idioma_propuesta_v1` (v4) · `s324d_84_verificacion_regla_c_v1` ·
+  `s324d_guarda_md_degenerado_propuesta_v1` · `s324d_reingesta_ti007_aplicar_*` · `s324d_retag_documents_pm_aplicar_*`.

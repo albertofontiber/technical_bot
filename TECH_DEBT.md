@@ -3251,7 +3251,9 @@ s324b para `hp017#1` en `serve` venía con el carrier DUPLICADO a similarity má
 
 ## #90 — El filtro de idioma POR CHUNK tira castellano en documentos multilingües (fichas con tabla mezclada) — s324d
 
-**Estado: MEDIDO sobre un caso, alcance en medición.** `src/reingest/pipeline.py` descarta los chunks cuyo
+**Estado: CERRADA COMO DOCUMENTADA (s324d, DEC-229). NO se toca la política.** Lo que queda por hacer, cuando se toque la ingesta y no antes: **(E) declarar el drop** (contar/persistir chunks y chars que `_DROP_LANGUAGES` descarta; coste ≈0; es el instrumento que da la atribución por CHUNK, que es la métrica del fix). La opción B queda **ABIERTA** hasta tener esa cifra — NO está matada. Caso real declarado y sin arreglar: `D1056-1`.
+
+**Origen — MEDIDO sobre un caso.** `src/reingest/pipeline.py` descarta los chunks cuyo
 `detect_language` cae en `_DROP_LANGUAGES = {fr, it, pt, de}` (política de idiomas s65/DEC-066). En un documento
 multilingüe cuya TABLA mezcla idiomas por fila/columna, el idioma dominante del chunk es el extranjero y **el
 castellano se va dentro del chunk descartado**.
