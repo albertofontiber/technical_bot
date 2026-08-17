@@ -69,7 +69,25 @@ SÓLIDO mi propuesta: mismatch de métrica del settled + una afirmación falsa; 
 próxima ingesta). **#88 aplicado** (55 retags con CAS). Censo de corpus **completo 1.054/1.054**: 13 accionables,
 **ninguno sustenta un gold**.
 
-**Qué sigue (s324c/d — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+**s324e (17-ago) — PRIORIDAD #1 DE ALBERTO: preparar el piloto con Directores Generales (DEC-230).**
+El bot tenía 96 consultas de UN usuario y 6 👎 / 0 👍, todos por el mismo fallo (hablar de otra marca).
+Cableado con dúo: **puerta de acceso** por invitación de un solo uso (48 h, revocable, fail-closed con
+gracia, tope diario, **chat privado obligatorio**), **errores con insights** (taxonomía por causa, red
+global, `bot_errors` sin PII directa), **aislamiento por usuario PROBADO** (13 tests; cerrado el agujero de
+la doble instancia que partía la sesión de un DG), y la **conducta (a)** ante marca cruzada con flag
+apagado. Migraciones 015 y 016 **APLICADAS** (la 016 costó dos intentos: su validación con
+`BEGIN/ROLLBACK` revertía el fichero entero — lección cableada como test). Suite 4192.
+
+**Qué sigue (s324e — VIGENTE; LO PRIMERO al abrir sesión):**
+(0) **PILOTO DG — lo que falta es de Alberto**: (a) **abogado** = aviso v8 (redactado, 6 decisiones
+resueltas) + texto de `bot_errors` + plazo de 24 meses de las tablas nuevas + el aviso de canje comunica
+nombre/alias de quien canjea; (b) **mergear** y dejar que Railway despliegue; (c) **encender** en este
+orden: `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on` (al revés se queda fuera de su bot);
+(d) invitar al PRIMER DG y hacer el **smoke real** (el harness no atraviesa `mismatch`: su testigo es
+Telegram, no el eval); (e) medir la cobertura de la corrección en `rag_trace ? 'mismatch_corrected'`.
+Criterio de GO: O1-O4 en `evals/s324e_allowlist_duo_r1_v1.md`; **NO-GO si fallan O1 u O4**.
+(0-bis) **Pendiente técnico del piloto**: escribir la política de retención de las dos tablas nuevas en
+`rgpd_retencion_pasada` (una función y dos UPDATE) cuando el abogado se pronuncie.
 (0) **CABEZA DE COLA — el ruler y N=1**: decidir si los hechos no-OK se miden con N≥3 antes de etiquetarlos (9/15 son
 ruido hoy). Afecta a cómo se lee CUALQUIER delta y a qué cola de defectos se ataca (6, no 15). Diseño + dúo pendientes.
 (a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =

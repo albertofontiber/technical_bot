@@ -5504,3 +5504,45 @@ emparejamientos: la regla ya no es «no muevas HEAD», es «nadie escribe mientr
 el número que mides tiene más varianza que el efecto que buscas, todo lo que decidas encima es ruido con formato de
 decisión.
 
+## s324e (17 ago 2026) — El día que la pregunta dejó de ser «cuánto mejora» y pasó a ser «se puede enseñar»
+
+Alberto cambió la prioridad a media tarde: «¿qué falta para compartir el bot con Directores Generales?».
+La respuesta no estaba en el eval. Estaba en dos números que llevaban meses ahí sin que nadie los mirara
+juntos: **96 consultas, un solo usuario** — él — y **seis pulgares abajo, cero arriba**. Y al abrir los
+comentarios de esos seis, todos decían la misma cosa: el bot hablaba de productos de otra marca. El fallo
+número uno para la confianza de un director estaba diagnosticado desde s321 y sin cablear.
+
+**Lo que se construyó.** Una puerta de acceso por invitación de un solo uso, con caducidad corta y
+revocación; manejo de errores que ya no puede dejar a nadie en silencio, con una taxonomía por causa y una
+tabla pensada para que Alberto vea patrones; la prueba —no la promesa— de que un DG no puede ver la
+conversación de otro; y la corrección de marca cruzada, cableada y apagada, esperando su interruptor.
+
+**Lo que enseñó el proceso.** Los dúos cazaron tres críticos que ningún test habría encontrado: que la ruta
+de voz podía persistir la transcripción de un técnico saltándose la única defensa contra el eco; que un
+typo en una variable de Railway —`onn` en vez de `on`— dejaba el piloto abierto de par en par, porque el
+código interpretaba «no te entiendo» como «adelante»; y que la puerta miraba quién escribía pero no dónde,
+así que un DG podía meter el bot en un grupo y publicar las respuestas ante gente no invitada. Los tres
+eran omisiones, no errores: cosas que nadie había pensado, no cosas mal hechas.
+
+**Y lo que enseñó equivocarse.** La migración del control de acceso falló dos veces, y la segunda fue culpa
+mía: diagnostiqué que el editor SQL abría una transacción, propuse un arreglo basado en esa teoría, y el
+error que devolvió —`SAVEPOINT can only be used in transaction blocks`— demostró que mi premisa era falsa.
+Lo que sí era cierto es lo que había visto con los ojos: las tablas no existían pese a que la validación
+imprimía un `1` triunfal. La solución no fue adivinar mejor el comportamiento del cliente, sino **eliminar
+la dependencia**: un fichero que crea tablas no lleva dentro una prueba que necesita deshacerse. Esa
+lección quedó cableada como test, que es la única forma de que sobreviva a la memoria de quien la aprendió.
+
+**Un test que corrigió a su autor.** Al poner cota a las cachés de la puerta, la poda natural —descartar lo
+más antiguo— resultó ser exactamente la equivocada: una avalancha de denegaciones recientes habría echado
+antes al director legítimo que al último intruso. Ahora caen primero los negativos, porque perder un «no»
+cuesta una consulta y perder un «sí» cuesta el acceso de quien sí debía entrar.
+
+**Dos veces me corrigió Alberto, y las dos tenía razón.** Cuando propuse plazos de retención de 6 y 12
+meses para las tablas nuevas, preguntó por qué no los mismos que el resto: la consistencia era mejor
+argumento que mi granularidad, y encima resultó que los 24 meses no son una convención sino un invariante
+cableado en la base. Y cuando insistió en que el enlace debía servir una sola vez, me obligó a precisar
+algo que yo había contado mal: lo atómico es el quemado del token, no el conjunto de canje y alta.
+
+**Dónde quedó.** Todo en rama, nada desplegado, ningún flag encendido. Lo que falta no es código: es un
+abogado, un merge y tres variables de entorno en el orden correcto.
+
