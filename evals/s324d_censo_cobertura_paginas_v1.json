@@ -102,6 +102,40 @@
     "sano_reverificado": 1,
     "fuente_ilegible": 1
    }
+  },
+  "castellano_intercalado": {
+   "que_es": "castellano intercalado en el texto ausente de los documentos «otro idioma» — s324d",
+   "utc": "2026-08-17T10:14:25Z",
+   "universo": [
+    "paginas_perdidas_otro_idioma",
+    "texto_perdido_otro_idioma"
+   ],
+   "documentos": 160,
+   "medidos_de": 160,
+   "veredictos": {
+    "otro_idioma_puro": 160
+   },
+   "chars_castellano_ausente_total": 2146,
+   "chars_castellano_en_accionables": 0,
+   "es_exclusivas_derivadas": [
+    "cuando",
+    "debe",
+    "donde",
+    "el",
+    "hasta",
+    "las",
+    "más",
+    "pero",
+    "puede",
+    "sus",
+    "también"
+   ],
+   "umbrales": {
+    "min_palabras_linea": 4,
+    "min_chars_castellano": 500,
+    "min_vocales": 0.3
+   },
+   "segundos": 0.0
   }
  },
  "documentos": [
@@ -231,7 +265,25 @@
      "muestra": "Caratteristiche ambientali • Temperatura di lavoro -10 à 50 ºC • Temperatura di stoccaggio -10 à 70 ºC • Umidità relativa 95% Caratteristiche del modulo • Tensione di funzionamento 22-38 VDC • Consumo < 350 μA • Consumo in allarme 17 mA (80 dB A) Tipo di collegamento • Tipo di cavo 1,5 mm2 con morse"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3262,
+    "chars_linea_corta_no_adjudicada": 674,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1038,
+     "it": 793,
+     "en": 150
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.438
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea",
@@ -437,7 +489,25 @@
      "muestra": "DÉTECTEUR DE GAZ AUTONOME RIVELATORI DI GAS STAND-ALONE FRANÇAIS ITALIANO REF: 55360004 REF: 55360004 Détecteurs de gaz autonome Lire attentivement ce manuel avant de mettre en service le dispositif. Ce dispositif doit être installé par un personnel qualifié. Certains produits de nettoyage comme eau"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 6568,
+    "chars_linea_corta_no_adjudicada": 1133,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 2378,
+     "fr": 2246,
+     "en": 99
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.437
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "62a48e97-595c-466e-bed8-e11eb519e724",
@@ -838,7 +908,23 @@
      "muestra": "FD2705R – FD2710R Zusätzliche Installationshinweise Diese Bedienungsanleitung beschreibt Abweichungen in der Spezifikation und Installation von der Standard-Einheit. Verwenden Sie diese Anleitung in Verbindung mit der Standard- Installationsanleitung, die ebenfalls im Lieferumfang dieses Geräts enth"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 1428,
+    "chars_linea_corta_no_adjudicada": 413,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 685
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.381
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0737509b-69c8-441a-a27a-cf0237e966d4",
@@ -896,7 +982,26 @@
      "muestra": "IDX-751AE System Diagramm Sicherer Bereich (siehe Hinweis 2) Gefahrenbereich (Ex-Bereich) Sicheres Gerät, für das keine weitere technische Spezifikation vorliegt, außer dass unter allen Bedingungen (normal und außergewöhnlich) die Spannung innerhalb des Gerätes den Wert von 253 V~eff bzw. 253 V DC n"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 10472,
+    "chars_linea_corta_no_adjudicada": 1156,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 8255,
+     "en": 319,
+     "it": 72,
+     "pt": 72
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.379
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
@@ -985,7 +1090,26 @@
      "muestra": "M200-500-00 I56-4406-001 D INSTALLATIONSANLEITUNG FÜR DIE MODULE MI-DMMIE / MI-DMM2IE UND MI-D2ICMOE Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installationsanleitung der Brandmelderzentrale. D"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15639,
+    "chars_linea_corta_no_adjudicada": 737,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 6898,
+     "it": 6659,
+     "fr": 217,
+     "en": 50
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
@@ -1161,7 +1285,26 @@
      "muestra": "N200-01-00 © System Sensor 2000 I56-0790-003 4 INSTALLATIONS UND WARTUNGSANLEITUNG FÜR DIE ADRESSIERBAREN EXTREM FLACHEN IONISATIONS RAUCHMELDER CPX-751E ALLGEMEINE BESCHREIBUNG Der analoge adressierbare Rauchmelder CPX-751E verwendet eine Meßkammer nach dem Ionisationsprinzip. Dieser Rauchmelder is"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 17574,
+    "chars_linea_corta_no_adjudicada": 1070,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8377,
+     "de": 6838,
+     "fr": 247,
+     "pt": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.416
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0295feed-a23c-479a-af0a-d4a6247d3f3e",
@@ -1431,7 +1574,26 @@
      "muestra": "P/N 3102984-ML • REV 003 • ISS 17DEC25 21 / 22 Installera detektorhuvudet Sätt in detektorhuvudet i sockeln och vrid det medurs tills det snäpper fast i låst läge (se bild 2). Detektorn kan låsas fast på sockeln om det behövs. Om du vill göra detta ska du ta bort låsfliken före installationen (se bi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 45699,
+    "chars_linea_corta_no_adjudicada": 12362,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 4782,
+     "it": 4557,
+     "de": 4443,
+     "nl": 3819
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.401
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ab0195cb-cd0b-42c2-bcf7-0a3e259cb49e",
@@ -1490,7 +1652,26 @@
      "muestra": "- - + + + { 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 10 11 12 A B C x10 x1 A B 1 0 47KΩ 47KΩ - - + + + 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 10 11 12 A B C x10 x1 A B 1 0 EOL - - + + + - + 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 10 11 12 A B C x"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 22849,
+    "chars_linea_corta_no_adjudicada": 3238,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8863,
+     "de": 8595,
+     "fr": 241,
+     "ro": 85
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.409
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
@@ -1629,7 +1810,25 @@
      "muestra": "IT 10 3.4- Test del sistema Il test del sistema deve essere eseguito eseguendo le seguenti verifiche: • Che provocando un’avaria si attivi il relè di avaria. • \u0007Che provocando un allarme si attivi il relè di allarme e le uscite sirena dopo essere trascorso il tempo di ritardo programmato. Nota: L’av"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16907,
+    "chars_linea_corta_no_adjudicada": 516,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 7663,
+     "it": 7560,
+     "en": 118
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.439
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "06d1d1d4-f128-42fb-b7b0-7ab6d89fa310",
@@ -1762,7 +1961,47 @@
      "muestra": "P/N 00-3301-501-4000-04 • REV 004 • ISS 23MAY25 25 / 27 SV: Installationsanvisning Beskrivning 2X-A-LB Slingkortet ger ytterligare två slingor (LOOP3 och LOOP4) och fyra övervakade utgångar (OUT5, OUT6, OUT7 och OUT8) till kompatibla 2X-A centralapparater. Varning: 2X-A-LB Slingkortet är endast komp"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 344,
+    "fragmentos_es_ausentes": 7,
+    "chars_ausentes": 47450,
+    "chars_linea_corta_no_adjudicada": 9612,
+    "chars_es_descartados_por_estar_en_corpus": 46,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3747,
+     "de": 3185,
+     "fr": 2978,
+     "sv": 2590
+    },
+    "paginas_es": [
+     8
+    ],
+    "citas_es": [
+     {
+      "pagina": 8,
+      "texto": "Estos productos están destinados a la venta e instalación por",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 8,
+      "texto": "Para conocer la información de contacto o para descargar la",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 8,
+      "texto": "vendedor autorizado», cuente con la formación o experiencia",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.387
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "bd2a5dfc-7abf-40d0-ad62-bdc3aadbb0b1",
@@ -2379,7 +2618,25 @@
      "muestra": "IT 39 5.2- Manutenzione a cura dell'impresa di installazione o manutenzione L'impresa di manutenzione o installazione deve effettuare le verifiche semestrali ed annuali che seguono. • Verifiche semestrali: » » \u0007Controllare il registro eventi ed adottare le opportune azioni correttive. » » \u0007Esaminare"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 43558,
+    "chars_linea_corta_no_adjudicada": 1871,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 20227,
+     "it": 16497,
+     "en": 298
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.434
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
@@ -3530,7 +3787,26 @@
      "muestra": "41 IT Requisiti opzionali EN54-2 • 8.4 • Notifica della mancanza di alimentazione esterna • 7.11 • Ritardo delle uscite • 10 • Indicazione dello stato di test. • 10 • Uscita dei dispositivo di allarme incendio Requisiti opzionali EN12094-1 • 4.17 • \u0007Temporizzazione del segnale di Spegnimento • 4.19 "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 89057,
+    "chars_linea_corta_no_adjudicada": 5500,
+    "chars_es_descartados_por_estar_en_corpus": 33,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 35880,
+     "it": 34092,
+     "en": 3059,
+     "nl": 241
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.442
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
@@ -4817,7 +5093,24 @@
      "muestra": "MORLEY-IAS Central de détection d’incendie ZX 8 Historique des événements • Selon la meilleure pratique, l'utilisateur devrait maintenir un carnet pour inscrire tous les événements résultant ou affectant le système. Le carnet devrait être maintenu dans un endroit accessible aux personnes autorisées "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 51210,
+    "chars_linea_corta_no_adjudicada": 7128,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 35401,
+     "en": 2085
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.426
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "581d9d5a-e2f3-48cf-838f-88cf9bb079f6",
@@ -4907,7 +5200,24 @@
      "muestra": "MN-DT-730P 7 de 8 NOTIFIER ESPAÑA Este nível de alarme está fixado no nível 8 da barra gráfica. Se o LED vermelho de FOGO está iluminado, o sinal será transmitido sempre à Central. É então oportuno iniciar o processo de evacuação. Outras medidas a tomar no caso de se iluminar o LED de FOGO dependera"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7574,
+    "chars_linea_corta_no_adjudicada": 577,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 5978,
+     "fr": 190
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.463
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "81615931-e1e5-495a-95d3-f4c65b15388e",
@@ -5502,7 +5812,26 @@
      "muestra": "72 http://www.honeywelllifesafety.es HLSI-MN-103-I v.04 Manuel d’installation et d’utilisation RP1r-Supra Appendix Annexe C Accessoires RP1r-Supra Central d’extinction. VSN-232 Module de communication RS-232. TG-IP-1 Module de communication IP (VSN-232 requis). VSN-4REL Module 4 relais. ITAC Module "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 113055,
+    "chars_linea_corta_no_adjudicada": 21530,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 76218,
+     "en": 5663,
+     "it": 186,
+     "sk": 17
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5f54612a-3347-439e-b6cf-8355185644ab",
@@ -5666,7 +5995,33 @@
      "muestra": "Honeywell Life Safety Iberia C/Pau Vila, 15-19 08911 Badalona (Barcelona) España Tel. 902 03 05 45 www.honeywelllifesafety.es POL-200 -TS Diagnostic tool Ref. doc.: HLSI-MN-963_PT 21/04/2017 © 2017 Honeywell International Inc. "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 81,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 15346,
+    "chars_linea_corta_no_adjudicada": 1210,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 10405,
+     "it": 197
+    },
+    "paginas_es": [
+     2
+    ],
+    "citas_es": [
+     {
+      "pagina": 2,
+      "texto": "¡Importante!: Antes de ligar qualquer cabo externo, verifique que ou cabo de loop",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     }
+    ],
+    "ratio_vocales": 0.457
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "16aa7584-e943-499b-bb02-da17209158d5",
@@ -5941,7 +6296,40 @@
      "muestra": "Manual de utilizador e instalação. NAS-2 MN-DT-742P_F 30 5. ESPECIFICAÇÕES TÉCNICAS Material: .......................................................................................................Caixa metálica, color RAL 7021 Visor:.................................................................."
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 225,
+    "fragmentos_es_ausentes": 2,
+    "chars_ausentes": 30528,
+    "chars_linea_corta_no_adjudicada": 3045,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 23020,
+     "it": 99
+    },
+    "paginas_es": [
+     2,
+     23
+    ],
+    "citas_es": [
+     {
+      "pagina": 2,
+      "texto": "5. Especificaciones técnicas........................................................................................................................ 30",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 23,
+      "texto": "continuación, com a “Seta para baixo” (4), apareceram as diferentes opções",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     }
+    ],
+    "ratio_vocales": 0.458
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "dfca37bf-be9e-4b30-8b31-13607e13fe97",
@@ -6232,7 +6620,25 @@
      "muestra": "RP1r Manuel d’utilisation MN-DT-102I_D 35 de 35 Honeywell Life Safety Benelux Avenue de l’expansion 16D, B-4432 Alleur Belgique Tel : +32 (0) 4 247 03 00 Fax: +32 (0) 4 247 02 20 www.notifier.be "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 61051,
+    "chars_linea_corta_no_adjudicada": 6990,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 43705,
+     "en": 4497,
+     "it": 43
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6f797fa1-3b44-488c-83c3-107a5ea42c9c",
@@ -6515,7 +6921,24 @@
      "muestra": "Vision RP1r Manuel d’utilisation 5. Fonctions spéciales (Non conforme à l’EN54) Configuration spéciale pour les sites qui ne doivent pas répondre aux exigences de l’ EN54. Le central RP1r autorise des configurations spéciales pour les défauts réarmables, simple utilisation 24V pour les sites navals "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 59083,
+    "chars_linea_corta_no_adjudicada": 5187,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 42784,
+     "en": 5257
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.418
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "e97a2405-21e7-44af-824d-a4591c471283",
@@ -6917,7 +7340,25 @@
      "muestra": "NFS Supra Page 49 HLS-MN-025 v.03 Manuel d’installation et d’utilisation www.honeywelllifesafety.es Circuits externes: Circuits de zone Quatre, huit ou douze zones de détection sont disponibles pour raccorder des détecteurs et/ou des boutons poussoirs. Le central de détection incendie avait été déve"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 78660,
+    "chars_linea_corta_no_adjudicada": 5417,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 61974,
+     "en": 4522,
+     "it": 35
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.422
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "aa373ea4-fbca-4c62-b5a6-8329f85c07ea",
@@ -7201,7 +7642,26 @@
      "muestra": "Manual de utilizador. RP1r MN-DT-102P 32 de 32 Honeywell Life Safety Iberia Oficinas Centrales y Zona Este:T. 934 973 960 F. 934 658 635; Centro:T. 911 314 800 F. 911 314 899 Norte:T. 944 802 625 F. 944 801 756; Sur:T. 954 187 011 F. 955 601 234; Portugal:T. 00 351218162636 F. 00 351218162637 www.no"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 48238,
+    "chars_linea_corta_no_adjudicada": 4818,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 50,
+    "idiomas_rivales": {
+     "pt": 32704,
+     "it": 1244,
+     "fr": 360,
+     "en": 29
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.45
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "03cf3cca-098c-4511-96ac-4885513c2019",
@@ -7459,7 +7919,26 @@
      "muestra": "RP1R Manuale di installazione ed uso PAGINA - 29 RP1R_manu Doc. M-204.1-RP1R-ITA Rev A.2 NOTIFIER ITALIA 5 Funzioni speciali (Non conformi EN54) Configurazioni particolari per installazioni che non necessitano conformità EN54. La centrale RP1r permette configurazioni particolari per guasti resettabi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 41920,
+    "chars_linea_corta_no_adjudicada": 4672,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 30863,
+     "fr": 1300,
+     "en": 135,
+     "sk": 127
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.447
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "1791d18f-313f-4482-9e64-df7352e76e25",
@@ -7815,7 +8294,26 @@
      "muestra": " VSN4-PLUS Manuale Utente Pag. 38 VSN4-PLUS_manu Doc. M-061.1-VSN4-PLUS-ITA Rev A.1 NOTIFIER ITALIA Segnalazioni LED: LED di stato*1: ALLARME, Allarme Zona, Guasto Zona, Servizio, Guasto, Disabil., Test, Guasto Terra, Guasto Alimentazione, Guasto Sistema, Sirene Guasto/Disabil., Sirene Ritardate. LE"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 70032,
+    "chars_linea_corta_no_adjudicada": 9478,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 47801,
+     "fr": 3257,
+     "en": 192,
+     "tr": 51
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.453
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
@@ -8033,7 +8531,25 @@
      "muestra": "Guasto Alim. ITALIANO1 Allarme Esclusione Alimentazione Guasto Guasto Terra Sir. Guas./Esc. Ritardo ITALIANO2 Tacitazione Tacitazione Guasto Alim. Aux Guasto Sistema CENTRALE CONVENZIONALE INCENDIO Descrizione Zone Allarme sensore (led lampeggiante) Allarme Pulsante (led fisso) ITALIANO 1. Per tacit"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 45573,
+    "chars_linea_corta_no_adjudicada": 3450,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 35530,
+     "fr": 1556,
+     "en": 799
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.451
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ea22db26-ecc0-4148-8cc3-39ae3c251ddf",
@@ -8341,7 +8857,26 @@
      "muestra": "Guia de instalação e manual de operação // Modelo FS24X Honeywell 34 ENTRE EM CONTATO COM A HONEYWELL ANALYTICS Américas Honeywell Analytics, Inc. 405 Barclay Blvd. Lincolnshire, Illinois EUA 60069 E-mail: detectgas@honeywell.com Europa Life Safety Distribution AG Javastrasse 2 8604 Hegnau Suíça E-m"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 50975,
+    "chars_linea_corta_no_adjudicada": 5081,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 35273,
+     "it": 490,
+     "en": 427,
+     "fr": 110
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.442
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "68b7230c-15d3-4632-8c6b-d486bd6617bc",
@@ -9067,7 +9602,25 @@
      "muestra": "90 Mensagens e o seu significado EVENTOS DE ALARME ALARME Indica que foi comunicado um alarme de um dispositivo de deteção. PRIMEIRO ALARME Indica que foi comunicado o primeiro alarme de um dispositivo de deteção. PRÉ-ALARME Alguns tipos de dispositivos de deteção têm a capacidade de comunicar a imi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 82297,
+    "chars_linea_corta_no_adjudicada": 6149,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 63489,
+     "it": 1002,
+     "en": 207
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.465
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "41b80879-37f7-45b5-9801-4ab4a0b6ebbd",
@@ -9679,7 +10232,26 @@
      "muestra": "Apêndice A11 - 1 Manual de configuração da central 997-671-007-3 Licenciamento www.notifier.es Apêndice 11. Licenciamento Para liberar o potencial da funcionalidade otimizada da central Pearl, certos recursos requerem a inserção de uma chave de licença válida. Estes recursos se somam à conformidade "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 123238,
+    "chars_linea_corta_no_adjudicada": 8332,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 95684,
+     "it": 1860,
+     "fr": 160,
+     "cs": 29
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.458
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "16e317f8-645c-4f09-b81d-a4656353605a",
@@ -10188,7 +10760,26 @@
      "muestra": "HOP-338-9PT issue 4_01-2026_Op Notifier da Honeywell reserva-se o direito de rever ocasionalmente a presente publicação e fazer alterações ao respetivo conteúdo sem ser obrigada a comunicar tais revisões de alterações a qualquer pessoa. Honeywell Life Safety Iberia C/Pau Vila 15-19, 08911 Badalona, "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 53305,
+    "chars_linea_corta_no_adjudicada": 6338,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 35188,
+     "it": 513,
+     "de": 169,
+     "en": 155
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.464
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "bb0b336d-be38-41c3-a21d-f9c0db811f34",
@@ -10904,7 +11495,26 @@
      "muestra": "HOP-138-9PT issue 6_01-2026_In Notifier da Honeywell reserva-se o direito de rever ocasionalmente a presente publicação e fazer alterações ao respetivo conteúdo sem ser obrigada a comunicar tais revisões de alterações a qualquer pessoa. Honeywell Life Safety Iberia C/Pau Vila 15-19, 08911 Badalona, "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 83107,
+    "chars_linea_corta_no_adjudicada": 8907,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 57918,
+     "it": 2140,
+     "en": 207,
+     "de": 117
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.45
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f0b9b790-f2e2-40cb-b793-289e11b82f4f",
@@ -11276,7 +11886,40 @@
      "muestra": "MF-DT-112P 8 NOTIFIER ESPAÑA LED FORA DE SERVIÇO O Led ‘Fora de Serviço’ iluminado indica avaria no micro-processador , prlo que, não se poderá activar nem a ‘EXTINÇÃO Automática’ nem a ‘EXTINÇÃO Manual’. devido a esta condição, a UDS-2N considera-se FORA DE SERVIÇO Para além disso do led, tambem se"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 126,
+    "fragmentos_es_ausentes": 2,
+    "chars_ausentes": 11559,
+    "chars_linea_corta_no_adjudicada": 1131,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 8474,
+     "it": 153
+    },
+    "paginas_es": [
+     3,
+     4
+    ],
+    "citas_es": [
+     {
+      "pagina": 3,
+      "texto": "5 módulos MMX-1). (Consulte Notifier España sobre a compatibilidade das centrais",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     },
+     {
+      "pagina": 4,
+      "texto": "SISTEMAS TRADICIONALES DE EXTINCIÓN AUTOMÁTICA",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.459
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "3e9d9c12-1b78-48d1-9434-6ef5942b13cf",
@@ -13668,7 +14311,26 @@
      "muestra": " Honeywell Life Safety Iberia Barcelona Tel.: +34 93 4973960 Fax: +34 93 4658635 Madrid: Tel. +34 91 1314800 Fax +34 91 1314899 Sevilla: Tel +34 95 4187011 Fax +34 95 5601234 Bizkaia: Tel.: +34 94 4802625 Fax: +34 94 4801756 Portugal: Tel.: 00 351218162636 Fax: 00 351218162637 www.honeywelllifesafet"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 84055,
+    "chars_linea_corta_no_adjudicada": 8414,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 61353,
+     "en": 4029,
+     "it": 98,
+     "sk": 60
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.425
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "eb0e9e0a-4df5-4576-ac38-ddb0fccbc589",
@@ -14345,7 +15007,26 @@
      "muestra": "997-264-001-9, Février 2010 A3-1 Central série NF30/NF50 - Manuel d'utilisation Annexe 3 - Différences du central NF50 Annexe 3 Différences entre NF30 et NF50 La différence entre le central NF30 et le central NF50 est que le NF50 peut utiliser sur sa boucle les détecteurs laser haute sensibilité VIE"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 71397,
+    "chars_linea_corta_no_adjudicada": 11552,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 44908,
+     "en": 4054,
+     "it": 332,
+     "sk": 57
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.428
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "669a6e6a-c2ca-4c8a-b032-31297e345313",
@@ -15682,7 +16363,24 @@
      "muestra": "B1 A6 B6 B2 A7 B7 B3 A8 B8 B4 A9 B9 B5 A10 PRECAUÇÕES E AVISOS Loop 1 (S) Circuito de sirenes 2 Circuito de entrada digital 1 Circuito de entrada digital 2 Cabo de rede de centrais (E) Cabo de rede de centrais (S) Circuito de sirenes 1 Loop 2 (S) Loop 1 (E) Circuito de saída do relé de incêndio Circ"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7120,
+    "chars_linea_corta_no_adjudicada": 437,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 5839,
+     "it": 73
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.46
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8b864d30-b627-4e14-aaf2-e7601a47d224",
@@ -18522,7 +19220,48 @@
    },
    "accionable": false,
    "chunks_ahora": 4,
-   "chars_corpus_ahora": 3460
+   "chars_corpus_ahora": 3460,
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 361,
+    "fragmentos_es_ausentes": 7,
+    "chars_ausentes": 6126,
+    "chars_linea_corta_no_adjudicada": 733,
+    "chars_es_descartados_por_estar_en_corpus": 154,
+    "chars_es_no_verificables": 50,
+    "idiomas_rivales": {
+     "de": 1278,
+     "fr": 1013,
+     "it": 877,
+     "en": 667
+    },
+    "paginas_es": [
+     1,
+     2
+    ],
+    "citas_es": [
+     {
+      "pagina": 1,
+      "texto": "(SPA)El alcance se utiliza en sistemas direccionables analógicos de alarma de incendios.",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 2,
+      "texto": "(SPA)Para definir una de las 159 direcciones disponibles en",
+      "marcas_es": 2,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 1,
+      "texto": "SPA IMPORTANTE: Corte la etiqueta. No deforme el plástico.",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.419
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "56098df1-42eb-45bc-8834-aa2003bfb3f0",
@@ -18728,7 +19467,25 @@
      "muestra": "FRANÇAIS ITALIANO CARTES D’EXTENSION MODBUS POUR SYSTÈME CONTENCIONELE SCHEDE DI ESPANSIONE MODBUS DEL SISTEMA CONVENZIONALE Carte Modbus 1- Introduction Les cartes de communication et d’intégration MODBUS ont été dévelppées pour être intégrées au système conventionnel. Leur rôle est de faire commun"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 2507,
+    "chars_linea_corta_no_adjudicada": 352,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1065,
+     "it": 634,
+     "en": 162
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.42
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5d6dc98c-8be2-4a5b-a1c1-af65ddfd0639",
@@ -19573,7 +20330,25 @@
      "muestra": "ITALIANO FRANÇAIS Programmateur Programmatore 1- Introduction 1- Introduzione Le programmateur d’adresses est un outil qui permet d’attribuer une adresse logique à tous les éléments du système analogique. Cette numérotation commence par le numéro 1 et se termine par le numéro 250, les détecteurs et "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4472,
+    "chars_linea_corta_no_adjudicada": 293,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 2082,
+     "it": 1621,
+     "en": 123
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.433
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0b2c3bbe-932c-474c-b0cc-0cab3083aa4b",
@@ -19911,7 +20686,23 @@
    },
    "accionable": false,
    "chunks_ahora": 3,
-   "chars_corpus_ahora": 4356
+   "chars_corpus_ahora": 4356,
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 1458,
+    "chars_linea_corta_no_adjudicada": 147,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "nl": 1193
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b431095e-e030-4557-8d6b-de959481c39d",
@@ -20000,7 +20791,34 @@
      "muestra": "ITALIANO FRANÇAIS SIRÈNE ET SIRÈNE-FASH CONVENTIONNEL SIRENA E SIRENA CONVENZIONALE CON LAMPEGGIANTE Sirène Conventionnel Sirène - Flash Conventionnel Sirena Convenzionale Sirena Convenzionale con lampeggiante 1- Introduction Les sirènes conventionnelles fournissent au système de détection incendie "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 49,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 2508,
+    "chars_linea_corta_no_adjudicada": 685,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 615,
+     "it": 547,
+     "en": 51
+    },
+    "paginas_es": [
+     2
+    ],
+    "citas_es": [
+     {
+      "pagina": 2,
+      "texto": "collegamento all¡impianto antincendio deve essere",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     }
+    ],
+    "ratio_vocales": 0.42
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "9c023513-1321-4e1f-9147-e4fff05e2e5a",
@@ -20521,7 +21339,25 @@
      "muestra": "Manual de utilizador. Central MN-DT-530 29 mayo 2009 12 de 16 • Não pinte a base nem a tampa dos detectores. • Não realize teste de funcionamento dos detectores aplicando algum material em combustão. Para testar os detectores deve usar-se garrafas com CO comprimido com uma determinada concentração. "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 18914,
+    "chars_linea_corta_no_adjudicada": 1681,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 78,
+    "idiomas_rivales": {
+     "pt": 14235,
+     "en": 70,
+     "it": 31
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.46
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0cbff62b-0f60-40fc-8c21-87e68475bedd",
@@ -21117,7 +21953,25 @@
      "muestra": "FRANÇAIS CARTES DE LOOP POUR SYSTÈME ANALOGIQUE ITALIANO SCHEDE DI LOOP DEL SISTEMA ANALOGICO 1- Introduction 1- Introduzione Ces cartes ont été conçues pour ajouter deux boucles à la centrale analogique extensible de 4 à 8. Cette carte vous permet d’ajouter deux boucles par carte à la centrale anal"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4489,
+    "chars_linea_corta_no_adjudicada": 424,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1860,
+     "it": 1700,
+     "en": 107
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.439
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8f2fbbc2-c55a-4a39-92cb-b88a7afaf6c9",
@@ -21557,7 +22411,25 @@
      "muestra": "ITALIANO ESPAÑOL FRANÇAIS 1- Introduction Le bouton-poussoir conventionnel est conçu conformément à la norme européenne UNE EN54-11 en vigueur (certification produit correspondante disponible). Cet élément est compatible avec les différents systèmes de détection incendie commercialisés sur le marché"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3299,
+    "chars_linea_corta_no_adjudicada": 782,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 918,
+     "it": 914,
+     "en": 79
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.435
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "47f37ad4-91b3-4d5d-a0e0-9a5c33d6da11",
@@ -21646,7 +22518,34 @@
      "muestra": "ITALIANO FRANÇAIS SIRÈNE CONVENTIONNEL SIRENA CONVENZIONALE Sirène Conventionnel Sirena Convenzionale 4- Caractéristique techniques 4- Specifiche tecniche REF: 55310400 Caractéristiques environnementales • Température de travail -10 à 50 ºC • Humidité relative 95% péché condensación • température de"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 58,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 2725,
+    "chars_linea_corta_no_adjudicada": 781,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 654,
+     "fr": 620,
+     "en": 58
+    },
+    "paginas_es": [
+     2
+    ],
+    "citas_es": [
+     {
+      "pagina": 2,
+      "texto": "all¡impianto antincendio deve essere effettuato secondo le",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     }
+    ],
+    "ratio_vocales": 0.419
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b001f716-1054-46a8-abad-b929817005a1",
@@ -21826,7 +22725,33 @@
      "muestra": "MN-DT-740P NOTIFIER ESPAÑA 20 8. CARACTERÍSTICAS TÉCNICAS Tensão de alimentação: 24 Vdc Consumo: Repouso: 250mA 1ª Alarme: 280mA 2ª Alarme: 320mA Avaria: 220mA Caixa Base: Material: Policarbonato RAL9999 Dimensões: 314 x 254 x 115 Peso: 4Kg. Instalação tubagens: Tubagem de PVC de pressão 25/1.0 Liga"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 86,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 16538,
+    "chars_linea_corta_no_adjudicada": 3912,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 10741,
+     "it": 127
+    },
+    "paginas_es": [
+     1
+    ],
+    "citas_es": [
+     {
+      "pagina": 1,
+      "texto": "Toda la información contenida en este documento puede ser modificada sin previo aviso.",
+      "marcas_es": 2,
+      "marcas_otro": 1
+     }
+    ],
+    "ratio_vocales": 0.447
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "7f915cdf-68f5-4c17-9668-fca67d65795a",
@@ -21876,7 +22801,25 @@
      "muestra": "FRANÇAIS CARTE DE RÉGULATION ET INTÉGRATION DE MOTEURS ITALIANO MODULO PER LA REGOLAZIONE E INTEGRAZIONE DI MOTORI Carte de régulation et d’intégration 2- Guide d’installation 1- Introduction Jusqu’à trois régulateurs de vitesse peuvent être raccordés pour contrôler les moteurs des groupes d’extract"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 6270,
+    "chars_linea_corta_no_adjudicada": 439,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 2361,
+     "it": 2154,
+     "en": 477
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.436
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "15015287-4b41-4623-96a5-e8076641560b",
@@ -21926,7 +22869,25 @@
      "muestra": "Caratteristiche ambientali • Temperatura di lavoro -10 à 50 ºC • Temperatura di stoccaggio -10 à 70 ºC • Umidità relativa 95% Caratteristiche del modulo • Tensione di funzionamento 22-38 VDC • Consumo < 350 μA • Consumo in allarme 10 mA (80 dB A) Tipo di collegamento • Tipo di cavo 1,5 mm2 con morse"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3751,
+    "chars_linea_corta_no_adjudicada": 729,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1163,
+     "it": 806,
+     "en": 146
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.434
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f560fd92-586e-42fe-a039-1d021fbd0b34",
@@ -21976,7 +22937,25 @@
      "muestra": "REF: 55320011 REF: 55320011 Base de raccordement au relais 1- Introduction Bien que les détecteurs de la série 200 ne soient pas polarisés, il est toutefois recommandé de les installer conformément au sché- ma du cadre numéro 1. La polarité doit impérativement être res- pectée à chaque fois que des "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3842,
+    "chars_linea_corta_no_adjudicada": 783,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1217,
+     "it": 1161,
+     "en": 80
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.432
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "020d7a69-1e8e-481c-9eff-0bee90c87616",
@@ -22182,7 +23161,25 @@
      "muestra": "FRANÇAIS ITALIANO COLLEGAMENTO SISTEMA CONVENZIONALI ANALOGICO PASSERELLE SYSTÈME CONVENTIONNELLES ANALOGIQUE Passerelle pour centrales conventionnelles vers boucle analogique 1- Introduction La carte permet de raccorder les centrales conventionnelles et d’extinction Detnov à la boucle analogique. R"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4170,
+    "chars_linea_corta_no_adjudicada": 685,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1699,
+     "it": 1366,
+     "en": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.443
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5cc954dc-e6bb-4950-a6c0-4a0764c06307",
@@ -22544,7 +23541,26 @@
      "muestra": "FRANÇAIS MODULE D’ISOLATION ET SOCLE D’ISOLATION 1- Introduction 1- Introduzione L’isolateur est un élément qui protège le système contre les courts-circuits qui peuvent se produire dans les lignes. Sa fonction consiste à couper les lignes en cas de survenue d’un court-circuit. Lorsque ces éléments "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4159,
+    "chars_linea_corta_no_adjudicada": 834,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 1244,
+     "fr": 1220,
+     "en": 224,
+     "ro": 39
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.443
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0c7ae4c5-82cb-43c7-a5e0-bf84075fba0b",
@@ -22594,7 +23610,25 @@
      "muestra": "Pulsante analogico FRANÇAIS ITALIANO PULSANTE ANALOGICO BOUTON-POUSSOIR ANALOGIQUE Bouton-Poussoir Analogique 1- Introduction 1- Introduzione Le bouton-poussoir analogique fournit au système de détection incendie un point de déclenchement manuel d’une alarme. Les alarmes déclenchées par la pression "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3952,
+    "chars_linea_corta_no_adjudicada": 809,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1218,
+     "it": 833,
+     "en": 195
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.44
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "4d759502-dff9-4ed3-8af0-ff92b6445733",
@@ -22722,7 +23756,25 @@
      "muestra": "ITALIANO FRANÇAIS SIRÈNE ET SIRÈNE-FASH ANALOGIQUE SIRENA E SIRENA ANALOGICA CON LAMPEGGIANTE Sirène Analogique Sirène - Flash analogique Sirena analogica Sirena analogica con lampeggiante 1- Introduction La sirène analogique et la sirène-flash analogique fournissent au système de détection incendie"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4264,
+    "chars_linea_corta_no_adjudicada": 1084,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1108,
+     "it": 845,
+     "en": 153
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.436
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "761c38c4-8d04-4001-a1aa-4c33a895ca79",
@@ -23240,7 +24292,25 @@
      "muestra": "FRANÇAIS ITALIANO CARTES D’EXTENSION POUR SYSTÈME CONTENCIONELE SCHEDE DI ESPANSIONE DEL SISTEMA CONVENZIONALE Carte d’extension de relais Carte d’extension de sirènes Scheda di espansione relè Scheda di espansione sirene 1- Introduction 1- Introduzione 2- Montage des cartes d’extension 2- \u0007Montaggi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5321,
+    "chars_linea_corta_no_adjudicada": 430,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1979,
+     "it": 1837,
+     "en": 130
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.427
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b2a29604-2726-40cd-afb6-9310ddcd24ef",
@@ -23290,7 +24360,25 @@
      "muestra": "FRANÇAIS DÉTECTEURS DE MONOXYDE DE CARBONE Version Standard Version Compact 1- Introduction Ces détecteurs de monoxyde de carbone à cellule électrochimique sont conçus pour être installés dans des espaces au sein desquels le contrôle et la surveillance des niveaux de monoxyde de carbone s’avèrent né"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5158,
+    "chars_linea_corta_no_adjudicada": 987,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1602,
+     "it": 1228,
+     "en": 196
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.429
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "48d91c25-d2a6-4ed5-b6c9-32ee7712ead2",
@@ -23814,7 +24902,25 @@
      "muestra": "FRANÇAIS MODULO RELÈ 240 V ITALIANO MODULE À RELAIS DE 240V Module à 1 Relais de 240 V Modulo a 1 relè 240 1- Introduction 1- Introduzione Le module à 1 relais de 240V fournit au système analogique de détection incendie 1 relais à contact sec qui peut être utilisé pour servir d’interrupteur à un cir"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4376,
+    "chars_linea_corta_no_adjudicada": 888,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1348,
+     "it": 1147,
+     "en": 203
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.441
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "acb0141c-6245-4ed9-8af2-78c5aeabe474",
@@ -24293,7 +25399,25 @@
      "muestra": "ITALIANO PILOTO INDICADOR DE AÇÃO PORTUGUÊS RIPETITORE OTTICO 1- Introdução 1- Introduzione 2- Instalação 2- Installazione 4- Especificações 4- Indicazioni Luz indicadora de ação compatível com detetores analógicos e convencionais instalados em gabinetes fechados ou ocultos. Ripetitore ottico a LED "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 3358,
+    "chars_linea_corta_no_adjudicada": 705,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 1219,
+     "pt": 811,
+     "fr": 115
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.458
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5159ff7d-127e-47eb-9cbd-6323575bf2c9",
@@ -24481,7 +25605,41 @@
    },
    "accionable": false,
    "chunks_ahora": 4,
-   "chars_corpus_ahora": 7628
+   "chars_corpus_ahora": 7628,
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 169,
+    "fragmentos_es_ausentes": 2,
+    "chars_ausentes": 10303,
+    "chars_linea_corta_no_adjudicada": 811,
+    "chars_es_descartados_por_estar_en_corpus": 92,
+    "chars_es_no_verificables": 28,
+    "idiomas_rivales": {
+     "de": 4273,
+     "it": 3578,
+     "fr": 77,
+     "pt": 53
+    },
+    "paginas_es": [
+     2
+    ],
+    "citas_es": [
+     {
+      "pagina": 2,
+      "texto": "Los detectores de humo tienen una duración limitada, y por ello nosotros recomendamos",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 2,
+      "texto": "ADVERTENCIA - Las características del detector pueden variar según el fabricante del",
+      "marcas_es": 2,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.42
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "960b7196-2aa9-4909-8510-266a5dbe0580",
@@ -24843,7 +26001,25 @@
      "muestra": "FRANÇAIS MODULO A 1 O 2 RELÈ ITALIANO MODULE À 1 OU 2 RELAIS Module à 1 relais Module à 2 relais Modulo a 1 relè Modulo a 2 relè 1- Introduction 1- Introduzione Le module à 1 ou 2 relais à contact sec fournit au système analogique de détection incendie 1 ou 2 relais à contact sec qui peuvent être ut"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5216,
+    "chars_linea_corta_no_adjudicada": 1001,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1599,
+     "it": 1237,
+     "en": 341
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.438
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "a699e8ca-bece-4b33-b692-28c87f5a9a71",
@@ -25088,7 +26264,25 @@
      "muestra": "FRANÇAIS MODULO DI ZONA ITALIANO MODULE DE ZONE Module de Surveillance pour 1 Zone Module de Surveillance pour 2 zones 1 Zone Module 2 Zones Module 1- Introduction 1- Introduzione Le module de surveillance pour 1 ou 2 zone(s) conventionnelle(s) permet l’utilisation d’une zone conventionnelle, à savo"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5283,
+    "chars_linea_corta_no_adjudicada": 956,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1922,
+     "it": 1491,
+     "en": 185
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.446
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "34016a97-a8ca-458a-8400-e9745ff26c1d",
@@ -25177,7 +26371,25 @@
      "muestra": "3 CARACTERÍSTICAS TÉCNICAS Tensão de alimentação...................................................... 9 -20 V CC Consumo ....................................................................................65 mA Tempo de reacção ......................................................................."
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 6289,
+    "chars_linea_corta_no_adjudicada": 639,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3187,
+     "pt": 1660,
+     "fr": 48
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.462
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ae58e36a-3abe-4d2b-a4a3-13cf3ad58492",
@@ -25695,7 +26907,25 @@
      "muestra": "MAD-450 / MAD-450-I / MAD-451-I / MAD-450-IW FRANÇAIS ITALIANO PULSANTE ANALOGICO BOUTON-POUSSOIR ANALOGIQUE MAD-450 / MAD-450-I / MAD-451-I / MAD-450-IW 1- Introduction 1- Introduzione Le bouton-poussoir analogique fournit au système de détection incendie un point de déclenchement manuel d’une alar"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5053,
+    "chars_linea_corta_no_adjudicada": 917,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1551,
+     "it": 1065,
+     "en": 253
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.439
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
@@ -26603,7 +27833,26 @@
      "muestra": "FRANÇAIS MODULO A 1 SIRENA O USCITA SUPERVISIONATA 24 V ITALIANO MODULE DE SIRÈNE OU DE SORTIE DE 24 V CONTÔLÉE Module de Surveillance pour 1 Sirène ou Sortie Contrôlée Module de Surveillance pour 2 sirènes ou Sortie Contrôlée Modulo a 1 sirena o uscita supervisionata Modulo a 2 sirene o uscita supe"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5675,
+    "chars_linea_corta_no_adjudicada": 1111,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1551,
+     "it": 1387,
+     "en": 382,
+     "ro": 45
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.443
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "724b1486-8366-4ce6-be7c-b3ce6d6edcb5",
@@ -27022,7 +28271,24 @@
      "muestra": "Secção 5 - 30 www.notifier.es 997-670-007-3 Navegação pelos menus do painel Manual de funcionamento 5.5 Menu de configuração da central Para acessar o Menu de configuração da central é preciso inserir uma chave de acesso de nível 3. Consequentemente, estas funções não são descritas neste documento. "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 61213,
+    "chars_linea_corta_no_adjudicada": 5586,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 42994,
+     "it": 2294
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.467
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "9fc6883b-021d-409d-a0bc-23e549ba9f66",
@@ -27267,7 +28533,26 @@
      "muestra": "FRANÇAIS MODULO A 1 O 2 INGRESSI TECNICI ITALIANO MODULE À 1 OU 2 ENTRÉE(S) TECNIQUE(S) Module à 1 entrée technique Module à entrées techniques Modulo a 1 ingresso tecnico Modulo a 2 ingressi tecnici 1- Introduction 1- Introduzione Le module à 1 ou 2 entrées techniques fournit 1 ou 2 entrées logique"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 6070,
+    "chars_linea_corta_no_adjudicada": 992,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 2067,
+     "it": 1539,
+     "en": 252,
+     "ro": 45
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.442
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "54ff4d47-f946-4c27-a265-158f640ade1a",
@@ -28141,7 +29426,26 @@
      "muestra": "10 / 10 P/N 12-0201-501-4003-01 • ISS 27NOV23 Specifikationer IP-klassning IP30 Färg Vit (liknar RAL 9010) Material Metall Kabeluttag N-IO-MBX-1 N-IO-MBX-2 12 × Ø 30 mm 16 × Ø 30 mm Vikt N-IO-MBX-1 N-IO-MBX-2 4,8 kg 7,3 kg Mått (B x H x D) N-IO-MBX-1 N-IO-MBX-2 377 × 417 × 110 mm 612 × 417 × 110 mm "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 13832,
+    "chars_linea_corta_no_adjudicada": 2198,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1541,
+     "it": 1457,
+     "pt": 1367,
+     "de": 1225
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.402
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1",
@@ -28581,7 +29885,26 @@
      "muestra": "FRANÇAIS MODULO DI INGRESSO/USCITA ITALIANO MODULE À 1 ENTRÉE ET 1 SORTIE Modulo a 1 ingresso e 1 uscita Modulo a 2 ingressi e 2 uscite 1- Introduzione I moduli di ingresso ed uscita devono essere installati all’interno di un armadio o di una scatola di installazione, in posizione frontale con 2 vit"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7319,
+    "chars_linea_corta_no_adjudicada": 1101,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 2341,
+     "it": 1958,
+     "en": 337,
+     "ro": 45
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.44
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c714abc5-36ba-4923-880f-b10b60c55b81",
@@ -28902,7 +30225,48 @@
      "muestra": "Notifier garante os seus produtos em relação com qualquer defeito de material ou de mão de obra, durante um período de doze (12) meses, desde a data da sua fabricação, sob condições de uso e manutenção normais. Os produtos estão marcados com a sua data de fabricação. A obrigação de Notifier fica lim"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 426,
+    "fragmentos_es_ausentes": 4,
+    "chars_ausentes": 48147,
+    "chars_linea_corta_no_adjudicada": 8648,
+    "chars_es_descartados_por_estar_en_corpus": 31,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 29311,
+     "it": 297,
+     "en": 101,
+     "sk": 52
+    },
+    "paginas_es": [
+     15,
+     32
+    ],
+    "citas_es": [
+     {
+      "pagina": 32,
+      "texto": "Delegación Centro: Avda. de la Industria, 32 bis. Pol. Ind. Alcobendas 28108 Alcobendas MADRID. Tel. 916613381 Fax 916612315",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 32,
+      "texto": "Delegación Sur: C/ Artesanía, 13 2ª P. In. Pisa. Edif. Zero 41927 Mairena SEVILLA Tel 95/4183932 Fax 95/5601234",
+      "marcas_es": 1,
+      "marcas_otro": 1
+     },
+     {
+      "pagina": 32,
+      "texto": "Delegación Norte: Muelle Tomás Olabarri, 7-8 48930 Las Arenas, VIZCAYA Tel 94/4802625 Fax 94/4801756",
+      "marcas_es": 2,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.457
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "10a002fb-87ee-419c-a6af-7f9be317a791",
@@ -28987,7 +30351,26 @@
      "muestra": "10 / 10 P/N 3103016-ML • REV 001 • ISS 10APR24 Gällande föreskrifter Överensstämmelse Tillverkare Dongguan Fyrnetics Co., Ltd., No.1 Rongwen Road, Changan, Dongguan 523842, Guangdong, China. Auktoriserat tillverkningsombud inom EU: Carrier Fire & Security B.V., Kelvinstraat 7, 6003 DH Weert, Netherl"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15084,
+    "chars_linea_corta_no_adjudicada": 2313,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 1861,
+     "de": 1765,
+     "fr": 1515,
+     "pt": 1291
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.402
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0d5ea3ca-1b69-4aeb-8d46-f5443ea285bd",
@@ -29218,7 +30601,25 @@
      "muestra": "M450-03-00 8 I56-2955-000 ©2006 System Sensor VERDRAHTUNG HINWEIS: Die Verdrahtung muss gemäß den regionalen Au- flagen, Richtlinien und Anforderungen ausgeführt werden. 1. \u0007Installieren Sie das Module gemäß den Projektier- ungszeichnungen und den entsprechenden Anschluss- diagrammen. 2. \u0007Entfernen "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 10447,
+    "chars_linea_corta_no_adjudicada": 2105,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 16,
+    "idiomas_rivales": {
+     "it": 3267,
+     "de": 3124,
+     "fr": 457
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "e59a8287-e411-4ca7-be47-81d9114e7b96",
@@ -29277,7 +30678,26 @@
      "muestra": "Module moniteur NFX-MM1M INSTRUCTIONS D'INSTALLATION ET D'ENTRETIEN Honeywell Life Safety SA LIEGE AIRPORT BUSINESS PARK B50 4460 Grâce-Hollogne - België AVANT DE COMMENCER L'INSTALLATION Les renseignements qui suivent constituent un guide succinct d'installation. Pour obtenir des renseignements dét"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7830,
+    "chars_linea_corta_no_adjudicada": 1896,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1784,
+     "de": 1590,
+     "it": 1213,
+     "en": 357
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.404
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "fa85c7b8-73ce-4534-aff8-3ee32d280bb1",
@@ -29625,7 +31045,26 @@
      "muestra": "D500-65-00 8 I56-2255-01 ©2003 System Sensor VERDRAHTUNG HINWEIS: Die Verdrahtung muss gemäß den regionalen Auflagen, Richtlinien und Anforderungen ausgeführt wer­ den. 1. Installieren Sie das Module gemäß den Projek tierungszeichnungen und den entsprechenden Anschlussdiagrammen. 2. Entfernen Sie di"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 10399,
+    "chars_linea_corta_no_adjudicada": 2522,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3165,
+     "de": 2975,
+     "fr": 439,
+     "pt": 58
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "fe0a3e56-b314-44ad-ab96-8dba45a5880f",
@@ -29778,7 +31217,25 @@
      "muestra": "0 1 2 3 4 5 6 7 8 9 MODUL ADRESSE ZUR NÄCHSTEN BAUGRUPPE – ZUSTANDSANZEIGEN — + — + — + — + — + — + IDC ADRESSE +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 IDC ADRESSE IDC ADRESSE IDC ADRESSE IDC ADRESSE — + — + RINGBUS — + — + + – + VON DER ZENTRALE ODER VORHERIGER BAUGRUPPE 47 K ABSCHLUSSWIDERSTAND MODULE NUR A"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 11646,
+    "chars_linea_corta_no_adjudicada": 2702,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3706,
+     "de": 3373,
+     "fr": 477
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.416
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "4b961547-a91d-4e44-b4a1-2d9af3118821",
@@ -29984,7 +31441,26 @@
      "muestra": "M200-502-00 I56-4428-000 DOP-IOD085 EN54-17: 2005 EN54-18: 2005 0786 22 0786 Honeywell Morley-IAS Pittway Tecnologica S.r.l Via Caboto 19/3 34147 Trieste, Italy D E U T S C H INSTALLATIONSANLEITUNG FÜR DIE STEUERMODULE FÜR NETZSCHALTSPANNUNG MI-D240CMOE Honeywell Morley-IAS, Stadionring 32, 40878 Ra"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4801,
+    "chars_linea_corta_no_adjudicada": 376,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 2220,
+     "it": 1627,
+     "ro": 72,
+     "en": 54
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.407
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "537a0275-920a-4e49-96ef-8d6d4570f06f",
@@ -30215,7 +31691,26 @@
      "muestra": "10 / 10 P/N 3103015-ML • REV 001 • ISS 10APR24 Gällande föreskrifter Överensstämmelse Tillverkare Dongguan Fyrnetics Co., Ltd., No.1 Rongwen Road, Changan, Dongguan 523842, Guangdong, China. Auktoriserat tillverkningsombud inom EU: Carrier Fire & Security B.V., Kelvinstraat 7, 6003 DH Weert, Netherl"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15116,
+    "chars_linea_corta_no_adjudicada": 2107,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 1858,
+     "nl": 1814,
+     "de": 1640,
+     "fr": 1580
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.4
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "89c05a46-a026-44b5-bebe-d7c67d36c588",
@@ -30348,7 +31843,26 @@
      "muestra": "12 / 12 P/N 3103036-ML • REV 001 • ISS 26JUL24 Installation av adapter Adaptern monteras direkt på den befintliga monteringssockeln. Inga extra kablar eller skruvar behövs. Om du använder adressbrickor (medföljer ej), kom ihåg att föra in brickan i skåran (se bild 1) på adaptern före installation. F"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 19571,
+    "chars_linea_corta_no_adjudicada": 3286,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 2451,
+     "fr": 2220,
+     "de": 2216,
+     "nl": 1750
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.397
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "dd0c2a23-d975-4f63-9b9d-cf6d1db338f4",
@@ -30407,7 +31921,25 @@
      "muestra": "Pittway Tecnologica S.r.l., Via Caboto 19/3, 34147 Trieste, Italy © System Sensor 2009 I56-2668-002 4 D550-33-00 B501AP / B524HTR 1 2 3 4 60 mm SHIELD 102 mm Adressierung Adressierung B501AP (-IV, -BK) Höhe 22.5 mm Gewicht 39 g INSTALLATIONSANLEITUNG FÜR B501AP (-IV, -BK) UND B524HTR INTELLIGENTE ME"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 10582,
+    "chars_linea_corta_no_adjudicada": 1598,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4090,
+     "it": 3952,
+     "pt": 36
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.399
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "36d2ba3e-d043-43c9-8a4c-dd02837ef08f",
@@ -30505,7 +32037,26 @@
      "muestra": "N200-93-01 I56-1763-014 DoP Ref: 0786-CPD-20341 EN54-17: 2005 EN54-18: 2005 Pittway Tecnologica S.r.l, Via Caboto 19/3, 34147 Trieste, Italy 0786 07 D E UTS CH M701-240, M701-240-KO UND M701-240-DIN INSTALLATIONSANLEITUNG FÜR DIE STEUERMODULE FÜR NETZSCHALTSPANNUNG 1 3 4 5 6 2 7 8 9 10 11 12 0 1 2 3"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 11058,
+    "chars_linea_corta_no_adjudicada": 1069,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4262,
+     "it": 4035,
+     "fr": 298,
+     "ro": 174
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.409
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "44500918-acbd-445f-939d-4053bb58fa21",
@@ -30572,7 +32123,26 @@
      "muestra": "P/N 3103013-ML • REV 002 • ISS 22MAY25 9 / 9 SV: Installationsblad Bilder Bild 1: Montering (1) Skåra för adressbricka (2) Skåra för låsflik Bild 2: Mått Beskrivning Detta installationsblad innehåller information om KE-DBA- AUXW djupt tillbehör. Tillbehöret är ett valfritt tillägg för KE-DB3010W sta"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 17914,
+    "chars_linea_corta_no_adjudicada": 2755,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 23,
+    "idiomas_rivales": {
+     "de": 2267,
+     "it": 2047,
+     "nl": 1941,
+     "pt": 1591
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.399
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "cca29ddc-4475-492c-9b5d-41a116fba39d",
@@ -30700,7 +32270,25 @@
      "muestra": "DÉTECTEURS CONVENTIONNELS 1- Introduction 2- Installation 3- Essai et maintenance 4- Caractéristiques techniques La gamme de détecteurs conventionnels est composée des produits suivants: • Détecteur thermovélocimétrique conventionnel.DTD-210 • Détecteur thermique 78 ºC conventionnel.DTD-215 • Détect"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 9443,
+    "chars_linea_corta_no_adjudicada": 1350,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 3630,
+     "it": 2961,
+     "en": 222
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.434
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "52c20421-70ff-4efd-a4dc-9eb41993f849",
@@ -30837,7 +32425,26 @@
      "muestra": "Module moniteur MI-MM3E-S2 INSTRUCTIONS D'INSTALLATION ET D'ENTRETIEN Honeywell Life Safety SA LIEGE AIRPORT BUSINESS PARK B50 4460 Grâce-Hollogne - België AVANT DE COMMENCER L'INSTALLATION Les renseignements qui suivent constituent un guide succinct d'installation. Pour obtenir des renseignements d"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7837,
+    "chars_linea_corta_no_adjudicada": 1824,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1788,
+     "de": 1640,
+     "it": 1217,
+     "en": 359
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.406
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "7b13e257-8a36-4baa-bdbb-753009f4c7d5",
@@ -31043,7 +32650,26 @@
      "muestra": "M200-501-00 I56-4407-001 D INSTALLATIONSANLEITUNG FÜR DIE MODULE MI-DCMOE Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installationsanleitung der Brandmelderzentrale. Die Module der Serie Morley "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12179,
+    "chars_linea_corta_no_adjudicada": 586,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5230,
+     "de": 5125,
+     "fr": 175,
+     "en": 50
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c379c84f-3889-4e4d-8269-0bfb51b09972",
@@ -31132,7 +32758,25 @@
      "muestra": "FRANÇAIS RIVELATORI ANALOGICO ITALIANO DÉTECTEUR ANALOGIQUES 1- Introduction 2- Installation 3- Essai et maintenance 4- Caractéristiques techniques La gamme de détecteurs analogiques est composée des produits suivants: • Détecteur thermovélocimétrique analogique DTD-210A, DTD-210A-I • Détecteur ther"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 9718,
+    "chars_linea_corta_no_adjudicada": 1351,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 3770,
+     "it": 3061,
+     "en": 229
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.44
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "017af6a2-e90c-4405-a500-0b2bd1a39d63",
@@ -31277,7 +32921,26 @@
      "muestra": "0 1 2 3 4 5 6 7 8 9 MODUL ADRESSE ZUR NÄCHSTEN BAUGRUPPE – ZUSTANDSANZEIGEN — + — + — + — + — + — + IDC ADRESSE +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 IDC ADRESSE IDC ADRESSE IDC ADRESSE IDC ADRESSE — + — + RINGBUS — + — + + – + VON DER ZENTRALE ODER VORHERIGER BAUGRUPPE 47 K ABSCHLUSSWIDERSTAND MODULE NUR A"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 9568,
+    "chars_linea_corta_no_adjudicada": 1308,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 3512,
+     "it": 3053,
+     "fr": 445,
+     "en": 68
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "35380bd3-d118-44a7-992d-65d6c1e38c29",
@@ -31366,7 +33029,26 @@
      "muestra": "N200-501-00 I56-4405-002 D INSTALLATIONSANLEITUNG FÜR DIE MODULE M701E Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installationsanleitung der Brandmelderzentrale. Die Module der Serie M700 sind "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12172,
+    "chars_linea_corta_no_adjudicada": 559,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5206,
+     "de": 5075,
+     "fr": 262,
+     "en": 50
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c4bb48a0-973b-455a-8bbd-d1d7d1bfde3a",
@@ -31589,7 +33271,26 @@
      "muestra": "10 / 10 P/N 3103014-ML • REV 001 • ISS 10APR24 För att montera och installera sockeln: 1. Fäst IP-tillbehöret på monteringsytan med de två medföljande skruvarna. 2. Skjut in standardsockeln i IP-tillbehöret med hjälp av inriktningsmärken på tillbehöret och sockeln för att säkerställa korrekt inriktn"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 17816,
+    "chars_linea_corta_no_adjudicada": 2782,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 2157,
+     "fr": 2029,
+     "it": 1951,
+     "nl": 1678
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.401
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5c036deb-9248-4908-be9b-69e697b20e38",
@@ -31703,7 +33404,26 @@
      "muestra": "ZUR NÄCHSTEN VORRICHTUNG – + – + VON DER ZENTRALE ODER DER VORANGEGANGENEN VORRICHTUNG 47 K EOL-WIDERST AND ANSCHLUSS DER MODULE NUR AN GELISTETE UND KOMPATIBLE ZENTRALEN KOMMUNIKATIONSLEITUNG, MAX. 29 VDC GEDRILLTES LEITERPAAR EMPFOHLEN IDC DER KLASSE B (TYPISCH) BEGRENZTE UND ÜBERWACHTE SPANNUNG "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12197,
+    "chars_linea_corta_no_adjudicada": 1558,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4841,
+     "it": 4236,
+     "fr": 369,
+     "en": 159
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
@@ -31801,7 +33521,26 @@
      "muestra": "I56-3388-002 N200-200-00 NFX-OPT / NFXI-OPT 95 g -30°C 70°C 102 mm 51 mm B501AP 0786-CPD-20646 09 NFX-OPT 0786-CPD-20640 09 NFXI-OPT Pittway Tecnologica S.r.l, Via Caboto 19/3, 34147 Trieste, Italy INSTALLATIONS- UND WARTUNGSANLEITUNG FÜR MODELL NFX-OPT / NFXI-OPT OPTISCHER RAUCHMELDER ALLGMEIN Die "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 14554,
+    "chars_linea_corta_no_adjudicada": 1070,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6060,
+     "de": 6033,
+     "fr": 297,
+     "pt": 82
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.418
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "77683de5-4245-4410-a649-84867318d981",
@@ -31993,7 +33732,26 @@
      "muestra": "NO-460-024 8 I56-3977-001 ©2013 Notifier VERDRAHTUNG HINWEIS: Die Verdrahtung muss gemäß den regionalen Auflagen, Richtlinien und Anforderungen ausgeführt werden. 1. \u0007Installieren Sie das Modul gemäß den Projektierungszeichnungen und den entsprechenden Anschlussdiagrammen. 2. \u0007Für eine elektrische V"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 11706,
+    "chars_linea_corta_no_adjudicada": 1681,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4347,
+     "it": 3883,
+     "fr": 519,
+     "en": 235
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "83804f9f-73b7-4509-9ffd-3ac82d84c499",
@@ -32169,7 +33927,35 @@
      "muestra": "© System Sensor 2001 I56-1292-002 N600-03-00 LED LED 4 Abbildung 2. Positionieren des Testmagneten TEST MAGNET Abbildung 3. Melder ANLEITUNG FÜR EINBAU UND WARTUNG DER INTELLIGENTEN THERMOMAXIMALMELDER, MODELL FDX-551HTEM. Lesen Sie bitte vor dem Einbau des Melders die Anschlußverdrahtungs- und Einb"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 52,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 15770,
+    "chars_linea_corta_no_adjudicada": 981,
+    "chars_es_descartados_por_estar_en_corpus": 142,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 6985,
+     "it": 6055,
+     "fr": 378,
+     "en": 108
+    },
+    "paginas_es": [
+     3
+    ],
+    "citas_es": [
+     {
+      "pagina": 3,
+      "texto": "aspirador para quitar el polvo de la cámara sensora.",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "04dd4625-a546-46c4-8607-9d8e886ed6dd",
@@ -32306,7 +34092,26 @@
      "muestra": "N600-06-00 © System Sensor 2001 I56-1641-002 4 Abbildung 2. Positionieren des Testmagneten Abbildung 3. Melder LED LED TEST MAGNET TEST MAGNET ANLEITUNG FÜR EINBAU UND WARTUNGA DER EINSTECKBAREN INTELLIGENTEN THERMOMAXIMALMELDER, MODELL FDX-551EM. Lesen Sie bitte vor dem Einbau des Melders die Ansch"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15568,
+    "chars_linea_corta_no_adjudicada": 836,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7005,
+     "it": 6071,
+     "fr": 378,
+     "en": 108
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "d4cff1fa-ca16-4184-811a-3ad8a5c67559",
@@ -32365,7 +34170,26 @@
      "muestra": "© System Sensor 2001 I56-1291-002 N600-02-00 LED LED 4 Abbildung 2. Positionieren des Testmagneten TEST MAGNET Abbildung 3. Melder ANLEITUNG FÜR EINBAU UND WARTUNG DER INTELLIGENTEN THERMODIFFERENTIALMELDER, MODELL FDX-551REM. Lesen Sie bitte vor dem Einbau des Melders die Anschlußverdrahtungs- und "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15701,
+    "chars_linea_corta_no_adjudicada": 896,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7034,
+     "it": 6136,
+     "fr": 378,
+     "en": 144
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c0b61450-07ab-418b-ac27-02351e4f0206",
@@ -32728,7 +34552,25 @@
      "muestra": " PÁGINA - 42 Manual de Instalação e Utilização NFG-8 NOTIFIER ITALIA Doc. M-040.1-NFG8-PORT Rev A.1 NFG-8_manu-inst_PORT Modo operativo de saída Existem 3 modalidades operativas de saída diferentes. Clique em \"Modalidade Operativa\" Fig. 4.5.4 m) Modalidade operativa de saídas Instantâneo segue o est"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 37585,
+    "chars_linea_corta_no_adjudicada": 3968,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 29000,
+     "it": 917,
+     "en": 191
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.452
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
@@ -32803,7 +34645,26 @@
      "muestra": "ZUR NÄCHSTEN VORRICHTUNG – + – + VON DER ZENTRALE ODER DER VORANGEGANGENEN VORRICHTUNG 47 K EOL-WIDERST AND ANSCHLUSS DER MODULE NUR AN GELISTETE UND KOMPATIBLE ZENTRALEN KOMMUNIKATIONSLEITUNG, MAX. 29 VDC GEDRILLTES LEITERPAAR EMPFOHLEN IDC DER KLASSE B (TYPISCH) BEGRENZTE UND ÜBERWACHTE SPANNUNG "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12450,
+    "chars_linea_corta_no_adjudicada": 1551,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4848,
+     "it": 4489,
+     "fr": 369,
+     "en": 235
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6ff80de4-54ca-4f2e-9e09-bd10225ae25f",
@@ -33213,7 +35074,26 @@
      "muestra": "I56-3389-002 N200-201-00 NFX-SMT2 / NFXI-SMT2 B501AP 102 mm 60 mm 0786-CPD-20645 09 NFX-SMT2 0786-CPD-20639 09 NFXI-SMT2 Pittway Tecnologica S.r.l, Via Caboto 19/3, 34147 Trieste, Italy INSTALLATIONS- UND WARTUNGSANLEITUNG FÜR MODELL NFX-SMT2 / NFXI-SMT2 OPTISCH-THERMISCHER BRANDMELDER ALLGEMEIN Die"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16025,
+    "chars_linea_corta_no_adjudicada": 859,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7236,
+     "it": 6694,
+     "fr": 312,
+     "en": 104
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "750819d4-b388-47df-8f86-168356035df7",
@@ -33311,7 +35191,26 @@
      "muestra": "I56-3390-002 N200-202-00 NFX-SMT3 / NFXI-SMT3 B501AP 63 mm 102 mm 0786-CPD-20644 09 NFX-SMT3 0786-CPD-20638 09 NFXI-SMT3 Pittway Tecnologica S.r.l, Via Caboto 19/3, 34147 Trieste, Italy INSTALLATIONS- UND WARTUNGSANLEITUNG FÜR MODELL NFX-SMT3 / NFXI-SMT3 OPTISCH- THERMISCH-IR-MEHRFACHSENSORRAUCHMELD"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16832,
+    "chars_linea_corta_no_adjudicada": 1063,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7350,
+     "it": 7116,
+     "fr": 355,
+     "en": 88
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8c7aa118-eed6-4775-8729-e35811ce4b5c",
@@ -33478,7 +35377,26 @@
      "muestra": "N200-500-00 I56-4404-001 D INSTALLATIONSANLEITUNG FÜR DIE MODULE M710E / M720E UND M721E Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installationsanleitung der Brandmelderzentrale. Die Module de"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 15516,
+    "chars_linea_corta_no_adjudicada": 684,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 6873,
+     "it": 6621,
+     "fr": 217,
+     "en": 50
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6d6e4b64-5203-4fc3-a24b-05fb8daff749",
@@ -33671,7 +35589,26 @@
      "muestra": "N200-304-00 I56-4208-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België DESCRIPTION Le répétiteur radio NRX-REP est un dispositif RF fonctionnant sur piles, conçu pour une utilisation avec l’interface radio NRXI-GATE via un système adressable de détection inc"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16970,
+    "chars_linea_corta_no_adjudicada": 3458,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 3986,
+     "it": 3526,
+     "fr": 3232,
+     "en": 424
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b46b9369-7a2c-455a-84ad-369b32d59043",
@@ -33941,7 +35878,26 @@
      "muestra": "N200-400-00 I56-6296-000 8. Lorsque tous les détecteurs ont été nettoyés, remettre la boucle sous tension et tester les détecteurs comme indiqué au paragraphe ESSAIS. ESSAIS Les détecteurs doivent être testés après l’installation et après chaque entretien périodique. Désactiver la zone ou le système"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 13668,
+    "chars_linea_corta_no_adjudicada": 1066,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 5691,
+     "de": 5501,
+     "en": 187,
+     "sk": 177
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "bc0c7b5f-95f7-4198-806c-b17dac41d32e",
@@ -34117,7 +36073,26 @@
      "muestra": "A B C x10 x1 - - + + + EOL M200E-EOL-C (-) (-) (+) (+) 1 2 3 4 5 6 7 8 9 10 11 12 M200-92-00 4 MI-DCZM © System Sensor 2005 I56-2128-003 Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installations"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16980,
+    "chars_linea_corta_no_adjudicada": 2040,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6668,
+     "de": 6180,
+     "en": 223,
+     "ro": 44
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.408
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
@@ -34176,7 +36151,26 @@
      "muestra": "SS-460-013 7 I56-3920-001 VOR DER INSTALLATION Diese Information dient als Kurzanleitung für die Installation. Wenn Module in bereits betriebsbereite Anlagen eingebaut werden, informieren Sie die zustän- digen Personen und die regionalen Behörden, dass die Anlage ggf. zeitweise außer Betrieb genomme"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 11284,
+    "chars_linea_corta_no_adjudicada": 1509,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4353,
+     "it": 3770,
+     "fr": 519,
+     "en": 235
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.417
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "d85d2ee6-d384-4273-8556-8b039a1f3b92",
@@ -34274,7 +36268,26 @@
      "muestra": "6 / 9 P/N 03-0210-501-4301-02 • REV 002 • ISS 26MAY25 Specifiche tecniche Specifiche meccaniche e ambientali Grado di protezione IP41 Fori passacavi della scatola di collegamento Retro In alto/in basso [1] 1 × Ø 20 mm 1 × Ø 27 mm 2 × Ø 22 mm Ambiente operativo Temperatura di esercizio Temperatura di"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 14194,
+    "chars_linea_corta_no_adjudicada": 2987,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 1987,
+     "de": 1662,
+     "fr": 1580,
+     "nl": 1380
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "0b56d683-6019-4fab-9dc4-68ebbc4c174c",
@@ -34941,7 +36954,26 @@
      "muestra": "N200-305-00 I56-4209-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België PARAMETRAGE DE L’ADRESSE Sélectionner l’adresse désirée en tournant les deux roues codeuses à l’aide d’un tournevis à l’arrière du déclencheur sous le compartiment des piles (voir la figu"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 19417,
+    "chars_linea_corta_no_adjudicada": 2958,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 4997,
+     "de": 4578,
+     "fr": 4175,
+     "en": 487
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.418
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "fc285f22-cfa5-4c88-b12d-aa18a764a2a7",
@@ -35191,7 +37223,26 @@
      "muestra": "12 / 13 P/N 3102987-ML • REV 003 • ISS 22MAY25 Material Resina de policarbonatos PC- 6620 Peso 55 g Dimensões Ø 100 × 17 mm Informação reguladora Conformidade Fabricante Dongguan Fyrnetics Co., Ltd., No.1 Rongwen Road, Changan, Dongguan 523842, Guangdong, China. Representante de fabrico autorizado n"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 22174,
+    "chars_linea_corta_no_adjudicada": 5708,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 2748,
+     "de": 2274,
+     "fr": 1815,
+     "nl": 1810
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "36926f45-6e66-496f-9c04-a957191df184",
@@ -35250,7 +37301,26 @@
      "muestra": "N300-02-00 © System Sensor 2002 I56-1730-002 4 + - V- V- V+ V+ 2 1 3 4 5 R INSTALLATIONS- UND WARTUNGSANLEITUNG ZU DEN WÄRMEMELDERN TYP FD-851RE (THERMODIFFERENTIAL) UND FD-851HTE (HOHE ANSPRECHTEMPERATUR) Bevor Sie mit der Installation der Brandmelder beginnen, lesen Sie bitte die sorgfältig die Sy"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20397,
+    "chars_linea_corta_no_adjudicada": 1548,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 9215,
+     "it": 8154,
+     "fr": 262,
+     "en": 73
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.409
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "9d6efdf7-4b2c-46e9-9332-65f113b8000a",
@@ -35309,7 +37379,26 @@
      "muestra": "INSTALLATIONS- UND WARTUNGSANLEITUNG FÜR DIE ADRESSIERBAREN EXTREM FLACHEN OPTISCHEN RAUCHMELDER SDX-751EM Allgemeine Beschreibung Der analoge adressierbare Rauchmelder SDX-751EM verwendet eine optische Meßkammer nach dem Streulichtprinzip. Dieser Rauchmelder ist nur für die dafür vorgesehenen Brand"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 18708,
+    "chars_linea_corta_no_adjudicada": 1080,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8223,
+     "de": 7964,
+     "fr": 344,
+     "pt": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.413
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6b2be351-76c0-4587-8c00-a0b6695fc80c",
@@ -35446,7 +37535,26 @@
      "muestra": "D300-05-00 I56-1731-000 4 F A F +Ve OUT E -Ve OUT D -Ve IN C Rin or +ve IN B Rin A +Ve IN Hinweis: Bevor Sie das S300ZDU an der Wand befestigen, führen Sie die Anschlusskabel durch die Kabelöffnung der Gehäuserückseite. Verdrahtung Der Wert des Widerstandes zwischen den beiden Klemmen B und C, siehe"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12171,
+    "chars_linea_corta_no_adjudicada": 2154,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 4944,
+     "de": 4391,
+     "fr": 32,
+     "en": 30
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "79142789-8f2a-4f0c-af7d-2863316d3438",
@@ -35616,7 +37724,26 @@
      "muestra": "N200-303-00 I56-4207-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België X 10 X 1 Figure 4: Roues Codeuses (Sélection Adresse) NRX-USB connectée à un PC (voir AgileIQ™). La configuration créée est ensuite chargée dans l’interface radio qui l’utilise pour la co"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20783,
+    "chars_linea_corta_no_adjudicada": 3602,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5113,
+     "de": 4275,
+     "fr": 3703,
+     "en": 727
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "05e3e05f-d6cf-4c4f-a707-3be673f9b31f",
@@ -35675,7 +37802,26 @@
      "muestra": "A B C x10 x1 - - + + + 3.9 K EOL RESISTOR (-) (-) (+) (+) 1 2 3 4 5 6 7 8 9 10 11 12 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 0 1 2 3 4 5 6 7 8 9 N200-96-01 4 I56-3674-000 M710-CZR Notifier Sicherheitssysteme GmbH, Berliner Strasse 91, 40880 Ratingen, Deutschland INSTALLATIONSANWEISUNG FÜR DAS M710-CZR"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 18554,
+    "chars_linea_corta_no_adjudicada": 2456,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 7100,
+     "de": 6338,
+     "fr": 529,
+     "en": 220
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.413
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6bc1d609-b81a-4c33-8778-e3cf649c567b",
@@ -35734,7 +37880,26 @@
      "muestra": "A B C x10 x1 - - + + + EOL M200E-EOL-C (-) (-) (+) (+) 1 2 3 4 5 6 7 8 9 10 11 12 N200-92-00 4 M710-CZ © System Sensor 2006 I56-2129-002 Diese Kurzbedienungsanleitung ermöglicht einen schnellen Überblick zur Installation der Module. Für detaillierte Informationen lesen Sie bitte in der Installations"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16982,
+    "chars_linea_corta_no_adjudicada": 2023,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6678,
+     "de": 6185,
+     "en": 223,
+     "ro": 44
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.409
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "fb2bdd8d-76d4-4c24-a6ee-7d9929498f50",
@@ -35953,7 +38118,26 @@
      "muestra": "Grund­ ton Nr./ Stage1/ Son de base/ N° suono base 3 ON 1 2 5 4 6 8 7 OFF S1 Beschreibung – Grundton (Voreinstellung: Ton-Nr. 2) Description stage 1 (No. 2 = pre-set) Description du son de base ( Pré-réglage Son-No. 2) Descrizione – suono base (pre-impostazione: suono n° 2) Stufe Stage Niveau Livell"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 36041,
+    "chars_linea_corta_no_adjudicada": 5812,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8363,
+     "de": 7907,
+     "fr": 7552,
+     "en": 859
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.408
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "78bbb66e-d355-4f04-838a-89288fd409fb",
@@ -36084,7 +38268,26 @@
      "muestra": "M200-303-00 I56-4259-000 X 10 X 1 Figure 4: Roues Codeuses (Sélection Adresse) MI-RF-USB connectée à un PC (voir AgileIQ™). La configuration créée est ensuite chargée dans l’interface radio qui l’utilise pour la configuration du système. L’interface recherche tous les composants associés et les conf"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 19744,
+    "chars_linea_corta_no_adjudicada": 3479,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5050,
+     "de": 4165,
+     "fr": 3385,
+     "en": 616
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "499b8322-809f-44b9-a717-be0c96fc1dd6",
@@ -36182,7 +38385,26 @@
      "muestra": "N600-05-00 © System Sensor 2001 I56-1320-001 4 Abbildung 1. Drehschalter zum Einstellen einer dekadischen Adresse. 4 4 0 2 3 1 0 ONES TENS 2 3 1 6 7 5 5 9 8 6 9 8 7 4 4 0 2 3 1 0 EINER ZEHNER 2 3 1 6 7 5 5 9 8 6 9 8 7 EINBAU- UND WARTUNGSANWEIUNGEN FÜR ANALOGE, ADRESSIERBARE MEHRKRITERIEN RAUCHMELDE"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20475,
+    "chars_linea_corta_no_adjudicada": 1302,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 9271,
+     "it": 7714,
+     "fr": 798,
+     "pt": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "d44a69c9-940e-48fe-b104-d5267c23f741",
@@ -36271,7 +38493,25 @@
      "muestra": "ITALIANO FRANÇAIS SIRÈNE ET SIRÈNE-FASH ANALOGIQUE SIRENA E SIRENA ANALOGICA CON LAMPEGGIANTE 1- Introduction La sirène analogique et la sirène-flash analogique fournissent au système de détection incendie un signal d’alerte sonore et sonore-visuel à l’intérieur des bâtiments afin d’avertir les pers"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 4299,
+    "chars_linea_corta_no_adjudicada": 1169,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 1005,
+     "it": 779,
+     "en": 146
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.433
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "62c3cec0-d3d8-46f9-b021-98a3119e85f1",
@@ -36363,7 +38603,26 @@
      "muestra": "M450-04-00 12 I56-2954-000 ©2006 System Sensor 0 1 2 3 4 5 6 7 8 9 MODULADRESSE IN OUT — + — + RINGBUS — + — + A/B AUSWAHL A/B AUSWAHL ABSCHALTUNG 1 ABSCHALTUNG 2 T6 T5 EEXTERNE SPANNUNGVERSORGUNG 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 MODULADRESSE — + — + +1 +0 IDC ADRESSE — + — + +3 +2 IDC ADRESS"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 13236,
+    "chars_linea_corta_no_adjudicada": 2738,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 4341,
+     "de": 4098,
+     "fr": 446,
+     "pt": 63
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "265d110d-abe8-4682-863f-8485de7224eb",
@@ -36494,7 +38753,26 @@
      "muestra": "N200-302-00 I56-4206-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België PROGRAMMATION Pour charger les paramètres du réseau au détecteur radio, il est nécessaire de lier l’interface et le détecteur via une opération de configuration. A la mise en service, ave"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 22483,
+    "chars_linea_corta_no_adjudicada": 3795,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 5366,
+     "fr": 4948,
+     "it": 4895,
+     "en": 740
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8f5f9ad2-cf8d-4303-813f-98940ca5514c",
@@ -36616,7 +38894,26 @@
      "muestra": "N200-301-00 I56-4225-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België PROGRAMMATION Pour charger les paramètres du réseau au détecteur radio, il est nécessaire de lier l’interface et le détecteur via une opération de configuration. A la mise en service, ave"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20153,
+    "chars_linea_corta_no_adjudicada": 3503,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 4892,
+     "fr": 4499,
+     "it": 3813,
+     "en": 646
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.41
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c79207a7-0950-48a8-81f7-cb236bb3dba5",
@@ -36948,7 +39245,26 @@
      "muestra": "N300-04-00 © System Sensor 2002 I56-1732-002 4 + - V- V- V+ V+ 2 1 3 4 5 R INSTALLATIONS- UND WARTUNGSANLEITUNG ZUM OPTISCH- THERMISCHEN BRANDMELDER TYP SD-851TE Bevor Sie mit der Installation der Brandmelder beginnen, lesen Sie bitte die sorgfältig die System Sensor Anleitung zum Umgang mit Rauch- "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 21890,
+    "chars_linea_corta_no_adjudicada": 1668,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 9492,
+     "it": 9142,
+     "en": 64,
+     "fr": 53
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "3caeba69-e786-4fde-89c2-3249f44519ae",
@@ -37032,7 +39348,26 @@
      "muestra": "N200-300-00 I56-4205-001 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België PROGRAMMATION Pour charger les paramètres du réseau du détecteur radio, il est nécessaire de lier l’interface et le détecteur via une opération de configuration. A la mise en service, l’i"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 22907,
+    "chars_linea_corta_no_adjudicada": 3802,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5260,
+     "de": 5191,
+     "fr": 5037,
+     "en": 471
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "7ac3ecd8-a93c-4b8b-bf8c-f36419241c1b",
@@ -37194,7 +39529,26 @@
      "muestra": "D500-67-00 12 I56-2256-01 ©2003 System Sensor 0 1 2 3 4 5 6 7 8 9 MODULADRESSE IN OUT — + — + RINGBUS — + — + A/B AUSWAHL A/B AUSWAHL ABSCHALTUNG 1 ABSCHALTUNG 2 T6 T5 EEXTERNE SPANNUNGVERSORGUNG 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 MODULADRESSE — + — + +1 +0 IDC ADRESSE — + — + +3 +2 IDC ADRESSE"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12492,
+    "chars_linea_corta_no_adjudicada": 2952,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 3940,
+     "it": 3914,
+     "fr": 433,
+     "en": 44
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "e17a6689-a817-4a21-81e3-dadb58d7256c",
@@ -37370,7 +39724,26 @@
      "muestra": "LED1 LED2 Magnet Test MEßKAMMER ABSCHIRMUNG RASTNASEN MELDER - DECKEL Der Melder wird folgendermaßen getestet: A. Testmagnet M02-04 1. Testen Sie den Melder indem der Magnet ca. 2cm von LED 1 im Uhrzeigersinn entfernt, direkt an den Melder gehalten wird(s.Abb.1). 2. LEDs sollten innerhalb von 30s ei"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 17794,
+    "chars_linea_corta_no_adjudicada": 908,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 8095,
+     "it": 7754,
+     "fr": 97,
+     "pt": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "3a58b47d-69f4-423a-a476-e1f67ac42725",
@@ -37468,7 +39841,25 @@
      "muestra": "N100-01-00 © System Sensor 2000 I56-0788-003 4 LED 1 LED 2 Abbildung 1. Positionieren des Testmagneten Abbildung 3. Melder INSTALLATIONS- UND WARTUNGSANLEITUNG FÜR DIE EXTREM FLACHEN IONISATIONS-RAUCHMELDER CP-651E ALLGEMEINE BESCHREIBUNG Das Model CP-651E verwendet eine Meßkammer nach dem Ionisatio"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 17489,
+    "chars_linea_corta_no_adjudicada": 999,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 9074,
+     "de": 6573,
+     "pt": 46
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.419
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "6afb0c2d-49f6-4077-83b9-be1e3e040759",
@@ -37722,7 +40113,26 @@
      "muestra": "N300-01-00 © System Sensor 2002 I56-1729-002 4 + - V- V- V+ V+ 2 1 3 4 5 R INSTALLATIONS- UND WARTUNGSANLEITUNG ZUM OPTISCHEN RAUCHMELDER TYP SD-851E, FLACHE BAUFORM Bevor Sie mit der Installation der Brandmelder beginnen, lesen Sie bitte die sorgfältig die System Sensor Anleitung zum Umgang mit Rau"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20103,
+    "chars_linea_corta_no_adjudicada": 1428,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 9049,
+     "de": 8402,
+     "fr": 97,
+     "en": 64
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ee6a665f-477e-417d-8c5e-34fb010fc854",
@@ -37900,7 +40310,25 @@
      "muestra": "IT 10 4- Specifiche. • Dimensioni 315 mm larghezza x 325mm altezza x 91 mm profondità • Potenza della FA 65W e 150W • Tensione di Ingresso 230Vac +/- 15% 50/60 Hz di fabbrica • Corrente massima assorbita 1,6 Amp (in rete) • Efficacia 86% • Tensione di uscita: 27Vdc protetta contro sovratensioni e co"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 12574,
+    "chars_linea_corta_no_adjudicada": 1245,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6665,
+     "fr": 3339,
+     "en": 529
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.447
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c59d714e-a200-4529-b3b4-e78ebb527269",
@@ -38623,7 +41051,26 @@
      "muestra": "Model - Modelo - Modele - Model PS-24 PS-12 /1.4 /2.5 /5 /3 /5 Insulation level (Class) Nivel de aislamiento (Clase) Niveau d'isolation (Classe) Isolatie niveau (klasse) I I Dimensions (W x H x D) Dimensiones (An x L x P) Dimensions (L x H x E) Afmetingen (B x H x D) 383 x 408 x 97 mm 240 x 348 x 97"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 7989,
+    "chars_linea_corta_no_adjudicada": 724,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "nl": 3723,
+     "fr": 2056,
+     "en": 157,
+     "sv": 141
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "dd784e2e-cb5e-4d1f-a20d-9d0bd8e35661",
@@ -39129,7 +41576,26 @@
      "muestra": "N200-309-00 I56-4294-002 Honeywell Life Safety SA, Liege Airport Business Park B50, 4460 Grâce-Hollogne - België PROGRAMMATION ET MISE EN SERVICE Configurer le mode du module de sortie Le module de sortie est livré configuré comme un module de sortie supervisé (réglage d’usine par défaut). Pour pass"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 30816,
+    "chars_linea_corta_no_adjudicada": 4859,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 6889,
+     "de": 6590,
+     "it": 6436,
+     "en": 478
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.418
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
@@ -39620,7 +42086,26 @@
      "muestra": "A d r e s s e ↓↓3.1 d u d é t e c t e u r S é l e c t i o n e r A d r e s s . e t O K 01 N i v e a u ↓↑ ↓↑3 .2 Sensibilité M o d e ↓↑ ↓↑ 3.3 A l l u m a g e L E D L E D d u d é t e c t e u r - - - - - - ↓↑ ↓↑O K T y p e ↓↑ ↓↑3.4 d e s i g n a l S i r è n e S i g n a l S i r è n e C o n f i g u r e e"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 29187,
+    "chars_linea_corta_no_adjudicada": 2882,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 7632,
+     "de": 7466,
+     "it": 6840,
+     "en": 444
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.416
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "c7f714aa-2bcd-4852-a866-4f6b86e986ff",
@@ -40188,7 +42673,26 @@
      "muestra": " 085 501 996d 16 30396-004-2d Impostazione frequenza flash: S1 * Impostazione di fabbrica Nota: A secondo della frequenza regolata, il primo flash può avere un ritardo di 10 s. Sincronicità: I segnalatori soddisfanno i requisiti EN54-23 (sincronizzazione). Attenzione: Per garantire una sincronizzazi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 19142,
+    "chars_linea_corta_no_adjudicada": 3966,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 4386,
+     "de": 4295,
+     "fr": 4126,
+     "en": 198
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.406
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "242a661c-1e8e-4bf9-8dfb-cf51de520f4b",
@@ -40531,7 +43035,26 @@
      "muestra": "N200-310-00 I56-6591-001 N° Motif Fréquence nominale (Hz) Cycle de commutation Son de 2nd stade 2 Alternatif 800/970 1 Hz 8 3 Alternatif 800/970 2 Hz 8 4 Alternatif 2400/2900 3 Hz 10 5 Alternatif 2500/3100 2 Hz 10 6 Alternatif 988/645 2 Hz 8 7 Continu 660 1 8(3) Continu 970 2(3) 9 Continu 1200 2 10 "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 21574,
+    "chars_linea_corta_no_adjudicada": 2647,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 6476,
+     "it": 4616,
+     "fr": 4492,
+     "en": 491
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f648a252-1789-41fd-96e0-7d9143c3212e",
@@ -40742,7 +43265,26 @@
      "muestra": "22 / 22 P/N 3102986-ML • REV 002 • ISS 28MAY25 Prestandadeklarationsnum mer KE-DT3101W-HAB KE-DT3001W-HAB 12-0101-360-0005 12-0101-360-0006 Standarder KE-DT3101W-HAB KE-DT3001W-HAB EN 54-5, EN 54-17 EN 54-5 Produktidentifikation KE-DT3101W-HAB, KE-DT3001W-HAB Avsedd användning Se produktens prestand"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 44772,
+    "chars_linea_corta_no_adjudicada": 12630,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 4539,
+     "de": 4282,
+     "fr": 4048,
+     "nl": 3574
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.399
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
@@ -40919,7 +43461,26 @@
      "muestra": "D500-68-00 15 I56-2253-01 TABELLE 3 Alle externen Versorgungsspannungen (außerhalb des SC-6 Montagegehäuses) sollten an die Anschlüsse T0-T5 angeschlos­ sen werden, die auch für den Anschluss der Ausgangsleitungen vorgesehen sind. Der 4-fach Klemmenblock, siehe Seite 1, sollte für diesen Anschluss g"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 25695,
+    "chars_linea_corta_no_adjudicada": 5471,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8936,
+     "de": 8056,
+     "fr": 1364,
+     "en": 138
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "febc1a32-ce96-456c-85dc-6651a76f80f8",
@@ -40993,7 +43554,24 @@
      "muestra": "Fase 7 - Inspecção e teste à As inspecções e teste do equipamento devem ser realizadas seguindo as indicações das normas nacionais e locais aplicáveis a cada instalação. à Antes de ligar qualquer cabo à central, devem ser realizadas as seguintes verificações: - Verifique a continuidade do do cabo (i"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 5054,
+    "chars_linea_corta_no_adjudicada": 155,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 4551,
+     "fr": 75
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.457
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "df904b43-0100-4b1e-bcd2-d27a0d5a9a0c",
@@ -41477,7 +44055,26 @@
      "muestra": "12 / 19 P/N BCN-3100032-ML • REV 002 • ISS 05JUN25 Informasjon om forskrifter Sertifisering Produsent KGS Manufacturing Poland Sp. z.o.o., Ul. Kolejowa 24, 39-100 Ropczyce, Poland. Autorisert representant for EU-produksjon: KGS Fire & Security B.V., Kelvinstraat 7, 6003 DH Weert, Netherlands. 2012/1"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 30272,
+    "chars_linea_corta_no_adjudicada": 4731,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 3209,
+     "de": 2656,
+     "nl": 2462,
+     "it": 2408
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.38
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "593abf95-d66e-4696-a861-5a50dd51e651",
@@ -41859,7 +44456,26 @@
      "muestra": "16 / 16 P/N 03-0211-501-3000-05 • REV 005 • ISS 26MAY25 Informações de contacto e documentação do produto Para obter informações de contacto ou para transferir a documentação mais recente do produto, visite firesecurityproducts.com. Avisos e isenções de responsabilidade dos produtos Estes produtos d"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 24058,
+    "chars_linea_corta_no_adjudicada": 4510,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 4773,
+     "nl": 4454,
+     "pt": 3255,
+     "pl": 575
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "d07637ff-d7eb-412a-a261-5863b606a360",
@@ -41926,7 +44542,26 @@
      "muestra": "Mise en service Consignes de sécurité: - Le branchement électrique doit être effectué uniquement par des personnes autorisées conformément aux réglementations en vigueur. - Attention à la tension électrique élevée. Danger ! - Avant d'ouvrir, il convient de s'assurer que l’appareil est hors tension. "
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 14083,
+    "chars_linea_corta_no_adjudicada": 3511,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3058,
+     "de": 3044,
+     "fr": 2592,
+     "en": 95
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8149de23-48e6-4c37-a318-e979d296e7db",
@@ -42362,7 +44997,26 @@
      "muestra": "997-493-002-2, Revisione 2.0 6 EN54 2-Centrale convenzionale ad 8 Zone - Manuale Utente Italiano 6.3 Ritardi Acceso/Spento La temporizzazione dei ritardi è segnalata dal lampeggio seguito dal suono del cicalino - non è influenzato dalla tacitazione del cicalino. I restanti 5 secondi dei ritardi sono"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 16814,
+    "chars_linea_corta_no_adjudicada": 4184,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5690,
+     "fr": 3332,
+     "pt": 644,
+     "en": 272
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.449
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "3138edc4-6974-4a66-9357-02a10c60c46d",
@@ -42461,7 +45115,26 @@
      "muestra": "M450-01-00 16 ©2006 System Sensor I56-2956-000 Abbildung 4. Beispiel zur gemeinsamen Spannungsversorgung von Modulen: MODUL ADRESSE NAC PS NAC PS — + + — NAC PS — + + — NAC PS — + + — NAC PS — + + — +1 +2 +3 +4 +5 A A T11 T10 T0 +0 T12 T1 T2 T3 T4 T5 T13 T14 T15 T16 EINSCHALTUNG SPANNUNGSÜBERWACHUNG"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 21522,
+    "chars_linea_corta_no_adjudicada": 3358,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 8250,
+     "it": 7073,
+     "fr": 926,
+     "pt": 123
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ba8cd2a3-a039-496a-aeb8-7337b3a3e9a4",
@@ -42652,7 +45325,26 @@
      "muestra": "28 / 28 P/N 3103062-ML • REV 003 • ISS 26MAY26 Kontaktuppgifter och produktdokumentation För kontaktuppgifter eller för att ladda ned den senaste produktdokumentationen, besök firesecurityproducts.com. Produktvarningar och friskrivningar Dessa produkter är avsedda för försäljning till och för instal"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 48271,
+    "chars_linea_corta_no_adjudicada": 12483,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 5626,
+     "de": 5252,
+     "fr": 4633,
+     "nl": 4099
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.4
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f2e90194-c55a-4137-ad4a-bbe9742ccfdc",
@@ -42803,7 +45495,26 @@
      "muestra": "P/N 03-0210-501-4300-05 • ISS 24OCT23 25 / 26 Informações de contacto e documentação do produto Para obter informações de contacto ou para transferir a documentação mais recente do produto, visite firesecurityproducts.com. Avisos e isenções de responsabilidade dos produtos ESTES PRODUTOS DESTINAM-SE"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 46061,
+    "chars_linea_corta_no_adjudicada": 9648,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 6455,
+     "de": 6285,
+     "it": 4923,
+     "nl": 4677
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.41
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
@@ -43562,7 +46273,34 @@
      "muestra": "SAIR 68 MANUAL DO UTILIZADOR _ MN-DT-951 Pt _ 7.4x - 06/04/2017 9. SAIR 9.1. Sair Normalmente esta opção do sistema não se encontra disponível, uma vez que o sistema foi concebido para um funcionamento contínuo. No caso de o projeto requerer a ativação desta função, esta será realizada conforme é de"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 69,
+    "fragmentos_es_ausentes": 1,
+    "chars_ausentes": 66144,
+    "chars_linea_corta_no_adjudicada": 7876,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 46123,
+     "it": 916,
+     "fr": 43
+    },
+    "paginas_es": [
+     47
+    ],
+    "citas_es": [
+     {
+      "pagina": 47,
+      "texto": "Neste menu selecione a opção \"Exportación\" e, dentro desta, o tipo de",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.461
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ecefafba-3b66-45b1-bdf3-695e53d0f823",
@@ -44199,7 +46937,26 @@
      "muestra": "P/N 12-0201-501-4000-01 • ISS 21NOV23 31 / 31 Skyddshölje Installera modulen inuti skyddshöljet som uppfyller följande specifikationer. IP-klassning Min. IP30 (inomhusinstallation) Material Metall Vikt [1] Min. 4,75 kg [1] Exklusive modulen. Gällande föreskrifter I detta avsnitt finns en sammanfattn"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 59115,
+    "chars_linea_corta_no_adjudicada": 15824,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6744,
+     "de": 6111,
+     "fr": 5614,
+     "nl": 4955
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.395
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "a7bf5098-6187-4df9-863b-b24d62d0687e",
@@ -44866,7 +47623,26 @@
      "muestra": "20 / 21 P/N 00-3301-501-4100-03 • ISS 07NOV23 SV: Registreringsguide Beskrivning 2010−2A-PAK-HPL centralaktiveringsnyckel (PAK) ökar den maximala slingutgången från 500 mA till 800 mA (högeffektsslinga) på kompatibla adresserbara centralpaneler Aritech 2X-A. Obs! En ny PAK krävs för varje centralapp"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 34065,
+    "chars_linea_corta_no_adjudicada": 5431,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 2727,
+     "it": 2691,
+     "fr": 2438,
+     "pt": 2426
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.383
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "03ec224e-0770-48de-a5fd-fb8d19211747",
@@ -44952,7 +47728,26 @@
      "muestra": "IT Istruzioni di installazione Informazioni sulla certificazione e le omologazioni Codice Prodotto AS2363, AS2364, AS2363W, AS2364W Descrizione Sirena e sirena/fanale indirizzabile Certificazione Conformità EN54-3 Tipo A Ente di certificazione CPR BRE Global garanzia 2831 and LPCB N. del certificato"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 35880,
+    "chars_linea_corta_no_adjudicada": 3779,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "pt": 4745,
+     "de": 4466,
+     "fr": 4332,
+     "it": 3689
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.41
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "bc22c371-481b-42d2-928a-f6b9120032e4",
@@ -45134,7 +47929,26 @@
      "muestra": "SE: Installationshandbok Ljud- och ljuslarmen i 2000-serien är konstruerade för användning i analoga adresserbara Aritech- brandsystem som använder 2000-seriens protokoll. Ljudlarmen kan sättas i olika driftlägen. OBSERVERA: Installation av den här produkten måste utföras av behörig personal i enlig"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 30967,
+    "chars_linea_corta_no_adjudicada": 7499,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 3122,
+     "fr": 3052,
+     "nl": 2711,
+     "de": 2630
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.385
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "eff74bf5-6ca8-4c73-b88d-a4cc4547faee",
@@ -45327,7 +48141,26 @@
      "muestra": "14 / 22 P/N 00-3301-501-4100-04 • REV 004 • ISS 05JUN25 Spesifikasjoner Kontakttype USB type A Driftsmiljø Driftstemperaturer Lagringstemperatur Relativ luftfuktighet −5 til +40 °C −20 til +50°C 10 til 95 % (ikke-kondenserende) Vekt 14 g Dimensjoner (B × H × D) 71 × 23 × 8,7 mm Informasjon om forskr"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 33310,
+    "chars_linea_corta_no_adjudicada": 5145,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 2812,
+     "it": 2792,
+     "fr": 2576,
+     "nl": 2358
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.384
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "89024b18-d156-4118-ae3a-997210903102",
@@ -45804,7 +48637,25 @@
      "muestra": "HLS PS25 & HLS PS50 User Manual HW_MN-DT-1305_C 56 5. SPÉCIFICATIONS Dimensions: 377 mm (w) x 408 mm (h) x 92 mm (d). Puissance de l’alimentation: 130 W (HLSPS50) ou 65 W (HLSPS25). L’alimentation HLSPS50 a un total de 5 Amp et de 300mA à 600mA du total sont dédiés au chargement des batteries. Tensi"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 18911,
+    "chars_linea_corta_no_adjudicada": 1604,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 8060,
+     "it": 6705,
+     "en": 126
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.436
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
@@ -46001,7 +48852,26 @@
      "muestra": "P/N 03-0210-501-4300-06 • REV 006 • ISS 28MAY25 25 / 26 Informação reguladora Esta seção apresenta um resumo da declaração de desempenho conforme o Regulamento relativo aos Produtos de Construção (UE) 305/2011 e os Regulamentos Delegados (UE) 157/2014 e (UE) 574/2014. Para informações detalhadas, co"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 45122,
+    "chars_linea_corta_no_adjudicada": 9585,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 23,
+    "idiomas_rivales": {
+     "fr": 6590,
+     "de": 6056,
+     "nl": 5246,
+     "it": 5101
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.411
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "7672171a-b28e-48e3-a5be-a642e8f3d782",
@@ -46281,7 +49151,26 @@
      "muestra": "P/N 12-0201-501-4002-01 • ISS 21NOV23 37 / 37 Avsedd användning Se produktens prestandadeklaration Deklarerad prestanda Se produktens prestandadeklaration 2012/19/EU (WEEE-direktivet): Produkter som är markerade med denna symbol får ej kasseras som osorterat hushållsavfall inom den europeiska unione"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 74035,
+    "chars_linea_corta_no_adjudicada": 18270,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8370,
+     "de": 7453,
+     "fr": 6719,
+     "nl": 5946
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.396
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
@@ -46661,7 +49550,26 @@
      "muestra": "40 / 41 P/N 3103063-ML • REV 003 • ISS 26MAY26 Isolering Isoleringsspecifikationer gäller endast för modell KE-IO3122 och KE-IO3144 med inbyggd kortslutningsisolator. Strömförbrukning (isolering aktiv) 2,5 mA Isoleringsspänning Minimum Maximum 14 V DC 15,5 V DC Återanslutningsspänning Minimum Maximu"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 70225,
+    "chars_linea_corta_no_adjudicada": 17482,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 7944,
+     "de": 7599,
+     "fr": 7067,
+     "nl": 5957
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.396
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "71f782df-5842-4d97-ad43-956286d82f6f",
@@ -46924,7 +49832,41 @@
      "muestra": "14 / 24 P/N 00-3218-501-0000-07 • REV 007 • ISS 12MAY25 Spesifikasjoner Maks. sløyfestrømforbruk (ingen enheter tilkoblet) 120 mA ved 24 VDC [1] Maks. sløyfeutgangsstrøm 250 mA ved 36 VDC (29 til 36 VDC) Område for spenningsforsyning 17 til 28 VDC ±1% Område for modulasjonsspenning 4 til 11 VDC Mots"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 100,
+    "fragmentos_es_ausentes": 2,
+    "chars_ausentes": 34503,
+    "chars_linea_corta_no_adjudicada": 7589,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 2983,
+     "de": 2411,
+     "fr": 1997,
+     "sv": 1910
+    },
+    "paginas_es": [
+     7
+    ],
+    "citas_es": [
+     {
+      "pagina": 7,
+      "texto": "Para conocer la información de contacto o para descargar la",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     },
+     {
+      "pagina": 7,
+      "texto": "última documentación del producto, visite",
+      "marcas_es": 1,
+      "marcas_otro": 0
+     }
+    ],
+    "ratio_vocales": 0.382
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
@@ -47318,7 +50260,26 @@
      "muestra": "20 IT 6- Specifiche tecniche Caratteristiche della centrale • Tensione di rete 230 Vca ±10% • Fusibile di rete 250 Vca - 4 A - 5x20 • Potenza 45 W • Temperatura di lavoro -5 ... 40 ºC • Umidità 95% max senza condensa • Nº di zone per centrale Da 1 a 3 (modulare ed ampliabile) • Dimensioni (larghezza"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 50451,
+    "chars_linea_corta_no_adjudicada": 3449,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 20693,
+     "fr": 19380,
+     "en": 1830,
+     "nl": 337
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.441
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ca5fb7bc-62ad-44fe-8d1d-2f6bb84ee1f1",
@@ -47697,7 +50658,26 @@
      "muestra": "36 / 36 P/N 3103021-ML • REV 002 • ISS 08MAY24 Konventionell sektion Driftspänning (i viloläge) Standardinstallation BS 5839-1-installation IS-installation 14,3 till 21 V DC 14,3 till 21 V DC 15,3 till 21.7 V DC Driftspänning (EN 54-13- installation) Öppen krets Viloläge Fel Larm Kortslutning 19,2 t"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 66114,
+    "chars_linea_corta_no_adjudicada": 16242,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7595,
+     "it": 7491,
+     "fr": 7014,
+     "nl": 4653
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.396
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "858154ee-1636-48af-ad73-b6cfa4d74911",
@@ -49236,7 +52216,26 @@
      "muestra": "P/N 3103198-ML • REV 002 • ISS 20MAY26 41 / 44 Informação regulamentar Esta secção apresenta um resumo da declaração de desempenho conforme o Regulamento relativo aos Produtos de Construção (UE) 305/2011 e os Regulamentos Delegados (UE) 157/2014 e (UE) 574/2014. Para informações detalhadas, consulte"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 62706,
+    "chars_linea_corta_no_adjudicada": 17305,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 8586,
+     "de": 8482,
+     "nl": 6290,
+     "fr": 4875
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.412
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
@@ -49606,7 +52605,26 @@
      "muestra": "P/N 10-5106-501-55NC-05 • REV 005 • 29MAY25 29 / 32 Varning: Kontrollera alltid bygelkonfigurationen för att säkerställa att den är korrekt för din installationstyp (standard eller egensäker). Kablar Standardinkoppling (icke-IS) Anslut modulen till den adresserbara slingan via ingångarna COM2 (posit"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 45829,
+    "chars_linea_corta_no_adjudicada": 7258,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6407,
+     "fr": 6003,
+     "sv": 4666,
+     "pt": 3965
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.392
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
@@ -49830,7 +52848,26 @@
    },
    "accionable": false,
    "chunks_ahora": 25,
-   "chars_corpus_ahora": 83676
+   "chars_corpus_ahora": 83676,
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 20367,
+    "chars_linea_corta_no_adjudicada": 5222,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 4596,
+     "de": 4060,
+     "it": 3731,
+     "en": 181
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.399
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
@@ -50831,7 +53868,26 @@
      "muestra": "P/N 3103064-ML • REV 004 • ISS 17DEC25 43 / 47 VAD De tillgängliga VAD-inställningarna visas nedan. Standardinställningen är Låg. Tabell 18: Inställningar för VAD-intensitet Inställning Beskrivning Av VAD avaktiverad Låg (standard) VAD med låg intensitet Standard VAD med standardintensitet Hög VAD m"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 65095,
+    "chars_linea_corta_no_adjudicada": 20739,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6536,
+     "de": 6393,
+     "fr": 5842,
+     "nl": 5319
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.397
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "ee95110d-4242-4416-9233-6d73d0f9d24d",
@@ -51084,7 +54140,26 @@
      "muestra": "40 / 43 P/N 3103072-ML • REV 003 • ISS 12NOV25 2012/19/EU (diretiva REEE, sobre Resíduos de Equipamentos Elétricos e Eletrónicos): Os produtos marcados com este símbolo não podem ser eliminados como lixo municipal não separado na União Europeia. Para uma reciclagem adequada, devolva este equipamento"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 55705,
+    "chars_linea_corta_no_adjudicada": 15118,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "de": 7083,
+     "it": 6773,
+     "fr": 6166,
+     "nl": 4114
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.415
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
@@ -52028,7 +55103,26 @@
      "muestra": "P/N 3103072-ML • REV 004 • ISS 19MAY26 41 / 44 2012/19/EU (diretiva REEE, sobre Resíduos de Equipamentos Elétricos e Eletrónicos): Os produtos marcados com este símbolo não podem ser eliminados como lixo municipal não separado na União Europeia. Para uma reciclagem adequada, devolva este equipamento"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 57626,
+    "chars_linea_corta_no_adjudicada": 17369,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 7285,
+     "de": 7069,
+     "fr": 6219,
+     "nl": 4110
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "8b1b642b-ae69-4c83-aee8-8fd3b53be4b4",
@@ -52856,7 +55950,26 @@
      "muestra": "33 IT 13- Terminologia -- Allarme incendio: Indicazione sonora e visiva per segnalare un possibile incendio. -- Falso allarme: allarme incendio provocato da cause diverse dal fuoco. -- Avaria: Guasto che può provocare l’inibizione della rivelazione incendio. -- Avviso di avaria: Indicazione sonora e"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 79148,
+    "chars_linea_corta_no_adjudicada": 6298,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 31434,
+     "it": 30560,
+     "en": 1471,
+     "nl": 103
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.441
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
@@ -54053,7 +57166,26 @@
      "muestra": "N200-102-00 10 I56-3947-202 Remplacez le bloc-filtre ou brossez-le délicatement pour éliminer la poussière accumulée. Remarque : Pour remplacer le filtre, retirez le joint en mousse de l'ancien filtre et placez-le sur le nouveau filtre. Lorsque vous positionnez le nouveau filtre dans l'encoche, assu"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 75067,
+    "chars_linea_corta_no_adjudicada": 13849,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 20991,
+     "de": 16913,
+     "it": 13257,
+     "en": 1410
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.414
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "e2b44424-92bb-446d-bc05-3a66202399e1",
@@ -54957,7 +58089,26 @@
      "muestra": "Opzione SSM (modulo soft start, solo 24V CC) - Limitazione della corrente allo spunto a: PA 5-SSM: : max. 2,1 A PA X 5-xx-SSM: : max. 2,1 A : max. 4,5 A - Commutazione della tensione d’esercizio al dispositivo solo a partire da > 7V - Resistenza per il monitoraggio cavi collegata Intervallo della te"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 28521,
+    "chars_linea_corta_no_adjudicada": 5992,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 6881,
+     "fr": 6258,
+     "de": 5947,
+     "en": 441
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.402
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "b1048c70-2038-4e15-aa62-99ca030db16a",
@@ -55332,7 +58483,26 @@
      "muestra": "085 501 946s 30305-004s 26 Opzione –SSM (modulo soft start, solo 24V CC): - Limitazione della corrente allo spunto a: PA 10-SSM: : max. 2,1 A PA 20-SSM: : max. 4,5 A PA X 10-xx-SSM: : max. 2,1 A : max. 4,5 A PA X 20-xx-SSM: : max. 4,5 A : max. 4,5 A - Commutazione della tensione d’esercizio al dispo"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 26967,
+    "chars_linea_corta_no_adjudicada": 5202,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "it": 7132,
+     "de": 5791,
+     "fr": 5718,
+     "en": 378
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.403
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
@@ -57454,7 +60624,26 @@
      "muestra": " 10 I56-3836-006 ©2015 System Sensor. 12-15 Denne aspirasjonsvarsleren produserer ingen farlig laserstråling, og er et laser- produkt i Klasse 1 som definert av EN 60825-1: 2007. Laserstråling som emitteres inni røykvarsleren mens den er i drift er fullstendig forseglet i de beskyttende husene og ek"
     }
    },
-   "clase": "paginas_perdidas_otro_idioma"
+   "clase": "paginas_perdidas_otro_idioma",
+   "castellano_intercalado": {
+    "veredicto": "otro_idioma_puro",
+    "chars_es_ausentes": 0,
+    "fragmentos_es_ausentes": 0,
+    "chars_ausentes": 234369,
+    "chars_linea_corta_no_adjudicada": 24954,
+    "chars_es_descartados_por_estar_en_corpus": 0,
+    "chars_es_no_verificables": 0,
+    "idiomas_rivales": {
+     "fr": 36240,
+     "de": 33800,
+     "it": 29383,
+     "sv": 25736
+    },
+    "paginas_es": [],
+    "citas_es": [],
+    "ratio_vocales": 0.385
+   },
+   "accionable_castellano_intercalado": false
   },
   {
    "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",

@@ -108,3 +108,45 @@ Cierra el cabo suelto declarado: los 4 `texto_perdido` sin verificar y los 3 `pa
 Clases tras reclasificar: sano 842 · paginas_perdidas_otro_idioma 157 · escaneado_ocr_ok 43 · texto_perdido_otro_idioma 3 · sin_url 3 · paginas_perdidas_es 2 · escaneado_sin_texto 1 · texto_perdido_es 1 · sano_reverificado 1 · fuente_ilegible 1.
 
 > **Dato posterior al censo**: `HLSI-TI-007_VSN-4REL` ya está **RE-INGESTADO** (47 → 3.601 chars, 2 chunks, con el procedimiento PROG/Z1/40 cm dentro). Su fila del censo refleja el estado ANTERIOR: no está pendiente.
+
+## Castellano intercalado en el texto descartado por política
+
+Pregunta acotada: de los **160** documentos que el censo dio por «pérdida en otro idioma» (157 `paginas_perdidas_otro_idioma` + 3 `texto_perdido_otro_idioma`), ¿en cuántos el texto descartado **arrastra castellano**? Idioma adjudicado **línea a línea** dentro del texto ausente (en global siempre gana el idioma dominante, que es lo que enmascara el caso `D1056-1`).
+
+**Resultado: 0 de 160 documentos** arrastran castellano (≥500 chars). Castellano ausente total medido: **2.146 chars** (0 en los accionables).
+
+|veredicto|documentos|chars es|
+|---|---:|---:|
+|otro_idioma_puro|160|2.146|
+
+**Los 13 documentos con ALGO de castellano en lo descartado** (ninguno llega al umbral de 500 chars; se listan enteros porque son la respuesta):
+
+|documento|clase censo|chars es|líneas es|rivales|gold|
+|---|---|---:|---:|---|---|
+|MNDT040P|pp_otro_idioma|426|4|pt 29k, it 297||
+|D 1149-1 BGL Notifier|texto_perdido_otro_idioma|361|7|de 1k, fr 1k||
+|00-3301-501-4000-04_r004_2x-a-lb_loo|pp_otro_idioma|344|7|it 3k, de 3k|sí|
+|MNDT742P_F.pdf|pp_otro_idioma|225|2|pt 23k, it 99||
+|I56-1653-022 ECO1003|texto_perdido_otro_idioma|169|2|de 4k, it 3k||
+|MFDT112P|pp_otro_idioma|126|2|pt 8k, it 153||
+|00-3218-501-0000-07_r007_2x-lb_insta|pp_otro_idioma|100|2|it 2k, de 2k||
+|MNDT740P.pdf|pp_otro_idioma|86|1|pt 10k, it 127||
+|HLSI-DT-963_POL-200-TS_PT.pdf|pp_otro_idioma|81|1|pt 10k, it 197||
+|TG-Honeywell_Usuario_PT|pp_otro_idioma|69|1|pt 46k, it 916||
+|55310401 Manual Sirenas Convencional|pp_otro_idioma|58|1|it 654, fr 620||
+|I56-1292-002_FDX-551HTEM Manual|pp_otro_idioma|52|1|de 6k, it 6k||
+|55311003 Manual Sirenas Convencional|pp_otro_idioma|49|1|fr 615, it 547||
+
+**Citas del castellano descartado** (verbatim):
+- `MNDT040P` p32: «Delegación Centro: Avda. de la Industria, 32 bis. Pol. Ind. Alcobendas 28108 Alcobendas MADRID. Tel. 916613381 Fax 916612315»
+- `D 1149-1 BGL Notifier` p1: «(SPA)El alcance se utiliza en sistemas direccionables analógicos de alarma de incendios.»
+- `00-3301-501-4000-04_r004_2x-a-lb_l` p8: «Estos productos están destinados a la venta e instalación por»
+- `MNDT742P_F.pdf` p2: «5. Especificaciones técnicas................................................................................................................»
+- `I56-1653-022 ECO1003` p2: «Los detectores de humo tienen una duración limitada, y por ello nosotros recomendamos»
+- `MFDT112P` p3: «5 módulos MMX-1). (Consulte Notifier España sobre a compatibilidade das centrais»
+- `00-3218-501-0000-07_r007_2x-lb_ins` p7: «Para conocer la información de contacto o para descargar la»
+- `MNDT740P.pdf` p1: «Toda la información contenida en este documento puede ser modificada sin previo aviso.»
+
+**Precisión REVISADA A MANO** (las 13 fichas de arriba, cita a cita): 9 llevan castellano de verdad (~1.760 chars) y 4 son falsos positivos (~390 chars): una línea portuguesa con «continuación», otra con la cadena de interfaz «Exportación», y dos italianas donde el OCR convirtió «all'impianto» en «all¡impianto» y el `¡` contó como señal española. Y lo que SÍ es castellano es **boilerplate**: direcciones de Notifier España, el párrafo de exención de garantía, una línea de índice — no procedimiento técnico.
+
+**Cómo se decide que una línea es castellano** (estricto, por las dos trampas): `ES_EXCLUSIVAS` (11 palabras) se DERIVA restando a las palabras vacías del español las de los otros 18 idiomas —así caen solas «de/la/que/por/para/con/una/más/está», que comparten pt/it/fr—, más morfología propia (`-ción`, `-dad`, `-miento`, `ñ`, `¿`, `¡`); esa evidencia debe GANAR a la exclusiva de cada rival, y sólo empata si es fuerte (`-ción` o `ñ`). Además, **cada línea marcada se re-verifica contra el corpus**: el test de ausencia trabaja con fragmentos de ~35 palabras y uno mixto puede salir ausente en bloque aunque su línea española sí esté indexada (medido en `D 1149-1`; así se descartaron 498 chars). Las líneas de menos de 4 palabras, o con menos de 2 palabras largas que verificar, NO se adjudican: el sesgo es conservador y este número SUBESTIMA el castellano perdido.
