@@ -219,6 +219,8 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Diagnóstico de un error del bot** (clase, tipo de excepción, `modulo.py:línea`, severidad, si el técnico recibió aviso, y `mensaje_corto` = `str(exc)` REDACTADO a 200 chars) | `bot_errors` (s324e — **migración 015 NO aplicada**) | Saber qué falla y dónde, para arreglarlo | Sigue a su consulta cuando la hay | CASCADE vía `query_log_id`. ⚠️ Es dato **ENLAZABLE**, no «sin dato personal» (r37): la FK permite llegar a la pregunta y al autor. Las filas SIN consulta (fallo sin texto, o autor sin consentimiento) quedan sueltas y ya no identifican a nadie | Se conserva: la tabla no lleva `telegram_user_id` ni texto propio, así que el job no tiene nada que disociar aquí y no necesita una quinta política |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
 | **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | ⚠️ Son datos **seudonimizados** mientras viva la correspondencia (uuid → fila → seudónimo → persona): solo lectura del operador; su plazo entra en el mismo **[DECIDIR]** que `user_consent` | Las filas referidas se borran por cascada; los uuid del recibo quedan apuntando a nada (inofensivo, declarado) | Nada |
+| **Quién puede usar el bot** (`telegram_user_id` = identificador DIRECTO; `nota` = nombre/cargo en texto libre; `alta_por`/`revocado_por` = etiqueta del OPERADOR que decidió) | `bot_allowlist` (s324e — **migración 016 NO aplicada**) | Control de acceso del piloto por invitación: gasto, confidencialidad del corpus y no registrar consultas de quien no fue invitado | ⚠️ Mismo **[DECIDIR]** que `user_consent`: es ESTADO OPERATIVO y **no se puede disociar** (una lista de acceso con seudónimos no autoriza a nadie), así que el job mensual no la toca ni necesita una política nueva | `DELETE FROM bot_allowlist WHERE telegram_user_id = X`. ⚠️ **NO cascadea desde `query_logs`**: un borrado que solo toque `query_logs` deja a la persona en la lista. Revisar además la `nota`, que lleva su nombre escrito dentro | Nada — no hay identificador que disociar sin destruir la función de la tabla |
+| **Invitaciones al piloto** (`nota` = para quién se emitió, existe aunque nunca se canjee; `canjeada_por` = identificador DIRECTO de quien abrió el enlace, que puede NO ser el destinatario si se reenvió; `token_hash` = SHA-256, **no** es dato personal y **no** es el token) | `bot_invitaciones` (s324e — **migración 016 NO aplicada**) | Emitir, auditar y anular accesos; ver si un enlace lo usó la persona prevista | ⚠️ Mismo **[DECIDIR]** que `user_consent` (es la traza de quién dio acceso a quién) | `UPDATE bot_invitaciones SET canjeada_por = NULL WHERE canjeada_por = X` — se conserva la traza del canje sin el identificador de quien lo hizo; y revisar la `nota` | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
 ### Nota sobre el votante: la supresión a petición NO le alcanza del todo
@@ -254,6 +256,67 @@ una garantía**: una excepción puede citar texto del técnico de una forma que 
 reconozca. Se acepta porque (i) es el campo con más valor diagnóstico, (ii) vive dentro de la
 misma cascada que la consulta, y (iii) el flag `BOT_ERROR_LOGGING` lo apaga entero sin deploy.
 La alternativa —no guardar mensaje— deja la clase y el módulo, que es bastante menos útil.
+
+### Nota sobre el control de acceso (s324e) — la tabla que NO cascadea
+
+`bot_allowlist` y `bot_invitaciones` son las dos primeras tablas con dato personal que
+**no cuelgan de `query_logs`**, y eso cambia el runbook: hasta ahora «suprimir» era borrar
+la consulta y dejar que la cascada hiciera el resto. Aquí no hay cascada que valga —
+la allowlist existe justo para responder «¿este id puede entrar?» ANTES de que haya
+ninguna consulta. Las dos líneas nuevas del procedimiento están en la matriz de arriba y
+en «Derechos del interesado»; se dicen aquí también porque es el paso que se olvida.
+
+**El AVISO DE CANJE — una comunicación de datos de una persona a otra, y por tanto lo que
+más conviene mirar aquí.** Cuando alguien canjea una invitación, el bot envía a los ids de
+`BOT_ALLOWLIST_BOOTSTRAP` (quien administra) un mensaje con: la `nota` de para quién era la
+invitación, y el **nombre de perfil de Telegram, el alias público y el id** de quien la ha
+canjeado. Es la contramedida contra el reenvío: enfrenta «era para X» con «lo ha canjeado Y».
+Precisiones, porque no todas empujan en la misma dirección:
+
+- **Finalidad**: la misma que la allowlist —control de acceso a una herramienta de trabajo—, no
+  una nueva. **Destinatario**: el propio responsable (el administrador de Fontiber), no un
+  tercero; es información que ya podía consultar en la base con sus credenciales.
+- **Pero sí aparece un dato NUEVO**: el *nombre de perfil y el alias de Telegram* de quien
+  canjea. No es lo mismo que `user_consent.display_name` (que lo declara la persona al aceptar):
+  este viene de Telegram y se trata sin que la persona lo haya facilitado a Fontiber. **No se
+  PERSISTE por nuestra parte** —el id ya vivía en `bot_invitaciones.canjeada_por` y el nombre
+  solo viaja en el mensaje—, pero el mensaje queda en el chat de Telegram del administrador, con
+  la retención de Telegram, que ya está declarada como no controlada por nosotros.
+- **A juicio del asistente esto NO exige `TERMS_VERSION` nueva** (ni finalidad ni destinatario
+  nuevos), pero **sí es candidato a una línea del aviso v8**: «si accedes por invitación,
+  registramos que la has canjeado y se lo comunicamos a quien te invitó». **Lo decide el asesor,
+  no este documento** — mismo criterio que con `bot_errors`.
+- Minimización aplicada: se manda lo justo para decidir y actuar (contraste + id para revocar),
+  no el histórico ni el resto de la ficha.
+
+**Lo que se retiró del log del proceso.** El canje escribía `telegram_user_id` en el log de
+Railway, que está fuera de la matriz y fuera de cualquier supresión a petición (es la misma
+razón por la que s295 sacó de ahí el texto de la consulta). Ahora se registra el **id de la
+invitación** —un uuid, que no identifica a nadie por sí solo— y quién canjeó vive únicamente
+donde está gobernado: `bot_invitaciones.canjeada_por` y el aviso de arriba.
+
+Tres decisiones de diseño con efecto en protección de datos, declaradas:
+
+1. **La puerta va ANTES del consentimiento** (`telegram_bot.access_gate`). Es
+   minimización: si el consentimiento fuese primero, cualquiera que encuentre el bot
+   podría enviar `/accept Su Nombre` y quedaríamos con su nombre y su identificador
+   guardados en `user_consent` —tabla cuyo plazo sigue siendo un `[DECIDIR]`— para una
+   finalidad que no existe, porque nunca va a usar el sistema. Con la puerta delante,
+   solo se registra a quien fue invitado. `/privacidad` queda FUERA de la puerta a
+   propósito: poder leer el aviso sin haber aceptado nada es lo que hace informada la
+   aceptación (s295), y el texto es el aviso público del responsable.
+2. **El token de invitación no se guarda**: en la base vive su SHA-256. Una copia de
+   seguridad, la consola de Supabase o una clave filtrada NO entregan invitaciones
+   utilizables. El precio es que el enlace se enseña una sola vez.
+3. **La baja es LÓGICA** (`revocado_at`), no un `DELETE`: borrar la fila destruiría la
+   única prueba de quién dio acceso a quién y cuándo se le quitó. El `DELETE` queda
+   reservado a la supresión a petición, donde el objetivo ES que no quede rastro.
+
+A juicio del asistente esto **no es finalidad nueva** —control de acceso a una herramienta
+de trabajo, coherente con la base de interés legítimo ya decidida por Alberto el 5-ago—,
+pero **quien decide si toca el aviso o `TERMS_VERSION` es el asesor**, igual que con
+`bot_errors`. Lo que sí conviene que el aviso v8 recoja, si el asesor lo comparte: que el
+acceso es por invitación y que se conserva quién invitó a quién.
 
 ### Nota sobre los recibos versionados en git
 
@@ -341,7 +404,7 @@ mecanismo de transferencia; ver «Cómo se informa»).
   `UPDATE user_consent SET revoked_at = NOW() …` + `DELETE FROM query_logs WHERE
   telegram_user_id = X` (la cascada se lleva votos, explicaciones y anclas de SUS consultas)
   + `DELETE FROM answer_feedback WHERE telegram_user_id = X` (los votos que emitió sobre
-  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X` + **`DELETE FROM persona_seudonimo WHERE telegram_user_id = X`** (la correspondencia es dato personal: sin borrarla, el código seguiría llevando a la persona). **No alcanza los exports a disco**: hay que borrarlos
+  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X` + **`DELETE FROM persona_seudonimo WHERE telegram_user_id = X`** (la correspondencia es dato personal: sin borrarla, el código seguiría llevando a la persona) + **(desde s324e, si la migración 016 está aplicada) `DELETE FROM bot_allowlist WHERE telegram_user_id = X`** y **`UPDATE bot_invitaciones SET canjeada_por = NULL WHERE canjeada_por = X`** — estas dos **no cascadean desde `query_logs`**, así que hay que acordarse de ellas a mano, y conviene revisar sus columnas `nota` (llevan el nombre y el cargo escritos). **No alcanza los exports a disco**: hay que borrarlos
   aparte.
 - **Acceso y portabilidad**: no implementados. Hoy se atienden a mano.
 

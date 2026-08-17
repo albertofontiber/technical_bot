@@ -420,7 +420,17 @@ def test_cifras_de_control():
     # `bot` y no en la raíz porque sus salidas son mensajes de transporte
     # (español, texto plano para Telegram); es hoja PURA — sin I/O, sin
     # entorno y sin importar ningún SDK — para poder testearla sin red.
-    assert len(MODULOS) == 124, (
+    # 124→125 (s324e): + bot/access.py — la puerta de acceso al piloto
+    # (allowlist por telegram_user_id + invitación de un solo uso: decisión,
+    # caché con su fail-closed matizado, tope diario y formato del token). Es
+    # PRODUCTO: el serving la ejecuta en CADA update desde el handler de grupo
+    # -1. Vive en `bot` porque sus salidas son mensajes de transporte (español,
+    # texto plano) y porque el vocabulario del token lo comparte con el script
+    # de operación; es hoja PURA —sin I/O, sin red y sin ningún SDK— y el estado
+    # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
+    # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
+    # matriz es justo lo que impide el import inverso `raiz → bot`).
+    assert len(MODULOS) == 125, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

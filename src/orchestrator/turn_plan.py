@@ -326,9 +326,98 @@ class Hecho:
 @dataclass(frozen=True)
 class Meta:
     """Metadata del transporte que la decisión necesita (dúo s316d: la exclusión de
-    replies es restricción PAGADA de s316b; la fuente restringe las rutas en voz)."""
+    replies es restricción PAGADA de s316b; la fuente restringe las rutas en voz).
+
+    `mismatch_answer` (s324e, DEC-224 §B + DEC-226): el LEVER entra por aquí, no por
+    `os.getenv` dentro del plan — `plan_turn` es PURA y así se queda (el shell lee
+    `flags.mismatch_answer_activo()` y lo mete en la Meta). Default False = plan
+    byte-idéntico al de hoy en TODA entrada.
+    """
     es_reply: bool = False
     fuente: str = "texto"          # "texto" | "voz"
+    mismatch_answer: bool = False
+
+
+# --- el preámbulo TIPADO (s324e) ---------------------------------------------
+# «Antes de ejecutar `ruta`, di esto». Campo NUEVO y TIPADO a propósito, no un
+# `fallback_ruta` genérico (dúo s321 v2): `fallback_ruta` significa DEGRADACIÓN
+# (el inventario que falla cae a RAG) y esto es lo contrario — una continuación
+# deliberada. Los valores son TOKENS acotados con la misma disciplina que `Hecho`:
+# el preámbulo viaja al trace persistido y de ahí a `query_logs`.
+_TIPOS_PREAMBULO = frozenset({"mismatch_corrected"})
+_TOKEN_PREAMBULO = re.compile(r"[A-Za-zÀ-ÿ0-9][A-Za-zÀ-ÿ0-9 ._/+-]{0,39}")
+
+
+@dataclass(frozen=True)
+class Preambulo:
+    """Texto que ANTECEDE a la respuesta de la ruta, descrito como DATO.
+
+    Estricto a propósito (espejo de `Hecho`): un token que no valida es un error de
+    programación y revienta RUIDOSO en tests. En el camino servido NO se construye
+    a pelo — se usa `preambulo_mismatch()`, que devuelve None si el token no valida
+    (fail-closed del LEVER, jamás del turno)."""
+    tipo: str
+    modelo: str = ""
+    marca_real: str = ""
+    marca_mencionada: str = ""
+
+    def __post_init__(self):
+        if self.tipo not in _TIPOS_PREAMBULO:
+            raise ValueError(f"tipo de preámbulo desconocido: {self.tipo!r}")
+        for campo in ("modelo", "marca_real", "marca_mencionada"):
+            valor = getattr(self, campo)
+            # NORMALIZADO además de acotado: `_MANUFACTURER_NAMES` casa
+            # «system\s*sensor» (dos espacios entran) y un nombre de la DB puede
+            # traer espacio de sobra. El token se guarda como se va a IMPRIMIR —
+            # si no, «es de Securiton , no de…» y una telemetría con dos formas
+            # del mismo fabricante.
+            if (not _TOKEN_PREAMBULO.fullmatch(valor)
+                    or len(valor.split()) > 3
+                    or valor != " ".join(valor.split())):
+                raise ValueError(
+                    f"{campo} del preámbulo debe ser un TOKEN corto, no texto libre"
+                )
+
+
+def preambulo_mismatch(modelo: str, marca_real: str,
+                       marca_mencionada: str) -> Preambulo | None:
+    """Constructor FAIL-CLOSED para el camino servido: None si algún token no valida.
+
+    `marca_real` viene de la DB (`lookup_model_manufacturer`) y no está acotada por
+    ningún regex; un nombre raro NO puede tumbar el turno ni colar texto libre en el
+    trace — degrada a la ruta `mismatch` de hoy."""
+    try:
+        return Preambulo(tipo="mismatch_corrected", modelo=modelo,
+                         marca_real=marca_real, marca_mencionada=marca_mencionada)
+    except ValueError:
+        return None
+
+
+def texto_preambulo(p: Preambulo) -> str:
+    """El texto EXACTO que lee el técnico, antes de la respuesta de la ruta.
+
+    Vive aquí y no en el transporte a propósito: la voz entra por su propia llamada
+    (`_process_query` directo, sin `plan_turn`) y dos copias de esta frase son la
+    clase de deriva que produjo #70. TEXTO PLANO sin marcado: se antepone a una
+    respuesta que se renderiza como HTML de Telegram y que puede caer al transporte
+    plano — un asterisco suelto sobreviviría a una ruta y no a la otra. Sobrio y sin
+    regañar (Alberto): corrige el dato y sigue."""
+    if p.tipo == "mismatch_corrected":
+        return (f"El {p.modelo} es de {p.marca_real}, no de {p.marca_mencionada}. "
+                f"Sobre el {p.modelo} de {p.marca_real}:")
+    raise ValueError(f"preámbulo sin texto definido: {p.tipo!r}")
+
+
+def marcas_mencionadas(texto: str) -> set[str]:
+    """Marcas CURADAS distintas del texto (regex cerrado, sin ambiguas), normalizadas.
+
+    Alcance declarado: cuenta lo que el regex curado ve — una marca que solo existe en
+    la DB no suma. Es el mismo perímetro que usa `marca_destino` para su recuento, y
+    el error va al lado seguro: sub-contar marcas NO enciende la corrección (el gate
+    exige exactamente una y una sola)."""
+    return {re.sub(r"\s+", " ", m.group(0).lower())
+            for m in _MANUFACTURER_NAMES.finditer(texto)
+            if m.group(0).lower() not in _MARCAS_AMBIGUAS}
 
 
 PRESERVAR = "preservar"
@@ -345,6 +434,8 @@ class TurnPlan:
                                               # de cada ruta —feedback— es del handler)
     typing: bool = False
     datos: Mapping[str, str] = field(default_factory=dict)
+    preambulo: Preambulo | None = None        # (s324e) «antes de ejecutar `ruta`,
+                                              # di esto» — continuación, NO degradación
 
 
 def _necesita_lexico_para_invalidar(texto: str, estado_modelos: Sequence[str],
@@ -455,6 +546,20 @@ def plan_turn(texto: str, estado_modelos: Sequence[str], meta: Meta,
             real = hechos.get(Hecho("marca_de_modelo", modelo))
             if real:
                 if str(real).lower() != resolve_manufacturer_alias(mencionada).lower():
+                    # (s324e — DEC-224 §B, alcance (a) de DEC-226) Con el lever ON y
+                    # UNA marca + UN modelo: se CORRIGE Y SE RESPONDE en el mismo
+                    # turno — preámbulo + ruta conversacional (RAG con el modelo
+                    # resuelto). Con varias marcas o varios modelos NO se empareja:
+                    # se responde como hoy (corregir mal es peor que no corregir).
+                    # Con el lever OFF (default) esta rama no existe: mismo plan que
+                    # antes de s324e, byte a byte.
+                    if (meta.mismatch_answer
+                            and len({m.upper() for m in modelos}) == 1
+                            and len(marcas_mencionadas(texto)) == 1):
+                        pre = preambulo_mismatch(modelo, str(real), mencionada)
+                        if pre is not None:
+                            return _plan(ruta="conversacional", typing=True,
+                                         preambulo=pre)
                     return _plan(ruta="mismatch", log_consulta=True,
                                  datos={"modelo": modelo, "marca_real": str(real),
                                         "marca_mencionada": mencionada})

@@ -8,6 +8,7 @@ from a closed allowlist of booleans, counters, and controlled status tokens.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any, Mapping
 
 
@@ -142,6 +143,37 @@ _ALLOWED_INTENT_STATUSES = frozenset(
 _ALLOWED_INTENT_DECISIONS = frozenset({"none", "compat", "switch", "fail_open"})
 # Timeout servido = 6 s con max_retries=0; 60 s ya es un colgado, no una medida.
 _INTENT_LATENCY_MAX_MS = 60_000
+# (s324e — DEC-224 §B / DEC-226 opción (a)) Sección `mismatch_corrected`: el turno
+# en que el bot corrigió la marca Y respondió. Es la ÚNICA sección con strings no
+# enumerables (modelo y marca no son un enum cerrado: el catálogo crece), así que
+# se acotan por LONGITUD y por CHARSET — un token de producto/fabricante, jamás
+# texto del técnico. Lo que no encaja NO degrada a placeholder: la sección entera
+# desaparece (fail-closed de la sección, nunca del trace).
+#
+# OPCIONAL a propósito, al revés que `retrieval`/`timings`/`intent`: aquellas miden
+# un LEVER y su silencio era ambiguo («sin fallos» vs «sin medir»), por eso son
+# requeridas con tri-estado. Esta registra un EVENTO — la ausencia significa «no
+# hubo corrección», que es cierto tanto con el lever apagado como encendido-sin-
+# mismatch. Y ser opcional es lo que hace que con el flag OFF el trace salga BYTE-
+# IDÉNTICO al de antes de s324e, que es el contrato del cableado. El filtro de
+# producto es la presencia de la clave (`rag_trace ? 'mismatch_corrected'`), no un
+# null: por eso el validador rechaza la clave presente con valor nulo.
+_MISMATCH_FIELDS = ("modelo", "marca_real", "marca_mencionada")
+_MISMATCH_TOKEN_RE = re.compile(r"[A-Za-zÀ-ÿ0-9][A-Za-zÀ-ÿ0-9 ._/+-]{0,39}")
+
+
+def _mismatch_token(value: Any) -> bool:
+    """Token de producto/fabricante: charset + ≤40 chars + espaciado NORMALIZADO.
+
+    La normalización no es cosmética: sin ella el mismo fabricante entra al panel
+    con dos formas («System Sensor» / «System  Sensor») y el recuento de
+    correcciones por marca miente."""
+    return (
+        isinstance(value, str)
+        and bool(_MISMATCH_TOKEN_RE.fullmatch(value))
+        and value == " ".join(value.split())
+    )
+
 
 # Used only by tests/audits; no value from these fields is ever copied.
 SENSITIVE_RAW_KEYS = frozenset(
@@ -271,6 +303,24 @@ def _intent_section(intent_obs: Mapping[str, Any] | None) -> dict[str, Any]:
             intent_obs.get("latency_ms"), maximum=_INTENT_LATENCY_MAX_MS
         ),
     }
+
+
+def _mismatch_section(mismatch_obs: Mapping[str, Any] | None) -> dict[str, str] | None:
+    """Sección `mismatch_corrected` (s324e) o None — nunca una sección a medias.
+
+    Los tres campos son OBLIGATORIOS y los tres pasan el mismo cedazo (str + charset
+    + longitud ≤40): una corrección se registra ENTERA o no se registra. Media
+    sección («corregí algo, no sé a qué») no es telemetría, es ruido con forma de
+    dato."""
+    if not isinstance(mismatch_obs, Mapping):
+        return None
+    section: dict[str, str] = {}
+    for field in _MISMATCH_FIELDS:
+        value = mismatch_obs.get(field)
+        if not _mismatch_token(value):
+            return None
+        section[field] = value
+    return section
 
 
 def _selected_count(lane_trace: Mapping[str, Any]) -> int:
@@ -463,6 +513,7 @@ def build_rag_serving_trace(
     retrieval_health: Mapping[str, Any] | None = None,
     stage_timings: Mapping[str, Any] | None = None,
     intent_obs: Mapping[str, Any] | None = None,
+    mismatch_obs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -494,6 +545,9 @@ def build_rag_serving_trace(
     }
     if transport_error_type:
         trace["transport"]["error_type"] = _safe_error_type(transport_error_type)
+    mismatch = _mismatch_section(mismatch_obs)
+    if mismatch is not None:
+        trace["mismatch_corrected"] = mismatch
     encoded = json.dumps(
         trace, ensure_ascii=False, separators=(",", ":"), sort_keys=True
     ).encode("utf-8")
@@ -534,8 +588,22 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # silencio que el gate 1 del flip existe para eliminar.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
          "timings", "transport", "intent"},
+        # `mismatch_corrected` (s324e) es la única OPCIONAL del nivel raíz: registra
+        # un EVENTO, no la medida de un lever (ver la nota del builder). Su ausencia
+        # es información completa —no hubo corrección— y es lo que mantiene el trace
+        # byte-idéntico con el flag apagado.
+        {"mismatch_corrected"},
     ):
         return None
+    if "mismatch_corrected" in value:
+        mismatch = value["mismatch_corrected"]
+        # Clave presente ⇒ dict COMPLETO con los tres tokens acotados. Un null o una
+        # sección a medias se rechaza: el filtro de producto es la PRESENCIA de la
+        # clave, así que «presente pero vacía» sería una fila mintiendo.
+        if not exact_keys(mismatch, set(_MISMATCH_FIELDS)):
+            return None
+        if any(not _mismatch_token(mismatch[field]) for field in _MISMATCH_FIELDS):
+            return None
     retrieval = value["retrieval"]
     if not exact_keys(retrieval, {"measured", "channel_failures"}):
         return None

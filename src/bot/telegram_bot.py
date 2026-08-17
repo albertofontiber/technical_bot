@@ -26,9 +26,11 @@ from telegram import (
 from telegram.error import Conflict
 from telegram.ext import (
     Application,
+    ApplicationHandlerStop,
     CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
+    TypeHandler,
     filters,
     ContextTypes,
 )
@@ -59,7 +61,10 @@ from ..rag.retriever import (
 # pipeline inline; los adapters de producción los arma el orquestador
 # (from_production) y el seam execute_rag_turn vive en serving_pipeline.
 from ..rag.runtime_trace import build_rag_serving_trace
+from ..flags import mismatch_answer_activo
 from ..logging_db import (
+    allowlist_estado,
+    canjear_invitacion,
     log_query,
     log_bot_error,
     log_feedback,
@@ -80,6 +85,7 @@ from .response_formatter import (
     telegram_html_to_plain,
 )
 from .audio_input import audio_file_suffix
+from . import access
 from . import error_taxonomy
 from .voice_query_normalization import normalize_voice_query
 from .whisper_vocabulary import get_whisper_prompt
@@ -153,7 +159,8 @@ from ..orchestrator.conversation_policy import WorkingState  # noqa: E402
 from ..orchestrator.turn_plan import (  # noqa: E402,F401 -- re-exports deliberados
     _BYE_PATTERNS, _CATALOG_PATTERNS, _ENUM_FABRICANTE, _FEEDBACK_PATTERNS,
     _GREETING_PATTERNS, _MANUFACTURER_NAMES, _MARCAS_AMBIGUAS, _PREGATE_INVENTARIO,
-    _SWITCH_FRASE, _THANKS_PATTERNS, _VOCABULARIO_DOMINIO, Hecho, Meta, TurnPlan,
+    _SWITCH_FRASE, _THANKS_PATTERNS, _VOCABULARIO_DOMINIO, Hecho, Meta, Preambulo,
+    TurnPlan,
     _intencion_inventario, plan_turn, plan_turn_hechos,
 )
 
@@ -843,9 +850,290 @@ _NEEDS_CONSENT = (
 )
 
 
+# ── LA PUERTA (s324e): control de acceso al piloto ───────────────────────────
+# Va como handler de GRUPO -1 y no como comprobación al principio de cada
+# handler. Motivo estructural: PTB evalúa los grupos de menor a mayor y un
+# `ApplicationHandlerStop` desde aquí detiene el update para TODOS los demás
+# (verificado en el código de PTB 22.7, `Application.process_update`). Así el
+# handler número nueve que alguien añada dentro de tres meses nace protegido sin
+# acordarse de nada. Un `if not autorizado: return` repetido en cada handler es
+# la versión que se olvida — y la que ya se olvidó una vez: el gate de
+# consentimiento existe desde s21 y `feedback_callback` no lo tuvo hasta s286.
+#
+# ORDEN RESPECTO AL CONSENTIMIENTO: **primero la puerta, después el
+# consentimiento.** Tres razones, la primera es la que manda:
+#   1. MINIMIZACIÓN. Si el consentimiento fuese antes, cualquiera que encuentre
+#      el bot podría enviar `/accept Su Nombre` y quedaríamos con su nombre y su
+#      id de Telegram guardados para siempre en `user_consent` (tabla cuyo plazo
+#      sigue siendo un `[DECIDIR]` en la matriz RGPD) — datos personales de
+#      alguien que jamás va a usar el sistema y para una finalidad que no
+#      existe. La puerta delante hace que solo se registre a quien fue invitado.
+#   2. Es la pregunta que se puede contestar sin tratar nada más: la allowlist
+#      necesita el id, que Telegram ya nos entregó al recibir el mensaje.
+#   3. Contarle a alguien los términos y el detalle de `/privacidad` para
+#      rechazarle después es peor experiencia y peor higiene.
+# Las DOS excepciones están abajo, nombradas y con motivo, y hay un test que
+# impide que la lista crezca sin querer.
+
+#: Comandos que quedan FUERA de la puerta.
+#:   · `/start` — es el ÚNICO sitio por el que Telegram entrega el payload del
+#:     enlace de invitación (`?start=<token>` → `context.args`). Si estuviera
+#:     detrás de la puerta, ninguna invitación podría canjearse jamás. Hace su
+#:     propia comprobación, explícita, y canjea o enseña la puerta.
+#:   · `/privacidad` — poder leer el aviso ANTES de aceptar nada es lo que hace
+#:     que la aceptación cuente como informada (s295). Gatearlo sería romper esa
+#:     promesa por un control de acceso, y el texto no contiene dato personal de
+#:     nadie: es el aviso público del responsable.
+COMANDOS_SIN_PUERTA = ("/start", "/privacidad")
+
+
+def _comando_de(update: object) -> str | None:
+    """`'/start AbC-123'` → `'/start'`; `'/help@PCI_bot'` → `'/help'`.
+
+    None si el update no es un mensaje de texto que empiece por comando. Se
+    normaliza el sufijo `@bot` porque Telegram lo añade en grupos y sin quitarlo
+    la exención no casaría."""
+    try:
+        texto = getattr(getattr(update, "message", None), "text", None)
+        if not isinstance(texto, str):
+            return None
+        texto = texto.strip()
+        if not texto.startswith("/"):
+            return None
+        return texto.split()[0].split("@")[0].lower()
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def _cuenta_para_cuota(update: object) -> bool:
+    """¿Este update gasta cupo diario? Solo los MENSAJES de contenido.
+
+    Fuera quedan los comandos (no cuestan modelo) y las pulsaciones de teclado
+    (👍/👎: penalizar el feedback sería exactamente el incentivo contrario). Los
+    audios SÍ cuentan: pagan transcripción antes que nada.
+
+    Se cuenta en la puerta y no en el pipeline a propósito: aquí es donde la
+    barrera vale también contra un bucle o una cuenta comprometida, aunque el
+    precio sea que un «hola» consuma uno de los 30 (el default lleva holgura
+    para eso).
+    """
+    try:
+        if getattr(update, "callback_query", None) is not None:
+            return False
+        mensaje = getattr(update, "message", None)
+        if mensaje is None:
+            return False
+        if getattr(mensaje, "voice", None) or getattr(mensaje, "audio", None):
+            return True
+        texto = getattr(mensaje, "text", None)
+        if not isinstance(texto, str) or not texto.strip():
+            return False
+        return not texto.strip().startswith("/")
+    except Exception:                                        # noqa: BLE001
+        return False
+
+
+async def _responder_puerta(update: object, texto: str) -> None:
+    """Avisa de un rechazo. NO LANZA NUNCA: una excepción escapando de aquí
+    llegaría a `process_error`, que devuelve False, y PTB seguiría con el
+    siguiente grupo — es decir, el rechazo se convertiría en un PASE. Texto
+    plano, como los mensajes de error y por el mismo motivo."""
+    try:
+        callback = getattr(update, "callback_query", None)
+        if callback is not None:
+            # `answer` acota a 200 caracteres: se manda el primer párrafo, que
+            # está escrito para funcionar suelto.
+            await callback.answer(texto.split("\n\n")[0][:200], show_alert=True)
+            return
+        mensaje = _mensaje_de(update)
+        if mensaje is not None:
+            await mensaje.reply_text(texto)
+    except Exception:                                        # noqa: BLE001
+        logger.warning("puerta: no se pudo avisar al remitente")
+
+
+async def access_gate(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """La puerta. Deja pasar, o para el update para todos los grupos.
+
+    **No deja escapar excepciones, y eso es una propiedad de seguridad, no
+    higiene.** Verificado leyendo PTB 22.7: si un handler de grupo -1 lanza algo
+    que no sea `ApplicationHandlerStop`, `process_update` llama a
+    `process_error` y, como nuestro `error_handler` no relanza
+    `ApplicationHandlerStop`, devuelve False y el bucle CONTINÚA con el grupo 0.
+    O sea: un fallo interno de la puerta abriría la puerta. Por eso el cuerpo va
+    entero en un `try` y el camino de excepción termina igualmente en
+    `ApplicationHandlerStop` — fail-CLOSED.
+
+    Consecuencia declarada: un defecto aquí deja el bot inaccesible para todos.
+    Las dos salidas no exigen deploy — `BOT_ALLOWLIST=off` (kill-switch) y
+    `BOT_ALLOWLIST_BOOTSTRAP` (que se resuelve sin tocar base ni caché).
+    """
+    if not access.acceso_activo():
+        return                              # inerte: el bot de HOY, exacto
+
+    veredicto = None
+    try:
+        tipo_chat = getattr(
+            getattr(update, "effective_chat", None), "type", None
+        )
+        if not access.es_chat_privado(tipo_chat):
+            # 1) CHAT PRIVADO, y va ANTES que todo lo demás — incluidos los
+            #    comandos exentos. La puerta autoriza a una PERSONA, pero lo que
+            #    hay que proteger es dónde se PUBLICA la respuesta: un DG
+            #    autorizado que meta el bot en un grupo hace que la lean
+            #    participantes no invitados, que es exactamente lo que el red
+            #    line prohíbe. Delante de la exención de `/start` a propósito:
+            #    un `/start <token>` tecleado en un grupo canjearía la
+            #    invitación desde ahí.
+            #    Se avisa UNA vez por grupo (`debe_avisar_del_grupo`) y las
+            #    demás veces se para en silencio: repetirlo en cada mensaje
+            #    sería ruido para ellos y envíos para nosotros.
+            chat_id = getattr(getattr(update, "effective_chat", None), "id", None)
+            if access.debe_avisar_del_grupo(chat_id):
+                logger.warning("puerta: uso en chat NO privado (tipo=%r)",
+                               tipo_chat)
+                await _responder_puerta(update, access.MENSAJE_SOLO_PRIVADO)
+            # cae al `raise ApplicationHandlerStop` del final, sin veredicto
+        elif _comando_de(update) in COMANDOS_SIN_PUERTA:
+            return
+        else:
+            user_id = _usuario_de(update)
+            # A un HILO: `allowlist_estado` es httpx síncrono con 10 s de timeout
+            # y esto corre en CADA update. Mismo patrón que `_reportar_error` y
+            # `run_turn`. Con la caché caliente no hay I/O — solo el salto de
+            # hilo.
+            veredicto = await asyncio.to_thread(
+                access.decidir, user_id, allowlist_estado
+            )
+            if veredicto.permitido and _cuenta_para_cuota(update):
+                veredicto = access.consumir_cuota(user_id)
+            if veredicto.permitido:
+                return
+            logger.info("puerta: update rechazado (motivo=%s origen=%s)",
+                        veredicto.motivo, veredicto.origen)
+    except Exception as exc:                                 # noqa: BLE001
+        veredicto = None
+        # Por el punto ÚNICO (s324e): clasifica, avisa al técnico y registra la
+        # incidencia. Sin `query`: la puerta no ha mirado el contenido.
+        await _reportar_error(update, exc, etapa="puerta_acceso")
+
+    if veredicto is not None and veredicto.mensaje:
+        await _responder_puerta(update, veredicto.mensaje)
+    raise ApplicationHandlerStop
+
+
+async def _avisar_canje(context: ContextTypes.DEFAULT_TYPE, update: Update,
+                        resultado) -> None:
+    """Avisa a quien administra de que se ha canjeado una invitación.
+
+    PARA QUÉ (Alberto): el un-solo-uso limita el daño de un reenvío a UNA
+    persona, pero no decide QUÉ persona — quien reciba el enlace y pulse antes,
+    entra. Este aviso no lo impide; lo hace DETECTABLE en minutos, enfrentando
+    «era para X» con «lo ha canjeado Y». Con eso, la reacción (`revocar-acceso`)
+    llega el mismo día en vez de en la siguiente auditoría.
+
+    A QUIÉN: a los ids de `BOT_ALLOWLIST_BOOTSTRAP`, que es quien administra.
+    Sin ninguno configurado NO falla: deja constancia en el log y sigue — un
+    aviso no puede ser un requisito para dar de alta.
+
+    **NUNCA impide el alta ni rompe el canje**: el alta ya está confirmada en la
+    base cuando esto corre, y cada envío va en su propio `try`. Un fallo se
+    reporta por el punto ÚNICO (`_reportar_error`) con `update=None`, que es
+    deliberado: así la incidencia se clasifica y se registra, pero NO se le
+    contesta nada al DG — acaba de recibir «Invitación aceptada» y decirle que
+    algo ha fallado sería alarmarle por un problema que no es suyo ni le afecta.
+    """
+    destinos = access.ids_bootstrap()
+    if not destinos:
+        logger.warning(
+            "canje SIN aviso: BOT_ALLOWLIST_BOOTSTRAP esta vacio, asi que nadie "
+            "recibe el contraste 'era para X / lo canjeo Y'"
+        )
+        return
+    autor = getattr(update, "effective_user", None)
+    texto = access.texto_aviso_canje(
+        nota=getattr(resultado, "nota", None),
+        nombre=getattr(autor, "full_name", None) or getattr(autor, "first_name", None),
+        alias=getattr(autor, "username", None),
+        telegram_user_id=getattr(autor, "id", 0) or 0,
+    )
+    for administrador in sorted(destinos):
+        try:
+            await context.bot.send_message(chat_id=administrador, text=texto)
+        except Exception as exc:                             # noqa: BLE001
+            await _reportar_error(None, exc, etapa="aviso_canje")
+
+
+async def _canjear_invitacion(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                              user_id: int) -> bool:
+    """Canjea el enlace que trae `/start`, si lo trae. True = queda dentro.
+
+    Telegram entrega el payload de `https://t.me/<bot>?start=<token>` como
+    primer elemento de `context.args`. Se filtra la FORMA antes de preguntar a
+    la base (`/start loquesea` no debe costar un roundtrip); la VALIDEZ solo la
+    puede decidir el canje atómico.
+    """
+    args = getattr(context, "args", None) or []
+    payload = args[0] if args else None
+    if not access.es_payload_plausible(payload):
+        await update.message.reply_text(access.MENSAJE_NO_AUTORIZADO)
+        return False
+
+    resultado = await asyncio.to_thread(
+        canjear_invitacion,
+        token_hash=access.hash_token(payload),
+        telegram_user_id=user_id,
+    )
+    if resultado.estado == access.CANJE_OK:
+        # La caché guarda el NO de hace un instante (el de la comprobación de
+        # arriba): sin este adelanto, el DG recién dado de alta rebotaría contra
+        # su propia invitación hasta que caducara el negativo.
+        access.recordar_alta(user_id)
+        # Sin el `telegram_user_id` (dúo, medio 5): los logs de Railway están
+        # fuera de la matriz de retención y de cualquier supresión a petición,
+        # así que no son sitio para un identificador. Se registra el id de la
+        # INVITACIÓN, que es un uuid y no identifica a nadie por sí solo, y que
+        # además correlaciona mejor con el listado del script. Quién canjeó vive
+        # donde está gobernado: `bot_invitaciones.canjeada_por` y el aviso.
+        logger.info("puerta: invitacion %s canjeada", resultado.invitacion_id)
+        # Primero el acuse al DG y después el aviso al administrador: su alta ya
+        # está confirmada y su mensaje no debe esperar a un envío ajeno.
+        await update.message.reply_text(access.MENSAJE_INVITACION_ACEPTADA)
+        await _avisar_canje(context, update, resultado)
+        return True
+    if resultado.estado == access.CANJE_INDETERMINADO:
+        # Mensaje que es VERDAD en los dos casos posibles (dúo, medio 4): el
+        # canje pudo confirmarse y perderse la respuesta, y entonces el enlace
+        # ya no vale por mucho que reintente. `logging_db` intenta liberarlo;
+        # este texto no promete que lo haya conseguido.
+        await update.message.reply_text(access.MENSAJE_CANJE_INCIERTO)
+        return False
+    await update.message.reply_text(access.MENSAJE_INVITACION_NO_VALIDA)
+    return False
+
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /start — show terms if no consent yet, otherwise welcome."""
+    """Handle /start — canje de invitación, luego términos o bienvenida.
+
+    Este handler está EXENTO de la puerta global (ver `COMANDOS_SIN_PUERTA`) y
+    por eso comprueba el acceso él mismo. Nota deliberada: si quien pulsa el
+    enlace YA está autorizado, el token NO se canjea — se le da la bienvenida y
+    la invitación sigue viva para la persona a la que iba dirigida.
+    """
     user_id = update.effective_user.id if update.effective_user else 0
+    if access.acceso_activo():
+        veredicto = await asyncio.to_thread(
+            access.decidir, user_id, allowlist_estado
+        )
+        if not veredicto.permitido:
+            if veredicto.motivo == "indeterminado":
+                # No se intenta canjear con la base caída: se gastaría el enlace
+                # sin poder confirmar el alta.
+                await update.message.reply_text(access.MENSAJE_INDETERMINADO)
+                return
+            if not await _canjear_invitacion(update, context, user_id):
+                return
+
     if has_consent(user_id):
         await update.message.reply_text(_welcome_text(), parse_mode="Markdown")
     else:
@@ -1125,7 +1413,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # declara y se ejecuta la ruta. La politica de log de cada ruta es un CAMPO del
     # plan (la promesa del aviso v7 --cortesia sin log-- pasa de estar implicita en
     # el orden de los ifs a ser dato verificable).
-    meta = Meta(es_reply=update.message.reply_to_message is not None)
+    # (s324e — DEC-224 §B / DEC-226 opción (a)) El LEVER entra al plan como DATO:
+    # `plan_turn` sigue pura y no lee entorno.
+    meta = Meta(es_reply=update.message.reply_to_message is not None,
+                mismatch_answer=mismatch_answer_activo())
     estado_modelos = _estado_modelos_conversacion(context.user_data)
     plan = plan_turn(query, estado_modelos, meta,
                      _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
@@ -1254,7 +1545,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         return
     # conversacional (default del plan y de los fallbacks)
     await update.message.chat.send_action("typing")
-    await _process_query(update, context, query)
+    await _process_query(update, context, query, preambulo=plan.preambulo)
 
 
 async def _handle_catalog(update: Update):
@@ -1355,8 +1646,13 @@ async def _process_query(
     query: str,
     source: str = "text",
     transcription: str | None = None,
+    preambulo: Preambulo | None = None,
 ):
-    """Core RAG pipeline — shared between text and voice handlers."""
+    """Core RAG pipeline — shared between text and voice handlers.
+
+    (s324e) `preambulo` = la corrección que el PLAN decidió anteponer (DEC-224 §B).
+    Default None ⇒ voz y el resto de callers, byte-idénticos. La voz NO pasa por
+    `plan_turn` y por eso nunca lo trae: declarado, no olvidado."""
     import time as _time
     start_time = _time.time()
 
@@ -1488,12 +1784,16 @@ async def _process_query(
             # Flag default OFF = seam None = byte-idéntico. Con ON, la resolución
             # entera se mueve a to_thread: el resolve corre en el event loop y una
             # llamada síncrona de segundos lo bloquearía TODO (Sol r10 M2).
+            # (s324e) El modelo lo resolvió el PLAN; sin pasarlo, F1 re-detecta y el
+            # modelo servido podría no ser el del preámbulo.
+            _modelo_plan = preambulo.modelo if preambulo is not None else None
             _intent_fn = _intent_seam(intent_obs)
             if _intent_fn is not None:
                 f1_resolution, f1_new_state = await asyncio.to_thread(
                     resolve_conversational_turn,
                     query, f1_prev_state, f1_now,
                     rewrite=_lazy_rewrite, intent=_intent_fn,
+                    resolved_model=_modelo_plan,
                 )
                 if intent_obs.get("status") == "invoked":
                     # decisión → log operacional; la traza PERSISTIDA es la
@@ -1502,7 +1802,8 @@ async def _process_query(
                                 intent_obs["decision"], intent_obs["latency_ms"])
             else:
                 f1_resolution, f1_new_state = resolve_conversational_turn(
-                    query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
+                    query, f1_prev_state, f1_now, rewrite=_lazy_rewrite,
+                    resolved_model=_modelo_plan,
                 )
 
             if f1_resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
@@ -1604,6 +1905,13 @@ async def _process_query(
             logger.error("generator returned an empty answer")
             answer = _EMPTY_ANSWER_FALLBACK
 
+        # (s324e — DEC-224 §B) Corrección y respuesta son UNA sola respuesta: se componen
+        # AQUÍ para que `query_logs.response` y `last_response` guarden exactamente lo que
+        # vio el técnico (y el 👎 posterior, anclado a esa fila, lo conserve). Después del
+        # fallback: una respuesta vacía sigue llevando su corrección.
+        if preambulo is not None:
+            answer = f"{_turn_plan.texto_preambulo(preambulo)}\n\n{answer}"
+
         # Store last query/response for feedback tracking + conversation context
         # Telemetria de feedback (cluster DECLARADO fuera del invariante de estado:
         # ancla el 👎 a la ultima respuesta; dueno = _process_query).
@@ -1672,6 +1980,11 @@ async def _process_query(
                 retrieval_health=retrieval_health,
                 stage_timings=stage_timings,
                 intent_obs=intent_obs,
+                mismatch_obs=(
+                    {"modelo": preambulo.modelo,
+                     "marca_real": preambulo.marca_real,
+                     "marca_mencionada": preambulo.marca_mencionada}
+                    if preambulo is not None else None),
             )
         except Exception as exc:
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)
@@ -2242,10 +2555,27 @@ def run_bot():
     from src.rag import catalog_resolver as _resolver
     _resolver.mode()
 
+    # s324e (dúo, crítico 1) — mismo fail-fast que el flag de identidad, y por
+    # el mismo motivo: una errata en Railway (`BOT_ALLOWLIST=onn`, un id de
+    # bootstrap con un carácter de más) debe tumbar el deploy VISIBLE, no
+    # descubrirse porque un DG no puede entrar. La puerta, además, ya no se
+    # apaga con un valor que no se entienda — solo con un «off» reconocible.
+    access.validar_configuracion()
+
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     # (fase B) La guardia de grupo -1 se retiro: la invalidacion de #70 vive en el
     # plan de turno (handle_message/handle_voice), no en un TypeHandler previo.
+
+    # s324e — LA PUERTA, en el grupo -1: PTB evalúa los grupos de menor a mayor
+    # (`add_handler` los mantiene ordenados) y un `ApplicationHandlerStop` desde
+    # aquí detiene el update para todos los demás. Se registra ANTES que nada
+    # para que leer esta función deje claro qué es lo primero que corre; el
+    # orden efectivo lo fija el número de grupo, no la línea. Inerte con
+    # `BOT_ALLOWLIST=off` (default), que es la conducta de hoy.
+    # NINGÚN otro handler puede ir en un grupo < -1: eso lo pondría por delante
+    # de la puerta. Lo vigila `test_s324e_allowlist.py::test_la_puerta_va_primero`.
+    app.add_handler(TypeHandler(Update, access_gate), group=-1)
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("accept", accept_command))
@@ -2266,6 +2596,19 @@ def run_bot():
     # (BOT_ERROR_REPLY, default on) y el registro (BOT_ERROR_LOGGING, default
     # off)— porque cada uno tiene su propio riesgo y su propio kill-switch.
     app.add_error_handler(error_handler)
+
+    # Estado de la puerta, VISIBLE en el arranque: si el piloto corre abierto
+    # tiene que constar en los logs de Railway, no descubrirse preguntando.
+    if access.acceso_activo():
+        logger.info(
+            "puerta de acceso ACTIVA: allowlist + invitacion (bootstrap=%d ids, "
+            "tope diario=%d)", len(access.ids_bootstrap()), access.limite_diario(),
+        )
+    else:
+        logger.warning(
+            "puerta de acceso APAGADA (BOT_ALLOWLIST=off): cualquiera que acepte "
+            "los terminos puede usar el bot"
+        )
 
     logger.info("Bot started. Listening for text and voice messages...")
     # s307: calienta la caché de fabricantes ANTES del polling — el primer saludo

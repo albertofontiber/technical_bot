@@ -43,6 +43,33 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
+    # s324e — control de acceso al piloto. Las TRES nacen en `bot/access.py`.
+    # `BOT_ALLOWLIST` es el interruptor maestro de la puerta y nace OFF porque
+    # `main` auto-despliega mientras las migraciones las aplica Alberto a mano:
+    # encendida por defecto, el commit que la trae cerraria el bot antes de que
+    # exista la tabla. Es ademas el kill-switch (vuelta al bot de hoy, sin deploy).
+    "BOT_ALLOWLIST": {
+        "default_fuente": '"off"',
+        "via": ['getenv'],
+        "lectores": ('src/bot/access.py',),
+    },
+    # Ids SIEMPRE autorizados, sin pasar por base ni cache. Es la respuesta
+    # explicita y auditable a «Alberto no puede quedarse fuera al desplegar», en
+    # lugar de un `if user_id == …` en el codigo. NO es sensible: un id de
+    # Telegram no es una credencial (no abre nada por si mismo) y verlo en un
+    # snapshot es justamente lo que permite auditar quien tiene el atajo.
+    "BOT_ALLOWLIST_BOOTSTRAP": {
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/bot/access.py',),
+    },
+    # Tope de mensajes por persona y dia (0 = sin tope). Barrera de GASTO del
+    # piloto; el contador vive en memoria y un redeploy lo reinicia (declarado).
+    "BOT_DAILY_LIMIT": {
+        "default_fuente": '"30"',
+        "via": ['getenv'],
+        "lectores": ('src/bot/access.py',),
+    },
     "BOT_ERROR_LOGGING": {
         "default_fuente": '"off"',
         "via": ['getenv'],
@@ -303,6 +330,18 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/config.py',),
     },
+    # s324e — lever de la conducta (a) ante marca<->producto erronea (DEC-224 §B,
+    # alcance (a) de DEC-226): con ON, un turno con UNA marca y UN modelo que no
+    # casan se corrige Y se responde en el mismo turno; con OFF (default) el bot
+    # hace lo de hoy, byte a byte. Nace OFF porque `main` auto-despliega y esta es
+    # conducta SERVIDA: el flip lo decide Alberto tras el smoke. Lo LEE el accessor
+    # de este mismo modulo (`mismatch_answer_activo`) y entra al planificador como
+    # dato (`Meta.mismatch_answer`) — `plan_turn` es PURA y no lee entorno.
+    "MISMATCH_ANSWER": {
+        "default_fuente": '"off"',
+        "via": ['getenv'],
+        "lectores": ('src/flags.py',),
+    },
     "MP_DEFLINE_EQ": {
         "default_fuente": '"off"',
         "via": ['mp_flag'],
@@ -543,6 +582,25 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/rag/generator.py',),
     },
 }
+
+
+def mismatch_answer_activo() -> bool:
+    """Lever MISMATCH_ANSWER (s324e), leido en RUNTIME (un flip en Railway togglea
+    sin restart, como CONVERSATION_POLICY).
+
+    Vive AQUI y no en el transporte a proposito: `plan_turn` es una funcion PURA
+    (el flag entra por `Meta`), la voz entrara por otra puerta, y una lectura de
+    entorno por call-site es justo la deriva que el registro L2b existe para
+    evitar. Parser ESTRICTO (precedente r19/Sol M1 en `conversation_policy_active`
+    y `_strict_on_off`): un typo en Railway no puede dejar el lever a medias EN
+    SILENCIO — revienta RUIDOSO. El default "off" hace que la ausencia de la
+    variable sea la conducta de hoy."""
+    raw = os.getenv("MISMATCH_ANSWER", "off").strip().lower()
+    if raw == "on":
+        return True
+    if raw == "off":
+        return False
+    raise RuntimeError(f"MISMATCH_ANSWER={raw!r} no reconocido (on|off) — fail-fast")
 
 
 def snapshot() -> dict[str, str]:
