@@ -70,7 +70,7 @@ def _item_text(it: dict) -> str:
     # markdown DEGENERADO (34 chars frente a 3.708 en TI-007) y el outline que lee el selector LLM
     # se queda ciego justo en los documentos que la guarda de ingesta rescata. `value` sigue como
     # último recurso (items que no son de página).
-    from src.reingest.page_content import page_content
+    from src.ingestion.page_content import page_content
     return page_content(it) or it.get("value") or ""
 
 

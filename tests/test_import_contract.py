@@ -405,7 +405,15 @@ def test_cifras_de_control():
     # coherencia corpus↔catálogo (#80/#81). Vive en src/ y no en scripts/ porque
     # la INGESTA lo ejecuta en cada corrida: es lógica de producción. El primer
     # cableado lo puso en scripts/ y ESTE MISMO contrato lo cazó.
-    assert len(MODULOS) == 122, (
+    # 122→123 (s324d/#87): + ingestion/page_content.py — la guarda de MARKDOWN
+    # DEGENERADO (LlamaParse devolvió md=34 chars y text=3.708 en el mismo JSON y
+    # el `md or text` dejó un documento en 47 chars). Es lógica de PRODUCCIÓN: la
+    # ejecuta la ingesta (reingest/pipeline.py) en cada corrida y el serving
+    # (rag/deep_lookup.py) al leer el store. Vive en `ingestion` y no en
+    # `reingest` porque ESTE MISMO contrato lo cazó: `rag → reingest` está
+    # prohibido y `ingestion` es el único paquete que ambos pueden importar
+    # (mismo motivo por el que embed.py vive ahí).
+    assert len(MODULOS) == 123, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

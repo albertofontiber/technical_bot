@@ -106,3 +106,18 @@ durante un dúo emparejado» — es «que nadie escriba en el árbol», agentes 
 **store real de 966 JSON antes de mergear**. Ese store no está en este checkout **ni en el OneDrive de esta máquina**
 (busqué; sólo hay 2 JSON locales). Queda como condición pendiente en TECH_DEBT #87: con el store delante son minutos
 y $0. Mientras tanto, la guarda es conservadora (tres condiciones AND) y falla hacia el comportamiento actual.
+
+---
+
+## ADENDA 2 — dos guardarraíles del repo me pararon (y los dos tenían razón)
+
+1. **Freeze-contract s130/s132**: mi primer cableado tocaba `src/reingest/chunk.py`, pineado por sha en CI. Rojo
+   inmediato ⇒ la guarda se movió al ORQUESTADOR (mejor diseño: un solo punto de saneamiento).
+2. **Contrato de imports** (`tests/test_import_contract.py`): al aplicar el hallazgo de Fable (cuarto consumidor,
+   `rag/deep_lookup`) crucé la frontera **`rag → reingest`, que está PROHIBIDA**, y además subí el censo de módulos
+   de `src/` sin declararlo. Los dos tests se pusieron rojos. Resolución correcta según la propia matriz: el módulo
+   compartido vive en **`src/ingestion/page_content.py`** — `ingestion` es el único paquete que `rag`
+   (`{raiz, ingestion, rag}`) y `reingest` (`{raiz, ingestion, reingest}`) pueden importar; mismo precedente que
+   `embed.py`. Censo de módulos 122 → **123**, explicado en el propio test.
+
+Ninguna de las dos cosas la habría visto sin los guardarraíles: son el control funcionando, no un obstáculo.

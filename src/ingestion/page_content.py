@@ -21,6 +21,13 @@ INEQUÍVOCA: relativamente diminuto (`< RATIO_DEGENERADO`) **y** con una pérdid
 hace improbable el falso positivo: un markdown legítimamente más corto que el texto plano (el agente
 limpia cabeceras/pies repetidos) pierde decenas de chars, no miles.
 
+**Por qué este módulo vive en `src/ingestion/` y no en `src/reingest/`.** Lo decidió el contrato de imports
+(`tests/test_import_contract.py`): lo consumen la ingesta (`reingest.pipeline`) **y** el serving
+(`rag.deep_lookup`), y la matriz de paquetes prohíbe `rag → reingest`; `ingestion` es el único paquete que ambos
+pueden importar (`rag: {raiz, ingestion, rag}` · `reingest: {raiz, ingestion, reingest}`). Lo puse primero en
+`reingest/` y el test se puso rojo — con razón: es el mismo control que impidió meter una frontera nueva a
+escondidas. Precedente idéntico: `embed.py` vive en `ingestion` por esta misma razón.
+
 **Dónde vive la guarda y por qué.** El saneamiento se aplica UNA vez en el orquestador
 (`pipeline.process_file`, sobre el `record` completo) y no dentro de los tres consumidores, por dos
 razones: (1) `src/reingest/chunk.py` está PINEADO POR SHA en un freeze-contract activo de CI

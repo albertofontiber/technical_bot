@@ -47,7 +47,7 @@ from .contextualize import contextualize_document, full_document_text
 from .embed import embed_chunks
 from .dedup import mark_duplicates
 from .index import index_chunks, resolver_documento
-from .page_content import sanear_record
+from ..ingestion.page_content import sanear_record
 from ..ingestion.supabase_client import SupabaseHTTP
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")

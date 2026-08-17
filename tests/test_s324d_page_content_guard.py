@@ -30,7 +30,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from src.reingest.page_content import (  # noqa: E402
+from src.ingestion.page_content import (  # noqa: E402
     auditar_paginas,
     md_tiene_estructura,
     motivo_degeneracion,
