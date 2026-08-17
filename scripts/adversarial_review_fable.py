@@ -458,6 +458,52 @@ def run_review(
     )
 
 
+# (s324d / TECH_DEBT #86) Auditoría de tools REALES. En r32 (16-ago) Fable imprimió un «log» verosímil de
+# read_file/grep_repo/list_dir sobre ficheros inexistentes: el responses JSON tenía 0 bloques `tool_use`.
+# El recibo ya llevaba `tool_calls=0`, pero nadie lo mira si el .md parece una lectura real. La auditoría
+# NO toca el .md (su sha debe seguir siendo byte-idéntico al texto final del proveedor: contrato del
+# validador): estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado` en el recibo, sufija el nombre
+# del fichero con `_SIN-TOOLS`, deja una nota lateral y avisa por stderr.
+_TOOL_LOG_RX = None
+
+
+def _tool_log_regex():
+    global _TOOL_LOG_RX
+    if _TOOL_LOG_RX is None:
+        import re
+        _TOOL_LOG_RX = re.compile(
+            r"(?:\b(?:read_file|grep_repo|list_dir)\s*\(|\[fable tool \d+\]|"
+            r"^\s*(?:>>>|→|->)?\s*(?:read_file|grep_repo|list_dir)\b)",
+            re.M,
+        )
+    return _TOOL_LOG_RX
+
+
+def tools_audit(review_text: str, executed_tool_calls: int, use_tools: bool) -> dict[str, Any]:
+    """`tools_reales` = tool_use ejecutados de verdad (contador del loop, verificado contra el trace por
+    `_validate_completion_receipt`); `sin_tools` = modo tools activo y 0 reales; `log_de_tools_fabricado`
+    = el TEXTO de la revisión aparenta un log de tools sin que haya habido ninguna (la firma de r32)."""
+    fabricado = bool(use_tools and executed_tool_calls == 0 and _tool_log_regex().search(review_text or ""))
+    return {
+        "tools_reales": int(executed_tool_calls),
+        "sin_tools": bool(use_tools and executed_tool_calls == 0),
+        "log_de_tools_fabricado": fabricado,
+    }
+
+
+def sin_tools_note(audit: dict[str, Any], review_path: str) -> str | None:
+    if not audit.get("sin_tools"):
+        return None
+    return (
+        "SIN_TOOLS — esta revisión Fable corrió con el modo tools ACTIVO y ejecutó 0 tool_use reales "
+        f"(tools_reales=0; el responses JSON no contiene bloques tool_use). Fichero: {review_path}. "
+        + ("Además el TEXTO aparenta un log de read_file/grep_repo/list_dir: es una TRANSCRIPCIÓN FABRICADA "
+           "(TECH_DEBT #86, r32). " if audit.get("log_de_tools_fabricado") else "")
+        + "Trátala como revisión A CIEGAS (solo ficheros semilla): verifica cada claim contra el repo antes "
+        "de contarla, y considera relanzarla (agente fresco)."
+    )
+
+
 def _verified_artifact(relative: str, expected_sha256: str) -> bytes:
     path = (ROOT / relative).resolve()
     try:
@@ -1020,12 +1066,19 @@ def main() -> int:
     logical_sha = hashlib.sha256(review.encode("utf-8")).hexdigest()
     output_dir = ROOT / "evals" / "adversarial_reviews"
     output_dir.mkdir(parents=True, exist_ok=True)
+    audit = tools_audit(review, n_calls, use_tools)
+    sufijo = "_SIN-TOOLS" if audit["sin_tools"] else ""
     output_path = output_dir / (
-        f"{timestamp.replace(':', '-')}_{MODEL}_{logical_sha[:12]}.md"
+        f"{timestamp.replace(':', '-')}_{MODEL}_{logical_sha[:12]}{sufijo}.md"
     )
     output_path.write_bytes(review.encode("utf-8"))
     physical_sha = hashlib.sha256(output_path.read_bytes()).hexdigest()
     raw_path, raw_sha = _persist_provider_trace(provider_trace, timestamp, "responses")
+    nota = sin_tools_note(audit, output_path.relative_to(ROOT).as_posix())
+    if nota:
+        # nota lateral (NO dentro del .md: su sha debe seguir siendo el del texto final del proveedor)
+        output_path.with_suffix(".SIN_TOOLS.txt").write_text(nota + "\n", encoding="utf-8")
+        print(f"[fable] AVISO {nota}", file=sys.stderr)
     receipt = {
         "model": MODEL,
         "display_name": "Fable 5",
@@ -1051,6 +1104,9 @@ def main() -> int:
         "tokens": usage["total_tokens"],
         "elapsed_s": elapsed,
         "tool_calls": n_calls,
+        "tools_reales": audit["tools_reales"],
+        "sin_tools": audit["sin_tools"],
+        "log_de_tools_fabricado": audit["log_de_tools_fabricado"],
         "files_read": files_read,
         "tool_trace": tool_trace,
         "tools": use_tools,
@@ -1080,7 +1136,8 @@ def main() -> int:
         )
         return 1
 
-    print(f"--- {MODEL} (revisor frontera independiente; {n_calls} tool-calls) ---")
+    print(f"--- {MODEL} (revisor frontera independiente; {n_calls} tool-calls reales"
+          f"{'; SIN_TOOLS' if audit['sin_tools'] else ''}) ---")
     print(review)
     if standalone:
         print("\n[fable] recibo standalone registrado; pendiente adjudicación Rule C")

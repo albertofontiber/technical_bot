@@ -3157,7 +3157,11 @@ variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
 `tests/test_s321_reachability_delivery_proof.py`.
 ## #86 — El revisor Fable 5 puede FABRICAR la transcripción de tools (0 `tool_use` reales) y el emparejamiento con Sol se rompe si HEAD se mueve durante el run — s324
 
-**Estado: OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
+**Estado: (1) RESUELTO en s324d (17-ago)** — el runner estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado`
+en el recibo, sufija el `.md` con `_SIN-TOOLS`, deja nota lateral y avisa por stderr (sin tocar el `.md`:
+contrato de sha del validador); tests `tests/test_s324d_fable_tools_audit.py`; spec en
+`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado)
+y **(3)** regla C (abrir el responses JSON) — quedan como disciplina, no como código. **Origen — OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
 imprime un log de `grep_repo`/`read_file`/`list_dir` con respuestas verosímiles… de ficheros que NO
 existen (`scripts/catalog_store.py`, `scripts/s324_radio_explosion.py`, `products.jsonl:509` con
 `candidate:true` falso). El `responses` JSON registra **0 bloques `tool_use`**: el modelo escribió el
