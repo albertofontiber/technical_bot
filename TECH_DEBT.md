@@ -3198,7 +3198,18 @@ ambas capas (el de s324 ya lo hace).
 
 ## #89 — La sonda de alcanzabilidad (`s293_reachability_probe.py`) tiene 5 defectos de instrumento vistos al correr las 8 sondas de etapa 3 — s324b
 
-**Estado: OBSERVADO (agente de medición, 16-ago; recibos `evals/s293_reachability_*` y agregado `evals/s321_poblacion_etapa3_v1.md` §5).** El instrumento NO se tocó (regla del encargo).
+**Estado: RESUELTO en s324d (17-ago) con dúo r34 (Sol 7/7 confirmados + Fable 1/1; todos aplicados)** —
+`evals/s324d_sonda_endurecida_propuesta_v1.md` (+ADENDA), lógica pura en `scripts/reachability_verdict.py`
+(`elegir_span`/`span_cubre` con frontera de palabra y predicado, `carriers_ya_servidos`, `elegir_receipt`,
+`veredicto_recibo`), `scripts/usage_meter.py`, 15 tests nuevos; smoke real 4 reps ($1,2). Además del dúo: `n_fail`
+del juez ya no cuenta como «no» (`INCONCLUYENTE_JUEZ_INCOMPLETO`), el oráculo de `serve` es PAREADO por defecto
+(misma vista; `--oracle-fresco` restaura), y un recibo PARCIAL nunca lleva un veredicto literal completo.
+**Residuo declarado**: el nombre del recibo sigue sobrescribiéndose por (qid, fact) — re-medir pisa el anterior
+(git conserva); `span_cubre` es heurístico (tokens con frontera + ≥2 de predicado), no sustituye la atestación
+humana de cobertura; `elegir_receipt` ordena por la fecha del nombre. **Lectura colateral**: el ALCANZABLE de
+s324b para `hp017#1` en `serve` venía con el carrier DUPLICADO a similarity máxima; sin duplicar (pareado) 1 rep da
+0/5 — coherente con la prueba offline D1 (el bullet está fuera de las cards): no cambia DEC-175 (1 rep no es medida).
+**Origen — OBSERVADO (agente de medición, 16-ago; recibos `evals/s293_reachability_*` y agregado `evals/s321_poblacion_etapa3_v1.md` §5).** El instrumento NO se tocó (regla del encargo).
 1. `RECEIPT` apunta al FULL del **1-ago** (`probe.py:55` → `s100_factlevel_full_v32_full_20260801.yaml`): pregunta/valor/texto/pool_ids salen de ahí, no del FULL vigente. Sin efecto en los 8 (idénticos), pero un gold editado se mediría con el texto viejo.
 2. `appendix` elige la PRIMERA línea que casa el regex (split en `.;:`, len>25) **sin guard de cobertura**: eligió spans que no cubren el hecho (cat016#1, hp015#0 run1) y solo la atestación humana lo detectó; parte «etiqueta: definición» y descarta etiquetas ≤25 chars (hp017#1 → «no construible» con carrier servido); un span de una frase no cubre hechos de dos frases (cat016#1, hp009#0) ⇒ en `appendix` un NO no es atestable para ellos.
 3. Un `SystemExit` en una rep tardía **tira las reps ya juzgadas sin escribir recibo** (hp009#0 appendix: 2 reps 0→0, ~20 llamadas al juez perdidas salvo log); «construible» es por-rep (retrieval no determinista).

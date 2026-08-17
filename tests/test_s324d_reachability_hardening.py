@@ -125,3 +125,44 @@ def test_usage_meter_agrega_por_modelo_y_fase_sin_instalar_sdk():
     assert s["n_calls"] == 3
     assert {(a["model"], a["phase"], a["calls"]) for a in s["by_model_phase"]} == {("gpt-5.5", "judge", 2), ("claude-sonnet-4-6", "turn", 1)}
     assert m.summary(since=2)["n_calls"] == 1
+
+
+# ── dúo r34 (Sol): frontera de palabra, predicado, juez incompleto, recibo parcial ────────────
+def test_frontera_de_palabra_no_acredita_32_dentro_de_132():
+    assert RV.span_cubre("El lazo admite 132 equipos", "32")["ok"] is False
+    assert RV.span_cubre("máximo 32 equipos entre aisladores", "32")["ok"] is True
+
+
+def test_predicado_exige_que_el_span_diga_de_que_es_el_valor():
+    texto = "EN54-2 exige como maximo 32 equipos entre aisladores"
+    assert RV.span_cubre("valor 32", "32", texto)["ok"] is False          # número suelto: sin predicado
+    r = RV.span_cubre("máximo 32 equipos entre aisladores", "32", texto)
+    assert r["ok"] is True and r["predicado_exigido"] is True and len(r["predicado_presentes"]) >= 2
+    r2 = RV.span_cubre("32 equipos", "32", "Son 32 equipos")              # texto corto: se exige lo que hay
+    assert r2["ok"] is True and r2["predicado_requeridos"] == 1
+
+
+def test_juez_incompleto_no_sostiene_un_negativo():
+    reps = [{"rep": 0, "base_yes": 0, "oracle_yes": 0, "oracle_n_fail": 5, "prueba_entrega": {"ok": True}}]
+    assert RV.veredicto_de(reps, 4, cobertura_ok=True)["veredicto"] == "INCONCLUYENTE_JUEZ_INCOMPLETO"
+    reps = [{"rep": 0, "base_yes": 0, "oracle_yes": 4, "oracle_n_fail": 1, "prueba_entrega": {"ok": True}}]
+    assert RV.veredicto_de(reps, 4)["veredicto"] == "ALCANZABLE"          # los «sí» son votos reales
+    reps = [{"rep": 0, "base_yes": 0, "oracle_yes": 0, "oracle_n_fail": 0, "prueba_entrega": {"ok": True}}]
+    assert RV.veredicto_de(reps, 4, cobertura_ok=True)["veredicto"] == "NO_ALCANZABLE"
+
+
+def test_recibo_parcial_nunca_lleva_no_ni_alcanzable_a_secas():
+    reps = [{"rep": 0, "base_yes": 0, "oracle_yes": 0, "oracle_n_fail": 0, "prueba_entrega": {"ok": True}}]
+    v = RV.veredicto_recibo(reps, 4, True, "PARCIAL", 3)
+    assert v["veredicto"] == "PARCIAL_INCONCLUYENTE_SIN_REPS_COMPLETAS" and v["veredicto_reps_juzgadas"] == "NO_ALCANZABLE"
+    reps = [{"rep": 0, "base_yes": 0, "oracle_yes": 5, "prueba_entrega": {"ok": True}}]
+    assert RV.veredicto_recibo(reps, 4, True, "PARCIAL", 3)["veredicto"] == "PARCIAL_ALCANZABLE"
+    assert RV.veredicto_recibo(reps, 4, True, "COMPLETO", 1)["veredicto"] == "ALCANZABLE"
+    assert RV.veredicto_recibo([], 4, True, "PARCIAL", 3)["veredicto"] == "PARCIAL_INCONCLUYENTE_SIN_REPS"
+
+
+def test_usage_meter_declara_si_no_hay_medicion():
+    m = UM.UsageMeter()
+    assert m.disponible() is False
+    m.proveedores_instalados.append("openai")
+    assert m.disponible() is True

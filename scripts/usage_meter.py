@@ -29,6 +29,13 @@ class UsageMeter:
         self.phase = "init"
         self.rows: list[dict] = []
         self._installed = False
+        self.proveedores_instalados: list[str] = []
+        self.errores_instalacion: list[str] = []
+
+    def disponible(self) -> bool:
+        """(Sol r34) «coste medido» solo si al menos un SDK quedó envuelto; si no, el recibo debe decir
+        NO MEDIDO en vez de $0."""
+        return bool(self.proveedores_instalados)
 
     def install(self) -> None:
         if self._installed:
@@ -48,8 +55,9 @@ class UsageMeter:
                            getattr(u, "cache_creation_input_tokens", 0) or 0, time.time() - t0)
                 return resp
             am.Messages.create = a_create
-        except Exception:      # SDK ausente: se mide lo que haya
-            pass
+            self.proveedores_instalados.append("anthropic")
+        except Exception as exc:      # SDK ausente: se mide lo que haya, y se DECLARA
+            self.errores_instalacion.append(f"anthropic: {type(exc).__name__}")
         try:
             import openai.resources.chat.completions as oc
             orig_o = oc.Completions.create
@@ -63,8 +71,9 @@ class UsageMeter:
                            0, 0, time.time() - t0)
                 return resp
             oc.Completions.create = o_create
-        except Exception:
-            pass
+            self.proveedores_instalados.append("openai")
+        except Exception as exc:
+            self.errores_instalacion.append(f"openai: {type(exc).__name__}")
         self._installed = True
 
     def _add(self, provider, model, tin, tout, cache_read, cache_write, secs) -> None:

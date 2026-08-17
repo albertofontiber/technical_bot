@@ -4,7 +4,7 @@
 2 reps ($0,60). Es INSTRUMENTO (scripts/), no serving: producción no cambia.** Ficheros:
 `scripts/s293_reachability_probe.py` (probe), `scripts/reachability_verdict.py` (lógica pura nueva: `elegir_span`,
 `span_cubre`, `carriers_ya_servidos`, `elegir_receipt`), `scripts/usage_meter.py` (nuevo, observación pura),
-`tests/test_s324d_reachability_hardening.py` (11 tests) + los 12 previos de `test_s321_reachability_delivery_proof.py`.
+`tests/test_s324d_reachability_hardening.py` (15 tests tras el dúo) + los 10 previos de `test_s321_reachability_delivery_proof.py`.
 
 ## Los 5 defectos (agente de medición, 16-ago; `evals/s321_poblacion_etapa3_v1.md` §5) y el cambio
 
@@ -56,3 +56,19 @@ Atacar: (a) que el guard de cobertura no pueda producir un NEGATIVO falso ni ocu
 seguir duplicando para medir «prominencia» a propósito? — declaro que NO: medir prominencia por duplicado era el
 defecto); (c) que el recibo parcial no pueda pasar por completo; (d) el default del receipt (¿fecha del nombre es
 un criterio robusto?); (e) cualquier claim de este doc que el código no sostenga.
+
+---
+
+## ADENDA — dúo r34 (17-ago): Sol GPT-5.6 xhigh 7 hallazgos + Fable 5 emparejado (11 `tool_use` reales) 1 hallazgo — TODOS verificados y APLICADOS antes de mergear
+| # | Hallazgo (Sol) | Verificación | Cambio |
+|---|---|---|---|
+| 1 | crítico — `judge_conveyed21` devuelve `n_fail` y la sonda lo descartaba: 5 votos caídos = `oracle_yes=0` ⇒ podía emitir `NO_ALCANZABLE` | cierto (código pre-existente) | cada rep guarda `base_n_fail`/`oracle_n_fail`; una rep NO firme con votos caídos no sostiene un negativo → `INCONCLUYENTE_JUEZ_INCOMPLETO`. **El propio smoke lo validó**: mi primer oráculo pareado pasaba el dict del generador al juez (5 fallos) y el veredicto salió `JUEZ_INCOMPLETO`, no un NO falso; el bug (`generation["answer"]`) se arregló |
+| 2 | crítico — un recibo PARCIAL conservaba `ALCANZABLE`/`NO_ALCANZABLE` literal (Fable: el mismo, medio) | cierto | `veredicto_recibo()` (puro, testeado): en PARCIAL el veredicto es `PARCIAL_<…>` y un negativo NO es emitible (`PARCIAL_INCONCLUYENTE_SIN_REPS_COMPLETAS`); `veredicto_reps_juzgadas` conserva el literal informativo |
+| 3 | crítico — `span_cubre` acreditaba subcadenas (`32` dentro de `132`) y solo el valor, no el predicado | cierto | frontera de palabra + `texto` (enunciado del hecho): ≥2 tokens de contenido del predicado deben estar en el span (o todos si hay menos); detalle en `span_cobertura` del recibo |
+| 4 | medio — base y oráculo eran turnos independientes: «prominencia» mezclada con churn de retrieval/rerank | cierto (el smoke lo mostraba) | oráculo **PAREADO por defecto** en `serve` (misma vista que recibió el generador en la base + inyección, `gen_answer_only` de s289); `--oracle-fresco` restaura el comportamiento anterior; el recibo estampa `oracle_pareado` |
+| 5 | medio — `usage_meter.install()` silenciaba fallos y podía reportar $0 como coste | cierto | `proveedores_instalados`/`errores_instalacion`/`disponible()`; el recibo lleva `medicion_disponible` y `n_llamadas_medidas`; stdout dice «coste NO MEDIDO» cuando no hay medida |
+| 6 | medio — «freeze-contract completo» en la etiqueta del recibo contradecía el sello PARCIAL | cierto | etiqueta «sello de freeze PARCIAL» |
+| 7 | menor — recuento de tests (11+12) no cuadraba; el recibo parcial no se probaba | cierto | 15 + 10 (arriba); `veredicto_recibo` es puro y tiene test |
+
+Re-smoke tras la adenda ($0,56): `appendix` hp017#1 → 0/5 → **5/5 ALCANZABLE** (cobertura con predicado: regla/condición/alarma/equipo); `serve` pareado sobre carrier ya servido → 0/5 → 0/5, misma vista en base y oráculo, prominencia declarada, `INCONCLUYENTE_SIN_COBERTURA_ATESTADA` (no se atestó cobertura: correcto). Recibos `evals/s324d_reachability_smoke_hp017_1_{appendix,serve}.json`. Tally: `evals/adversarial_review_log.jsonl` ts=2026-08-17T10:39:29 (Sol 7/7 confirmados, 0 FP; Fable 1/1).
+
