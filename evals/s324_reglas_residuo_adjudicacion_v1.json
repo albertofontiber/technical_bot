@@ -6,22 +6,70 @@
   "R1": {
    "enunciado": "«serie × categoría» se aplica también al residuo de doc_map: manuales/FAQ que nombran una FAMILIA (ZX, DX/Dimension, 2X-A, INSPIRE…) y no un modelo atestan a los productos de esa serie Y esa categoría (centrales de la serie X, no «la serie X»).",
    "alberto": "OK",
-   "filas_que_desbloquea": ["996-130-000-3 manuel d'utilisation zx_hlsi", "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx", "miemu520p (Dimension, si R2 permite los candidates dx1e/dx2e/dx4e)", "mi_kidde_2x_at_f2_fb_07d4 (familia 2X-A, adjudicada 437ee3f)", "mu_kidde_2x_at_fr_fb_s_6c31 (familia 2X-A)", "asd harsh environments_sp (familia FAAST — el doc no nombra NINGÚN modelo, solo «FAAST» ×5 chunks; entra por paraguas)"]
+   "filas_que_desbloquea": [
+    "996-130-000-3 manuel d'utilisation zx_hlsi",
+    "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx",
+    "miemu520p (Dimension, si R2 permite los candidates dx1e/dx2e/dx4e)",
+    "mi_kidde_2x_at_f2_fb_07d4 (familia 2X-A, adjudicada 437ee3f)",
+    "mu_kidde_2x_at_fr_fb_s_6c31 (familia 2X-A)",
+    "asd harsh environments_sp (familia FAAST — el doc no nombra NINGÚN modelo, solo «FAAST» ×5 chunks; entra por paraguas)"
+   ]
   },
   "R2": {
    "enunciado": "Un doc_map PUEDE promover un candidate (quitarle la marca) si el documento lo nombra como SUJETO con cita verificada a texto completo. Pasa por el gate del detector como cualquier confirmación.",
    "alberto": "16-ago (3er mensaje): «R2 en limpio: correcto». Sobre los ejemplos: (1) DX1e/DX2e/DX4e SON modelos concretos; (2) 2X-AT es la sub-familia táctil de la 2X-A y ha de apuntar a los modelos de esa familia (pregunta si es BP/robusto); (3) VSN-Plus tiene, según MIEMI130, los modelos VSN 4 PLUS, VSN 8 PLUS y VSN 12 PLUS. Pide que la lógica valide los 3 puntos.",
    "validacion_de_la_logica_sobre_los_3_puntos": {
-    "1_DX_Dimension": {"veredicto": "VALIDA → CONFIRMAR morley:dx1e, dx2e, dx4e", "cita_verificada": "MIE-MP-520rv04 chunk 9: «Los paneles de control de incendios DX1e, DX2e y DX4e disponen de 1, 2 y 4 lazos, para instalar dispositivos analógicos compatibles» (§1.1); §1.2 Modelos: «amplio rango de cabinas» → variantes de caja DX1e-20S / DX1e-40M / DX2e-40M / DX4e-40L (SKUs; dx1e-40m ya confirmado, los otros 3 candidate → confirmar por la misma regla)", "consecuencia_medida": "Hoy los paraguas «Dimension» y «serie Dimension» (gt s90) apuntan a 3 miembros candidate = 0/3 consumibles: son el ÚNICO agujero de paraguas del catálogo (censo 16-ago sobre las 21 filas de umbrellas.jsonl). Confirmar los 3 modelos lo cierra: «Dimension» pasa a expandir."},
-    "2_2X-AT": {"veredicto": "VALIDA → kidde:2x-at NO se confirma como producto (se retira la fila-etiqueta) y nace el paraguas «2X-AT» (tipo serie/sub-familia, divergent=true) con los 11 kidde:2x-at-* ya confirmados: 2x-at-f1-fb-s, 2x-at-f2, 2x-at-f2-fb, 2x-at-f2-fb-p, 2x-at-f2-fb-s, 2x-at-f2-p, 2x-at-f2-s, 2x-at-fr, 2x-at-fr-fb, 2x-at-fr-fb-s, 2x-at-fr-s; segunda fila «2X-A Táctil» con los mismos ids (norm_token no las iguala). El paraguas «2X-A» (familia, adjudicado por Alberto en s323, aún no creado) ⊇ los de 2X-AT + 2X-AF*/AE*/AFR* (centrales y repetidores; fuera accesorios como 2X-A-LB placa de lazo = serie × categoría).", "por_que_es_BP_robusto": ["Los paraguas del catálogo son listas PLANAS de ids de producto (umbrellas.jsonl: termino, ids[], tipo familia|serie|rango, divergent, candidate, clarify?) — no hay anidamiento que mantener: 2X-AT ⊂ 2X-A por construcción de las listas.", "resolve() hace exact(canonical) ANTES que paraguas: si «2X-AT» fuera un PRODUCTO confirmado, el término resolvería siempre al producto-etiqueta y NUNCA se expandiría a los 11 → las etiquetas de familia como producto no solo son imprecisas, SOMBREAN al paraguas. Retirarlas es lo robusto.", "divergent=true → el retrieval expande a los miembros (fix hp018) y el clarify-por-divergencia (E4, DEC-215) decide clarify-vs-answer con el eje adjudicable; centrales ≠ repetidores lo justifica.", "Pertenencia DERIVADA por regla (prefijo del modelo × categoría) y materializada con recibo de la regla, no lista a mano: un 2X-AT-xx que entre mañana cae dentro al re-derivar. Hoy las 21 filas gt son listas a mano — la derivación por regla es la mejora estructural que propongo para las nuevas.", "Robustez añadida (barata): validate() de catalog_store comprueba que los ids existen pero NO que sean consumibles → un paraguas con miembros candidate resuelve a nada en silencio (el caso Dimension). Propongo un aviso en validate(): «paraguas con N/M miembros no consumibles»."]},
-    "3_VSN_PLUS": {"veredicto": "VALIDA → paraguas «VSN PLUS» (familia, divergent=true; una sola fila: norm_token iguala VSN PLUS / VSN-Plus / VSN-PLUS) con morley:vsn-4-plus (confirmado), morley:vsn-8-plus (confirmado), morley:vsn-12-plus (candidate → CONFIRMAR: «VSN 12 PLUS» nombrado en MIEMI130.pdf / HLSI-MI-130I / HLSI-MI-130F, cita a verificar al aplicar). notifier:vsn-plus (producto-etiqueta) → retirar.", "documento_de_Alberto": "MIEMI130.pdf existe (product_model «VSN PLUS», 53 chunks, activo); hermanos HLSI-MI-130I (52) y HLSI-MI-130F (1); MIE-MI-130P needs_review 0 chunks.", "abierto_no_bloqueante": "VSN2-PLUS / «VSN 2 PLUS» / «VSN 2Plus» y los «Plus2» (VSN-4/8/12 Plus2, VSN-RP1R-PLUS2) aparecen SOLO en docs de NFS-SUPRA / UCIP / RP1R (HLSI-MN-025 NFS Supra Series, HLSI-MA-192 UCIP, NFS-SUPRA-VSN2-PLUS-Entrada-Digital, VSN-CRA-Centrales-compatibles, MF_HSF_280) y no en MIEMI130. Hoy son candidates (notifier:vsn-2plus, unresolved:vsn-2plus, morley:vsn-4/8/12-plus2) — inofensivos en cuarentena. Pregunta para Alberto cuando quiera: ¿VSN 2 PLUS es un 4º miembro posterior de VSN PLUS o la gama hermana de NFS-SUPRA? ¿«Plus2» es 2ª generación o grafía?"}
+    "1_DX_Dimension": {
+     "veredicto": "VALIDA → CONFIRMAR morley:dx1e, dx2e, dx4e",
+     "cita_verificada": "MIE-MP-520rv04 chunk 9: «Los paneles de control de incendios DX1e, DX2e y DX4e disponen de 1, 2 y 4 lazos, para instalar dispositivos analógicos compatibles» (§1.1); §1.2 Modelos: «amplio rango de cabinas» → variantes de caja DX1e-20S / DX1e-40M / DX2e-40M / DX4e-40L (SKUs; dx1e-40m ya confirmado, los otros 3 candidate → confirmar por la misma regla)",
+     "consecuencia_medida": "Hoy los paraguas «Dimension» y «serie Dimension» (gt s90) apuntan a 3 miembros candidate = 0/3 consumibles: son el ÚNICO agujero de paraguas del catálogo (censo 16-ago sobre las 21 filas de umbrellas.jsonl). Confirmar los 3 modelos lo cierra: «Dimension» pasa a expandir."
+    },
+    "2_2X-AT": {
+     "veredicto": "VALIDA → kidde:2x-at NO se confirma como producto (se retira la fila-etiqueta) y nace el paraguas «2X-AT» (tipo serie/sub-familia, divergent=true) con los 11 kidde:2x-at-* ya confirmados: 2x-at-f1-fb-s, 2x-at-f2, 2x-at-f2-fb, 2x-at-f2-fb-p, 2x-at-f2-fb-s, 2x-at-f2-p, 2x-at-f2-s, 2x-at-fr, 2x-at-fr-fb, 2x-at-fr-fb-s, 2x-at-fr-s; segunda fila «2X-A Táctil» con los mismos ids (norm_token no las iguala). El paraguas «2X-A» (familia, adjudicado por Alberto en s323, aún no creado) ⊇ los de 2X-AT + 2X-AF*/AE*/AFR* (centrales y repetidores; fuera accesorios como 2X-A-LB placa de lazo = serie × categoría).",
+     "por_que_es_BP_robusto": [
+      "Los paraguas del catálogo son listas PLANAS de ids de producto (umbrellas.jsonl: termino, ids[], tipo familia|serie|rango, divergent, candidate, clarify?) — no hay anidamiento que mantener: 2X-AT ⊂ 2X-A por construcción de las listas.",
+      "resolve() hace exact(canonical) ANTES que paraguas: si «2X-AT» fuera un PRODUCTO confirmado, el término resolvería siempre al producto-etiqueta y NUNCA se expandiría a los 11 → las etiquetas de familia como producto no solo son imprecisas, SOMBREAN al paraguas. Retirarlas es lo robusto.",
+      "divergent=true → el retrieval expande a los miembros (fix hp018) y el clarify-por-divergencia (E4, DEC-215) decide clarify-vs-answer con el eje adjudicable; centrales ≠ repetidores lo justifica.",
+      "Pertenencia DERIVADA por regla (prefijo del modelo × categoría) y materializada con recibo de la regla, no lista a mano: un 2X-AT-xx que entre mañana cae dentro al re-derivar. Hoy las 21 filas gt son listas a mano — la derivación por regla es la mejora estructural que propongo para las nuevas.",
+      "Robustez añadida (barata): validate() de catalog_store comprueba que los ids existen pero NO que sean consumibles → un paraguas con miembros candidate resuelve a nada en silencio (el caso Dimension). Propongo un aviso en validate(): «paraguas con N/M miembros no consumibles»."
+     ]
+    },
+    "3_VSN_PLUS": {
+     "veredicto": "VALIDA → paraguas «VSN PLUS» (familia, divergent=true; una sola fila: norm_token iguala VSN PLUS / VSN-Plus / VSN-PLUS) con morley:vsn-4-plus (confirmado), morley:vsn-8-plus (confirmado), morley:vsn-12-plus (candidate → CONFIRMAR: «VSN 12 PLUS» nombrado en MIEMI130.pdf / HLSI-MI-130I / HLSI-MI-130F, cita a verificar al aplicar). notifier:vsn-plus (producto-etiqueta) → retirar.",
+     "documento_de_Alberto": "MIEMI130.pdf existe (product_model «VSN PLUS», 53 chunks, activo); hermanos HLSI-MI-130I (52) y HLSI-MI-130F (1); MIE-MI-130P needs_review 0 chunks.",
+     "abierto_no_bloqueante": "VSN2-PLUS / «VSN 2 PLUS» / «VSN 2Plus» y los «Plus2» (VSN-4/8/12 Plus2, VSN-RP1R-PLUS2) aparecen SOLO en docs de NFS-SUPRA / UCIP / RP1R (HLSI-MN-025 NFS Supra Series, HLSI-MA-192 UCIP, NFS-SUPRA-VSN2-PLUS-Entrada-Digital, VSN-CRA-Centrales-compatibles, MF_HSF_280) y no en MIEMI130. Hoy son candidates (notifier:vsn-2plus, unresolved:vsn-2plus, morley:vsn-4/8/12-plus2) — inofensivos en cuarentena. Pregunta para Alberto cuando quiera: ¿VSN 2 PLUS es un 4º miembro posterior de VSN PLUS o la gama hermana de NFS-SUPRA? ¿«Plus2» es 2ª generación o grafía?"
+    }
    },
    "estado": "ADJUDICADA (R2 = modelo concreto nombrado como sujeto con cita verificada → confirmar; etiqueta de familia → paraguas, nunca producto)",
    "enunciado_afinado_tras_los_ejemplos": "Un doc_map solo puede confirmar un candidate si es un MODELO CONCRETO nombrado como sujeto en un manual nuestro con cita verificada; las ETIQUETAS DE FAMILIA (2X-AT, VSN-Plus) nunca se confirman como producto: se modelan como paraguas/sub-familia y el doc_map apunta a los miembros.",
    "ejemplos_con_datos_reales": [
-    {"id": "morley:dx1e / morley:dx2e / morley:dx4e", "que_es": "centrales Dimension DX1e/DX2e/DX4e; candidates desde MIE-MC-520 (alias-canon)", "menciones_token_exacto_corpus_activo": {"DX1e": "11 chunks / 3 docs", "DX2e": "15 / 3", "DX4e": "16 / 3"}, "docs_que_los_nombran": ["MIE-MP-520rv04 (6 chunks; pm DX/DX2E/DX4E/DX1E-20S/DX1E-40M/…)", "MIE-MU-520rv02 (4; pm DX/DX4E/DX2E/DX1E/…)", "MIE-MC-520 (1; MKDX Serie Dimension)"], "lectura": "MODELOS CONCRETOS con manual propio → R2 los confirmaría desde esos manuales y el doc_map apuntaría a ellos."},
-    {"id": "kidde:2x-at", "que_es": "«2X-AT» = 2X-A Táctil, candidate desde la guía rápida 2X-AT", "menciones_token_exacto_corpus_activo": "44 chunks / 5 docs, siempre como «2X-AT Series»/«2X-A Táctil»", "lectura": "SUB-FAMILIA táctil de la 2X-A, no un modelo (los modelos son 2X-AT-FR-S, 2X-AT-FR-FB-S, 2X-AT-F2, 2X-AT-F2-FB). R2 NO lo confirma como producto: paraguas, y el doc_map de la guía apunta a los miembros. Nota: kidde:2x-a (familia, adjudicada por Alberto en 437ee3f) aún NO existe en el catálogo — pendiente de aplicar."},
-    {"id": "notifier:vsn-plus", "que_es": "«VSN-Plus», candidate desde una FAQ de RP1R-Supra", "menciones_token_exacto_corpus_activo": "3 chunks / 3 docs, siempre como familia («familia VSN-PLUS y la VSN2-PLUS»)", "lectura": "ETIQUETA DE FAMILIA (los modelos son VSN 2/4/8-PLUS: morley:vsn-4-plus, morley:vsn-8-plus activos; notifier:vsn-2plus candidate). Paraguas, no producto."}
+    {
+     "id": "morley:dx1e / morley:dx2e / morley:dx4e",
+     "que_es": "centrales Dimension DX1e/DX2e/DX4e; candidates desde MIE-MC-520 (alias-canon)",
+     "menciones_token_exacto_corpus_activo": {
+      "DX1e": "11 chunks / 3 docs",
+      "DX2e": "15 / 3",
+      "DX4e": "16 / 3"
+     },
+     "docs_que_los_nombran": [
+      "MIE-MP-520rv04 (6 chunks; pm DX/DX2E/DX4E/DX1E-20S/DX1E-40M/…)",
+      "MIE-MU-520rv02 (4; pm DX/DX4E/DX2E/DX1E/…)",
+      "MIE-MC-520 (1; MKDX Serie Dimension)"
+     ],
+     "lectura": "MODELOS CONCRETOS con manual propio → R2 los confirmaría desde esos manuales y el doc_map apuntaría a ellos."
+    },
+    {
+     "id": "kidde:2x-at",
+     "que_es": "«2X-AT» = 2X-A Táctil, candidate desde la guía rápida 2X-AT",
+     "menciones_token_exacto_corpus_activo": "44 chunks / 5 docs, siempre como «2X-AT Series»/«2X-A Táctil»",
+     "lectura": "SUB-FAMILIA táctil de la 2X-A, no un modelo (los modelos son 2X-AT-FR-S, 2X-AT-FR-FB-S, 2X-AT-F2, 2X-AT-F2-FB). R2 NO lo confirma como producto: paraguas, y el doc_map de la guía apunta a los miembros. Nota: kidde:2x-a (familia, adjudicada por Alberto en 437ee3f) aún NO existe en el catálogo — pendiente de aplicar."
+    },
+    {
+     "id": "notifier:vsn-plus",
+     "que_es": "«VSN-Plus», candidate desde una FAQ de RP1R-Supra",
+     "menciones_token_exacto_corpus_activo": "3 chunks / 3 docs, siempre como familia («familia VSN-PLUS y la VSN2-PLUS»)",
+     "lectura": "ETIQUETA DE FAMILIA (los modelos son VSN 2/4/8-PLUS: morley:vsn-4-plus, morley:vsn-8-plus activos; notifier:vsn-2plus candidate). Paraguas, no producto."
+    }
    ]
   },
   "R3": {
@@ -31,8 +79,20 @@
    "hallazgo_para_alberto": "El catálogo hoy declara vendido_bajo ['Notifier','Morley-IAS'] en notifier:fl0111e-hs / fl0112e-hs / fl0122e-hs (FAAST LT) y en fl2011ei-hs / fl2012ei-hs / fl2022ei-hs; los SKU Morley existen solo para la serie 20xx (morley:mi-fl2011ei / mi-fl2012ei / mi-fl2022ei). Si los FAAST «solo Notifier» son los FL01xx, esas 3 filas tienen vendido_bajo incorrecto → pendiente de que Alberto señale cuáles.",
    "alberto_2o_mensaje": "«los de notifier son los de Xtralis (Vesda). ¿puedes comprobar? este ejercicio ya lo hicimos hace muchas sesiones, ¿puedes revisar en el repo?»",
    "resolucion_desde_el_repo": {
-    "fuentes": ["DEC-062 (s80, backfill FAAST LT-200)", "DEC-083 coda (FAAST = FAMILIA, paraguas gt 13 miembros; FAAST LT-200 divergent con los 3 MI-FL* de Morley; OEM per modelo: LT-200 = System Sensor, FLEX = Xtralis)", "scripts/catalog_gt.py L141-163 (transcripción FIEL de memory/reference_faast.md L13-16 — la memoria original ya no existe, consolidada; el gt vive en el script)", "HISTORY s28 §2.3 (Xtralis = VESDA — Notifier la comercializa)"],
-    "ground_truth_vigente": {"FL0111E-HS/FL0112E-HS/FL0122E-HS (standalone, I56-6574)": "Notifier + Morley-IAS (gt de Alberto s78/s80: «los standalone/addressable APLICAN a Morley Y Notifier»)", "FL2011EI-HS/FL2012EI-HS/FL2022EI-HS (addressable, I56-6575)": "Notifier + Morley-IAS", "MI-FL2011EI/MI-FL2012EI/MI-FL2022EI": "SKUs Morley (DEC-083 coda)", "NFXI-ASD11/12/22-HS (I56-6577/3947)": "EXCLUSIVA Notifier", "VESDA / VESDA-E / ICAM": "namespace xtralis (56 filas: 32 activas + 24 candidate), Notifier la comercializa", "FAAST FLEX": "Xtralis"},
+    "fuentes": [
+     "DEC-062 (s80, backfill FAAST LT-200)",
+     "DEC-083 coda (FAAST = FAMILIA, paraguas gt 13 miembros; FAAST LT-200 divergent con los 3 MI-FL* de Morley; OEM per modelo: LT-200 = System Sensor, FLEX = Xtralis)",
+     "scripts/catalog_gt.py L141-163 (transcripción FIEL de memory/reference_faast.md L13-16 — la memoria original ya no existe, consolidada; el gt vive en el script)",
+     "HISTORY s28 §2.3 (Xtralis = VESDA — Notifier la comercializa)"
+    ],
+    "ground_truth_vigente": {
+     "FL0111E-HS/FL0112E-HS/FL0122E-HS (standalone, I56-6574)": "Notifier + Morley-IAS (gt de Alberto s78/s80: «los standalone/addressable APLICAN a Morley Y Notifier»)",
+     "FL2011EI-HS/FL2012EI-HS/FL2022EI-HS (addressable, I56-6575)": "Notifier + Morley-IAS",
+     "MI-FL2011EI/MI-FL2012EI/MI-FL2022EI": "SKUs Morley (DEC-083 coda)",
+     "NFXI-ASD11/12/22-HS (I56-6577/3947)": "EXCLUSIVA Notifier",
+     "VESDA / VESDA-E / ICAM": "namespace xtralis (56 filas: 32 activas + 24 candidate), Notifier la comercializa",
+     "FAAST FLEX": "Xtralis"
+    },
     "verificacion_online_16_ago": "notifier.es lista bajo Notifier tanto «Sistemas de aspiración FAAST» como «Sistemas de aspiración VESDA / Vesda-E» — coherente.",
     "conclusion": "Lo que dice Alberto coincide con el repo: los de aspiración «solo Notifier» son VESDA (Xtralis) y los NFXI-ASD; los FAAST LT-200 FL01xx/FL20xx van bajo Notifier Y Morley. La sospecha del autor sobre las 3 filas FL01xx se RETIRA: están según su propio gt. Nada que corregir en el catálogo por R3."
    },
@@ -42,21 +102,44 @@
    "enunciado": "Token de PORTADA/título que NO está en catálogo + cita verificada a texto completo que lo nombra como sujeto → alta + doc_map en un movimiento, pasando por el gate del detector. La ficha (nombre de fichero / product_model) sola NUNCA da un alta: solo el contenido.",
    "alberto": "16-ago (2º mensaje): «KE-DP3120W parece un nivel superior a los KE-DP3120W-SN/-SNV, similar al caso de KE-DP3121B: no son modelos concretos sino mini-familias». Sobre el ejemplo 2: confirma que KE-IU3110 no sale y que el doc trata KE-IO3144 y KE-IO3122.",
    "matiz_del_autor_con_datos": "La estructura que describe Alberto (base + variantes) es correcta, pero la base ES también un SKU concreto con hoja propia: KE-DP3120W → ke-dp3120w-161721-es.pdf (pm KE-DP3120W) + DS 3102984 (KE-DP3020W/KE-DP3120W); 18 chunks exactos en 6 docs. KE-DP3121B → HD_KE_DP3121B_202407_ES_8c51.pdf (pm KE-DP3121B); 7 chunks en 4 docs. Modelado: cada SKU es producto (base y variantes) + campo `familia` = mini-familia KE-DP312x; el MI de las variantes con sirena/VAD apunta a los 6 que nombra; KE-DP3121B se da de alta desde SU hoja, no desde el MI.",
-   "accion_derivada": ["ALTA kidde:ke-dp3120w-sn, ke-dp3120w-snv, ke-dp3121b-snv, ke-dp3121w, ke-dp3121w-sn, ke-dp3121w-snv (cita propia en el MI) + ALTA kidde:ke-dp3121b (cita en HD_KE_DP3121B) — todas con familia KE-DP312x, pasando por el gate del detector", "doc_map MI_KIDDE_KE_DP312x_SNx → los 6 nombrados", "doc_map MI_KIDDE_KE_IO3144 → kidde:ke-io3122 + kidde:ke-io3144; retag product_model «KE-IO3144/KE-IU3110» → «KE-IO3122/KE-IO3144»"],
+   "accion_derivada": [
+    "ALTA kidde:ke-dp3120w-sn, ke-dp3120w-snv, ke-dp3121b-snv, ke-dp3121w, ke-dp3121w-sn, ke-dp3121w-snv (cita propia en el MI) + ALTA kidde:ke-dp3121b (cita en HD_KE_DP3121B) — todas con familia KE-DP312x, pasando por el gate del detector",
+    "doc_map MI_KIDDE_KE_DP312x_SNx → los 6 nombrados",
+    "doc_map MI_KIDDE_KE_IO3144 → kidde:ke-io3122 + kidde:ke-io3144; retag product_model «KE-IO3144/KE-IU3110» → «KE-IO3122/KE-IO3144»"
+   ],
    "ejemplos_con_datos_reales": [
     {
      "doc": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf (Kidde, 45 chunks, hoja de instalación de familia)",
      "product_model_ficha": "KE-DP3120W/KE-DP3120W-SN/KE-DP3120W-SNV/KE-DP3121B/KE-DP3121B-SNV/KE-DP3121W/KE-DP3121W-SN/KE-DP3121W-SNV",
-     "en_catalogo_hoy": ["kidde:ke-dp3120w"],
-     "menciones_token_exacto_en_contenido": {"KE-DP3120W": 0, "KE-DP3120W-SN": 6, "KE-DP3120W-SNV": 6, "KE-DP3121B": 0, "KE-DP3121B-SNV": 8, "KE-DP3121W": 3, "KE-DP3121W-SN": 6, "KE-DP3121W-SNV": 4},
+     "en_catalogo_hoy": [
+      "kidde:ke-dp3120w"
+     ],
+     "menciones_token_exacto_en_contenido": {
+      "KE-DP3120W": 0,
+      "KE-DP3120W-SN": 6,
+      "KE-DP3120W-SNV": 6,
+      "KE-DP3121B": 0,
+      "KE-DP3121B-SNV": 8,
+      "KE-DP3121W": 3,
+      "KE-DP3121W-SN": 6,
+      "KE-DP3121W-SNV": 4
+     },
      "lectura": "El doc es la hoja de las variantes CON sirena/VAD (SN/SNV) — nombra 6 modelos que NO están en catálogo (3-8 chunks cada uno) y NO nombra nunca como token completo el único que sí está (KE-DP3120W, la base sin sirena; solo aparece como prefijo). KE-DP3121B tampoco: 0 exactas. R4 daría de alta los 6 nombrados y el doc_map apuntaría a ellos; converge con R7 (los candidates concatenados ke-dp3121b-ke-dp3121b-snv, ke-dp3121w-ke-dp3121w-sn, ke-dp3121w-ke-dp3121w-sn-ke-dp3121w-snv se parten en las mismas grafías) y con las DS existentes (DS_KIDDE_KE_DP3121B_SNV, DS_KIDDE_KE_DP3121W_SN, DS_KIDDE_KE_DP3121W_SNV).",
      "que_se_firmaria": "ALTA de KE-DP3120W-SN, KE-DP3120W-SNV, KE-DP3121B-SNV, KE-DP3121W, KE-DP3121W-SN, KE-DP3121W-SNV bajo kidde (con cita verificada cada uno) + doc_map del MI a esos 6; kidde:ke-dp3120w se queda como está (su alta viene de la DS 3102984, no de este MI). KE-DP3121B: NO alta (0 citas propias)."
     },
     {
      "doc": "MI_KIDDE_KE_IO3144_631e.pdf (Kidde, 33 chunks)",
      "product_model_ficha": "KE-IO3144/KE-IU3110",
-     "en_catalogo_hoy": ["kidde:ke-io3144", "kidde:ke-io3122"],
-     "menciones_token_exacto_en_contenido": {"KE-IO3122": 8, "KE-IO3144": 8, "KE-IU3110": 0, "KE-IU3111": 0},
+     "en_catalogo_hoy": [
+      "kidde:ke-io3144",
+      "kidde:ke-io3122"
+     ],
+     "menciones_token_exacto_en_contenido": {
+      "KE-IO3122": 8,
+      "KE-IO3144": 8,
+      "KE-IU3110": 0,
+      "KE-IU3111": 0
+     },
      "lectura": "La ficha dice KE-IU3110 pero el contenido lo nombra CERO veces (ni por subcadena): es un error de etiqueta. El doc cubre KE-IO3122 + KE-IO3144 (8 chunks cada uno), ambos ya en catálogo. R4 NO da ningún alta aquí (la guarda funciona: la ficha sola no vale); el doc_map va a io3122 + io3144 (el MULTI del juez) y el product_model se corrige por retag (clase §0.E)."
     }
    ]
@@ -65,9 +148,25 @@
    "enunciado": "Documento cuyo contenido ingestado no nombra al sujeto (una sola página, portada) pero cuyo nombre de fichero y product_model son coherentes con un id activo del catálogo → atestación por FICHA aceptada. Alternativa: se quedan sin atestar (siguen sirviéndose, sin identidad en must_preserve).",
    "alberto": "pidió ejemplos (16-ago) — pendiente",
    "ejemplos_con_datos_reales": [
-    {"doc": "HLSI-TI-007_VSN-4REL (Morley, 1 chunk)", "contenido_ingestado_COMPLETO": "**Honeywell** **Honeywell Life Safety Iberia**", "chars": 47, "id_candidato_por_ficha": "notifier:vsn-4rel (activo; morley:vsn-4rel redirige a él)", "lectura": "No es un caso de atestación: es una INGESTA VACÍA (escaneo del que el texto se perdió). Lo correcto es re-ingestar con OCR o retirar; atestarlo daría identidad a un chunk sin contenido. Hay exactamente OTRO igual en el corpus activo: «Docs Morley-IAS Max - QR» (142 chars: un QR con URL). Censo: 1.068 activos, 0 sin chunks, 2 con <300 chars, 95 con 300-1500 chars (FAQ cortas en su mayoría), 171 con 1 chunk."},
-    {"doc": "MIE-MI-120P.pdf (Morley, 1 chunk, 1.977 chars)", "contenido_ingestado_resumen": "Leyenda del panel frontal (en portugués): «● VISION ● BATTERY», Teclado Remoto, Silenciar Sirenes Remotas, Rádio SIMO, Rearme, LEDs Alimentação/Falo-Isolado…", "id_candidato_por_ficha": "morley:vsn2 (activo) — pm «VSN 2-4»", "lectura": "El texto sí es una página real (el frontal de la central Vision 2-4) pero no nombra VSN2/VSN4; además el alias que resuelve a morley:vsn2 nació de la revisión hermana de este mismo documento (s83:MIEMI120rev05) → atribución circular. Bajo riesgo: atestarlo por ficha es coherente y reversible."},
-    {"doc": "4188-1132-PT issue 4_04_2025-Qref.pdf (Notifier, 1 chunk, 670 chars)", "contenido_ingestado_resumen": "Paso «05 Selecionar LER DISPOSITIVOS…» de una guía rápida en portugués (aprendizaje de dispositivos del lazo, diálogo Loop Protocol/Opal). No aparece «INSPIRE».", "id_candidato_por_ficha": "notifier:inspire-e10 + notifier:inspire-e15 (activos)", "lectura": "Página real de la QREF de INSPIRE (mismo código de documento 4188-1132 que la familia INSPIRE E10/E15). Atestación por ficha coherente y de bajo riesgo."}
+    {
+     "doc": "HLSI-TI-007_VSN-4REL (Morley, 1 chunk)",
+     "contenido_ingestado_COMPLETO": "**Honeywell** **Honeywell Life Safety Iberia**",
+     "chars": 47,
+     "id_candidato_por_ficha": "notifier:vsn-4rel (activo; morley:vsn-4rel redirige a él)",
+     "lectura": "No es un caso de atestación: es una INGESTA VACÍA (escaneo del que el texto se perdió). Lo correcto es re-ingestar con OCR o retirar; atestarlo daría identidad a un chunk sin contenido. Hay exactamente OTRO igual en el corpus activo: «Docs Morley-IAS Max - QR» (142 chars: un QR con URL). Censo: 1.068 activos, 0 sin chunks, 2 con <300 chars, 95 con 300-1500 chars (FAQ cortas en su mayoría), 171 con 1 chunk."
+    },
+    {
+     "doc": "MIE-MI-120P.pdf (Morley, 1 chunk, 1.977 chars)",
+     "contenido_ingestado_resumen": "Leyenda del panel frontal (en portugués): «● VISION ● BATTERY», Teclado Remoto, Silenciar Sirenes Remotas, Rádio SIMO, Rearme, LEDs Alimentação/Falo-Isolado…",
+     "id_candidato_por_ficha": "morley:vsn2 (activo) — pm «VSN 2-4»",
+     "lectura": "El texto sí es una página real (el frontal de la central Vision 2-4) pero no nombra VSN2/VSN4; además el alias que resuelve a morley:vsn2 nació de la revisión hermana de este mismo documento (s83:MIEMI120rev05) → atribución circular. Bajo riesgo: atestarlo por ficha es coherente y reversible."
+    },
+    {
+     "doc": "4188-1132-PT issue 4_04_2025-Qref.pdf (Notifier, 1 chunk, 670 chars)",
+     "contenido_ingestado_resumen": "Paso «05 Selecionar LER DISPOSITIVOS…» de una guía rápida en portugués (aprendizaje de dispositivos del lazo, diálogo Loop Protocol/Opal). No aparece «INSPIRE».",
+     "id_candidato_por_ficha": "notifier:inspire-e10 + notifier:inspire-e15 (activos)",
+     "lectura": "Página real de la QREF de INSPIRE (mismo código de documento 4188-1132 que la familia INSPIRE E10/E15). Atestación por ficha coherente y de bajo riesgo."
+    }
    ],
    "recomendacion_del_autor": "R5 = SÍ para páginas reales con ficha coherente (MIE-MI-120P, 4188-1132-PT), y las 2 ingestas vacías (<300 chars) NO se atestan: van a re-ingesta con OCR o baja de corpus (decisión aparte, clase «gap de manual ya ingestado»).",
    "alberto_2o_mensaje": {
@@ -83,8 +182,17 @@
    },
    "censo_clase_fragmento_PT_con_hermano_ES": {
     "criterio": "documento en portugués cuya ingesta es un fragmento (≤6 chunks, ≤5% del hermano ES) y existe el hermano ES completo con el mismo nº de documento",
-    "baja_propuesta": ["4188-1132-PT issue 4 Qref (1 chunk) → ES 18 chunks", "MIE-MI-120P (1) → MIEMI120rev05 48", "MIEMU520P (1) → MIE-MU-520rv02 68", "4188-1124-PT issue 4 CLSS Config Tool (6 chunks, 11K) → 4188-1124-ES issue 6, 116 chunks", "I56-3956-201_PT FAAST LT QIG (2 chunks) → I56-3956-201_ES 22 chunks", "MNDT1003P BA1 (1 chunk) → MNDT1003 es (1 chunk; hoja de 1 página, duplicado exacto en otro idioma)"],
-    "se_queda": ["HLSI-DT-963_POL-200-TS_PT (1 chunk): NO hay hermano ES en el corpus → única fuente de ese doc-number"],
+    "baja_propuesta": [
+     "4188-1132-PT issue 4 Qref (1 chunk) → ES 18 chunks",
+     "MIE-MI-120P (1) → MIEMI120rev05 48",
+     "MIEMU520P (1) → MIE-MU-520rv02 68",
+     "4188-1124-PT issue 4 CLSS Config Tool (6 chunks, 11K) → 4188-1124-ES issue 6, 116 chunks",
+     "I56-3956-201_PT FAAST LT QIG (2 chunks) → I56-3956-201_ES 22 chunks",
+     "MNDT1003P BA1 (1 chunk) → MNDT1003 es (1 chunk; hoja de 1 página, duplicado exacto en otro idioma)"
+    ],
+    "se_queda": [
+     "HLSI-DT-963_POL-200-TS_PT (1 chunk): NO hay hermano ES en el corpus → única fuente de ese doc-number"
+    ],
     "coherencia_con_DEC-066": "DEC-066 fijó NO excluir variantes de idioma en la ingesta (contenido EN-only real, a veces la revisión vigente) y gobernar la equivalencia al consumir (docrel language-variant-of, prefer-ES). Estos seis NO son variantes completas sino fragmentos sin contenido propio: retirarlos es limpieza de fragmento, no un cambio de política. Mecanismo: documents.status='retired' (91 docs ya así), reversible; misma clase que la baja de ma-dt-1160 adjudicada en s323 (aún activa: pendiente del lote).",
     "estado": "PROPUESTA — Alberto dijo «así eliminamos» para 2 de los 6; falta su sí al bloque completo"
    }
@@ -98,6 +206,17 @@
    "enunciado": "Grafía concatenada `A/B` (artefacto de extracción) → se sustituye por A y B SOLO si cada componente tiene cita propia verificada a texto completo; el id concatenado se retira. Los componentes nuevos entran como alta y pasan por el gate del detector.",
    "alberto": "OK",
    "filas_que_desbloquea": "E1 §1.B grupo ambiguedad:termino-multi-modelo (23) + mismo-id-con-grafias-distintas (4); converge con R4 en la familia KE-DP312x"
+  },
+  "R1prima": {
+   "enunciado": "R1' (refinamiento evidencial de R1): si el documento NOMBRA explícitamente modelos de la serie (token exacto del canonical), la atestación se ciñe a los nombrados; la lista derivada serie × categoría solo se usa cuando el documento no nombra ninguno.",
+   "origen": "nació del censo de s324 (los manuales 2X-A MI/MU no mencionan ni una vez los 11 táctiles 2X-AT, que tienen manual propio); el dúo r32 (Sol M2) señaló que no estaba firmada → se sacó del lote y se preguntó",
+   "alberto": "OK (16-ago, tercer turno: «R1' OK»)",
+   "filas_que_desbloquea": [
+    "GR_KIDDE_2X_AT_FR_FB_S_27cf.pdf → 10 de 11 (fuera kidde:2x-at-f1-fb-s, 0 menciones)",
+    "MI_KIDDE_2X_AT_F2_FB_07d4.pdf → 26 de 38 (fuera los 11 2X-AT-* y 2X-AF2-09, 0 menciones)",
+    "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf → 26 de 38 (ídem)"
+   ],
+   "aplicacion": "evals/s324b_r1prima_plan_v1.json vía scripts/s324_lote_firmado_writer.py --plan (misma mecánica T3: dry-run + censo + freeze + verificación posterior)"
   }
  },
  "siguiente_paso_del_autor": "Con R1/R6/R7 firmadas: dry-run de las tres reglas sobre el residuo (sin escribir), censo del radio de explosión por fila para toda alta/confirmación implicada, predicado de reconstruibilidad validado contra el doble control (positivos MM-82/TO-3200M/OF-48V/LOCAL-360/EN-54-25; negativos VSN 2Plus/PL4-E/34110400), y todo ello al dúo Sol+Fable ANTES de aplicar (Protocolo 3, zona de dolor catálogo).",

@@ -1,0 +1,216 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220444Z",
+ "plan_sha": "9b6b4d9bf7d49e70",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 16,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1760,
+  "entran": 16,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "2010-1-SB",
+    "normkey": "20101sb",
+    "core": "2010[-\\s/.+]*1[-\\s/.+]*sb",
+    "origen": "confirmar kidde:2010-1-sb",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DM3010RS06",
+    "normkey": "kedm3010rs06",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*rs[-\\s/.+]*06",
+    "origen": "confirmar kidde:ke-dm3010rs06",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3010RS18",
+    "normkey": "kedm3010rs18",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*rs[-\\s/.+]*18",
+    "origen": "confirmar kidde:ke-dm3010rs18",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3010RS27",
+    "normkey": "kedm3010rs27",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*rs[-\\s/.+]*27",
+    "origen": "confirmar kidde:ke-dm3010rs27",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3010RSCH",
+    "normkey": "kedm3010rsch",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*rsch",
+    "origen": "confirmar kidde:ke-dm3010rsch",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3010RSCL",
+    "normkey": "kedm3010rscl",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*rscl",
+    "origen": "confirmar kidde:ke-dm3010rscl",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3010[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110RS06",
+    "normkey": "kedm3110rs06",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*rs[-\\s/.+]*06",
+    "origen": "confirmar kidde:ke-dm3110rs06",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110RS18",
+    "normkey": "kedm3110rs18",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*rs[-\\s/.+]*18",
+    "origen": "confirmar kidde:ke-dm3110rs18",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110RS27",
+    "normkey": "kedm3110rs27",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*rs[-\\s/.+]*27",
+    "origen": "confirmar kidde:ke-dm3110rs27",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110RSCH",
+    "normkey": "kedm3110rsch",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*rsch",
+    "origen": "confirmar kidde:ke-dm3110rsch",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110RSCL",
+    "normkey": "kedm3110rscl",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*rscl",
+    "origen": "confirmar kidde:ke-dm3110rscl",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "NC-MC-0-O",
+    "normkey": "ncmc0o",
+    "core": "nc[-\\s/.+]*mc[-\\s/.+]*0[-\\s/.+]*o",
+    "origen": "confirmar kidde:nc-mc-0-o",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NC-MC-0-U",
+    "normkey": "ncmc0u",
+    "core": "nc[-\\s/.+]*mc[-\\s/.+]*0[-\\s/.+]*u",
+    "origen": "confirmar kidde:nc-mc-0-u",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NC-MC-0-W",
+    "normkey": "ncmc0w",
+    "core": "nc[-\\s/.+]*mc[-\\s/.+]*0[-\\s/.+]*w",
+    "origen": "confirmar kidde:nc-mc-0-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NC-MC-0-Y",
+    "normkey": "ncmc0y",
+    "core": "nc[-\\s/.+]*mc[-\\s/.+]*0[-\\s/.+]*y",
+    "origen": "confirmar kidde:nc-mc-0-y",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NC-MC-560-U",
+    "normkey": "ncmc560u",
+    "core": "nc[-\\s/.+]*mc[-\\s/.+]*560[-\\s/.+]*u",
+    "origen": "confirmar kidde:nc-mc-560-u",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

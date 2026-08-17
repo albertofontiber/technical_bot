@@ -1,0 +1,1021 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220441Z",
+ "plan_sha": "890412903468f340",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 46,
+  "retiradas": 0,
+  "aliases_quitados": 19,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1826,
+  "entran": 82,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "DOD-220",
+    "normkey": "dod220",
+    "core": "dod[-\\s/.+]*220",
+    "origen": "confirmar unresolved:dod-220",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A",
+    "normkey": "dod220a",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dod-220a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A-I",
+    "normkey": "dod220ai",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dod-220a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230",
+    "normkey": "dotd230",
+    "core": "dotd[-\\s/.+]*230",
+    "origen": "confirmar unresolved:dotd-230",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A",
+    "normkey": "dotd230a",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dotd-230a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A-I",
+    "normkey": "dotd230ai",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dotd-230a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210",
+    "normkey": "dtd210",
+    "core": "dtd[-\\s/.+]*210",
+    "origen": "confirmar unresolved:dtd-210",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A",
+    "normkey": "dtd210a",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-210a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A-I",
+    "normkey": "dtd210ai",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-210a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215",
+    "normkey": "dtd215",
+    "core": "dtd[-\\s/.+]*215",
+    "origen": "confirmar unresolved:dtd-215",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A",
+    "normkey": "dtd215a",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-215a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A-I",
+    "normkey": "dtd215ai",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-215a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000",
+    "normkey": "eco1000",
+    "core": "eco[-\\s/.+]*1000",
+    "origen": "confirmar unresolved:eco1000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*l",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*nl",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*24[-\\s/.+]*l"
+    ]
+   },
+   {
+    "termino": "ECO1000 (base)",
+    "normkey": "eco1000(base)",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*base",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS12-2Plus",
+    "normkey": "ess122plus",
+    "core": "ess[-\\s/.+]*12[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar unresolved:ess12-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS4-2Plus",
+    "normkey": "ess42plus",
+    "core": "ess[-\\s/.+]*4[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar unresolved:ess4-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS8-2Plus",
+    "normkey": "ess82plus",
+    "core": "ess[-\\s/.+]*8[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar unresolved:ess8-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FLS100-IR3",
+    "normkey": "fls100ir3",
+    "core": "fls[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X",
+    "normkey": "fs20x",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs20x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X-211-22-2",
+    "normkey": "fs20x211222",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*22[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X",
+    "normkey": "fs24x",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs24x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211",
+    "normkey": "fs24x211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211-221",
+    "normkey": "fs24x211221",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*221",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9",
+    "normkey": "fs24x9",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9",
+    "origen": "confirmar unresolved:fs24x-9",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911",
+    "normkey": "fs24x911",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-211",
+    "normkey": "fs24x911211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-24-5",
+    "normkey": "fs24x911245",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*24[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9 Detectors",
+    "normkey": "fs24x9detectors",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9[-\\s/.+]*detectors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand Triple IR",
+    "normkey": "fs24xquadbandtripleir",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband[-\\s/.+]*triple[-\\s/.+]*ir",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3",
+    "normkey": "fsl100ir3",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "confirmar unresolved:fsl100-ir3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3 (carcasa roja)",
+    "normkey": "fsl100ir3(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3-W (carcasa blanca)",
+    "normkey": "fsl100ir3w(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-SM21",
+    "normkey": "fsl100sm21",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*sm[-\\s/.+]*21",
+    "origen": "confirmar unresolved:fsl100-sm21",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TL",
+    "normkey": "fsl100tl",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tl",
+    "origen": "confirmar unresolved:fsl100-tl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TLX",
+    "normkey": "fsl100tlx",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tlx",
+    "origen": "confirmar unresolved:fsl100-tlx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV",
+    "normkey": "fsl100uv",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv",
+    "origen": "confirmar unresolved:fsl100-uv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV (carcasa roja)",
+    "normkey": "fsl100uv(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR",
+    "normkey": "fsl100uvir",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir",
+    "origen": "confirmar unresolved:fsl100-uvir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR (carcasa roja)",
+    "normkey": "fsl100uvir(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR-W (carcasa blanca)",
+    "normkey": "fsl100uvirw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV-W (carcasa blanca)",
+    "normkey": "fsl100uvw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1",
+    "normkey": "hgtw1",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1",
+    "origen": "confirmar unresolved:h-gtw-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1 6010",
+    "normkey": "hgtw16010",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "normkey": "lamparadepruebaportatiltl1055(nema1)",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*1055[-\\s/.+]*nema[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "normkey": "lamparadepruebaportatiltl2055paraareaspeligrosas",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*2055[-\\s/.+]*para[-\\s/.+]*areas[-\\s/.+]*peligrosas",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-402",
+    "normkey": "mad402",
+    "core": "mad[-\\s/.+]*402",
+    "origen": "confirmar unresolved:mad-402",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-412",
+    "normkey": "mad412",
+    "core": "mad[-\\s/.+]*412",
+    "origen": "confirmar unresolved:mad-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-422",
+    "normkey": "mad422",
+    "core": "mad[-\\s/.+]*422",
+    "origen": "confirmar unresolved:mad-422",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-442",
+    "normkey": "mad442",
+    "core": "mad[-\\s/.+]*442",
+    "origen": "confirmar unresolved:mad-442",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I",
+    "normkey": "mad464i",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-464-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I",
+    "normkey": "mad465i",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-465-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-472",
+    "normkey": "mad472",
+    "core": "mad[-\\s/.+]*472",
+    "origen": "confirmar unresolved:mad-472",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD564",
+    "normkey": "mad564",
+    "core": "mad[-\\s/.+]*564",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I",
+    "normkey": "mad564i",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-564-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD565",
+    "normkey": "mad565",
+    "core": "mad[-\\s/.+]*565",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I",
+    "normkey": "mad565i",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-565-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567",
+    "normkey": "mad567",
+    "core": "mad[-\\s/.+]*567",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567-I",
+    "normkey": "mad567i",
+    "core": "mad[-\\s/.+]*567[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-567-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569",
+    "normkey": "mad569",
+    "core": "mad[-\\s/.+]*569",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569-I",
+    "normkey": "mad569i",
+    "core": "mad[-\\s/.+]*569[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-569-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Mod:H-GTW-1 6010",
+    "normkey": "mod:hgtw16010",
+    "core": "mod[-\\s/.+]*h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo de la serie FS20X™",
+    "normkey": "modelodelaseriefs20xtm",
+    "core": "modelo[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*xtm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo FS24X",
+    "normkey": "modelofs24x",
+    "core": "modelo[-\\s/.+]*fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo serie FS20X",
+    "normkey": "modeloseriefs20x",
+    "core": "modelo[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12 (Zones 1 to 12)",
+    "normkey": "nfs12(zones1to12)",
+    "core": "nfs[-\\s/.+]*12[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12-Supra",
+    "normkey": "nfs12supra",
+    "core": "nfs[-\\s/.+]*12[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:nfs12-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS4 (Zones 1 to 4)",
+    "normkey": "nfs4(zones1to4)",
+    "core": "nfs[-\\s/.+]*4[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS4-Supra",
+    "normkey": "nfs4supra",
+    "core": "nfs[-\\s/.+]*4[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:nfs4-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS8 (Zones 1 to 8)",
+    "normkey": "nfs8(zones1to8)",
+    "core": "nfs[-\\s/.+]*8[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*8",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS8-Supra",
+    "normkey": "nfs8supra",
+    "core": "nfs[-\\s/.+]*8[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:nfs8-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PGD-200",
+    "normkey": "pgd200",
+    "core": "pgd[-\\s/.+]*200",
+    "origen": "confirmar unresolved:pgd-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "POL-200-TS",
+    "normkey": "pol200ts",
+    "core": "pol[-\\s/.+]*200[-\\s/.+]*ts",
+    "origen": "confirmar unresolved:pol-200-ts",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-564-I",
+    "normkey": "ref.mad564i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I",
+    "normkey": "ref.mad565i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55342102",
+    "normkey": "ref:55342102",
+    "core": "ref[-\\s/.+]*55342102",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55347200",
+    "normkey": "ref:55347200",
+    "core": "ref[-\\s/.+]*55347200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S300ZDU",
+    "normkey": "s300zdu",
+    "core": "s[-\\s/.+]*300[-\\s/.+]*zdu",
+    "origen": "confirmar unresolved:s300zdu",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL-1055",
+    "normkey": "tl1055",
+    "core": "tl[-\\s/.+]*1055",
+    "origen": "confirmar unresolved:tl-1055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL1055X",
+    "normkey": "tl1055x",
+    "core": "tl[-\\s/.+]*1055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL-2055",
+    "normkey": "tl2055",
+    "core": "tl[-\\s/.+]*2055",
+    "origen": "confirmar unresolved:tl-2055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL2055X",
+    "normkey": "tl2055x",
+    "core": "tl[-\\s/.+]*2055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VW2W100",
+    "normkey": "vw2w100",
+    "core": "vw[-\\s/.+]*2[-\\s/.+]*w[-\\s/.+]*100",
+    "origen": "confirmar unresolved:vw2w100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "55320002",
+    "id": "unresolved:pgd-200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55340103",
+    "id": "unresolved:mad-402",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55341101",
+    "id": "unresolved:mad-412",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "553420002",
+    "id": "unresolved:pgd-200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55342102",
+    "id": "unresolved:mad-422",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55347200",
+    "id": "unresolved:mad-472",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ECO1000 (base)",
+    "id": "unresolved:eco1000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FLS100-IR3",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS20X-211-22-2",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211-221",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-211",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-24-5",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-9 Detectors",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand Triple IR",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3 (carcasa roja)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3-W (carcasa blanca)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TL",
+    "id": "unresolved:fsl100-tl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TLX",
+    "id": "unresolved:fsl100-tlx",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV (carcasa roja)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR (carcasa roja)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD564",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD565",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-567",
+    "id": "unresolved:mad-567-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-569",
+    "id": "unresolved:mad-569-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Mod:H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo de la serie FS20X™",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo FS24X",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo serie FS20X",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS12 (Zones 1 to 12)",
+    "id": "unresolved:nfs12-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS4 (Zones 1 to 4)",
+    "id": "unresolved:nfs4-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS8 (Zones 1 to 8)",
+    "id": "unresolved:nfs8-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Programador",
+    "id": "unresolved:pgd-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "REF: 55342102",
+    "id": "unresolved:mad-422",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55347200",
+    "id": "unresolved:mad-472",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TL1055X",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TL2055X",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "traductor",
+    "id": "unresolved:vw2w100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ZDU",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?": {
+    "antes": [],
+    "despues": [
+     "mad-472"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?": {
+    "allowed_sources_nuevas": [
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2"
+    ],
+    "ids_nuevos": [
+     "unresolved:mad-472"
+    ],
+    "detected": [
+     "mad-472"
+    ]
+   }
+  },
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

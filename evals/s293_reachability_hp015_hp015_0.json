@@ -1,0 +1,112 @@
+{
+ "probe": "s293_reachability_v1",
+ "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo)",
+ "⚠️_sesion_de_la_medicion": "el prefijo `s293` del nombre y de `probe` lo deriva el script de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze.git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)",
+ "sello_freeze_PARCIAL": {
+  "git_sha": "630caabd9e2280e3a01e2cbf876759e69dfef3cb",
+  "CHUNKS_TABLE": "chunks_v2",
+  "RETRIEVAL_TOP_K": 50,
+  "RERANK_TOP_K": 10,
+  "RERANKER_BACKEND": "llm",
+  "MERGE_STRATEGY": "stamps",
+  "LLM_MAX_TOKENS": 3500,
+  "LLM_MODEL": "claude-sonnet-4-6",
+  "GENERATOR_PROMPT_VARIANT": "fidelity",
+  "juez": {
+   "model": "gpt-5.5",
+   "K": 5,
+   "THRESH_FIRM": 4
+  },
+  "INSTRUMENT_VERSION": "v3.2"
+ },
+ "sello_no_cubre": [
+  "huella/conteo del corpus",
+  "config del índice",
+  "versión de embeddings",
+  "seeds",
+  "closure del código"
+ ],
+ "qid": "hp015",
+ "fact": "hp015#0:convencional",
+ "valor": "convencional",
+ "texto": "La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no direcciona equipos individualmente, por lo que NO existe desactivar un detector concreto desde la central",
+ "mode": "serve",
+ "inject": [
+  "717223e7-46dd-41a8-90f9-5cf7596b621e",
+  "da5d4101-1f51-4b29-9edc-6404aa3b8628"
+ ],
+ "span_grep": null,
+ "THRESH_FIRM": 4,
+ "cobertura_verificada": "leido chunk 717223e7 (CCD-103_Manual_ES_FR_GB_IT p1 idx0, portada): «3 Zones Conventional fire extinguishant control panel» / «Central Convencional de 3 Zonas de deteccion y 1 Extincion» — cubre el valor «convencional» y «3 zonas de deteccion + 1 de extincion»; leido chunk da5d4101 (mismo doc p5 idx1, §1 Introduccion): «[...] mantenimiento de la central convencional de extincion [...]» y «La gama de centrales de extincion de incendios esta compuesta por un unico modelo de central de 3 zonas convencionales y 1 riesgo.» — cubre «central convencional (3 zonas + 1 extincion)». CAVEAT declarado: la consecuencia «no direcciona equipos individualmente, por lo que NO existe desactivar un detector concreto» no aparece literal (se infiere de «convencional»; el manual solo describe desconexion por ZONA, servida hoy en F1/F2). Ninguno de los dos esta en served_ids ni pool_ids del FULL 16-ago; el appendix con el regex del encargo (run1, conservado en scratchpad) selecciono «compatible con los detectores de la gama convencional» (fdb14497 idx10 p15), que NO cubre el hecho. Sin chunk_index duplicados para idx0/idx1 (2 filas para 2 idx, verificado s324b via REST source_file+chunk_index).",
+ "reps": [
+  {
+   "rep": 0,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "717223e7-46dd-41a8-90f9-5cf7596b621e",
+    "da5d4101-1f51-4b29-9edc-6404aa3b8628"
+   ],
+   "base_answer": "La CCD-103 **no permite desactivar un detector individual**: la unidad mínima de desconexión es la **zona completa**, no un detector concreto.\n\nLo que sí puedes hacer es desconectar la zona que contiene ese detector siguiendo este procedimiento:\n\n**Desconexión de zona:**\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (desbloqueada) [F2].\n2. Pulsa la **tecla de zona (A)** correspondiente **una primera vez** → la zona entra en **modo prueba** [F2].\n3. Pulsa la **tecla de zona (A)** una **segunda vez** → la zona queda en **modo desconexión** [F1][F2].\n\n**Indicaciones visuales que confirman la desconexión** [F1][F8]:\n- **Indicador de Anular (4):** encendido fijo.\n- **Indicador amarillo de la zona (6):** encendido fijo (zona desconectada).\n\n**Para reconectar la zona** [F1]:\n- Pulsa la **tecla de zona** una vez → zona conectada de nuevo.\n\n---\n\n⚠️ **Advertencia importante:** Cuando una zona está desconectada, la central **no refleja ninguna incidencia ni evento** en esa zona [F1]. Esto implica que **todos los detectores de esa zona quedan sin supervisión**, no solo el detector problemático. Limita el tiempo de uso de esta maniobra al mínimo imprescindible [F1].\n\nRecuerda también que la CCD-103 tiene **3 zonas**, y que la zona 1 y zona 2 actúan como **zonas cruzadas** para el proceso automático de extinción [F3], por lo que desconectarlas tiene implicaciones directas en la lógica de disparo del sistema.\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "oracle_answer": "La CCD-103 **no permite desactivar un detector individual**: la unidad mínima de desconexión es la **zona completa**, no un detector concreto.\n\nLo que sí puedes hacer es **desconectar la zona** a la que pertenece ese detector:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (ON) [F2].\n2. Pulsa **una vez** la tecla de zona correspondiente → la zona entra en **modo prueba** [F2].\n3. Pulsa **una segunda vez** la misma tecla de zona → la zona pasa a **modo desconexión** [F1][F2].\n\n**Indicaciones visuales que confirman la desconexión** [F1][F5]:\n- **Indicador \"Anular\" (4):** encendido fijo continuo.\n- **Indicador Avería/Desconexión/Prueba de zona (6):** encendido fijo (fijo = desconexión; intermitente = avería o prueba).\n\n**Para reconectar la zona** [F1]:\n- Pulsa **una vez** la tecla de zona desconectada → zona conectada de nuevo.\n\n⚠️ **Advertencia importante:** Cuando una zona está desconectada, la central **no refleja ninguna incidencia ni evento** de esa zona [F1]. Limita el tiempo de uso de esta maniobra al mínimo imprescindible.\n\n---\n\nEl manual no describe ningún mecanismo de desactivación individual de un detector concreto dentro de una zona. Si necesitas aislar un único detector sin afectar al resto, deberás actuar físicamente sobre el cableado o el propio detector (consulta el manual del detector y el soporte técnico de Detnov).\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 1,
+   "base_yes": 0,
+   "oracle_yes": 5,
+   "oracle_ids_admitidos": [
+    "717223e7-46dd-41a8-90f9-5cf7596b621e",
+    "da5d4101-1f51-4b29-9edc-6404aa3b8628"
+   ],
+   "base_answer": "La CCD-103 **no permite desactivar un detector individual**: la unidad mínima de desconexión es la **zona completa** [F1][F2].\n\n## Procedimiento para desconectar una zona completa\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (desbloqueada) [F2] — sin esto, las pulsaciones no tienen efecto [F6].\n2. Pulsa la **tecla de zona (A)** correspondiente **una primera vez** → la zona entra en **modo prueba** [F2].\n3. Pulsa la **tecla de zona (A)** una **segunda vez** → la zona queda en **modo desconexión** [F1][F2].\n\n## Indicaciones visuales que confirman la desconexión\n\n- **Indicador de Anular (4):** encendido de forma continua [F1][F5].\n- **Indicador amarillo de la zona (6):** encendido fijo (si fuera intermitente indicaría avería o prueba, no desconexión) [F5].\n\n## Para reconectar la zona\n\n- Pulsa la **tecla de zona (A)** una vez → zona conectada de nuevo [F1].\n\n## Advertencia importante\n\nCuando una zona está desconectada, **la central no refleja ninguna incidencia ni evento** en esa zona [F1]. Limita el tiempo de uso de esta maniobra al mínimo imprescindible.\n\n---\n\n**El manual no describe ningún mecanismo para aislar un detector individual dentro de una zona.** Si necesitas intervenir sobre un detector concreto sin afectar a los demás, la única opción documentada es desconectar la zona completa a la que pertenece. Para alternativas a nivel de dispositivo (p. ej. aisladores físicos en el cableado), consulta directamente el soporte técnico de Detnov, ya que los fragmentos disponibles no cubren ese procedimiento.\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "oracle_answer": "La CCD-103 **no permite desactivar un detector individual**. La unidad mínima de desconexión es la **zona completa**.\n\n## Procedimiento para desconectar una zona\n\nSegún la sección 6.3.1 y 6.4.4 del manual [F2][F1]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** [F2], de lo contrario las pulsaciones no tendrán efecto.\n2. Pulsa la **tecla de zona (A)** correspondiente **una primera vez** → la zona entra en **modo prueba** [F2].\n3. Pulsa la **tecla de zona (A)** correspondiente **una segunda vez** → la zona entra en **modo desconexión** [F2].\n\n## Indicaciones visuales resultantes\n\nCuando la zona queda desconectada [F1][F5]:\n\n- **Indicador de anular (4):** encendido fijo continuo.\n- **Indicador amarillo de la zona afectada (6):** encendido fijo continuo.\n\n## Para reconectar la zona\n\n- Pulsa la **tecla de zona** una vez → la zona vuelve a estar conectada [F1].\n\n## Advertencia importante\n\nCuando una zona está desconectada, **la central no refleja ninguna incidencia ni evento** en esa zona [F1]. Limita el tiempo de uso de esta maniobra al mínimo imprescindible.\n\n---\n\n**Limitación técnica:** El manual no describe ningún mecanismo para aislar o desactivar un detector individual dentro de una zona. La arquitectura de la CCD-103 es convencional con hasta **32 detectores o pulsadores por zona** [F3], y la desconexión opera siempre a nivel de zona completa.\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  },
+  {
+   "rep": 2,
+   "base_yes": 0,
+   "oracle_yes": 5,
+   "oracle_ids_admitidos": [
+    "717223e7-46dd-41a8-90f9-5cf7596b621e",
+    "da5d4101-1f51-4b29-9edc-6404aa3b8628"
+   ],
+   "base_answer": "La CCD-103 **no permite desactivar un detector individual**: la unidad mínima de desconexión es la **zona completa**, no un detector concreto.\n\nLo que sí puedes hacer es **desconectar la zona** a la que pertenece ese detector. El procedimiento es el siguiente [F1][F2]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (desbloqueada) [F2].\n2. Pulsa **dos veces** la tecla de zona correspondiente (Z1, Z2 o Z3):\n   - Primera pulsación → zona en **modo prueba**.\n   - Segunda pulsación → zona en **modo desconexión** [F2].\n3. Confirma el estado por los indicadores [F1][F5]:\n   - **Indicador de anular (4):** encendido fijo.\n   - **Indicador amarillo de la zona (6):** encendido fijo (desconexión).\n\nPara **reconectar** la zona, pulsa **una vez** la tecla de zona [F1].\n\n---\n\n⚠️ **Advertencia importante:** Cuando una zona está desconectada, la central **no refleja ninguna incidencia ni evento** en esa zona. Esto implica que **todos los detectores de esa zona quedan sin supervisión**. El manual indica expresamente que es importante **limitar el uso de esta maniobra** [F1].\n\nSi necesitas aislar un detector concreto sin afectar al resto, los fragmentos disponibles no describen ningún procedimiento para hacerlo a nivel de dispositivo individual en la CCD-103. Consulta el manual completo o el soporte técnico de Detnov para confirmar si existe alguna opción adicional no recogida en los fragmentos recuperados.\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "oracle_answer": "La CCD-103 **no permite desactivar un detector individual**. La unidad mínima de desconexión es la **zona completa**.\n\n## Lo que sí permite el sistema: desconexión por zona\n\nSegún la sección **6.4.4 - Modo desconexión** [F1] y la sección **6.3.1 - Teclas de zona** [F2], el procedimiento para desconectar una zona completa es:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** [F2], de lo contrario las pulsaciones no tendrán efecto.\n2. Pulsa **2 veces** la tecla de zona correspondiente (Z1, Z2 o Z3) → la zona queda **desconectada** [F1].\n3. Para reconectar la zona: pulsa **1 vez** la tecla de zona [F1].\n\n## Indicaciones visuales al desconectar una zona\n\n- **Indicador de anular (4):** se activa de forma continua [F1] [F5].\n- **Indicador amarillo de la zona afectada (6):** se enciende fijo, indicando que esa zona está en desconexión [F1] [F5].\n\n## Advertencia importante\n\nCuando una zona está desconectada, **la central no refleja ninguna incidencia ni evento** en esa zona [F1]. Es importante limitar el uso de esta maniobra [F1].\n\n---\n\n**Respecto a la desconexión individual de un detector:** el manual no describe ningún procedimiento para aislar un detector concreto dentro de una zona. La CCD-103 es una central convencional de 3 zonas [F12], y los detectores se conectan en la misma línea de zona [F3]. El manual no especifica ningún mecanismo de desconexión a nivel de dispositivo individual.\n\nSi necesitas intervenir sobre un detector concreto sin afectar al resto, consulta directamente al soporte técnico de Detnov o revisa el manual completo por si existe alguna opción de configuración no cubierta en los fragmentos disponibles.\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 2,
+    "admitidos_unicos": 2,
+    "faltan": [],
+    "motivo": ""
+   }
+  }
+ ],
+ "veredicto": {
+  "n_reps": 3,
+  "base_firme": 0,
+  "oracle_firme": 2,
+  "alcanzable": true,
+  "max_oracle": 5,
+  "veredicto": "ALCANZABLE",
+  "reps_sin_prueba_de_entrega": []
+ }
+}

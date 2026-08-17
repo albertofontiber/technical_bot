@@ -1,0 +1,47 @@
+{
+ "que_es": "s324 — BAJA de corpus (documents.status='retired') de documentos adjudicados por Alberto.",
+ "modo": "dry-run",
+ "utc": "20260816T192501Z",
+ "plan": [
+  {
+   "doc": "30012012  TARJETAS IDIOMAS VISION SUPRA rev A",
+   "document_id": "4c3ee6fc-38b7-449a-a6aa-16d194257bad",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto (16-ago): «baja, confirmo» — hoja de tarjetas de idiomas de la Vision Supra (rev A), sin valor técnico",
+   "chunks": 1,
+   "product_model": "Vision Supra",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MADT190P_01_C",
+   "document_id": "e39bb014-4d48-42d6-bc21-5c4db918bec8",
+   "clase": "fragmento-pt",
+   "motivo": "Alberto (16-ago): «Doc en PT, eliminaría porque MADT190_01 es la versión en español» — misma clase que los 6 PT",
+   "chunks": 2,
+   "product_model": "ID²NET",
+   "hermano_es": {
+    "doc": "MADT190_01",
+    "chunks": 30
+   },
+   "doc_map_entries_a_quitar": []
+  }
+ ],
+ "rechazadas": [],
+ "backup": [
+  {
+   "document_id": "4c3ee6fc-38b7-449a-a6aa-16d194257bad",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "e39bb014-4d48-42d6-bc21-5c4db918bec8",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  }
+ ],
+ "aplicado": [],
+ "reversion": "PATCH documents set status=<status_prev> por document_id; doc_map: restaurar doc_map_prev"
+}

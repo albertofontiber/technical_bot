@@ -1,0 +1,100 @@
+{
+ "que_es": "s324c — E1b §0.A «confirmar» determinista — spectrex (1) — plan por bloque para el sí de Alberto (NADA APLICADO; dry-run del writer)",
+ "bloque": "0a_spectrex",
+ "titulo": "§0.A «confirmar» determinista — spectrex (1)",
+ "seccion": "§0.A",
+ "packet": "evals/s320_e1b_packet_adjudicacion_v2.md",
+ "fuente_evidencia": "evals/s322f_e1b_confirmar_encoger_v1.json → detalle.bloque (ruta=determinista)",
+ "utc": "20260816T220353Z",
+ "pendiente_si_alberto": true,
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "spectrex:777650",
+   "canonical_model": "777650",
+   "doc": "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942",
+   "document_id": "b6fbf3fc-e072-4145-8fb1-3dbc95596d9a",
+   "n_token": 2,
+   "cita": "# SharpEye™ # 40/40 Air Shield ## P/N 777650 # Installation Guide [Product image showing a metallic cylindrical device with a",
+   "medida_e1b": {
+    "n_chunks_token_exacto": 4,
+    "docs_distintos_con_exacta": 2,
+    "n_ilike_hoy": 5,
+    "banderas": [],
+    "coherencia_fabricante": "coincide",
+    "fabricante_del_manual": "Spectrex"
+   },
+   "provenance_add": "s324c E1b §0.A bloque spectrex (sí de Alberto al bloque, packet E1b v2) — medida determinista E1b s322f (token exacto 4 chunks / 2 docs); cita verificada full-text en guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942: «# SharpEye™ # 40/40 Air Shield ## P/N 777650 # Installation Guide [Product image showing a metallic cylindrical device with a»",
+   "n_token_flexible": 2
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_quitar": [
+  {
+   "added_by": "f1-bulk",
+   "alias": "air shield",
+   "id": "spectrex:777650",
+   "provenance": "s83:guide-40-40r-single-ir-flame-detector-spectrex-en-us-14",
+   "tipo": "nombre-largo",
+   "regla": "R1 multipalabra sin token de modelo",
+   "entra_en_detector": false
+  }
+ ],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "avisos": [
+  {
+   "que": "alias descriptivos retirados ANTES de confirmar (precedente detnov, gate r30)",
+   "aviso": "1 alias de los ids confirmados marcados descriptivo/peligroso (0 entrarían en el detector al confirmar; los 1 restantes son nombre-largo sin dígito: hoy NO entran en el detector, se retiran por la misma regla — higiene, no seguridad; si prefieres conservarlos, filtra entra_en_detector=false). Reglas: R1 forma normalizada con ≥2 palabras y NINGUNA model-shaped (letras+dígitos con/sin guión, p. ej. CAD-250, SGD-151, TG-IP-1; P/N numérico con guión o ≥4 dígitos) ni el propio canonical dentro del alias; R2 «^\\d+ (zonas|zones|lazos|loops|entradas|salidas)$»; R3 contiene panel(s)/central(es)/detector(es)/module/módulo/software sin token de modelo; R4 OCR (O/0 pegada a dígitos, 5-6 chars; o variante O/0 del canonical); R6 (nace del gate de este lote: «VSN12» disparó el negativo «vsn 12») alias que entra en el detector y es prefijo del canonical de OTRO producto seguido de letras (truncación ambigua de familia). Se conservan 0 alias model-shaped/anclados al canonical."
+  },
+  {
+   "que": "canonical solo dígitos",
+   "aviso": "['777650']: el detector excluye términos solo-dígitos ⇒ confirmar no añade término; efecto solo en resolver exact/alias y doc_map."
+  }
+ ],
+ "clasificacion_confirmados": {},
+ "adjudicados_por_alberto_para_el_gate": {},
+ "colisiones_intra_bloque": [],
+ "colisiones_cross_bloque": [],
+ "alias_conservados": [],
+ "alias_palabra_suelta": [],
+ "riesgo_lexico": [
+  {
+   "id": "spectrex:777650",
+   "canonical_model": "777650",
+   "flags": [
+    "solo_digitos(no entra en el detector)"
+   ],
+   "alias_activados_en_detector": 0,
+   "score": 0.0
+  }
+ ],
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 0,
+  "products_altas": 0,
+  "products_confirmar": 1,
+  "products_retirar": 0,
+  "products_redirect": 0,
+  "aliases_quitar": 1,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 0,
+  "avisos": 2,
+  "colisiones_intra_bloque": 0,
+  "colisiones_cross_bloque": 0,
+  "alias_conservados": 0,
+  "alias_palabra_suelta": 0,
+  "riesgo_lexico": 1,
+  "_filas_origen": 1
+ },
+ "_filas_origen": [
+  "spectrex:777650"
+ ]
+}

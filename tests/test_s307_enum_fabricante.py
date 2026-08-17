@@ -93,6 +93,12 @@ def test_el_mensaje_queda_acotado_bajo_el_limite_de_telegram(monkeypatch):
     referencias el texto cabe y el resto se resume en «…y N más»."""
     monkeypatch.setattr(bot, "get_products_by_manufacturer",
                         lambda _m: [(f"MODELO-{i:03d}", 2) for i in range(300)])
+    # (s324c) La vista AGRUPADA del catálogo gobernado (s322) va antes de la lista
+    # plana y desde el 16-ago Notifier tiene productos clasificados (software:
+    # TG, ID²NET, CLSS Configuration Tool) → la tomaría. Este test es de la COTA
+    # de la lista plana: se fuerza esa ruta (la agrupada tiene su propia cota,
+    # test_s322_*), para no acoplar el test a los DATOS del catálogo.
+    monkeypatch.setattr(bot, "_inventario_agrupado", lambda _n: None)
     texto = bot._inventario_fabricante("notifier")
     assert len(texto) < 4000
     assert "referencias más" in texto

@@ -31,7 +31,7 @@ def marcar(texto: str, estados: dict[str, str], clave_rx: str) -> tuple[str, int
     def rep(m):
         nonlocal n
         k = m.group(2)
-        est = estados.get(k) or estados.get(k.lower())
+        est = estados.get(k) or estados.get(k.lower()) or estados.get(re.sub(r"\.pdf$", "", k.lower()))
         if not est:
             return m.group(0)
         n += 1
@@ -51,9 +51,14 @@ def main() -> None:
         est_doc[row["source_file"].lower()] = f"✅ APLICADO ({', '.join(sorted(set(row['reglas'])))}) → {len(row['entries'])} id(s) · recibo `{recibo}`"
     for m in plan["doc_map_modificaciones"]:
         est_doc[m["source_file"].lower()] = f"✅ APLICADO (modificación {m['regla']}) → {len(m['entries_nuevas'])} id(s)"
+    r1p = ROOT / "evals/s324b_r1prima_plan_v1.json"
+    r1p_aplicado = r1p.exists() and any((ROOT / "evals").glob("s324b_r1prima_aplicar_*.json"))
     for p in plan.get("pendiente_alberto_R1prima", []):
-        est_doc[p["source_file"].lower()] = (f"⏳ PENDIENTE DE TI — R1' (dúo r32: no estaba firmada): ¿atestar solo los {len(p['R1prima_cenida'])} modelos que el doc NOMBRA "
-                                             f"o los {len(p['R1_completa'])} de la serie? Contesta «R1' OK» o «R1 completa» y se aplica.")
+        if r1p_aplicado:
+            est_doc[p["source_file"].lower()] = f"✅ APLICADO (R1' — tu «R1' OK» del 16-ago) → {len(p['R1prima_cenida'])} modelos NOMBRADOS de {len(p['R1_completa'])} de la serie · recibo `s324b_r1prima_aplicar_*.json`"
+        else:
+            est_doc[p["source_file"].lower()] = (f"⏳ PENDIENTE DE TI — R1' (dúo r32: no estaba firmada): ¿atestar solo los {len(p['R1prima_cenida'])} modelos que el doc NOMBRA "
+                                                 f"o los {len(p['R1_completa'])} de la serie? Contesta «R1' OK» o «R1 completa» y se aplica.")
     for x in plan["no_aplicar"]:
         q = str(x["que"]).lower()
         if q.startswith("996-130"):
@@ -91,26 +96,86 @@ def main() -> None:
     # §0.C (32 altas en bloque): las que R4/R7 ya crearon quedan cubiertas; el resto siguen en el bloque (tu sí)
     tri = json.loads((ROOT / "evals/s322g_e1_candidatos_triage_v1.json").read_text(encoding="utf-8"))
     aplicadas = {a["row"]["id"] for a in plan["products_altas"]}
+    p0c = ROOT / "evals/s324b_lote_0c_plan_v1.json"
+    plan0c = json.loads(p0c.read_text(encoding="utf-8")) if p0c.exists() else None
+    ap0c = {a["row"]["id"]: a for a in (plan0c or {}).get("products_altas", [])}
+    rec0c = sorted((ROOT / "evals").glob("s324b_lote_0c_aplicar_*.json"))
+    rec0c = rec0c[-1].name if rec0c else None
+    RENOM = {"spectrex:40-40m": "spectrex:s40-40m", "spectrex:40-40r": "spectrex:s40-40r", "spectrex:40-40u": "spectrex:s40-40u (+ spectrex:s40-40ub)"}
     for f in tri["seccion_0a_alta_en_bloque"]:
-        if f["id"] in aplicadas:
-            est_id[f["id"]] = f"✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta"
+        fid = f["id"]
+        if fid in aplicadas:
+            est_id[fid] = f"✅ ALTA ya aplicada en s324 (R4/R7, cita verificada) — esta casilla del bloque §0.C queda cubierta"
+        elif rec0c and (fid in ap0c or RENOM.get(fid, "").split(" ")[0] in ap0c):
+            tid = fid if fid in ap0c else RENOM[fid].split(" ")[0]
+            extra = " (+ S40/40UB)" if fid == "spectrex:40-40u" else ""
+            est_id[fid] = f"✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `{tid}`{extra} · cita verificada en {ap0c[tid]['doc'][:40]} · recibo `{rec0c}`"
+        elif rec0c and fid == "aritech:2x-a":
+            est_id[fid] = "⏳ PENDIENTE DE TI — paraguas «2X-A» (familia): el revisor señaló que tu nota adjudica el ALCANCE, no el riesgo léxico del gate («2 x a» con espacios lo dispararía; 0 casos en 96 consultas reales) ni si incluye la sub-serie táctil 2X-AT (11 de 38). ¿Lo quieres igualmente, con 2X-AT dentro?"
+        elif rec0c and fid == "morley:dxc-connexion":
+            est_id[fid] = "✅ RESUELTO (tu nota): la FAQ atesta a la familia DXc (dxc1/dxc2/dxc4) en el doc_map; no se crea producto"
+        elif rec0c and fid == "morley:vision-supra":
+            est_id[fid] = "✅ RESUELTO (tu «baja, confirmo»): documento retirado del corpus; sin alta"
+        elif rec0c and fid == "notifier:stratos":
+            est_id[fid] = "✅ RESUELTO (tu «este doc es paraguas»): STRATOS = paraguas de familia con sus modelos ya catalogados bajo nombre Notifier (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); MADT731_02 → doc_map a los 3; retirados 2 alias erróneos (Stratos-HSSD→SenseNET, Stratos-HSSD detector→MiniLáser25) · recibo `s324b_stratos_aplicar_*.json`"
+        elif rec0c and fid == "notifier:nfxi-bsf-wch":
+            est_id[fid] = "✅ ALTA aplicada como `notifier:nfxi-bsf-wch` (grafía firmada; 3 docs INSPIRE) + alias `NFXI-BSF-WC` (5 docs AM-8200) — si WC y WCH fueran DOS productos, dilo y se separan"
         else:
-            est_id[f["id"]] = "⏳ en el bloque §0.C — tu «sí» (pasará por el gate del detector antes de escribirse)"
+            est_id[fid] = "✅ ACEPTADO por Alberto (§0.C revisado 16-ago, notas consolidadas) → entra en el lote §0.C tras el gate del detector"
 
+    # §0.D (17 RETIRAR revisados por Alberto) y §0.E (3), aplicados en s324c
+    rec0de = sorted((ROOT / "evals").glob("s324c_lote_0de_aplicar_*.json")); rec0de = rec0de[-1].name if rec0de else None
+    if rec0de:
+        for f in tri["seccion_0b_retirar_en_bloque"]:
+            est_id[f["id"]] = "✅ RETIRADO del draft (artefacto; tu OK del 16-ago): no se crea"
+        est_id["fidegas:el-11"] = "✅ RESUELTO: EL-11 no se crea (era «el 11/2018»); tus modelos S/3-2 y S/3-IR + S/2-IR DADOS DE ALTA con doc_map y retag del pm · recibo `" + rec0de + "`"
+        est_id["morley:de-80"] = "✅ RESUELTO: DE-80 no se crea; TG confirmado como SOFTWARE (`notifier:tg`, alias TG-HONEYWELL; gate léxico PASS: 0 disparos en 96 consultas reales) · FAQ → doc_map + retag pm"
+        est_id["notifier:etdt-312"] = "✅ RETIRADO + documento ETDT312 retirado del corpus (tu nota)"
+        est_id["notifier:etdt-314"] = "✅ RETIRADO + documento ETDT314 retirado del corpus (tu nota)"
+        est_id["notifier:madt-742"] = "✅ RETIRADO + documento MADT742 retirado del corpus (tu nota)"
+        est_id["notifier:mndt-1202"] = "✅ RETIRADO + documento MNDT1202 retirado del corpus (tu nota)"
+        est_id["notifier:madt-731"] = "✅ RETIRADO; MADT731_06 → doc_map `notifier:laserstar-hssd-2` (= HSSD-2, tu adjudicación con URL) + retag pm"
+        est_id["notifier:madt-015"] = "⏳ PENDIENTE DE TI — el texto no nombra el modelo; sus hermanas MADT015_02/_03 ya están mapeadas a NFS8REL/NFS2-8 ⇒ ¿NFS2-8 (no FS2)? FS2-1/2/4 no existen en catálogo"
+        est_id["notifier:mndt-600"] = "⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?"
+        est_id["notifier:mndt-701"] = "⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id"
+        est_doc["asd in rail transportation applications_es"] = "✅ RETIRADO del corpus (tu nota §0.E)"
+        est_doc["compatibilidad-entre-equipos-notifier-y-morley"] = "✅ MANTENER (tu nota): sin producto que mapear; la FAQ sigue en el corpus y es servible por retrieval para «¿equipos Notifier en central Morley?»"
+        est_doc["d686 ema1224b4r_w ns4r"] = "✅ APLICADO (tu «aplica a EMA1224B4R/W»): alta `notifier:ema1224b4r-w` + doc_map + retag pm EN-54-3 → EMA1224B4R/W · recibo `" + rec0de + "`"
+    # (s324c noche) re-juicio K=5 cross-model de la clase «confianza media» (E1 14 + E1b 47): propuesta, nada aplicado
+    k5p = ROOT / "evals/s324c_rejuicio_k5_v1.json"
+    if k5p.exists():
+        k5 = json.loads(k5p.read_text(encoding="utf-8"))
+        for f in k5["filas"]:
+            if f.get("packet") != "E1":
+                continue
+            v, nm, nv = f.get("veredicto_mayoria"), f.get("n_votos_mayoria"), f.get("n_votos_validos")
+            votos = f.get("votos_por_veredicto") or {}
+            if f.get("convergente") and v == "PRODUCTO_REAL":
+                est_id[f["id"]] = f"⏳ PENDIENTE DE TI — re-juicio K=5 cross-model (3× sonnet-5 + 2× gpt-5.5, cita verificada) CONVERGENTE {nm}/{nv} PRODUCTO_REAL → propuesto para ALTA" + (f" (grafía propuesta: «{f['grafia_propuesta_por_mayoria']}»)" if f.get("grafia_propuesta_por_mayoria") else "") + " · `s324c_rejuicio_k5_v1.md`"
+            elif f.get("convergente") and v == "ARTEFACTO_EXTRACCION":
+                est_id[f["id"]] = f"✅ RESUELTO por re-juicio K=5 cross-model CONVERGENTE {nm}/{nv} ARTEFACTO → no se crea (di lo contrario si discrepas) · `s324c_rejuicio_k5_v1.md`"
+            else:
+                est_id[f["id"]] = f"⏳ PENDIENTE DE TI — re-juicio K=5 NO convergente (votos válidos {votos}{'; término AUSENTE del texto' if f.get('termino_ausente_del_texto') else ''}) → decides tú · `s324c_rejuicio_k5_v1.md`"
     t = E1.read_text(encoding="utf-8")
-    t, n_doc = marcar(t, est_doc, r"[^`]+")
-    t, n_id = marcar(t, est_id, r"[a-z0-9_-]+:[a-z0-9._+-]+")
+    # UNA sola pasada (la segunda llamada borraba las marcas de la primera) y claves normalizadas
+    # (source_file de la DB lleva .pdf y mayúsculas; la casilla del packet, el slug en minúsculas)
+    est_todo = {re.sub(r"\.pdf$", "", k.lower()): v for k, v in est_doc.items()}
+    est_todo.update(est_id)
+    t, n_todo = marcar(t, est_todo, r"[^`]+")
+    n_doc = sum(1 for k in est_todo if ":" not in k and re.search(r"^- \[ \] `" + re.escape(k) + r"(\.pdf)?`", t, re.M | re.I))
+    n_id = n_todo - n_doc
     pend_r1 = plan.get("pendiente_alberto_R1prima", [])
     cuerpo = f"""> ## 🟢 ESTADO s324 ({utc}) — lo que ya NO tienes que decidir, y lo que sí
 > **Aplicado con recibo `{recibo}`** (dúo r32 Sol+Fable antes de escribir; verificación posterior en censo PASS):
 > - **§0.A** (49) ✅ · **§0.B** (38 limpias + 4 «tu ojo» + tus anotaciones) ✅ **APLICADO** — {sum(1 for r in plan['doc_map_altas'] if r['reglas'][0].startswith('§0.B'))} filas doc_map.
-> - **§1.A** (13): 10 resueltas por tus REGLAS R1/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`) — 3 quedan pendientes de **R1'** (abajo).
+> - **§1.A** (13): 13/13 resueltas por tus REGLAS R1/R1'/R2/R4/R5 (`evals/s324_reglas_residuo_adjudicacion_v1.json`).
 > - **§1.B** (84): las de R6 (7) y R7 (23+4) están RESUELTAS con prueba (altas aplicadas o descartadas); acrónimos cortos (17) y confianza media (14) siguen en cuarentena; todo marcado fila a fila.
 > - Retirados del corpus: MA-DT-1160 (tu adjudicación) + 6 fragmentos PT con hermano ES.
 >
 > **PENDIENTE DE TI (lo único que queda en este fichero):**
-> 1. **R1'** ({len(pend_r1)} docs: {', '.join(p['source_file'][:34] for p in pend_r1)}): «si el documento NOMBRA modelos de la serie, atestar solo los nombrados» — ¿OK? (Sol r32: es criterio nuevo, no lo firmaste.)
-> 2. **§0.C** (32 altas) · **§0.D** (17 retirar) · **§0.E** (3): tus tres «sí» en bloque siguen abiertos — pero OJO: las altas/confirmaciones pasan por el gate del detector (censo del radio de explosión) antes de escribirse, como este lote.
+> 1. ~~**R1'**~~ — **firmada («R1' OK», 16-ago) y APLICADA**: {len(pend_r1)} docs, {sum(len(p['R1prima_cenida']) for p in pend_r1)} entries (recibo `s324b_r1prima_aplicar_*.json`).
+> 2b. ~~**§0.D**~~ ~~**§0.E**~~ — **REVISADOS por ti y APLICADOS** (16-ago): 17 artefactos no creados; 5 documentos retirados del corpus (ETDT312/314, MADT742, MNDT1202, ASD Rail); altas S/3-2, S/3-IR, S/2-IR, EMA1224B4R/W; TG confirmado como software; MADT731_06 → HSSD-2; 5 retags de pm sucio. Quedan 3 preguntas tuyas (MADT015_01, MNDT600, MNDT701 — marcadas ⏳ en sus filas).
+> 2. ~~**§0.C**~~ — **REVISADO por ti y APLICADO** (16-ago; tus 10 notas consolidadas bajo cada fila con mi respuesta `↳ s324b`; revisor Fable 6 hallazgos aplicados): 21 altas + 7 alias + 26 filas doc_map + 2 bajas de corpus (Vision Supra idiomas, MADT190P PT), recibo `s324b_lote_0c_aplicar_*.json`. Quedan DOS preguntas tuyas de §0.C (paraguas «2X-A» y STRATOS, marcadas ⏳ en sus filas) y **§0.D** (17 retirar) · **§0.E** (3).
 > 3. Nombres reales con barra (DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT, STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R): un «sí» = alta.
 > 4. Paraguas «2X-A» (familia): el gate léxico lo frenó (core «2·x·a» dispara en «2 x a»); lo adjudicado (guía → familia) ya está cubierto vía doc_map. ¿Lo quieres igualmente?
 > 5. Baja del fragmento FR `996-130-000-3 manuel d'utilisation ZX` (1 chunk) — ¿sí?
@@ -126,6 +191,9 @@ def main() -> None:
     cuerpo = f"""> ## 🟡 ESTADO s324 ({utc})
 > Este packet sigue **ABIERTO**: sus 4 bloques (474 confirmaciones) y las 146 «una a una» esperan tu sí. Dos cosas nuevas:
 > - **Tu «sí» ya no aplica en seco**: confirmar un candidate activa sus alias y mete términos en el detector (DEC-220 r30). Cada bloque pasará por el **censo del radio de explosión + gate** que ya funcionó en s324 (`scripts/s324_lote_firmado_writer.py`: +28 términos, 0 gold perdidas, 0 disparos en negativos) ANTES de escribirse. Es trabajo mío, no tuyo.
+> - **✅ Bloque «detnov» de §0.A APLICADO** (tu «confirmo que es modelo, y también los otros», 16-ago noche): CCD-102/104/108/112, CAD-250B, CAD-250-BLED confirmados; SGD-151 y SCD-250 como SOFTWARE (tu nota); CCD-103 → `detnov:ccd-103` (antes `unresolved`, candidate). El gate cazó lo que r30 avisaba: confirmar activaba alias descriptivos («2 zonas», «Conventional panels with 2 detection zones»…) que disparaban en consultas genéricas → 14 alias retirados ANTES. Recibo `s324c_e1b_detnov_aplicar_*.json`.
+> - **Re-juicio K=5 cross-model de las 47 «una a una» de confianza media** (3× sonnet-5 + 2× gpt-5.5, rúbrica original, texto completo, cita verificada; ≈$6,6): 34 CONFIRMAR + 1 RETIRAR convergentes ≥4/5 → **bloque `k5_confirmar` PREPARADO** (31 confirmables PASS en el gate; 3 DS-10 con grafía «--» no verifican; `notifier:fs-2` RETIRAR 5/5 pero su doc FS2-1 no resuelve → lo firmas a mano si quieres); 12 NO convergentes quedan una a una (`evals/s324c_rejuicio_k5_v1.md`).
+> - **Los demás bloques PREPARADOS esta noche, NADA aplicado**: 11+2 planes (§0.A notifier/unresolved/kidde/morley/systemsensor/xtralis/fidegas/spectrex, §0.B, §0.C, §0.D, k5_confirmar/k5_retirar) + su dry-run del gate, **13/13 PASS** (0 gold perdidas, 0 negativos sintéticos, tráfico real 0-2/96) → `evals/s324c_e1b_bloques_censo_v1.md`. En total **422 confirmables verificadas** (token literal + cita verbatim full-text), 40 `no_aplicar` (colisiones canonical/alias/paraguas y grafías: quedan listadas con propuesta para ti), **125 alias descriptivos que se retirarían antes** (33 entrarían en el detector; los sin dígito son inertes hoy y llevan `entra_en_detector=false` por si quieres conservarlos). Un «sí» tuyo por bloque = re-dry-run del mismo sha + `--aplicar` con recibo. Cross-bloque (morley↔unresolved ESS*/NFS*-Supra; morley↔notifier MCX-55M/MMX-10M/NFS8REL homónimos): cada bloque pasa solo; aplicar ambos exige adjudicar el homónimo.
 > - **§1.A «retirar» (19) y §0.D (4)**: el predicado de reconstruibilidad (Puerta A) quedó VALIDADO contra el doble control (`evals/s324_puerta_a_predicado_v1.json`) pero **0/18** de estas filas son de esa clase (son palabras genéricas / part-numbers): siguen en cuarentena hasta tu sí; en cuarentena no hacen daño.
 > - Ya aplicado por reglas (no está en este packet): confirmados morley:dx1e/dx2e/dx4e (+3 cajas) y morley:vsn-12-plus (R2); retiradas las etiquetas kidde:2x-at y notifier:vsn-plus (→ paraguas 2X-AT / VSN PLUS)."""
     E1B.write_text(bloque(t, cuerpo), encoding="utf-8")

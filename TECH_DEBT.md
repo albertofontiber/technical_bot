@@ -3191,3 +3191,13 @@ al serving (el retriever usa el pm del chunk) pero sí a cualquier censo/derivac
 **Qué hacer**: retag de `documents.product_model` al canónico del doc_map primario para los docs
 retagueados en E3 (mismo gate de findability), con recibo; y que el writer de retags toque siempre
 ambas capas (el de s324 ya lo hace).
+
+## #89 — La sonda de alcanzabilidad (`s293_reachability_probe.py`) tiene 5 defectos de instrumento vistos al correr las 8 sondas de etapa 3 — s324b
+
+**Estado: OBSERVADO (agente de medición, 16-ago; recibos `evals/s293_reachability_*` y agregado `evals/s321_poblacion_etapa3_v1.md` §5).** El instrumento NO se tocó (regla del encargo).
+1. `RECEIPT` apunta al FULL del **1-ago** (`probe.py:55` → `s100_factlevel_full_v32_full_20260801.yaml`): pregunta/valor/texto/pool_ids salen de ahí, no del FULL vigente. Sin efecto en los 8 (idénticos), pero un gold editado se mediría con el texto viejo.
+2. `appendix` elige la PRIMERA línea que casa el regex (split en `.;:`, len>25) **sin guard de cobertura**: eligió spans que no cubren el hecho (cat016#1, hp015#0 run1) y solo la atestación humana lo detectó; parte «etiqueta: definición» y descarta etiquetas ≤25 chars (hp017#1 → «no construible» con carrier servido); un span de una frase no cubre hechos de dos frases (cat016#1, hp009#0) ⇒ en `appendix` un NO no es atestable para ellos.
+3. Un `SystemExit` en una rep tardía **tira las reps ya juzgadas sin escribir recibo** (hp009#0 appendix: 2 reps 0→0, ~20 llamadas al juez perdidas salvo log); «construible» es por-rep (retrieval no determinista).
+4. No imprime ni guarda **coste** (~$11-13 estimados a mano para 14 invocaciones).
+5. `serve` sobre un chunk ya servido por lane (hp017#1) lo duplica con similarity máxima: el ALCANZABLE mide PROMINENCIA, no evidencia ausente; el recibo no guarda la composición de la base.
+**Qué hacer**: RECEIPT parametrizable (o el FULL más reciente por defecto); guard de cobertura en `appendix` (el span debe contener valor y predicado o abortar a INCONCLUYENTE explícito); recibo parcial ante SystemExit; coste en el recibo; en `serve`, detectar carrier ya servido y declararlo. Con dúo, no de paso.

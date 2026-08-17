@@ -1,0 +1,1734 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220508Z",
+ "plan_sha": "2c5342acc5c3513f",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 138,
+  "retiradas": 0,
+  "aliases_quitados": 45,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1908,
+  "entran": 164,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "1551, ionization",
+    "normkey": "1551,ionization",
+    "core": "1551[-\\s/.+]*ionization",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2010-1-NB",
+    "normkey": "20101nb",
+    "core": "2010[-\\s/.+]*1[-\\s/.+]*nb",
+    "origen": "confirmar kidde:2010-1-nb",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2306B1000",
+    "normkey": "2306b1000",
+    "core": "2306[-\\s/.+]*b[-\\s/.+]*1000",
+    "origen": "confirmar zareba:2306b1000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2306B2000",
+    "normkey": "2306b2000",
+    "core": "2306[-\\s/.+]*b[-\\s/.+]*2000",
+    "origen": "confirmar zareba:2306b2000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2551, photoelectronic",
+    "normkey": "2551,photoelectronic",
+    "core": "2551[-\\s/.+]*photoelectronic",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321KSP12",
+    "normkey": "321ksp12",
+    "core": "321[-\\s/.+]*ksp[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321XXX",
+    "normkey": "321xxx",
+    "core": "321[-\\s/.+]*xxx",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPINGV1.EXE",
+    "normkey": "afpingv1.exe",
+    "core": "afpingv[-\\s/.+]*1[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPINGV2.EXE",
+    "normkey": "afpingv2.exe",
+    "core": "afpingv[-\\s/.+]*2[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPV1.EXE",
+    "normkey": "afpv1.exe",
+    "core": "afpv[-\\s/.+]*1[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPV2.EXE",
+    "normkey": "afpv2.exe",
+    "core": "afpv[-\\s/.+]*2[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Alwon E20M",
+    "normkey": "alwone20m",
+    "core": "alwon[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Alwon E20M Expansion Module Modbus",
+    "normkey": "alwone20mexpansionmodulemodbus",
+    "core": "alwon[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*m[-\\s/.+]*expansion[-\\s/.+]*module[-\\s/.+]*modbus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AM-82-TOP",
+    "normkey": "am82top",
+    "core": "am[-\\s/.+]*82[-\\s/.+]*top",
+    "origen": "confirmar notifier:am-82-top",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ART. 5554 (PAN-2)",
+    "normkey": "art.5554(pan2)",
+    "core": "art[-\\s/.+]*5554[-\\s/.+]*pan[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AVD EVJ",
+    "normkey": "avdevj",
+    "core": "avd[-\\s/.+]*evj",
+    "origen": "confirmar notifier:avd-evj",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-SA1",
+    "normkey": "cabsa1",
+    "core": "cab[-\\s/.+]*sa[-\\s/.+]*1",
+    "origen": "confirmar notifier:cab-sa1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAB-SB2",
+    "normkey": "cabsb2",
+    "core": "cab[-\\s/.+]*sb[-\\s/.+]*2",
+    "origen": "confirmar notifier:cab-sb2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CAD-171 (R)",
+    "normkey": "cad171(r)",
+    "core": "cad[-\\s/.+]*171[-\\s/.+]*r",
+    "origen": "confirmar detnov:cad-171-r",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cad[-\\s/.+]*171"
+    ]
+   },
+   {
+    "termino": "CAD-171 R",
+    "normkey": "cad171r",
+    "core": "cad[-\\s/.+]*171[-\\s/.+]*r",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cad[-\\s/.+]*171"
+    ]
+   },
+   {
+    "termino": "Cargador Solo 725",
+    "normkey": "cargadorsolo725",
+    "core": "cargador[-\\s/.+]*solo[-\\s/.+]*725",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CFP-ZE4",
+    "normkey": "cfpze4",
+    "core": "cfp[-\\s/.+]*ze[-\\s/.+]*4",
+    "origen": "confirmar notifier:cfp-ze4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CFP-ZS4",
+    "normkey": "cfpzs4",
+    "core": "cfp[-\\s/.+]*zs[-\\s/.+]*4",
+    "origen": "confirmar notifier:cfp-zs4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 Digital",
+    "normkey": "cs4digital",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*digital",
+    "origen": "confirmar fidegas:cs4-digital",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 Digital Firmware 1.2",
+    "normkey": "cs4digitalfirmware1.2",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*digital[-\\s/.+]*firmware[-\\s/.+]*1[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DP-AA",
+    "normkey": "dpaa",
+    "core": "dp[-\\s/.+]*aa",
+    "origen": "confirmar notifier:dp-aa",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "E20M",
+    "normkey": "e20m",
+    "core": "e[-\\s/.+]*20[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "E20M Expansion Module Modbus",
+    "normkey": "e20mexpansionmodulemodbus",
+    "core": "e[-\\s/.+]*20[-\\s/.+]*m[-\\s/.+]*expansion[-\\s/.+]*module[-\\s/.+]*modbus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "E20M Modbus",
+    "normkey": "e20mmodbus",
+    "core": "e[-\\s/.+]*20[-\\s/.+]*m[-\\s/.+]*modbus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "e²sense",
+    "normkey": "e2sense",
+    "core": "e[-\\s/.+]*2[-\\s/.+]*sense",
+    "origen": "confirmar unresolved:esense",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "E-SIB-M",
+    "normkey": "esibm",
+    "core": "e[-\\s/.+]*sib[-\\s/.+]*m",
+    "origen": "confirmar notifier:e-sib-m",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E",
+    "normkey": "fl01xxe",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E-HS",
+    "normkey": "fl01xxehs",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl01xx-e-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FVR-01",
+    "normkey": "fvr01",
+    "core": "fvr[-\\s/.+]*01",
+    "origen": "confirmar unresolved:fvr-01",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HON-CGW-MBB",
+    "normkey": "honcgwmbb",
+    "core": "hon[-\\s/.+]*cgw[-\\s/.+]*mbb",
+    "origen": "confirmar notifier:hon-cgw-mbb",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-133-206",
+    "normkey": "hop133206",
+    "core": "hop[-\\s/.+]*133[-\\s/.+]*206",
+    "origen": "confirmar notifier:hop-133-206",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-136-412",
+    "normkey": "hop136412",
+    "core": "hop[-\\s/.+]*136[-\\s/.+]*412",
+    "origen": "confirmar notifier:hop-136-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-238-110",
+    "normkey": "hop238110",
+    "core": "hop[-\\s/.+]*238[-\\s/.+]*110",
+    "origen": "confirmar notifier:hop-238-110",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-238-115",
+    "normkey": "hop238115",
+    "core": "hop[-\\s/.+]*238[-\\s/.+]*115",
+    "origen": "confirmar notifier:hop-238-115",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HSS2-2N",
+    "normkey": "hss22n",
+    "core": "hss[-\\s/.+]*2[-\\s/.+]*2[-\\s/.+]*n",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HSSD-2A",
+    "normkey": "hssd2a",
+    "core": "hssd[-\\s/.+]*2[-\\s/.+]*a",
+    "origen": "confirmar notifier:hssd-2a",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "hssd[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "HSSD-2N",
+    "normkey": "hssd2n",
+    "core": "hssd[-\\s/.+]*2[-\\s/.+]*n",
+    "origen": "confirmar notifier:hssd-2n",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "hssd[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "ITAC Supra",
+    "normkey": "itacsupra",
+    "core": "itac[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:itac-supra",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Keltron 90",
+    "normkey": "keltron90",
+    "core": "keltron[-\\s/.+]*90",
+    "origen": "confirmar notifier:keltron-90",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LDANEOTFL",
+    "normkey": "ldaneotfl",
+    "core": "ldaneotfl",
+    "origen": "confirmar lda:ldaneotfl",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "limitador del campo de visión modelo FVR-01",
+    "normkey": "limitadordelcampodevisionmodelofvr01",
+    "core": "limitador[-\\s/.+]*del[-\\s/.+]*campo[-\\s/.+]*de[-\\s/.+]*vision[-\\s/.+]*modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LT-ACC-IPA",
+    "normkey": "ltaccipa",
+    "core": "lt[-\\s/.+]*acc[-\\s/.+]*ipa",
+    "origen": "confirmar xtralis:lt-acc-ipa",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LT-ACC-PCL",
+    "normkey": "ltaccpcl",
+    "core": "lt[-\\s/.+]*acc[-\\s/.+]*pcl",
+    "origen": "confirmar xtralis:lt-acc-pcl",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LT-ACC-RLY",
+    "normkey": "ltaccrly",
+    "core": "lt[-\\s/.+]*acc[-\\s/.+]*rly",
+    "origen": "confirmar xtralis:lt-acc-rly",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LT-ACC-SCL",
+    "normkey": "ltaccscl",
+    "core": "lt[-\\s/.+]*acc[-\\s/.+]*scl",
+    "origen": "confirmar xtralis:lt-acc-scl",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I-W",
+    "normkey": "mad464iw",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-464-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I-W",
+    "normkey": "mad465iw",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-465-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I-W",
+    "normkey": "mad564iw",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-564-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I-W",
+    "normkey": "mad565iw",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-565-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MGate MB3170",
+    "normkey": "mgatemb3170",
+    "core": "mgate[-\\s/.+]*mb[-\\s/.+]*3170",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MGate MB3170_3270 Series_v2",
+    "normkey": "mgatemb3170_3270series_v2",
+    "core": "mgate[-\\s/.+]*mb[-\\s/.+]*3170[-\\s/.+]*3270[-\\s/.+]*series[-\\s/.+]*v[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-CMO",
+    "normkey": "micmo",
+    "core": "mi[-\\s/.+]*cmo",
+    "origen": "confirmar morley:mi-cmo",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-DCZRM",
+    "normkey": "midczrm",
+    "core": "mi[-\\s/.+]*dczrm",
+    "origen": "confirmar unresolved:mi-dczrm",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MODBUS DB9 RS232 cable",
+    "normkey": "modbusdb9rs232cable",
+    "core": "modbus[-\\s/.+]*db[-\\s/.+]*9[-\\s/.+]*rs[-\\s/.+]*232[-\\s/.+]*cable",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "model 1551 ionization detector head",
+    "normkey": "model1551ionizationdetectorhead",
+    "core": "model[-\\s/.+]*1551[-\\s/.+]*ionization[-\\s/.+]*detector[-\\s/.+]*head",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "model 2551 photoelectronic detector head",
+    "normkey": "model2551photoelectronicdetectorhead",
+    "core": "model[-\\s/.+]*2551[-\\s/.+]*photoelectronic[-\\s/.+]*detector[-\\s/.+]*head",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Model 3466",
+    "normkey": "model3466",
+    "core": "model[-\\s/.+]*3466",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Model 787640",
+    "normkey": "model787640",
+    "core": "model[-\\s/.+]*787640",
+    "origen": "confirmar spectrex:model-787640",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "modelo FVR-01",
+    "normkey": "modelofvr01",
+    "core": "modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MT3910",
+    "normkey": "mt3910",
+    "core": "mt[-\\s/.+]*3910",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MU 591 m 2024 a",
+    "normkey": "mu591m2024a",
+    "core": "mu[-\\s/.+]*591[-\\s/.+]*m[-\\s/.+]*2024[-\\s/.+]*a",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-GAS-100",
+    "normkey": "ngas100",
+    "core": "n[-\\s/.+]*gas[-\\s/.+]*100",
+    "origen": "confirmar notifier:n-gas-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NP12-12FR",
+    "normkey": "np1212fr",
+    "core": "np[-\\s/.+]*12[-\\s/.+]*12[-\\s/.+]*fr",
+    "origen": "confirmar notifier:np12-12fr",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NP24-12FR",
+    "normkey": "np2412fr",
+    "core": "np[-\\s/.+]*24[-\\s/.+]*12[-\\s/.+]*fr",
+    "origen": "confirmar notifier:np24-12fr",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NP38-12FR",
+    "normkey": "np3812fr",
+    "core": "np[-\\s/.+]*38[-\\s/.+]*12[-\\s/.+]*fr",
+    "origen": "confirmar notifier:np38-12fr",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NRT-586TF",
+    "normkey": "nrt586tf",
+    "core": "nrt[-\\s/.+]*586[-\\s/.+]*tf",
+    "origen": "confirmar notifier:nrt-586tf",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NRT-586TWF",
+    "normkey": "nrt586twf",
+    "core": "nrt[-\\s/.+]*586[-\\s/.+]*twf",
+    "origen": "confirmar notifier:nrt-586twf",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NXFI-COPT22",
+    "normkey": "nxficopt22",
+    "core": "nxfi[-\\s/.+]*copt[-\\s/.+]*22",
+    "origen": "confirmar notifier:nxfi-copt22",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "OxFS3466",
+    "normkey": "oxfs3466",
+    "core": "oxfs[-\\s/.+]*3466",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAD-20",
+    "normkey": "pad20",
+    "core": "pad[-\\s/.+]*20",
+    "origen": "confirmar detnov:pad-20",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAN-2",
+    "normkey": "pan2",
+    "core": "pan[-\\s/.+]*2",
+    "origen": "confirmar notifier:pan-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PINNACLE 7251",
+    "normkey": "pinnacle7251",
+    "core": "pinnacle[-\\s/.+]*7251",
+    "origen": "confirmar notifier:pinnacle-7251",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK200",
+    "normkey": "pk200",
+    "core": "pk[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK200E",
+    "normkey": "pk200e",
+    "core": "pk[-\\s/.+]*200[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PKAFP200",
+    "normkey": "pkafp200",
+    "core": "pkafp[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-AFP200E",
+    "normkey": "pkafp200e",
+    "core": "pk[-\\s/.+]*afp[-\\s/.+]*200[-\\s/.+]*e",
+    "origen": "confirmar notifier:pk-afp200e",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PKID200E",
+    "normkey": "pkid200e",
+    "core": "pkid[-\\s/.+]*200[-\\s/.+]*e",
+    "origen": "confirmar notifier:pkid200e",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PL4+ control unit",
+    "normkey": "pl4+controlunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4+ gas control panel",
+    "normkey": "pl4+gascontrolpanel",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*gas[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "Primera Tarjeta Expansora ZS4",
+    "normkey": "primeratarjetaexpansorazs4",
+    "core": "primera[-\\s/.+]*tarjeta[-\\s/.+]*expansora[-\\s/.+]*zs[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PY X-M-05-SSM",
+    "normkey": "pyxm05ssm",
+    "core": "py[-\\s/.+]*x[-\\s/.+]*m[-\\s/.+]*05[-\\s/.+]*ssm",
+    "origen": "confirmar pyra:py-x-m-05-ssm",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "py[-\\s/.+]*x[-\\s/.+]*m[-\\s/.+]*05"
+    ]
+   },
+   {
+    "termino": "PY X-M-10-SSM",
+    "normkey": "pyxm10ssm",
+    "core": "py[-\\s/.+]*x[-\\s/.+]*m[-\\s/.+]*10[-\\s/.+]*ssm",
+    "origen": "confirmar pyra:py-x-m-10-ssm",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "py[-\\s/.+]*x[-\\s/.+]*m[-\\s/.+]*10"
+    ]
+   },
+   {
+    "termino": "ref. MAD-564-I-W",
+    "normkey": "ref.mad564iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I-W",
+    "normkey": "ref.mad565iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "RP1001E",
+    "normkey": "rp1001e",
+    "core": "rp[-\\s/.+]*1001[-\\s/.+]*e",
+    "origen": "confirmar notifier:rp1001e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "rp[-\\s/.+]*1001"
+    ]
+   },
+   {
+    "termino": "S3466R",
+    "normkey": "s3466r",
+    "core": "s[-\\s/.+]*3466[-\\s/.+]*r",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 1",
+    "normkey": "smart1",
+    "core": "smart[-\\s/.+]*1",
+    "origen": "confirmar notifier:smart-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Solo 725",
+    "normkey": "solo725",
+    "core": "solo[-\\s/.+]*725",
+    "origen": "confirmar testifire:solo-725",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ST.PL4+",
+    "normkey": "st.pl4+",
+    "core": "st[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "confirmar notifier:st.pl4+",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-6000 Net",
+    "normkey": "tg6000net",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*net",
+    "origen": "confirmar notifier:tg-6000-net",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "UCIP-MODBUS E20M",
+    "normkey": "ucipmodbuse20m",
+    "core": "ucip[-\\s/.+]*modbus[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*m",
+    "origen": "confirmar notifier:ucip-modbus-e20m",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ucip"
+    ]
+   },
+   {
+    "termino": "UCIP-MODBUS E20N versión modelo E20M",
+    "normkey": "ucipmodbuse20nversionmodeloe20m",
+    "core": "ucip[-\\s/.+]*modbus[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*n[-\\s/.+]*version[-\\s/.+]*modelo[-\\s/.+]*e[-\\s/.+]*20[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ucip"
+    ]
+   },
+   {
+    "termino": "VERIFIRE 1020",
+    "normkey": "verifire1020",
+    "core": "verifire[-\\s/.+]*1020",
+    "origen": "confirmar notifier:verifire-1020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VESDA VLI Remote Display with RTC0",
+    "normkey": "vesdavliremotedisplaywithrtc0",
+    "core": "vesda[-\\s/.+]*vli[-\\s/.+]*remote[-\\s/.+]*display[-\\s/.+]*with[-\\s/.+]*rtc[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VESDA VLI Remote Display with RTC7",
+    "normkey": "vesdavliremotedisplaywithrtc7",
+    "core": "vesda[-\\s/.+]*vli[-\\s/.+]*remote[-\\s/.+]*display[-\\s/.+]*with[-\\s/.+]*rtc[-\\s/.+]*7",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VISION SUPRA",
+    "normkey": "visionsupra",
+    "core": "vision[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:vision-supra",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VRT-Q00",
+    "normkey": "vrtq00",
+    "core": "vrt[-\\s/.+]*q[-\\s/.+]*00",
+    "origen": "confirmar xtralis:vrt-q00",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VRT-T00",
+    "normkey": "vrtt00",
+    "core": "vrt[-\\s/.+]*t[-\\s/.+]*00",
+    "origen": "confirmar xtralis:vrt-t00",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN-12 Plus2",
+    "normkey": "vsn12plus2",
+    "core": "vsn[-\\s/.+]*12[-\\s/.+]*plus[-\\s/.+]*2",
+    "origen": "confirmar morley:vsn-12-plus2",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*12[-\\s/.+]*plus"
+    ]
+   },
+   {
+    "termino": "VSN-4 Plus2",
+    "normkey": "vsn4plus2",
+    "core": "vsn[-\\s/.+]*4[-\\s/.+]*plus[-\\s/.+]*2",
+    "origen": "confirmar morley:vsn-4-plus2",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*4[-\\s/.+]*plus"
+    ]
+   },
+   {
+    "termino": "VSN-8 Plus2",
+    "normkey": "vsn8plus2",
+    "core": "vsn[-\\s/.+]*8[-\\s/.+]*plus[-\\s/.+]*2",
+    "origen": "confirmar morley:vsn-8-plus2",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*8[-\\s/.+]*plus"
+    ]
+   },
+   {
+    "termino": "VSN-RP1r-2PLUS",
+    "normkey": "vsnrp1r2plus",
+    "core": "vsn[-\\s/.+]*rp[-\\s/.+]*1[-\\s/.+]*r[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar unresolved:vsn-rp1r-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*rp[-\\s/.+]*1[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "WFD20N",
+    "normkey": "wfd20n",
+    "core": "wfd[-\\s/.+]*20[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd20n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD25N",
+    "normkey": "wfd25n",
+    "core": "wfd[-\\s/.+]*25[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd25n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD30N",
+    "normkey": "wfd30n",
+    "core": "wfd[-\\s/.+]*30[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd30n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD40N",
+    "normkey": "wfd40n",
+    "core": "wfd[-\\s/.+]*40[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd40n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD60N",
+    "normkey": "wfd60n",
+    "core": "wfd[-\\s/.+]*60[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd60n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD80N",
+    "normkey": "wfd80n",
+    "core": "wfd[-\\s/.+]*80[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd80n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z040",
+    "normkey": "z040",
+    "core": "z[-\\s/.+]*040",
+    "origen": "confirmar pepperl-fuchs:z040",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z041",
+    "normkey": "z041",
+    "core": "z[-\\s/.+]*041",
+    "origen": "confirmar pepperl-fuchs:z041",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z042",
+    "normkey": "z042",
+    "core": "z[-\\s/.+]*042",
+    "origen": "confirmar pepperl-fuchs:z042",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z710",
+    "normkey": "z710",
+    "core": "z[-\\s/.+]*710",
+    "origen": "confirmar pepperl-fuchs:z710",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z713",
+    "normkey": "z713",
+    "core": "z[-\\s/.+]*713",
+    "origen": "confirmar pepperl-fuchs:z713",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z715.1K",
+    "normkey": "z715.1k",
+    "core": "z[-\\s/.+]*715[-\\s/.+]*1[-\\s/.+]*k",
+    "origen": "confirmar pepperl-fuchs:z715.1k",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z722",
+    "normkey": "z722",
+    "core": "z[-\\s/.+]*722",
+    "origen": "confirmar pepperl-fuchs:z722",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z728.CL",
+    "normkey": "z728.cl",
+    "core": "z[-\\s/.+]*728[-\\s/.+]*cl",
+    "origen": "confirmar pepperl-fuchs:z728.cl",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "z[-\\s/.+]*728"
+    ]
+   },
+   {
+    "termino": "Z731",
+    "normkey": "z731",
+    "core": "z[-\\s/.+]*731",
+    "origen": "confirmar pepperl-fuchs:z731",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z755",
+    "normkey": "z755",
+    "core": "z[-\\s/.+]*755",
+    "origen": "confirmar pepperl-fuchs:z755",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z757",
+    "normkey": "z757",
+    "core": "z[-\\s/.+]*757",
+    "origen": "confirmar pepperl-fuchs:z757",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z763",
+    "normkey": "z763",
+    "core": "z[-\\s/.+]*763",
+    "origen": "confirmar pepperl-fuchs:z763",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z764",
+    "normkey": "z764",
+    "core": "z[-\\s/.+]*764",
+    "origen": "confirmar pepperl-fuchs:z764",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z765",
+    "normkey": "z765",
+    "core": "z[-\\s/.+]*765",
+    "origen": "confirmar pepperl-fuchs:z765",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z772",
+    "normkey": "z772",
+    "core": "z[-\\s/.+]*772",
+    "origen": "confirmar pepperl-fuchs:z772",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z778",
+    "normkey": "z778",
+    "core": "z[-\\s/.+]*778",
+    "origen": "confirmar pepperl-fuchs:z778",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z779.H",
+    "normkey": "z779.h",
+    "core": "z[-\\s/.+]*779[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z779.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z786",
+    "normkey": "z786",
+    "core": "z[-\\s/.+]*786",
+    "origen": "confirmar pepperl-fuchs:z786",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z787.H",
+    "normkey": "z787.h",
+    "core": "z[-\\s/.+]*787[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z787.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z788.H",
+    "normkey": "z788.h",
+    "core": "z[-\\s/.+]*788[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z788.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z788.R",
+    "normkey": "z788.r",
+    "core": "z[-\\s/.+]*788[-\\s/.+]*r",
+    "origen": "confirmar pepperl-fuchs:z788.r",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z789",
+    "normkey": "z789",
+    "core": "z[-\\s/.+]*789",
+    "origen": "confirmar pepperl-fuchs:z789",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z796",
+    "normkey": "z796",
+    "core": "z[-\\s/.+]*796",
+    "origen": "confirmar pepperl-fuchs:z796",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z810.CL",
+    "normkey": "z810.cl",
+    "core": "z[-\\s/.+]*810[-\\s/.+]*cl",
+    "origen": "confirmar pepperl-fuchs:z810.cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z813",
+    "normkey": "z813",
+    "core": "z[-\\s/.+]*813",
+    "origen": "confirmar pepperl-fuchs:z813",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z822",
+    "normkey": "z822",
+    "core": "z[-\\s/.+]*822",
+    "origen": "confirmar pepperl-fuchs:z822",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z828.H",
+    "normkey": "z828.h",
+    "core": "z[-\\s/.+]*828[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z828.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z857",
+    "normkey": "z857",
+    "core": "z[-\\s/.+]*857",
+    "origen": "confirmar pepperl-fuchs:z857",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z864",
+    "normkey": "z864",
+    "core": "z[-\\s/.+]*864",
+    "origen": "confirmar pepperl-fuchs:z864",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z865",
+    "normkey": "z865",
+    "core": "z[-\\s/.+]*865",
+    "origen": "confirmar pepperl-fuchs:z865",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z872",
+    "normkey": "z872",
+    "core": "z[-\\s/.+]*872",
+    "origen": "confirmar pepperl-fuchs:z872",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z878",
+    "normkey": "z878",
+    "core": "z[-\\s/.+]*878",
+    "origen": "confirmar pepperl-fuchs:z878",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z886",
+    "normkey": "z886",
+    "core": "z[-\\s/.+]*886",
+    "origen": "confirmar pepperl-fuchs:z886",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z887",
+    "normkey": "z887",
+    "core": "z[-\\s/.+]*887",
+    "origen": "confirmar pepperl-fuchs:z887",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z888.H",
+    "normkey": "z888.h",
+    "core": "z[-\\s/.+]*888[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z888.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z896",
+    "normkey": "z896",
+    "core": "z[-\\s/.+]*896",
+    "origen": "confirmar pepperl-fuchs:z896",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z905",
+    "normkey": "z905",
+    "core": "z[-\\s/.+]*905",
+    "origen": "confirmar pepperl-fuchs:z905",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z910",
+    "normkey": "z910",
+    "core": "z[-\\s/.+]*910",
+    "origen": "confirmar pepperl-fuchs:z910",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z915.1K",
+    "normkey": "z915.1k",
+    "core": "z[-\\s/.+]*915[-\\s/.+]*1[-\\s/.+]*k",
+    "origen": "confirmar pepperl-fuchs:z915.1k",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z922",
+    "normkey": "z922",
+    "core": "z[-\\s/.+]*922",
+    "origen": "confirmar pepperl-fuchs:z922",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z928",
+    "normkey": "z928",
+    "core": "z[-\\s/.+]*928",
+    "origen": "confirmar pepperl-fuchs:z928",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z954",
+    "normkey": "z954",
+    "core": "z[-\\s/.+]*954",
+    "origen": "confirmar pepperl-fuchs:z954",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z955",
+    "normkey": "z955",
+    "core": "z[-\\s/.+]*955",
+    "origen": "confirmar pepperl-fuchs:z955",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z960",
+    "normkey": "z960",
+    "core": "z[-\\s/.+]*960",
+    "origen": "confirmar pepperl-fuchs:z960",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z961.H",
+    "normkey": "z961.h",
+    "core": "z[-\\s/.+]*961[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z961.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z964",
+    "normkey": "z964",
+    "core": "z[-\\s/.+]*964",
+    "origen": "confirmar pepperl-fuchs:z964",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z965",
+    "normkey": "z965",
+    "core": "z[-\\s/.+]*965",
+    "origen": "confirmar pepperl-fuchs:z965",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z966.H",
+    "normkey": "z966.h",
+    "core": "z[-\\s/.+]*966[-\\s/.+]*h",
+    "origen": "confirmar pepperl-fuchs:z966.h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z967",
+    "normkey": "z967",
+    "core": "z[-\\s/.+]*967",
+    "origen": "confirmar pepperl-fuchs:z967",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z969",
+    "normkey": "z969",
+    "core": "z[-\\s/.+]*969",
+    "origen": "confirmar pepperl-fuchs:z969",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z972",
+    "normkey": "z972",
+    "core": "z[-\\s/.+]*972",
+    "origen": "confirmar pepperl-fuchs:z972",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "1551, ionization",
+    "id": "systemsensor:1551",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "2551, photoelectronic",
+    "id": "systemsensor:2551",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321KSP12",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321XXX",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "7251",
+    "id": "notifier:pinnacle-7251",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "787640",
+    "id": "spectrex:model-787640",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AFPINGV1.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPINGV2.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPV1.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPV2.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Alwon E20M",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Alwon E20M Expansion Module Modbus",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ART. 5554 (PAN-2)",
+    "id": "notifier:pan-2",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CAD-171 R",
+    "id": "detnov:cad-171-r",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Cargador Solo 725",
+    "id": "testifire:solo-725",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CS4 Digital Firmware 1.2",
+    "id": "fidegas:cs4-digital",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "E20M",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "E20M Expansion Module Modbus",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "E20M Modbus",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "EOL",
+    "id": "lda:ldaneotfl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ezsense",
+    "id": "unresolved:esense",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "FL01XX E",
+    "id": "unresolved:fl01xx-e-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "HSS2-2N",
+    "id": "notifier:hssd-2n",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "limitador del campo de visión modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MGate MB3170",
+    "id": "xtralis:lt-acc-ipa",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MGate MB3170_3270 Series_v2",
+    "id": "xtralis:lt-acc-ipa",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MODBUS DB9 RS232 cable",
+    "id": "xtralis:lt-acc-scl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "model 1551 ionization detector head",
+    "id": "systemsensor:1551",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "model 2551 photoelectronic detector head",
+    "id": "systemsensor:2551",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Model 3466",
+    "id": "unresolved:3466",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MT3910",
+    "id": "notifier:st.pl4+",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MU 591 m 2024 a",
+    "id": "detnov:pad-20",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "OxFS3466",
+    "id": "unresolved:3466",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PINN",
+    "id": "notifier:pinnacle-7251",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "PK200",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK200E",
+    "id": "notifier:pkid200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PKAFP200",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ control unit",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ gas control panel",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Primera Tarjeta Expansora ZS4",
+    "id": "notifier:cfp-zs4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I-W",
+    "id": "unresolved:mad-564-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I-W",
+    "id": "unresolved:mad-565-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "S3466R",
+    "id": "unresolved:3466",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UCIP-MODBUS",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "UCIP-MODBUS E20N versión modelo E20M",
+    "id": "notifier:ucip-modbus-e20m",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Unipoint",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "VESDA VLI Remote Display with RTC0",
+    "id": "xtralis:vrt-t00",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "VESDA VLI Remote Display with RTC7",
+    "id": "xtralis:vrt-q00",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "VSNRP1r-2Plus",
+    "id": "unresolved:vsn-rp1r-2plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

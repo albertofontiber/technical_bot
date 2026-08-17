@@ -3697,3 +3697,46 @@ diferencia hoy es que el dúo lo cazó antes de que tocara código.
 Un dato nuevo que sí se ganó: `hp013#1` bajó de escalón — el carrier PWR-R ya no entra ni al pool —,
 y el registro decía lo contrario desde hace semanas.
 
+## s324b/c (16-17 ago 2026, misma sesión que s324; tarde con Alberto + noche autónoma) — Medir la etapa 3 antes de construirla, y aplicar solo lo que él firmó
+
+**Cómo empezó.** Con PR #275 mergeada, Alberto zanjó el modo de trabajo: **una sola sesión** («prefiero la
+simplicidad de una sesión aunque luego ataquemos puntos en paralelo con agentes»): él revisa la asignación
+documento→modelo en los packets; yo mido la etapa 3. Sus adjudicaciones fueron llegando en frases: «R1' OK»,
+«§0.C revisado (en la copia `_AS2`) — consolida en un único documento», «Documento Vision Supra: baja, confirmo»,
+«Doc Stratos: este doc es paraguas, no de modelo concreto», «§0.D revisado, con comentarios… hecho también §0.E»,
+y sobre Detnov: «Confirmo que es modelo, y también lo son los otros». Cada una entró por la mecánica de s324
+(plan verificado full-text → dry-run con censo → aplicar con recibo → verificación posterior 0 fallos), y el gate
+volvió a ganarse el sueldo: confirmar CCD-102/104/108/112 ACTIVABA alias descriptivos («2 zonas», «4 zonas»,
+«Conventional panels with 2 detection zones») que disparaban en consultas genéricas — la clase exacta que r30
+había avisado; se retiraron 14 antes de confirmar. El revisor Fable standalone sobre el lote §0.C cazó 6 cosas
+reales (paraguas «2X-A» diferido: la nota de Alberto adjudica el ALCANCE, no el riesgo léxico; NFXI-BSF-WCH sí
+estaba atestada; una cita prestada de otra FAQ; alias ASCII de ID²NET; STRATOS es una gama). Y hp015 se resolvió
+por DATOS, no por lever: CCD-103 era candidate bajo `unresolved` y hoy es `detnov:ccd-103` (tráfico real: una
+detección nueva y verdadera).
+
+**La etapa 3.** El encargo de la otra sesión (sondar los 8 «servido y omitido» del FULL 16-ago) lo ejecutó un
+agente de medición: 7 ALCANZABLE / 1 NO (`hp009#0`); 3 de los alcanzables eran «flips» (la base ya transmitía a
+veces). Escribí la propuesta del lever B (D1 «cierre de bloque de lista» + D2) y el dúo r33 la paró con razones
+verificables — Sol: no es una vista pasiva, las listas no tienen fin inequívoco, base/oráculo independientes no
+localizan retrieval vs síntesis; Fable (14 `tool_use` reales): «sustitución de denominador — Alberto debe adjudicar
+con el 1, no con el 6/30». Cuando Alberto, antes de dormir, preguntó si no tenía sentido «construir el lever
+apoyándome en el adversarial» y «atacar los no OK hasta >95%», le devolví el dato: población por gold {hp017,
+hp005, hp015, hp001} = 4 y no es una clase; **un solo hecho pagable por serving** (`hp017#1`); los 19 «no OK» son
+heterogéneos. «OK, a por ello». La noche fue de medir con dinero de verdad y $0 donde se pudo: la **prueba
+offline D1** (código real de coverage, fidelidad 40/40) dijo que el cierre SÍ alcanza el bullet de hp017#1 pero solo
+si la línea en blanco no rompe el bloque, que no paga ningún otro hecho no-OK y que toca 9 hechos OK para pagar 1;
+el **replay sobre composición congelada** ($5,44) dijo que los 4 flips son **síntesis inestable 4/4** con la vista
+idéntica — con N=3 un FULL los etiqueta por azar. DEC-175 lleva ahora la cifra de cabecera «1 hecho» y D1 no se
+construye sin un GO explícito sobre ese 1. Los tres de conducta («negar la premisa») son un packet de gold-review.
+
+**Lo preparado para mañana.** Los bloques E1b sin firmar: 11 planes con su dry-run del gate, 11/11 PASS (422
+confirmables verificadas, 40 colisiones listadas con propuesta, 125 alias descriptivos que se retirarían antes; el
+gate parió una regla nueva del clasificador —«truncación ambigua de familia»— porque `VSN12` disparaba «vsn 12»).
+Nada aplicado: un «sí» por bloque. La suite cazó su propio acoplamiento: `test_s307` (cota de la lista plana de
+inventario) dependía de que Notifier no tuviera productos clasificados; desde esta noche los tiene (software).
+
+**Lección de la sesión.** Cuando el dueño propone construir, la respuesta correcta no es ni obedecer ni negarse:
+es traer el dato que convierte la propuesta en decisión (Protocolo 2 + bias #51). Y un agente de medición rinde
+si el encargo lleva las trampas escritas: los cuatro de esta noche devolvieron recibos verificables y ninguno
+tocó `src/`.
+

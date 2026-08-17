@@ -1,0 +1,143 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T220453Z",
+ "plan_sha": "0f62ac44d59cf540",
+ "freeze": {
+  "catalog_shas": {
+   "products": "1179d5d5c925065d",
+   "aliases": "d4d06bd286acd520",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "d1177893c74d614d"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 5,
+  "retiradas": 0,
+  "aliases_quitados": 6,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1751,
+  "entran": 7,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "adaptador IEC C13 a terminal de tornillo",
+    "normkey": "adaptadoriecc13aterminaldetornillo",
+    "core": "adaptador[-\\s/.+]*iec[-\\s/.+]*c[-\\s/.+]*13[-\\s/.+]*a[-\\s/.+]*terminal[-\\s/.+]*de[-\\s/.+]*tornillo",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Conmutador PoE de 24 puertos, adaptador de corriente IEC (LT-ACC-POE-24-ADR)",
+    "normkey": "conmutadorpoede24puertos,adaptadordecorrienteiec(ltaccpoe24adr)",
+    "core": "conmutador[-\\s/.+]*poe[-\\s/.+]*de[-\\s/.+]*24[-\\s/.+]*puertos[-\\s/.+]*adaptador[-\\s/.+]*de[-\\s/.+]*corriente[-\\s/.+]*iec[-\\s/.+]*lt[-\\s/.+]*acc[-\\s/.+]*poe[-\\s/.+]*24[-\\s/.+]*adr",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "conmutador[-\\s/.+]*poe[-\\s/.+]*de[-\\s/.+]*24[-\\s/.+]*puertos"
+    ]
+   },
+   {
+    "termino": "ICAM IFT-15",
+    "normkey": "icamift15",
+    "core": "icam[-\\s/.+]*ift[-\\s/.+]*15",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IFT-15",
+    "normkey": "ift15",
+    "core": "ift[-\\s/.+]*15",
+    "origen": "confirmar xtralis:ift-15",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LT-ACC-POE-24-ADR",
+    "normkey": "ltaccpoe24adr",
+    "core": "lt[-\\s/.+]*acc[-\\s/.+]*poe[-\\s/.+]*24[-\\s/.+]*adr",
+    "origen": "confirmar xtralis:lt-acc-poe-24-adr",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lt[-\\s/.+]*acc[-\\s/.+]*poe[-\\s/.+]*24"
+    ]
+   },
+   {
+    "termino": "VLI-880",
+    "normkey": "vli880",
+    "core": "vli[-\\s/.+]*880",
+    "origen": "confirmar xtralis:vli-880",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSP-961",
+    "normkey": "vsp961",
+    "core": "vsp[-\\s/.+]*961",
+    "origen": "confirmar xtralis:vsp-961",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "adaptador IEC C13 a terminal de tornillo",
+    "id": "xtralis:lt-acc-poe-24-adr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Conmutador PoE de 24 puertos, adaptador de corriente IEC (LT-ACC-POE-24-ADR)",
+    "id": "xtralis:lt-acc-poe-24-adr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ICAM IFT-15",
+    "id": "xtralis:ift-15",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "VLI",
+    "id": "xtralis:vli-880",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

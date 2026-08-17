@@ -1,0 +1,101 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260816T194501Z",
+ "plan_sha": "6d24c9d776d775a5",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "8a3d93737d4c30b6",
+   "aliases": "9cc196e942a7f9e4",
+   "umbrellas": "24d96389cf7ba705",
+   "doc_map": "9d7955a91b5e6051"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 2,
+  "umbrellas": 1,
+  "doc_map_altas": 1,
+  "doc_map_modificadas": 0,
+  "aliases_altas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1722,
+  "terminos_despues": 1723,
+  "entran": 1,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "STRATOS",
+    "normkey": "stratos",
+    "core": "stratos",
+    "origen": "paraguas STRATOS (3 ids)",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "stratos[-\\s/.+]*2",
+     "stratos[-\\s/.+]*interface[-\\s/.+]*de[-\\s/.+]*terminales[-\\s/.+]*universal[-\\s/.+]*version[-\\s/.+]*1[-\\s/.+]*0",
+     "stratos[-\\s/.+]*micra[-\\s/.+]*100",
+     "stratos[-\\s/.+]*tm[-\\s/.+]*interface[-\\s/.+]*de[-\\s/.+]*terminales[-\\s/.+]*universal[-\\s/.+]*version[-\\s/.+]*1[-\\s/.+]*0"
+    ]
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "notifier:laserstar-hssd-2": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MADT731_02"
+    ]
+   },
+   "notifier:minilaser-100": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MADT731_02"
+    ]
+   },
+   "notifier:minilser25": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MADT731_02"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals\\s324b_stratos_backup_20260816T194501Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

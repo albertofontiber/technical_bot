@@ -1,0 +1,507 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260816T193503Z",
+ "plan_sha": "2860706a79dab977",
+ "freeze": {
+  "catalog_shas": {
+   "products": "10af5b57f264e736",
+   "aliases": "e05d4f801e1569d7",
+   "umbrellas": "24d96389cf7ba705",
+   "doc_map": "9fae760e56e53323"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 21,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 26,
+  "doc_map_modificadas": 0,
+  "aliases_altas": 7
+ },
+ "censo": {
+  "terminos_antes": 1695,
+  "terminos_despues": 1722,
+  "entran": 27,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "40/40M",
+    "normkey": "4040m",
+    "core": "40[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "40/40R",
+    "normkey": "4040r",
+    "core": "40[-\\s/.+]*40[-\\s/.+]*r",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "40/40U",
+    "normkey": "4040u",
+    "core": "40[-\\s/.+]*40[-\\s/.+]*u",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "40/40UB",
+    "normkey": "4040ub",
+    "core": "40[-\\s/.+]*40[-\\s/.+]*ub",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CLSS Configuration Tool",
+    "normkey": "clssconfigurationtool",
+    "core": "clss[-\\s/.+]*configuration[-\\s/.+]*tool",
+    "origen": "alta notifier:clss-configuration-tool",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ID²NET",
+    "normkey": "id2net",
+    "core": "id[-\\s/.+]*2[-\\s/.+]*net",
+    "origen": "alta notifier:id2net",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDNet",
+    "normkey": "idnet",
+    "core": "idnet",
+    "origen": "?",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-ASA-AUXR",
+    "normkey": "keasaauxr",
+    "core": "ke[-\\s/.+]*asa[-\\s/.+]*auxr",
+    "origen": "alta kidde:ke-asa-auxr",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-CAPW",
+    "normkey": "kedbacapw",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*capw",
+    "origen": "alta kidde:ke-dba-capw",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-IPW",
+    "normkey": "kedbaipw",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*ipw",
+    "origen": "alta kidde:ke-dba-ipw",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-RECW",
+    "normkey": "kedbarecw",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*recw",
+    "origen": "alta kidde:ke-dba-recw",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-TAGW",
+    "normkey": "kedbatagw",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*tagw",
+    "origen": "alta kidde:ke-dba-tagw",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DM3110R-IP",
+    "normkey": "kedm3110rip",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r[-\\s/.+]*ip",
+    "origen": "alta kidde:ke-dm3110r-ip",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DM3110R-KIT",
+    "normkey": "kedm3110rkit",
+    "core": "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r[-\\s/.+]*kit",
+    "origen": "alta kidde:ke-dm3110r-kit",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110",
+     "ke[-\\s/.+]*dm[-\\s/.+]*3110[-\\s/.+]*r"
+    ]
+   },
+   {
+    "termino": "KE-DP3021B",
+    "normkey": "kedp3021b",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3021[-\\s/.+]*b",
+    "origen": "alta kidde:ke-dp3021b",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DP3021W",
+    "normkey": "kedp3021w",
+    "core": "ke[-\\s/.+]*dp[-\\s/.+]*3021[-\\s/.+]*w",
+    "origen": "alta kidde:ke-dp3021w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-IU3110",
+    "normkey": "keiu3110",
+    "core": "ke[-\\s/.+]*iu[-\\s/.+]*3110",
+    "origen": "alta kidde:ke-iu3110",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KIT-GAS",
+    "normkey": "kitgas",
+    "core": "kit[-\\s/.+]*gas",
+    "origen": "alta notifier:kit-gas",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MOD.RS-232",
+    "normkey": "mod.rs232",
+    "core": "mod[-\\s/.+]*rs[-\\s/.+]*232",
+    "origen": "alta morley:mod-rs-232",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MOD.RS-485",
+    "normkey": "mod.rs485",
+    "core": "mod[-\\s/.+]*rs[-\\s/.+]*485",
+    "origen": "alta morley:mod-rs-485",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFXI-BSF-WC",
+    "normkey": "nfxibsfwc",
+    "core": "nfxi[-\\s/.+]*bsf[-\\s/.+]*wc",
+    "origen": "?",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "nfxi[-\\s/.+]*bsf[-\\s/.+]*wcs"
+    ]
+   },
+   {
+    "termino": "NFXI-BSF-WCH",
+    "normkey": "nfxibsfwch",
+    "core": "nfxi[-\\s/.+]*bsf[-\\s/.+]*wch",
+    "origen": "alta notifier:nfxi-bsf-wch",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "N-IO-SBX-2G",
+    "normkey": "niosbx2g",
+    "core": "n[-\\s/.+]*io[-\\s/.+]*sbx[-\\s/.+]*2[-\\s/.+]*g",
+    "origen": "alta kidde:n-io-sbx-2g",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S40/40M",
+    "normkey": "s4040m",
+    "core": "s[-\\s/.+]*40[-\\s/.+]*40[-\\s/.+]*m",
+    "origen": "alta spectrex:s40-40m",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S40/40R",
+    "normkey": "s4040r",
+    "core": "s[-\\s/.+]*40[-\\s/.+]*40[-\\s/.+]*r",
+    "origen": "alta spectrex:s40-40r",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S40/40U",
+    "normkey": "s4040u",
+    "core": "s[-\\s/.+]*40[-\\s/.+]*40[-\\s/.+]*u",
+    "origen": "alta spectrex:s40-40u",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S40/40UB",
+    "normkey": "s4040ub",
+    "core": "s[-\\s/.+]*40[-\\s/.+]*40[-\\s/.+]*ub",
+    "origen": "alta spectrex:s40-40ub",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?": {
+    "allowed_sources_nuevas": [
+     "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "dxc"
+    ]
+   },
+   "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?": {
+    "allowed_sources_nuevas": [
+     "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "dxc"
+    ]
+   }
+  },
+  "efecto_docmap": {
+   "kidde:ke-asa-auxr": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "DS_KIDDE_KE_ASA_AUXR_f28f.pdf"
+    ]
+   },
+   "kidde:ke-dba-adpw-kil": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_DBA_ADPW_KIL_202501_ING_c855.pdf"
+    ]
+   },
+   "kidde:ke-dba-adpw-zit": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_KE_DBA_ADPW_ZIT_202501_ING_ed63.pdf"
+    ]
+   },
+   "kidde:ke-dba-capw": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HD_KE_DBA_CAPW_202407_ING_d87d.pdf"
+    ]
+   },
+   "kidde:ke-dba-ipw": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "HD_KE_DBA_IPW_202407_ING_ffaf.pdf",
+     "MI_KE_DBA_IPW_202407_ES_cc56.pdf"
+    ]
+   },
+   "kidde:ke-dba-recw": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "HD_KE_DBA_RECW_202407_ES_bb2b.pdf",
+     "MI_KE_DBA_RECW_202407_ES_aacc.pdf"
+    ]
+   },
+   "kidde:ke-dba-tagw": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HD_KE_DBA_TAGW_202407_ES_4b26.pdf"
+    ]
+   },
+   "kidde:ke-dm3110r-ip": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "DS_KIDDE_KE_DM3110R_IP_202412_ES_8165.pdf"
+    ]
+   },
+   "kidde:ke-dm3110r-kit": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "DS_KIDDE_KE_DM3110R_KIT_f3b7.pdf"
+    ]
+   },
+   "kidde:ke-dp3021b": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HD_KE_DP3021B_202407_ES_861a.pdf"
+    ]
+   },
+   "kidde:ke-dp3021w": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HD_KE_DP3021W_202407_ES_778e.pdf"
+    ]
+   },
+   "kidde:ke-iu3110": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "HD_KE_IU3110_202407_ES_42d6.pdf",
+     "MI_KE_IU3110_202407_ES_5e36.pdf"
+    ]
+   },
+   "kidde:n-io-mbx-2": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "DS_KIDDE_N_IO_MBX_2_202505_ES_b34f.pdf"
+    ]
+   },
+   "kidde:n-io-sbx-2g": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "DS_KIDDE_N_IO_SBX_2G_202505_ES_6eb1.pdf"
+    ]
+   },
+   "morley:dxc1": {
+    "fuentes_antes": 26,
+    "fuentes_despues": 27,
+    "ganadas": [
+     "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf"
+    ]
+   },
+   "morley:dxc2": {
+    "fuentes_antes": 26,
+    "fuentes_despues": 27,
+    "ganadas": [
+     "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf"
+    ]
+   },
+   "morley:dxc4": {
+    "fuentes_antes": 26,
+    "fuentes_despues": 27,
+    "ganadas": [
+     "No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf"
+    ]
+   },
+   "morley:mod-rs-232": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MIE-MI-330"
+    ]
+   },
+   "morley:mod-rs-485": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MIE-MI-390"
+    ]
+   },
+   "notifier:clss-configuration-tool": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "4188-1124-ES issue 6_01-2026_To"
+    ]
+   },
+   "notifier:id2net": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MADT190_01"
+    ]
+   },
+   "notifier:kit-gas": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "HLSI-MN-627"
+    ]
+   },
+   "spectrex:s40-40m": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MNDT725_40-40M"
+    ]
+   },
+   "spectrex:s40-40r": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MNDT724_40-40R"
+    ]
+   },
+   "spectrex:s40-40u": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MNDT723_40-40U"
+    ]
+   },
+   "spectrex:s40-40ub": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "MNDT723_40-40U"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

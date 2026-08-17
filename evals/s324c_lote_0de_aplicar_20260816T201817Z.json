@@ -1,0 +1,609 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260816T201817Z",
+ "plan_sha": "b6071a47229aac5b",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "8a3d93737d4c30b6",
+   "aliases": "4494efb1462b11a4",
+   "umbrellas": "641c65b4c8c311d2",
+   "doc_map": "117b32aade8b3e98"
+  },
+  "corpus_fingerprint": [
+   "26215",
+   "2026-08-08T22:07:40.235169+00:00"
+  ],
+  "retags_snapshot_sha": "1a97d95179cd1a1d"
+ },
+ "stats": {
+  "altas": 4,
+  "confirmadas": 1,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 6,
+  "doc_map_modificadas": 2,
+  "aliases_altas": 1
+ },
+ "censo_post": {
+  "terminos_antes": 1723,
+  "terminos_despues": 1731,
+  "entran": 8,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "EMA1224B4R/W",
+    "normkey": "ema1224b4rw",
+    "core": "ema[-\\s/.+]*1224[-\\s/.+]*b[-\\s/.+]*4[-\\s/.+]*r[-\\s/.+]*w",
+    "origen": "alta notifier:ema1224b4r-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/2-IR",
+    "normkey": "s2ir",
+    "core": "s[-\\s/.+]*2[-\\s/.+]*ir",
+    "origen": "alta fidegas:s2-ir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/3-2",
+    "normkey": "s32",
+    "core": "s[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "alta fidegas:s3-2",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S/3-IR",
+    "normkey": "s3ir",
+    "core": "s[-\\s/.+]*3[-\\s/.+]*ir",
+    "origen": "alta fidegas:s3-ir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG",
+    "normkey": "tg",
+    "core": "tg",
+    "origen": "confirmar notifier:tg",
+    "riesgo": [
+     "muy_corto",
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": [
+     "tg[-\\s/.+]*1020",
+     "tg[-\\s/.+]*gsm",
+     "tg[-\\s/.+]*ip[-\\s/.+]*1",
+     "tg[-\\s/.+]*ip[-\\s/.+]*10",
+     "tg[-\\s/.+]*ip[-\\s/.+]*100"
+    ]
+   },
+   {
+    "termino": "TG-2000",
+    "normkey": "tg2000",
+    "core": "tg[-\\s/.+]*2000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-400",
+    "normkey": "tg400",
+    "core": "tg[-\\s/.+]*400",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-AFP200",
+    "normkey": "tgafp200",
+    "core": "tg[-\\s/.+]*afp[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "TG-2000",
+    "id": "notifier:tg",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-400",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-AFP200",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-HONEYWELL",
+    "id": "notifier:tg",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 96,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [
+   "S/3-2",
+   "TG"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "fidegas:s2-ir": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-IR-y-S-2-IR"
+    ]
+   },
+   "fidegas:s3-2": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-2"
+    ]
+   },
+   "fidegas:s3-ir": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-IR-y-S-2-IR"
+    ]
+   },
+   "notifier:ema1224b4r-w": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "D686 EMA1224B4R_W NS4R"
+    ]
+   },
+   "notifier:laserstar-hssd-2": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MADT731_06"
+    ]
+   },
+   "notifier:tg": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion"
+    ]
+   }
+  },
+  "findability_retags": [
+   {
+    "doc": "Manual-de-Usuario-S3-2",
+    "pm_nuevo": "S/3-2",
+    "entries_primarias": [
+     "fidegas:s3-2"
+    ],
+    "casan": [
+     "fidegas:s3-2"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+    "pm_nuevo": "S/3-IR/S/2-IR",
+    "entries_primarias": [
+     "fidegas:s3-ir",
+     "fidegas:s2-ir"
+    ],
+    "casan": [
+     "fidegas:s3-ir",
+     "fidegas:s2-ir"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "D686 EMA1224B4R_W NS4R",
+    "pm_nuevo": "EMA1224B4R/W",
+    "entries_primarias": [
+     "notifier:ema1224b4r-w"
+    ],
+    "casan": [
+     "notifier:ema1224b4r-w"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+    "pm_nuevo": "TG",
+    "entries_primarias": [
+     "notifier:tg"
+    ],
+    "casan": [
+     "notifier:tg"
+    ],
+    "ok": true
+   },
+   {
+    "doc": "MADT731_06",
+    "pm_nuevo": "LaserStar-HSSD-2",
+    "entries_primarias": [
+     "notifier:laserstar-hssd-2"
+    ],
+    "casan": [
+     "notifier:laserstar-hssd-2"
+    ],
+    "ok": true
+   }
+  ],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [
+   {
+    "doc": "Manual-de-Usuario-S3-2",
+    "chunks": 22,
+    "documents": 1
+   },
+   {
+    "doc": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+    "chunks": 24,
+    "documents": 1
+   },
+   {
+    "doc": "D686 EMA1224B4R_W NS4R",
+    "chunks": 1,
+    "documents": 1
+   },
+   {
+    "doc": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+    "chunks": 1,
+    "documents": 1
+   },
+   {
+    "doc": "MADT731_06",
+    "chunks": 7,
+    "documents": 1
+   }
+  ],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [
+   {
+    "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+    "source_file": "Manual-de-Usuario-S3-2",
+    "pm_prev": "EL-11",
+    "pm_nuevo": "S/3-2",
+    "documents_pm_actual": "EL-11",
+    "motivo": "pm sucio EL-11 (fecha «el 11/2018») → modelo(s) del título (Alberto §0.D)",
+    "chunks_doc": 22,
+    "chunks_pm_prev": 22,
+    "documents_status": "active"
+   },
+   {
+    "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+    "source_file": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+    "pm_prev": "EL-11",
+    "pm_nuevo": "S/3-IR/S/2-IR",
+    "documents_pm_actual": "EL-11",
+    "motivo": "pm sucio EL-11 (fecha «el 11/2018») → modelo(s) del título (Alberto §0.D)",
+    "chunks_doc": 24,
+    "chunks_pm_prev": 24,
+    "documents_status": "active"
+   },
+   {
+    "document_id": "0cb982a1-389c-4ae6-9e6d-2278b9f96cd6",
+    "source_file": "D686 EMA1224B4R_W NS4R",
+    "pm_prev": "EN-54-3",
+    "pm_nuevo": "EMA1224B4R/W",
+    "documents_pm_actual": "EN-54-3",
+    "motivo": "pm sucio EN-54-3 (norma) → modelo del título (Alberto §0.E)",
+    "chunks_doc": 1,
+    "chunks_pm_prev": 1,
+    "documents_status": "active"
+   },
+   {
+    "document_id": "ca284693-a7bc-44c2-aa42-be1e6e5a29c4",
+    "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+    "pm_prev": "DE-80",
+    "pm_nuevo": "TG",
+    "documents_pm_actual": "DE-80",
+    "motivo": "pm sucio DE-80 («de 80 …») → TG (Alberto §0.D)",
+    "chunks_doc": 1,
+    "chunks_pm_prev": 1,
+    "documents_status": "active"
+   },
+   {
+    "document_id": "77683de5-4245-4410-a649-84867318d981",
+    "source_file": "MADT731_06",
+    "pm_prev": "MADT-731",
+    "pm_nuevo": "LaserStar-HSSD-2",
+    "documents_pm_actual": "MADT-731",
+    "motivo": "pm = código del documento → modelo adjudicado por Alberto (HSSD-2 = LaserStar-HSSD-2 en catálogo)",
+    "chunks_doc": 7,
+    "chunks_pm_prev": 7,
+    "documents_status": "active"
+   }
+  ],
+  "backup_chunks": [
+   {
+    "doc": "Manual-de-Usuario-S3-2",
+    "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+    "documents_pm_prev": "EL-11",
+    "chunks": [
+     {
+      "id": "0b5358f9-9509-4ffb-bbda-1db17ee6ff64",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "9bf11756-4ff7-4f59-8719-f0b37eafa135",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "b350b268-aa03-42b0-9368-58254117dd56",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "bdd69c04-f496-4323-847a-395295d57bc3",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "9a73e8fa-e2b0-487d-9c6c-288442b4f193",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "ab3aea6b-1d7e-42cb-8bcf-938b14cec46f",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "1474db9b-4269-4423-9f8b-1bd8a6572b93",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "1afc7d4a-02ba-4944-a294-039aa9f06403",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "9cd6347c-cd76-4205-a6f9-bfb59c61388c",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "13c92b93-018d-48c8-9b40-d4b79d56094b",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "ad591bec-4786-4a18-8ac8-5dc6a7b11c46",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "af3b6a3a-8e32-4608-a879-2883194a6049",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "09ab312d-242f-4c38-9104-4e2b68249f07",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "7cdc6c25-310e-4b2c-a3ab-9f13409dac4e",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "0ac3cf43-04d9-4419-b55c-dddd8abb87db",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "afdcc5d5-abe5-4393-a7a8-57160ebc9c12",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "07cff93e-c697-4503-9cae-fd983230e704",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "c45b3bf1-7c54-48e0-9e73-26bf8acefb2a",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "38b894d1-3e44-4c0a-a90e-8c216db7ae8e",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "08de4f9a-e216-4c14-ab7f-f9701bb8a0fe",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "6e4159ac-df5e-4674-b7ee-a5701ebf462e",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "7fb632da-c7a5-4f5d-8ca7-068de4b0b094",
+      "product_model_prev": "EL-11"
+     }
+    ]
+   },
+   {
+    "doc": "Manual-de-Usuario-S3-IR-y-S-2-IR",
+    "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+    "documents_pm_prev": "EL-11",
+    "chunks": [
+     {
+      "id": "a9234cff-0287-4a48-9f9c-a70a1ac7acc9",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "7a6bdc4d-4896-4566-856b-059e92dd00ef",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "60af416f-7236-458d-a4f2-8373915b218b",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "a0681797-0632-424d-b3a4-dcc77514f19d",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "d9f6caa4-5f13-414a-863d-d1802eecfa6e",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "df030f07-ea4e-4f2b-868e-e7941dc2e38a",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "c2b783ff-38ec-4606-b837-8606523572d8",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "9c191560-54d6-4551-aa28-4ef84818b643",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "2394c2f2-5343-49fb-ab02-600403540d80",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "12020ce2-0a73-4eb2-8427-fb92cb948d58",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "7b4ff431-17d0-4a05-b9ed-4a5bc88fc509",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "67bfb8b5-772d-4b12-95ee-9bdf7c49016d",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "52636cb8-4ca1-4073-95b8-905d72d350b9",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "fe9de921-261d-4b0d-bbd3-5b6aa28f22c8",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "910c38f3-0bf1-4734-b99b-d27937648e1c",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "a13b0e6d-9a94-4536-bc55-77de1564951a",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "effc991f-98cc-49e2-8843-83ec99719873",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "8e881a07-febb-4f1e-ba9e-144fba1efd10",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "1d1aaa3e-243c-4e5f-92ca-d748fcf41543",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "c3aa46f7-b7c0-41c2-a8b0-d7947c63ec9a",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "0d412649-686e-4cc8-a09f-0a5e0d678c1e",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "d6ee9b94-e179-4cbb-8005-89229a918261",
+      "product_model_prev": "EL-11"
+     },
+     {
+      "id": "0121fa41-d6b3-4279-b8a4-b28025595486",
+      "product_model_prev": "EL-11"
+     }
+    ]
+   },
+   {
+    "doc": "D686 EMA1224B4R_W NS4R",
+    "document_id": "0cb982a1-389c-4ae6-9e6d-2278b9f96cd6",
+    "documents_pm_prev": "EN-54-3",
+    "chunks": [
+     {
+      "id": "a10cab38-f11e-4ae7-a787-93ebcbefed41",
+      "product_model_prev": "EN-54-3"
+     }
+    ]
+   },
+   {
+    "doc": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+    "document_id": "ca284693-a7bc-44c2-aa42-be1e6e5a29c4",
+    "documents_pm_prev": "DE-80",
+    "chunks": [
+     {
+      "id": "e2a29d64-d324-4384-8c64-e1356cd1d378",
+      "product_model_prev": "DE-80"
+     }
+    ]
+   },
+   {
+    "doc": "MADT731_06",
+    "document_id": "77683de5-4245-4410-a649-84867318d981",
+    "documents_pm_prev": "MADT-731",
+    "chunks": [
+     {
+      "id": "6a946a62-5be9-4f46-acfb-cd017ce0af08",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "3c2520a9-015e-492d-84ba-a4754dae4349",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "1dadae45-4b6a-4cca-aa22-c51a1d38c5b5",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "60777850-a66f-43d2-85f7-172592c81414",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "d2d5045c-2f50-491a-bb2c-bc97dee3329f",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "1f34da8f-13e5-4aeb-8b11-e8e636e207e0",
+      "product_model_prev": "MADT-731"
+     },
+     {
+      "id": "9829c936-c9f0-4e63-809f-41df0dc0023e",
+      "product_model_prev": "MADT-731"
+     }
+    ]
+   }
+  ]
+ },
+ "backup_dir": "evals\\s324c_lote_0de_backup_20260816T201817Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

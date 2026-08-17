@@ -1,0 +1,262 @@
+{
+ "que_es": "s324c — E1b bloque Detnov (8) confirmados por Alberto + CCD-103 al namespace detnov",
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [
+  {
+   "document_id": "3ccb6d93-be26-41af-ac7f-fc7a9e90581a",
+   "source_file": "CCD-103_Manual_ES_FR_GB_IT",
+   "entries_prev": [
+    "unresolved:ccd-103"
+   ],
+   "entries_nuevas": [
+    "detnov:ccd-103"
+   ],
+   "regla": "E1b+Alberto",
+   "detalle": "el manual de la CCD-103 apunta al id con marca resuelta"
+  }
+ ],
+ "products_altas": [
+  {
+   "row": {
+    "id": "detnov:ccd-103",
+    "canonical_model": "CCD-103",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Detnov"
+    ],
+    "familia": "CCD-100",
+    "added_by": "s324c-e1b-detnov",
+    "clasificacion": {
+     "categoria": "central",
+     "cita": "de Detección ### 4.1.1- Conexionado Entradas de zonas La central de extinción tiene 3 zonas, en la configuración de fabrica. La zona 1 y la zona 2 funcionan como zonas cruzadas",
+     "provenance": "s324c Alberto 16-ago: central convencional de 3 zonas + 1 extinción; título del manual CCD-103_Manual_ES_FR_GB_IT"
+    },
+    "provenance": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; la fila existía como unresolved:ccd-103 (marca sin resolver): el manual CCD-103_Manual (109 chunks) es Detnov y no imprime el código; token exacto CCD-103 en 12 chunks / 9 docs; cita en CAD-250-MC-380-es.pdf: «pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-103) | PANEL<br/>ZONA | 0,3 mA | | | No | 7 | Tarjeta pasarela al lazo analógico para»"
+   },
+   "doc": "CAD-250-MC-380-es.pdf",
+   "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+   "cita": "pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-103) | PANEL<br/>ZONA | 0,3 mA | | | No | 7 | Tarjeta pasarela al lazo analógico para",
+   "n_token": 1,
+   "regla": "E1b+Alberto"
+  }
+ ],
+ "products_confirmar": [
+  {
+   "id": "detnov:ccd-102",
+   "canonical_model": "CCD-102",
+   "doc": "CAD-250-MC-380-es.pdf",
+   "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+   "n_token": 1,
+   "cita": "| 0,625 mA | 2,5 mA | | No | 1 | Piloto remoto direccionable | | T P L D - 1 0 0<br/>(CCD-102) | PANEL<br/>ZONA | 0,3 mA | | | No | 3 | Tarjeta pasarela al lazo analógico para",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 5 chunks / 5 docs); cita verificada en CAD-250-MC-380-es.pdf: «| 0,625 mA | 2,5 mA | | No | 1 | Piloto remoto direccionable | | T P L D - 1 0 0<br/>(CCD-102) | PANEL<br/>ZONA | 0,3 mA | | | No | 3 | Tarjeta pasarela al lazo analógico para»"
+  },
+  {
+   "id": "detnov:ccd-104",
+   "canonical_model": "CCD-104",
+   "doc": "CAD-250-MC-380-es.pdf",
+   "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+   "n_token": 1,
+   "cita": "pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-104) | PANEL<br/>ZONA | 0,3 mA | | | No | 5 | Tarjeta pasarela al lazo analógico para",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 5 chunks / 5 docs); cita verificada en CAD-250-MC-380-es.pdf: «pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-104) | PANEL<br/>ZONA | 0,3 mA | | | No | 5 | Tarjeta pasarela al lazo analógico para»"
+  },
+  {
+   "id": "detnov:ccd-108",
+   "canonical_model": "CCD-108",
+   "doc": "CAD-250-MC-380-es.pdf",
+   "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+   "n_token": 1,
+   "cita": "pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-108) | PANEL<br/>ZONA | 0,3 mA | | | No | 9 | Tarjeta pasarela al lazo analógico para",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 5 chunks / 5 docs); cita verificada en CAD-250-MC-380-es.pdf: «pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-108) | PANEL<br/>ZONA | 0,3 mA | | | No | 9 | Tarjeta pasarela al lazo analógico para»"
+  },
+  {
+   "id": "detnov:ccd-112",
+   "canonical_model": "CCD-112",
+   "doc": "CAD-250-MC-380-es.pdf",
+   "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+   "n_token": 1,
+   "cita": "pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-112) | PANEL<br/>ZONA | 0,3 mA | | | No | 13 | Tarjeta pasarela al lazo analógico para",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 5 chunks / 5 docs); cita verificada en CAD-250-MC-380-es.pdf: «pasarela al lazo analógico para centrales convencionales | | T P L D - 1 0 0<br/>(CCD-112) | PANEL<br/>ZONA | 0,3 mA | | | No | 13 | Tarjeta pasarela al lazo analógico para»"
+  },
+  {
+   "id": "detnov:cad-250b",
+   "canonical_model": "CAD-250B",
+   "doc": "CAD-250-MS-416-es.pdf",
+   "document_id": "03b1ccf6-10cc-43a3-9041-4a2d42be0bc2",
+   "n_token": 1,
+   "cita": "Leds dobles de zona<br/>Expande hasta + 8 lazos<br/>La ref. no incluye los lazos | | C | CAD-250B | Cabina ciega para expande hasta + 8 lazos<br/>La ref. no incluye los lazos |",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 5 chunks / 4 docs); cita verificada en CAD-250-MS-416-es.pdf: «Leds dobles de zona<br/>Expande hasta + 8 lazos<br/>La ref. no incluye los lazos | | C | CAD-250B | Cabina ciega para expande hasta + 8 lazos<br/>La ref. no incluye los lazos |»"
+  },
+  {
+   "id": "detnov:cad-250-bled",
+   "canonical_model": "CAD-250-BLED",
+   "doc": "CAD-250-MS-416-es.pdf",
+   "document_id": "03b1ccf6-10cc-43a3-9041-4a2d42be0bc2",
+   "n_token": 1,
+   "cita": "con interfaz<br/>Expande hasta + 8 lazos<br/>La ref. no incluye los lazos | | B | CAD-250-BLED | Cabina con 250 Leds dobles de zona<br/>Expande hasta + 8 lazos<br/>La ref. no incluye",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 6 chunks / 4 docs); cita verificada en CAD-250-MS-416-es.pdf: «con interfaz<br/>Expande hasta + 8 lazos<br/>La ref. no incluye los lazos | | B | CAD-250-BLED | Cabina con 250 Leds dobles de zona<br/>Expande hasta + 8 lazos<br/>La ref. no incluye»"
+  },
+  {
+   "id": "detnov:scd-250",
+   "canonical_model": "SCD-250",
+   "doc": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf",
+   "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+   "n_token": 4,
+   "cita": "realizar la configuración enteramente offline desde el software de configuración **SCD-250**. También es posible realizar la mayor parte de pasos de configuración mediantte el",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 8 chunks / 4 docs); cita verificada en CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf: «realizar la configuración enteramente offline desde el software de configuración **SCD-250**. También es posible realizar la mayor parte de pasos de configuración mediantte el»"
+  },
+  {
+   "id": "detnov:sgd-151",
+   "canonical_model": "SGD-151",
+   "doc": "SGD-151 MC-399 es.pdf",
+   "document_id": "1984cd59-355d-446b-84f7-56956880ac36",
+   "n_token": 37,
+   "cita": "Gráfico Detnov - SGD 151 ## 1. Acerca del software de gestión gráfica Detnov - SGD 151 **SGD-151** es un paquete de software de supervisión y control parametrizable que permite la",
+   "provenance_add": "s324c E1b §0.A bloque Detnov — Alberto 16-ago: «Confirmo que es modelo, y también lo son los otros que mencionas»; medida determinista E1b (token exacto 22 chunks / 5 docs); cita verificada en SGD-151 MC-399 es.pdf: «Gráfico Detnov - SGD 151 ## 1. Acerca del software de gestión gráfica Detnov - SGD 151 **SGD-151** es un paquete de software de supervisión y control parametrizable que permite la»"
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [
+  {
+   "id": "unresolved:ccd-103",
+   "redirect_to": "detnov:ccd-103",
+   "motivo": "marca resuelta por Alberto (Detnov); el id unresolved no se recicla"
+  }
+ ],
+ "aliases_quitar": [
+  {
+   "added_by": "f1-bulk",
+   "alias": "3 Zones Conventional fire extinguishant control panel",
+   "id": "unresolved:ccd-103",
+   "provenance": "s83:CCD-103_Manual_ES_FR_GB_IT",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "12 zonas",
+   "id": "detnov:ccd-112",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "12 zones",
+   "id": "detnov:ccd-112",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "2 zonas",
+   "id": "detnov:ccd-102",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "2 zones",
+   "id": "detnov:ccd-102",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "4 zonas",
+   "id": "detnov:ccd-104",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "4 zones",
+   "id": "detnov:ccd-104",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "8 zonas",
+   "id": "detnov:ccd-108",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "8 zones",
+   "id": "detnov:ccd-108",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Conventional panels with 12 detection zones",
+   "id": "detnov:ccd-112",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Conventional panels with 2 detection zones",
+   "id": "detnov:ccd-102",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Conventional panels with 4 detection zones",
+   "id": "detnov:ccd-104",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "Conventional panels with 8 detection zones",
+   "id": "detnov:ccd-108",
+   "provenance": "s83:55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_",
+   "tipo": "nombre-largo"
+  },
+  {
+   "added_by": "f1-bulk",
+   "alias": "SCD23O",
+   "id": "detnov:scd-250",
+   "provenance": "s83:CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+   "tipo": "nombre-largo"
+  }
+ ],
+ "aliases_altas": [],
+ "umbrellas_altas": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "avisos": [
+  {
+   "que": "aliases descriptivos retirados",
+   "aviso": "al confirmar CCD-10x se activaban alias tipo «2 zonas»/«Conventional panels with 2 detection zones» (nombre-largo con dígito → entran en el detector) que dispararían en cualquier consulta con «2 zonas» (clase FUEGO, r30): se retiran ANTES de confirmar; también «SCD23O» (OCR) y la descripción inglesa de la CCD-103."
+  }
+ ],
+ "clasificacion_confirmados": {
+  "detnov:scd-250": {
+   "categoria": "software",
+   "cita": "realizar la configuración enteramente offline desde el software de configuración **SCD-250**. También es posible realizar la mayor parte de pasos de configuración mediantte el",
+   "provenance": "s324c Alberto 16-ago (nota E1b §0.A): Software de configuración, puesta en marcha y mantenimiento para las centrales analógicas serie CAD-250 (Alberto)"
+  },
+  "detnov:sgd-151": {
+   "categoria": "software",
+   "cita": "Gráfico Detnov - SGD 151 ## 1. Acerca del software de gestión gráfica Detnov - SGD 151 **SGD-151** es un paquete de software de supervisión y control parametrizable que permite la",
+   "provenance": "s324c Alberto 16-ago (nota E1b §0.A): Licencia del software gráfico hasta 1 central analógica de la serie CAD-150 hasta dos lazos (Alberto)"
+  }
+ },
+ "resumen": {
+  "doc_map_altas": 0,
+  "doc_map_modificaciones": 1,
+  "products_altas": 1,
+  "products_confirmar": 8,
+  "products_retirar": 0,
+  "products_redirect": 1,
+  "aliases_quitar": 14,
+  "aliases_altas": 0,
+  "umbrellas_altas": 0,
+  "retags_db": 0,
+  "no_aplicar": 0,
+  "avisos": 1
+ }
+}

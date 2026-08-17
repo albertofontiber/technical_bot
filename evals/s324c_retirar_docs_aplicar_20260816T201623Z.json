@@ -1,0 +1,98 @@
+{
+ "que_es": "s324 — BAJA de corpus (documents.status='retired') de documentos adjudicados por Alberto.",
+ "modo": "aplicar",
+ "utc": "20260816T201623Z",
+ "plan": [
+  {
+   "doc": "ETDT312",
+   "document_id": "4673366b-bc82-4c82-a706-65c36ef3d03d",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto §0.D: retirar el documento (hoja de 1 pág. «Etiquetas suministradas con el NAS-2»)",
+   "chunks": 1,
+   "product_model": "ETDT-312",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "ETDT314",
+   "document_id": "49158953-9f14-4975-9c78-2921ade033c7",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto §0.D: retirar el documento (hoja de 1 pág. «Etiquetas suministradas con el NAS-1u»)",
+   "chunks": 1,
+   "product_model": "ETDT-314",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MADT742",
+   "document_id": "c777b85b-bc9a-4b09-89e5-a12e7bf3eca3",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto §0.D: «elimina el doc del corpus» (hoja de advertencia multilingüe, 1 chunk)",
+   "chunks": 1,
+   "product_model": "MADT-742",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  },
+  {
+   "doc": "MNDT1202",
+   "document_id": "1c26320c-7fb2-4f30-a6db-2208971d14df",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto §0.D: «elimina el doc del corpus» (aviso «Aerosol para limpieza de detectores», 1 chunk)",
+   "chunks": 1,
+   "product_model": "MNDT-1202",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  }
+ ],
+ "rechazadas": [
+  {
+   "doc": "asd in rail transportation applications_es",
+   "fallo": "no existe o no es única"
+  }
+ ],
+ "backup": [
+  {
+   "document_id": "4673366b-bc82-4c82-a706-65c36ef3d03d",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "49158953-9f14-4975-9c78-2921ade033c7",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "c777b85b-bc9a-4b09-89e5-a12e7bf3eca3",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  },
+  {
+   "document_id": "1c26320c-7fb2-4f30-a6db-2208971d14df",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  }
+ ],
+ "aplicado": [
+  {
+   "document_id": "4673366b-bc82-4c82-a706-65c36ef3d03d",
+   "status": "retired"
+  },
+  {
+   "document_id": "49158953-9f14-4975-9c78-2921ade033c7",
+   "status": "retired"
+  },
+  {
+   "document_id": "c777b85b-bc9a-4b09-89e5-a12e7bf3eca3",
+   "status": "retired"
+  },
+  {
+   "document_id": "1c26320c-7fb2-4f30-a6db-2208971d14df",
+   "status": "retired"
+  }
+ ],
+ "reversion": "PATCH documents set status=<status_prev> por document_id; doc_map: restaurar doc_map_prev"
+}

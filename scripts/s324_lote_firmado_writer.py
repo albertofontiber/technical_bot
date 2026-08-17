@@ -123,6 +123,9 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
         if p.get("candidate"):
             p["candidate"] = False
             p["provenance"] = (p.get("provenance") or "") + " | " + cf["provenance_add"]
+            cl = (plan.get("clasificacion_confirmados") or {}).get(cf["id"])
+            if cl and "clasificacion" not in p:
+                p["clasificacion"] = cl
             stats["confirmadas"] += 1
     for rt in plan["products_retirar"]:
         p = by_id[rt["id"]]
@@ -130,10 +133,24 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
             p["estado"] = "retirado"
             p["provenance"] = (p.get("provenance") or "") + f" | s324 retirado: {rt['motivo']}"
             stats["retiradas"] += 1
+    stats["redirects"] = 0
+    for rd in plan.get("products_redirect", []):          # id → redirect_to (namespace correcto); el id NO se borra ni se recicla
+        p = by_id[rd["id"]]
+        if p["estado"] != "redirect" and rd["redirect_to"] in ids:
+            p["estado"] = "redirect"; p["redirect_to"] = rd["redirect_to"]
+            p["candidate"] = False
+            p["provenance"] = (p.get("provenance") or "") + f" | s324 redirect → {rd['redirect_to']}: {rd['motivo']}"
+            stats["redirects"] += 1
     quitar = {(a["alias"], a["id"]) for a in plan["aliases_quitar"]}
     n0 = len(aliases)
     aliases = [a for a in aliases if (a.get("alias"), a.get("id")) not in quitar]
     stats["aliases_quitados"] = n0 - len(aliases)
+    ya_alias = {norm_token(a["alias"]) for a in aliases}
+    stats["aliases_altas"] = 0
+    for a in plan.get("aliases_altas", []):
+        if norm_token(a["alias"]) in ya_alias:
+            continue
+        aliases.append(a); ya_alias.add(norm_token(a["alias"])); stats["aliases_altas"] += 1
     terms = {norm_token(u["termino"]) for u in umbrellas}
     for u in plan["umbrellas_altas"]:
         if norm_token(u["termino"]) in terms or u.get("diferido"):
@@ -296,7 +313,26 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
         casa = [pid for pid, rx in pats if rx.search(rt["pm_nuevo"])]
         findability.append({"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "entries_primarias": [pid for pid, _ in pats], "casan": casa, "ok": bool(casa)})
     stop_terminos = sorted({x for v in disparos_negativos.values() for x in v["nuevos"]})
-    veredicto = "PASS" if (not perdidas and not disparos_negativos and not resolver_perdidas
+    # Términos ADJUDICADOS por Alberto explícitamente (plan.adjudicados_por_alberto_para_el_gate):
+    # un disparo en un negativo SINTÉTICO (escrito por el autor) se declara como aviso, no como STOP.
+    adjudicados = {C.normkey(k) for k in (plan.get("adjudicados_por_alberto_para_el_gate") or {})}
+    disparos_no_adjudicados = {q: v for q, v in disparos_negativos.items()
+                               if any(C.normkey(x) not in adjudicados for x in v["nuevos"])}
+    # Negativos de TRÁFICO REAL (query_logs): detecciones NUEVAS del patrón — se listan (pueden ser
+    # verdaderos positivos si la consulta era sobre ese producto); STOP solo si el término es palabra común.
+    try:
+        from scripts.s324_lib import consultas_reales
+        with abierto(timeout=30.0) as c:
+            reales = consultas_reales(c)
+    except Exception as e:  # sin red: se declara
+        reales = []
+    disparos_reales = {}
+    for q in reales:
+        a, b = detecta(p0, q), detecta(p1, q)
+        nuevos = [x for x in b if C.normkey(x) not in {C.normkey(y) for y in a}]
+        if nuevos:
+            disparos_reales[q[:120]] = nuevos
+    veredicto = "PASS" if (not perdidas and not disparos_no_adjudicados and not resolver_perdidas
                           and all(f["ok"] for f in findability)
                           and not any("palabra_comun" in r["riesgo"] for r in por_termino)) else "STOP"
     return {"terminos_antes": len(t0), "terminos_despues": len(t1), "entran": len(entran), "salen": len(salen),
@@ -304,6 +340,8 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
             "gold_perdidas": perdidas, "gold_nuevas_detecciones": nuevas_en_gold,
             "negativos_probados": len(NEGATIVOS), "disparos_en_negativos": disparos_negativos,
             "terminos_que_disparan_negativos": stop_terminos,
+            "disparos_sinteticos_adjudicados_por_alberto": {q: v for q, v in disparos_negativos.items() if q not in disparos_no_adjudicados},
+            "trafico_real_consultas": len(reales), "trafico_real_detecciones_nuevas": disparos_reales,
             "avisos_muy_corto": [r["termino"] for r in por_termino if "muy_corto" in r["riesgo"]],
             "resolver_gold_perdidas": resolver_perdidas, "resolver_gold_ganancias": resolver_ganancias,
             "efecto_docmap": efecto_docmap, "findability_retags": findability,
@@ -384,8 +422,16 @@ def revertir_retags(c, aplicados_filas: list[dict]) -> list[dict]:
 
 # ───────────────────────── main ─────────────────────────
 def main() -> int:
+    global PLAN, CENSO
     ap = argparse.ArgumentParser(); ap.add_argument("--aplicar", action="store_true")
+    ap.add_argument("--plan", default=str(PLAN), help="plan JSON (por defecto el lote firmado de s324)")
+    ap.add_argument("--censo", default=None, help="fichero del censo/dry-run (por defecto evals/<plan>_radio_explosion.json si --plan≠default)")
     args = ap.parse_args(); modo = "aplicar" if args.aplicar else "dry-run"
+    PLAN = Path(args.plan) if Path(args.plan).is_absolute() else ROOT / args.plan
+    if args.censo:
+        CENSO = Path(args.censo) if Path(args.censo).is_absolute() else ROOT / args.censo
+    elif PLAN != ROOT / "evals" / "s324_lote_firmado_plan_v1.json":
+        CENSO = PLAN.with_name(PLAN.stem.replace("_plan", "") + "_radio_explosion.json")
     plan = json.loads(PLAN.read_text(encoding="utf-8"))
     plan_sha = sha_file(PLAN)
     utc = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -407,7 +453,9 @@ def main() -> int:
                   "veredicto": veredicto}
         CENSO.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"dry-run · validador PASS en copia · {stats}")
-        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos {len(cz['disparos_en_negativos'])} · resolver: gold que pierden {len(cz['resolver_gold_perdidas'])}, ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
+        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos sintéticos {len(cz['disparos_en_negativos'])} (adjudicados {len(cz['disparos_sinteticos_adjudicados_por_alberto'])}) · tráfico real {cz['trafico_real_consultas']} consultas / {len(cz['trafico_real_detecciones_nuevas'])} detecciones nuevas · resolver: gold que pierden {len(cz['resolver_gold_perdidas'])}, ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
+        for q, v in list(cz["trafico_real_detecciones_nuevas"].items())[:8]:
+            print("   tráfico real detecta ahora:", q[:70], "→", v)
         for q, v in list(cz["resolver_gold_ganancias"].items())[:6]:
             print("   gold gana:", q[:60], "→ ids", v["ids_nuevos"][:4], "fuentes +", len(v["allowed_sources_nuevas"]))
         for q, v in cz["resolver_gold_perdidas"].items():
@@ -430,7 +478,7 @@ def main() -> int:
         if aborts:
             print("ABORT preflight retags:", aborts); return 4
         tmp = Path(tempfile.mkdtemp(prefix="s324_catalog_"))
-        backup_dir = ROOT / "evals" / f"s324_lote_backup_{utc}"
+        backup_dir = ROOT / "evals" / f"{PLAN.stem.replace('_plan_v1','').replace('_plan','')}_backup_{utc}"
         try:
             stats = aplicar_plan(plan, tmp, CATALOG_DIR)          # construye y VALIDA en tmp
             backup_dir.mkdir(parents=True, exist_ok=True)
@@ -463,7 +511,7 @@ def main() -> int:
                                             "backup_chunks": [{"doc": f["source_file"], "document_id": f["document_id"], "documents_pm_prev": f["documents_pm_actual"], "chunks": f["backup"]} for f in pre]},
               "backup_dir": str(backup_dir.relative_to(ROOT)),
               "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"}
-    out = ROOT / "evals" / f"s324_lote_firmado_aplicar_{utc}.json"
+    out = ROOT / "evals" / f"{PLAN.stem.replace('_plan_v1','').replace('_plan','')}_aplicar_{utc}.json"
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{estado} · {stats} · retags {[(x['doc'][:40], x['chunks']) for x in rt['aplicados']]} aborts {rt['aborts']} · censo post {cz and cz['veredicto']}")
     print("recibo:", out.relative_to(ROOT))
