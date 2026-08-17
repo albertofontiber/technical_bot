@@ -3268,6 +3268,20 @@ español no está). Y el censo de cobertura de páginas puede estar ENMASCARÁND
 castellano intercalado, la clasificación lo da por política cuando es pérdida. **Medición en curso** (agente):
 cuántos de esos 157 llevan castellano intercalado y cuántos chars son.
 
+**ALCANCE MEDIDO + DÚO r36 (17-ago) → RECOMENDACIÓN: NO TOCAR EL PIPELINE.** (a) De los 164 documentos con texto
+nativo ausente, los 160 medibles pierden **2.146 chars de castellano** (boilerplate: direcciones de delegaciones,
+exenciones de garantía, líneas de índice), **0 sobre el umbral accionable**; (b) **Sol (crítico) demostró que el fix
+no es de ingesta**: `retriever._filter_by_language` (`retriever.py:2438`, `_SERVED_LANGUAGES={es,en}`) descarta el
+chunk **también en serving**, y el campo `multilingue` no existe en el modelo, ni en el índice, ni en el esquema ⇒
+haría falta esquema + persistencia + contrato de serving/generación; (c) ningún afectado sustenta un gold del FULL
+(verificado contra `pool_ids`/`topk_ids`/`served_ids`). **Límite declarado (Sol, crítico)**: la atribución end-to-end
+del mecanismo NO está hecha — el censo compara texto NATIVO del PDF, así que un chunk descartado cuyo contenido
+venga de OCR de imagen no se vería; medirlo exige el store de extracción de 966 JSON, que no está en esta máquina.
+**Caso real que queda declarado y sin arreglar: `D1056-1_NFXI-BS-BSF`** (93 % del documento fuera). La «excepción por
+documento» que propuse quedó RETIRADA: no funcionaría (serving lo volvería a filtrar) y el re-ingestador le asigna
+metadata incorrecta (`manufacturer=null`, `product_model="EN-54-3"`). Propuesta completa:
+`evals/s324d_90_filtro_idioma_propuesta_v1.md` (v3 con la adenda del dúo).
+
 **Qué NO hacer sin Alberto y sin dúo**: cambiar la política de idiomas es zona de dolor + decisión de producto.
 Opciones a evaluar cuando haya cifra: (a) partir los chunks multilingües por idioma antes del filtro; (b) conservar
 el chunk si contiene ≥N chars adjudicables a `es`; (c) marcar el documento como multilingüe en la ingesta y aplicar

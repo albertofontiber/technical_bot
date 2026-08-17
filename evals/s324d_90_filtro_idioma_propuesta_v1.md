@@ -1,6 +1,6 @@
 # s324d — TECH_DEBT #90: el filtro de idioma POR CHUNK tira castellano en documentos multilingües. Diagnóstico, alcance y fix propuesto
 
-**Estado: NADA cableado. v2 con el ALCANCE MEDIDO — la recomendación cambió de «construir B» a «NO tocar el pipeline (D)».** Propuesta para el dúo (zona de dolor: corpus/idiomas) y para el sí de Alberto.
+**Estado: NADA cableado. v3 tras el dúo r36 (Sol 5 hallazgos, 2 críticos, todos verificados y aplicados).** La recomendación sigue siendo **D (no tocar el pipeline)**, pero por razones distintas y mejor fundadas: el alcance medido no la sostenía sola (cohorte sesgada) y el fix es bastante más caro de lo que yo había escrito (toca ingesta **y serving y esquema**). Propuesta para el sí de Alberto.
 Producción no cambia con este documento.
 
 ## 1 · El defecto, medido en la cadena entera (no inferido)
@@ -53,12 +53,16 @@ Verificado por mí sobre el JSON del censo (regla C): 13 documentos con `chars_e
 falsa (precisión **0/14** en una muestra revisada a mano: colaba portugués e italiano porque «ser/sobre/entre»
 sobrevivían como «exclusivas del español»). Lo detectó él mismo, pasó a una regla simétrica con morfología
 (`-ción` vs `-ção`/`-zione`/`-tion`), lo validó contra un banco de 28 líneas control (**26/28, los 2 fallos del
-lado conservador, cero falsos positivos**) y declaró que el 2.146 **subestima** (líneas cortas no adjudicadas).
+lado conservador, cero falsos positivos**) — aunque ese banco vive en prosa, **sin fixture versionado** (Sol r36). El
+2.146 lleva ~390 chars de falsos positivos Y omite líneas cortas: el **sesgo neto es DESCONOCIDO** (no es una cota
+inferior, como escribí en v2).
 
 ⇒ **`D1056-1_NFXI-BS-BSF` es la EXCEPCIÓN, no la punta del iceberg.** El mecanismo `_DROP_LANGUAGES` existe y es
 real, pero en el resto del corpus lo que arrastra es despreciable.
 
-Además: **ninguno de los afectados sustenta un gold** ⇒ nada de esto mueve los OKs.
+Además: **ninguno de los afectados sustenta un gold del FULL** — verificado end-to-end contra `pool_ids`/`topk_ids`/
+`served_ids` del 16-ago (la columna `gold` del censo marca `sí` en `2x-a-lb`, pero eso significa pertenencia a
+`doc_map`/`pdfs_used`, no que sustente un gold medido: corregido tras Sol r36) ⇒ nada de esto mueve los OKs.
 
 ## 3 · Opciones
 
@@ -114,8 +118,10 @@ Es 1 documento con el 93 % del contenido tirado (la tabla DIP/tonos con su colum
    re-ingestador, sin tocar la política general). Coste ~$0,2. Riesgo: entra la tabla trenzada de 6 idiomas al índice.
 3. Construir B igualmente. **No lo recomiendo**: es el aparato para un caso.
 
-Mi recomendación: **(2)**, porque el contenido perdido es una tabla de configuración DIP —eso sí es procedimiento— y
-el coste es trivial; pero es tu decisión porque mete un chunk multilingüe grande en el índice.
+~~Mi recomendación: (2)~~ **RETIRADA tras el dúo r36**: la opción (2) NO funcionaría (el filtro de idioma vive
+también en `retriever._filter_by_language`, así que serving volvería a descartar el chunk) y además el re-ingestador
+le asigna metadata incorrecta a este documento. Queda **(1): declararlo**; si quieres el contenido dentro, es el
+proyecto completo del hallazgo C2 (esquema + serving + contrato de generación), con su propia sentada.
 
 ## 6 · Qué pido al revisor
 
@@ -124,3 +130,66 @@ tabla? (b) ¿Conservar el chunk trenzado entero hace más daño (ruido en retrie
 bien? (c) ¿Debería el fix marcar el chunk como multilingüe para que el generador/renderer lo trate distinto?
 (d) ¿Hay algún consumidor que asuma «todo chunk indexado está en un idioma indexable»? (e) Cualquier claim de este
 documento que el código o los datos no sostengan.
+
+---
+
+## ADENDA — dúo r36 (17-ago): 5 hallazgos de Sol, TODOS verificados por mí y aplicados
+
+### C1 (crítico) — La cohorte que medía el alcance EXCLUÍA por construcción los positivos conocidos
+`scripts/s324d_castellano_intercalado.py` selecciona sólo las clases `*_otro_idioma`, así que `D1056-1` y los otros
+dos casos de castellano perdido **no estaban en la muestra**. Decir «D1056 es la excepción» apoyándose en una cohorte
+que lo excluye es circular. **Verificado**: las clases excluidas son 8 documentos (`texto_perdido_es` 1,
+`paginas_perdidas_es` 2, `sin_url` 3, `escaneado_sin_texto` 1, `fuente_ilegible` 1).
+
+**Reformulación honesta de lo que SÍ está medido:** de los **164** documentos del corpus con texto nativo ausente,
+**160** se midieron (los `*_otro_idioma`) y su castellano es boilerplate (2.146 chars, 0 sobre el umbral); los **4**
+restantes ya estaban identificados como pérdida española o no son medibles. Los 842 «sano» no tienen texto ausente.
+
+**Y el límite que Sol destapa y yo no había declarado:** esto **no es la atribución end-to-end del mecanismo**. El
+censo compara *texto nativo del PDF* contra el corpus; un chunk descartado por el filtro de idioma cuyo contenido
+venga del OCR de una imagen (no de la capa de texto) **no aparecería como ausente**. La atribución correcta exigiría
+correr `chunk_document` + `detect_language` sobre **todo** el store de extracción — que no está en esta máquina.
+⇒ El alcance real del mecanismo **no está medido**; lo medido es una aproximación por texto nativo. Declarado.
+
+### C2 (crítico) — B y «la excepción para D1056» NO funcionan end-to-end: el filtro de idioma está TAMBIÉN en serving
+`src/rag/retriever.py:2438` — `_filter_by_language` con `_SERVED_LANGUAGES = {"es","en"}` **descarta en retrieval**
+todo chunk cuyo `language` sea fr/de/pt/it (fail-open sólo si no queda nada). **Verificado.** Por tanto conservar el
+chunk en la ingesta con `language="de"` no sirve de nada: retrieval lo vuelve a tirar en cuanto haya resultados ES/EN.
+Y el `multilingue=True` que yo proponía **no existe**: no está en el modelo de chunk (`reingest/chunk.py:132` sólo
+tiene `language`), ni en la fila que se indexa (`reingest/index.py:51`), ni en el esquema
+(`migrations/006_chunks_v2.sql`).
+
+⇒ **Mi diseño B estaba incompleto** y mi «opción 2» para `D1056` (re-ingestar con el filtro desactivado sólo para él)
+**no habría arreglado nada**. Un fix real exige: campo nuevo en el esquema + persistirlo + contrato de serving
+(¿qué hace el retriever con un chunk multilingüe? ¿y el generador, que podría citar una fila en alemán?). Eso es un
+proyecto, no una línea — y **refuerza la recomendación D**.
+
+### M3 — El re-ingestador «generalizado» no vale como excepción por documento
+Para `D1056` produce `manufacturer=null`, `product_model="EN-54-3"` (una norma, no un modelo) y `language="de"`
+(recibo `evals/s324d_reingesta_ti007_dry-run_20260817T095442Z.json`). Convertirlo en «excepción de una línea» habría
+reindexado metadata incorrecta: es el quick-fix por documento que el contrato del proyecto prohíbe. **Retiro esa
+opción.**
+
+### M4 — «el 2.146 subestima» no está demostrado
+La cifra incluye ~390 chars de falsos positivos Y omite líneas cortas no adjudicadas: el sesgo **neto es
+desconocido**, no una cota inferior. Además el banco de 28 líneas control (26/28) vive en prosa/docstring, sin
+fixture versionado que lo sostenga. Corregido en §2: la cifra es una **estimación con sesgo de signo desconocido**.
+
+### M5 — La evidencia que yo citaba sobre los golds era incorrecta (la conclusión, no)
+Yo escribí «ninguno de los afectados sustenta un gold» mientras mi propia fuente (`censo…v1.md:128`) marca
+`00-3301-501-4000-04_r004_2x-a-lb` con `gold=sí`. **Verificado end-to-end**: ese documento **no aparece** en
+`pool_ids`/`topk_ids`/`served_ids` de ningún gold del FULL 16-ago ⇒ la conclusión operativa se sostiene, pero la
+columna `gold` del censo significa otra cosa (pertenencia a `doc_map`/`pdfs_used`), no «sustenta un gold medido».
+Frase corregida y evidencia cambiada por la verificación real.
+
+## Recomendación final tras el dúo (sin cambios en el veredicto, con mejores razones)
+
+**D — no tocar el pipeline.** Ahora con tres apoyos y no uno:
+1. lo medible del alcance es boilerplate (§2), con el límite de atribución declarado (C1);
+2. el fix **no es un fix de ingesta**: exige esquema + serving + contrato de generación (C2) ⇒ el coste real es un
+   orden de magnitud mayor que el que yo había estimado;
+3. no toca ningún gold ⇒ no hay retorno medible en el eval.
+
+**`D1056-1_NFXI-BS-BSF`** queda **declarado como caso conocido** en TECH_DEBT #90 (93 % del documento fuera del
+corpus, con su tabla DIP española). Ya no propongo la excepción por documento: el dúo demostró que no funcionaría.
+Si Alberto quiere ese contenido dentro, el camino honesto es el proyecto completo de C2 — con su propia sentada.
