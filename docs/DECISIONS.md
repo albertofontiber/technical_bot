@@ -7415,3 +7415,78 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   cookies de sesión firmadas y `Secure`, cabeceras de seguridad, y **entra en la matriz de retención y en el
   paquete del abogado** junto con el aviso v8.
 - **Pendiente de Alberto**: qué es técnicamente el login del war room y si es alcanzable desde este proyecto.
+
+
+## DEC-232 (s324f) — El atajo de catálogo respondía a otra pregunta y servía el 2,9 % del corpus: se corrige cambiando la FUENTE, se separa la intención, y toda respuesta que no quepa lo dice y ofrece cómo pedir el resto
+
+- **Fecha**: 17 ago 2026. **Impacto**: MEDIO-ALTO en serving (routing + atajos). **Cableado**, con
+  gate G1-G6 en `tests/test_s324f_catalogo_fabricantes.py`. **NO desplegado** (rama).
+- **Cómo se descubrió, y esto importa más que el fallo**: el **primer smoke real del piloto**.
+  Alberto encendió la puerta (`BOT_ALLOWLIST=on`), escribió «¿qué fabricantes tienes?» y el bot le
+  respondió con **22 modelos de 756** (2,9 %) agrupados bajo `DESCARTADO`, `EN_unico`, `ES` y `PT`
+  —etiquetas internas del proceso de ingesta— y **sin botones para puntuarlo**. Ninguna suite lo
+  habría cazado: los tests congelaban esa conducta como correcta. Lo cazó un usuario en 30 segundos.
+- **Las causas, medidas** (no estimadas): `limit=5000` que PostgREST corta en **1000 filas**, sin
+  `ORDER BY` (qué 1000, arbitrario) · `r.get("category","General")` **no cubre `None`** y el
+  `if model and cat` descarta **630 de esas 1000** · `category` contaminada con idioma y estado de
+  proceso · la pregunta era por **fabricantes** y la ruta volcaba **modelos** · los atajos ni
+  colgaban teclado ni guardaban `response`, así que el fallo era **invisible en las métricas**.
+- **Decide (1) — CAMBIAR LA FUENTE, no subir el `limit`**: la respuesta sale de
+  `get_manufacturers_by_docs()` (`documents` con `status=active`, paginado con orden estable), que
+  **ya existía desde s307** y ya alimentaba la cabecera del bot. Es además la regla **r27 C1**
+  («jamás los pm de chunks») que este atajo era el **último** en incumplir. Refuerzo: la lección
+  del cap de 1000 estaba escrita **200 líneas antes en el mismo fichero** (`get_available_manufacturers`,
+  con la historia de los smokes s21 y s65). No era una lección pendiente: era una función que
+  nunca se migró.
+- **Decide (2) — SEPARAR LA INTENCIÓN en el PLAN, no en el manejador**: `sujeto_es_marca()` en
+  `turn_plan.py` decide `fabricantes` vs `catalogo`; el manejador sólo sirve. Regla de desempate
+  declarada: si aparecen los dos sustantivos, **gana marcas** — es la respuesta que cabe entera.
+- **Decide (3) — EL VOLCADO GLOBAL DESAPARECE**: 756 modelos no caben en Telegram (4.096 chars).
+  Corrección tras el dúo: era **falso** escribir que «ninguna paginación lo arregla» —se puede
+  repartir en ~8 mensajes—; la razón real es que **no conviene** y seguiría sin responder a lo
+  preguntado. Ambas rutas sirven la lista de marcas; cambia el encabezado, que reconoce lo que
+  preguntó cada uno.
+- **Decide (4) — `src/bot/acotar.py`, adjudicación de Alberto**: «generalizable a preguntas en las
+  que la respuesta no quepa […] además de incluir un mensaje de limitación […] para que el usuario
+  lo entienda». La propiedad que lo hace un control y no un adorno: **el espacio del aviso se
+  reserva ANTES de colocar ningún elemento**, así que es imposible recortar sin avisar — ni
+  quedarse sin sitio justo para la línea que explica que no había sitio. Hoja pura, tres
+  consumidores declarados.
+- **Decide (5) — LOS ATAJOS, OBSERVABLES, con el orden invertido** (hallazgo del dúo): registrar
+  **antes** de enviar, comprobar que la fila está confirmada, y sólo entonces colgar 👍/👎. Colgar
+  el teclado sobre el orden anterior habría creado **FK colgantes** — contra lo que avisa el propio
+  `log_query` en su documentación. Se guarda `response`: un 👎 sobre una respuesta que no está
+  escrita en ninguna parte es un número, no una señal.
+- **Decide (6) — ADJUDICACIÓN DE ALBERTO sobre marcas múltiples**: un producto vendido bajo varias
+  marcas (**56 medidos**; `morley:vsn-4-plus` es Morley-IAS + Notifier + Vision) **aparece en
+  todas** — el técnico busca por la marca que tiene delante en la instalación. **Matiz del autor,
+  declarado como corrección de una premisa falsa que le di**: eso aplica a **buscar**, no a
+  **listar**. Para listar se usan los nombres de `documents.manufacturer` (30, limpios) y no
+  `vendido_bajo`, que trae **cinco grafías de Morley y un `unknown`**. Listar y buscar quieren
+  fuentes distintas.
+- **Defecto preexistente arreglado de paso**: `_CATALOG_PATTERNS` exigía la **tilde** («qué»), así
+  que «que marcas tienes» —como se teclea en un móvil— caía al RAG completo. El patrón hermano del
+  mismo fichero ya usaba `qu[eé]`: es aplicar su criterio, no inventar uno.
+- **Dúo r39 (Sol xhigh + Fable 5, emparejados)**: 13 hallazgos, **ninguno dijo SÓLIDO**;
+  11 confirmados, 1 falso positivo, 1 parcial. Los **dos de mayor severidad resultaron mecanismos
+  reales con efecto MEDIDO CERO** (servibilidad: 7 productos de 1000 y **0 marcas**; tercera fuente
+  sin filtro `status`: **0 marcas fantasma**) — se adoptan como guarda **declarando la medida**:
+  adoptar un hallazgo no es obedecerlo. Fable sospechó que mi cifra «1000 productos» fuera el
+  max-rows de PostgREST —es decir, que mi medición padeciera el bug que denuncio—: **falso
+  positivo** (fichero: 1696 → 1011 activos → 1000 con docs), pero su exigencia de **declarar cómo
+  se midió cada cifra** entra en la v2. Ambos cazaron la misma sobre-afirmación mía: «todos eran el
+  mismo defecto» es falso, la intención mal clasificada y la falta de observabilidad no vienen de
+  la fuente.
+- **Alternativas descartadas**: subir el `limit`/paginar el escaneo de chunks (arregla el síntoma y
+  deja la fuente equivocada; viola r27) · limpiar `category` y seguir usándola (trabajo de corpus,
+  no hace falta para servir bien) · partir el catálogo en varios mensajes · `ORDER BY` y ya (corte
+  determinista, igual de ciego) · vista/RPC con `DISTINCT` (migración + segunda fuente de verdad).
+- **Deuda declarada con su medida**: `get_category_models` sigue truncado (4 categorías por encima
+  de 1000) · `category` contaminada (15.619 chunks sin categoría, 60 %) · **tres** fuentes de
+  «cuántos fabricantes» conviviendo (30 · 35 · 30) · el inglés no entra en el patrón de catálogo
+  (`xfail(strict)` como trinquete) · `_get_source_files_for_model` pide 5000 y hoy ningún modelo
+  llega a 1000 — **foto, no invariante** (Fable), queda con test-guarda porque el sesgo del
+  diversify sería silencioso.
+- **Recibos**: `evals/s324f_catalogo_propuesta_{v1,v2}.md` · tally r39 (ts=2026-08-17T19:18:19,
+  `duo_status=adjudicado`) · gate en `tests/test_s324f_catalogo_fabricantes.py`.
+

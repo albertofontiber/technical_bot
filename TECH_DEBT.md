@@ -3308,3 +3308,42 @@ Opciones a evaluar cuando haya cifra: (a) partir los chunks multilingües por id
 el chunk si contiene ≥N chars adjudicables a `es`; (c) marcar el documento como multilingüe en la ingesta y aplicar
 política por documento, no por chunk; (d) no tocar nada si la cifra resulta despreciable.
 **Verificado que NO es**: ni OCR, ni la guarda de markdown degenerado (#87), ni el chunker.
+
+
+## #91 — Lo que el arreglo del catálogo (DEC-232) NO arregla, con su medida — s324f
+
+**Contexto**: DEC-232 cambió la FUENTE del atajo de fabricantes y dejó el resto declarado en vez
+de arrastrarlo silenciosamente. Cada punto lleva su medida del 17-ago, para que quien lo retome no
+tenga que volver a medir para decidir si urge.
+
+**A · `get_category_models` sigue truncado.** Pide `limit=2000` y PostgREST devuelve 1000. Cuatro
+categorías lo superan: `None` (15.619 chunks), `ES` (6.233), `Detectores especiales` (1.670),
+`EN_unico` (1.060). Arreglo: paginar como hace `get_manufacturers_by_docs`. **Ninguna ruta viva lo
+usa hoy** tras DEC-232 — por eso no bloquea, pero sigue siendo una trampa armada.
+
+**B · `category` está contaminada.** Mezcla familias reales con idiomas (`ES`, `PT`, `EN_unico`) y
+estados de proceso (`DESCARTADO`), y **15.619 de 26.216 chunks (60 %) la tienen vacía**. Es trabajo
+de CORPUS, no de serving: ninguna respuesta depende ya de ese campo, pero cualquier vista futura
+por categoría hereda el problema.
+
+**C · Tres fuentes de «cuántos fabricantes» conviviendo** (la tercera la encontró Fable en el dúo
+r39): `get_manufacturers_by_docs()` → **30** (documentos activos, la que se sirve desde DEC-232) ·
+catálogo ∩ doc_map → **35** (productos) · `get_available_manufacturers()` → **30**, y ésta **no
+filtra `status`**, así que podría listar marcas cuyos documentos estén todos retirados. **Marcas
+fantasma hoy: 0** — verificado: las 30 tienen documento activo. Miden cosas distintas y las tres
+son ciertas, pero el bot no puede decir dos cifras distintas en dos frases seguidas. Arreglo:
+unificar, o declarar en el texto qué cuenta cada una.
+
+**D · El inglés no entra en el atajo de catálogo.** `sujeto_es_marca()` ya reconoce
+`manufacturers/brands/vendors`, pero `_CATALOG_PATTERNS` sólo entiende español, así que una
+pregunta en inglés ni siquiera llega al split. Anclado con **`xfail(strict)`** en
+`tests/test_s324f_catalogo_fabricantes.py`: el día que el patrón acepte inglés, el test pasará a
+XPASS y obligará a retirar la marca. Trinquete, no TODO.
+
+**E · `_get_source_files_for_model` y `_get_pm_for_sources` piden 5000 (cap real: 1000).** Hoy
+**ningún modelo ni fichero llega a 1000 chunks** (el mayor, ID3000, tiene 665), así que el
+retrieval NO está afectado. Pero eso es una **foto, no un invariante** (hallazgo de Fable): el
+filtro es `imatch` por familia y nada garantiza el margen al crecer el corpus. Si algún día lo
+cruza, el sesgo del diversify sería **silencioso** — no hay error, sólo peores fuentes. Arreglo
+barato: un test-guarda que se ponga rojo al acercarse al tope.
+

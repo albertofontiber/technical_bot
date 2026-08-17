@@ -78,7 +78,23 @@ la doble instancia que partía la sesión de un DG), y la **conducta (a)** ante 
 apagado. Migraciones 015 y 016 **APLICADAS** (la 016 costó dos intentos: su validación con
 `BEGIN/ROLLBACK` revertía el fichero entero — lección cableada como test). Suite 4192.
 
-**Qué sigue (s324e — VIGENTE; LO PRIMERO al abrir sesión):**
+**s324f (17-ago) — LA PUERTA SE ENCENDIÓ Y EL PRIMER SMOKE REAL DESTAPÓ EL CATÁLOGO (DEC-232).**
+Alberto puso `BOT_ALLOWLIST_BOOTSTRAP` + `BOT_ALLOWLIST=on` en Railway: la puerta está **ACTIVA en
+producción** (log: «puerta de acceso ACTIVA … bootstrap=1 ids, tope diario=30») y su consulta la
+atravesó (O2 ✅). Con eso preguntó «¿qué fabricantes tienes?» y el bot respondió **22 modelos de
+756** bajo etiquetas de ingesta (`DESCARTADO`, `EN_unico`, `ES`, `PT`) y sin botones para
+puntuarlo. Ninguna suite lo cazaba —los tests congelaban esa conducta como correcta—; lo cazó un
+usuario en 30 segundos. Corregido con dúo r39 (13 hallazgos, ninguno SÓLIDO): la fuente pasa a
+`get_manufacturers_by_docs()` (regla r27, que este atajo era el último en incumplir), se separa la
+intención en el PLAN, y toda respuesta que no quepa **lo dice y ofrece el follow-up**
+(`src/bot/acotar.py`, adjudicado por Alberto). **Panel web v1 construido y verificado**
+(`dashboard/`, DEC-231): nada responde sin sesión, la service key no sale del servidor.
+
+**Qué sigue (s324f — VIGENTE; LO PRIMERO al abrir sesión):**
+(0-a) **DESPLEGAR lo de esta sesión**: PR → merge → Railway. Incluye el catálogo arreglado (que
+hoy sigue roto en producción) y el panel, que además necesita **servicio Railway aparte** +
+`DASHBOARD_SECRET` y `DASHBOARD_USUARIOS` (el hash lo genera
+`scripts/s324f_dashboard_password.py`, que pide la contraseña por `getpass` y no guarda nada).
 (0) **PILOTO DG — lo que falta es de Alberto**: (a) **abogado** = aviso v8 (redactado, 6 decisiones
 resueltas) + texto de `bot_errors` + plazo de 24 meses de las tablas nuevas + el aviso de canje comunica
 nombre/alias de quien canjea; **paquete listo para reenviar en `docs/PAQUETE_ABOGADO_PILOTO_DG.md`**;

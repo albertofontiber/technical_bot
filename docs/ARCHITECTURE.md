@@ -17,7 +17,17 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s324b/c (17 ago 2026).** Catálogo gobernado tras los lotes firmados de la tarde/noche (DEC-227:
+> **Estado s324e/f (17 ago 2026) — EL PILOTO DG ESTÁ ABIERTO Y CONTROLADO.** La **puerta de acceso
+> está ACTIVA en producción** (`BOT_ALLOWLIST=on`, allowlist + invitación de un solo uso, tope
+> diario 30, chat privado obligatorio) con las migraciones **015 y 016 aplicadas**: `bot_errors`,
+> `bot_allowlist` (1 fila: Alberto, alta por la propia migración) y `bot_invitaciones`. La red de
+> errores registra por clase/módulo/severidad sin dato personal directo. **En rama, sin desplegar**:
+> el **panel web** (`dashboard/`, servicio ASGI aparte — nada responde sin sesión, la clave de
+> servicio no sale del proceso) y el **arreglo del catálogo** (DEC-232): la pregunta por fabricantes
+> se responde con las **30 marcas** de `documents` (activas, paginado), no con un volcado de
+> `product_model` de chunks que servía 22 de 756. Flags apagados: `MISMATCH_ANSWER`.
+>
+> > **Estado s324b/c (17 ago 2026).** Catálogo gobernado tras los lotes firmados de la tarde/noche (DEC-227:
 > R1', §0.C, STRATOS, §0.D/§0.E, Detnov E1b): **1.696 productos** (1.011 consumibles · 601 candidate · 84
 > retirados/redirect), 1.744 alias (−14 descriptivos «2 zonas»… retirados por el gate), **25 paraguas** (+STRATOS),
 > **977 filas de doc_map / 2.905 entries**; corpus **1.054 documentos activos / 105 retirados** (7 más esta noche:

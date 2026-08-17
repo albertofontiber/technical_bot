@@ -439,7 +439,17 @@ def test_cifras_de_control():
     # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
     # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
     # matriz es justo lo que impide el import inverso `raiz → bot`).
-    assert len(MODULOS) == 125, (
+    # 125→126 (s324f): + bot/acotar.py — las respuestas que NO caben: recortar
+    # DICIÉNDOLO y ofrecer el follow-up (adjudicación de Alberto tras el primer
+    # smoke del piloto). Es PRODUCTO: lo ejecuta el serving en cada respuesta de
+    # atajo que pueda pasarse del presupuesto de Telegram. Vive en `bot` por el
+    # mismo motivo que `acotar` sus hermanas —sus salidas son texto de
+    # transporte, en español— y es hoja PURA: entra una lista de cadenas y sale
+    # una cadena, sin red, sin entorno y sin saber qué son los elementos. No es
+    # un helper de un solo uso: nace con tres consumidores declarados (lista de
+    # fabricantes, catálogo por marca e inventario agrupado, que hoy implementa
+    # el mismo patrón a mano dos veces).
+    assert len(MODULOS) == 126, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
