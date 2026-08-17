@@ -78,11 +78,34 @@ la doble instancia que partía la sesión de un DG), y la **conducta (a)** ante 
 apagado. Migraciones 015 y 016 **APLICADAS** (la 016 costó dos intentos: su validación con
 `BEGIN/ROLLBACK` revertía el fichero entero — lección cableada como test). Suite 4192.
 
-**Qué sigue (s324e — VIGENTE; LO PRIMERO al abrir sesión):**
+**s324f (17-ago) — LA PUERTA SE ENCENDIÓ Y EL PRIMER SMOKE REAL DESTAPÓ EL CATÁLOGO (DEC-232).**
+Alberto puso `BOT_ALLOWLIST_BOOTSTRAP` + `BOT_ALLOWLIST=on` en Railway: la puerta está **ACTIVA en
+producción** (log: «puerta de acceso ACTIVA … bootstrap=1 ids, tope diario=30») y su consulta la
+atravesó (O2 ✅). Con eso preguntó «¿qué fabricantes tienes?» y el bot respondió **22 modelos de
+756** bajo etiquetas de ingesta (`DESCARTADO`, `EN_unico`, `ES`, `PT`) y sin botones para
+puntuarlo. Ninguna suite lo cazaba —los tests congelaban esa conducta como correcta—; lo cazó un
+usuario en 30 segundos. Corregido con dúo r39 (13 hallazgos, ninguno SÓLIDO): la fuente pasa a
+`get_manufacturers_by_docs()` (regla r27, que este atajo era el último en incumplir), se separa la
+intención en el PLAN, y toda respuesta que no quepa **lo dice y ofrece el follow-up**
+(`src/bot/acotar.py`, adjudicado por Alberto). **Panel web v1 construido y verificado**
+(`dashboard/`, DEC-231): nada responde sin sesión, la service key no sale del servidor.
+
+**Qué sigue (s324f — VIGENTE; LO PRIMERO al abrir sesión):**
+(0-a) **DESPLEGAR lo de esta sesión**: PR → merge → Railway. Incluye el catálogo arreglado (que
+hoy sigue roto en producción) y el panel, que además necesita **servicio Railway aparte** +
+`DASHBOARD_SECRET` y `DASHBOARD_USUARIOS` (el hash lo genera
+`scripts/s324f_dashboard_password.py`, que pide la contraseña por `getpass` y no guarda nada).
 (0) **PILOTO DG — lo que falta es de Alberto**: (a) **abogado** = aviso v8 (redactado, 6 decisiones
 resueltas) + texto de `bot_errors` + plazo de 24 meses de las tablas nuevas + el aviso de canje comunica
-nombre/alias de quien canjea; (b) **mergear** y dejar que Railway despliegue; (c) **encender** en este
-orden: `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on` (al revés se queda fuera de su bot);
+nombre/alias de quien canjea; **paquete listo para reenviar en `docs/PAQUETE_ABOGADO_PILOTO_DG.md`**;
+(b) ✅ **HECHO** — PR #278 mergeada y Railway desplegó (SUCCESS 17-ago 16:18; log de arranque: «Bot
+started» + el WARNING que declara la puerta apagada: el código está en producción e INERTE);
+(c) **encender** `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on`. ⚠️ **Matiz verificado
+17-ago**: el motivo original del orden («al revés te quedas fuera de tu bot») **ya no aplica** — la
+migración 016 hizo el bootstrap EN LA BASE y la fila de Alberto está activa (`origen=bootstrap`,
+`alta_por=migracion_016`), y la puerta autoriza desde la base. Pero la variable **sigue haciendo falta
+por otras dos razones**: el **aviso de canje** se manda a `ids_bootstrap()` —sin ella la contramedida
+anti-reenvío se queda muda— y es el único camino que funciona con Supabase caído;
 (d) invitar al PRIMER DG y hacer el **smoke real** (el harness no atraviesa `mismatch`: su testigo es
 Telegram, no el eval); (e) medir la cobertura de la corrección en `rag_trace ? 'mismatch_corrected'`.
 Criterio de GO: O1-O4 en `evals/s324e_allowlist_duo_r1_v1.md`; **NO-GO si fallan O1 u O4**.

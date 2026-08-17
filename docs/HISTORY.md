@@ -5546,3 +5546,69 @@ algo que yo había contado mal: lo atómico es el quemado del token, no el conju
 **Dónde quedó.** Todo en rama, nada desplegado, ningún flag encendido. Lo que falta no es código: es un
 abogado, un merge y tres variables de entorno en el orden correcto.
 
+
+## s324f (17-ago-2026) — La puerta se encendió, y el primer usuario real encontró en 30 segundos lo que 4.300 tests no veían
+
+La sesión empezó verificando producción tras el merge: Railway desplegó, el bot arrancó y dejó en
+el log el aviso de que la puerta estaba apagada — el código del piloto en producción e **inerte**,
+que era exactamente el estado diseñado. De paso salieron dos correcciones que sólo se ven mirando
+la máquina: la cabecera de la migración 015 seguía diciendo «NO APLICADA» cuando llevaba horas
+aplicada, y el PLAN afirmaba que sin `BOT_ALLOWLIST_BOOTSTRAP` Alberto se quedaría fuera de su
+propio bot. **Ya no era verdad** —la migración lo había dado de alta en la base—, pero la variable
+seguía haciendo falta por otra razón que nadie había escrito: el **aviso de canje** se manda a los
+ids de esa variable, así que sin ella la contramedida anti-reenvío que él mismo pidió se queda
+muda. El riesgo no desapareció; se había mudado de sitio.
+
+Alberto encendió la puerta. Arrancó con «puerta de acceso ACTIVA … bootstrap=1 ids, tope diario=30»
+y su primera consulta la atravesó: el criterio O2 del piloto, verificado con tráfico real y no con
+un test. Entonces escribió lo que escribiría cualquier director general al abrir el bot por primera
+vez —«¿qué fabricantes tienes?»— y el bot le contestó con **22 modelos de 756**, agrupados bajo
+`DESCARTADO`, `EN_unico`, `ES` y `PT`: etiquetas internas del proceso de ingesta presentadas como
+si fueran familias de producto. Encima no pudo puntuarlo, porque los atajos no llevaban botones, y
+la respuesta ni siquiera se guardaba: un 👎 habría señalado a un texto que no existía en ninguna
+parte.
+
+**Ninguna suite lo cazaba, y no por descuido: los tests congelaban esa conducta como correcta.**
+Había uno llamado `test_catalogo_typing_log_sin_response_y_seudonimo` que verificaba justamente que
+el atajo NO guardara la respuesta. Lo destapó un usuario en medio minuto.
+
+El diagnóstico apiló cinco causas medidas —un `limit=5000` que PostgREST corta en 1000, sin orden;
+un `.get(clave, "General")` que no cubre `None` y tiraba 630 de las 1000 filas que llegaban; una
+columna `category` usada para dos cosas a la vez— pero la conclusión importante fue otra: **la
+lección del tope de 1000 estaba escrita 200 líneas antes, en el mismo fichero**, con la historia de
+los dos smokes que la enseñaron. Y la regla de no derivar el catálogo de los `product_model` de
+chunks llevaba escrita desde un dúo anterior: «jamás los pm de chunks». No era una lección
+pendiente de aprender. Era una función que nunca se migró, y la única superviviente.
+
+El dúo r39 devolvió **13 hallazgos y ninguno de los dos dijo SÓLIDO**. Tres cosas que dejó, más
+allá de la lista: Sol vio que el atajo **envía antes de registrar**, así que colgar el teclado tal
+cual habría creado botones apuntando a filas inexistentes — el arreglo pasó a ser el orden, no el
+teclado. Fable sospechó que la cifra «1000 productos» del autor fuera precisamente el max-rows de
+PostgREST, es decir, que la medición padeciera el mismo fallo que denunciaba: resultó **falso
+positivo** (el catálogo en fichero tiene 1696 → 1011 activos → 1000 con documentación), pero la
+sospecha era exactamente la correcta y su exigencia —declarar cómo se midió cada número— se quedó.
+Y los dos, por separado, cazaron la misma sobre-afirmación: «todos eran el mismo defecto». No lo
+eran.
+
+Los dos hallazgos de mayor severidad resultaron ser **mecanismos reales con efecto medido cero**:
+filtrar por documento activo cuesta 7 productos de 1000 y ninguna marca; la tercera fuente de
+fabricantes que Fable encontró no produce ninguna marca fantasma hoy. Se adoptaron igual, pero
+declarando la medida — porque adoptar un hallazgo y obedecerlo no son lo mismo.
+
+Alberto adjudicó dos reglas de negocio (un producto vendido bajo varias marcas aparece en todas;
+nombres completos), y una de las dos llegó con una **premisa falsa del autor**: le habían dicho que
+los nombres completos no exigían mantener ninguna lista, y el campo tenía cinco grafías de Morley y
+un «unknown». La salida no fue volver a preguntarle, sino que su regla se aplicaba en el sitio
+equivocado: al **buscar** por marca sí —el técnico busca por lo que pone en la etiqueta del
+equipo—, pero al **listar** hay una fuente limpia que ya existía. Listar y buscar quieren fuentes
+distintas.
+
+Cerró con el panel web construido y verificado a mano (sin sesión no responde ninguna ruta, ni
+siquiera con el esqueleto de la página; las acciones destructivas mueren tres veces: sin sesión,
+sin token y desde otro origen), el paquete del abogado listo para reenviar con seis preguntas
+concretas —dos de ellas nunca formuladas hasta hoy: se anota el nombre de un invitado antes de que
+acepte nada, y la puerta decide antes del consentimiento, así que ese tratamiento no puede
+apoyarse en el consentimiento de esa persona— y una pieza nueva que Alberto pidió generalizar:
+cuando una respuesta no cabe, **se dice y se ofrece cómo pedir el resto**, con el espacio del aviso
+reservado antes que el contenido para que sea imposible recortar en silencio.
+

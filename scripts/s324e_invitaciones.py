@@ -145,21 +145,11 @@ def _fecha(valor: str | None) -> str:
         return str(valor)[:16]
 
 
-def _estado_invitacion(fila: dict, ahora: datetime) -> str:
-    """El estado DERIVADO, en el orden en que importa: lo que ya paso manda
-    sobre lo que pudo pasar. Una invitacion usada y luego caducada se lee
-    «usada», que es lo que ocurrio."""
-    if fila.get("canjeada_at"):
-        return "usada"
-    if fila.get("revocada_at"):
-        return "anulada"
-    try:
-        expira = datetime.fromisoformat(
-            str(fila.get("expira_at")).replace("Z", "+00:00")
-        )
-    except (TypeError, ValueError):
-        return "?"
-    return "caducada" if expira <= ahora else "pendiente"
+# El estado DERIVADO de una invitacion vive en `access.estado_invitacion` desde
+# s324f. Estaba aqui como `_estado_invitacion` y se subio a la hoja pura cuando
+# el panel web paso a ser un SEGUNDO lector de las mismas filas: dos copias de
+# la regla «usada manda sobre caducada» son una divergencia esperando su turno.
+# Aqui no queda alias: se llama a la hoja, que es la unica fuente.
 
 
 def _corto(texto: object, ancho: int) -> str:
@@ -263,7 +253,7 @@ def cmd_listar(args) -> int:
     conteo: dict[str, int] = {}
     visibles = []
     for fila in filas:
-        estado = _estado_invitacion(fila, ahora)
+        estado = access.estado_invitacion(fila, ahora)
         conteo[estado] = conteo.get(estado, 0) + 1
         if args.todas or estado == "pendiente":
             visibles.append((estado, fila))
@@ -441,7 +431,7 @@ def cmd_revocar_acceso(args) -> int:
         f for f in _pedir("GET", "bot_invitaciones",
                           params={"select": "id,nota,expira_at,canjeada_at,"
                                             "revocada_at"})
-        if _estado_invitacion(f, ahora) == "pendiente"
+        if access.estado_invitacion(f, ahora) == "pendiente"
     ]
     if pendientes:
         print()

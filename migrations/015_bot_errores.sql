@@ -1,12 +1,16 @@
 -- ============================================================================
 -- 015 — `bot_errors`: el registro de INCIDENCIAS del bot (s324e).
 --
--- ⚠️ NO APLICADA. Este fichero se deja preparado para que Alberto lo revise y
---    lo pegue en el SQL editor de Supabase cuando decida. El bot funciona SIN
---    ella: `log_bot_error` detecta la tabla ausente (PGRST205/404), avisa UNA
---    vez en el log y degrada al registro heredado de s286 (fila en `query_logs`
---    con `source='error'`). Es decir: aplicarla añade insights, no arranca el
---    mecanismo.
+-- ✅ APLICADA EN PRODUCCIÓN el 17-ago-2026 (Alberto, SQL editor de Supabase).
+--    Verificado el mismo día vía PostgREST: la tabla existe y tiene 0 filas —
+--    que es el resultado bueno (0 filas = ningún error del bot desde que se
+--    creó, no «no funciona»). Se dejó `NOTIFY pgrst, 'reload schema'` al pie
+--    porque PostgREST cachea el esquema y devolvía 404 con la tabla ya creada.
+--
+--    El bot funciona SIN ella: `log_bot_error` detecta la tabla ausente
+--    (PGRST205/404), avisa UNA vez en el log y degrada al registro heredado de
+--    s286 (fila en `query_logs` con `source='error'`). Es decir: aplicarla
+--    añade insights, no arranca el mecanismo.
 --
 -- PROBLEMA QUE RESUELVE. Desde s286 un error del bot deja UNA fila en
 -- `query_logs` con `source='error'` y un texto `TipoDeExcepcion@etapa` metido

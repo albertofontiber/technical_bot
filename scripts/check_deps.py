@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""CI gate: toda dependencia third-party importada en src/ debe estar declarada
-en requirements.txt.
+"""CI gate: toda dependencia third-party importada en src/ (y en dashboard/) debe
+estar declarada en requirements.txt.
 
 Análisis estático (AST) → caza imports *lazy* (dentro de funciones), que es
 exactamente la clase del bug de `voyageai` que rompió producción en sesión 27:
@@ -23,6 +23,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
+# s324f: el panel web es codigo DESPLEGADO (otro servicio de Railway, mismo
+# requirements.txt), asi que paga el mismo peaje que src/. Sin esta linea, un
+# import no declarado en dashboard/ solo se veria al reventar el deploy — que es
+# exactamente la clase de fallo que este gate existe para adelantar.
+DASHBOARD = ROOT / "dashboard"
+PAQUETES = [p for p in (SRC, DASHBOARD) if p.is_dir()]
 REQUIREMENTS = ROOT / "requirements.txt"
 
 # Paquetes cuyo nombre de distribución != nombre del módulo importado. Solo se
@@ -59,9 +65,9 @@ def declared_distributions() -> set[str]:
 
 
 def imported_top_level_modules() -> dict[str, set[Path]]:
-    """Módulos top-level importados en src/ → archivos donde aparecen."""
+    """Módulos top-level importados en src/ y dashboard/ → dónde aparecen."""
     mods: dict[str, set[Path]] = {}
-    for path in sorted(SRC.rglob("*.py")):
+    for path in sorted(p for paquete in PAQUETES for p in paquete.rglob("*.py")):
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -78,7 +84,11 @@ def main() -> int:
     declared = declared_distributions()
     module_to_dists = packages_distributions()
     stdlib = sys.stdlib_module_names
-    first_party = {"src"}
+    # `scripts` y `dashboard` son codigo de ESTE repo, no distribuciones de pip.
+    # `scripts` aparece porque dashboard/errores.py reutiliza la agregacion del
+    # informe de errores en vez de copiarla; que src/ no pueda importarlo lo
+    # garantiza el contrato de imports, no este gate.
+    first_party = {"src", "dashboard", "scripts"}
 
     missing: dict[str, set[Path]] = {}
     for mod, files in imported_top_level_modules().items():
@@ -96,7 +106,7 @@ def main() -> int:
             missing[mod] = files
 
     if missing:
-        print("FALLO: imports en src/ NO declarados en requirements.txt:\n")
+        print("FALLO: imports en src/ o dashboard/ NO declarados en requirements.txt:\n")
         for mod, files in sorted(missing.items()):
             where = ", ".join(str(f.relative_to(ROOT)) for f in sorted(files))
             print(f"  - {mod}  ({where})")
@@ -105,7 +115,8 @@ def main() -> int:
 
     print(
         f"OK: {len(declared)} dependencias en requirements.txt cubren todos "
-        "los imports third-party de src/."
+        f"los imports third-party de "
+        f"{' y '.join(paquete.name + '/' for paquete in PAQUETES)}."
     )
     return 0
 

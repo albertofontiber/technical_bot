@@ -58,6 +58,17 @@ def eq(monkeypatch):
     # la caché global del 5-bis no debe arrastrar estado entre tests
     monkeypatch.setattr(bot, "_marcas_db_cache", None)
 
+    # (s324f) El espía sigue a la ruta, no a una función concreta: `catalogo` ya
+    # no vuelca modelos —eso servía 22 de 756 y respondía a otra pregunta— sino
+    # que comparte con `fabricantes` la lista de marcas. Lo que estos tests
+    # congelan (que `typing` y `log_consulta` del PLAN mandan sobre el
+    # despachador) no ha cambiado; sólo qué función implementa la ruta.
+    def _texto_catalogo(*, por_producto):
+        rec["catalogo"] += 1
+        return "CATALOGO-STUB"
+
+    monkeypatch.setattr(bot, "_texto_fabricantes", _texto_catalogo)
+
     async def _catalogo(update):
         rec["catalogo"] += 1
         await update.message.reply_text("CATALOGO-STUB")
@@ -134,12 +145,28 @@ def test_saludo_incluye_fabricantes_dinamicos(eq):
 
 
 # --- catálogo global ----------------------------------------------------------
-def test_catalogo_typing_log_sin_response_y_seudonimo(eq):
+def test_catalogo_typing_log_con_response_y_seudonimo(eq):
+    """(s324f) CAMBIO DE CONTRATO DELIBERADO: el atajo ahora SÍ guarda `response`.
+
+    Hasta hoy este test congelaba lo contrario —«la métrica es consulta+ruta, sin
+    texto»— y esa decisión tenía un precio que se cobró en el primer smoke del
+    piloto: Alberto recibió una respuesta mala del atajo, no pudo puntuarla
+    (tampoco había botones) y **no quedó registrado qué le había contestado el
+    bot**, así que no se podía diagnosticar. Un 👎 sobre una respuesta que no está
+    escrita en ninguna parte no es una señal, es un número.
+
+    Lo que se guarda es texto que genera el bot, no dato personal nuevo. El coste
+    declarado es volumen en `query_logs`.
+    """
     u = _turno("¿qué fabricantes tienes?")
     assert eq["catalogo"] == 1 and "CATALOGO-STUB" in u.message.replies
     assert u.message.chat.actions == ["typing"]
     assert _rutas(eq) == ["catalog_shortcut"]
-    assert "response" not in eq["logs"][0]        # la métrica es consulta+ruta, sin texto
+    assert eq["logs"][0]["response"] == "CATALOGO-STUB"
+    assert eq["logs"][0]["response_length"] == len("CATALOGO-STUB")
+    # y el id lo pone el CLIENTE: es lo que permite colgar los botones sin
+    # arriesgar una FK colgante (dúo r39)
+    assert eq["logs"][0].get("query_log_id")
     assert eq["seud"] == [7]
 
 

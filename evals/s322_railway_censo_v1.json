@@ -1,9 +1,9 @@
 {
  "que_es": "Censo vivo de Railway (worker): retiradas ausentes, las que mandan presentes, último deployment. Valores solo de flags no secretos.",
- "utc": "20260817T094519Z",
+ "utc": "20260817T172041Z",
  "servicios": {
   "worker": {
-   "n_vars": 40,
+   "n_vars": 42,
    "retiradas_ausentes": {
     "GENERATOR_PROMPT_VARIANT": true,
     "RERANK_TOP_K": true,
@@ -58,6 +58,8 @@
     }
    },
    "otras_no_secretas": [
+    "BOT_ALLOWLIST",
+    "BOT_ALLOWLIST_BOOTSTRAP",
     "BOT_ERROR_LOGGING",
     "COVERAGE_RELEASE_PROFILE",
     "FACET_COMPLEMENT_FALLBACK",
@@ -84,7 +86,7 @@
    "n_con_nombre_sensible": 11,
    "ultimo_deployment": {
     "status": "SUCCESS",
-    "createdAt": "2026-08-17T09:21:23.465Z"
+    "createdAt": "2026-08-17T16:36:11.175Z"
    }
   }
  },

@@ -54,13 +54,49 @@ _BYE_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 _CATALOG_PATTERNS = re.compile(
-    r"(qué\s+(productos?|modelos?|equipos?|detectores?|centrales?|fabricantes?|marcas?|empresas?)\s+(tienes|hay|tenéis|tienen|soporta)|"
-    r"(listado|catálogo|catalogo|lista)\s+de\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)|"
-    r"para\s+qué\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)\s+tienes\s+información|"
-    r"qué\s+información\s+tienes|"
-    r"qué\s+tienes)",
+    # (s324f) `qu[eé]` y `ten[eé]is`, no `qué`/`tenéis`: el patrón exigía la TILDE
+    # y «que marcas tienes» —como se teclea en un móvil, que es donde está el
+    # técnico— caía a la ruta conversacional, o sea al RAG completo: respuesta
+    # cara y peor para una pregunta que tiene contestación exacta. El patrón
+    # hermano de este mismo fichero (`_ENUM_FABRICANTE`) ya usaba `qu[eé]`; esto
+    # es aplicarle la misma tolerancia, no inventar criterio.
+    r"(qu[eé]\s+(productos?|modelos?|equipos?|detectores?|centrales?|fabricantes?|marcas?|empresas?)\s+(tienes|hay|ten[eé]is|tienen|soporta)|"
+    r"(listado|cat[aá]logo|lista)\s+de\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)|"
+    r"para\s+qu[eé]\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)\s+tienes\s+informaci[oó]n|"
+    r"qu[eé]\s+informaci[oó]n\s+tienes|"
+    r"qu[eé]\s+tienes)",
     re.IGNORECASE,
 )
+#: (s324f) El SUJETO de una pregunta de catálogo: ¿se pregunta por MARCAS o por
+#: PRODUCTOS? Hasta hoy `_CATALOG_PATTERNS` metía los dos sustantivos en el mismo
+#: saco y la ruta única volcaba modelos — así que «¿qué fabricantes tienes?» se
+#: contestaba con una lista de productos. Es el fallo que destapó el smoke del
+#: piloto (s324f) y el split es DONDE se arregla: aquí, en el plan, no en el
+#: manejador; el plan decide la intención y el manejador sólo la sirve.
+#:
+#: Se busca en TODO el texto, no sólo tras «qué»: «dame el listado de marcas» y
+#: «¿de qué fabricantes tienes información?» son la misma pregunta con otro orden.
+#: Inglés incluido — el dúo r39 señaló que el patrón sólo cubría español, y un DG
+#: del grupo puede escribir «which manufacturers do you have?».
+_CATALOG_SUJETO_MARCA = re.compile(
+    r"\b(fabricantes?|marcas?|empresas?|proveedores?|"
+    r"manufacturers?|brands?|vendors?)\b",
+    re.IGNORECASE,
+)
+
+
+def sujeto_es_marca(texto: str) -> bool:
+    """¿La pregunta de catálogo va de MARCAS (y no de productos)?
+
+    Regla de desempate, declarada: si aparecen los dos sustantivos —«¿qué marcas y
+    modelos tienes?»— gana MARCAS. Motivo: la lista de marcas cabe entera y es la
+    puerta natural al resto («dime una y te enseño sus productos»), mientras que
+    la de productos no cabe y obliga a recortar. Ante la duda, la respuesta que
+    puede darse COMPLETA.
+    """
+    return bool(_CATALOG_SUJETO_MARCA.search(texto or ""))
+
+
 _ENUM_FABRICANTE = re.compile(
     # s322 #76: {0,40}→{0,70} — «de cuatro lazos analógicas de Detnov» rozaba
     # el tope; las frases con filtros de categoría/atributo caben enteras.
@@ -534,6 +570,9 @@ def plan_turn(texto: str, estado_modelos: Sequence[str], meta: Meta,
     if _BYE_PATTERNS.match(texto):
         return _plan(ruta="cortesia_adios")
     if _CATALOG_PATTERNS.search(texto):
+        # (s324f) Dos intenciones distintas que compartían ruta y respuesta.
+        if sujeto_es_marca(texto):
+            return _plan(ruta="fabricantes", log_consulta=True, typing=True)
         return _plan(ruta="catalogo", log_consulta=True, typing=True)
 
     _post_marca = "feedback" if _FEEDBACK_PATTERNS.search(texto) else "conversacional"

@@ -96,7 +96,10 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
 **Orden de activación, una sola vez** (importa: el código se despliega solo y la migración la aplicas tú):
 1. ✅ **HECHO (17-ago)**: `migrations/016_allowlist_invitaciones.sql` aplicada. La FASE B dio de alta automáticamente a quien ya tenía consentimiento activo — o sea, a ti: no te quedas fuera. (Costó dos intentos: la prueba del un-solo-uso que iba dentro llevaba `BEGIN/ROLLBACK` y el SQL Editor revirtió el fichero entero. Ahora esa prueba vive aparte, en `016_validacion_un_solo_uso.sql`.)
 2. `python -m scripts.s324e_invitaciones allowlist` → comprobar que tu fila está.
-3. ⏳ **PENDIENTE, y es lo que enciende el control**. En Railway: `BOT_ALLOWLIST_BOOTSTRAP=<tu telegram_user_id>` (tu red de seguridad si algo falla) y **después** `BOT_ALLOWLIST=on`. En ese orden: al revés te quedas fuera de tu propio bot si algo va mal.
+3. ✅ **HECHO (17-ago)**: el código está **desplegado y funcionando** en Railway (deployment SUCCESS de las 16:18; el bot arrancó y dejó en el log el aviso de que la puerta está apagada). Está **inerte**: hasta que no enciendas el paso 4, el bot se comporta exactamente como antes.
+4. ⏳ **PENDIENTE, y es lo único que enciende el control**. En Railway: `BOT_ALLOWLIST_BOOTSTRAP=<tu telegram_user_id>` y **después** `BOT_ALLOWLIST=on`.
+   - **Ya no es verdad que al revés te quedes fuera de tu bot** (verificado el 17-ago): la migración te dio de alta en la BASE y la puerta lee de ahí. Pero pon igualmente la variable, por dos razones que sí siguen vivas: **(1) sin ella no te llega el aviso de canje** —la contramedida anti-reenvío que pediste va justo a los ids de esa variable— y **(2)** es el único camino que funciona si Supabase se cae.
+   - Comprobación de que quedó bien: en el log de Railway, tras el redespliegue, debe **desaparecer** la línea `puerta de acceso APAGADA`.
 
 **Invitar (cada vez)**: `python -m scripts.s324e_invitaciones generar --nota "Juan Pérez, DG de Acme" --bot PCI_Soporte_tecnico_bot` → imprime el enlace **una sola vez** (en la base solo queda su huella); se lo mandas a esa persona; al pulsarlo queda dada de alta y el bot le enseña los términos. Caduca en **2 días** por defecto (`--dias`, máximo 7).
 

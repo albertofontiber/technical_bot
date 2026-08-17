@@ -62,6 +62,7 @@ from ..rag.retriever import (
 # (from_production) y el seam execute_rag_turn vive en serving_pipeline.
 from ..rag.runtime_trace import build_rag_serving_trace
 from ..flags import mismatch_answer_activo
+from .acotar import acotar
 from ..logging_db import (
     allowlist_estado,
     canjear_invitacion,
@@ -1504,13 +1505,20 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
             "\u00a1Hasta luego! Aqu\u00ed estar\u00e9 cuando lo necesites. \U0001f527"
         )
         return
-    if ruta == "catalogo":
+    if ruta in ("fabricantes", "catalogo"):
+        # (s324f) Las dos preguntas de catálogo comparten manejador porque
+        # comparten RESPUESTA: la lista de marcas. La de productos acaba aquí
+        # por una razón medida, no por pereza — 756 modelos no caben en un
+        # mensaje de Telegram, así que la única respuesta completa que se puede
+        # dar a «¿qué tienes?» es «de estas marcas; dime una». Lo que cambia
+        # entre ambas es el encabezado, que reconoce lo que se preguntó.
         if plan.typing:
             await update.message.chat.send_action("typing")
-        await _handle_catalog(update)
-        if plan.log_consulta:
-            log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
-            asegurar_seudonimo(user_id)
+        respuesta = _texto_fabricantes(por_producto=(ruta == "catalogo"))
+        await _responder_atajo(
+            update, respuesta, user_id=user_id, query=query,
+            registrar=plan.log_consulta,
+        )
         return
     if ruta == "mismatch":
         d = plan.datos
@@ -1548,8 +1556,104 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await _process_query(update, context, query, preambulo=plan.preambulo)
 
 
+def _texto_fabricantes(*, por_producto: bool) -> str:
+    """La lista de fabricantes servibles, acotada y con su follow-up.
+
+    (s324f) Sustituye al volcado de modelos que respondía a esta pregunta. La
+    fuente es `get_manufacturers_by_docs()` —`documents` con `status=active`,
+    paginado con orden estable— y NO los `product_model` de `chunks`: ésa es la
+    regla r27 C1 («jamás los pm de chunks») que este atajo era el último en
+    incumplir. Es además la única de las tres fuentes de marcas del bot cuyos
+    nombres están limpios: `vendido_bajo` trae cinco grafías de Morley y un
+    `unknown`, y publicarlas sin normalizar se ve como un descuido.
+
+    `por_producto` sólo cambia el encabezado: quien pregunta por productos y
+    quien pregunta por marcas reciben la misma lista, pero el texto reconoce lo
+    que preguntó cada uno en vez de contestar de lado.
+
+    Fail-open igual que el resto del atajo: si la base no responde, se degrada al
+    texto estático de siempre en vez de dejar al técnico sin nada.
+    """
+    try:
+        marcas = get_manufacturers_by_docs()
+    except Exception as exc:                                     # noqa: BLE001
+        logger.warning("lista de fabricantes fail-open (%s)", type(exc).__name__)
+        marcas = []
+    if not marcas:
+        linea, _ = _FABRICANTES_FALLBACK
+        return (f"Tengo documentación de {linea}.\n\n"
+                "Dime una marca y te enseño lo que tengo de ella.")
+
+    if por_producto:
+        encabezado = (f"Tengo manuales de *{len(marcas)} fabricantes*. Son "
+                      f"demasiados productos para listarlos aquí, así que te "
+                      f"paso las marcas:")
+    else:
+        encabezado = f"Tengo documentación de *{len(marcas)} fabricantes*:"
+
+    elementos = [f"• {_pm_plano(nombre)} ({n})" for nombre, n in marcas]
+    resultado = acotar(
+        elementos,
+        presupuesto=_PRESUPUESTO_MSG,
+        encabezado=encabezado,
+        coletilla=("Entre paréntesis, cuántos manuales tengo de cada una.\n"
+                   "Dime una marca —o pregúntame directamente por un modelo— y "
+                   "te doy el detalle."),
+        plural="fabricantes",
+    )
+    return resultado.texto
+
+
+async def _responder_atajo(update: Update, respuesta: str, *, user_id: int,
+                           query: str, registrar: bool) -> None:
+    """Envía la respuesta de un atajo REGISTRÁNDOLA ANTES, y con sus botones.
+
+    (s324f, hallazgo del dúo r39) El orden es el arreglo. Hasta hoy los atajos
+    enviaban primero y registraban después, y encima sin `response`: colgar el
+    teclado de 👍/👎 sobre eso habría creado botones apuntando a una fila que
+    todavía no existía —o que falló al escribirse—, que es justo la FK colgante
+    contra la que avisa `log_query` en su propia documentación. Se copia el
+    patrón de la ruta RAG: generar el id, registrar, y sólo si la fila está
+    CONFIRMADA colgar los botones. Si el registro falla se responde igual, sin
+    botones: perder la señal de un 👎 es barato, una referencia rota no.
+
+    Y se guarda `response`. Sin eso, un 👎 sobre un atajo señalaba una respuesta
+    que no estaba escrita en ninguna parte: no se podía diagnosticar lo que el
+    técnico había visto.
+    """
+    marcado = None
+    if registrar:
+        query_log_uuid = str(uuid.uuid4())
+        registrada = log_query(
+            telegram_user_id=user_id, query=query, route="catalog_shortcut",
+            response=respuesta, response_length=len(respuesta),
+            query_log_id=query_log_uuid,
+        )
+        asegurar_seudonimo(user_id)
+        if _feedback_keyboard_enabled() and registrada:
+            marcado = _feedback_keyboard(query_log_uuid)
+    try:
+        await update.message.reply_text(respuesta, parse_mode="Markdown",
+                                        reply_markup=marcado)
+    except Exception:                                            # noqa: BLE001
+        # Mismo cinturón que `_handle_catalog`: un metacarácter suelto en un
+        # nombre de marca rompe Markdown v1 y el técnico se queda sin respuesta.
+        await update.message.reply_text(
+            respuesta.replace("*", "").replace("_", ""), reply_markup=marcado)
+
+
 async def _handle_catalog(update: Update):
-    """Respond to catalog questions with full product list from DB."""
+    """Respond to catalog questions with full product list from DB.
+
+    (s324f) YA NO LO USA NINGUNA RUTA: «¿qué productos tienes?» y «¿qué
+    fabricantes tienes?» pasan por `_texto_fabricantes`. Se conserva porque
+    `get_all_models_by_category` sigue siendo la única vista por categoría y
+    algún consumidor futuro podría quererla — pero **con su defecto declarado**:
+    pide `limit=5000` y PostgREST devuelve 1000 sin orden, así que enseña el
+    3,8 % de los chunks; y `r.get("category", "General")` no cubre `None`, que
+    es el 63 % de las filas que recibe. Servía 22 modelos de 756. Si vuelve a
+    usarse, hay que paginar y arreglar el `None` primero.
+    """
     try:
         catalog = get_all_models_by_category()
         if not catalog:

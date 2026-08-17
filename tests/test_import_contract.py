@@ -203,7 +203,14 @@ def _recolectar():
     # cubre el `harness/` que aún no existe — sin esto, vaciar ISLA tras L2a dejaría a
     # src/ libre de importar harness sin poner nada rojo. `importlib` va con ellos:
     # prohibirlo entero cierra el alias-evasión (`from importlib import x as y`).
-    RAICES_PROHIBIDAS = {"harness", "scripts", "tests", "evals"}
+    #
+    # `dashboard` (s324f) entra aquí el mismo día que nace el paquete, y por el motivo
+    # que la regla existe: el panel web es una SEGUNDA aplicación que importa de `src/`,
+    # y la flecha tiene que apuntar en un solo sentido. Sin esta entrada, un `import
+    # dashboard` dentro de `src/` no lo cazaría nada —`dashboard` no es un paquete de la
+    # matriz— y el bot acabaría dependiendo del panel: DEC-231 §2 exige justo lo
+    # contrario (si el panel cae, el bot sigue). Nace cerrada y sin excepción posible.
+    RAICES_PROHIBIDAS = {"harness", "scripts", "tests", "evals", "dashboard"}
 
     for mod, path in modulos.items():
         arbol = ast.parse(path.read_text(encoding="utf-8"))
@@ -298,9 +305,11 @@ def test_precondicion_sin_imports_dinamicos():
 
 
 def test_src_no_importa_raices_prohibidas():
-    """`harness`/`scripts`/`tests`/`evals` como nombre importado: prohibido SIN
-    constante de excepciones — la regla nace cerrada y ya gobierna el `harness/` que
-    L2a creará. (La vía bare-stem de scripts/ vive en el test de abajo — sin excepciones desde L1/s309.)"""
+    """`harness`/`scripts`/`tests`/`evals`/`dashboard` como nombre importado: prohibido
+    SIN constante de excepciones — la regla nace cerrada, ya gobierna el `harness/` que
+    L2a creará y desde s324f garantiza que el BOT no depende del PANEL (la dependencia
+    va sólo en el sentido panel→src). (La vía bare-stem de scripts/ vive en el test de
+    abajo — sin excepciones desde L1/s309.)"""
     assert not PROHIBIDOS, (
         "src/ importa raíces prohibidas:\n  "
         + "\n  ".join(f"{a} → {b}" for a, b in sorted(PROHIBIDOS))
@@ -430,7 +439,17 @@ def test_cifras_de_control():
     # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
     # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
     # matriz es justo lo que impide el import inverso `raiz → bot`).
-    assert len(MODULOS) == 125, (
+    # 125→126 (s324f): + bot/acotar.py — las respuestas que NO caben: recortar
+    # DICIÉNDOLO y ofrecer el follow-up (adjudicación de Alberto tras el primer
+    # smoke del piloto). Es PRODUCTO: lo ejecuta el serving en cada respuesta de
+    # atajo que pueda pasarse del presupuesto de Telegram. Vive en `bot` por el
+    # mismo motivo que `acotar` sus hermanas —sus salidas son texto de
+    # transporte, en español— y es hoja PURA: entra una lista de cadenas y sale
+    # una cadena, sin red, sin entorno y sin saber qué son los elementos. No es
+    # un helper de un solo uso: nace con tres consumidores declarados (lista de
+    # fabricantes, catálogo por marca e inventario agrupado, que hoy implementa
+    # el mismo patrón a mano dos veces).
+    assert len(MODULOS) == 126, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
