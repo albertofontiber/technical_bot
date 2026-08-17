@@ -117,8 +117,7 @@ backfill #81 por igualdad exacta de sha → packet (pocos o ningún caso, y es l
 de s324 NO mide retrieval/generación. (f) smoke de recepción en cloud (DEC-220). (g) OCR de TI-007
 + censo de ingestas vacías (#87). (h) #86: endurecer el runner Fable (exigir `tool_use` reales o
 marcar `sin_tools`) y no commitear durante un run emparejado. (i) **s321-ruler: su «Qué sigue» de la MAÑANA está SUPERADO por la tarde autónoma (PRs #273/#274).**
-Estado real de los 5: **re-medir factlevel HECHO** (smoke #271 + FULL #273) · **#84 medido** — y ver la
-corrección en `TECH_DEBT #84`: **0 misses atribuibles** · **sonda `hp013#1` hecha** (NO_ALCANZABLE; sale
+Estado real de los 5: **re-medir factlevel HECHO** (smoke #271 + FULL #273) · **#84 «medido»** — ⚠️ **s324d: era un NO-DATO** (el flag `ANSWER_OBLIGATION_PLANNER` no existe en Railway ⇒ `_product_aligned_chunks` no corre en producción; ver `TECH_DEBT #84`) · **sonda `hp013#1` hecha** (NO_ALCANZABLE; sale
 de la población de lever B, que queda en ≥2) · **conducta (a) del `mismatch` NO cableada A PROPÓSITO**
 (DEC-226: 4 subsistemas + una decisión de producto de Alberto) · **DEC-186b NO escrita A PROPÓSITO**
 (reconciliación de 4 docs + prereg + pregunta cero de Alberto).
@@ -157,8 +156,8 @@ no cazó lo cazó Alberto dos veces (2222 como suppl; A5.4 es un EJEMPLO).
 
 **Tarde autónoma (16-ago, Alberto fuera; DEC-226)** — hecho: smoke (#271) y **FULL** (#273) de
 factlevel sobre el ruler nuevo: 116/135 OK, paridad con s291, los 6 golds de la sentada por hecho =
-exactamente lo pretendido, 0 regresiones; `hp013#1` bajó a retrieval-miss (raw=0). **#84 medido en
-serving**: 12,7% de chunks primary fuera del alineado, concentrado en 8/23 golds (hp006 48% · hp021 62% ·
+exactamente lo pretendido, 0 regresiones; `hp013#1` bajó a retrieval-miss (raw=0). **#84 «medido» en
+serving (⚠️ s324d: NO-DATO — el flag no existe en Railway)**: 12,7% de chunks primary fuera del alineado, concentrado en 8/23 golds (hp006 48% · hp021 62% ·
 cat008 100%; S141 no rescata ninguno). Dos cosas se llevaron **a propósito sin cablear/escribir**
 tras dúo: la conducta (a) del `mismatch` (2 rondas Sol: 4 subsistemas + decisión de producto
 multi-modelo — `s321_mismatch_conducta_a_propuesta_v3.md`) y DEC-186b (2 rondas Sol NO SÓLIDO:

@@ -3037,6 +3037,24 @@ aviso destacado no servido cause un fallo de seguridad. **Coste**: M para (a), S
 
 ## #84 — `chunks_v2.product_model` NO es un filtro de aplicabilidad: discrepa del `doc_map` en el 35% de los documentos (s321, censo ejecutado)
 
+**⚠️ CORRECCIÓN s324d (17-ago) — el «#84 MEDIDO: 0 misses atribuibles» de s321 es un NO-DATO, no una absolución.**
+Verificado de primera mano (`evals/s324d_84_verificacion_regla_c_v1.md`): `_product_aligned_chunks` **sólo es
+alcanzable** desde `build_answer_plan`/`build_answer_conflicts` (`answer_planner.py` 1404/1496/1566 y, vía
+`_base_relation_obligations`/`_served_structured_obligations`, 1531/1480), y el generador sólo las invoca con
+`ANSWER_OBLIGATION_PLANNER ∈ {guided, enforced}` (`generator.py:848-870`). En **Railway el worker NO tiene esa
+variable** (censo GraphQL propio, 40 vars, `evals/s322_railway_censo_v1.json`) ⇒ vale `off` (`answer_planner.py:224`)
+⇒ **en producción esa función no corre**; y el FULL del 16-ago tampoco llevaba el flag. Misma clase de fallo que
+DEC-186/s305. **El lever tampoco es medible hoy**: sin el flag, los dos brazos del instrumento son el mismo pipeline
+(delta ≡ 0 por construcción); pinearlo a `guided` mediría un pipeline que no está en producción.
+**SUB-DEFECTO NUEVO, ese sí en código VIVO — join `doc_map` ↔ `chunks_v2.source_file` EXACTO**: 98 de 977 filas del
+doc_map sólo casan tras normalizar `.pdf`/mayúsculas (`DS_KIDDE_…_904a.pdf`, `Averia-…-DXc.pdf`,
+`997-671-007-3_configuration_pt`…), y la comparación es exacta en `retriever.py:2351,2363` y
+`catalog_resolver.py:782` ⇒ para esos 98 documentos la atestación no filtra nada Y se les dispara el fetch de
+identidad aunque ya estén en el pool. **Impacto medido en golds: 12 de 1.194 chunks del pool (1 %) ⇒ arreglarlo NO
+moverá los OKs**; es higiene estructural. Fix propuesto: normalizar la clave en UN punto (construcción de
+`allowed_sources`) con guarda de colisión; **retrieval = zona de dolor ⇒ dúo antes de cablear**. Análisis completo con
+opciones y aritmética: `evals/s324d_84_doc_map_aplicabilidad_propuesta_v1.md`.
+
 **Qué es.** `product_model` es una etiqueta **gruesa** por documento (`'Sistema 5000'`,
 `'2X-A Táctil'`, `'ICAM'`, o un SKU representativo). El `doc_map` es la capa gobernada de
 entity-linking (DEC-043/044) que declara **qué productos cubre** un documento. No son lo mismo — pero
