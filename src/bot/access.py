@@ -709,3 +709,61 @@ def enlace_invitacion(bot_username: str, token: str) -> str:
     """`https://t.me/<bot>?start=<token>` — la forma que Telegram convierte en
     `context.args` del handler de `/start`."""
     return f"https://t.me/{str(bot_username).lstrip('@')}?start={token}"
+
+
+# ------------------------------------------------------- estado de una fila
+#
+# El estado de una invitación es DERIVADO: la base guarda tres marcas de tiempo
+# (`canjeada_at`, `revocada_at`, `expira_at`) y quien mira la tabla las traduce.
+# Vivía como `_estado_invitacion` dentro del CLI de operación, y con el panel web
+# (s324f) pasó a haber DOS lectores de las mismas filas — el momento exacto en
+# que una derivación privada se convierte en una divergencia esperando su turno
+# (la CLI diría «caducada» donde el panel dijera «pendiente» y ninguna de las dos
+# estaría «rota»). Sube aquí por el mismo motivo por el que `hash_token` vive
+# aquí y no en el emisor: los dos lados tienen que leer la MISMA regla.
+#
+# Sigue siendo hoja pura: entra una fila (un dict tal cual lo devuelve
+# PostgREST) y sale una palabra. Sin red, sin SDK y sin entorno.
+
+ESTADO_USADA = "usada"
+ESTADO_ANULADA = "anulada"
+ESTADO_CADUCADA = "caducada"
+ESTADO_PENDIENTE = "pendiente"
+ESTADO_ILEGIBLE = "?"
+
+#: Vocabulario CERRADO, igual que `ESTADOS`. Un panel que pinte estados no puede
+#: recibir una palabra que no sepa colorear.
+ESTADOS_INVITACION = (
+    ESTADO_PENDIENTE, ESTADO_USADA, ESTADO_ANULADA, ESTADO_CADUCADA,
+    ESTADO_ILEGIBLE,
+)
+
+
+def estado_invitacion(fila: dict, ahora: datetime) -> str:
+    """El estado DERIVADO de una fila de `bot_invitaciones`.
+
+    El ORDEN es la decisión: lo que YA PASÓ manda sobre lo que pudo pasar. Una
+    invitación usada y luego caducada se lee «usada», que es lo que ocurrió —
+    leerla «caducada» borraría de la vista el único alta que explica un acceso.
+
+    Una fecha ilegible devuelve `'?'` y NO «pendiente»: ante un dato que no se
+    entiende, el listado tiene que enseñar una interrogación, no una promesa.
+    """
+    if fila.get("canjeada_at"):
+        return ESTADO_USADA
+    if fila.get("revocada_at"):
+        return ESTADO_ANULADA
+    try:
+        expira = datetime.fromisoformat(
+            str(fila.get("expira_at")).replace("Z", "+00:00")
+        )
+    except (TypeError, ValueError):
+        return ESTADO_ILEGIBLE
+    if expira.tzinfo is None:
+        # PostgREST devuelve `timestamptz` con offset, pero un cliente que
+        # escriba la fila a mano puede dejarla ingenua. Comparar una fecha
+        # ingenua con una consciente lanza `TypeError` — y este módulo no puede
+        # tumbar al llamante por una fila rara: se asume UTC, que es lo que la
+        # columna guarda.
+        expira = expira.replace(tzinfo=timezone.utc)
+    return ESTADO_CADUCADA if expira <= ahora else ESTADO_PENDIENTE

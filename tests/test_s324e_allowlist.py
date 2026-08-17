@@ -1557,3 +1557,62 @@ def test_access_es_una_hoja_pura():
     assert not (importados & prohibidos), (
         f"`access` dejó de ser una hoja pura: importa {importados & prohibidos}"
     )
+
+
+# --------------------------------------------------------------------------
+# s324f — `estado_invitacion` subió del CLI a la hoja pura cuando el panel web
+# pasó a ser un SEGUNDO lector de `bot_invitaciones`. Estos tests fijan la regla
+# que las dos caras tienen que compartir; sin ellos, la CLI y el panel podrían
+# discrepar sobre la misma fila sin que nada se pusiera rojo.
+# --------------------------------------------------------------------------
+
+_AHORA = datetime(2026, 8, 17, 12, 0, tzinfo=timezone.utc)
+
+
+def test_estado_invitacion_lo_que_ya_paso_manda():
+    """El ORDEN es la decisión: una invitación usada y ADEMÁS caducada se lee
+    «usada». Leerla «caducada» borraría de la vista el alta que explica un
+    acceso vivo — que es justo lo que se mira al auditar quién entró."""
+    usada_y_caducada = {"canjeada_at": "2026-08-15T10:00:00Z",
+                        "expira_at": "2026-08-16T00:00:00Z",
+                        "revocada_at": None}
+    assert access.estado_invitacion(usada_y_caducada, _AHORA) == access.ESTADO_USADA
+
+    anulada_y_caducada = {"canjeada_at": None,
+                          "revocada_at": "2026-08-15T10:00:00Z",
+                          "expira_at": "2026-08-16T00:00:00Z"}
+    assert access.estado_invitacion(anulada_y_caducada, _AHORA) == \
+        access.ESTADO_ANULADA
+
+
+def test_estado_invitacion_pendiente_y_caducada():
+    viva = {"expira_at": "2026-08-20T00:00:00Z"}
+    muerta = {"expira_at": "2026-08-16T00:00:00Z"}
+    assert access.estado_invitacion(viva, _AHORA) == access.ESTADO_PENDIENTE
+    assert access.estado_invitacion(muerta, _AHORA) == access.ESTADO_CADUCADA
+
+
+def test_estado_invitacion_una_fecha_ilegible_es_una_interrogacion():
+    """Y NO «pendiente»: ante un dato que no se entiende, el listado enseña una
+    interrogación, no una promesa de que el enlace sigue vivo."""
+    for basura in (None, "", "mañana", 12345, {"raro": 1}):
+        assert access.estado_invitacion({"expira_at": basura}, _AHORA) == \
+            access.ESTADO_ILEGIBLE
+
+
+def test_estado_invitacion_tolera_una_fecha_sin_zona():
+    """PostgREST devuelve `timestamptz` con offset, pero un cliente que escriba
+    la fila a mano puede dejarla ingenua — y comparar ingenua con consciente
+    lanza `TypeError`. Se asume UTC, que es lo que guarda la columna."""
+    assert access.estado_invitacion({"expira_at": "2026-08-20T00:00:00"},
+                                    _AHORA) == access.ESTADO_PENDIENTE
+
+
+def test_el_vocabulario_de_estados_es_cerrado():
+    """Quien pinte estados (el panel los colorea) no puede recibir una palabra
+    que no sepa tratar."""
+    filas = [{"canjeada_at": "x"}, {"revocada_at": "x"},
+             {"expira_at": "2026-08-20T00:00:00Z"},
+             {"expira_at": "2026-01-01T00:00:00Z"}, {"expira_at": None}]
+    for fila in filas:
+        assert access.estado_invitacion(fila, _AHORA) in access.ESTADOS_INVITACION

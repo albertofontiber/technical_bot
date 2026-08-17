@@ -372,6 +372,52 @@ declarado: lo pisado antes de s296 (v1..v6) es irrecuperable y el libro arranca 
 reconstrucción marcada `origen='backfill'`, sin fingir más. Lo que SIGUE pendiente aquí es
 el **PLAZO** de `user_consent`/`consent_events` — **[DECIDIR]** con el asesor.
 
+## El panel de control (s324f): una VENTANA nueva, no un tratamiento nuevo
+
+**Qué es y por qué aparece aquí.** DEC-231 reabre DEC-183 y añade un servicio web propio
+(`dashboard/`, otro servicio de Railway) para gestionar el acceso al piloto y mirar las
+métricas. No recoge ni un dato que no se recogiera ya, no crea ninguna tabla y no llama a
+ningún proveedor nuevo: **es una forma nueva de MIRAR datos que ya existen**. Por eso no
+añade filas a la matriz — pero sí añade una superficie, y una superficie sobre datos
+personales se declara.
+
+**Qué expone exactamente, y con qué base.** El panel no tiene una base jurídica propia: lee
+para las MISMAS finalidades ya declaradas arriba, y el acceso de quien administra es una
+medida de seguridad del art. 32 (control de acceso), no una finalidad nueva.
+
+| Pantalla | Qué datos personales enseña | Para qué (finalidad ya declarada) | Minimización aplicada |
+|---|---|---|---|
+| **Acceso** | `telegram_user_id` (identificador DIRECTO), `nota` (nombre y cargo), quién dio de alta y quién revocó, `canjeada_por` | Control de acceso del piloto: emitir, auditar y revocar | Es la única pantalla con identificadores directos, y los necesita: **sin el id no se puede revocar y sin la nota no se puede auditar**. El `select` es explícito columna a columna (no `select=*`) y **no trae `token_hash`**. La nota se recorta a 60 caracteres en pantalla |
+| **Resumen** y **Métricas** | Ninguno directo: las 7 vistas trabajan con **seudónimo** o con agregados (s295-s299) | Salud y uso del bot | El panel **no cruza** las vistas con la lista de acceso: desde aquí no se puede saber qué preguntó una persona concreta, y ésa es una propiedad del diseño, no una casualidad |
+| **Errores** | Preguntas escritas por técnicos (top de las que más fallan), sin autor | Saber qué falla para arreglarlo | Se muestran **recortadas a 110 caracteres, agregadas por repetición y sin `telegram_user_id`**. La cifra «técnicos afectados» es un CONTEO de identificadores distintos, no la lista |
+| **Cualquiera** | — | — | `Cache-Control: no-store` en TODA respuesta: ni el navegador ni un proxy intermedio guardan copia de una página con estos datos dentro |
+
+**Lo que el panel NO puede hacer, por diseño y no por convención**: leer las conversaciones
+de los DGs (fuera de v1 por DEC-231, y es lo más sensible), escribir en `query_logs`,
+`user_consent` o `consent_events`, y canjear una invitación. Sus únicas escrituras son tres:
+emitir una invitación y poner dos marcas de tiempo (anular invitación, revocar acceso).
+
+**Medidas de seguridad, para el registro de actividades**: sin acceso anónimo a ninguna ruta
+(sólo la pantalla de entrada responde sin sesión); contraseña con `scrypt` (memory-hard, sal
+por usuario, parámetros en el propio registro) y **nunca en claro en el repo ni en un
+fichero**; sesión en cookie firmada con HMAC-SHA256, `HttpOnly` + `Secure` +
+`SameSite=Strict` y caducidad verificada en el servidor; cerrojo con espera creciente contra
+la fuerza bruta; CSRF por token de sesión más comprobación de origen en toda escritura; CSP
+sin JavaScript posible; y **la clave de servicio de Supabase no sale del proceso** (hay un
+test que recorre todas las respuestas y falla si aparece).
+
+**Consecuencia declarada, y es la de DEC-183**: esto es superficie nueva expuesta a internet
+con datos personales detrás. El riesgo residual no es cero — una contraseña filtrada da
+acceso a la pantalla de Acceso, es decir, a los identificadores y a los nombres. La respuesta
+operativa está escrita y es barata: rotar `DASHBOARD_SECRET` en Railway cierra **todas** las
+sesiones abiertas al instante.
+
+**Para el paquete del abogado** (el mismo del aviso v8 y del aviso de canje): que exista un
+panel interno con estos datos **no cambia lo que se le informa al técnico** —el tratamiento
+es el mismo— pero conviene que el asesor lo confirme, y que diga si el registro de
+actividades de tratamiento debe recoger expresamente esta vía de acceso. Es una pregunta
+para él, no un gap que este documento pueda cerrar solo.
+
 ## Cómo se informa: aviso en DOS CAPAS
 
 La segunda capa lleva además lo que un aviso debe llevar y antes no estaba en ninguna parte

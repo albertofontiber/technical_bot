@@ -203,7 +203,14 @@ def _recolectar():
     # cubre el `harness/` que aún no existe — sin esto, vaciar ISLA tras L2a dejaría a
     # src/ libre de importar harness sin poner nada rojo. `importlib` va con ellos:
     # prohibirlo entero cierra el alias-evasión (`from importlib import x as y`).
-    RAICES_PROHIBIDAS = {"harness", "scripts", "tests", "evals"}
+    #
+    # `dashboard` (s324f) entra aquí el mismo día que nace el paquete, y por el motivo
+    # que la regla existe: el panel web es una SEGUNDA aplicación que importa de `src/`,
+    # y la flecha tiene que apuntar en un solo sentido. Sin esta entrada, un `import
+    # dashboard` dentro de `src/` no lo cazaría nada —`dashboard` no es un paquete de la
+    # matriz— y el bot acabaría dependiendo del panel: DEC-231 §2 exige justo lo
+    # contrario (si el panel cae, el bot sigue). Nace cerrada y sin excepción posible.
+    RAICES_PROHIBIDAS = {"harness", "scripts", "tests", "evals", "dashboard"}
 
     for mod, path in modulos.items():
         arbol = ast.parse(path.read_text(encoding="utf-8"))
@@ -298,9 +305,11 @@ def test_precondicion_sin_imports_dinamicos():
 
 
 def test_src_no_importa_raices_prohibidas():
-    """`harness`/`scripts`/`tests`/`evals` como nombre importado: prohibido SIN
-    constante de excepciones — la regla nace cerrada y ya gobierna el `harness/` que
-    L2a creará. (La vía bare-stem de scripts/ vive en el test de abajo — sin excepciones desde L1/s309.)"""
+    """`harness`/`scripts`/`tests`/`evals`/`dashboard` como nombre importado: prohibido
+    SIN constante de excepciones — la regla nace cerrada, ya gobierna el `harness/` que
+    L2a creará y desde s324f garantiza que el BOT no depende del PANEL (la dependencia
+    va sólo en el sentido panel→src). (La vía bare-stem de scripts/ vive en el test de
+    abajo — sin excepciones desde L1/s309.)"""
     assert not PROHIBIDOS, (
         "src/ importa raíces prohibidas:\n  "
         + "\n  ".join(f"{a} → {b}" for a, b in sorted(PROHIBIDOS))
