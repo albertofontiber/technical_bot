@@ -44,7 +44,15 @@ ROOT = shared.ROOT
 # tokens: falla igual, no es tamano de prompt). NO es una preferencia: al recargar
 # credito, restaurar "claude-fable-5". El cross-model (Sol) sigue intacto.
 DEFAULT_MODEL = "claude-fable-5"
+# (s324d, adjudicado por Alberto el 17-ago: «si Fable da problemas, cambia a Opus 5 para poder tener un
+# adversarial») El pin CANÓNICO sigue siendo Fable 5 (CLAUDE.md/Protocolo 3, restaurado en s316d). Lo que se
+# abre aquí es un conjunto CERRADO de pines alternativos adjudicados, no un override libre: el contrato sigue
+# rechazando cualquier modelo fuera de la lista, y el recibo/tally estampan cuál corrió y que fue un fallback
+# (precedente: el pin `opus` de s292→s316c, fallback por crédito agotado). Un segundo revisor de OTRA familia
+# no vale como cross-model: ese lado lo cubre Sol, y es innegociable.
+MODELOS_ADJUDICADOS = {DEFAULT_MODEL, "claude-opus-5"}
 MODEL = os.getenv("FABLE_REVIEW_MODEL", DEFAULT_MODEL)
+ES_PIN_CANONICO = MODEL == DEFAULT_MODEL
 
 
 def _positive_env_int(name: str, default: int) -> int:
@@ -102,7 +110,8 @@ class FableRunError(RuntimeError):
 
 
 def model_contract_satisfied() -> bool:
-    return MODEL == DEFAULT_MODEL
+    """El modelo debe ser el pin canónico o uno de los pines ALTERNATIVOS adjudicados (s324d)."""
+    return MODEL in MODELOS_ADJUDICADOS
 
 
 def _relative(path: Path) -> str | None:
@@ -519,8 +528,9 @@ def _verified_artifact(relative: str, expected_sha256: str) -> bytes:
 
 
 def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
-    if receipt.get("model") != DEFAULT_MODEL:
-        raise ValueError("el recibo no usa el pin exacto Fable")
+    modelo_recibo = receipt.get("model")
+    if modelo_recibo not in MODELOS_ADJUDICADOS:
+        raise ValueError(f"el recibo usa un modelo NO adjudicado: {modelo_recibo!r}")
     if receipt.get("model_contract_satisfied") is not True:
         raise ValueError("el recibo no satisface el contrato de modelo Fable")
     if receipt.get("status") != "completed_pending_adjudication":
@@ -534,8 +544,8 @@ def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
     stop_reasons = receipt.get("provider_stop_reasons")
     if not response_ids or not all(isinstance(item, str) and item for item in response_ids):
         raise ValueError("el recibo Fable carece de IDs de respuesta del proveedor")
-    if provider_models != [DEFAULT_MODEL] * len(response_ids):
-        raise ValueError("la attestación de modelo del proveedor no coincide con Fable")
+    if provider_models != [modelo_recibo] * len(response_ids):
+        raise ValueError("la attestación de modelo del proveedor no coincide con el recibo")
     if (
         not isinstance(stop_reasons, list)
         or len(stop_reasons) != len(response_ids)
@@ -558,8 +568,8 @@ def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ValueError("la respuesta serializada del proveedor no es JSON válido") from exc
     responses = payload.get("responses") or []
-    if payload.get("requested_model") != DEFAULT_MODEL:
-        raise ValueError("el trace no declara el modelo Fable solicitado")
+    if payload.get("requested_model") != modelo_recibo:
+        raise ValueError("el trace no declara el modelo solicitado por el recibo")
     if [item.get("id") for item in responses] != response_ids:
         raise ValueError("los IDs del trace y del recibo Fable divergen")
     if [item.get("model") for item in responses] != provider_models:
@@ -994,7 +1004,8 @@ def main() -> int:
         print(f"preflight Fable falló: {exc}", file=sys.stderr)
         return 2
     if not model_contract_satisfied():
-        reason = f"modelo override {MODEL!r}; se requiere el pin exacto {DEFAULT_MODEL!r}"
+        reason = (f"modelo {MODEL!r} NO adjudicado; permitidos: {sorted(MODELOS_ADJUDICADOS)} "
+                  f"(pin canónico {DEFAULT_MODEL!r})")
         attempt = _failed_attempt(status="failed_preflight", reason=reason, tools=use_tools)
         try:
             record_attempt_for_mode(
@@ -1081,7 +1092,9 @@ def main() -> int:
         print(f"[fable] AVISO {nota}", file=sys.stderr)
     receipt = {
         "model": MODEL,
-        "display_name": "Fable 5",
+        "display_name": "Fable 5" if ES_PIN_CANONICO else f"{MODEL} (pin alternativo adjudicado)",
+        "pin_canonico": DEFAULT_MODEL,
+        "es_pin_canonico": ES_PIN_CANONICO,
         "status": "completed_pending_adjudication",
         "model_contract_satisfied": True,
         "review_id": f"{timestamp}:{physical_sha[:12]}",
@@ -1136,6 +1149,9 @@ def main() -> int:
         )
         return 1
 
+    if not ES_PIN_CANONICO:
+        print(f"[fable] AVISO: corriendo con PIN ALTERNATIVO {MODEL!r} (canónico: {DEFAULT_MODEL!r}) — "
+              "adjudicado por Alberto s324d; queda estampado en el recibo.", file=sys.stderr)
     print(f"--- {MODEL} (revisor frontera independiente; {n_calls} tool-calls reales"
           f"{'; SIN_TOOLS' if audit['sin_tools'] else ''}) ---")
     print(review)
