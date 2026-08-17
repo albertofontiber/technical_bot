@@ -35,6 +35,18 @@ HASH_POR_VERSION = {
     "v5": "1600bb5d68033a84",
     "v6": "18a139c87ac30a35",              # sha256(capa1 + SEPARADOR + capa2)
     "v7": "d9b4b91872b3e569",              # s296: reconocimiento de aportaciones
+    # s324f: apertura del piloto a Directores Generales. Cuatro cambios, todos en lo
+    # que se le PROMETE al técnico, y por eso sube la versión en vez de reescribirse
+    # el hash de v7: (1) se anuncia como versión en desarrollo y se advierte de que no
+    # sustituye al manual ni al criterio de un técnico cualificado — el bloque va
+    # ANTES del de datos porque es el que protege a quien vaya a usar una respuesta en
+    # una instalación real; (2) «Notifier, Morley y Detnov» → «una treintena de
+    # fabricantes» (el v7 se quedó corto: 30 en corpus, y una lista cerrada caduca);
+    # (3) Fontiber es el responsable AUNQUE el usuario trabaje en otra empresa del
+    # grupo, que es el caso de los DGs que entran ahora; (4) el reconocimiento de
+    # aportaciones aplica a todo el mundo, y la retirada del consentimiento se explica
+    # en las dos capas.
+    "v8": "69e913f8583a614a",
 }
 
 
@@ -58,7 +70,7 @@ def test_terms_version_es_tripwire():
     """Único pin EXACTO del proyecto. Los otros dos tests de términos (s286, s294)
     comprueban su propio dato + un suelo, para que una subida legítima no rompa tres
     tests a la vez sin señal."""
-    assert TERMS_VERSION == "v7"
+    assert TERMS_VERSION == "v8"
 
 
 def test_el_texto_de_los_terminos_esta_atado_a_su_version():
@@ -94,10 +106,23 @@ def test_la_primera_capa_lleva_lo_imprescindible():
 def test_la_primera_capa_no_vuelve_a_ser_un_muro():
     """Llegó a 1.803 caracteres y 25 líneas. Un aviso que nadie lee no informa a nadie: el
     detalle se movió a `/privacidad`. Este techo es el que impide que vuelva a crecer sin
-    que alguien lo decida."""
+    que alguien lo decida.
+
+    (s324f) Techo 1000 → 1400, subido a conciencia como el propio test pedía, y por dos
+    decisiones de producto de Alberto que van en la capa 1 precisamente porque hay que
+    leerlas ANTES de aceptar:
+      · la advertencia de que el sistema está EN DESARROLLO y **no sustituye al manual
+        oficial ni al criterio de un técnico cualificado** — es lo que protege a quien
+        vaya a usar una respuesta en una instalación real, y esconderla en `/privacidad`
+        sería esconder justo lo importante;
+      · que el responsable es Fontiber **aunque el usuario trabaje en otra empresa del
+        grupo**, que es la situación de los DGs que entran con el piloto.
+    Todo lo que no era promesa se recortó antes de tocar el techo. Sigue muy por debajo
+    de los 1.803 que motivaron este test.
+    """
     import src.bot.telegram_bot as bot
 
-    assert len(bot._CONSENT_TERMS) <= 1000, (
+    assert len(bot._CONSENT_TERMS) <= 1400, (
         f"la aceptación creció a {len(bot._CONSENT_TERMS)} chars: si es detalle, va a "
         f"`_PRIVACY_DETAIL`; si de verdad es imprescindible antes de aceptar, sube el techo "
         f"a conciencia."
