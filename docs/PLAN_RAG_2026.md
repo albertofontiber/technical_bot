@@ -81,8 +81,15 @@ apagado. Migraciones 015 y 016 **APLICADAS** (la 016 costó dos intentos: su val
 **Qué sigue (s324e — VIGENTE; LO PRIMERO al abrir sesión):**
 (0) **PILOTO DG — lo que falta es de Alberto**: (a) **abogado** = aviso v8 (redactado, 6 decisiones
 resueltas) + texto de `bot_errors` + plazo de 24 meses de las tablas nuevas + el aviso de canje comunica
-nombre/alias de quien canjea; (b) **mergear** y dejar que Railway despliegue; (c) **encender** en este
-orden: `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on` (al revés se queda fuera de su bot);
+nombre/alias de quien canjea; **paquete listo para reenviar en `docs/PAQUETE_ABOGADO_PILOTO_DG.md`**;
+(b) ✅ **HECHO** — PR #278 mergeada y Railway desplegó (SUCCESS 17-ago 16:18; log de arranque: «Bot
+started» + el WARNING que declara la puerta apagada: el código está en producción e INERTE);
+(c) **encender** `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on`. ⚠️ **Matiz verificado
+17-ago**: el motivo original del orden («al revés te quedas fuera de tu bot») **ya no aplica** — la
+migración 016 hizo el bootstrap EN LA BASE y la fila de Alberto está activa (`origen=bootstrap`,
+`alta_por=migracion_016`), y la puerta autoriza desde la base. Pero la variable **sigue haciendo falta
+por otras dos razones**: el **aviso de canje** se manda a `ids_bootstrap()` —sin ella la contramedida
+anti-reenvío se queda muda— y es el único camino que funciona con Supabase caído;
 (d) invitar al PRIMER DG y hacer el **smoke real** (el harness no atraviesa `mismatch`: su testigo es
 Telegram, no el eval); (e) medir la cobertura de la corrección en `rag_trace ? 'mismatch_corrected'`.
 Criterio de GO: O1-O4 en `evals/s324e_allowlist_duo_r1_v1.md`; **NO-GO si fallan O1 u O4**.
