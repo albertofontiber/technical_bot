@@ -35,10 +35,10 @@ QUÉ FIJA, y contra qué pregunta del encargo responde cada bloque:
       enciende. El día que alguien llame a `.concurrent_updates(...)`, el primero se
       pone rojo y obliga a decidirlo conscientemente.
 
-  (4) Doble instancia — `test_hay_guarda_de_instancia_unica` es un TESTIGO `xfail
-      (strict)`: HOY no hay guarda. Cuando aterrice, el XPASS estricto obliga a retirar
-      el marcador. El hueco está descrito con su diff propuesto en
-      `evals/s324e_aislamiento_usuarios_auditoria_v1.md`.
+  (4) Doble instancia — CERRADO en la misma sesión: `error_handler` PARA el proceso ante
+      `Conflict` (409) en lugar de dejar que PTB reintente para siempre mientras Telegram
+      reparte los updates. `test_hay_guarda_de_instancia_unica` pasó de testigo `xfail` a
+      test vivo. Auditoría: `evals/s324e_aislamiento_usuarios_auditoria_v1.md` §P4.
 
 REGLAS DE LOS DOBLES (mismas que `test_s316_transport_state_instrument`): $0, sin red y
 sin DB. Lo que se dobla son las PRECONDICIONES (consentimiento, marcas servidas,
@@ -635,13 +635,10 @@ def _hay_guarda_de_instancia_unica() -> bool:
     return parada["n"] == 1                                    # (a) reactiva
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "HUECO REAL s324e: con long polling, una segunda instancia (p.ej. en local) hace "
-    "que Telegram reparta los updates entre ambas — los turnos de un mismo DG caen en "
-    "procesos distintos y su sesión se parte. PTB reintenta el 409 Conflict "
-    "INDEFINIDAMENTE (network_retry_loop con max_retries=-1) y no hay guarda. El diff "
-    "propuesto está en evals/s324e_aislamiento_usuarios_auditoria_v1.md; toca "
-    "telegram_bot.py, que otro agente está editando en esta sesión."))
+# (s324e, MISMA SESIÓN) El hueco se CERRÓ: `error_handler` para el proceso ante `Conflict`
+# en vez de dejar que PTB reintente indefinidamente. El `xfail(strict)` que atestiguaba el
+# agujero se retiró aquí — que es exactamente lo que el trinquete estricto obliga a hacer
+# cuando el arreglo aterriza (un XPASS estricto es un fallo de suite a propósito).
 def test_hay_guarda_de_instancia_unica():
     assert _hay_guarda_de_instancia_unica(), (
         "no hay guarda de instancia única: ni parada explícita ante Conflict ni lock "

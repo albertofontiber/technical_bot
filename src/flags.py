@@ -48,6 +48,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/bot/telegram_bot.py',),
     },
+    # s324e: kill-switch del MENSAJE de error al tecnico. Default "on" — de las
+    # pocas del registro que nacen encendidas, y a proposito: lo que sustituye
+    # es el SILENCIO de hoy, asi que un default off dejaria el mecanismo inerte
+    # justo donde hace falta. Apagarlo devuelve la conducta actual sin deploy.
+    "BOT_ERROR_REPLY": {
+        "default_fuente": '"on"',
+        "via": ['getenv'],
+        "lectores": ('src/bot/telegram_bot.py',),
+    },
     "BOT_VERSION": {
         "default_fuente": '""',
         "via": ['getenv'],

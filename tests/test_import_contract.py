@@ -413,7 +413,14 @@ def test_cifras_de_control():
     # `reingest` porque ESTE MISMO contrato lo cazó: `rag → reingest` está
     # prohibido y `ingestion` es el único paquete que ambos pueden importar
     # (mismo motivo por el que embed.py vive ahí).
-    assert len(MODULOS) == 123, (
+    # 123→124 (s324e): + bot/error_taxonomy.py — la taxonomía de errores del
+    # bot (clase de fallo → qué se le dice al técnico, si reintentar, con qué
+    # severidad). Es PRODUCTO: la ejecuta el serving en cada excepción, desde
+    # `_reportar_error` y desde la red global `add_error_handler`. Vive en
+    # `bot` y no en la raíz porque sus salidas son mensajes de transporte
+    # (español, texto plano para Telegram); es hoja PURA — sin I/O, sin
+    # entorno y sin importar ningún SDK — para poder testearla sin red.
+    assert len(MODULOS) == 124, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

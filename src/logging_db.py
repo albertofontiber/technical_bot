@@ -218,6 +218,105 @@ def log_query(
     return False
 
 
+_bot_errors_missing_warning_emitted = False
+
+
+def _tabla_ausente(response) -> bool:
+    """¿PostgREST dice que la tabla NO existe? (404 / PGRST205 / 42P01).
+
+    Se distingue de cualquier otro 4xx a propósito: «la migración aún no está
+    aplicada» es un estado ESPERADO de este repo — `main` auto-despliega a
+    Railway y las migraciones las aplica Alberto a mano (precedente: `rag_trace`
+    estuvo ausente desde julio y se descubrió en s301) — mientras que un 400 por
+    columna mal formada es un defecto del emisor y debe verse.
+    """
+    if getattr(response, "status_code", None) not in (404, 400):
+        return False
+    try:
+        payload = response.json()
+    except Exception:
+        return getattr(response, "status_code", None) == 404
+    if not isinstance(payload, dict):
+        return False
+    return str(payload.get("code") or "") in ("PGRST205", "PGRST106", "42P01")
+
+
+def _warn_bot_errors_missing_once() -> None:
+    global _bot_errors_missing_warning_emitted
+    if not _bot_errors_missing_warning_emitted:
+        logger.warning(
+            "bot_errors no existe todavia: los errores siguen registrandose "
+            "DEGRADADOS en query_logs (source='error'). Aplica "
+            "migrations/015_bot_errores.sql para tener insights por clase/modulo"
+        )
+        _bot_errors_missing_warning_emitted = True
+
+
+def log_bot_error(
+    *,
+    codigo: str,
+    clase: str,
+    severidad: str,
+    tipo_excepcion: str,
+    etapa: str,
+    origen: str | None = None,
+    mensaje_corto: str | None = None,
+    query_log_id: str | None = None,
+    usuario_avisado: bool = False,
+    reintentable: bool = False,
+) -> bool:
+    """Persiste UNA incidencia en `bot_errors`. No bloqueante y fail-open total.
+
+    Contrato de datos (s324e): esta tabla NO guarda dato personal. Ni
+    `telegram_user_id` ni el texto de la consulta viven aquí — el enlace es
+    `query_log_id`, una FK con `ON DELETE CASCADE` a la fila de `query_logs`
+    que SÍ está en la matriz de retención. Consecuencia deliberada: una
+    supresión a petición se lleva la incidencia sin tocar este código, y el job
+    de retención mensual no necesita conocer esta tabla.
+
+    Firma solo-keyword: son diez campos del mismo tipo aproximado y un orden
+    posicional invitaba a cruzar `clase` con `severidad` sin que nada fallase.
+
+    Devuelve True solo si la fila está CONFIRMADA. False cubre tres casos
+    distintos (tabla ausente, rechazo, transporte) y el llamante los trata
+    igual: ya escribió su rastro degradado en el log del proceso.
+    """
+    try:
+        row = {
+            "codigo": codigo,
+            "clase": clase,
+            "severidad": severidad,
+            "tipo_excepcion": tipo_excepcion,
+            "etapa": etapa,
+            "origen": origen,
+            "mensaje_corto": mensaje_corto,
+            "usuario_avisado": usuario_avisado,
+            "reintentable": reintentable,
+            "bot_version": get_bot_version(),
+        }
+        if query_log_id is not None:
+            row["query_log_id"] = query_log_id
+        with abierto(timeout=10.0) as client:
+            resp = client.post(
+                f"{SUPABASE_URL}/rest/v1/bot_errors",
+                headers=_HEADERS,
+                json=row,
+            )
+            if _tabla_ausente(resp):
+                _warn_bot_errors_missing_once()
+                return False
+            if resp.status_code >= 400:
+                # Sin `str(resp.text)`: el cuerpo de un error de PostgREST puede
+                # reproducir la fila enviada, y esta ruta corre justo cuando algo
+                # ya ha ido mal — no es el momento de ampliar lo que se escribe.
+                logger.warning("Failed to log bot error: %s", resp.status_code)
+                return False
+            return True
+    except Exception as exc:
+        logger.warning("Failed to log bot error: %s", type(exc).__name__)
+        return False
+
+
 def log_feedback(
     telegram_user_id: int,
     feedback_text: str,
