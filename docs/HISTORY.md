@@ -5430,3 +5430,36 @@ cat016/cat007 [reranker no sube el chunk-en-pool], cat021 [variant-aware diversi
 es-us (sin manuales US); contrato de ausencia formal (admit/refuse); prompt caching (umbral ≥50 queries/día);
 language/revision_date masivos (contrato de ingesta); TECH_DEBT #40 (recall-gate CI)/#47/#48 (section_path);
 **dureza de la tabla de decisión** (SOLO pre-registrado y motivado por evidencia, NUNCA post-hoc).
+
+## s324d (17 ago 2026, mañana autónoma) — Lo que se puede avanzar sin pisar el tejado del dueño
+
+Alberto mergeó la PR #276 y preguntó qué podía avanzar yo mientras él revisaba su parte. La respuesta buena a esa
+pregunta no es «lo que sea»: es lo que no depende de su firma y deja el terreno listo para cuando firme. Cinco
+cosas. **E2 re-derivado** después de los lotes de la noche (el snapshot conservador sigue PASS; el pleno pierde 5
+golds conocidos y CCD-103 ya no está entre ellos: el dato que anoche resolvió `hp015` también asoma aquí). **El PLAN
+podado** de 162 KB a 17 KB: veintidós «Estado anterior» y el «Qué sigue (s77)» con sus antecedentes viven ahora
+íntegros en HISTORY, y el PLAN vuelve a ser lo que DEC-036 pedía —un documento que se relee entero al arrancar.
+**#86**: el runner Fable cuenta sus `tool_use` reales y, si son cero con el modo tools activo, lo dice en el nombre
+del fichero, en una nota lateral y por stderr; el `.md` no se toca porque su sha es el del texto del proveedor. En
+la primera revisión emparejada tras el cambio, el recibo dijo «11 tool-calls reales» sin que nadie abriera el JSON.
+
+**#89, la sonda.** Aquí la lección de la mañana. Endurecí los cinco defectos que el agente de medición había visto
+(recibo pineado, span sin guard de cobertura, `SystemExit` que tiraba las reps, sin coste, carrier duplicado) y lo
+llevé al dúo porque la deuda decía «con dúo, no de paso». Sol trajo siete hallazgos, tres críticos, y los tres eran
+míos por omisión: los votos caídos del juez contaban como «no» (podían fabricar un NO_ALCANZABLE), un recibo parcial
+podía llevar un veredicto completo, y mi guard de cobertura acreditaba «32» dentro de «132» y no exigía predicado.
+Fable, emparejado, coincidió en el segundo. Los apliqué todos, y el instrumento nuevo se validó a sí mismo en el
+smoke: mi oráculo pareado pasaba al juez el dict del generador en vez del texto —cinco votos caídos— y el veredicto
+salió `INCONCLUYENTE_JUEZ_INCOMPLETO` en lugar de un NO falso. Antes de esta mañana ese error habría producido un
+negativo limpio y creíble. Colateral honesto: el ALCANZABLE de anoche para `hp017#1` en modo `serve` venía con el
+carrier duplicado a similarity máxima; pareado y sin duplicar, una rep da 0/5 —coherente con la prueba offline D1—
+y no cambia la cifra de cabecera («1 hecho»), porque una rep no es una medida.
+
+**#88 y #87.** Cincuenta y cinco documentos siguen con el `product_model` viejo en `documents` mientras el 100 % de
+sus chunks ya lleva el canónico que E3 adjudicó; el retag está preparado con dry-run 55/55 y guardas T3, y espera
+un «sí» porque escribe en una tabla de producción aunque serving no la lea. Y la re-ingesta OCR de TI-007 no es
+autónoma: el repo no tiene OCR (PyMuPDF cuenta páginas; `struck_ocr` es política de display).
+
+**Lección.** «Con dúo, no de paso» no es un ritual: en instrumentos de medición el dúo caza lo que convierte un
+error de programación en un veredicto científico falso.
+
