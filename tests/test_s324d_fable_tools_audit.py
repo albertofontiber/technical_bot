@@ -41,3 +41,27 @@ def test_modo_no_tools_no_es_sin_tools():
     a = tools_audit(LOG_FABRICADO, executed_tool_calls=0, use_tools=False)
     assert a["sin_tools"] is False and a["log_de_tools_fabricado"] is False
     assert sin_tools_note(a, "x.md") is None
+
+
+# ── s324d: pin alternativo adjudicado (Alberto, 17-ago: «si Fable da problemas, cambia a Opus 5») ──
+def test_el_contrato_admite_los_pines_adjudicados_y_rechaza_el_resto():
+    """El pin canónico sigue siendo Fable 5; Opus 5 se admite como fallback ADJUDICADO (precedente
+    s292→s316c). Cualquier otro modelo se rechaza: es un conjunto cerrado, no un override libre."""
+    import importlib
+    import os
+
+    import scripts.adversarial_review_fable as fr
+
+    assert fr.DEFAULT_MODEL == "claude-fable-5"
+    assert fr.MODELOS_ADJUDICADOS == {"claude-fable-5", "claude-opus-5"}
+
+    for modelo, esperado in (("claude-fable-5", True), ("claude-opus-5", True),
+                             ("claude-other", False), ("gpt-5.6-sol", False)):
+        os.environ["FABLE_REVIEW_MODEL"] = modelo
+        try:
+            recargado = importlib.reload(fr)
+            assert recargado.model_contract_satisfied() is esperado, modelo
+            assert recargado.ES_PIN_CANONICO is (modelo == "claude-fable-5")
+        finally:
+            os.environ.pop("FABLE_REVIEW_MODEL", None)
+    importlib.reload(fr)     # deja el módulo en su estado canónico

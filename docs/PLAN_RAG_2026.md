@@ -59,7 +59,37 @@ r34 (Sol 7/7 + Fable 1/1 aplicados): sonda con oráculo `serve` PAREADO, guard d
 `JUEZ_INCOMPLETO`, recibo parcial honesto, coste real, `--receipt`; **#88 PREPARADO** (55 retags `documents.pm` →
 canónico E3, dry-run 55/55, nada aplicado); **#87**: sin pipeline OCR en el repo. Suite verde.
 
-**Qué sigue (s324c/d — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+**s324d tarde (17-ago, autónoma con Alberto en paralelo; DEC-229)**: **el hallazgo que cambia el rumbo — de los 15
+hechos no-OK del FULL, 9 son INESTABLES y sólo 6 son defecto real** (N=5 sobre vista congelada, $9,12): el ruler con
+N=1 clasifica ~60 % de sus no-OK **por azar**. **#87 RESUELTO con su raíz real** (no era OCR: `md or text` dejaba pasar
+un markdown degenerado; guarda en `src/ingestion/page_content.py`, dúo r35, TI-007 re-ingestado 47 → 3.601 chars).
+**#84 corregido**: su «medido» era un NO-DATO (el flag no existe en Railway; el sub-defecto real es el join doc_map
+exacto, 98/977 filas, 1 % de los chunks de golds). **#90 cerrada documentada** tras dúo r36 (Opus 5 dictaminó NO
+SÓLIDO mi propuesta: mismatch de métrica del settled + una afirmación falsa; recomendación E = declarar el drop, en la
+próxima ingesta). **#88 aplicado** (55 retags con CAS). Censo de corpus **completo 1.054/1.054**: 13 accionables,
+**ninguno sustenta un gold**.
+
+**s324e (17-ago) — PRIORIDAD #1 DE ALBERTO: preparar el piloto con Directores Generales (DEC-230).**
+El bot tenía 96 consultas de UN usuario y 6 👎 / 0 👍, todos por el mismo fallo (hablar de otra marca).
+Cableado con dúo: **puerta de acceso** por invitación de un solo uso (48 h, revocable, fail-closed con
+gracia, tope diario, **chat privado obligatorio**), **errores con insights** (taxonomía por causa, red
+global, `bot_errors` sin PII directa), **aislamiento por usuario PROBADO** (13 tests; cerrado el agujero de
+la doble instancia que partía la sesión de un DG), y la **conducta (a)** ante marca cruzada con flag
+apagado. Migraciones 015 y 016 **APLICADAS** (la 016 costó dos intentos: su validación con
+`BEGIN/ROLLBACK` revertía el fichero entero — lección cableada como test). Suite 4192.
+
+**Qué sigue (s324e — VIGENTE; LO PRIMERO al abrir sesión):**
+(0) **PILOTO DG — lo que falta es de Alberto**: (a) **abogado** = aviso v8 (redactado, 6 decisiones
+resueltas) + texto de `bot_errors` + plazo de 24 meses de las tablas nuevas + el aviso de canje comunica
+nombre/alias de quien canjea; (b) **mergear** y dejar que Railway despliegue; (c) **encender** en este
+orden: `BOT_ALLOWLIST_BOOTSTRAP=<id>` y luego `BOT_ALLOWLIST=on` (al revés se queda fuera de su bot);
+(d) invitar al PRIMER DG y hacer el **smoke real** (el harness no atraviesa `mismatch`: su testigo es
+Telegram, no el eval); (e) medir la cobertura de la corrección en `rag_trace ? 'mismatch_corrected'`.
+Criterio de GO: O1-O4 en `evals/s324e_allowlist_duo_r1_v1.md`; **NO-GO si fallan O1 u O4**.
+(0-bis) **Pendiente técnico del piloto**: escribir la política de retención de las dos tablas nuevas en
+`rgpd_retencion_pasada` (una función y dos UPDATE) cuando el abogado se pronuncie.
+(0) **CABEZA DE COLA — el ruler y N=1**: decidir si los hechos no-OK se miden con N≥3 antes de etiquetarlos (9/15 son
+ruido hoy). Afecta a cómo se lee CUALQUIER delta y a qué cola de defectos se ataca (6, no 15). Diseño + dúo pendientes.
 (a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =
 re-dry-run del mismo sha + `--aplicar` (cross-bloque morley↔unresolved/notifier exige adjudicar homónimos); las
 3 preguntas de §0.D (MADT015_01 ¿NFS2-8?, MNDT600 ¿familia SMART 3?, MNDT701 sin id) · paraguas «2X-A» (¿con
@@ -117,8 +147,7 @@ backfill #81 por igualdad exacta de sha → packet (pocos o ningún caso, y es l
 de s324 NO mide retrieval/generación. (f) smoke de recepción en cloud (DEC-220). (g) OCR de TI-007
 + censo de ingestas vacías (#87). (h) #86: endurecer el runner Fable (exigir `tool_use` reales o
 marcar `sin_tools`) y no commitear durante un run emparejado. (i) **s321-ruler: su «Qué sigue» de la MAÑANA está SUPERADO por la tarde autónoma (PRs #273/#274).**
-Estado real de los 5: **re-medir factlevel HECHO** (smoke #271 + FULL #273) · **#84 medido** — y ver la
-corrección en `TECH_DEBT #84`: **0 misses atribuibles** · **sonda `hp013#1` hecha** (NO_ALCANZABLE; sale
+Estado real de los 5: **re-medir factlevel HECHO** (smoke #271 + FULL #273) · **#84 «medido»** — ⚠️ **s324d: era un NO-DATO** (el flag `ANSWER_OBLIGATION_PLANNER` no existe en Railway ⇒ `_product_aligned_chunks` no corre en producción; ver `TECH_DEBT #84`) · **sonda `hp013#1` hecha** (NO_ALCANZABLE; sale
 de la población de lever B, que queda en ≥2) · **conducta (a) del `mismatch` NO cableada A PROPÓSITO**
 (DEC-226: 4 subsistemas + una decisión de producto de Alberto) · **DEC-186b NO escrita A PROPÓSITO**
 (reconciliación de 4 docs + prereg + pregunta cero de Alberto).
@@ -157,8 +186,8 @@ no cazó lo cazó Alberto dos veces (2222 como suppl; A5.4 es un EJEMPLO).
 
 **Tarde autónoma (16-ago, Alberto fuera; DEC-226)** — hecho: smoke (#271) y **FULL** (#273) de
 factlevel sobre el ruler nuevo: 116/135 OK, paridad con s291, los 6 golds de la sentada por hecho =
-exactamente lo pretendido, 0 regresiones; `hp013#1` bajó a retrieval-miss (raw=0). **#84 medido en
-serving**: 12,7% de chunks primary fuera del alineado, concentrado en 8/23 golds (hp006 48% · hp021 62% ·
+exactamente lo pretendido, 0 regresiones; `hp013#1` bajó a retrieval-miss (raw=0). **#84 «medido» en
+serving (⚠️ s324d: NO-DATO — el flag no existe en Railway)**: 12,7% de chunks primary fuera del alineado, concentrado en 8/23 golds (hp006 48% · hp021 62% ·
 cat008 100%; S141 no rescata ninguno). Dos cosas se llevaron **a propósito sin cablear/escribir**
 tras dúo: la conducta (a) del `mismatch` (2 rondas Sol: 4 subsistemas + decisión de producto
 multi-modelo — `s321_mismatch_conducta_a_propuesta_v3.md`) y DEC-186b (2 rondas Sol NO SÓLIDO:

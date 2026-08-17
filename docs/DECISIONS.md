@@ -7136,7 +7136,15 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   resuelto; `_process_query`/`log_query` con respuesta compuesta) y **una decisión de producto** que no es
   mía. Cablearlo sin Alberto sería construir sobre un contrato no decidido (Protocolo 2). **v3 = diseño
   consolidado** en `evals/s321_mismatch_conducta_a_propuesta_v3.md`, para una sesión dedicada con dúo.
-- **LA DECISIÓN QUE QUEDA PARA ALBERTO** — multi-modelo/multi-marca en la misma pregunta:
+- **✅ ADJUDICADO POR ALBERTO (17-ago, s324e): opción (a)** — «vamos con la (a), pero deja anotado que lo
+  mejoraremos a futuro». Es decir: la corrección marca↔producto se aplica **sólo cuando hay UNA marca y UN
+  modelo** y no casan (que es el 100 % de los 👎 registrados hasta hoy: «me has dado información sobre productos
+  de Kidde…», «información sobre la ID3000 que no es de Detnov»); con varios modelos o varias marcas en la misma
+  pregunta, el bot responde como hoy sin intentar emparejar. **MEJORA FUTURA ANOTADA**: la opción (b)
+  —emparejar marca↔modelo por proximidad y corregir sólo el par erróneo— queda como evolución cuando el piloto
+  dé casos reales multi-modelo; no se descarta, se pospone por superficie de error (corregir mal es peor que no
+  corregir). Cablear con dúo, flag y PR propia; diseño consolidado en `evals/s321_mismatch_conducta_a_propuesta_v3.md`.
+- **LA DECISIÓN QUE QUEDABA PARA ALBERTO (ya adjudicada, arriba)** — multi-modelo/multi-marca en la misma pregunta:
   (a) fuera de alcance: si hay más de un modelo, NO se aplica mismatch-answer (se responde como hoy) —
   **recomendado** para el primer cableado; (b) emparejar marca↔modelo por proximidad y corregir solo el
   par erróneo — contrato nuevo, más superficie; (c) otra.
@@ -7236,3 +7244,134 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   8 sondas con el instrumento nuevo — ~$12 sin pregunta que lo justifique hoy (la población está adjudicada como 1).
 - **Recibos**: `evals/s324d_sonda_endurecida_propuesta_v1.md` (+ADENDA) · tally ts=2026-08-17T10:39:29 (Sol 7/7, Fable
   1/1, 0 FP) · smokes `evals/s324d_reachability_smoke_hp017_1_{appendix,serve}.json` · `evals/s324d_retag_documents_pm_dry-run_*.json`.
+
+
+## DEC-229 (s324d, autónoma) — El ruler etiqueta ~60 % de sus «no OK» POR AZAR (9 de 15 son inestables con N=1); la raíz de #87 no era OCR sino un `or`; #84 se despriorizó con un no-dato; y #90 se cierra documentado sin tocar la política de idiomas
+
+- **Fecha**: 17 ago 2026 (sesión autónoma; Alberto trabajando en paralelo). **Impacto**: ALTO en zona de dolor
+  (instrumento de medida + ingesta). **Producción: sin cambios de código en serving.**
+- **Decide (1) — el instrumento: N=1 no basta para clasificar un hecho.** Medidos los **15** hechos no-OK del FULL
+  16-ago con **N=5 sobre vista CONGELADA** (mecanismo `gen_answer_only` de s289; juez `judge_conveyed21` K=5,
+  THRESH_FIRM 4 intacto; $9,12; `evals/s324d_estabilidad_sintesis_v1.md`; aritmética recomputada 15/15 por el autor):
+  **9 INESTABLES** (`cat001#3` 4/5, `hp015#0` 3/5, `cat020#1` 3/5, `hp005#0` 3/5, `cat008#3` y `cat008#1` 2/5,
+  `cat016#1`, `hp015#2`, `hp005#3` 1/5) y **6 ESTABLE_MISS** (`hp003#4`, `hp009#0`, `hp011#2`, `hp017#1`, `hp017#2`,
+  `cat018#1`). ⇒ (a) el «86 % OK» del FULL lleva una barra de error que no estábamos contando; (b) comparar dos FULL
+  con N=1 puede producir deltas que son ruido; (c) **la cola real de defectos es 6, no 15**, y 3 de esos 6 ya están en
+  el packet de gold-review de conducta. **Consecuencia de rumbo**: «atacar los no-OK» no es un problema de retrieval ni
+  de serving (ahí sólo había 1 hecho pagable) sino de **estabilidad de la generación**. Queda como cabeza de cola:
+  decidir si el ruler mide con N≥3 los no-OK. **No se ha cableado nada**: es una medición.
+- **Decide (2) — TECH_DEBT #87 RESUELTO con la raíz real, que no era la escrita.** La deuda decía «hace falta OCR».
+  Verificado en tres pasos: el PDF de `HLSI-TI-007_VSN-4REL` tiene 2.246 chars de texto NATIVO; el re-parse con la
+  config real del corpus devuelve **`md`=34 chars y `text`=3.708 en el MISMO JSON**; los consumidores hacían
+  `p.get("md") or p.get("text")`, que sólo cae a `text` si `md` es **vacío**. **LlamaParse agentic YA es la capa de
+  OCR**: no hace falta tesseract. Guarda de markdown degenerado en `src/ingestion/page_content.py` (saneado en
+  `pipeline.process_file` + `rag/deep_lookup`), 13 tests, **dúo r35** (Sol 5/5 + Fable 5/5, 0 FP, todos aplicados:
+  criterio único que cubre el `md` de whitespace, tercera condición «markdown con estructura no se sustituye»,
+  auditoría en los 5 caminos del estado, cuarto consumidor en serving). **TI-007 re-ingestado**: 47 → 3.601 chars con
+  el procedimiento (PROG/Z1/40 cm) verificado contra la DB. **Dos guardarraíles del repo me pararon y ambos tenían
+  razón**: el freeze-contract s130/s132 (`chunk.py` pineado por sha) y el contrato de imports (`rag → reingest`
+  prohibido) — de ahí que el módulo viva en `ingestion` y el censo de módulos suba a 123, explicado en el test.
+- **Decide (3) — TECH_DEBT #84: el «medido» era un NO-DATO.** `_product_aligned_chunks` sólo es alcanzable desde
+  `build_answer_plan`/`build_answer_conflicts`, que el generador invoca únicamente con
+  `ANSWER_OBLIGATION_PLANNER ∈ {guided, enforced}`; **en Railway el worker NO tiene esa variable** (censo GraphQL
+  propio, 40 vars) ⇒ en producción no corre, y el FULL tampoco la llevaba. Misma clase que DEC-186/s305.
+  **Sub-defecto NUEVO en código vivo**: el join `doc_map ↔ chunks_v2.source_file` es EXACTO y 98 de 977 filas sólo
+  casan tras normalizar `.pdf`/mayúsculas (`retriever.py:2351,2363`, `catalog_resolver.py:782`) ⇒ su atestación no
+  filtra y se les dispara el fetch de identidad aunque estén en el pool. **Impacto en golds: 12 de 1.194 chunks (1 %)
+  ⇒ no moverá los OKs**; higiene estructural, fix con dúo cuando toque.
+- **Decide (4) — TECH_DEBT #90 (filtro de idioma por chunk) se CIERRA DOCUMENTADO, sin tocar política.** El filtro
+  `_DROP_LANGUAGES` descarta chunks por su idioma dominante y en fichas multilingües (tabla con las seis traducciones
+  **concatenadas en la misma celda**) se lleva el castellano dentro: `D1056-1_NFXI-BS-BSF` vive en el corpus con 3.593
+  de sus 50.527 chars. **Dúo r36** (Sol 5/5 + **Opus 5** como pin alternativo adjudicado, 6/6; **dictaminó NO SÓLIDO**
+  y acertó): mi kill del fix usaba un umbral **por DOCUMENTO (≥500 chars de texto nativo ausente)** mientras el fix
+  decide **por CHUNK (≥400)** —mismatch de métrica del «settled», el fallo que el Protocolo 4 nombra— y mi frase «los
+  842 sano no tienen texto ausente» era **falsa** (`sano` = ausencia < 500). **Recomendación final: (E) DECLARAR EL
+  DROP** —contar y persistir los chunks/chars que el filtro descarta, coste ≈0, sin tocar política— **(B) queda
+  ABIERTA** (no matada) hasta medirla en su propia métrica, y **(D) no cambiar la política hoy**. Añadido de Opus: el
+  filtro **contradice un invariante declarado** (`retriever.py:2430`: «el corpus indexa ES, multilingüe-con-ES y
+  EN-only») ⇒ es desvío de política declarada, decisión de Alberto. **E se cablea en la próxima ingesta, no ahora**
+  (sólo se llena al ingestar; no da cifra retroactiva sin el store de 966 JSON, que no está en esta máquina).
+- **Alternativas descartadas**: (a) construir el fix de #90 hoy — el alcance medible no lo paga y el dúo demostró que
+  exige esquema + serving + contrato de generación, no una línea; (b) la excepción por documento para `D1056-1` —
+  RETIRADA: serving volvería a filtrarlo y el re-ingestador le asigna metadata incorrecta; (c) re-ingesta masiva del
+  corpus con la guarda #87 — sin presupuesto ni evidencia de que pague (el censo de cobertura, 1.054/1.054 documentos,
+  da **13 accionables y ninguno sustenta un gold**); (d) cablear el cambio de fuente de aplicabilidad de #84 — su
+  punto de consumo está apagado y el instrumento no puede medir el delta hoy.
+- **Colateral aplicado**: #88 (55 retags de `documents.product_model` al canónico E3, CAS, verificado) · E2
+  re-derivado (conservador PASS; CCD-103 ya no pierde) · PLAN podado 162 → 17 KB · #86 (auditoría de `tool_use`
+  reales) y #89 (sonda endurecida, dúo r34) cerrados · runner del segundo revisor con **conjunto CERRADO de pines
+  adjudicados** {fable-5, opus-5}, canónico intacto, con traza en el recibo.
+- **Lección de método (tres veces hoy)**: el árbol de trabajo se movió durante un dúo —por agentes en background y por
+  commits míos— y rompió dos emparejamientos. La regla de #86 se amplía: **durante un dúo emparejado NADIE escribe en
+  el árbol**. Y la propia: medir el alcance ANTES de diseñar; en #90 escribí dos propuestas antes de saber que el
+  fenómeno era marginal.
+- **Recibos**: tally r34 (2026-08-17T10:39:29), r35 (11:25:24), r36 (12:19:59) · `s324d_estabilidad_sintesis_v1` ·
+  `s324d_censo_cobertura_paginas_v1` · `s324d_90_filtro_idioma_propuesta_v1` (v4) · `s324d_84_verificacion_regla_c_v1` ·
+  `s324d_guarda_md_degenerado_propuesta_v1` · `s324d_reingesta_ti007_aplicar_*` · `s324d_retag_documents_pm_aplicar_*`.
+
+
+## DEC-230 (s324e) — El piloto con Directores Generales se prepara ENTERO: puerta de acceso por invitación de un solo uso, manejo de errores con insights, aislamiento por usuario probado, y la conducta (a) ante marca cruzada cableada con flag apagado
+
+- **Fecha**: 17 ago 2026. **Impacto**: ALTO en serving (transporte, acceso, errores) + esquema nuevo.
+  **Disparador**: Alberto declara su prioridad #1 — «¿qué falta para compartir el bot con Directores
+  Generales y que lo vayan testeando?». **Producción: el código sigue sin desplegar** (todo en rama).
+- **El diagnóstico que ordenó el trabajo**: el bot tenía **96 consultas de UN solo usuario** (Alberto) y
+  **6 👎 con 0 👍**, y los comentarios de esos 👎 apuntaban todos al mismo fallo — el bot hablaba de
+  productos de otra marca («me has dado información sobre productos de Kidde…», «la ID3000 que no es de
+  Detnov»). O sea: el fallo nº 1 para la confianza de un director ya estaba diagnosticado (DEC-224 §B) y
+  **sin cablear**. Lo demás salió de auditar el camino real: sin control de acceso, sin límite de gasto,
+  sin manejo global de errores, y con la concurrencia nunca ejercitada.
+- **Decide (1) — CONTROL DE ACCESO** (`src/bot/access.py` + `migrations/016`, **aplicada**): allowlist por
+  `telegram_user_id` con invitaciones de **un solo uso**, caducidad 48 h (máx. 7 días), revocables, con
+  bootstrap auditable desde `user_consent` (Alberto quedó dentro automáticamente; invariante «nadie con
+  consentimiento se queda fuera» verificado). **Fail-closed con matiz**: si Supabase cae, los ya conocidos
+  siguen (gracia 1 h, bajada desde 24 h porque con la base caída el RAG tampoco responde), pero **no entra
+  nadie nuevo**. Tope diario por usuario. Dúo r38 (Sol 8/8 + Opus 5 como 2º revisor 5/5, 0 FP): **dos
+  críticos** — un typo en la variable de Railway dejaba el piloto ABIERTO (invertido: sólo un `off`
+  reconocible apaga; ausente = apagado, que es la conducta de hoy) y la puerta no miraba el **tipo de
+  chat** (un DG podía usar el bot en un grupo donde leen no invitados; ahora se exige chat privado
+  **antes** de la exención de `/start`, y Alberto desactivó el modo grupo en BotFather).
+- **Decide (2) — ERRORES CON INSIGHTS** (`src/bot/error_taxonomy.py` + `migrations/015`, **aplicada**):
+  red global `add_error_handler` **sin flag** (una red detrás de un interruptor no es una red), taxonomía
+  por CAUSA con clasificación **nominal** (importar SDKs en una hoja que carga al arrancar significa que un
+  SDK reestructurado apaga el bot), persistencia en dos piezas (consulta en `query_logs`, diagnóstico en
+  `bot_errors` **sin dato personal directo**, enlazado por FK con CASCADE) y script de insights. Dúo r37
+  (Sol 7/7, 0 FP): **crítico de privacidad** — la ruta de voz registraba sin pasar la consulta, así que la
+  defensa contra eco no corría y la **transcripción** podía persistirse sin enlace; cerrado con agujas
+  múltiples (cruda + normalizada). También cayó un claim falso de disponibilidad (`await to_thread` **no**
+  desacopla: PTB procesa de uno en uno) — retirado y sustituido por el coste declarado + kill-switch.
+- **Decide (3) — EL RED LINE DE ALBERTO, PROBADO**: «cada DG con su sesión, un usuario ve sólo lo suyo».
+  Auditoría con 13 tests: el estado vive en `user_data` (indexado por usuario) y el **censo cerrado** de los
+  5 globals del bot demuestra que todos derivan del CORPUS. Un agujero real encontrado y cerrado: con long
+  polling, **una segunda instancia partía la sesión de un DG entre procesos** (Telegram reparte los updates
+  y PTB reintentaba el 409 indefinidamente); ahora el bot **para**. El `xfail(strict)` que lo atestiguaba
+  pasó a XPASS y obligó a retirarse — el trinquete funcionando.
+- **Decide (4) — CONDUCTA (a), adjudicada por Alberto**: la corrección marca↔producto se aplica **sólo con
+  UNA marca y UN modelo** (cubre el 100 % de los 👎 registrados); con varios, se responde como hoy. La (b)
+  —emparejar por proximidad— queda **anotada como mejora futura**, no descartada. Cableada con
+  `MISMATCH_ANSWER` **off** y byte-equivalencia demostrada; la composición va TRAS el fallback de respuesta
+  vacía y ANTES de estado/render/log, para que `query_logs.response` guarde lo que vio el técnico.
+- **Decide (5) — RETENCIÓN, adjudicada por Alberto**: las tablas nuevas siguen los **mismos 24 meses** que
+  el resto. Su criterio (consistencia = simplicidad) es correcto y hay un refuerzo que la propuesta inicial
+  del asistente (6/12 meses) no vio: **los 24 meses son un invariante de la BASE** (rol `rgpd_retencion`
+  con `interval '24 months'`). Excepción declarada: en `bot_allowlist` la acción es **DELETE**, porque el
+  id es la PK y no se puede disociar sin destruir la fila.
+- **Incidente de las migraciones, y su lección cableada**: la 016 falló **dos veces** al aplicarse —
+  primero su `BEGIN/ROLLBACK` de validación dejó la base **sin ninguna tabla** mientras la salida imprimía
+  `1` (un éxito aparente), y después el `SAVEPOINT` con que lo «arreglé» dio `25P01`. Mi primer diagnóstico
+  («el editor abre transacción») era **falso** y lo di por bueno sin comprobarlo. Solución: **un fichero
+  que CREA no lleva control de transacción**; la prueba se fue a `016_validacion_un_solo_uso.sql`, y se
+  añadió `NOTIFY pgrst, 'reload schema'` (segundo incidente: tablas creadas y PostgREST devolviendo 404).
+  Hay **test** que impide la reincidencia.
+- **Alternativas descartadas**: RPC transaccional para canje+alta (más superficie; la ventana queda
+  declarada con test que la ejerce) · gobernar grupos autorizando chats además de personas (otra tabla,
+  otra revocación, para un caso que el piloto no tiene) · abortar el proceso ante configuración ilegible en
+  runtime (convierte un error de config en caída total con el bot sirviendo; en arranque sí se aborta).
+- **Lo que NO se hizo, a propósito**: desplegar (todo en rama) · encender ninguno de los flags · implementar
+  la política de retención de las tablas nuevas (falta el abogado) · smoke contra Telegram real.
+- **Criterio de GO (auditable, en `evals/s324e_allowlist_duo_r1_v1.md`)**: O1 bloquea a no invitados · O2 no
+  corta a autorizados · O3 una alta por invitación · O4 cero respuestas fuera de chat privado. **Si O1 u O4
+  fallan una sola vez: NO-GO y `BOT_ALLOWLIST=off`.**
+- **Recibos**: dúos r37 (2026-08-17T13:46:29) y r38 (15:53:44) + 2º revisor Opus 5 standalone ·
+  `evals/s324e_{allowlist_propuesta,allowlist_duo_r1,error_handling_propuesta,mismatch_conducta_cableado,aislamiento_usuarios_auditoria}_v1.md`
+  · suite **4192 verde**.

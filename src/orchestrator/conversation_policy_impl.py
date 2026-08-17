@@ -671,6 +671,7 @@ def resolve_conversational_turn(
     now: datetime,
     rewrite: RewriteFn | None = None,
     intent=None,
+    resolved_model: str | None = None,
 ) -> tuple[TurnResolution, WorkingState]:
     """Compose ``extract_product_models`` + the policy into a resolved turn.
 
@@ -679,6 +680,17 @@ def resolve_conversational_turn(
     backfills the excerpt post-generation via ``advance_working_state`` if it
     wants the rewriter to see prior answer text on the next turn.
 
+    ``resolved_model`` (s324e — DEC-224 §B / DEC-226): el modelo que el PLAN DE
+    TURNO ya resolvió y sobre el que se construyó el preámbulo de corrección. Sin
+    él, este seam RE-DETECTA con ``detect_turn_signals`` y el trabajo del plan se
+    pierde: el crítico de Sol sobre la v2 del diseño (un ``target_models_override``
+    quedaba INERTE en producción porque F1 volvía a resolver después). Con él, el
+    modelo servido ES —por construcción, no por coincidencia— el mismo del que
+    habla el preámbulo. ``available_models`` queda en ``None``, que es exactamente
+    lo que ``detect_turn_signals`` devuelve cuando hay modelo en el turno (solo
+    calcula opciones de categoría si NO hay ninguno): la vía explícita no inventa
+    un estado que la vía implícita no produciría.
+
     TODO(MT-0d activation — sol-S8, by DESIGN not a defect): the bot does NOT yet
     consume this policy (activation is MT-0d + Alberto, out of the MT-1a brief).
     When it is wired, the handler MUST call ``advance_working_state`` a SECOND time
@@ -686,7 +698,10 @@ def resolve_conversational_turn(
     ``last_answer_excerpt`` is populated and the rewriter can resolve content
     anaphora ("ese aviso") against the prior answer text on the next turn. This
     one-line composition seam intentionally passes ``None`` (pre-retrieval)."""
-    turn_models, available = detect_turn_signals(query)
+    if resolved_model:
+        turn_models, available = [resolved_model], None
+    else:
+        turn_models, available = detect_turn_signals(query)
     policy = DeterministicConversationPolicy()
     resolution = policy.resolve(
         query=query,

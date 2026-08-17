@@ -23,11 +23,14 @@ from telegram import (
     ReplyKeyboardRemove,
     Update,
 )
+from telegram.error import Conflict
 from telegram.ext import (
     Application,
+    ApplicationHandlerStop,
     CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
+    TypeHandler,
     filters,
     ContextTypes,
 )
@@ -58,8 +61,12 @@ from ..rag.retriever import (
 # pipeline inline; los adapters de producción los arma el orquestador
 # (from_production) y el seam execute_rag_turn vive en serving_pipeline.
 from ..rag.runtime_trace import build_rag_serving_trace
+from ..flags import mismatch_answer_activo
 from ..logging_db import (
+    allowlist_estado,
+    canjear_invitacion,
     log_query,
+    log_bot_error,
     log_feedback,
     log_answer_feedback,
     set_feedback_reason,
@@ -78,6 +85,8 @@ from .response_formatter import (
     telegram_html_to_plain,
 )
 from .audio_input import audio_file_suffix
+from . import access
+from . import error_taxonomy
 from .voice_query_normalization import normalize_voice_query
 from .whisper_vocabulary import get_whisper_prompt
 
@@ -150,7 +159,8 @@ from ..orchestrator.conversation_policy import WorkingState  # noqa: E402
 from ..orchestrator.turn_plan import (  # noqa: E402,F401 -- re-exports deliberados
     _BYE_PATTERNS, _CATALOG_PATTERNS, _ENUM_FABRICANTE, _FEEDBACK_PATTERNS,
     _GREETING_PATTERNS, _MANUFACTURER_NAMES, _MARCAS_AMBIGUAS, _PREGATE_INVENTARIO,
-    _SWITCH_FRASE, _THANKS_PATTERNS, _VOCABULARIO_DOMINIO, Hecho, Meta, TurnPlan,
+    _SWITCH_FRASE, _THANKS_PATTERNS, _VOCABULARIO_DOMINIO, Hecho, Meta, Preambulo,
+    TurnPlan,
     _intencion_inventario, plan_turn, plan_turn_hechos,
 )
 
@@ -263,6 +273,22 @@ def _feedback_reason_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
 
 def _error_logging_enabled() -> bool:
     return os.getenv("BOT_ERROR_LOGGING", "off").strip().lower() == "on"
+
+
+def _error_reply_enabled() -> bool:
+    """Kill-switch del MENSAJE de error al técnico (s324e). Default ON.
+
+    Va aparte de `BOT_ERROR_LOGGING` porque son dos mecanismos con dos riesgos
+    distintos — la disciplina de s317 (#72): cada mecanismo lleva el suyo. Aquí
+    el default es ON y no OFF, al contrario que el resto de flags nuevas del
+    repo, y es deliberado: la conducta de HOY es el silencio, y una red de
+    seguridad apagada por defecto no es una red de seguridad. Apagarlo devuelve
+    exactamente el silencio de hoy, sin deploy, si en el piloto apareciera un
+    bucle de mensajes de error que no hayamos previsto.
+    """
+    return os.getenv("BOT_ERROR_REPLY", "on").strip().lower() not in {
+        "off", "0", "false", "no"
+    }
 
 
 def _feedback_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
@@ -824,9 +850,290 @@ _NEEDS_CONSENT = (
 )
 
 
+# ── LA PUERTA (s324e): control de acceso al piloto ───────────────────────────
+# Va como handler de GRUPO -1 y no como comprobación al principio de cada
+# handler. Motivo estructural: PTB evalúa los grupos de menor a mayor y un
+# `ApplicationHandlerStop` desde aquí detiene el update para TODOS los demás
+# (verificado en el código de PTB 22.7, `Application.process_update`). Así el
+# handler número nueve que alguien añada dentro de tres meses nace protegido sin
+# acordarse de nada. Un `if not autorizado: return` repetido en cada handler es
+# la versión que se olvida — y la que ya se olvidó una vez: el gate de
+# consentimiento existe desde s21 y `feedback_callback` no lo tuvo hasta s286.
+#
+# ORDEN RESPECTO AL CONSENTIMIENTO: **primero la puerta, después el
+# consentimiento.** Tres razones, la primera es la que manda:
+#   1. MINIMIZACIÓN. Si el consentimiento fuese antes, cualquiera que encuentre
+#      el bot podría enviar `/accept Su Nombre` y quedaríamos con su nombre y su
+#      id de Telegram guardados para siempre en `user_consent` (tabla cuyo plazo
+#      sigue siendo un `[DECIDIR]` en la matriz RGPD) — datos personales de
+#      alguien que jamás va a usar el sistema y para una finalidad que no
+#      existe. La puerta delante hace que solo se registre a quien fue invitado.
+#   2. Es la pregunta que se puede contestar sin tratar nada más: la allowlist
+#      necesita el id, que Telegram ya nos entregó al recibir el mensaje.
+#   3. Contarle a alguien los términos y el detalle de `/privacidad` para
+#      rechazarle después es peor experiencia y peor higiene.
+# Las DOS excepciones están abajo, nombradas y con motivo, y hay un test que
+# impide que la lista crezca sin querer.
+
+#: Comandos que quedan FUERA de la puerta.
+#:   · `/start` — es el ÚNICO sitio por el que Telegram entrega el payload del
+#:     enlace de invitación (`?start=<token>` → `context.args`). Si estuviera
+#:     detrás de la puerta, ninguna invitación podría canjearse jamás. Hace su
+#:     propia comprobación, explícita, y canjea o enseña la puerta.
+#:   · `/privacidad` — poder leer el aviso ANTES de aceptar nada es lo que hace
+#:     que la aceptación cuente como informada (s295). Gatearlo sería romper esa
+#:     promesa por un control de acceso, y el texto no contiene dato personal de
+#:     nadie: es el aviso público del responsable.
+COMANDOS_SIN_PUERTA = ("/start", "/privacidad")
+
+
+def _comando_de(update: object) -> str | None:
+    """`'/start AbC-123'` → `'/start'`; `'/help@PCI_bot'` → `'/help'`.
+
+    None si el update no es un mensaje de texto que empiece por comando. Se
+    normaliza el sufijo `@bot` porque Telegram lo añade en grupos y sin quitarlo
+    la exención no casaría."""
+    try:
+        texto = getattr(getattr(update, "message", None), "text", None)
+        if not isinstance(texto, str):
+            return None
+        texto = texto.strip()
+        if not texto.startswith("/"):
+            return None
+        return texto.split()[0].split("@")[0].lower()
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def _cuenta_para_cuota(update: object) -> bool:
+    """¿Este update gasta cupo diario? Solo los MENSAJES de contenido.
+
+    Fuera quedan los comandos (no cuestan modelo) y las pulsaciones de teclado
+    (👍/👎: penalizar el feedback sería exactamente el incentivo contrario). Los
+    audios SÍ cuentan: pagan transcripción antes que nada.
+
+    Se cuenta en la puerta y no en el pipeline a propósito: aquí es donde la
+    barrera vale también contra un bucle o una cuenta comprometida, aunque el
+    precio sea que un «hola» consuma uno de los 30 (el default lleva holgura
+    para eso).
+    """
+    try:
+        if getattr(update, "callback_query", None) is not None:
+            return False
+        mensaje = getattr(update, "message", None)
+        if mensaje is None:
+            return False
+        if getattr(mensaje, "voice", None) or getattr(mensaje, "audio", None):
+            return True
+        texto = getattr(mensaje, "text", None)
+        if not isinstance(texto, str) or not texto.strip():
+            return False
+        return not texto.strip().startswith("/")
+    except Exception:                                        # noqa: BLE001
+        return False
+
+
+async def _responder_puerta(update: object, texto: str) -> None:
+    """Avisa de un rechazo. NO LANZA NUNCA: una excepción escapando de aquí
+    llegaría a `process_error`, que devuelve False, y PTB seguiría con el
+    siguiente grupo — es decir, el rechazo se convertiría en un PASE. Texto
+    plano, como los mensajes de error y por el mismo motivo."""
+    try:
+        callback = getattr(update, "callback_query", None)
+        if callback is not None:
+            # `answer` acota a 200 caracteres: se manda el primer párrafo, que
+            # está escrito para funcionar suelto.
+            await callback.answer(texto.split("\n\n")[0][:200], show_alert=True)
+            return
+        mensaje = _mensaje_de(update)
+        if mensaje is not None:
+            await mensaje.reply_text(texto)
+    except Exception:                                        # noqa: BLE001
+        logger.warning("puerta: no se pudo avisar al remitente")
+
+
+async def access_gate(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """La puerta. Deja pasar, o para el update para todos los grupos.
+
+    **No deja escapar excepciones, y eso es una propiedad de seguridad, no
+    higiene.** Verificado leyendo PTB 22.7: si un handler de grupo -1 lanza algo
+    que no sea `ApplicationHandlerStop`, `process_update` llama a
+    `process_error` y, como nuestro `error_handler` no relanza
+    `ApplicationHandlerStop`, devuelve False y el bucle CONTINÚA con el grupo 0.
+    O sea: un fallo interno de la puerta abriría la puerta. Por eso el cuerpo va
+    entero en un `try` y el camino de excepción termina igualmente en
+    `ApplicationHandlerStop` — fail-CLOSED.
+
+    Consecuencia declarada: un defecto aquí deja el bot inaccesible para todos.
+    Las dos salidas no exigen deploy — `BOT_ALLOWLIST=off` (kill-switch) y
+    `BOT_ALLOWLIST_BOOTSTRAP` (que se resuelve sin tocar base ni caché).
+    """
+    if not access.acceso_activo():
+        return                              # inerte: el bot de HOY, exacto
+
+    veredicto = None
+    try:
+        tipo_chat = getattr(
+            getattr(update, "effective_chat", None), "type", None
+        )
+        if not access.es_chat_privado(tipo_chat):
+            # 1) CHAT PRIVADO, y va ANTES que todo lo demás — incluidos los
+            #    comandos exentos. La puerta autoriza a una PERSONA, pero lo que
+            #    hay que proteger es dónde se PUBLICA la respuesta: un DG
+            #    autorizado que meta el bot en un grupo hace que la lean
+            #    participantes no invitados, que es exactamente lo que el red
+            #    line prohíbe. Delante de la exención de `/start` a propósito:
+            #    un `/start <token>` tecleado en un grupo canjearía la
+            #    invitación desde ahí.
+            #    Se avisa UNA vez por grupo (`debe_avisar_del_grupo`) y las
+            #    demás veces se para en silencio: repetirlo en cada mensaje
+            #    sería ruido para ellos y envíos para nosotros.
+            chat_id = getattr(getattr(update, "effective_chat", None), "id", None)
+            if access.debe_avisar_del_grupo(chat_id):
+                logger.warning("puerta: uso en chat NO privado (tipo=%r)",
+                               tipo_chat)
+                await _responder_puerta(update, access.MENSAJE_SOLO_PRIVADO)
+            # cae al `raise ApplicationHandlerStop` del final, sin veredicto
+        elif _comando_de(update) in COMANDOS_SIN_PUERTA:
+            return
+        else:
+            user_id = _usuario_de(update)
+            # A un HILO: `allowlist_estado` es httpx síncrono con 10 s de timeout
+            # y esto corre en CADA update. Mismo patrón que `_reportar_error` y
+            # `run_turn`. Con la caché caliente no hay I/O — solo el salto de
+            # hilo.
+            veredicto = await asyncio.to_thread(
+                access.decidir, user_id, allowlist_estado
+            )
+            if veredicto.permitido and _cuenta_para_cuota(update):
+                veredicto = access.consumir_cuota(user_id)
+            if veredicto.permitido:
+                return
+            logger.info("puerta: update rechazado (motivo=%s origen=%s)",
+                        veredicto.motivo, veredicto.origen)
+    except Exception as exc:                                 # noqa: BLE001
+        veredicto = None
+        # Por el punto ÚNICO (s324e): clasifica, avisa al técnico y registra la
+        # incidencia. Sin `query`: la puerta no ha mirado el contenido.
+        await _reportar_error(update, exc, etapa="puerta_acceso")
+
+    if veredicto is not None and veredicto.mensaje:
+        await _responder_puerta(update, veredicto.mensaje)
+    raise ApplicationHandlerStop
+
+
+async def _avisar_canje(context: ContextTypes.DEFAULT_TYPE, update: Update,
+                        resultado) -> None:
+    """Avisa a quien administra de que se ha canjeado una invitación.
+
+    PARA QUÉ (Alberto): el un-solo-uso limita el daño de un reenvío a UNA
+    persona, pero no decide QUÉ persona — quien reciba el enlace y pulse antes,
+    entra. Este aviso no lo impide; lo hace DETECTABLE en minutos, enfrentando
+    «era para X» con «lo ha canjeado Y». Con eso, la reacción (`revocar-acceso`)
+    llega el mismo día en vez de en la siguiente auditoría.
+
+    A QUIÉN: a los ids de `BOT_ALLOWLIST_BOOTSTRAP`, que es quien administra.
+    Sin ninguno configurado NO falla: deja constancia en el log y sigue — un
+    aviso no puede ser un requisito para dar de alta.
+
+    **NUNCA impide el alta ni rompe el canje**: el alta ya está confirmada en la
+    base cuando esto corre, y cada envío va en su propio `try`. Un fallo se
+    reporta por el punto ÚNICO (`_reportar_error`) con `update=None`, que es
+    deliberado: así la incidencia se clasifica y se registra, pero NO se le
+    contesta nada al DG — acaba de recibir «Invitación aceptada» y decirle que
+    algo ha fallado sería alarmarle por un problema que no es suyo ni le afecta.
+    """
+    destinos = access.ids_bootstrap()
+    if not destinos:
+        logger.warning(
+            "canje SIN aviso: BOT_ALLOWLIST_BOOTSTRAP esta vacio, asi que nadie "
+            "recibe el contraste 'era para X / lo canjeo Y'"
+        )
+        return
+    autor = getattr(update, "effective_user", None)
+    texto = access.texto_aviso_canje(
+        nota=getattr(resultado, "nota", None),
+        nombre=getattr(autor, "full_name", None) or getattr(autor, "first_name", None),
+        alias=getattr(autor, "username", None),
+        telegram_user_id=getattr(autor, "id", 0) or 0,
+    )
+    for administrador in sorted(destinos):
+        try:
+            await context.bot.send_message(chat_id=administrador, text=texto)
+        except Exception as exc:                             # noqa: BLE001
+            await _reportar_error(None, exc, etapa="aviso_canje")
+
+
+async def _canjear_invitacion(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                              user_id: int) -> bool:
+    """Canjea el enlace que trae `/start`, si lo trae. True = queda dentro.
+
+    Telegram entrega el payload de `https://t.me/<bot>?start=<token>` como
+    primer elemento de `context.args`. Se filtra la FORMA antes de preguntar a
+    la base (`/start loquesea` no debe costar un roundtrip); la VALIDEZ solo la
+    puede decidir el canje atómico.
+    """
+    args = getattr(context, "args", None) or []
+    payload = args[0] if args else None
+    if not access.es_payload_plausible(payload):
+        await update.message.reply_text(access.MENSAJE_NO_AUTORIZADO)
+        return False
+
+    resultado = await asyncio.to_thread(
+        canjear_invitacion,
+        token_hash=access.hash_token(payload),
+        telegram_user_id=user_id,
+    )
+    if resultado.estado == access.CANJE_OK:
+        # La caché guarda el NO de hace un instante (el de la comprobación de
+        # arriba): sin este adelanto, el DG recién dado de alta rebotaría contra
+        # su propia invitación hasta que caducara el negativo.
+        access.recordar_alta(user_id)
+        # Sin el `telegram_user_id` (dúo, medio 5): los logs de Railway están
+        # fuera de la matriz de retención y de cualquier supresión a petición,
+        # así que no son sitio para un identificador. Se registra el id de la
+        # INVITACIÓN, que es un uuid y no identifica a nadie por sí solo, y que
+        # además correlaciona mejor con el listado del script. Quién canjeó vive
+        # donde está gobernado: `bot_invitaciones.canjeada_por` y el aviso.
+        logger.info("puerta: invitacion %s canjeada", resultado.invitacion_id)
+        # Primero el acuse al DG y después el aviso al administrador: su alta ya
+        # está confirmada y su mensaje no debe esperar a un envío ajeno.
+        await update.message.reply_text(access.MENSAJE_INVITACION_ACEPTADA)
+        await _avisar_canje(context, update, resultado)
+        return True
+    if resultado.estado == access.CANJE_INDETERMINADO:
+        # Mensaje que es VERDAD en los dos casos posibles (dúo, medio 4): el
+        # canje pudo confirmarse y perderse la respuesta, y entonces el enlace
+        # ya no vale por mucho que reintente. `logging_db` intenta liberarlo;
+        # este texto no promete que lo haya conseguido.
+        await update.message.reply_text(access.MENSAJE_CANJE_INCIERTO)
+        return False
+    await update.message.reply_text(access.MENSAJE_INVITACION_NO_VALIDA)
+    return False
+
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /start — show terms if no consent yet, otherwise welcome."""
+    """Handle /start — canje de invitación, luego términos o bienvenida.
+
+    Este handler está EXENTO de la puerta global (ver `COMANDOS_SIN_PUERTA`) y
+    por eso comprueba el acceso él mismo. Nota deliberada: si quien pulsa el
+    enlace YA está autorizado, el token NO se canjea — se le da la bienvenida y
+    la invitación sigue viva para la persona a la que iba dirigida.
+    """
     user_id = update.effective_user.id if update.effective_user else 0
+    if access.acceso_activo():
+        veredicto = await asyncio.to_thread(
+            access.decidir, user_id, allowlist_estado
+        )
+        if not veredicto.permitido:
+            if veredicto.motivo == "indeterminado":
+                # No se intenta canjear con la base caída: se gastaría el enlace
+                # sin poder confirmar el alta.
+                await update.message.reply_text(access.MENSAJE_INDETERMINADO)
+                return
+            if not await _canjear_invitacion(update, context, user_id):
+                return
+
     if has_consent(user_id):
         await update.message.reply_text(_welcome_text(), parse_mode="Markdown")
     else:
@@ -923,6 +1230,15 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.chat.send_action("typing")
 
     tmp_path = None
+    # (s324e, dúo r37) Lo que el técnico ha DICHO, tal como se conoce en cada
+    # momento. Se declara ANTES del try para que el manejador de abajo lo tenga
+    # pase lo que pase, y crece en dos pasos: primero la transcripción cruda y
+    # luego la consulta normalizada. Es lo que arma la defensa contra ECO —sin
+    # esto, `redactar` corría con `prohibido=None` y una excepción que
+    # reprodujera la transcripción la habría guardado en `bot_errors`, además
+    # SIN enlace (`query_log_id=NULL`), o sea fuera del CASCADE y de cualquier
+    # supresión a petición.
+    dicho: list[str] = []
     try:
         # Download voice file from Telegram
         file = await context.bot.get_file(voice.file_id)
@@ -941,6 +1257,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
             VOICE_TRANSCRIPTION_MODEL,
         )
         raw_transcription = await transcribe_audio(tmp_path)
+        if raw_transcription:
+            dicho.append(raw_transcription)
 
         if not raw_transcription:
             await update.message.reply_text(
@@ -953,6 +1271,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # logged unchanged; the retrieval form is explicit when it differs.
         normalization = normalize_voice_query(raw_transcription)
         query = normalization.normalized
+        if query and query != raw_transcription:
+            dicho.append(query)
         confirmation = f"🎤 {raw_transcription}"
         if normalization.changed:
             recognized = list(
@@ -998,9 +1318,23 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     except Exception as e:
-        logger.error(f"Error processing voice message: {e}")
-        await update.message.reply_text(
-            "Ha ocurrido un error procesando el audio. ¿Puedes escribir tu pregunta?"
+        # s324e: antes se registraba `f"...: {e}"` — el texto CRUDO de la excepción
+        # en el log del proceso, que es justo lo que s295 cerró para la ruta de
+        # texto (puede arrastrar la transcripción, y con ella datos personales) y
+        # lo que s286 prohibió en las filas de error (una URL de la API de
+        # Telegram lleva el token del bot dentro). Ahora pasa por la taxonomía:
+        # el mensaje se redacta antes de guardarse y no va al log del worker.
+        # `handle_voice` estaba además FUERA del alcance de las filas de error
+        # (declarado en s286); con el punto único, ya no lo está.
+        # `query=dicho` (dúo r37, CRÍTICO de privacidad): sin ello `redactar`
+        # corría sin defensa contra eco y la transcripción del técnico podía
+        # acabar en `mensaje_corto`. Se pasan LAS DOS formas —cruda y
+        # normalizada— porque la excepción puede reproducir cualquiera. De paso
+        # la incidencia queda ENLAZADA a su fila de `query_logs` (con
+        # consentimiento), que es lo que la mete en el CASCADE.
+        await _reportar_error(
+            update, e, etapa="handle_voice", query=dicho or None,
+            sufijo="Si te resulta más rápido, escríbeme la pregunta por texto.",
         )
     finally:
         if tmp_path:
@@ -1079,7 +1413,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # declara y se ejecuta la ruta. La politica de log de cada ruta es un CAMPO del
     # plan (la promesa del aviso v7 --cortesia sin log-- pasa de estar implicita en
     # el orden de los ifs a ser dato verificable).
-    meta = Meta(es_reply=update.message.reply_to_message is not None)
+    # (s324e — DEC-224 §B / DEC-226 opción (a)) El LEVER entra al plan como DATO:
+    # `plan_turn` sigue pura y no lee entorno.
+    meta = Meta(es_reply=update.message.reply_to_message is not None,
+                mismatch_answer=mismatch_answer_activo())
     estado_modelos = _estado_modelos_conversacion(context.user_data)
     plan = plan_turn(query, estado_modelos, meta,
                      _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
@@ -1208,7 +1545,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         return
     # conversacional (default del plan y de los fallbacks)
     await update.message.chat.send_action("typing")
-    await _process_query(update, context, query)
+    await _process_query(update, context, query, preambulo=plan.preambulo)
 
 
 async def _handle_catalog(update: Update):
@@ -1309,8 +1646,13 @@ async def _process_query(
     query: str,
     source: str = "text",
     transcription: str | None = None,
+    preambulo: Preambulo | None = None,
 ):
-    """Core RAG pipeline — shared between text and voice handlers."""
+    """Core RAG pipeline — shared between text and voice handlers.
+
+    (s324e) `preambulo` = la corrección que el PLAN decidió anteponer (DEC-224 §B).
+    Default None ⇒ voz y el resto de callers, byte-idénticos. La voz NO pasa por
+    `plan_turn` y por eso nunca lo trae: declarado, no olvidado."""
     import time as _time
     start_time = _time.time()
 
@@ -1442,12 +1784,16 @@ async def _process_query(
             # Flag default OFF = seam None = byte-idéntico. Con ON, la resolución
             # entera se mueve a to_thread: el resolve corre en el event loop y una
             # llamada síncrona de segundos lo bloquearía TODO (Sol r10 M2).
+            # (s324e) El modelo lo resolvió el PLAN; sin pasarlo, F1 re-detecta y el
+            # modelo servido podría no ser el del preámbulo.
+            _modelo_plan = preambulo.modelo if preambulo is not None else None
             _intent_fn = _intent_seam(intent_obs)
             if _intent_fn is not None:
                 f1_resolution, f1_new_state = await asyncio.to_thread(
                     resolve_conversational_turn,
                     query, f1_prev_state, f1_now,
                     rewrite=_lazy_rewrite, intent=_intent_fn,
+                    resolved_model=_modelo_plan,
                 )
                 if intent_obs.get("status") == "invoked":
                     # decisión → log operacional; la traza PERSISTIDA es la
@@ -1456,7 +1802,8 @@ async def _process_query(
                                 intent_obs["decision"], intent_obs["latency_ms"])
             else:
                 f1_resolution, f1_new_state = resolve_conversational_turn(
-                    query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
+                    query, f1_prev_state, f1_now, rewrite=_lazy_rewrite,
+                    resolved_model=_modelo_plan,
                 )
 
             if f1_resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
@@ -1558,6 +1905,13 @@ async def _process_query(
             logger.error("generator returned an empty answer")
             answer = _EMPTY_ANSWER_FALLBACK
 
+        # (s324e — DEC-224 §B) Corrección y respuesta son UNA sola respuesta: se componen
+        # AQUÍ para que `query_logs.response` y `last_response` guarden exactamente lo que
+        # vio el técnico (y el 👎 posterior, anclado a esa fila, lo conserve). Después del
+        # fallback: una respuesta vacía sigue llevando su corrección.
+        if preambulo is not None:
+            answer = f"{_turn_plan.texto_preambulo(preambulo)}\n\n{answer}"
+
         # Store last query/response for feedback tracking + conversation context
         # Telemetria de feedback (cluster DECLARADO fuera del invariante de estado:
         # ancla el 👎 a la ultima respuesta; dueno = _process_query).
@@ -1626,6 +1980,11 @@ async def _process_query(
                 retrieval_health=retrieval_health,
                 stage_timings=stage_timings,
                 intent_obs=intent_obs,
+                mismatch_obs=(
+                    {"modelo": preambulo.modelo,
+                     "marca_real": preambulo.marca_real,
+                     "marca_mencionada": preambulo.marca_mencionada}
+                    if preambulo is not None else None),
             )
         except Exception as exc:
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)
@@ -1778,27 +2137,261 @@ async def _process_query(
         logger.error(
             "Error processing query (len=%d): %s", len(query or ""), type(e).__name__
         )
-        # s286 BOT_ERROR_LOGGING (default off): error rows carry an ALLOWLISTED
-        # summary (exception class @ stage), never str(e) — raw exception text
-        # can embed URLs that contain the bot token (same risk the httpx
-        # silencing above defends against). user_id is re-extracted here: the
-        # happy-path binding may not have been reached when the failure was
-        # earlier in the pipeline. handle_voice/_handle_catalog swallow their
-        # own exceptions and are OUT of scope for error rows (declared, s286).
+        # s324e: el mensaje genérico («Ha ocurrido un error… inténtalo de nuevo»)
+        # murió aquí. Decía lo MISMO ante un timeout transitorio —donde reintentar
+        # funciona— y ante un defecto nuestro determinista, donde reintentar falla
+        # siempre igual y mandarlo a repetir es hacerle perder el tiempo. Ahora
+        # decide la taxonomía, y el mismo punto se encarga del registro para
+        # insights (que sigue gateado por BOT_ERROR_LOGGING, con la misma fila
+        # `source='error'` de s286 más la incidencia estructurada).
+        await _reportar_error(update, e, etapa="process_query", query=query)
+
+
+# ── Manejo de errores: red de seguridad global + insights (s324e) ────────────
+# El fallo que cierra: hoy hay 24 `except Exception` dispersos y CERO
+# `add_error_handler`. Fuera de `accept_command` y `_process_query`, una
+# excepción no manejada deja al técnico en SILENCIO — escribe y no pasa nada.
+# Esto lo cierra por los DOS lados: `error_handler` es la red global de PTB
+# (nada llega al vacío) y `_reportar_error` es el único sitio que decide qué se
+# dice, qué se registra y con qué severidad. Los 24 `except` locales NO se tocan:
+# son degradaciones DELIBERADAS (fail-open de telemetría, fallback de transporte)
+# que ya responden al técnico; convertirlas en errores sería una regresión.
+
+
+def _usuario_de(update: object) -> int:
+    """id de Telegram del autor, o 0. Tolera un `update` que no sea `Update`:
+    PTB entrega al error handler el objeto que provocó el fallo, y no siempre
+    es una actualización (p. ej. un job de la JobQueue)."""
+    try:
+        return getattr(getattr(update, "effective_user", None), "id", 0) or 0
+    except Exception:                                        # noqa: BLE001
+        return 0
+
+
+def _mensaje_de(update: object):
+    """El mensaje al que responder, o None si no hay a dónde contestar."""
+    try:
+        mensaje = getattr(update, "effective_message", None)
+        return mensaje if hasattr(mensaje, "reply_text") else None
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def _persistir_incidencia(incidencia, *, user_id: int, query: str | None,
+                          avisado: bool) -> None:
+    """Escribe la incidencia para INSIGHTS. Gobernanza en dos piezas:
+
+      · la CONSULTA (dato personal, texto libre del técnico) va a `query_logs`
+        con `source='error'` — el contenedor que ya está en la matriz de
+        retención, ya cascadea y ya lo excluyen las vistas de salud. Es lo que
+        el `BOT_ERROR_LOGGING` de s286 ya hacía; no es un tratamiento nuevo:
+        la finalidad «diagnóstico» es la declarada para esa tabla.
+      · el DIAGNÓSTICO (clase, tipo, módulo:línea, severidad) va a `bot_errors`,
+        enlazado por FK. Esa tabla no guarda dato personal DIRECTO, pero es dato
+        ENLAZABLE por esa FK (r37): hereda la gobernanza de `query_logs`, no
+        queda fuera de ella.
+
+    El consentimiento GATEA la consulta, no la incidencia: un fallo en `/start`
+    de alguien que aún no ha aceptado se cuenta (clase y módulo, sin identidad),
+    pero su texto no se guarda. Sin este gate, la red de seguridad global sería
+    la primera vía del bot para escribir texto de quien no ha aceptado nada.
+    """
+    query_log_id = None
+    try:
+        if query and user_id and has_consent(user_id):
+            query_log_id = str(uuid.uuid4())
+            if not log_query(
+                telegram_user_id=user_id,
+                query=query,
+                source="error",
+                # Formato heredado de s286 (`Tipo@etapa`): `bot_health_report`
+                # y las vistas ya lo cuentan. El detalle rico vive en la fila
+                # hija; aquí no se cambia lo que otros consumidores ya leen.
+                response=f"{incidencia.tipo_excepcion}@{incidencia.etapa}",
+                query_log_id=query_log_id,
+            ):
+                # Sin fila padre confirmada, la FK colgaría: la incidencia se
+                # guarda SUELTA (misma política que el teclado de feedback —
+                # perder el enlace es seguro, una FK rota no).
+                query_log_id = None
+    except Exception:                                        # noqa: BLE001
+        query_log_id = None
+    log_bot_error(
+        codigo=incidencia.codigo,
+        clase=incidencia.clase,
+        severidad=incidencia.severidad,
+        tipo_excepcion=incidencia.tipo_excepcion,
+        etapa=incidencia.etapa,
+        origen=incidencia.origen,
+        mensaje_corto=incidencia.mensaje_corto,
+        query_log_id=query_log_id,
+        usuario_avisado=avisado,
+        reintentable=incidencia.reintentable,
+    )
+
+
+def _normalizar_consulta(query) -> tuple[str | None, tuple[str, ...]]:
+    """`query` → (texto CANÓNICO a guardar, todas las agujas de redacción).
+
+    Acepta un texto o una secuencia. Cuando son varios (ruta de voz: la
+    transcripción cruda y luego la normalizada), la ÚLTIMA es la canónica —la
+    forma más procesada que se llegó a conocer antes del fallo— y TODAS se usan
+    como agujas: la excepción puede hacer eco de cualquiera de ellas.
+    """
+    if query is None:
+        return None, ()
+    if isinstance(query, str):
+        texto = query.strip()
+        return (texto or None), ((texto,) if texto else ())
+    try:
+        textos = tuple(t.strip() for t in query if isinstance(t, str) and t.strip())
+    except TypeError:                                        # noqa: BLE001
+        return None, ()
+    return (textos[-1] if textos else None), textos
+
+
+async def _reportar_error(update: object, exc: BaseException | None, *,
+                          etapa: str, query=None,
+                          sufijo: str | None = None) -> str:
+    """Punto ÚNICO de manejo de un fallo: clasifica, avisa al técnico y registra.
+
+    Devuelve el código de incidencia (para el log del proceso y los tests).
+
+    **No lanza NUNCA.** Es la propiedad que lo hace utilizable como red de
+    seguridad: cada paso va en su propio `try` y el cuerpo entero en uno más. Un
+    manejador de errores que puede fallar no es un manejador de errores — y en
+    PTB una excepción escapada de aquí se convierte en el «uncaught error while
+    handling an error» que vuelve a dejar al técnico sin respuesta.
+    """
+    codigo = "????????"
+    try:
+        consulta, agujas = _normalizar_consulta(query)
+        decision = error_taxonomy.clasificar(exc)
+        incidencia = error_taxonomy.describir(
+            exc, etapa=etapa, decision=decision, consulta=agujas
+        )
+        codigo = incidencia.codigo
+
+        # 1) Log del proceso. NUNCA el texto de la consulta (s295: los logs de
+        #    Railway están fuera de la matriz de retención y de cualquier
+        #    supresión a petición). Longitud sí: sirve para diagnosticar.
+        registrar = logger.error if incidencia.severidad != "aviso" else logger.warning
+        if incidencia.severidad == "critico":
+            registrar = logger.critical
+        registrar(
+            "incidencia %s clase=%s sev=%s tipo=%s etapa=%s origen=%s len_q=%d",
+            incidencia.codigo, incidencia.clase, incidencia.severidad,
+            incidencia.tipo_excepcion, incidencia.etapa,
+            incidencia.origen or "-", len(consulta or ""),
+        )
+
+        # 2) Avisar al técnico. Texto PLANO a propósito: un mensaje de error que
+        #    Telegram rechace por un metacarácter de Markdown devolvería el
+        #    silencio que esto existe para cerrar.
+        avisado = False
+        mensaje = _mensaje_de(update)
+        if decision.entregable and mensaje is not None and _error_reply_enabled():
+            texto = error_taxonomy.texto_para_usuario(
+                decision, incidencia.codigo, sufijo
+            )
+            try:
+                await mensaje.reply_text(texto)
+                avisado = True
+            except Exception as envio:                       # noqa: BLE001
+                # No se reintenta ni se recursa: si el propio aviso no sale, lo
+                # único que queda es dejar constancia.
+                logger.error(
+                    "incidencia %s: no se pudo avisar al tecnico (%s)",
+                    incidencia.codigo, type(envio).__name__,
+                )
+
+        # 3) Registrar para insights (gateado, fail-open dentro). Va a un HILO,
+        #    el patrón que el propio bot ya usa para lo bloqueante
+        #    (`transcribe_audio`, `run_turn`): el registro son hasta tres
+        #    peticiones REST de 10 s de timeout cada una y no deben correr EN
+        #    el bucle de eventos.
+        #
+        #    COSTE REAL, declarado (dúo r37 — una versión anterior de este
+        #    comentario afirmaba que esto protegía la disponibilidad para los
+        #    demás técnicos, y es FALSO): aquí se hace `await`, así que el turno
+        #    espera igual; y como PTB procesa los updates DE UNO EN UNO
+        #    (`concurrent_updates` no está activado), con Supabase caído los
+        #    demás técnicos siguen haciendo cola detrás de estos timeouts. Lo
+        #    que `to_thread` sí compra es que el bucle no quede bloqueado
+        #    (getUpdates y la JobQueue siguen vivos) y que esto ya esté bien
+        #    puesto si algún día se activa `concurrent_updates`.
+        #    El arreglo de verdad —esperar acotado, o activar
+        #    `concurrent_updates`— es una decisión de serving con su propio dúo:
+        #    NO se cuela aquí de tapadillo.
         if _error_logging_enabled():
             try:
-                error_user_id = update.effective_user.id if update.effective_user else 0
-                log_query(
-                    telegram_user_id=error_user_id,
-                    query=query,
-                    source="error",
-                    response=f"{type(e).__name__}@process_query",
+                await asyncio.to_thread(
+                    _persistir_incidencia,
+                    incidencia,
+                    user_id=_usuario_de(update),
+                    query=consulta,
+                    avisado=avisado,
                 )
-            except Exception:
-                logger.warning("BOT_ERROR_LOGGING failed open")
-        await update.message.reply_text(
-            "Ha ocurrido un error procesando tu pregunta. Por favor, inténtalo de nuevo."
+            except Exception:                                # noqa: BLE001
+                logger.warning("incidencia %s: registro fallo open", incidencia.codigo)
+    except Exception:                                        # noqa: BLE001
+        # Último cinturón. `logging.exception` va aquí y solo aquí: si ESTO
+        # falla, el stack completo es lo único que permitirá arreglarlo, y el
+        # riesgo de que arrastre texto del técnico es preferible a un manejador
+        # de errores mudo. Aun así no se persiste: se queda en el log.
+        logger.exception("el manejador de errores fallo (etapa=%s)", etapa)
+    return codigo
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
+    """Red de seguridad GLOBAL de PTB (`Application.add_error_handler`).
+
+    Recoge lo que ningún `except` local atrapa: comandos, el despachador de
+    turno, el callback de feedback, los jobs de la JobQueue. `update` llega
+    tipado como `object` a propósito — PTB no garantiza que sea un `Update`.
+    """
+    exc = getattr(context, "error", None)
+    # (s324e) 409 Conflict = OTRA instancia con el mismo token haciendo long polling.
+    # PTB lo reintenta INDEFINIDAMENTE (`network_retry_loop`, max_retries=-1) y Telegram
+    # reparte los updates entre los procesos: los turnos de un mismo técnico caen en
+    # instancias distintas y SU SESIÓN SE PARTE EN DOS. Clasificar el Conflict como
+    # crítico (error_taxonomy) no basta — hay que PARAR. Auditoría y testigo:
+    # `evals/s324e_aislamiento_usuarios_auditoria_v1.md` §P4.
+    if isinstance(exc, Conflict):
+        logger.critical(
+            "409 Conflict: otra instancia con el mismo token está haciendo polling. "
+            "Parando ESTE proceso para no partir las sesiones de los usuarios."
         )
+        # (dúo r37) Se REGISTRA antes de parar. Antes se retornaba aquí mismo y
+        # el proceso moría sin incidencia estructurada: el fallo más grave que
+        # el bot sabe detectar era justo el único invisible en los insights, y
+        # desmentía que `_reportar_error` fuese el punto único. Sin `query`: el
+        # Conflict es del transporte, no de un turno concreto.
+        # El registro NO puede impedir la parada — de ahí el try/finally: si el
+        # registro se cuelga o revienta (y con un 409 puede que Supabase esté
+        # perfectamente, pero no se apuesta), la instancia para igual.
+        try:
+            await _reportar_error(update, exc, etapa="conflict_instancia")
+        finally:
+            aplicacion = getattr(context, "application", None)
+            if aplicacion is not None:
+                aplicacion.stop_running()
+        return
+    query = None
+    try:
+        # Solo si el fallo viene de un MENSAJE del técnico. En un callback
+        # (pulsación de 👍/👎) `effective_message` es el mensaje del PROPIO BOT:
+        # tomarlo como consulta guardaría la respuesta del bot en
+        # `query_logs.query` como si la hubiera escrito una persona, y el top-5
+        # de «preguntas que fallan» se llenaría de texto nuestro.
+        if getattr(update, "callback_query", None) is None:
+            mensaje = getattr(update, "effective_message", None)
+            texto = getattr(mensaje, "text", None)
+            if isinstance(texto, str):
+                query = texto.strip() or None
+    except Exception:                                        # noqa: BLE001
+        query = None
+    await _reportar_error(update, exc, etapa="global", query=query)
 
 
 async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1962,10 +2555,27 @@ def run_bot():
     from src.rag import catalog_resolver as _resolver
     _resolver.mode()
 
+    # s324e (dúo, crítico 1) — mismo fail-fast que el flag de identidad, y por
+    # el mismo motivo: una errata en Railway (`BOT_ALLOWLIST=onn`, un id de
+    # bootstrap con un carácter de más) debe tumbar el deploy VISIBLE, no
+    # descubrirse porque un DG no puede entrar. La puerta, además, ya no se
+    # apaga con un valor que no se entienda — solo con un «off» reconocible.
+    access.validar_configuracion()
+
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     # (fase B) La guardia de grupo -1 se retiro: la invalidacion de #70 vive en el
     # plan de turno (handle_message/handle_voice), no en un TypeHandler previo.
+
+    # s324e — LA PUERTA, en el grupo -1: PTB evalúa los grupos de menor a mayor
+    # (`add_handler` los mantiene ordenados) y un `ApplicationHandlerStop` desde
+    # aquí detiene el update para todos los demás. Se registra ANTES que nada
+    # para que leer esta función deje claro qué es lo primero que corre; el
+    # orden efectivo lo fija el número de grupo, no la línea. Inerte con
+    # `BOT_ALLOWLIST=off` (default), que es la conducta de hoy.
+    # NINGÚN otro handler puede ir en un grupo < -1: eso lo pondría por delante
+    # de la puerta. Lo vigila `test_s324e_allowlist.py::test_la_puerta_va_primero`.
+    app.add_handler(TypeHandler(Update, access_gate), group=-1)
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("accept", accept_command))
@@ -1978,6 +2588,27 @@ def run_bot():
     # Unconditional (NOT gated by TELEGRAM_FEEDBACK): stale keyboards in chat
     # history must always resolve, even after the flag is turned off.
     app.add_handler(CallbackQueryHandler(feedback_callback, pattern=r"^fb:"))
+
+    # s324e — la red de seguridad. Va SIN gatear a propósito, igual que el
+    # callback de arriba y por el mismo motivo: la conducta que sustituye es el
+    # SILENCIO, y una red que se registra solo si un flag está encendido no es
+    # una red. Lo que sí lleva flags son sus dos efectos —el aviso al técnico
+    # (BOT_ERROR_REPLY, default on) y el registro (BOT_ERROR_LOGGING, default
+    # off)— porque cada uno tiene su propio riesgo y su propio kill-switch.
+    app.add_error_handler(error_handler)
+
+    # Estado de la puerta, VISIBLE en el arranque: si el piloto corre abierto
+    # tiene que constar en los logs de Railway, no descubrirse preguntando.
+    if access.acceso_activo():
+        logger.info(
+            "puerta de acceso ACTIVA: allowlist + invitacion (bootstrap=%d ids, "
+            "tope diario=%d)", len(access.ids_bootstrap()), access.limite_diario(),
+        )
+    else:
+        logger.warning(
+            "puerta de acceso APAGADA (BOT_ALLOWLIST=off): cualquiera que acepte "
+            "los terminos puede usar el bot"
+        )
 
     logger.info("Bot started. Listening for text and voice messages...")
     # s307: calienta la caché de fabricantes ANTES del polling — el primer saludo

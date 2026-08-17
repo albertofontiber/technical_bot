@@ -3037,6 +3037,24 @@ aviso destacado no servido cause un fallo de seguridad. **Coste**: M para (a), S
 
 ## #84 — `chunks_v2.product_model` NO es un filtro de aplicabilidad: discrepa del `doc_map` en el 35% de los documentos (s321, censo ejecutado)
 
+**⚠️ CORRECCIÓN s324d (17-ago) — el «#84 MEDIDO: 0 misses atribuibles» de s321 es un NO-DATO, no una absolución.**
+Verificado de primera mano (`evals/s324d_84_verificacion_regla_c_v1.md`): `_product_aligned_chunks` **sólo es
+alcanzable** desde `build_answer_plan`/`build_answer_conflicts` (`answer_planner.py` 1404/1496/1566 y, vía
+`_base_relation_obligations`/`_served_structured_obligations`, 1531/1480), y el generador sólo las invoca con
+`ANSWER_OBLIGATION_PLANNER ∈ {guided, enforced}` (`generator.py:848-870`). En **Railway el worker NO tiene esa
+variable** (censo GraphQL propio, 40 vars, `evals/s322_railway_censo_v1.json`) ⇒ vale `off` (`answer_planner.py:224`)
+⇒ **en producción esa función no corre**; y el FULL del 16-ago tampoco llevaba el flag. Misma clase de fallo que
+DEC-186/s305. **El lever tampoco es medible hoy**: sin el flag, los dos brazos del instrumento son el mismo pipeline
+(delta ≡ 0 por construcción); pinearlo a `guided` mediría un pipeline que no está en producción.
+**SUB-DEFECTO NUEVO, ese sí en código VIVO — join `doc_map` ↔ `chunks_v2.source_file` EXACTO**: 98 de 977 filas del
+doc_map sólo casan tras normalizar `.pdf`/mayúsculas (`DS_KIDDE_…_904a.pdf`, `Averia-…-DXc.pdf`,
+`997-671-007-3_configuration_pt`…), y la comparación es exacta en `retriever.py:2351,2363` y
+`catalog_resolver.py:782` ⇒ para esos 98 documentos la atestación no filtra nada Y se les dispara el fetch de
+identidad aunque ya estén en el pool. **Impacto medido en golds: 12 de 1.194 chunks del pool (1 %) ⇒ arreglarlo NO
+moverá los OKs**; es higiene estructural. Fix propuesto: normalizar la clave en UN punto (construcción de
+`allowed_sources`) con guarda de colisión; **retrieval = zona de dolor ⇒ dúo antes de cablear**. Análisis completo con
+opciones y aritmética: `evals/s324d_84_doc_map_aplicabilidad_propuesta_v1.md`.
+
 **Qué es.** `product_model` es una etiqueta **gruesa** por documento (`'Sistema 5000'`,
 `'2X-A Táctil'`, `'ICAM'`, o un SKU representativo). El `doc_map` es la capa gobernada de
 entity-linking (DEC-043/044) que declara **qué productos cubre** un documento. No son lo mismo — pero
@@ -3160,7 +3178,9 @@ variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
 **Estado: (1) RESUELTO en s324d (17-ago)** — el runner estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado`
 en el recibo, sufija el `.md` con `_SIN-TOOLS`, deja nota lateral y avisa por stderr (sin tocar el `.md`:
 contrato de sha del validador); tests `tests/test_s324d_fable_tools_audit.py`; spec en
-`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado)
+`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado — **ampliada en s324d r35: que
+NADIE escriba en el árbol de trabajo, agentes de background incluidos; un agente de medición creó ficheros entre el
+run de Sol y el de Fable, el snapshot cambió y el runner rechazó emparejar los recibos**)
 y **(3)** regla C (abrir el responses JSON) — quedan como disciplina, no como código. **Origen — OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
 imprime un log de `grep_repo`/`read_file`/`list_dir` con respuestas verosímiles… de ficheros que NO
 existen (`scripts/catalog_store.py`, `scripts/s324_radio_explosion.py`, `products.jsonl:509` con
@@ -3184,10 +3204,18 @@ un QR con URL). 95 más entre 300 y 1.500 chars, en su mayoría FAQ cortas legí
 de manual ya ingestado» de Alberto: el documento cuenta como cubierto y no lo está.
 **Qué hacer**: re-ingesta con OCR de TI-007 (y atestar DESPUÉS, no antes — adjudicación registrada);
 baja o sustitución del QR; guardia de ingesta: aviso cuando un PDF produce <300 chars de texto.
-**s324d (17-ago)**: comprobado que el repo NO tiene pipeline OCR (PyMuPDF solo para contar páginas/overlay;
-`struck_ocr.py` es política de display, no OCR) ⇒ la re-ingesta OCR de TI-007 no es autónoma: o Alberto aporta el
-PDF ya OCR-izado (o el texto) y se ingesta por el pipeline normal, o se diseña el paso OCR (tesseract/ocrmypdf) con
-dúo. Los 2 docs censados siguen activos y sin cambio.
+**s324d (17-ago) — RAÍZ REAL ENCONTRADA, NO ERA OCR (y el diagnóstico anterior de esta deuda estaba equivocado):**
+el PDF de `HLSI-TI-007_VSN-4REL` tiene **2.246 chars de texto NATIVO** (PyMuPDF) y el re-parse con la config real
+del corpus (`parse_page_with_agent` + `anthropic-sonnet-4.5`, job `1b73eb2d`, ~$0,06) devuelve **`md` = 34 chars y
+`text` = 3.708 chars EN EL MISMO JSON**. Los consumidores hacían `p.get("md") or p.get("text")`, que sólo cae a
+`text` si `md` es VACÍO ⇒ 47 chars en el corpus. **LlamaParse agentic YA es la capa de OCR** (LVM multimodal); no
+hace falta tesseract. **RESUELTO** con la guarda de markdown degenerado (`src/reingest/page_content.py`, saneado en
+`pipeline.process_file` + `deep_lookup._item_text`; dúo r35 Sol 5/5 + Fable 5/5 aplicados; 13 tests).
+**Censo de densidad** (26.215 chunks, 1.054 docs activos): mediana 2.632 chars/página, **19 docs** < 250 (mayoría
+fragmentos PT/FR/IT conocidos) ⇒ la patología no es masiva.
+**PENDIENTE (condición del dúo que no se pudo cumplir):** correr `auditar_paginas` sobre el **store real de 966 JSON**
+(no está en este checkout ni en el OneDrive de esta máquina) para calibrar `RATIO_DEGENERADO`/`PERDIDA_ABSOLUTA_MIN`
+contra la distribución real; y decidir el QR `Docs Morley-IAS Max` (142 chars).
 
 ## #88 — `documents.product_model` conserva artefactos que E3 corrigió solo en `chunks_v2` — s324
 
@@ -3220,3 +3248,63 @@ s324b para `hp017#1` en `serve` venía con el carrier DUPLICADO a similarity má
 4. No imprime ni guarda **coste** (~$11-13 estimados a mano para 14 invocaciones).
 5. `serve` sobre un chunk ya servido por lane (hp017#1) lo duplica con similarity máxima: el ALCANZABLE mide PROMINENCIA, no evidencia ausente; el recibo no guarda la composición de la base.
 **Qué hacer**: RECEIPT parametrizable (o el FULL más reciente por defecto); guard de cobertura en `appendix` (el span debe contener valor y predicado o abortar a INCONCLUYENTE explícito); recibo parcial ante SystemExit; coste en el recibo; en `serve`, detectar carrier ya servido y declararlo. Con dúo, no de paso.
+
+## #90 — El filtro de idioma POR CHUNK tira castellano en documentos multilingües (fichas con tabla mezclada) — s324d
+
+**Estado: CERRADA COMO DOCUMENTADA (s324d, DEC-229). NO se toca la política.** Lo que queda por hacer, cuando se toque la ingesta y no antes: **(E) declarar el drop** (contar/persistir chunks y chars que `_DROP_LANGUAGES` descarta; coste ≈0; es el instrumento que da la atribución por CHUNK, que es la métrica del fix). La opción B queda **ABIERTA** hasta tener esa cifra — NO está matada. Caso real declarado y sin arreglar: `D1056-1`.
+
+**Origen — MEDIDO sobre un caso.** `src/reingest/pipeline.py` descarta los chunks cuyo
+`detect_language` cae en `_DROP_LANGUAGES = {fr, it, pt, de}` (política de idiomas s65/DEC-066). En un documento
+multilingüe cuya TABLA mezcla idiomas por fila/columna, el idioma dominante del chunk es el extranjero y **el
+castellano se va dentro del chunk descartado**.
+
+**Caso medido (17-ago, `D1056-1_NFXI-BS-BSF`, ficha de base NFXI-BS/BSF):** el markdown de LlamaParse trae el
+documento entero (**50.540 chars**, con «Configuración», «Desactivado», «Descripción»); la guarda de md degenerado
+NO dispara (ratio 0,95 y 0,43, con estructura — correcto); `chunk_document` produce **4 chunks / 50.527 chars**; el
+filtro de idioma descarta **2 chunks = 47.193 chars (93 % del documento)** clasificados «de», **y esos dos chunks
+contienen el castellano** (verificado token a token). En el corpus el documento vive con **2 chunks / 3.593 chars**.
+
+**Por qué importa**: es la clase «gap de manual ya ingestado» (el documento cuenta como cubierto y su contenido
+español no está). Y el censo de cobertura de páginas puede estar ENMASCARÁNDOLO: clasifica 157 documentos como
+`paginas_perdidas_otro_idioma` adjudicando idioma al texto ausente **en global**; si ese texto es multilingüe con
+castellano intercalado, la clasificación lo da por política cuando es pérdida. **Medición en curso** (agente):
+cuántos de esos 157 llevan castellano intercalado y cuántos chars son.
+
+**ALCANCE MEDIDO + DÚO r36 (17-ago) → RECOMENDACIÓN: NO TOCAR EL PIPELINE.** (a) De los 164 documentos con texto
+nativo ausente, los 160 medibles pierden **2.146 chars de castellano** (boilerplate: direcciones de delegaciones,
+exenciones de garantía, líneas de índice), **0 sobre el umbral accionable**; (b) **Sol (crítico) demostró que el fix
+no es de ingesta**: `retriever._filter_by_language` (`retriever.py:2438`, `_SERVED_LANGUAGES={es,en}`) descarta el
+chunk **también en serving**, y el campo `multilingue` no existe en el modelo, ni en el índice, ni en el esquema ⇒
+haría falta esquema + persistencia + contrato de serving/generación; (c) ningún afectado sustenta un gold del FULL
+(verificado contra `pool_ids`/`topk_ids`/`served_ids`). **Límite declarado (Sol, crítico)**: la atribución end-to-end
+del mecanismo NO está hecha — el censo compara texto NATIVO del PDF, así que un chunk descartado cuyo contenido
+venga de OCR de imagen no se vería; medirlo exige el store de extracción de 966 JSON, que no está en esta máquina.
+**⚠️ CORRECCIÓN tras Opus 5 (r36, pin alternativo adjudicado): el «0 accionables» NO zanja el fix.** Ese umbral es
+**por DOCUMENTO sobre texto nativo ausente (≥500)**, mientras el fix decidiría **por CHUNK (≥400)**: métricas
+distintas (`MNDT040P`, 426 chars, cruzaría el del fix). Y la clase `sano` del censo significa ausencia **< 500**, no
+cero, así que el suelo es **tautológico** (cohorte y métrica comparten el 500) y un fenómeno de ~400 chars/chunk es
+invisible por construcción. **Recomendación revisada: (E) DECLARAR EL DROP** —contar y persistir en el registro de
+estado los chunks/chars que `_DROP_LANGUAGES` descarta, coste ≈0, sin tocar política— que además es el instrumento
+que da la atribución end-to-end por chunk; con esa cifra se decide el fix. Añadido: el filtro por chunk **contradice
+un invariante declarado** (`retriever.py:2430`: «el corpus indexa ES, multilingüe-con-ES y EN-only»), así que esto
+no es sólo coste/beneficio sino desvío de política declarada.
+**⚠️ HALLAZGO COLATERAL (s324d, lo cazó la suite): RE-PARSEAR DEGRADA LA METADATA.** El dry-run de diagnóstico
+sobre `D1056-1` escribió su JSON nuevo en el store de extracción y el gate de no-regresión
+`test_manufacturer_registry::test_behavior_snapshot_full_corpus` se puso ROJO: con el JSON de mayo la atribución era
+`manufacturer=Notifier · product_model=NFS-32-001 · category=MIXED`; con el re-parse de hoy pasa a
+`manufacturer=None · product_model=TO-16 · category=None`. El JSON de diagnóstico se retiró del store (no era una
+ingesta autorizada) y el gate volvió a verde. **Consecuencia para CUALQUIER plan de re-ingesta**: el re-parse **no es
+idempotente en metadata** — re-ingestar un documento puede empeorar su atribución aunque mejore su texto. Toda
+re-ingesta futura debe (a) comparar la metadata derivada antes/después y (b) pasar ese gate, no sólo mirar los chars.
+Refuerza el M3 de Sol en r36 (el re-ingestador ya daba `manufacturer=null` y `product_model="EN-54-3"` para este doc).
+
+**Caso real que queda declarado y sin arreglar: `D1056-1_NFXI-BS-BSF`** (93 % del documento fuera). La «excepción por
+documento» que propuse quedó RETIRADA: no funcionaría (serving lo volvería a filtrar) y el re-ingestador le asigna
+metadata incorrecta (`manufacturer=null`, `product_model="EN-54-3"`). Propuesta completa:
+`evals/s324d_90_filtro_idioma_propuesta_v1.md` (v3 con la adenda del dúo).
+
+**Qué NO hacer sin Alberto y sin dúo**: cambiar la política de idiomas es zona de dolor + decisión de producto.
+Opciones a evaluar cuando haya cifra: (a) partir los chunks multilingües por idioma antes del filtro; (b) conservar
+el chunk si contiene ≥N chars adjudicables a `es`; (c) marcar el documento como multilingüe en la ingesta y aplicar
+política por documento, no por chunk; (d) no tocar nada si la cifra resulta despreciable.
+**Verificado que NO es**: ni OCR, ni la guarda de markdown degenerado (#87), ni el chunker.

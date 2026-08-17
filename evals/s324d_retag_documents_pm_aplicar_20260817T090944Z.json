@@ -1,0 +1,674 @@
+{
+ "que_es": "s324d — TECH_DEBT #88: `documents.product_model` conserva los artefactos que E3 (F3a, 13-ago) corrigió SOLO en",
+ "modo": "aplicar",
+ "utc": "20260817T090944Z",
+ "fuente_lote": "evals\\s321_e3_writer_aplicar_20260813T222611Z.json",
+ "plan": [
+  {
+   "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
+   "source_file": "15584",
+   "pm_prev": "System 5000",
+   "pm_nuevo": "CPU-5000",
+   "n_chunks": 50,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
+   "source_file": "156-0394-007R - PIBV2_Eng",
+   "pm_prev": "NFPA-13",
+   "pm_nuevo": "PIBV2",
+   "n_chunks": 10,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "91970fa3-1f21-47a8-af0a-88415c5155c6",
+   "source_file": "55315015_Guia_rapida_TED-151-CL_ES",
+   "pm_prev": "TED-151",
+   "pm_nuevo": "TED-151-CL",
+   "n_chunks": 1,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "2c299ef1-4304-4253-9438-f37ab44a795e",
+   "source_file": "D 1148-1 BRS Notifier",
+   "pm_prev": "SP-20",
+   "pm_nuevo": "NFXI-BSF-WCS",
+   "n_chunks": 8,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "5cc954dc-e6bb-4950-a6c0-4a0764c06307",
+   "source_file": "D 1152-1 BGL Morley",
+   "pm_prev": "SP-20",
+   "pm_nuevo": "MI-BGL-PC-I",
+   "n_chunks": 7,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "62d99550-6dd0-408b-9233-9ef11ae7776d",
+   "source_file": "Datasheet-CAD-171-DS-737-en.pdf",
+   "pm_prev": "DS-737",
+   "pm_nuevo": "CAD-171",
+   "n_chunks": 4,
+   "notes_prev": "s65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad = consenso de chunks cross-checked, diseño v2 A1)."
+  },
+  {
+   "document_id": "6c923380-fc7f-4125-8b98-7b38585215f6",
+   "source_file": "Datasheet_CAD-171-DS-736-es.pdf",
+   "pm_prev": "DS-736",
+   "pm_nuevo": "CAD-171",
+   "n_chunks": 4,
+   "notes_prev": "s65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad = consenso de chunks cross-checked, diseño v2 A1)."
+  },
+  {
+   "document_id": "8512b687-e1be-44be-affd-16a7e7cafd74",
+   "source_file": "E56-6514ES-000_Notifier_NFXI-OSI-RIE_Installation_Guide",
+   "pm_prev": "DEL-20",
+   "pm_nuevo": "NFXI-OSI-RIE",
+   "n_chunks": 41,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "80369d69-1ebd-4e27-bbbb-9609780acc62",
+   "source_file": "I56-0784-014 ZMX-1E_Eng",
+   "pm_prev": "SENSOR-6424",
+   "pm_nuevo": "ZMX-1E",
+   "n_chunks": 4,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "3dd9d550-b744-4512-a68a-82fb0c6e7435",
+   "source_file": "I56-1267-000 SMB500",
+   "pm_prev": "SMB-500",
+   "pm_nuevo": "SMB500",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "d4cff1fa-ca16-4184-811a-3ad8a5c67559",
+   "source_file": "I56-1291-002_FDX-551REM Manual",
+   "pm_prev": "LOCAL-360",
+   "pm_nuevo": "FDX-551REM",
+   "n_chunks": 9,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "24672fcb-d616-452d-83b4-bf784a007325",
+   "source_file": "I56-1292-002_FDX-551HTEM Manual",
+   "pm_prev": "LOCAL-360",
+   "pm_nuevo": "FDX-551HTEM",
+   "n_chunks": 8,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "af1720ce-2389-4af7-a97a-619a9fa62cc2",
+   "source_file": "I56-1641-002_FDX-551EM Manual",
+   "pm_prev": "LOCAL-360",
+   "pm_nuevo": "FDX-551EM",
+   "n_chunks": 8,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "cb3696ed-24c7-41a5-bafb-b3ddba45f36d",
+   "source_file": "I56-1651-023 ECO1002",
+   "pm_prev": "ECO-1002",
+   "pm_nuevo": "ECO1002",
+   "n_chunks": 6,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "c6a3ffda-e4b2-42e2-b5ef-2665f5133056",
+   "source_file": "I56-1653-022 ECO1003",
+   "pm_prev": "ECO-1003",
+   "pm_nuevo": "ECO1003",
+   "n_chunks": 4,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "78bbb66e-d355-4f04-838a-89288fd409fb",
+   "source_file": "I56-1657-001 MI-PTSE.pdf",
+   "pm_prev": "DE-15",
+   "pm_nuevo": "MI-PTSE",
+   "n_chunks": 10,
+   "notes_prev": "s65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad = consenso de chunks cross-checked, diseño v2 A1)."
+  },
+  {
+   "document_id": "d132927a-ad97-4e14-a1e8-3483869333c1",
+   "source_file": "I56-1732-002_SD-851TE",
+   "pm_prev": "WEIGHT-96G",
+   "pm_nuevo": "SD-851TE",
+   "n_chunks": 13,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "ae58e36a-3abe-4d2b-a4a3-13cf3ad58492",
+   "source_file": "I56-2001-002 M700X Manual",
+   "pm_prev": "RH-15",
+   "pm_nuevo": "M700X",
+   "n_chunks": 3,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "aa0d4deb-817c-4036-b402-9e47c8d9d38d",
+   "source_file": "I56-2082-013 MI-LPB2_ES.pdf",
+   "pm_prev": "EL-6500",
+   "pm_nuevo": "MI-LPB2",
+   "n_chunks": 16,
+   "notes_prev": null
+  },
+  {
+   "document_id": "9b3e221e-a76e-42b3-802c-c177132feaf9",
+   "source_file": "I56-2128-003 MI-DCZM",
+   "pm_prev": "MIN-17",
+   "pm_nuevo": "MI-DCZM",
+   "n_chunks": 10,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "b39514f2-62a9-45d7-bf5d-225f158961a9",
+   "source_file": "I56-2253-00 SC6",
+   "pm_prev": "CABOTO-19",
+   "pm_nuevo": "SC-6",
+   "n_chunks": 18,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "327e1347-57ea-47c6-862d-4020874faf15",
+   "source_file": "I56-2255-00 CR6",
+   "pm_prev": "CABOTO-19",
+   "pm_nuevo": "CR-6",
+   "n_chunks": 5,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "4f727994-849d-4d57-93ba-e445aec0d5ca",
+   "source_file": "I56-2955-000_prelim",
+   "pm_prev": "RH-15",
+   "pm_nuevo": "MI-CR6",
+   "n_chunks": 6,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "8edeedac-12d9-4c9e-a1a2-9b7030eba719",
+   "source_file": "I56-3536-003R D2E",
+   "pm_prev": "TO-60",
+   "pm_nuevo": "D2E",
+   "n_chunks": 19,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "e4b80e33-792a-41ff-aaf8-af7b74748b35",
+   "source_file": "I56-3538-002R DNRE",
+   "pm_prev": "TO-60",
+   "pm_nuevo": "DNRE",
+   "n_chunks": 18,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "3a13c6db-1153-4c45-a8aa-d636203c08ca",
+   "source_file": "I56-372-04-RMK400_Eng",
+   "pm_prev": "RMK-400",
+   "pm_nuevo": "RMK400",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+   "source_file": "I56-3976-001 NFXI-MM10",
+   "pm_prev": "MM-10",
+   "pm_nuevo": "NFXI-MM10",
+   "n_chunks": 10,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "e59a8287-e411-4ca7-be47-81d9114e7b96",
+   "source_file": "I56-3990-000 NFX-MM1M",
+   "pm_prev": "TO-49",
+   "pm_nuevo": "NFX-MM1M",
+   "n_chunks": 4,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "0ecc3914-de9a-449e-9e7c-5bae66e12e3d",
+   "source_file": "I56-3991-000 MI-MM3E-S2.pdf",
+   "pm_prev": "TO-49",
+   "pm_nuevo": "MI-MM3E-S2",
+   "n_chunks": 8,
+   "notes_prev": null
+  },
+  {
+   "document_id": "840f8169-a44c-47c2-b195-27a2b23e6307",
+   "source_file": "I56-4209-001 NRX-WCP Call Point Web",
+   "pm_prev": "TO-70",
+   "pm_nuevo": "NRX-WCP",
+   "n_chunks": 12,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "d62472f8-8b3e-41fc-a93d-81f59b7d886b",
+   "source_file": "I56-4259-000 MI-Gate Gateway",
+   "pm_prev": "CASE-32",
+   "pm_nuevo": "MI-GATE",
+   "n_chunks": 13,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "a6a307fa-2df8-4ad8-848a-315d7c0da6bd",
+   "source_file": "I56-4428-000 MI-D240CMOE",
+   "pm_prev": "OF-60",
+   "pm_nuevo": "MI-D240CMOE",
+   "n_chunks": 7,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "1ab950d2-d94e-41d2-8acc-7659308a30b3",
+   "source_file": "I56-469-05 RTS451_eng",
+   "pm_prev": "RTS-451",
+   "pm_nuevo": "RTS451",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "13ce71e2-9476-4464-b7b1-c1351bbdbf7e",
+   "source_file": "I56-6296-000_B NFXI-VIEW",
+   "pm_prev": "TO-55",
+   "pm_nuevo": "NFXI-VIEW",
+   "n_chunks": 9,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "83804f9f-73b7-4509-9ffd-3ac82d84c499",
+   "source_file": "I56-699-15R 5451EIS_Eng",
+   "pm_prev": "RP-126",
+   "pm_nuevo": "5451EIS",
+   "n_chunks": 7,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "f08d3e78-cece-4653-8f03-837c9be62f02",
+   "source_file": "I56-720-13R 1151EIS_Eng",
+   "pm_prev": "RP-126",
+   "pm_nuevo": "1151EIS",
+   "n_chunks": 8,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "aeb3af4c-9835-4df0-b027-37d6a825d135",
+   "source_file": "Instrucciones_PUL-VSN_MULTI",
+   "pm_prev": "DE-25M",
+   "pm_nuevo": "PA-RZ1",
+   "n_chunks": 7,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "64a64b99-8c6d-4f85-ae50-02b1f5292f5a",
+   "source_file": "Instruction Manual SGCWE100",
+   "pm_prev": "SGCWE-100",
+   "pm_nuevo": "SGCWE100",
+   "n_chunks": 14,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "e2f0c96f-c1ac-4bab-9d22-95574cecb194",
+   "source_file": "Instruction Manual SGFI200-S",
+   "pm_prev": "SGFI200",
+   "pm_nuevo": "SGFI200-S",
+   "n_chunks": 12,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "f648a252-1789-41fd-96e0-7d9143c3212e",
+   "source_file": "LocatorPlus-EN-Installation-Manual-1.0",
+   "pm_prev": "UNIT-15",
+   "pm_nuevo": "LocatorPlus-EN",
+   "n_chunks": 19,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "217117c0-5b56-4225-9734-e600e5c4d8c7",
+   "source_file": "MADT212",
+   "pm_prev": "ID1000",
+   "pm_nuevo": "124-065-XXX",
+   "n_chunks": 6,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "a84773c1-7570-4022-a723-0da2e9e460d6",
+   "source_file": "MADT230_01",
+   "pm_prev": "AFP-4000",
+   "pm_nuevo": "AFP4000",
+   "n_chunks": 5,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "17ce3219-99a4-4ec9-9233-0fba9544bac3",
+   "source_file": "MADT233",
+   "pm_prev": "AFP-4000",
+   "pm_nuevo": "AFP4000",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "aafa668c-f724-442f-ab27-d9abfbf84c7a",
+   "source_file": "MADT235",
+   "pm_prev": "ART1194",
+   "pm_nuevo": "AFP4000",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
+   "source_file": "MIDT734",
+   "pm_prev": "MINILÁSER100",
+   "pm_nuevo": "MINILASER 100",
+   "n_chunks": 65,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "e43724ba-6bd4-46c7-982f-02b9c2a765e1",
+   "source_file": "MIW-INT-Asignar-de-direccion-pasarela-detectores-y-Modulos-Via-radio-Morley.pdf",
+   "pm_prev": "MENOS-32",
+   "pm_nuevo": "MIW-INT",
+   "n_chunks": 1,
+   "notes_prev": null
+  },
+  {
+   "document_id": "f204e658-e7ca-4f2c-a80a-3e95d58e31ea",
+   "source_file": "MIW-INT-Averia-de-TAMPER.pdf",
+   "pm_prev": "EQUIPO-20",
+   "pm_nuevo": "MIW-INT",
+   "n_chunks": 1,
+   "notes_prev": null
+  },
+  {
+   "document_id": "1ba3dc05-484b-4cc1-b7f0-3ce395ec80be",
+   "source_file": "MIW-INT-Averias-baterias-pilas-via-radio-Morley.pdf",
+   "pm_prev": "CR-123A",
+   "pm_nuevo": "MIW-INT",
+   "n_chunks": 1,
+   "notes_prev": null
+  },
+  {
+   "document_id": "fefc815f-128f-4d05-9d3c-29d73f935dd3",
+   "source_file": "MNDT101",
+   "pm_prev": "RP-1002E",
+   "pm_nuevo": "RP1002E",
+   "n_chunks": 47,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "d44a69c9-940e-48fe-b104-d5267c23f741",
+   "source_file": "MNDT512.pdf",
+   "pm_prev": "MNDT-512",
+   "pm_nuevo": "SENTOX-4",
+   "n_chunks": 12,
+   "notes_prev": null
+  },
+  {
+   "document_id": "c0b61450-07ab-418b-ac27-02351e4f0206",
+   "source_file": "Manual NFG-8_PT",
+   "pm_prev": "DE-16",
+   "pm_nuevo": "NFG-8",
+   "n_chunks": 4,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+   "source_file": "Manual-de-Usuario-MS3RS485_V1",
+   "pm_prev": "RS-485",
+   "pm_nuevo": "MS3-RS485",
+   "n_chunks": 3,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "690e40c9-a582-4b02-a8df-60c229831e8b",
+   "source_file": "NFXI-RM6_DS_EN_I56-3977-001_2013_Multi",
+   "pm_prev": "FROM-01",
+   "pm_nuevo": "NFXI-RM6",
+   "n_chunks": 9,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "dcc4eb7c-cfec-4c5c-a861-7081ce626f93",
+   "source_file": "TFL2S01-MU Manual de usuario TFL-2 Rev.1",
+   "pm_prev": "PARA-400R",
+   "pm_nuevo": "TFL-2",
+   "n_chunks": 2,
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor)."
+  },
+  {
+   "document_id": "a7fd8fd5-2180-47ce-a5f6-868f853920de",
+   "source_file": "TIDT105.pdf",
+   "pm_prev": "TIDT-105",
+   "pm_nuevo": "777163",
+   "n_chunks": 1,
+   "notes_prev": null
+  }
+ ],
+ "sin_cambio": [],
+ "rechazadas": [],
+ "aplicado": [
+  {
+   "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
+   "product_model": "CPU-5000"
+  },
+  {
+   "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
+   "product_model": "PIBV2"
+  },
+  {
+   "document_id": "91970fa3-1f21-47a8-af0a-88415c5155c6",
+   "product_model": "TED-151-CL"
+  },
+  {
+   "document_id": "2c299ef1-4304-4253-9438-f37ab44a795e",
+   "product_model": "NFXI-BSF-WCS"
+  },
+  {
+   "document_id": "5cc954dc-e6bb-4950-a6c0-4a0764c06307",
+   "product_model": "MI-BGL-PC-I"
+  },
+  {
+   "document_id": "62d99550-6dd0-408b-9233-9ef11ae7776d",
+   "product_model": "CAD-171"
+  },
+  {
+   "document_id": "6c923380-fc7f-4125-8b98-7b38585215f6",
+   "product_model": "CAD-171"
+  },
+  {
+   "document_id": "8512b687-e1be-44be-affd-16a7e7cafd74",
+   "product_model": "NFXI-OSI-RIE"
+  },
+  {
+   "document_id": "80369d69-1ebd-4e27-bbbb-9609780acc62",
+   "product_model": "ZMX-1E"
+  },
+  {
+   "document_id": "3dd9d550-b744-4512-a68a-82fb0c6e7435",
+   "product_model": "SMB500"
+  },
+  {
+   "document_id": "d4cff1fa-ca16-4184-811a-3ad8a5c67559",
+   "product_model": "FDX-551REM"
+  },
+  {
+   "document_id": "24672fcb-d616-452d-83b4-bf784a007325",
+   "product_model": "FDX-551HTEM"
+  },
+  {
+   "document_id": "af1720ce-2389-4af7-a97a-619a9fa62cc2",
+   "product_model": "FDX-551EM"
+  },
+  {
+   "document_id": "cb3696ed-24c7-41a5-bafb-b3ddba45f36d",
+   "product_model": "ECO1002"
+  },
+  {
+   "document_id": "c6a3ffda-e4b2-42e2-b5ef-2665f5133056",
+   "product_model": "ECO1003"
+  },
+  {
+   "document_id": "78bbb66e-d355-4f04-838a-89288fd409fb",
+   "product_model": "MI-PTSE"
+  },
+  {
+   "document_id": "d132927a-ad97-4e14-a1e8-3483869333c1",
+   "product_model": "SD-851TE"
+  },
+  {
+   "document_id": "ae58e36a-3abe-4d2b-a4a3-13cf3ad58492",
+   "product_model": "M700X"
+  },
+  {
+   "document_id": "aa0d4deb-817c-4036-b402-9e47c8d9d38d",
+   "product_model": "MI-LPB2"
+  },
+  {
+   "document_id": "9b3e221e-a76e-42b3-802c-c177132feaf9",
+   "product_model": "MI-DCZM"
+  },
+  {
+   "document_id": "b39514f2-62a9-45d7-bf5d-225f158961a9",
+   "product_model": "SC-6"
+  },
+  {
+   "document_id": "327e1347-57ea-47c6-862d-4020874faf15",
+   "product_model": "CR-6"
+  },
+  {
+   "document_id": "4f727994-849d-4d57-93ba-e445aec0d5ca",
+   "product_model": "MI-CR6"
+  },
+  {
+   "document_id": "8edeedac-12d9-4c9e-a1a2-9b7030eba719",
+   "product_model": "D2E"
+  },
+  {
+   "document_id": "e4b80e33-792a-41ff-aaf8-af7b74748b35",
+   "product_model": "DNRE"
+  },
+  {
+   "document_id": "3a13c6db-1153-4c45-a8aa-d636203c08ca",
+   "product_model": "RMK400"
+  },
+  {
+   "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+   "product_model": "NFXI-MM10"
+  },
+  {
+   "document_id": "e59a8287-e411-4ca7-be47-81d9114e7b96",
+   "product_model": "NFX-MM1M"
+  },
+  {
+   "document_id": "0ecc3914-de9a-449e-9e7c-5bae66e12e3d",
+   "product_model": "MI-MM3E-S2"
+  },
+  {
+   "document_id": "840f8169-a44c-47c2-b195-27a2b23e6307",
+   "product_model": "NRX-WCP"
+  },
+  {
+   "document_id": "d62472f8-8b3e-41fc-a93d-81f59b7d886b",
+   "product_model": "MI-GATE"
+  },
+  {
+   "document_id": "a6a307fa-2df8-4ad8-848a-315d7c0da6bd",
+   "product_model": "MI-D240CMOE"
+  },
+  {
+   "document_id": "1ab950d2-d94e-41d2-8acc-7659308a30b3",
+   "product_model": "RTS451"
+  },
+  {
+   "document_id": "13ce71e2-9476-4464-b7b1-c1351bbdbf7e",
+   "product_model": "NFXI-VIEW"
+  },
+  {
+   "document_id": "83804f9f-73b7-4509-9ffd-3ac82d84c499",
+   "product_model": "5451EIS"
+  },
+  {
+   "document_id": "f08d3e78-cece-4653-8f03-837c9be62f02",
+   "product_model": "1151EIS"
+  },
+  {
+   "document_id": "aeb3af4c-9835-4df0-b027-37d6a825d135",
+   "product_model": "PA-RZ1"
+  },
+  {
+   "document_id": "64a64b99-8c6d-4f85-ae50-02b1f5292f5a",
+   "product_model": "SGCWE100"
+  },
+  {
+   "document_id": "e2f0c96f-c1ac-4bab-9d22-95574cecb194",
+   "product_model": "SGFI200-S"
+  },
+  {
+   "document_id": "f648a252-1789-41fd-96e0-7d9143c3212e",
+   "product_model": "LocatorPlus-EN"
+  },
+  {
+   "document_id": "217117c0-5b56-4225-9734-e600e5c4d8c7",
+   "product_model": "124-065-XXX"
+  },
+  {
+   "document_id": "a84773c1-7570-4022-a723-0da2e9e460d6",
+   "product_model": "AFP4000"
+  },
+  {
+   "document_id": "17ce3219-99a4-4ec9-9233-0fba9544bac3",
+   "product_model": "AFP4000"
+  },
+  {
+   "document_id": "aafa668c-f724-442f-ab27-d9abfbf84c7a",
+   "product_model": "AFP4000"
+  },
+  {
+   "document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
+   "product_model": "MINILASER 100"
+  },
+  {
+   "document_id": "e43724ba-6bd4-46c7-982f-02b9c2a765e1",
+   "product_model": "MIW-INT"
+  },
+  {
+   "document_id": "f204e658-e7ca-4f2c-a80a-3e95d58e31ea",
+   "product_model": "MIW-INT"
+  },
+  {
+   "document_id": "1ba3dc05-484b-4cc1-b7f0-3ce395ec80be",
+   "product_model": "MIW-INT"
+  },
+  {
+   "document_id": "fefc815f-128f-4d05-9d3c-29d73f935dd3",
+   "product_model": "RP1002E"
+  },
+  {
+   "document_id": "d44a69c9-940e-48fe-b104-d5267c23f741",
+   "product_model": "SENTOX-4"
+  },
+  {
+   "document_id": "c0b61450-07ab-418b-ac27-02351e4f0206",
+   "product_model": "NFG-8"
+  },
+  {
+   "document_id": "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+   "product_model": "MS3-RS485"
+  },
+  {
+   "document_id": "690e40c9-a582-4b02-a8df-60c229831e8b",
+   "product_model": "NFXI-RM6"
+  },
+  {
+   "document_id": "dcc4eb7c-cfec-4c5c-a861-7081ce626f93",
+   "product_model": "TFL-2"
+  },
+  {
+   "document_id": "a7fd8fd5-2180-47ce-a5f6-868f853920de",
+   "product_model": "777163"
+  }
+ ],
+ "abortados_cas": [],
+ "reversion": "PATCH documents set product_model=<pm_prev> (y notes_prev) por document_id, desde este recibo"
+}

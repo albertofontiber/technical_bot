@@ -6,6 +6,7 @@ Consent checks are cached in-memory to avoid a Supabase round-trip per message.
 
 import logging
 import time
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
@@ -216,6 +217,110 @@ def log_query(
     except Exception as e:
         logger.warning(f"Failed to log query: {e}")
     return False
+
+
+_bot_errors_missing_warning_emitted = False
+
+
+def _tabla_ausente(response) -> bool:
+    """¿PostgREST dice que la tabla NO existe? (404 / PGRST205 / 42P01).
+
+    Se distingue de cualquier otro 4xx a propósito: «la migración aún no está
+    aplicada» es un estado ESPERADO de este repo — `main` auto-despliega a
+    Railway y las migraciones las aplica Alberto a mano (precedente: `rag_trace`
+    estuvo ausente desde julio y se descubrió en s301) — mientras que un 400 por
+    columna mal formada es un defecto del emisor y debe verse.
+    """
+    if getattr(response, "status_code", None) not in (404, 400):
+        return False
+    try:
+        payload = response.json()
+    except Exception:
+        return getattr(response, "status_code", None) == 404
+    if not isinstance(payload, dict):
+        return False
+    return str(payload.get("code") or "") in ("PGRST205", "PGRST106", "42P01")
+
+
+def _warn_bot_errors_missing_once() -> None:
+    global _bot_errors_missing_warning_emitted
+    if not _bot_errors_missing_warning_emitted:
+        logger.warning(
+            "bot_errors no existe todavia: los errores siguen registrandose "
+            "DEGRADADOS en query_logs (source='error'). Aplica "
+            "migrations/015_bot_errores.sql para tener insights por clase/modulo"
+        )
+        _bot_errors_missing_warning_emitted = True
+
+
+def log_bot_error(
+    *,
+    codigo: str,
+    clase: str,
+    severidad: str,
+    tipo_excepcion: str,
+    etapa: str,
+    origen: str | None = None,
+    mensaje_corto: str | None = None,
+    query_log_id: str | None = None,
+    usuario_avisado: bool = False,
+    reintentable: bool = False,
+) -> bool:
+    """Persiste UNA incidencia en `bot_errors`. No bloqueante y fail-open total.
+
+    Contrato de datos (s324e, corregido tras el dúo r37): esta tabla no guarda
+    dato personal DIRECTO —ni `telegram_user_id` ni el texto de la consulta—
+    pero SÍ es dato ENLAZABLE: `query_log_id` es una FK a `query_logs`, y el
+    script de insights la recorre precisamente para sacar la pregunta y el
+    autor. Es decir, sigue siendo dato personal a efectos de tratamiento; lo
+    que se gana no es quedar fuera del RGPD, sino que la incidencia HEREDA la
+    gobernanza de `query_logs`: `ON DELETE CASCADE` hace que una supresión a
+    petición se la lleve sin tocar este código, y el job de retención mensual
+    no necesita conocer esta tabla porque no hay identificador que disociar
+    aquí. Si el tratamiento requiere algo más, lo dice el asesor, no este
+    docstring.
+
+    Firma solo-keyword: son diez campos del mismo tipo aproximado y un orden
+    posicional invitaba a cruzar `clase` con `severidad` sin que nada fallase.
+
+    Devuelve True solo si la fila está CONFIRMADA. False cubre tres casos
+    distintos (tabla ausente, rechazo, transporte) y el llamante los trata
+    igual: ya escribió su rastro degradado en el log del proceso.
+    """
+    try:
+        row = {
+            "codigo": codigo,
+            "clase": clase,
+            "severidad": severidad,
+            "tipo_excepcion": tipo_excepcion,
+            "etapa": etapa,
+            "origen": origen,
+            "mensaje_corto": mensaje_corto,
+            "usuario_avisado": usuario_avisado,
+            "reintentable": reintentable,
+            "bot_version": get_bot_version(),
+        }
+        if query_log_id is not None:
+            row["query_log_id"] = query_log_id
+        with abierto(timeout=10.0) as client:
+            resp = client.post(
+                f"{SUPABASE_URL}/rest/v1/bot_errors",
+                headers=_HEADERS,
+                json=row,
+            )
+            if _tabla_ausente(resp):
+                _warn_bot_errors_missing_once()
+                return False
+            if resp.status_code >= 400:
+                # Sin `str(resp.text)`: el cuerpo de un error de PostgREST puede
+                # reproducir la fila enviada, y esta ruta corre justo cuando algo
+                # ya ha ido mal — no es el momento de ampliar lo que se escribe.
+                logger.warning("Failed to log bot error: %s", resp.status_code)
+                return False
+            return True
+    except Exception as exc:
+        logger.warning("Failed to log bot error: %s", type(exc).__name__)
+        return False
 
 
 def log_feedback(
@@ -576,6 +681,260 @@ def has_consent(telegram_user_id: int) -> bool:
     except Exception as e:
         logger.warning(f"Failed to check consent for user {telegram_user_id}: {e}")
         return False
+
+
+# ── Control de acceso (s324e): allowlist + canje de invitación ───────────────
+# La DECISIÓN vive en `src/bot/access.py` (hoja pura); aquí solo está el I/O,
+# junto a `has_consent`/`set_consent` porque es la misma familia: leer un estado
+# de la persona en Supabase para decidir si su mensaje se atiende.
+#
+# POR QUÉ LOS LITERALES Y NO UN IMPORT. `access.py` es el dueño del vocabulario
+# (`AUTORIZADO`/`DESCONOCIDO`/`INDETERMINADO`, `CANJE_*`), pero este módulo es
+# `raiz` y la matriz de `tests/test_import_contract.py` prohíbe `raiz → bot`
+# (además de que NADIE importa `bot`: es transporte puro consumidor). Así que se
+# devuelven las MISMAS cadenas sin importarlas — exactamente el patrón que ya
+# usan `error_taxonomy.CLASES` y el CHECK de la migración 015: el vocabulario
+# vive en dos sitios y un test lo pina, de modo que no puede derivar en silencio
+# (`tests/test_s324e_allowlist.py::test_vocabulario_pinado_entre_capas`).
+
+_allowlist_missing_warning_emitted = False
+
+
+def _warn_allowlist_missing_once() -> None:
+    global _allowlist_missing_warning_emitted
+    if not _allowlist_missing_warning_emitted:
+        logger.warning(
+            "bot_allowlist no existe todavia: con BOT_ALLOWLIST=on NADIE entra "
+            "salvo los ids de BOT_ALLOWLIST_BOOTSTRAP. Aplica "
+            "migrations/016_allowlist_invitaciones.sql o apaga la puerta"
+        )
+        _allowlist_missing_warning_emitted = True
+
+
+def allowlist_estado(telegram_user_id: int) -> str:
+    """¿Esta persona está en la allowlist? → `autorizado|desconocido|indeterminado`.
+
+    TRI-ESTADO, no bool, y ese es el punto: «no está en la lista» y «no he
+    podido preguntarlo» son dos cosas distintas y la puerta las trata distinto
+    (`access.decidir`). La tabla AUSENTE cuenta como INDETERMINADO —no como
+    «desconocido»— porque una migración sin aplicar no es una respuesta sobre
+    esta persona; con esa lectura, quien ya estaba dentro sigue entrando por
+    caché y nadie nuevo entra, en vez de cerrarle la puerta a todo el mundo por
+    un despliegue a medias (`main` auto-despliega y las migraciones las aplica
+    Alberto a mano — el estado ESPERADO de este repo).
+
+    Fail-CLOSED por diseño: cualquier error devuelve INDETERMINADO, jamás
+    «autorizado». Es la inversión deliberada de la disciplina fail-open del
+    resto de este módulo (telemetría): allí perder un dato es seguro; aquí
+    conceder acceso por un timeout no lo es.
+    """
+    try:
+        params = {
+            "telegram_user_id": f"eq.{int(telegram_user_id)}",
+            "revocado_at": "is.null",
+            "select": "telegram_user_id",
+            "limit": "1",
+        }
+        with abierto(timeout=10.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/bot_allowlist",
+                headers=_HEADERS,
+                params=params,
+            )
+        if _tabla_ausente(resp):
+            _warn_allowlist_missing_once()
+            return "indeterminado"
+        if resp.status_code >= 400:
+            logger.warning("allowlist: consulta rechazada (%s)", resp.status_code)
+            return "indeterminado"
+        return "autorizado" if resp.json() else "desconocido"
+    except Exception as exc:                                 # noqa: BLE001
+        logger.warning("allowlist: no se pudo consultar (%s)", type(exc).__name__)
+        return "indeterminado"
+
+
+@dataclass(frozen=True)
+class ResultadoCanje:
+    """Qué pasó al canjear, y con qué invitación.
+
+    Antes esto era una cadena suelta. Devuelve además `nota` y `creada_por`
+    —que el `select` del reclamo YA traía y se tiraban— porque el aviso de canje
+    necesita enfrentar «para quién era» con «quién lo canjeó»: es lo que
+    convierte un enlace reenviado en algo detectable en minutos en vez de en la
+    siguiente auditoría. `estado` habla el vocabulario de `access.CANJE_*`.
+    """
+
+    estado: str
+    nota: str | None = None
+    creada_por: str | None = None
+    invitacion_id: str | None = None
+
+
+def canjear_invitacion(*, token_hash: str,
+                       telegram_user_id: int) -> "ResultadoCanje":
+    """Canjea una invitación de UN SOLO USO → `ok|invalida|indeterminado`.
+
+    **El token en claro NO llega aquí**: el llamante pasa su SHA-256. No es
+    casualidad ni una consecuencia de la matriz de imports — es la propiedad que
+    hace que ni esta capa ni la base lleguen a ver nunca una llave utilizable.
+
+    EL CANJE ES UN SOLO UPDATE CONDICIONAL, y ahí está todo el diseño. Las
+    cuatro condiciones (existe · no canjeada · no revocada · no caducada) van en
+    el `WHERE` del propio UPDATE, no en un SELECT previo:
+
+        UPDATE bot_invitaciones SET canjeada_at = now(), canjeada_por = X
+        WHERE token_hash = H AND canjeada_at IS NULL
+              AND revocada_at IS NULL AND expira_at > now()
+
+    Con dos personas pulsando el MISMO enlace a la vez, Postgres serializa las
+    dos escrituras sobre la fila: la segunda espera a que la primera confirme y
+    entonces RE-EVALÚA su `WHERE` sobre la versión nueva (EvalPlanQual bajo READ
+    COMMITTED), donde `canjeada_at` ya no es NULL ⇒ afecta a 0 filas. Gana
+    exactamente una, sin locks ni transacciones explícitas y sin que PostgREST
+    tenga que ofrecer ninguna. Un `SELECT` y luego un `UPDATE` habría dejado
+    justo la ventana por la que entran los dos.
+
+    LOS DOS PASOS Y SU COMPENSACIÓN. Reclamar la invitación y dar de alta en la
+    allowlist son dos peticiones REST, así que no comparten transacción. Si la
+    segunda falla, se DEVUELVE la invitación al estado pendiente (compensación)
+    y se responde `indeterminado`, para que la persona reintente con el mismo
+    enlace. Precio declarado: si también falla la devolución, esa invitación
+    queda quemada sin alta — se ve en el listado (`canjeada por …` sin fila en
+    la allowlist) y se arregla emitiendo otra. Se prefiere a la alternativa
+    atómica de verdad (una función RPC en la base): en ESTE repo una función
+    `SECURITY DEFINER` nueva nació una vez ejecutable por `anon`
+    (`rgpd_quedan_identificados`, s296→s299), y aquí eso sería un oráculo de
+    canje expuesto a internet. Con dos peticiones, la clave de servicio sigue
+    siendo el único camino.
+    """
+    ahora = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    try:
+        with abierto(timeout=10.0) as client:
+            reclamo = client.patch(
+                f"{SUPABASE_URL}/rest/v1/bot_invitaciones",
+                headers={**_HEADERS, "Prefer": "return=representation"},
+                params={
+                    "token_hash": f"eq.{token_hash}",
+                    "canjeada_at": "is.null",
+                    "revocada_at": "is.null",
+                    "expira_at": f"gt.{ahora}",
+                    "select": "id,nota,creada_por",
+                },
+                json={
+                    "canjeada_at": ahora,
+                    "canjeada_por": int(telegram_user_id),
+                },
+            )
+            if _tabla_ausente(reclamo):
+                _warn_allowlist_missing_once()
+                return ResultadoCanje("indeterminado")
+            if reclamo.status_code >= 400:
+                logger.warning("canje: reclamo rechazado (%s)", reclamo.status_code)
+                return ResultadoCanje("indeterminado")
+            filas = reclamo.json()
+            if not filas:
+                # Caducada, ya usada, anulada o inexistente. NO se distingue al
+                # canjear (y el mensaje al usuario tampoco): decir «existe pero
+                # ha caducado» confirmaría que ese token fue válido alguna vez.
+                return ResultadoCanje("invalida")
+            invitacion = filas[0]
+
+            alta = client.post(
+                f"{SUPABASE_URL}/rest/v1/bot_allowlist"
+                "?on_conflict=telegram_user_id",
+                headers={**_HEADERS,
+                         "Prefer": "resolution=merge-duplicates,return=minimal"},
+                json={
+                    "telegram_user_id": int(telegram_user_id),
+                    "nota": invitacion.get("nota"),
+                    "origen": "invitacion",
+                    # Quién dio de alta a quién: el alta HEREDA al autor de la
+                    # invitación, que es quien de verdad tomó la decisión.
+                    "alta_por": invitacion.get("creada_por"),
+                    "invitacion_id": invitacion.get("id"),
+                    "alta_at": ahora,
+                    # Re-admisión deliberada: alguien revocado que recibe una
+                    # invitación NUEVA vuelve a entrar al canjearla. Emitir esa
+                    # invitación es un acto del operador y queda con su firma;
+                    # el revocado NO puede volver solo (sus invitaciones viejas
+                    # ya están canjeadas).
+                    #
+                    # LAS TRES COLUMNAS SE LIMPIAN JUNTAS (dúo, medio 3): antes
+                    # solo se ponía `revocado_at=NULL` y quedaba `revocado_por`
+                    # con valor, lo que viola el CHECK
+                    # `bot_allowlist_revocacion_completa` de la 016 (o las dos
+                    # NULL, o las dos con valor). Es decir: el upsert fallaba y
+                    # la re-admisión que la propuesta prometía NO funcionaba.
+                    # La revocación es un hecho de tres campos y se deshace
+                    # entera o no se deshace.
+                    "revocado_at": None,
+                    "revocado_por": None,
+                    "motivo_revocacion": None,
+                },
+            )
+            if alta.status_code >= 400:
+                logger.error(
+                    "canje: invitacion reclamada pero el alta fallo (%s) — "
+                    "devolviendo la invitacion a pendiente", alta.status_code,
+                )
+                devolucion = client.patch(
+                    f"{SUPABASE_URL}/rest/v1/bot_invitaciones",
+                    headers=_HEADERS,
+                    params={
+                        "id": f"eq.{invitacion.get('id')}",
+                        "canjeada_por": f"eq.{int(telegram_user_id)}",
+                    },
+                    json={"canjeada_at": None, "canjeada_por": None},
+                )
+                if devolucion.status_code >= 400:
+                    logger.error(
+                        "canje: la invitacion %s queda QUEMADA sin alta — "
+                        "emite otra", invitacion.get("id"),
+                    )
+                return ResultadoCanje("indeterminado")
+        return ResultadoCanje(
+            "ok",
+            nota=invitacion.get("nota"),
+            creada_por=invitacion.get("creada_por"),
+            invitacion_id=invitacion.get("id"),
+        )
+    except Exception as exc:                                 # noqa: BLE001
+        # CANJE PERDIDO EN VUELO (dúo, medio 4). El reclamo pudo CONFIRMARSE en
+        # Postgres y perderse la respuesta: la invitación queda quemada y el
+        # llamante no tiene ni su id para compensar. Antes esto devolvía
+        # `indeterminado` a secas y el bot le decía al DG «vuelve a intentarlo
+        # con el mismo enlace» — que en ese caso es MENTIRA.
+        #
+        # Se cierra por los dos lados, porque ninguno basta solo:
+        #   · aquí, una liberación BEST-EFFORT por (token_hash, canjeada_por).
+        #     No hace falta el id: el hash identifica la fila y el filtro por
+        #     `canjeada_por` garantiza que solo se suelta lo que reclamó ESTA
+        #     persona — si el reclamo no llegó a confirmarse, casa 0 filas y no
+        #     hace nada; si el que la tiene es otro, tampoco se toca;
+        #   · y en el bot, un mensaje que es verdad EN LOS DOS CASOS
+        #     (`access.MENSAJE_CANJE_INCIERTO`), porque desde aquí no se puede
+        #     saber cuál ocurrió.
+        # Va en su propio `try`: si la liberación también falla, la invitación
+        # queda quemada — gap declarado, y el listado lo enseña («usada» sin
+        # fila en la allowlist).
+        logger.warning("canje: fallo de transporte (%s)", type(exc).__name__)
+        try:
+            with abierto(timeout=10.0) as client:
+                client.patch(
+                    f"{SUPABASE_URL}/rest/v1/bot_invitaciones",
+                    headers=_HEADERS,
+                    params={
+                        "token_hash": f"eq.{token_hash}",
+                        "canjeada_por": f"eq.{int(telegram_user_id)}",
+                    },
+                    json={"canjeada_at": None, "canjeada_por": None},
+                )
+        except Exception:                                    # noqa: BLE001
+            logger.error(
+                "canje: no se pudo liberar tras un fallo de transporte — la "
+                "invitacion puede haber quedado QUEMADA sin alta"
+            )
+        return ResultadoCanje("indeterminado")
 
 
 def seudonimo_de(telegram_user_id: int) -> str | None:

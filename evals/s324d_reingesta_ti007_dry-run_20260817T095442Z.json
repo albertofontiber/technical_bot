@@ -1,0 +1,67 @@
+{
+ "que_es": "s324d — Re-ingesta de `HLSI-TI-007_VSN-4REL` por el PIPELINE REAL (TECH_DEBT #87).",
+ "modo": "dry-run",
+ "utc": "20260817T095442Z",
+ "doc": "D1056-1_NFXI-BS-BSF",
+ "documento": {
+  "id": "5d6dc98c-8be2-4a5b-a1c1-af65ddfd0639",
+  "manufacturer": "Notifier",
+  "status": "active",
+  "source_pdf_sha256": "cb1ff31e8e94dc0fe16a61d1b1f6828108fb6be8a02561c90ec172883d2aacf4"
+ },
+ "antes": {
+  "n_chunks": 2,
+  "chars": 3593,
+  "contenido": [
+   "----\n\n**Switch Configuration Diagrams:**\n\n**Non-Isolated Configuration:**\n\n- Switch 1 / Contact 1 / Schalter 1 / Interruttore 1 / Interruptor 1\n- Circular diagram showing terminal connections\n\n**Isolated Configuration:**\n\n- Switch 2 / Contact 2 / Schalter 2 / Interruttore 2 / Interruptor 2\n- Circular diagram showing isolated terminal connections with Address 108 = x10 configuration\n\n**Address Configuration Table:**\n\n|                                                                                                               | S1 | S2 |\n| ------------------------------------------------------------------------------------------------------------- | -- | -- |\n| Address 108 = x10<br/>Adresse 108 = x10<br/>Adresse 108 = x10<br/>Indirizzo 108 = x10<br/>Dirección 108 = x10 | 8  | 8  |\n|                                                                                                               | 8  | 8  |\n|                                                                                                               | 8  | 8  |\n|                                                                                                               | 8  | 8  |\n\n**SW6/SW7 Configuration:**\n\n*100 - 159 Only available with advanced protocol.\n*100 - 159 Disponible uniquement avec le protocole avancé\n*100 - 159 nur verfügbar mit erweitertem Protokoll\n*100 - 159 Disponibile solo con il protocollo avanzato\n*100 - 159 Sólo disponible con el protocolo avanzado\n\n| SW6 | SW7 |   |\n| --- | --- | - |\n| 0   | 0   |   |\n| 0   | 1   |   |\n| 1   | 0   |   |\n| 1   | 1   |   |\n\n----\n\nInformations de sortie sirène, conformes à la norme EN54-3, disponibles sur le document de référence : D 1022.\nDaten zur Leistung des Schallgebers in Übereinstimmung mit EN54-3 finden sich im Dokument D 1022.\nI dati di uscita sirena, secondo lo standard EN54-3, sono disponibili nel documento con riferimento D 1022.\nLa iformación de salida de sirena, de acuerdo con EN54-3, está disponible en el Documento Ref: D1022.\n\nKAC ALARM COMPANY LIMITED, KAC House, Thornhill Road, Redditch, Worcestershire, England. B98 9ND.\nT. +44 (0) 1527 406655 F. +44 (0) 1527 406677 E. technical@kac.co.uk W. www.kac.co.uk",
+   "**CE** 0832\n\n**(ENG)** For CPD Data on all relevant devices please request D974.\n\n**(FRE)** Pour les données CPD concernant tous les périphériques concernés, demander la notice D974.\n\n**(GER)** Für die CPD-Daten zu den entsprechenden Geräten fordern Sie bitte Dokument D974 an.\n\n**(ITA)** Per i dati CPD su tutti i dispositivi pertinenti richiedere D974.\n\n**(SPA)** Para obtener datos de CPD de todos los dispositivos relevantes, solicite D974.\n\n**(ENG)** These model types must not be used as visual alarm devices to provide a primary warning notification of fire.\n\n**(FRE)** Ces modèles ne doivent pas être utilisés comme alarme visuelle fournissant une première notification d'alerte incendie.\n\n**(GER)** Diese Modelltypen dürfen nicht als optische Alarmgeräte verwendet werden, um eine primäre Warnmeldung zu einem Brand bereitzustellen.\n\n**(ITA)** Questi tipi di modello non devono essere utilizzati come dispositivi di allarme visivo per fornire una segnalazione principale di incendio.\n\n**(SPA)** Este tipo de modelos no se debe usar como dispositivo de alarma visual para proporcionar una notificación principal de advertencia de fuego.\n\nSounder Output data, in accordance with EN54-3, is available on Document Ref: D 1022.\n\nTHIS PRODUCT IS NOT APPROVED TO EN54-23 (VISUAL ALARM DEVICES) AND MUST NOTBE USED AS A VISUAL ALARM DEVICE OR TO PROVIDE A PRIMARY WARNING NOTIFICATION OF FIRE.\n\n**D 1056 Issue 1**"
+  ]
+ },
+ "pdf": {
+  "sha256": "cb1ff31e8e94dc0fe16a61d1b1f6828108fb6be8a02561c90ec172883d2aacf4",
+  "bytes": 2035137,
+  "sha_casa_con_documents": true
+ },
+ "extraccion": {
+  "reutilizada_del_store": false,
+  "job_id": "f2274867-984a-4d56-8f63-6cc6fb14b5b6",
+  "segundos": 92.4,
+  "paginas": [
+   {
+    "page": 1,
+    "md_chars": 35349,
+    "text_chars": 37125
+   },
+   {
+    "page": 2,
+    "md_chars": 15191,
+    "text_chars": 35265
+   }
+  ]
+ },
+ "dry_run": {
+  "status": "dry_run",
+  "chunks": 2,
+  "flow_diagram": 0,
+  "manufacturer": null,
+  "product_model": "EN-54-3",
+  "language": "de",
+  "source_path": "C:\\dev\\technical_bot\\tmp\\s324d\\D1056-1_NFXI-BS-BSF.pdf",
+  "chars": 3334,
+  "texto_escaso": false,
+  "md_degenerado": {
+   "paginas_con_md_degenerado": [],
+   "n_paginas_afectadas": 0,
+   "chars_rescatados": 0
+  },
+  "muestra": [
+   "Informations de sortie sirène, conformes à la norme EN54-3, disponibles sur le document de référence : D 1022.\nDaten zur Leistung des Schallgebers in Übereinsti",
+   "----\n\n| \\*\\*CE\\*\\*<br/>0832 \\*\\*(ENG)\\*\\* For CPD Data on all relevant devices please request D974.<br/>\\*\\*(FRE)\\*\\* Pour les données CPD concernant tous les p"
+  ],
+  "agujas_presentes": {
+   "Configuración": false,
+   "Desactivado": false,
+   "conmutador": false
+  }
+ }
+}

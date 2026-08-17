@@ -1,0 +1,101 @@
+{
+ "que_es": "s324d — Re-ingesta de `HLSI-TI-007_VSN-4REL` por el PIPELINE REAL (TECH_DEBT #87).",
+ "modo": "aplicar",
+ "utc": "20260817T093621Z",
+ "doc": "HLSI-TI-007_VSN-4REL",
+ "documento": {
+  "id": "956319e4-e914-4df0-8228-651dd34f669c",
+  "manufacturer": "Morley",
+  "status": "active",
+  "source_pdf_sha256": "582de999df6c03b83f345f59537ec78b4e09d134d17342dbd0291ad8de2bbc1e"
+ },
+ "antes": {
+  "n_chunks": 1,
+  "chars": 47,
+  "contenido": [
+   "**Honeywell**\n\n**Honeywell Life Safety Iberia**"
+  ]
+ },
+ "pdf": {
+  "sha256": "582de999df6c03b83f345f59537ec78b4e09d134d17342dbd0291ad8de2bbc1e",
+  "bytes": 323718,
+  "sha_casa_con_documents": true
+ },
+ "extraccion": {
+  "reutilizada_del_store": true,
+  "job_id": "1b73eb2d-34c3-4f32-9e9b-8323a47287c0",
+  "paginas": [
+   {
+    "page": 1,
+    "md_chars": 34,
+    "text_chars": 3708
+   }
+  ]
+ },
+ "dry_run": {
+  "status": "dry_run",
+  "chunks": 2,
+  "flow_diagram": 0,
+  "manufacturer": null,
+  "product_model": "TI-007",
+  "language": "es",
+  "source_path": "C:\\dev\\technical_bot\\tmp\\s324d\\HLSI-TI-007_VSN-4REL.pdf",
+  "chars": 3600,
+  "texto_escaso": false,
+  "md_degenerado": {
+   "paginas_con_md_degenerado": [
+    {
+     "page": 1,
+     "md_chars": 34,
+     "text_chars": 3708,
+     "motivo": "md_colapsado_sin_estructura"
+    }
+   ],
+   "n_paginas_afectadas": 1,
+   "chars_rescatados": 3674
+  },
+  "muestra": [
+   "Honeywell\nHoneywell Life Safety Iberia                                                                     Información técnica\nInformació n                     ",
+   "Las centrales convencionales y de extinción serie NFS/VSN2 y ESS incorporan diferentes\n      orificios para ubicar las placas de Relés y otros módulos en el int"
+  ],
+  "agujas_presentes": {
+   "PROG": true,
+   "Z1": true,
+   "VSN-4REL": true,
+   "40 cm": true
+  }
+ },
+ "aplicado": {
+  "status": "done",
+  "chunks": 2,
+  "indexed": 2,
+  "duplicates": 0,
+  "flow_diagram": 0,
+  "document_id": "956319e4-e914-4df0-8228-651dd34f669c",
+  "source_path": "C:\\dev\\technical_bot\\tmp\\s324d\\HLSI-TI-007_VSN-4REL.pdf",
+  "chars": 3600,
+  "texto_escaso": false,
+  "md_degenerado": {
+   "paginas_con_md_degenerado": [
+    {
+     "page": 1,
+     "md_chars": 34,
+     "text_chars": 3708,
+     "motivo": "md_colapsado_sin_estructura"
+    }
+   ],
+   "n_paginas_afectadas": 1,
+   "chars_rescatados": 3674
+  }
+ },
+ "despues": {
+  "n_chunks": 2,
+  "chars": 3601,
+  "agujas_presentes": {
+   "PROG": true,
+   "Z1": true,
+   "VSN-4REL": true,
+   "40 cm": true
+  }
+ }
+}

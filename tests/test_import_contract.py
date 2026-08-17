@@ -405,7 +405,32 @@ def test_cifras_de_control():
     # coherencia corpus↔catálogo (#80/#81). Vive en src/ y no en scripts/ porque
     # la INGESTA lo ejecuta en cada corrida: es lógica de producción. El primer
     # cableado lo puso en scripts/ y ESTE MISMO contrato lo cazó.
-    assert len(MODULOS) == 122, (
+    # 122→123 (s324d/#87): + ingestion/page_content.py — la guarda de MARKDOWN
+    # DEGENERADO (LlamaParse devolvió md=34 chars y text=3.708 en el mismo JSON y
+    # el `md or text` dejó un documento en 47 chars). Es lógica de PRODUCCIÓN: la
+    # ejecuta la ingesta (reingest/pipeline.py) en cada corrida y el serving
+    # (rag/deep_lookup.py) al leer el store. Vive en `ingestion` y no en
+    # `reingest` porque ESTE MISMO contrato lo cazó: `rag → reingest` está
+    # prohibido y `ingestion` es el único paquete que ambos pueden importar
+    # (mismo motivo por el que embed.py vive ahí).
+    # 123→124 (s324e): + bot/error_taxonomy.py — la taxonomía de errores del
+    # bot (clase de fallo → qué se le dice al técnico, si reintentar, con qué
+    # severidad). Es PRODUCTO: la ejecuta el serving en cada excepción, desde
+    # `_reportar_error` y desde la red global `add_error_handler`. Vive en
+    # `bot` y no en la raíz porque sus salidas son mensajes de transporte
+    # (español, texto plano para Telegram); es hoja PURA — sin I/O, sin
+    # entorno y sin importar ningún SDK — para poder testearla sin red.
+    # 124→125 (s324e): + bot/access.py — la puerta de acceso al piloto
+    # (allowlist por telegram_user_id + invitación de un solo uso: decisión,
+    # caché con su fail-closed matizado, tope diario y formato del token). Es
+    # PRODUCTO: el serving la ejecuta en CADA update desde el handler de grupo
+    # -1. Vive en `bot` porque sus salidas son mensajes de transporte (español,
+    # texto plano) y porque el vocabulario del token lo comparte con el script
+    # de operación; es hoja PURA —sin I/O, sin red y sin ningún SDK— y el estado
+    # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
+    # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
+    # matriz es justo lo que impide el import inverso `raiz → bot`).
+    assert len(MODULOS) == 125, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

@@ -785,7 +785,9 @@ def test_attach_fable_receipt_rejects_context_mode_mismatch(
 @pytest.mark.parametrize(
     ("field", "value", "message"),
     [
-        ("model", "claude-other", "pin exacto"),
+        # (s324d) el contrato ya no exige el pin EXACTO sino la pertenencia al conjunto ADJUDICADO
+        # {claude-fable-5, claude-opus-5}: un modelo fuera de esa lista sigue siendo rechazado.
+        ("model", "claude-other", "NO adjudicado"),
         ("model_contract_satisfied", False, "contrato de modelo"),
         ("status", "completed", "estado de recibo"),
         ("provider_models", ["claude-other"], "attestación de modelo"),

@@ -379,6 +379,23 @@ BEGIN
                 'FROM PUBLIC, anon, authenticated, service_role';
         EXECUTE 'GRANT SELECT, INSERT ON TABLE public.consent_events TO service_role';
     END IF;
+    -- s324e: incidencias del bot, si la migración 015 está aplicada. Guardada con
+    -- to_regclass por el MISMO motivo que las dos de arriba: `main` auto-despliega y
+    -- las migraciones las aplica Alberto a mano, así que este bootstrap tiene que
+    -- converger igual con la tabla y sin ella. El bot INSERTA por columnas (nunca de
+    -- tabla: eso concedería también un `id`/`created_at` elegidos por el cliente) y
+    -- LEE (el script de insights usa la misma clave); NO hay UPDATE ni DELETE — una
+    -- incidencia es un hecho ocurrido, no un estado editable.
+    IF to_regclass('public.bot_errors') IS NOT NULL THEN
+        EXECUTE 'ALTER TABLE public.bot_errors ENABLE ROW LEVEL SECURITY';
+        EXECUTE 'ALTER TABLE public.bot_errors FORCE ROW LEVEL SECURITY';
+        EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE public.bot_errors '
+                'FROM PUBLIC, anon, authenticated, service_role';
+        EXECUTE 'GRANT INSERT (codigo, query_log_id, clase, severidad, reintentable, '
+                'tipo_excepcion, etapa, origen, mensaje_corto, usuario_avisado, '
+                'bot_version) ON public.bot_errors TO service_role';
+        EXECUTE 'GRANT SELECT ON TABLE public.bot_errors TO service_role';
+    END IF;
     -- s299: recibos de retención y función de la pasada, si existen. A diferencia de las
     -- dos de arriba, aquí el bot NO recupera NADA: los recibos son evidencia de operación
     -- y la pasada solo la ejecuta el operador (su INSERT/EXECUTE viven en grants a
