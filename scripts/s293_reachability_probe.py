@@ -25,7 +25,19 @@ Uso:
   python scripts/s293_reachability_probe.py <qid> <fact_prefix> serve    --inject <id8>[,<id8>] [reps]
       [--cobertura-verificada '<cómo verificaste que el carrier cubre el hecho>']  ← exigido para un NO
   python scripts/s293_reachability_probe.py <qid> <fact_prefix> appendix --span-grep <regex>   [reps]
+  … [--receipt evals/s100_factlevel_full_v3_<fecha>.yaml]   (por defecto: el FULL v3* MÁS RECIENTE)
 Salida: evals/s293_reachability_<qid>_<fact>.json
+
+Endurecimiento s324d (TECH_DEBT #89, cinco defectos vistos en las 8 sondas de etapa 3):
+  1. el recibo FULL ya no está pineado al 1-ago: `--receipt` o el más reciente; se estampa `receipt_usado`;
+  2. `appendix` elige el span CON guard de cobertura (`reachability_verdict.elegir_span`: no parte por «:»,
+     extiende hasta 2 líneas, exige los tokens del valor); si nada cubre → la rep queda NO construible y el
+     veredicto INCONCLUYENTE explícito (nunca se juzga un span que no cubre el hecho);
+  3. un fallo en una rep tardía escribe un recibo PARCIAL (`estado: PARCIAL`) con las reps ya juzgadas;
+  4. el recibo lleva `coste` (usage real por llamada, `scripts/usage_meter.py`);
+  5. `serve` declara los carriers YA servidos en la base (`carriers_ya_servidos_en_base`): ahí el oráculo mide
+     PROMINENCIA, no evidencia ausente; no duplica la fila (eleva su similarity in-place) y guarda la
+     composición de la base (`base_served_ids`).
 """
 from __future__ import annotations
 
@@ -52,7 +64,15 @@ from src.config import RETRIEVAL_TOP_K, RERANK_TOP_K  # noqa: E402
 from src.rag.generator import admitted_evidence_rows  # noqa: E402
 from src.rag.must_preserve import APPENDIX_HEADER  # noqa: E402
 
-RECEIPT = "evals/s100_factlevel_full_v32_full_20260801.yaml"
+import glob as _glob  # noqa: E402
+
+from scripts.reachability_verdict import elegir_receipt  # noqa: E402
+
+RECEIPT_LEGADO = "evals/s100_factlevel_full_v32_full_20260801.yaml"   # el pin histórico (defecto 1 de #89)
+
+
+def receipt_por_defecto(explicito: str | None = None) -> str:
+    return elegir_receipt(sorted(_glob.glob("evals/s100_factlevel_full_v3*.yaml")), explicito)
 
 
 def _args() -> dict:
@@ -66,11 +86,14 @@ def _args() -> dict:
         "span_grep": None,
         "cobertura_verificada": "",
         "reps": 3,
+        "receipt": None,
     }
     rest = sys.argv[4:]
     while rest:
         token = rest.pop(0)
-        if token == "--cobertura-verificada":
+        if token == "--receipt":
+            out["receipt"] = rest.pop(0)
+        elif token == "--cobertura-verificada":
             # Atestación EXPLÍCITA del operador de que el carrier inyectado CUBRE el hecho.
             # Sin ella no se puede emitir NO_ALCANZABLE (s321): el Protocolo 4 ya exigía
             # «verifica el carrier ANTES de inyectar» y nada lo hacía cumplir.
@@ -120,11 +143,20 @@ def run_turn(question: str, inject_rows: list[dict]) -> dict:
 
     def generate(query, chunks, available_models=None):
         rows = [dict(c) for c in chunks]
+        captured["served_sin_inyeccion"] = [str(c.get("id") or "") for c in rows]
         if inject_rows:
             ceiling = max(
                 [float(c.get("similarity") or 0.0) for c in rows] + [0.9]
             )
+            presentes = {str(c.get("id") or ""): c for c in rows}
             for row in inject_rows:
+                rid = str(row.get("id") or "")
+                if rid in presentes:
+                    # (#89 defecto 5) el carrier YA está en la vista: no se duplica; se eleva su
+                    # similarity in-place y se declara (el oráculo mide PROMINENCIA aquí).
+                    presentes[rid]["similarity"] = ceiling
+                    captured.setdefault("ya_servidos", []).append(rid)
+                    continue
                 extra = dict(row)
                 extra["similarity"] = ceiling
                 rows.append(extra)
@@ -149,6 +181,8 @@ def run_turn(question: str, inject_rows: list[dict]) -> dict:
     return {
         "answer": (pipeline.get("generation") or {}).get("answer", ""),
         "served_ids": [str(c.get("id") or "") for c in served],
+        "served_ids_sin_inyeccion": captured.get("served_sin_inyeccion") or [],
+        "carriers_ya_servidos": captured.get("ya_servidos") or [],
         "chunks": pipeline.get("chunks") or [],
     }
 
@@ -162,9 +196,12 @@ def appendix_block(span: str, fragment_number: int | None) -> str:
 # solo protege si se ejecuta, y un test sobre este módulo se cae en CI por falta de entorno
 # (PR #263: KeyError SUPABASE_URL en CI mientras en local pasaba con el .env copiado).
 from scripts.reachability_verdict import (  # noqa: E402
+    carriers_ya_servidos,
+    elegir_span,
     prueba_de_entrega,
     veredicto_de,
 )
+from scripts.usage_meter import METER, cost_of  # noqa: E402
 
 
 def sello_freeze() -> dict:
@@ -198,113 +235,163 @@ def main() -> None:
     except Exception:
         pass
     cfg = _args()
-
-    receipt = yaml.safe_load(open(RECEIPT, encoding="utf-8"))
+    receipt_path = receipt_por_defecto(cfg.get("receipt"))
+    receipt = yaml.safe_load(open(receipt_path, encoding="utf-8"))
+    print(f"recibo FULL: {receipt_path}" + ("" if receipt_path != RECEIPT_LEGADO else "  (legado 1-ago)"))
     gold = [r for r in receipt["per_gold"] if r["qid"] == cfg["qid"]][0]
     fact = [f for f in gold["facts"] if f["key"].startswith(cfg["fact"])][0]
     valor, texto = fact["valor"], fact["texto"]
     question = gold["question"]
 
+    METER.install()          # (#89 defecto 4) coste real por llamada, observación pura
     inject_rows = (
         fetch_by_prefix(cfg["inject"], list(gold["pool_ids"]))
         if cfg["mode"] == "serve"
         else []
     )
 
-    reps = []
-    for index in range(cfg["reps"]):
-        if cfg["mode"] == "serve":
-            base = run_turn(question, [])
-            oracle = run_turn(question, inject_rows)
-            base_votes = FA.judge_conveyed21(valor, texto, base["answer"])
-            oracle_votes = FA.judge_conveyed21(valor, texto, oracle["answer"])
-            reps.append(
-                {
-                    "rep": index,
-                    "base_yes": base_votes["yes"],
-                    "oracle_yes": oracle_votes["yes"],
-                    "oracle_ids_admitidos": [
-                        cid for cid in oracle["served_ids"]
-                        if any(cid.startswith(p) for p in cfg["inject"])
-                    ],
-                    "base_answer": base["answer"],
-                    "oracle_answer": oracle["answer"],
-                }
-            )
-        else:
-            base = run_turn(question, [])
-            served = base["chunks"]
-            span = None
-            fragment_number = None
-            pattern = re.compile(cfg["span_grep"], re.IGNORECASE)
-            for position, chunk in enumerate(served, start=1):
-                content = str(chunk.get("content") or "")
-                for line in re.split(r"(?<=[.;:])\s+|\n", content):
-                    if pattern.search(line) and len(line.strip()) > 25:
-                        span, fragment_number = line.strip(), position
-                        break
-                if span:
-                    break
-            if not span:
-                raise SystemExit(
-                    f"span no encontrado en los {len(served)} servidos con "
-                    f"/{cfg['span_grep']}/ — el oráculo no es construible"
+    reps: list[dict] = []
+    path = os.path.join(
+        os.getcwd(), "evals",
+        f"s293_reachability_{cfg['qid']}_{cfg['fact'].replace('#','_')}.json",
+    )
+
+    def escribir(out: dict) -> None:
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(out, fh, ensure_ascii=False, indent=1)
+
+    def recibo(estado: str, error: str | None = None) -> dict:
+        firm = FA.THRESH_FIRM
+        vered = veredicto_de(reps, firm, cobertura_ok=bool(cfg.get("cobertura_verificada")))
+        ya = sorted({p for r in reps for p in (r.get("carriers_ya_servidos_en_base") or [])})
+        no_constr = [r["rep"] for r in reps if r.get("no_construible")]
+        return {
+            "probe": "s293_reachability_v1",
+            "instrumento_endurecido": ("s321 (prueba de entrega por modo + freeze-contract completo) · "
+                                       "s324d (#89: recibo FULL vigente, guard de cobertura del span, recibo "
+                                       "parcial, coste, carrier ya servido declarado)"),
+            "estado": estado,
+            "error": error,
+            "⚠️_sesion_de_la_medicion": ("el prefijo `s293` del nombre y de `probe` lo deriva el script "
+                                         "de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze"
+                                         ".git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)"),
+            "sello_freeze_PARCIAL": sello_freeze(),
+            "sello_no_cubre": ["huella/conteo del corpus", "config del índice", "versión de embeddings", "seeds", "closure del código"],
+            "receipt_usado": receipt_path,
+            "qid": cfg["qid"],
+            "fact": fact["key"],
+            "valor": valor,
+            "texto": texto,
+            "mode": cfg["mode"],
+            "inject": cfg["inject"],
+            "span_grep": cfg["span_grep"],
+            "THRESH_FIRM": firm,
+            "cobertura_verificada": cfg.get("cobertura_verificada") or None,
+            "reps": reps,
+            "veredicto": {
+                "n_reps": len(reps),
+                "n_reps_pedidas": cfg["reps"],
+                "base_firme": sum(1 for r in reps if r["base_yes"] >= firm),
+                "oracle_firme": vered["oracle_firme"],
+                "alcanzable": vered["alcanzable"],
+                "max_oracle": max((r["oracle_yes"] for r in reps), default=0),
+                "veredicto": vered["veredicto"] if estado != "PARCIAL" or reps else "INCONCLUYENTE_SIN_REPS",
+                "reps_sin_prueba_de_entrega": vered["reps_sin_prueba_de_entrega"],
+                "reps_no_construibles": no_constr,
+                "carriers_ya_servidos_en_base": ya,
+                "aviso_prominencia": (f"los carriers {ya} YA estaban en la vista base: en esas reps el oráculo "
+                                      "mide PROMINENCIA (similarity elevada), no evidencia ausente") if ya else None,
+            },
+            "coste": cost_of(METER.summary()),
+        }
+
+    try:
+        for index in range(cfg["reps"]):
+            if cfg["mode"] == "serve":
+                METER.phase = "turn_base"
+                base = run_turn(question, [])
+                METER.phase = "turn_oracle"
+                oracle = run_turn(question, inject_rows)
+                METER.phase = "judge"
+                base_votes = FA.judge_conveyed21(valor, texto, base["answer"])
+                oracle_votes = FA.judge_conveyed21(valor, texto, oracle["answer"])
+                reps.append(
+                    {
+                        "rep": index,
+                        "base_yes": base_votes["yes"],
+                        "oracle_yes": oracle_votes["yes"],
+                        "oracle_ids_admitidos": [
+                            cid for cid in oracle["served_ids"]
+                            if any(cid.startswith(p) for p in cfg["inject"])
+                        ],
+                        "base_served_ids": base["served_ids"],
+                        "oracle_served_ids": oracle["served_ids"],
+                        "carriers_ya_servidos_en_base": carriers_ya_servidos(base["served_ids"], cfg["inject"]),
+                        "carriers_ya_servidos_en_oracle_sin_inyeccion": carriers_ya_servidos(
+                            oracle["served_ids_sin_inyeccion"], cfg["inject"]),
+                        "base_answer": base["answer"],
+                        "oracle_answer": oracle["answer"],
+                    }
                 )
-            augmented = base["answer"] + appendix_block(span, fragment_number)
-            base_votes = FA.judge_conveyed21(valor, texto, base["answer"])
-            oracle_votes = FA.judge_conveyed21(valor, texto, augmented)
-            reps.append(
-                {
-                    "rep": index,
-                    "base_yes": base_votes["yes"],
-                    "oracle_yes": oracle_votes["yes"],
-                    "span": span,
-                    "fragment_number": fragment_number,
-                    "base_answer": base["answer"],
-                    "oracle_answer": augmented,
-                }
+            else:
+                METER.phase = "turn_base"
+                base = run_turn(question, [])
+                served = base["chunks"]
+                eleccion = elegir_span(served, cfg["span_grep"], valor)
+                span, fragment_number = eleccion["span"], eleccion["fragment_number"]
+                if not span or not eleccion["cubre"]["ok"]:
+                    # (#89 defecto 2) no se juzga un span que no cubre el hecho: la rep queda NO construible
+                    motivo = ("span no encontrado" if not span else
+                              f"el mejor span no cubre el valor (ausentes: {eleccion['cubre']['ausentes']})")
+                    METER.phase = "judge"
+                    base_votes = FA.judge_conveyed21(valor, texto, base["answer"])
+                    reps.append({"rep": index, "base_yes": base_votes["yes"], "oracle_yes": 0,
+                                 "span": None, "fragment_number": None, "no_construible": motivo,
+                                 "eleccion_span": eleccion, "base_answer": base["answer"], "oracle_answer": None})
+                else:
+                    augmented = base["answer"] + appendix_block(span, fragment_number)
+                    METER.phase = "judge"
+                    base_votes = FA.judge_conveyed21(valor, texto, base["answer"])
+                    oracle_votes = FA.judge_conveyed21(valor, texto, augmented)
+                    reps.append(
+                        {
+                            "rep": index,
+                            "base_yes": base_votes["yes"],
+                            "oracle_yes": oracle_votes["yes"],
+                            "span": span,
+                            "fragment_number": fragment_number,
+                            "span_extendido": eleccion["extendido"],
+                            "span_cobertura": eleccion["cubre"],
+                            "base_answer": base["answer"],
+                            "oracle_answer": augmented,
+                        }
+                    )
+            row = reps[-1]
+            row["prueba_entrega"] = prueba_de_entrega(cfg, row)
+            print(
+                f"  rep{index}: base {row['base_yes']}/5 → oracle {row['oracle_yes']}/5"
+                + (f"  [span F{row.get('fragment_number')}]" if cfg["mode"] == "appendix" and row.get("span") else "")
+                + (f"  ⚠️ NO CONSTRUIBLE: {row['no_construible']}" if row.get("no_construible") else "")
+                + ("" if row["prueba_entrega"]["ok"]
+                   else f"  ⚠️ SIN PRUEBA DE ENTREGA: {row['prueba_entrega']['motivo']}")
+                + (f"  ⚠️ carrier YA servido en base: {row['carriers_ya_servidos_en_base']}"
+                   if row.get("carriers_ya_servidos_en_base") else "")
             )
-        row = reps[-1]
-        row["prueba_entrega"] = prueba_de_entrega(cfg, row)
-        print(
-            f"  rep{index}: base {row['base_yes']}/5 → oracle {row['oracle_yes']}/5"
-            + (f"  [span F{row.get('fragment_number')}]" if cfg["mode"] == "appendix" else "")
-            + ("" if row["prueba_entrega"]["ok"]
-               else f"  ⚠️ SIN PRUEBA DE ENTREGA: {row['prueba_entrega']['motivo']}")
-        )
+    except BaseException as exc:      # (#89 defecto 3) recibo PARCIAL con las reps ya juzgadas
+        out = recibo("PARCIAL", error=f"{type(exc).__name__}: {exc}")
+        escribir(out)
+        print(f"\n⚠️  fallo en la rep {len(reps)}: {type(exc).__name__}: {exc} — recibo PARCIAL escrito: {path}")
+        print(json.dumps(out["veredicto"], ensure_ascii=False))
+        raise
 
     firm = FA.THRESH_FIRM
-    vered = veredicto_de(reps, firm, cobertura_ok=bool(cfg.get("cobertura_verificada")))
-    oracle_firme, sin_entrega = vered["oracle_firme"], vered["reps_sin_prueba_de_entrega"]
-    alcanzable, veredicto_txt = vered["alcanzable"], vered["veredicto"]
-    out = {
-        "probe": "s293_reachability_v1",
-        "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo)",
-        "⚠️_sesion_de_la_medicion": ("el prefijo `s293` del nombre y de `probe` lo deriva el script "
-                                     "de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze"
-                                     ".git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)"),
-        "sello_freeze_PARCIAL": sello_freeze(),
-        "sello_no_cubre": ["huella/conteo del corpus", "config del índice", "versión de embeddings", "seeds", "closure del código"],
-        "qid": cfg["qid"],
-        "fact": fact["key"],
-        "valor": valor,
-        "texto": texto,
-        "mode": cfg["mode"],
-        "inject": cfg["inject"],
-        "span_grep": cfg["span_grep"],
-        "THRESH_FIRM": firm,
-        "cobertura_verificada": cfg.get("cobertura_verificada") or None,
-        "reps": reps,
-        "veredicto": {
-            "n_reps": len(reps),
-            "base_firme": sum(1 for r in reps if r["base_yes"] >= firm),
-            "oracle_firme": oracle_firme,
-            "alcanzable": alcanzable,
-            "max_oracle": max((r["oracle_yes"] for r in reps), default=0),
-            "veredicto": veredicto_txt,
-            "reps_sin_prueba_de_entrega": sin_entrega,
-        },
-    }
+    out = recibo("COMPLETO")
+    veredicto_txt, sin_entrega = out["veredicto"]["veredicto"], out["veredicto"]["reps_sin_prueba_de_entrega"]
+    if out["veredicto"]["reps_no_construibles"]:
+        print(f"\n⚠️  reps NO construibles {out['veredicto']['reps_no_construibles']}: el span elegido no cubría el "
+              "valor del hecho (guard #89) — se declaran INCONCLUYENTES, no se juzgó un apéndice incompleto.")
+    if out["veredicto"]["aviso_prominencia"]:
+        print(f"\n⚠️  {out['veredicto']['aviso_prominencia']}")
     if veredicto_txt == "INCONCLUYENTE_SIN_COBERTURA_ATESTADA":
         print("\n⚠️  NO se puede emitir «NO alcanzable»: la entrega está probada, pero NADIE ha "
               "atestado\n   que el carrier inyectado CUBRA el hecho. Verifícalo y re-lanza con "
@@ -315,14 +402,10 @@ def main() -> None:
         print(f"\n⚠️  NO se puede emitir «NO alcanzable»: las reps {sin_entrega} no prueban que la "
               f"evidencia llegara al generador. Veredicto = INCONCLUYENTE. Arregla la entrega y "
               f"re-mide; un «no transmite» sin entrega probada no distingue incapacidad de ausencia.")
-    path = os.path.join(
-        os.getcwd(), "evals",
-        f"s293_reachability_{cfg['qid']}_{cfg['fact'].replace('#','_')}.json",
-    )
-    with open(path, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, ensure_ascii=False, indent=1)
+    escribir(out)
     print(f"escrito: {path}")
     print(json.dumps(out["veredicto"], ensure_ascii=False))
+    print(f"coste: ${out['coste']['usd_total']} ({METER.summary()['n_calls']} llamadas)")
 
 
 if __name__ == "__main__":

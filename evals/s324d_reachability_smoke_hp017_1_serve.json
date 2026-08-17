@@ -1,0 +1,134 @@
+{
+ "probe": "s293_reachability_v1",
+ "instrumento_endurecido": "s321 (prueba de entrega por modo + freeze-contract completo) · s324d (#89: recibo FULL vigente, guard de cobertura del span, recibo parcial, coste, carrier ya servido declarado)",
+ "estado": "COMPLETO",
+ "error": null,
+ "⚠️_sesion_de_la_medicion": "el prefijo `s293` del nombre y de `probe` lo deriva el script de SÍ MISMO, no de la sesión que midió — comprobar `sello_freeze.git_sha` y la fecha del fichero antes de atribuirlo (dúo s321)",
+ "sello_freeze_PARCIAL": {
+  "git_sha": "1ee83cffaa9ac2b6cc2cb28413decbd4170142db",
+  "CHUNKS_TABLE": "chunks_v2",
+  "RETRIEVAL_TOP_K": 50,
+  "RERANK_TOP_K": 10,
+  "RERANKER_BACKEND": "llm",
+  "MERGE_STRATEGY": "stamps",
+  "LLM_MAX_TOKENS": 3500,
+  "LLM_MODEL": "claude-sonnet-4-6",
+  "GENERATOR_PROMPT_VARIANT": "fidelity",
+  "juez": {
+   "model": "gpt-5.5",
+   "K": 5,
+   "THRESH_FIRM": 4
+  },
+  "INSTRUMENT_VERSION": "v3.2"
+ },
+ "sello_no_cubre": [
+  "huella/conteo del corpus",
+  "config del índice",
+  "versión de embeddings",
+  "seeds",
+  "closure del código"
+ ],
+ "receipt_usado": "evals\\s100_factlevel_full_v3_20260816.yaml",
+ "qid": "hp017",
+ "fact": "hp017#1:instruccion de entrada",
+ "valor": "instruccion de entrada",
+ "texto": "Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)",
+ "mode": "serve",
+ "inject": [
+  "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+ ],
+ "span_grep": null,
+ "THRESH_FIRM": 4,
+ "cobertura_verificada": null,
+ "reps": [
+  {
+   "rep": 0,
+   "base_yes": 0,
+   "oracle_yes": 0,
+   "oracle_ids_admitidos": [
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+   ],
+   "base_served_ids": [
+    "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+    "570d9951-e3a6-4c64-a927-e26b5e6db842",
+    "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+    "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+    "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+    "13bee205-9f2b-44ba-9891-37d77b5fa110",
+    "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+    "0dfca7bb-9e74-4604-a1a4-c1c14d93fd4d",
+    "91c99a65-d987-42a4-a20f-5ceb56d14b94",
+    "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+    "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+   ],
+   "oracle_served_ids": [
+    "570d9951-e3a6-4c64-a927-e26b5e6db842",
+    "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+    "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+    "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+    "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+    "13bee205-9f2b-44ba-9891-37d77b5fa110",
+    "39e581ab-3536-4fe5-8faa-4537ca38213f",
+    "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+    "0dfca7bb-9e74-4604-a1a4-c1c14d93fd4d",
+    "91c99a65-d987-42a4-a20f-5ceb56d14b94",
+    "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+   ],
+   "carriers_ya_servidos_en_base": [
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+   ],
+   "carriers_ya_servidos_en_oracle_sin_inyeccion": [
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+   ],
+   "base_answer": "El retardo de salida de alarma en la PEARL **no se programa como un valor numérico directo desde el panel**: se configura dentro de las **reglas de causa-efecto**, y desde el panel solo se puede anular/habilitar ese retardo una vez configurado.\n\nAquí tienes el desglose completo:\n\n---\n\n## 1. Configuración del retardo (vía causa-efecto)\n\nEl retardo de activación de salidas forma parte de las **reglas de causa-efecto** [F2]. Para cada regla se asigna uno de los **seis tipos de retardo de salida** disponibles [F2][F3]:\n\n- **Fijo** — No permite silenciar durante el retardo, no muestra cuenta atrás, no puede anularse.\n- **Estándar** — Permite silenciar sirenas durante el retardo, muestra cuenta atrás, puede anularse (nivel acceso 2), puede detenerse con FIN RETARDO.\n- **No Silenc.** — No permite silenciar, pero sí muestra cuenta atrás y permite FIN RETARDO.\n- **Est. Ext.** — Como Estándar, y además detiene el retardo si se pulsa AMPLIAR RETARDO.\n- **RetExtStd** — Como Estándar, y además inicia el temporizador en RETARDO AMPLIADO.\n- **No Sil. Ext** — No permite silenciar, pero detiene el retardo con AMPLIAR RETARDO.\n- **SinRetExt** — No permite silenciar, inicia temporizador en RETARDO AMPLIADO.\n\n> **Importante** [F12]: Se recomienda usar el **programa de configuración por ordenador** como método principal de programación de causa-efecto. El menú de la central solo debe usarse para modificaciones menores.\n\nNo puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú.\n\n---\n\n## 2. Anular/Habilitar el retardo desde el panel (operación en campo)\n\nUna vez configurado el retardo en las reglas, desde el panel (nivel de acceso 2) puedes anularlo o habilitarlo globalmente [F1]:\n\n1. Accede al **Menú Anular/Habilitar**.\n2. Selecciona **«5: Retardo Activación Salidas»** [F1].\n3. Pulsa **✓** para cambiar el estado entre ANULADO y HABILITADO [F1].\n4. Pulsa **✕** para salir [F1].\n\n> El **LED de RETARDO ACTIVO** se enciende cuando hay un retardo activo en curso [F1].\n\n---\n\n## 3. Control del retardo durante una alarma activa\n\nDurante una alarma con retardo en curso [F4]:\n\n- Tecla **AMPLIAR RETARDO** (nivel acceso 2): extiende el retardo iniciando el segundo temporizador (normalmente más largo que el primero) [F4].\n- Tecla **FIN RETARDO** (nivel acceso 1): termina el retardo inmediatamente y activa la condición de alarma completa [F4].\n\n---\n\n## 4. Pulsador AMPLIAR RETARDO (habilitación)\n\nVerifica que el pulsador AMPLIAR RETARDO esté habilitado en los parámetros de la central: **«10: Extend Delay Button : Enabled»** [F5]. Esta opción puede desactivarse si no se requiere en la instalación [F5].\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada) — secciones 2.1.4 y 5.1.4\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3) — Apéndice 5 (A5.2.1, A5.3, A5.4) y Apéndice 1 (A1.10)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]\n\n---\n📋 **Obligaciones de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.\" (997-671-005-3_Configuration_ES, p. 44) [F2] declara 6 tipos y la enumeración servida lista 8 (997-671-005-3_Configuration_ES, p. 44) [F2].",
+   "oracle_answer": "El retardo de salida de alarma en la Pearl **no se programa como un parámetro aislado**, sino como parte de las **reglas de causa-efecto**. Aquí tienes el proceso completo:\n\n---\n\n## Configuración del retardo mediante causa-efecto\n\nNo puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú.\n\n**Recomendación del fabricante:** Se recomienda usar el **programa de configuración por ordenador** como método principal. El menú de la central debe usarse solo para modificaciones menores [F12].\n\n---\n\n## Tipos de retardo disponibles\n\nA cada regla de causa-efecto se le puede asignar **uno de seis tipos de retardo de salida** [F1]. Los tipos disponibles son [F2]:\n\n- **Fijo:** Sin posibilidad de detener la salida con SILENCIAR SIRENAS, sin visualización del tiempo restante en LCD, sin anulación por nivel de acceso 2.\n- **Estándar:** La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo. El tiempo restante se muestra en la pestaña ALARMA. Puede anularse en nivel de acceso 2 con «Anular retardos». Puede detenerse con FIN RETARDO.\n- **No Silenc.:** No se detiene con SILENCIAR SIRENAS. Sí muestra tiempo restante. Puede anularse en nivel 2 y detenerse con FIN RETARDO.\n- **Est. Ext.:** Se detiene con SILENCIAR SIRENAS y también con AMPLIAR RETARDO. Muestra tiempo restante. Anulable en nivel 2.\n- **RetExtStd:** El temporizador comienza en RETARDO AMPLIADO. Se detiene con SILENCIAR SIRENAS. Muestra tiempo restante. Anulable en nivel 2.\n- **No Sil. Ext.:** Se detiene con AMPLIAR RETARDO pero NO con SILENCIAR SIRENAS. Muestra tiempo restante. Anulable en nivel 2.\n- **SinRetExt:** El temporizador comienza en RETARDO AMPLIADO. No se detiene con SILENCIAR SIRENAS ni con AMPLIAR RETARDO. Muestra tiempo restante. Anulable en nivel 2 [F2].\n\n---\n\n## Funcionamiento operativo del retardo\n\n- Cuando hay un retardo activo, el **LED de RETARDO ACTIVO** se enciende [F3].\n- La tecla **AMPLIAR RETARDO** (nivel de acceso 2) permite extender el retardo para realizar una búsqueda. El segundo temporizador anula al primero [F4].\n- La tecla **FIN RETARDO** (nivel de acceso 1) pone fin a cualquier retardo activo e introduce la condición de alarma completa [F4].\n- El pulsador AMPLIAR RETARDO puede desactivarse desde los parámetros de la central (opción **«10: Extend Delay Button»**) si no se requiere en el mercado [F5].\n\n---\n\n## Anulación del retardo desde el panel\n\nPara anular/habilitar los retardos configurados sin modificar la programación [F3]:\n1. Accede al **Menú Anular/Habilitar**.\n2. Selecciona **«5: Retardo Activación Salidas»**.\n3. Pulsa **✓** para cambiar el estado (habilitado ↔ anulado).\n4. Pulsa **✕** para salir.\n\n---\n\n**Nota importante:** Los fragmentos disponibles describen los tipos de retardo y su comportamiento, pero **no especifican el procedimiento paso a paso para introducir el valor numérico del tiempo de retardo** dentro del editor de causa-efecto. Para ese detalle concreto, consulta el manual de configuración completo o usa el software de configuración por ordenador [F12].\n\n---\n\nFuentes:\n- Manual de configuración de la central Pearl, 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n- Manual de funcionamiento Pearl, 997-670-005-3_Operating_ES (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]\n\n---\n📋 **Obligaciones de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.\" (997-671-005-3_Configuration_ES, p. 44) [F1] declara 6 tipos y la enumeración servida lista 8 (997-671-005-3_Configuration_ES, p. 44) [F1].\n- Nota: la fuente es inconsistente: \"Sección 4 - 4\" (997-671-005-3_Configuration_ES, p. 21) [F6] declara 4 Equipos y la enumeración servida lista 20 (997-671-005-3_Configuration_ES, p. 20) [F7].",
+   "prueba_entrega": {
+    "ok": true,
+    "modo": "serve",
+    "tipo": "medida",
+    "requeridos": 1,
+    "admitidos_unicos": 1,
+    "faltan": [],
+    "motivo": ""
+   }
+  }
+ ],
+ "veredicto": {
+  "n_reps": 1,
+  "n_reps_pedidas": 1,
+  "base_firme": 0,
+  "oracle_firme": 0,
+  "alcanzable": false,
+  "max_oracle": 0,
+  "veredicto": "INCONCLUYENTE_SIN_COBERTURA_ATESTADA",
+  "reps_sin_prueba_de_entrega": [],
+  "reps_no_construibles": [],
+  "carriers_ya_servidos_en_base": [
+   "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+  ],
+  "aviso_prominencia": "los carriers ['d27b1a1b-69cd-4318-a459-f3c86eb757ba'] YA estaban en la vista base: en esas reps el oráculo mide PROMINENCIA (similarity elevada), no evidencia ausente"
+ },
+ "coste": {
+  "usd_total": 0.3079,
+  "usd_incluye_precio_supuesto": false,
+  "usd_incluye_modelo_sin_precio": false,
+  "by_model": {
+   "claude-sonnet-4-6": {
+    "usd": 0.1939,
+    "in": 53783,
+    "out": 2168,
+    "calls": 4,
+    "price": "anthropic first-party (skill claude-api)"
+   },
+   "gpt-5.5": {
+    "usd": 0.1141,
+    "in": 14880,
+    "out": 1322,
+    "calls": 10,
+    "price": "developers.openai.com/api/docs/pricing (Standard, <272K) leído 16-ago-2026"
+   }
+  }
+ }
+}

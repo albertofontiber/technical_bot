@@ -87,3 +87,108 @@ def veredicto_de(reps: list[dict], firm: int, cobertura_ok: bool = False) -> dic
     return {"oracle_firme": oracle_firme, "alcanzable": alcanzable,
             "veredicto": txt, "reps_sin_prueba_de_entrega": sin_entrega,
             "cobertura_atestada": bool(cobertura_ok)}
+
+
+# ─────────────────────────── s324d — endurecimiento (TECH_DEBT #89), lógica PURA ───────────────────────────
+# Cinco defectos vistos al correr las 8 sondas de etapa 3 (agente de medición, 16-ago). Todo lo que se puede
+# probar sin entorno vive aquí; el probe solo lo llama.
+import re as _re
+import unicodedata as _ud
+
+
+def _norm(s: str) -> str:
+    s = _ud.normalize("NFKD", s or "")
+    s = "".join(ch for ch in s if not _ud.combining(ch))
+    return _re.sub(r"\s+", " ", s.casefold()).strip()
+
+
+def _tokens_valor(valor: str) -> list[str]:
+    """Tokens «duros» del valor (números, códigos, palabras ≥3): lo que el span DEBE contener para
+    poder decir que cubre el hecho. Se ignoran conectores y signos."""
+    toks = _re.findall(r"[a-z0-9][a-z0-9./,\-]*", _norm(valor))
+    toks = [t.strip(".,/-") for t in toks]
+    return [t for t in toks if t and (any(ch.isdigit() for ch in t) or len(t) >= 3)]
+
+
+def span_cubre(span: str, valor: str, min_frac: float = 1.0) -> dict:
+    """Guard de COBERTURA del span (defecto 2): el span debe contener los tokens del valor.
+    `min_frac` = fracción mínima de tokens que deben aparecer (1.0 = todos). Devuelve el detalle
+    para el recibo, no un bool a secas."""
+    toks = _tokens_valor(valor)
+    n = _norm(span)
+    presentes = [t for t in toks if t in n]
+    ausentes = [t for t in toks if t not in n]
+    ok = bool(toks) and len(presentes) / len(toks) >= min_frac
+    return {"ok": ok, "tokens_valor": toks, "presentes": presentes, "ausentes": ausentes}
+
+
+def elegir_span(chunks: list[dict], span_grep: str, valor: str, *, extender_lineas: int = 2,
+                max_chars: int = 600) -> dict:
+    """Elige el span del oráculo `appendix` CON guard de cobertura (defecto 2).
+
+    Antes: la PRIMERA línea que casaba el regex (split en `.;:`, len>25) — sin comprobar que cubría el
+    hecho; partía «etiqueta: definición» y descartaba etiquetas ≤25 chars (hp017#1 → «no construible»
+    con el carrier servido); un span de una frase no cubría hechos de dos frases (cat016#1, hp009#0).
+
+    Ahora: se parte SOLO por frase/línea (`.` `;` y saltos), no por `:`; cada candidato que casa el regex
+    se comprueba con `span_cubre`; si no cubre, se EXTIENDE con hasta `extender_lineas` líneas siguientes
+    (cap `max_chars`) y se re-comprueba; se devuelve el primer candidato que cubre. Si ninguno cubre, se
+    devuelve el mejor (más tokens presentes) con `cubre=False` — el probe lo declara INCONCLUYENTE, no
+    lo usa a ciegas. Devuelve dict: span, fragment_number, cubre (detalle), candidatos_probados,
+    extendido (bool)."""
+    pattern = _re.compile(span_grep, _re.IGNORECASE)
+    mejor = None
+    probados = 0
+    for position, chunk in enumerate(chunks, start=1):
+        content = str(chunk.get("content") or "")
+        lineas = [l.strip() for l in _re.split(r"(?<=[.;])\s+|\n", content)]
+        lineas = [l for l in lineas if l]
+        for i, line in enumerate(lineas):
+            if not pattern.search(line):
+                continue
+            probados += 1
+            span = line
+            cob = span_cubre(span, valor)
+            extendido = False
+            k = 0
+            while not cob["ok"] and k < extender_lineas and i + k + 1 < len(lineas):
+                k += 1
+                cand = " ".join(lineas[i:i + k + 1])
+                if len(cand) > max_chars:
+                    break
+                span, extendido = cand, True
+                cob = span_cubre(span, valor)
+            cand_row = {"span": span, "fragment_number": position, "cubre": cob,
+                        "extendido": extendido, "candidatos_probados": probados}
+            if cob["ok"]:
+                return cand_row
+            if mejor is None or len(cob["presentes"]) > len(mejor["cubre"]["presentes"]):
+                mejor = cand_row
+    if mejor is None:
+        return {"span": None, "fragment_number": None,
+                "cubre": {"ok": False, "tokens_valor": _tokens_valor(valor), "presentes": [], "ausentes": _tokens_valor(valor)},
+                "extendido": False, "candidatos_probados": probados}
+    mejor["candidatos_probados"] = probados
+    return mejor
+
+
+def carriers_ya_servidos(base_served_ids: list[str], inject_prefixes: list[str]) -> list[str]:
+    """Defecto 5: en `serve`, si un carrier del `--inject` YA está en la vista base, el oráculo mide
+    PROMINENCIA (no evidencia ausente) — hay que declararlo. Devuelve los prefijos ya servidos."""
+    return [p for p in inject_prefixes
+            if any(str(cid).startswith(p) for cid in base_served_ids)]
+
+
+def elegir_receipt(paths: list[str], explicito: str | None = None) -> str:
+    """Defecto 1: el recibo FULL por defecto es el MÁS RECIENTE (por la fecha del nombre), no uno
+    pineado en el código; `--receipt` explícito manda. Acepta rutas o nombres; devuelve la elegida."""
+    if explicito:
+        return explicito
+    def fecha(p: str):
+        m = _re.search(r"(20\d{6})", p.replace("\\", "/").rsplit("/", 1)[-1])
+        return m.group(1) if m else "00000000"
+    nombre = lambda p: p.replace("\\", "/").rsplit("/", 1)[-1]  # noqa: E731
+    cands = [p for p in paths if _re.match(r"s100_factlevel_full_v3.*\.yaml$", nombre(p)) and "INVALIDO" not in p]
+    if not cands:
+        raise ValueError("no hay recibos FULL v3* disponibles")
+    return sorted(cands, key=fecha)[-1]
