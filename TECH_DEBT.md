@@ -3157,7 +3157,11 @@ variable **debe neutralizarla con `""`** (no con `"0"`). Aplicado ya en
 `tests/test_s321_reachability_delivery_proof.py`.
 ## #86 — El revisor Fable 5 puede FABRICAR la transcripción de tools (0 `tool_use` reales) y el emparejamiento con Sol se rompe si HEAD se mueve durante el run — s324
 
-**Estado: OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
+**Estado: (1) RESUELTO en s324d (17-ago)** — el runner estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado`
+en el recibo, sufija el `.md` con `_SIN-TOOLS`, deja nota lateral y avisa por stderr (sin tocar el `.md`:
+contrato de sha del validador); tests `tests/test_s324d_fable_tools_audit.py`; spec en
+`docs/ADVERSARIAL_REVIEWER.md`. **(2)** regla de operación registrada (no mover HEAD durante un dúo emparejado)
+y **(3)** regla C (abrir el responses JSON) — quedan como disciplina, no como código. **Origen — OBSERVADO (r32, 16-ago).** La review `evals/adversarial_reviews/2026-08-16T13-26-02_claude-fable-5_*.md`
 imprime un log de `grep_repo`/`read_file`/`list_dir` con respuestas verosímiles… de ficheros que NO
 existen (`scripts/catalog_store.py`, `scripts/s324_radio_explosion.py`, `products.jsonl:509` con
 `candidate:true` falso). El `responses` JSON registra **0 bloques `tool_use`**: el modelo escribió el
@@ -3180,6 +3184,10 @@ un QR con URL). 95 más entre 300 y 1.500 chars, en su mayoría FAQ cortas legí
 de manual ya ingestado» de Alberto: el documento cuenta como cubierto y no lo está.
 **Qué hacer**: re-ingesta con OCR de TI-007 (y atestar DESPUÉS, no antes — adjudicación registrada);
 baja o sustitución del QR; guardia de ingesta: aviso cuando un PDF produce <300 chars de texto.
+**s324d (17-ago)**: comprobado que el repo NO tiene pipeline OCR (PyMuPDF solo para contar páginas/overlay;
+`struck_ocr.py` es política de display, no OCR) ⇒ la re-ingesta OCR de TI-007 no es autónoma: o Alberto aporta el
+PDF ya OCR-izado (o el texto) y se ingesta por el pipeline normal, o se diseña el paso OCR (tesseract/ocrmypdf) con
+dúo. Los 2 docs censados siguen activos y sin cambio.
 
 ## #88 — `documents.product_model` conserva artefactos que E3 corrigió solo en `chunks_v2` — s324
 
@@ -3194,7 +3202,18 @@ ambas capas (el de s324 ya lo hace).
 
 ## #89 — La sonda de alcanzabilidad (`s293_reachability_probe.py`) tiene 5 defectos de instrumento vistos al correr las 8 sondas de etapa 3 — s324b
 
-**Estado: OBSERVADO (agente de medición, 16-ago; recibos `evals/s293_reachability_*` y agregado `evals/s321_poblacion_etapa3_v1.md` §5).** El instrumento NO se tocó (regla del encargo).
+**Estado: RESUELTO en s324d (17-ago) con dúo r34 (Sol 7/7 confirmados + Fable 1/1; todos aplicados)** —
+`evals/s324d_sonda_endurecida_propuesta_v1.md` (+ADENDA), lógica pura en `scripts/reachability_verdict.py`
+(`elegir_span`/`span_cubre` con frontera de palabra y predicado, `carriers_ya_servidos`, `elegir_receipt`,
+`veredicto_recibo`), `scripts/usage_meter.py`, 15 tests nuevos; smoke real 4 reps ($1,2). Además del dúo: `n_fail`
+del juez ya no cuenta como «no» (`INCONCLUYENTE_JUEZ_INCOMPLETO`), el oráculo de `serve` es PAREADO por defecto
+(misma vista; `--oracle-fresco` restaura), y un recibo PARCIAL nunca lleva un veredicto literal completo.
+**Residuo declarado**: el nombre del recibo sigue sobrescribiéndose por (qid, fact) — re-medir pisa el anterior
+(git conserva); `span_cubre` es heurístico (tokens con frontera + ≥2 de predicado), no sustituye la atestación
+humana de cobertura; `elegir_receipt` ordena por la fecha del nombre. **Lectura colateral**: el ALCANZABLE de
+s324b para `hp017#1` en `serve` venía con el carrier DUPLICADO a similarity máxima; sin duplicar (pareado) 1 rep da
+0/5 — coherente con la prueba offline D1 (el bullet está fuera de las cards): no cambia DEC-175 (1 rep no es medida).
+**Origen — OBSERVADO (agente de medición, 16-ago; recibos `evals/s293_reachability_*` y agregado `evals/s321_poblacion_etapa3_v1.md` §5).** El instrumento NO se tocó (regla del encargo).
 1. `RECEIPT` apunta al FULL del **1-ago** (`probe.py:55` → `s100_factlevel_full_v32_full_20260801.yaml`): pregunta/valor/texto/pool_ids salen de ahí, no del FULL vigente. Sin efecto en los 8 (idénticos), pero un gold editado se mediría con el texto viejo.
 2. `appendix` elige la PRIMERA línea que casa el regex (split en `.;:`, len>25) **sin guard de cobertura**: eligió spans que no cubren el hecho (cat016#1, hp015#0 run1) y solo la atestación humana lo detectó; parte «etiqueta: definición» y descarta etiquetas ≤25 chars (hp017#1 → «no construible» con carrier servido); un span de una frase no cubre hechos de dos frases (cat016#1, hp009#0) ⇒ en `appendix` un NO no es atestable para ellos.
 3. Un `SystemExit` en una rep tardía **tira las reps ya juzgadas sin escribir recibo** (hp009#0 appendix: 2 reps 0→0, ~20 llamadas al juez perdidas salvo log); «construible» es por-rep (retrieval no determinista).

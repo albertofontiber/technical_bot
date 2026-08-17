@@ -1,12 +1,12 @@
 {
  "build": {
   "table": "chunks_v2",
-  "generated_at": "2026-08-16T11:52:19.835305+00:00",
+  "generated_at": "2026-08-17T08:12:20.764968+00:00",
   "fuente": "catalogo-gobernado (data/catalog) via _resolvable_terms + atestacion-activa (E2 DEC-213)",
   "colisiones_excluidas": 0,
-  "n_distinct": 1695,
-  "n_included": 1591,
-  "n_excluded": 104
+  "n_distinct": 1744,
+  "n_included": 1638,
+  "n_excluded": 106
  },
  "models": [
   {
@@ -234,6 +234,13 @@
    "via": "homonimo"
   },
   {
+   "model": "CCD-103",
+   "manufacturer": "Detnov",
+   "chunk_count": 109,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "PL4",
    "manufacturer": "Notifier",
    "chunk_count": 109,
@@ -304,6 +311,13 @@
    "via": "exact"
   },
   {
+   "model": "LaserStar-HSSD-2",
+   "manufacturer": "Notifier",
+   "chunk_count": 83,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "MI-FLX-010",
    "manufacturer": "Morley",
    "chunk_count": 82,
@@ -318,17 +332,17 @@
    "via": "exact"
   },
   {
+   "model": "40/40M",
+   "manufacturer": "Spectrex",
+   "chunk_count": 77,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "AM-8200",
    "manufacturer": "Notifier",
    "chunk_count": 77,
    "source": "static-pattern",
-   "via": "exact"
-  },
-  {
-   "model": "LaserStar-HSSD-2",
-   "manufacturer": "Notifier",
-   "chunk_count": 76,
-   "source": "catalogo-gobernado",
    "via": "exact"
   },
   {
@@ -337,6 +351,20 @@
    "chunk_count": 74,
    "source": "static-pattern",
    "via": "paraguas"
+  },
+  {
+   "model": "40/40U",
+   "manufacturer": "Spectrex",
+   "chunk_count": 73,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "40/40R",
+   "manufacturer": "Spectrex",
+   "chunk_count": 71,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "NFS 2-8",
@@ -591,6 +619,13 @@
    "via": "exact"
   },
   {
+   "model": "KE-IU3110",
+   "manufacturer": "Kidde",
+   "chunk_count": 35,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "NAM-232",
    "manufacturer": "Notifier",
    "chunk_count": 35,
@@ -612,6 +647,13 @@
    "via": "exact"
   },
   {
+   "model": "KE-DM3110R-KIT",
+   "manufacturer": "Kidde",
+   "chunk_count": 33,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "2X-LB",
    "manufacturer": "Aritech",
    "chunk_count": 32,
@@ -622,6 +664,13 @@
    "model": "MK-VSN",
    "manufacturer": "Morley",
    "chunk_count": 31,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "ID²NET",
+   "manufacturer": "Notifier",
+   "chunk_count": 30,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
@@ -684,6 +733,13 @@
   {
    "model": "KE-IO3101",
    "manufacturer": "Kidde",
+   "chunk_count": 26,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "SGD-151",
+   "manufacturer": "Detnov",
    "chunk_count": 26,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -762,6 +818,20 @@
    "model": "POL-1",
    "manufacturer": "Notifier",
    "chunk_count": 22,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S/3-2",
+   "manufacturer": "Fidegas",
+   "chunk_count": 22,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KIT-GAS",
+   "manufacturer": "Notifier",
+   "chunk_count": 21,
    "source": "catalogo-gobernado",
    "via": "exact"
   },
@@ -873,6 +943,13 @@
   {
    "model": "Fireray 50R",
    "manufacturer": "Notifier",
+   "chunk_count": 17,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DBA-IPW",
+   "manufacturer": "Kidde",
    "chunk_count": 17,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -1263,6 +1340,13 @@
    "via": "alias"
   },
   {
+   "model": "KE-DBA-RECW",
+   "manufacturer": "Kidde",
+   "chunk_count": 10,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "M701E-240",
    "manufacturer": "Notifier",
    "chunk_count": 10,
@@ -1564,11 +1648,25 @@
    "via": "exact"
   },
   {
+   "model": "NFXI-BSF-WCH",
+   "manufacturer": "Notifier",
+   "chunk_count": 7,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "PA-RZ1",
    "manufacturer": "Morley",
    "chunk_count": 7,
    "source": "catalogo-gobernado",
    "via": "exact"
+  },
+  {
+   "model": "STRATOS",
+   "manufacturer": "Notifier",
+   "chunk_count": 7,
+   "source": "catalogo-gobernado",
+   "via": "paraguas"
   },
   {
    "model": "Z728",
@@ -1656,6 +1754,13 @@
   },
   {
    "model": "KE-AS3115W-WM",
+   "manufacturer": "Kidde",
+   "chunk_count": 6,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DM3110R-IP",
    "manufacturer": "Kidde",
    "chunk_count": 6,
    "source": "catalogo-gobernado",
@@ -1775,6 +1880,20 @@
   },
   {
    "model": "KE-AS3111R",
+   "manufacturer": "Kidde",
+   "chunk_count": 5,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DP3021B",
+   "manufacturer": "Kidde",
+   "chunk_count": 5,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DP3021W",
    "manufacturer": "Kidde",
    "chunk_count": 5,
    "source": "catalogo-gobernado",
@@ -1921,6 +2040,13 @@
    "via": "exact"
   },
   {
+   "model": "MOD.RS-485",
+   "manufacturer": "Morley",
+   "chunk_count": 4,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "NC-PF4-SC",
    "manufacturer": "Kidde",
    "chunk_count": 4,
@@ -2012,6 +2138,13 @@
    "via": "exact"
   },
   {
+   "model": "KE-DBA-TAGW",
+   "manufacturer": "Kidde",
+   "chunk_count": 3,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "LIB3000",
    "manufacturer": "Notifier",
    "chunk_count": 3,
@@ -2049,6 +2182,13 @@
   {
    "model": "MMX-10",
    "manufacturer": "Notifier",
+   "chunk_count": 3,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "MOD.RS-232",
+   "manufacturer": "Morley",
    "chunk_count": 3,
    "source": "catalogo-gobernado",
    "via": "exact"
@@ -2145,6 +2285,13 @@
    "via": "exact"
   },
   {
+   "model": "KE-ASA-AUXR",
+   "manufacturer": "Kidde",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "KE-DBA-ADPW-KIL",
    "manufacturer": "Kidde",
    "chunk_count": 2,
@@ -2153,6 +2300,13 @@
   },
   {
    "model": "KE-DBA-ADPW-ZIT",
+   "manufacturer": "Kidde",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "KE-DBA-CAPW",
    "manufacturer": "Kidde",
    "chunk_count": 2,
    "source": "catalogo-gobernado",
@@ -2181,6 +2335,13 @@
   },
   {
    "model": "N-IO-MBX-2",
+   "manufacturer": "Kidde",
+   "chunk_count": 2,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "N-IO-SBX-2G",
    "manufacturer": "Kidde",
    "chunk_count": 2,
    "source": "catalogo-gobernado",
@@ -2258,6 +2419,13 @@
   },
   {
    "model": "CCM3000",
+   "manufacturer": "Notifier",
+   "chunk_count": 1,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "EMA1224B4R/W",
    "manufacturer": "Notifier",
    "chunk_count": 1,
    "source": "catalogo-gobernado",
@@ -2840,6 +3008,13 @@
   {
    "model": "4-relay boards",
    "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "40/40UB",
+   "manufacturer": "Spectrex",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -4378,11 +4553,32 @@
    "via": "exact"
   },
   {
+   "model": "CAD-250-BLED",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "CAD-250-P",
    "manufacturer": "Detnov",
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "exact"
+  },
+  {
+   "model": "CAD-250B",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "CAD-250LBLED",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "CARCASA DEL DETECTOR ANALÓGICO DE HUMO POR CONDUCTO DE AIRE DH500",
@@ -4404,6 +4600,34 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
+  },
+  {
+   "model": "CCD-102",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "CCD-104",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "CCD-108",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
+   "model": "CCD-112",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
   },
   {
    "model": "CFA457",
@@ -4449,6 +4673,13 @@
   },
   {
    "model": "CHS-4M",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "CLSS Configuration Tool",
    "manufacturer": "Notifier",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -6133,6 +6364,13 @@
    "chunk_count": 0,
    "source": "static-pattern",
    "via": "exact"
+  },
+  {
+   "model": "IDNet",
+   "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
   },
   {
    "model": "IDR-2A",
@@ -8977,7 +9215,21 @@
    "via": "alias"
   },
   {
+   "model": "S/2-IR",
+   "manufacturer": "Fidegas",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "S/2-T1",
+   "manufacturer": "Fidegas",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S/3-IR",
    "manufacturer": "Fidegas",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
@@ -9061,6 +9313,34 @@
    "via": "exact"
   },
   {
+   "model": "S40/40M",
+   "manufacturer": "Spectrex",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S40/40R",
+   "manufacturer": "Spectrex",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S40/40U",
+   "manufacturer": "Spectrex",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
+   "model": "S40/40UB",
+   "manufacturer": "Spectrex",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "exact"
+  },
+  {
    "model": "S540(539) CODP",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -9117,6 +9397,13 @@
    "via": "alias"
   },
   {
+   "model": "SCD-250",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "exact"
+  },
+  {
    "model": "SD-651E smoke detector",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -9133,6 +9420,13 @@
   {
    "model": "SD-851TE Photo-Thermal detector",
    "manufacturer": "Notifier",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "SDG-151",
+   "manufacturer": "Detnov",
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "alias"
@@ -9633,6 +9927,27 @@
    "chunk_count": 0,
    "source": "catalogo-gobernado",
    "via": "exact"
+  },
+  {
+   "model": "TG-2000",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "TG-400",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "TG-AFP200",
+   "manufacturer": "Morley",
+   "chunk_count": 0,
+   "source": "static-pattern",
+   "via": "alias"
   },
   {
    "model": "TG-IP-10",
@@ -10860,6 +11175,20 @@
    "via": "alias"
   },
   {
+   "model": "detnov Graphic Software - SGD 151",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
+   "model": "detnov Graphical Software SGD-151",
+   "manufacturer": "Detnov",
+   "chunk_count": 0,
+   "source": "catalogo-gobernado",
+   "via": "alias"
+  },
+  {
    "model": "iBox Modbus Server - Notifier ID3000",
    "manufacturer": "Notifier",
    "chunk_count": 0,
@@ -11425,6 +11754,10 @@
    "motivo": "sin-atestacion-activa"
   },
   {
+   "model": "NFXI-BSF-WC",
+   "motivo": "sin-atestacion-activa"
+  },
+  {
    "model": "NGM",
    "motivo": "cinturon-anti-ruido"
   },
@@ -11491,6 +11824,10 @@
   {
    "model": "System Sensor (Ref.: 795-068-100)",
    "motivo": "sin-atestacion-activa"
+  },
+  {
+   "model": "TG",
+   "motivo": "cinturon-anti-ruido"
   },
   {
    "model": "UG-3",

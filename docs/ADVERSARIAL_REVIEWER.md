@@ -113,6 +113,14 @@ si una respuesta falla cerrada, conserva el trace en la fila fallida sin inventa
   al mismo snapshot.
 - El tally registra `tool_calls`, `files_read` y `tool_trace` (tool, argumentos y estado;
   no persiste el contenido leído), de modo que se audita qué consultó sin duplicar código en el log.
+- **(s324d, TECH_DEBT #86) Auditoría de tools REALES en el runner Fable:** el recibo lleva además
+  `tools_reales` (tool_use ejecutados, verificados contra el responses JSON), `sin_tools` (modo tools activo
+  y 0 reales) y `log_de_tools_fabricado` (el texto aparenta un log de `read_file`/`grep_repo`/`list_dir` sin
+  que haya habido ninguna — la firma de r32). Si `sin_tools`: el `.md` se guarda con sufijo `_SIN-TOOLS`, se
+  deja una nota lateral `.SIN_TOOLS.txt` y se avisa por stderr; el `.md` NO se modifica (su sha es el del
+  texto final del proveedor). Regla C: una review `sin_tools` se lee como revisión A CIEGAS (solo semillas) y
+  se verifica claim a claim; lo normal es relanzarla con agente fresco. Regla de operación: NO mover HEAD
+  mientras corre un dúo emparejado (r32 se declaró «NO emparejada» por un commit durante el run).
 **Invariante preservado (el activo del cross-model):** ve el artefacto por lente no-Claude + su
 salida se lee CRUDA — NO anidado en el sub-agente. **Smoke (s88):** con 2 claims falsas plantadas
 (umbral 0.5; reranker voyage-en-prod) las cazó AMBAS leyendo el código (14 tool-calls; anclas

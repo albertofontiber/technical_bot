@@ -1,7 +1,7 @@
 # s320 E1b — Packet de ADJUDICACIÓN **v2 (encogido)** · 20260815T163607Z
 
 <!-- s324-estado:inicio -->
-> ## 🟡 ESTADO s324 (2026-08-16 22:29Z)
+> ## 🟡 ESTADO s324 (2026-08-17 08:19Z)
 > Este packet sigue **ABIERTO**: sus 4 bloques (474 confirmaciones) y las 146 «una a una» esperan tu sí. Dos cosas nuevas:
 > - **Tu «sí» ya no aplica en seco**: confirmar un candidate activa sus alias y mete términos en el detector (DEC-220 r30). Cada bloque pasará por el **censo del radio de explosión + gate** que ya funcionó en s324 (`scripts/s324_lote_firmado_writer.py`: +28 términos, 0 gold perdidas, 0 disparos en negativos) ANTES de escribirse. Es trabajo mío, no tuyo.
 > - **✅ Bloque «detnov» de §0.A APLICADO** (tu «confirmo que es modelo, y también los otros», 16-ago noche): CCD-102/104/108/112, CAD-250B, CAD-250-BLED confirmados; SGD-151 y SCD-250 como SOFTWARE (tu nota); CCD-103 → `detnov:ccd-103` (antes `unresolved`, candidate). El gate cazó lo que r30 avisaba: confirmar activaba alias descriptivos («2 zonas», «Conventional panels with 2 detection zones»…) que disparaban en consultas genéricas → 14 alias retirados ANTES. Recibo `s324c_e1b_detnov_aplicar_*.json`.
@@ -10,6 +10,7 @@
 > - **§1.A «retirar» (19) y §0.D (4)**: el predicado de reconstruibilidad (Puerta A) quedó VALIDADO contra el doble control (`evals/s324_puerta_a_predicado_v1.json`) pero **0/18** de estas filas son de esa clase (son palabras genéricas / part-numbers): siguen en cuarentena hasta tu sí; en cuarentena no hacen daño.
 > - Ya aplicado por reglas (no está en este packet): confirmados morley:dx1e/dx2e/dx4e (+3 cajas) y morley:vsn-12-plus (R2); retiradas las etiquetas kidde:2x-at y notifier:vsn-plus (→ paraguas 2X-AT / VSN PLUS).
 <!-- s324-estado:fin -->
+
 
 
 
