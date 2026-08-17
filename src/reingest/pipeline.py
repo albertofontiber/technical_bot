@@ -47,6 +47,7 @@ from .contextualize import contextualize_document, full_document_text
 from .embed import embed_chunks
 from .dedup import mark_duplicates
 from .index import index_chunks, resolver_documento
+from .page_content import sanear_record
 from ..ingestion.supabase_client import SupabaseHTTP
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -62,6 +63,12 @@ DRYRUN_SAMPLE = "logs/reingest_dryrun_sample.json"
 # 'es'/'en' se indexan; 'unknown' (tabla/diagrama sin prosa) se conserva y
 # hereda el idioma dominante del documento.
 _DROP_LANGUAGES = {"fr", "it", "pt", "de"}
+
+# (s324d, TECH_DEBT #87) Un documento que sale de la ingesta con menos texto que esto casi nunca es
+# un documento corto legítimo: es una extracción que falló y NADIE se entera (HLSI-TI-007_VSN-4REL
+# vivió en el corpus con 47 chars mientras su PDF tenía 2.246 de texto nativo). No BLOQUEA — hay
+# hojas de 1 párrafo legítimas —: lo DECLARA en el registro de estado y en el log.
+UMBRAL_TEXTO_ESCASO = 300
 _SHA_RE = re.compile(r"^[0-9a-f]{64}\.json$")
 
 
@@ -100,6 +107,14 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
     sha = record["sha256"]
     source_path = record.get("source_path", "")
 
+    # (s324d #87) Guarda de markdown DEGENERADO: se sanea el registro UNA vez, aquí, antes de que
+    # ningún consumidor lo lea (B2 idioma, B3/B4 chunking, B7 contextualización ven lo mismo). Un
+    # fallback silencioso es lo que dejó a TI-007 en 47 chars con 3.708 en el campo `text`.
+    record, auditoria_md = sanear_record(record)
+    if auditoria_md["n_paginas_afectadas"]:
+        logger.warning("md DEGENERADO en %s: %d página(s) saneadas, %d chars rescatados del campo `text`",
+                       source_path, auditoria_md["n_paginas_afectadas"], auditoria_md["chars_rescatados"])
+
     # B2 — política de idiomas a nivel de documento.
     prof = profile_document(record)
     if prof.verdict == "register_only":
@@ -130,11 +145,20 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
 
     flow = sum(1 for c in kept if c.is_flow_diagram)
 
+    # (s324d #87) Aviso de texto escaso: no bloquea, DECLARA.
+    chars_totales = sum(len(c.content or "") for c in kept)
+    texto_escaso = chars_totales < UMBRAL_TEXTO_ESCASO
+    if texto_escaso:
+        logger.warning("TEXTO ESCASO en %s: %d chars en %d chunk(s) (< %d). Revisa la extracción "
+                       "antes de dar el documento por ingestado.",
+                       source_path, chars_totales, len(kept), UMBRAL_TEXTO_ESCASO)
+    extra = {"chars": chars_totales, "texto_escaso": texto_escaso, "md_degenerado": auditoria_md}
+
     if dry_run:
         return {"status": "dry_run", "chunks": len(kept),
                 "flow_diagram": flow, "manufacturer": meta.manufacturer,
                 "product_model": meta.product_model, "language": prof.dominant,
-                "source_path": source_path, "_chunks": kept}
+                "source_path": source_path, "_chunks": kept, **extra}
 
     # s323 fase B (duo r33, Fable): resolver ANTES de B7/B8. La resolucion solo
     # necesita sha + metadata de B5 — resolverla despues hacia pagar
@@ -172,7 +196,7 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
 
     return {"status": "done", "chunks": len(kept), "indexed": n_indexed,
             "duplicates": n_dup, "flow_diagram": flow,
-            "document_id": doc_id, "source_path": source_path}
+            "document_id": doc_id, "source_path": source_path, **extra}
 
 
 def run(config: str, limit: int, dry_run: bool, reset: bool,
