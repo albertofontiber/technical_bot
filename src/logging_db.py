@@ -267,12 +267,17 @@ def log_bot_error(
 ) -> bool:
     """Persiste UNA incidencia en `bot_errors`. No bloqueante y fail-open total.
 
-    Contrato de datos (s324e): esta tabla NO guarda dato personal. Ni
-    `telegram_user_id` ni el texto de la consulta viven aquí — el enlace es
-    `query_log_id`, una FK con `ON DELETE CASCADE` a la fila de `query_logs`
-    que SÍ está en la matriz de retención. Consecuencia deliberada: una
-    supresión a petición se lleva la incidencia sin tocar este código, y el job
-    de retención mensual no necesita conocer esta tabla.
+    Contrato de datos (s324e, corregido tras el dúo r37): esta tabla no guarda
+    dato personal DIRECTO —ni `telegram_user_id` ni el texto de la consulta—
+    pero SÍ es dato ENLAZABLE: `query_log_id` es una FK a `query_logs`, y el
+    script de insights la recorre precisamente para sacar la pregunta y el
+    autor. Es decir, sigue siendo dato personal a efectos de tratamiento; lo
+    que se gana no es quedar fuera del RGPD, sino que la incidencia HEREDA la
+    gobernanza de `query_logs`: `ON DELETE CASCADE` hace que una supresión a
+    petición se la lleve sin tocar este código, y el job de retención mensual
+    no necesita conocer esta tabla porque no hay identificador que disociar
+    aquí. Si el tratamiento requiere algo más, lo dice el asesor, no este
+    docstring.
 
     Firma solo-keyword: son diez campos del mismo tipo aproximado y un orden
     posicional invitaba a cruzar `clase` con `severidad` sin que nada fallase.

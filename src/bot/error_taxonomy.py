@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import re
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 # --------------------------------------------------------------------- clases
@@ -211,6 +212,21 @@ _CRITICO_TRANSPORTE = Decision(
     ),
     con_codigo=True,
 )
+# El proveedor no contesta (5xx, conexión, timeout): reintentar SÍ puede
+# funcionar. Es constante de módulo y no un `Decision(...)` en línea dentro de
+# `clasificar` para que el test que recorre TODAS las decisiones la alcance
+# (r37: una decisión que solo existe dentro de una función se queda fuera de
+# los invariantes sin que nadie lo note).
+_LLM_NO_RESPONDE = Decision(
+    clase=LLM_FALLO,
+    severidad="grave",
+    reintentable=True,
+    mensaje=(
+        "El servicio de IA del que dependo no está respondiendo. Vuelve a "
+        "intentarlo en un minuto."
+    ),
+    con_codigo=False,
+)
 _CRITICO_LLM = Decision(
     clase=LLM_FALLO,
     severidad="critico",
@@ -278,6 +294,10 @@ _HTTPX = {
 # comparten; voyageai reusa nombres análogos).
 _LLM_SATURADO_NOMBRES = {
     "RateLimitError", "OverloadedError", "APIOverloadedError",
+    # voyageai.error.* — nombres PROPIOS que no coinciden con anthropic/openai
+    # (dúo r37): Voyage se llama por SDK en serving (`rag/reranker.py`), así que
+    # estas clases sí llegan aquí.
+    "ServiceUnavailableError",
 }
 _LLM_CRITICO_NOMBRES = {
     "AuthenticationError", "PermissionDeniedError",
@@ -285,6 +305,7 @@ _LLM_CRITICO_NOMBRES = {
 _LLM_REINTENTABLE_NOMBRES = {
     "APIConnectionError", "APITimeoutError", "InternalServerError",
     "APIStatusError", "APIResponseValidationError", "ConnectionError",
+    "ServerError",                                   # voyageai.error
 }
 
 
@@ -360,15 +381,17 @@ def clasificar(exc: BaseException | None) -> Decision:
             return _MENSAJES[LLM_SATURADO]
         if corto in _LLM_CRITICO_NOMBRES or codigo in (401, 403):
             return _CRITICO_LLM
+        # Un 4xx CONOCIDO manda sobre el NOMBRE (dúo r37). Es determinista:
+        # repetir la misma petición vuelve a fallar igual. Sin esta línea, un
+        # `APIStatusError` BASE con 400/402 —que el SDK lanza cuando no tiene
+        # subclase para ese código— caía en la rama reintentable por su nombre
+        # y al técnico se le decía «vuelve a intentarlo» ante algo que no va a
+        # funcionar nunca. (Las subclases con nombre propio —BadRequestError,
+        # NotFoundError…— ya caían bien; el agujero era solo la base.)
+        if codigo is not None and 400 <= codigo < 500:
+            return _MENSAJES[LLM_FALLO]
         if corto in _LLM_REINTENTABLE_NOMBRES or (codigo or 0) >= 500:
-            return Decision(
-                clase=LLM_FALLO, severidad="grave", reintentable=True,
-                mensaje=(
-                    "El servicio que redacta las respuestas no está "
-                    "respondiendo. Vuelve a intentarlo en un minuto."
-                ),
-                con_codigo=False,
-            )
+            return _LLM_NO_RESPONDE
         return _MENSAJES[LLM_FALLO]
 
     for nombre in nombres:
@@ -405,15 +428,20 @@ _RE_ESPACIOS = re.compile(r"\s+")
 MAX_MENSAJE = 200
 
 
-def redactar(texto: object, *, prohibido: str | None = None,
+def redactar(texto: object, *,
+             prohibido: str | Iterable[str] | None = None,
              max_chars: int = MAX_MENSAJE) -> str:
     """Deja un mensaje de excepción apto para guardar: sin secretos, sin URLs,
     sin identificadores largos y acotado.
 
-    `prohibido` es la consulta del técnico: si el mensaje la lleva dentro (una
+    `prohibido` es el texto del técnico: si el mensaje lo lleva dentro (una
     `ValueError` que hace eco de su entrada), se descarta el mensaje ENTERO en
     vez de intentar recortarlo. Es la única defensa fiable — un texto libre no
     se puede sanear a trozos.
+
+    Acepta VARIOS textos (dúo r37): en la ruta de voz conviven la transcripción
+    CRUDA y la consulta normalizada, y una excepción puede hacer eco de
+    cualquiera de las dos. Comprobar solo una dejaba la otra sin defensa.
     """
     try:
         crudo = str(texto or "")
@@ -428,8 +456,11 @@ def redactar(texto: object, *, prohibido: str | None = None,
     limpio = _RE_DIGITOS.sub("[num]", limpio)
     limpio = _RE_ESPACIOS.sub(" ", limpio).strip()
 
-    if prohibido:
-        aguja = _RE_ESPACIOS.sub(" ", prohibido).strip().lower()
+    agujas = (prohibido,) if isinstance(prohibido, str) else (prohibido or ())
+    for candidato in agujas:
+        if not isinstance(candidato, str):
+            continue
+        aguja = _RE_ESPACIOS.sub(" ", candidato).strip().lower()
         # 12 caracteres: por debajo, la coincidencia sería casual (un modelo de
         # equipo o una palabra técnica que aparece en ambos textos).
         if len(aguja) >= 12 and aguja[:12] in limpio.lower():
@@ -485,12 +516,13 @@ def nuevo_codigo() -> str:
 def describir(exc: BaseException | None, *, etapa: str,
               decision: Decision | None = None,
               codigo: str | None = None,
-              consulta: str | None = None) -> Incidencia:
+              consulta: str | Iterable[str] | None = None) -> Incidencia:
     """Excepción → la fila que se persiste. Pura y total (no lanza nunca).
 
     `consulta` NO se guarda aquí: se pasa solo para poder DESCARTAR el mensaje
     de la excepción si lo reproduce (ver `redactar`). La consulta vive en
-    `query_logs`, que sí está gobernada por la matriz de retención.
+    `query_logs`, que sí está gobernada por la matriz de retención. Admite
+    varios textos — en voz, la transcripción cruda Y la consulta normalizada.
     """
     decision = decision if decision is not None else clasificar(exc)
     try:

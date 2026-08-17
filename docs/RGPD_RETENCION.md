@@ -216,7 +216,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Exports ANTERIORES a s296** (llevan `display_name` y `telegram_user_id`) | los ficheros ya generados | — | ⚠️ ninguna | Borrado manual — **hay que buscarlos**: el cambio no toca lo ya escrito | Nada |
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
 | **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
-| **Diagnóstico de un error del bot** (clase, tipo de excepción, `modulo.py:línea`, severidad, si el técnico recibió aviso, y `mensaje_corto` = `str(exc)` REDACTADO a 200 chars) | `bot_errors` (s324e — **migración 015 NO aplicada**) | Saber qué falla y dónde, para arreglarlo | Sigue a su consulta cuando la hay | CASCADE vía `query_log_id`; **las filas sin consulta (fallo sin texto, o autor sin consentimiento) no tienen a quién referirse y no se alcanzan — por construcción no contienen dato personal** | Se conserva: **la tabla no lleva `telegram_user_id` ni texto de consulta**, así que el job no tiene nada que disociar y NO necesita una quinta política |
+| **Diagnóstico de un error del bot** (clase, tipo de excepción, `modulo.py:línea`, severidad, si el técnico recibió aviso, y `mensaje_corto` = `str(exc)` REDACTADO a 200 chars) | `bot_errors` (s324e — **migración 015 NO aplicada**) | Saber qué falla y dónde, para arreglarlo | Sigue a su consulta cuando la hay | CASCADE vía `query_log_id`. ⚠️ Es dato **ENLAZABLE**, no «sin dato personal» (r37): la FK permite llegar a la pregunta y al autor. Las filas SIN consulta (fallo sin texto, o autor sin consentimiento) quedan sueltas y ya no identifican a nadie | Se conserva: la tabla no lleva `telegram_user_id` ni texto propio, así que el job no tiene nada que disociar aquí y no necesita una quinta política |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
 | **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | ⚠️ Son datos **seudonimizados** mientras viva la correspondencia (uuid → fila → seudónimo → persona): solo lectura del operador; su plazo entra en el mismo **[DECIDIR]** que `user_consent` | Las filas referidas se borran por cascada; los uuid del recibo quedan apuntando a nada (inofensivo, declarado) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
@@ -234,14 +234,18 @@ exposición es teórica — pero el procedimiento estaba incompleto y ahora no l
 
 ### Nota sobre `bot_errors` y el `mensaje_corto` (s324e)
 
-La tabla se diseñó **para no ser un contenedor de dato personal**: sin
-`telegram_user_id` y sin el texto de la consulta. Todo el vínculo con la persona pasa por
-`query_log_id` (FK con `ON DELETE CASCADE`). Eso deja tres propiedades que conviene fijar por
-escrito, porque son la razón de que el diseño no abra frente nuevo: (a) el procedimiento de
-supresión a petición ya documentado la alcanza **sin añadir un paso**; (b) el job mensual no
-necesita conocerla ni hace falta una quinta `rgpd_retencion_ventana`; (c) **no hay finalidad
-nueva** — el texto de la consulta sigue guardándose donde ya se guardaba (`query_logs`,
-finalidad «diagnóstico») — así que **no exige subir `TERMS_VERSION`**.
+La tabla se diseñó para **no duplicar** dato personal: sin `telegram_user_id` y sin el texto de
+la consulta. **Corrección tras el dúo r37**: eso NO la convierte en «tabla sin dato personal»
+—como se escribió primero—, porque `query_log_id` es una FK y el script de insights la recorre
+justamente para sacar la pregunta y el autor. Es **dato enlazable**, y por tanto dato personal a
+efectos de tratamiento. Lo que se gana es que **hereda** la gobernanza de `query_logs` en vez de
+crear un contenedor con reglas propias: (a) el procedimiento de supresión a petición la alcanza
+**sin añadir un paso** (y el índice sobre la FK es lo que lo mantiene barato); (b) el job
+mensual no necesita conocerla, porque aquí no hay identificador que disociar. Sobre si la
+finalidad es nueva: **a juicio del asistente no lo es** —el texto sigue guardándose donde ya se
+guardaba, con finalidad «diagnóstico»— pero **quien decide si eso exige tocar el aviso o
+`TERMS_VERSION` es el asesor jurídico, no este documento**; el aviso v8 está redactado y
+pendiente solo de esa revisión, y es ahí donde entra esta tabla.
 
 El único campo con riesgo residual es `mensaje_corto`: es `str(exc)` **redactado** (URLs,
 tokens tipo `123456789:AA…`, cadenas de ≥20 caracteres y números de ≥7 dígitos se sustituyen;

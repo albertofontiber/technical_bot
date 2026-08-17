@@ -34,9 +34,15 @@
 --     notara.
 --
 -- RGPD — LA DECISIÓN DE DISEÑO MÁS IMPORTANTE DE ESTA TABLA:
---   **`bot_errors` NO contiene dato personal.** No hay `telegram_user_id` ni
---   texto de la consulta. Lo único que la une a una persona es `query_log_id`,
---   una FK con ON DELETE CASCADE a `query_logs`.
+--   **`bot_errors` no contiene dato personal DIRECTO** (no hay
+--   `telegram_user_id` ni texto de consulta), **pero SÍ es dato ENLAZABLE**:
+--   `query_log_id` es una FK a `query_logs` y el script de insights la recorre
+--   justamente para sacar la pregunta y el autor. Corregido tras el dúo r37 —
+--   la redacción anterior decía «no contiene dato personal» a secas y eso era
+--   inexacto. Lo que se gana NO es quedar fuera del RGPD, sino que la
+--   incidencia hereda la gobernanza de `query_logs` en vez de crear un
+--   contenedor con reglas propias. Si el tratamiento exige algo más, eso lo
+--   decide el asesor jurídico, no esta migración.
 --   Consecuencias, todas deliberadas:
 --     · `DELETE FROM query_logs WHERE telegram_user_id = X` (el procedimiento
 --       de supresión a petición ya documentado) se lleva las incidencias sin
@@ -44,7 +50,10 @@
 --     · el job mensual de retención NO necesita conocer esta tabla: no hay
 --       identificador que disociar. No hace falta una quinta política
 --       `rgpd_retencion_ventana` ni tocar `rgpd_retencion_pasada`;
---     · no hay finalidad nueva ⇒ **no exige subir TERMS_VERSION**. El texto de
+--     · a mi juicio no hay finalidad nueva —y por tanto no VEO motivo para
+--       subir TERMS_VERSION—, pero **eso lo valida el asesor, no yo** (r37): el
+--       aviso v8 está redactado y pendiente solo de revisión jurídica, y es ahí
+--       donde entra esta tabla. El texto de
 --       la consulta se guarda donde ya se guardaba (`query_logs`) y para lo que
 --       ya se declaró («diagnóstico»);
 --     · precio declarado: un error de alguien SIN consentimiento, o cuyo turno
@@ -131,22 +140,28 @@ CREATE TABLE IF NOT EXISTS bot_errors (
 );
 
 COMMENT ON TABLE bot_errors IS
-    'Incidencias del bot (s324e). NO contiene dato personal: se une a la '
-    'persona solo por query_log_id (FK CASCADE a query_logs). La consulta que '
-    'provocó el error vive en query_logs con source=''error''.';
+    'Incidencias del bot (s324e). Sin dato personal DIRECTO, pero ENLAZABLE: '
+    'se une a la persona por query_log_id (FK CASCADE a query_logs), de la que '
+    'hereda retencion y supresion. La consulta que provoco el error vive en '
+    'query_logs con source=''error''.';
 
--- Índices de las TRES preguntas que el script de insights hace (por clase, por
--- módulo y por día); el cuarto sirve al «¿quién no recibió respuesta?».
+-- DOS índices, cada uno con la consulta REAL que lo usa (dúo r37: había cinco
+-- y tres eran aparato anticipatorio — el script descarga por fecha y agrega en
+-- Python, así que agrupar por clase/origen/aviso NO toca la base).
+--
+--   1. created_at DESC — lo usa LITERALMENTE el script en cada corrida:
+--      `?order=created_at.desc&created_at=gte.<fecha>` (paginado).
 CREATE INDEX IF NOT EXISTS idx_bot_errors_created
     ON bot_errors (created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_bot_errors_clase
-    ON bot_errors (clase, created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_bot_errors_origen
-    ON bot_errors (origen);
+--   2. query_log_id — NO es para leer, es para BORRAR: Postgres no indexa
+--      automáticamente el lado hijo de una FK, así que sin esto cada
+--      `DELETE FROM query_logs WHERE telegram_user_id = X` (la supresión a
+--      petición) hace un seq scan de bot_errors por cada fila borrada. El
+--      índice es lo que mantiene barato el derecho de supresión.
 CREATE INDEX IF NOT EXISTS idx_bot_errors_query_log
     ON bot_errors (query_log_id);
-CREATE INDEX IF NOT EXISTS idx_bot_errors_sin_avisar
-    ON bot_errors (created_at DESC) WHERE usuario_avisado = FALSE;
+-- Si algún día el agregado se hace en SQL (vista o RPC) en vez de en Python,
+-- ESE cambio trae sus índices; no antes.
 
 -- ---- Frontera de seguridad, IGUAL que el resto de tablas del bot -----------
 -- Mismo patrón que `supabase_schema.sql`: RLS forzada, privilegios revocados

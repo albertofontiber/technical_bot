@@ -942,6 +942,15 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.chat.send_action("typing")
 
     tmp_path = None
+    # (s324e, dúo r37) Lo que el técnico ha DICHO, tal como se conoce en cada
+    # momento. Se declara ANTES del try para que el manejador de abajo lo tenga
+    # pase lo que pase, y crece en dos pasos: primero la transcripción cruda y
+    # luego la consulta normalizada. Es lo que arma la defensa contra ECO —sin
+    # esto, `redactar` corría con `prohibido=None` y una excepción que
+    # reprodujera la transcripción la habría guardado en `bot_errors`, además
+    # SIN enlace (`query_log_id=NULL`), o sea fuera del CASCADE y de cualquier
+    # supresión a petición.
+    dicho: list[str] = []
     try:
         # Download voice file from Telegram
         file = await context.bot.get_file(voice.file_id)
@@ -960,6 +969,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
             VOICE_TRANSCRIPTION_MODEL,
         )
         raw_transcription = await transcribe_audio(tmp_path)
+        if raw_transcription:
+            dicho.append(raw_transcription)
 
         if not raw_transcription:
             await update.message.reply_text(
@@ -972,6 +983,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # logged unchanged; the retrieval form is explicit when it differs.
         normalization = normalize_voice_query(raw_transcription)
         query = normalization.normalized
+        if query and query != raw_transcription:
+            dicho.append(query)
         confirmation = f"🎤 {raw_transcription}"
         if normalization.changed:
             recognized = list(
@@ -1025,8 +1038,14 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # el mensaje se redacta antes de guardarse y no va al log del worker.
         # `handle_voice` estaba además FUERA del alcance de las filas de error
         # (declarado en s286); con el punto único, ya no lo está.
+        # `query=dicho` (dúo r37, CRÍTICO de privacidad): sin ello `redactar`
+        # corría sin defensa contra eco y la transcripción del técnico podía
+        # acabar en `mensaje_corto`. Se pasan LAS DOS formas —cruda y
+        # normalizada— porque la excepción puede reproducir cualquiera. De paso
+        # la incidencia queda ENLAZADA a su fila de `query_logs` (con
+        # consentimiento), que es lo que la mete en el CASCADE.
         await _reportar_error(
-            update, e, etapa="handle_voice",
+            update, e, etapa="handle_voice", query=dicho or None,
             sufijo="Si te resulta más rápido, escríbeme la pregunta por texto.",
         )
     finally:
@@ -1855,7 +1874,9 @@ def _persistir_incidencia(incidencia, *, user_id: int, query: str | None,
         el `BOT_ERROR_LOGGING` de s286 ya hacía; no es un tratamiento nuevo:
         la finalidad «diagnóstico» es la declarada para esa tabla.
       · el DIAGNÓSTICO (clase, tipo, módulo:línea, severidad) va a `bot_errors`,
-        enlazado por FK. Esa tabla no guarda dato personal ninguno.
+        enlazado por FK. Esa tabla no guarda dato personal DIRECTO, pero es dato
+        ENLAZABLE por esa FK (r37): hereda la gobernanza de `query_logs`, no
+        queda fuera de ella.
 
     El consentimiento GATEA la consulta, no la incidencia: un fallo en `/start`
     de alguien que aún no ha aceptado se cuenta (clase y módulo, sin identidad),
@@ -1896,8 +1917,28 @@ def _persistir_incidencia(incidencia, *, user_id: int, query: str | None,
     )
 
 
+def _normalizar_consulta(query) -> tuple[str | None, tuple[str, ...]]:
+    """`query` → (texto CANÓNICO a guardar, todas las agujas de redacción).
+
+    Acepta un texto o una secuencia. Cuando son varios (ruta de voz: la
+    transcripción cruda y luego la normalizada), la ÚLTIMA es la canónica —la
+    forma más procesada que se llegó a conocer antes del fallo— y TODAS se usan
+    como agujas: la excepción puede hacer eco de cualquiera de ellas.
+    """
+    if query is None:
+        return None, ()
+    if isinstance(query, str):
+        texto = query.strip()
+        return (texto or None), ((texto,) if texto else ())
+    try:
+        textos = tuple(t.strip() for t in query if isinstance(t, str) and t.strip())
+    except TypeError:                                        # noqa: BLE001
+        return None, ()
+    return (textos[-1] if textos else None), textos
+
+
 async def _reportar_error(update: object, exc: BaseException | None, *,
-                          etapa: str, query: str | None = None,
+                          etapa: str, query=None,
                           sufijo: str | None = None) -> str:
     """Punto ÚNICO de manejo de un fallo: clasifica, avisa al técnico y registra.
 
@@ -1911,9 +1952,10 @@ async def _reportar_error(update: object, exc: BaseException | None, *,
     """
     codigo = "????????"
     try:
+        consulta, agujas = _normalizar_consulta(query)
         decision = error_taxonomy.clasificar(exc)
         incidencia = error_taxonomy.describir(
-            exc, etapa=etapa, decision=decision, consulta=query
+            exc, etapa=etapa, decision=decision, consulta=agujas
         )
         codigo = incidencia.codigo
 
@@ -1927,7 +1969,7 @@ async def _reportar_error(update: object, exc: BaseException | None, *,
             "incidencia %s clase=%s sev=%s tipo=%s etapa=%s origen=%s len_q=%d",
             incidencia.codigo, incidencia.clase, incidencia.severidad,
             incidencia.tipo_excepcion, incidencia.etapa,
-            incidencia.origen or "-", len(query or ""),
+            incidencia.origen or "-", len(consulta or ""),
         )
 
         # 2) Avisar al técnico. Texto PLANO a propósito: un mensaje de error que
@@ -1950,22 +1992,31 @@ async def _reportar_error(update: object, exc: BaseException | None, *,
                     incidencia.codigo, type(envio).__name__,
                 )
 
-        # 3) Registrar para insights (gateado, fail-open dentro). Va a un HILO
-        #    —el patrón que el propio bot ya usa para lo bloqueante
-        #    (`transcribe_audio`, `schedule_maintenance`)— porque el registro
-        #    son hasta tres peticiones REST de 10 s de timeout cada una. En el
-        #    escenario que más importa (Supabase caído: todos los turnos
-        #    fallan) hacerlas en el bucle de eventos dejaría al bot mudo para
-        #    TODOS mientras registra el error de UNO. El resto de `log_query`
-        #    del fichero siguen siendo síncronos: migrarlos es una decisión
-        #    aparte, y aquí no se añade el problema que ya existe.
+        # 3) Registrar para insights (gateado, fail-open dentro). Va a un HILO,
+        #    el patrón que el propio bot ya usa para lo bloqueante
+        #    (`transcribe_audio`, `run_turn`): el registro son hasta tres
+        #    peticiones REST de 10 s de timeout cada una y no deben correr EN
+        #    el bucle de eventos.
+        #
+        #    COSTE REAL, declarado (dúo r37 — una versión anterior de este
+        #    comentario afirmaba que esto protegía la disponibilidad para los
+        #    demás técnicos, y es FALSO): aquí se hace `await`, así que el turno
+        #    espera igual; y como PTB procesa los updates DE UNO EN UNO
+        #    (`concurrent_updates` no está activado), con Supabase caído los
+        #    demás técnicos siguen haciendo cola detrás de estos timeouts. Lo
+        #    que `to_thread` sí compra es que el bucle no quede bloqueado
+        #    (getUpdates y la JobQueue siguen vivos) y que esto ya esté bien
+        #    puesto si algún día se activa `concurrent_updates`.
+        #    El arreglo de verdad —esperar acotado, o activar
+        #    `concurrent_updates`— es una decisión de serving con su propio dúo:
+        #    NO se cuela aquí de tapadillo.
         if _error_logging_enabled():
             try:
                 await asyncio.to_thread(
                     _persistir_incidencia,
                     incidencia,
                     user_id=_usuario_de(update),
-                    query=query,
+                    query=consulta,
                     avisado=avisado,
                 )
             except Exception:                                # noqa: BLE001
@@ -1998,9 +2049,20 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
             "409 Conflict: otra instancia con el mismo token está haciendo polling. "
             "Parando ESTE proceso para no partir las sesiones de los usuarios."
         )
-        aplicacion = getattr(context, "application", None)
-        if aplicacion is not None:
-            aplicacion.stop_running()
+        # (dúo r37) Se REGISTRA antes de parar. Antes se retornaba aquí mismo y
+        # el proceso moría sin incidencia estructurada: el fallo más grave que
+        # el bot sabe detectar era justo el único invisible en los insights, y
+        # desmentía que `_reportar_error` fuese el punto único. Sin `query`: el
+        # Conflict es del transporte, no de un turno concreto.
+        # El registro NO puede impedir la parada — de ahí el try/finally: si el
+        # registro se cuelga o revienta (y con un 409 puede que Supabase esté
+        # perfectamente, pero no se apuesta), la instancia para igual.
+        try:
+            await _reportar_error(update, exc, etapa="conflict_instancia")
+        finally:
+            aplicacion = getattr(context, "application", None)
+            if aplicacion is not None:
+                aplicacion.stop_running()
         return
     query = None
     try:

@@ -2,8 +2,10 @@
 
 Contratos que se fijan aquí:
   · la taxonomía clasifica por CAUSA, y los nombres nominales que usa están
-    pinados contra las excepciones REALES de httpx/telegram/anthropic — si un
-    `pip install -U` mueve una clase, cae la suite, no producción;
+    pinados contra las excepciones REALES de los CINCO orígenes que llegan al
+    serving — httpx, telegram, anthropic, openai (Whisper) y voyageai (rerank,
+    con nombres propios) — así que si un `pip install -U` mueve una clase, cae
+    la suite y no producción;
   · lo desconocido cae en `bug` (residual honesto), nunca en «datos ausentes»;
   · cada clase dice algo DISTINTO al técnico, y solo manda reintentar cuando
     reintentar puede funcionar;
@@ -46,7 +48,7 @@ def _respuesta(status: int) -> httpx.Response:
 @pytest.mark.parametrize(
     "exc, clase_esperada",
     [
-        # --- red hacia los datos (Supabase / Voyage van por httpx) -----------
+        # --- red hacia los datos (Supabase habla REST por httpx) -------------
         (httpx.ReadTimeout("timeout"), tax.RED_DATOS),
         (httpx.ConnectError("conn refused"), tax.RED_DATOS),
         (httpx.PoolTimeout("pool"), tax.RED_DATOS),
@@ -132,6 +134,37 @@ def test_4xx_de_supabase_es_bug_nuestro_no_fallo_de_red():
     assert decision.reintentable is False
 
 
+@pytest.mark.parametrize(
+    "codigo, reintentable_esperado",
+    [(400, False), (402, False), (404, False), (422, False), (409, False),
+     (500, True), (502, True), (503, True)],
+)
+def test_un_4xx_del_proveedor_nunca_manda_reintentar(codigo, reintentable_esperado):
+    """r37. El SDK lanza `APIStatusError` BASE cuando no tiene subclase para ese
+    código (402, 451…), y esa base estaba en el conjunto «reintentable» POR
+    NOMBRE: a un error determinista se le decía «vuelve a intentarlo». Ahora el
+    código HTTP manda sobre el nombre.
+
+    (Precisión sobre el hallazgo: `BadRequestError` 400 ya se clasificaba bien
+    —tiene nombre propio y `clasificar` retorna en la primera entrada del MRO—;
+    el agujero real era la base sin subclase. Se cubren ambos.)"""
+    exc = anthropic.APIStatusError("x", response=_respuesta(codigo), body=None)
+    decision = tax.clasificar(exc)
+    assert decision.reintentable is reintentable_esperado
+    assert decision.clase in (tax.LLM_FALLO, tax.LLM_SATURADO)
+
+
+def test_bad_request_del_proveedor_no_manda_reintentar():
+    """El caso que el dúo citó: comprobando `reintentable`, no solo la clase."""
+    decision = tax.clasificar(
+        anthropic.BadRequestError("too many tokens", response=_respuesta(400),
+                                  body=None)
+    )
+    assert decision.clase == tax.LLM_FALLO
+    assert decision.reintentable is False
+    assert "vuelve a intentarlo" not in decision.mensaje.lower()
+
+
 def test_credencial_rechazada_es_critica_y_no_reintentable():
     """Sistémico: afecta a TODOS. Mandar reintentar sería mentir."""
     decision = tax.clasificar(
@@ -148,6 +181,38 @@ def test_bot_bloqueado_no_es_entregable():
     decision = tax.clasificar(tg_error.Forbidden("bot was blocked by the user"))
     assert decision.entregable is False
     assert tax.texto_para_usuario(decision, "abcd1234") == ""
+
+
+def test_los_otros_dos_proveedores_tambien_estan_pinados():
+    """r37: la guarda contra renombres cubría httpx/telegram/anthropic y dejaba
+    fuera a OpenAI (Whisper, `telegram_bot.py:914`) y a Voyage (rerank por SDK,
+    `rag/reranker.py:195`) — ambos EN SERVING, y `openai` además sin pin
+    superior en requirements. Voyage usa nombres PROPIOS (`ServerError`,
+    `ServiceUnavailableError`) que no existen en los otros SDK."""
+    import openai
+    import voyageai.error as ve
+
+    casos = [
+        (openai.RateLimitError("r", response=_respuesta(429), body=None),
+         tax.LLM_SATURADO, True),
+        (openai.AuthenticationError("a", response=_respuesta(401), body=None),
+         tax.LLM_FALLO, False),
+        (openai.APITimeoutError(
+            request=httpx.Request("POST", "https://api.openai.com/v1/x")),
+         tax.LLM_FALLO, True),
+        (openai.BadRequestError("b", response=_respuesta(400), body=None),
+         tax.LLM_FALLO, False),
+        (ve.ServerError("boom"), tax.LLM_FALLO, True),
+        (ve.ServiceUnavailableError("busy"), tax.LLM_SATURADO, True),
+        (ve.RateLimitError("rl"), tax.LLM_SATURADO, True),
+        (ve.AuthenticationError("auth"), tax.LLM_FALLO, False),
+        # Sin nombre conocido: cae al no-reintentable de la clase, no a `bug`.
+        (ve.InvalidRequestError("bad"), tax.LLM_FALLO, False),
+    ]
+    for exc, clase, reintentable in casos:
+        decision = tax.clasificar(exc)
+        assert decision.clase == clase, f"{type(exc).__name__} -> {decision.clase}"
+        assert decision.reintentable is reintentable, type(exc).__name__
 
 
 def test_lo_desconocido_nunca_se_disfraza_de_dato_ausente():
@@ -210,13 +275,13 @@ def _todas_las_decisiones() -> list[tax.Decision]:
             vistas.append(valor)
         elif isinstance(valor, dict):
             vistas.extend(v for v in valor.values() if isinstance(v, tax.Decision))
-    # La del 5xx del proveedor se construye en línea dentro de `clasificar`.
-    vistas.append(
-        tax.clasificar(
-            anthropic.InternalServerError("500", response=_respuesta(500),
-                                          body=None)
-        )
-    )
+    # r37: la del 5xx del proveedor (`_LLM_NO_RESPONDE`) ya NO se construye en
+    # línea dentro de `clasificar` — es constante de módulo, así que la recoge
+    # el barrido de arriba. Se comprueba que sigue siendo alcanzable para que
+    # nadie la devuelva a una función y se salga de los invariantes sin ruido.
+    assert tax.clasificar(
+        anthropic.InternalServerError("500", response=_respuesta(500), body=None)
+    ) in vistas, "la decisión del 5xx no está entre las constantes del módulo"
     assert len(vistas) >= len(tax.CLASES) + 4, "faltan variantes por revisar"
     return vistas
 
@@ -336,6 +401,17 @@ def test_redaccion_descarta_el_mensaje_si_reproduce_la_consulta():
                           prohibido=consulta)
     assert "CAD-250" not in limpio
     assert "omitido" in limpio
+
+
+def test_redaccion_admite_VARIOS_textos_prohibidos():
+    """r37: en voz conviven la transcripción CRUDA y la normalizada, y la
+    excepción puede hacer eco de cualquiera. Comprobar solo una dejaba la otra
+    sin defensa."""
+    crudo = "cuantos lazos admite la ce a de dos cincuenta"
+    normalizado = "cuantos lazos admite la CAD-250"
+    for eco in (crudo, normalizado):
+        limpio = tax.redactar(f"ValueError: {eco}", prohibido=[crudo, normalizado])
+        assert "omitido" in limpio, f"no se detectó el eco de {eco!r}"
 
 
 def test_redaccion_no_se_dispara_por_una_palabra_suelta():
@@ -516,6 +592,51 @@ def test_la_incidencia_se_persiste_con_lo_necesario_para_aprender(bot_aislado):
     assert fila["query_log_id"] == padre["query_log_id"]
 
 
+def test_la_transcripcion_no_se_cuela_en_el_registro(bot_aislado):
+    """r37, CRÍTICO de privacidad. `handle_voice` llamaba a `_reportar_error`
+    SIN `query`, así que `redactar` corría con `prohibido=None` y la defensa
+    contra eco no se ejecutaba: una excepción que arrastrase la transcripción
+    la guardaba en `mensaje_corto` y además con `query_log_id=NULL` — fuera del
+    CASCADE y de cualquier supresión atribuible."""
+    bot, escrituras = bot_aislado
+    transcripcion = "revisar la central de la obra de Fulano en Aranjuez"
+    normalizada = "revisar la central de la obra de Fulano en ARANJUEZ-1"
+    update, _ = _update_falso()
+    asyncio.run(
+        bot._reportar_error(
+            update, ValueError(f"no puedo procesar {transcripcion}"),
+            etapa="handle_voice", query=[transcripcion, normalizada],
+        )
+    )
+    fila = escrituras["error"][0]
+    assert transcripcion not in (fila["mensaje_corto"] or "")
+    assert "Fulano" not in (fila["mensaje_corto"] or "")
+    assert "omitido" in fila["mensaje_corto"]
+    # Y la incidencia queda ENLAZADA: es lo que la mete en el CASCADE.
+    assert fila["query_log_id"] is not None
+    # Lo canónico guardado es la forma MÁS PROCESADA (la última conocida).
+    assert escrituras["query"][0]["query"] == normalizada
+
+
+def test_el_reporte_acepta_texto_suelto_o_secuencia(bot_aislado):
+    bot, escrituras = bot_aislado
+    update, _ = _update_falso()
+    asyncio.run(bot._reportar_error(update, KeyError("x"), etapa="g",
+                                    query="una sola cadena"))
+    assert escrituras["query"][0]["query"] == "una sola cadena"
+
+
+def test_normalizar_consulta_es_total():
+    import src.bot.telegram_bot as bot
+
+    assert bot._normalizar_consulta(None) == (None, ())
+    assert bot._normalizar_consulta("  hola  ") == ("hola", ("hola",))
+    assert bot._normalizar_consulta("") == (None, ())
+    assert bot._normalizar_consulta(["a", "", None, "b"]) == ("b", ("a", "b"))
+    assert bot._normalizar_consulta([]) == (None, ())
+    assert bot._normalizar_consulta(42) == (None, ())      # ni siquiera iterable
+
+
 def test_sin_consentimiento_no_se_guarda_la_consulta(bot_module, monkeypatch):
     """La red global alcanza `/start` de quien AÚN NO ha aceptado: sin este
     gate sería la primera vía del bot para escribir su texto."""
@@ -674,6 +795,43 @@ def test_en_un_callback_no_se_confunde_el_mensaje_del_bot_con_una_consulta(
     asyncio.run(bot.error_handler(update, context))
     assert escrituras["query"] == []
     assert escrituras["error"][0]["query_log_id"] is None
+
+
+def test_el_conflict_se_registra_ANTES_de_parar(bot_aislado):
+    """r37: el `Conflict` retornaba antes del punto único, así que el fallo más
+    grave que el bot sabe detectar era el único invisible en los insights."""
+    bot, escrituras = bot_aislado
+    update, _ = _update_falso()
+    parados: list = []
+    context = MagicMock()
+    context.error = tg_error.Conflict("terminated by other getUpdates request")
+    context.application.stop_running = lambda: parados.append(True)
+    asyncio.run(bot.error_handler(update, context))
+    assert parados == [True], "la instancia NO paró"
+    fila = escrituras["error"][0]
+    assert fila["clase"] == tax.TRANSPORTE_TELEGRAM
+    assert fila["severidad"] == "critico"
+    assert fila["etapa"] == "conflict_instancia"
+
+
+def test_el_conflict_para_aunque_el_registro_reviente(bot_module, monkeypatch):
+    """El registro no puede impedir la parada: si Supabase se cuelga, la
+    instancia duplicada tiene que morir igual o las sesiones siguen partidas."""
+    monkeypatch.setenv("BOT_ERROR_LOGGING", "on")
+    monkeypatch.setattr(bot_module, "has_consent", lambda uid: True)
+
+    async def _revienta(*a, **kw):
+        raise RuntimeError("registro roto")
+
+    monkeypatch.setattr(bot_module, "_reportar_error", _revienta)
+    parados: list = []
+    update, _ = _update_falso()
+    context = MagicMock()
+    context.error = tg_error.Conflict("terminated by other getUpdates request")
+    context.application.stop_running = lambda: parados.append(True)
+    with pytest.raises(RuntimeError):
+        asyncio.run(bot_module.error_handler(update, context))
+    assert parados == [True], "el fallo del registro impidió la parada"
 
 
 def test_el_error_handler_global_sin_excepcion_no_cae(bot_aislado):
