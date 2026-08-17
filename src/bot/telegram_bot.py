@@ -1950,10 +1950,19 @@ async def _reportar_error(update: object, exc: BaseException | None, *,
                     incidencia.codigo, type(envio).__name__,
                 )
 
-        # 3) Registrar para insights (gateado, fail-open dentro).
+        # 3) Registrar para insights (gateado, fail-open dentro). Va a un HILO
+        #    —el patrón que el propio bot ya usa para lo bloqueante
+        #    (`transcribe_audio`, `schedule_maintenance`)— porque el registro
+        #    son hasta tres peticiones REST de 10 s de timeout cada una. En el
+        #    escenario que más importa (Supabase caído: todos los turnos
+        #    fallan) hacerlas en el bucle de eventos dejaría al bot mudo para
+        #    TODOS mientras registra el error de UNO. El resto de `log_query`
+        #    del fichero siguen siendo síncronos: migrarlos es una decisión
+        #    aparte, y aquí no se añade el problema que ya existe.
         if _error_logging_enabled():
             try:
-                _persistir_incidencia(
+                await asyncio.to_thread(
+                    _persistir_incidencia,
                     incidencia,
                     user_id=_usuario_de(update),
                     query=query,

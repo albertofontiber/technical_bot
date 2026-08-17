@@ -200,19 +200,53 @@ def test_cada_clase_dice_algo_distinto():
     )
 
 
+def _todas_las_decisiones() -> list[tax.Decision]:
+    """TODAS las decisiones del módulo, no solo la tabla base: las variantes
+    (crítica, bot bloqueado, las de Telegram, la del 5xx del proveedor) también
+    llegan al técnico y también tienen que cumplir los invariantes."""
+    vistas: list[tax.Decision] = []
+    for valor in vars(tax).values():
+        if isinstance(valor, tax.Decision):
+            vistas.append(valor)
+        elif isinstance(valor, dict):
+            vistas.extend(v for v in valor.values() if isinstance(v, tax.Decision))
+    # La del 5xx del proveedor se construye en línea dentro de `clasificar`.
+    vistas.append(
+        tax.clasificar(
+            anthropic.InternalServerError("500", response=_respuesta(500),
+                                          body=None)
+        )
+    )
+    assert len(vistas) >= len(tax.CLASES) + 4, "faltan variantes por revisar"
+    return vistas
+
+
 def test_solo_manda_reintentar_cuando_reintentar_puede_funcionar():
     """Un bug determinista falla siempre igual: decirle «inténtalo de nuevo» es
-    hacerle perder el tiempo al técnico."""
-    for clase in tax.CLASES:
-        decision = tax._MENSAJES[clase]
+    hacerle perder el tiempo al técnico. Se comprueba sobre TODAS las
+    decisiones, incluidas las variantes."""
+    for decision in _todas_las_decisiones():
         invita = any(
             marca in decision.mensaje.lower()
             for marca in ("repite la pregunta", "vuelve a enviarme",
-                          "vuelve a intentarlo", "inténtalo de nuevo")
+                          "vuelve a intentarlo", "inténtalo de nuevo",
+                          "espera unos segundos")
         )
         assert invita == decision.reintentable, (
-            f"{clase}: reintentable={decision.reintentable} pero el mensaje "
-            f"{'invita' if invita else 'no invita'} a reintentar"
+            f"{decision.clase}/{decision.severidad}: "
+            f"reintentable={decision.reintentable} pero el mensaje "
+            f"{'invita' if invita else 'no invita'} a reintentar: "
+            f"{decision.mensaje!r}"
+        )
+
+
+def test_toda_decision_entregable_tiene_mensaje_y_severidad_valida():
+    for decision in _todas_las_decisiones():
+        assert decision.clase in tax.CLASES
+        assert decision.severidad in tax.SEVERIDADES
+        assert bool(decision.mensaje.strip()) == decision.entregable, (
+            f"{decision.clase}: entregable={decision.entregable} con mensaje "
+            f"{decision.mensaje!r}"
         )
 
 
@@ -565,6 +599,33 @@ def test_el_manejador_no_lanza_si_falla_la_persistencia(bot_module, monkeypatch)
     update, enviados = _update_falso()
     asyncio.run(bot_module._reportar_error(update, KeyError("x"), etapa="g"))
     assert len(enviados) == 1          # y el técnico SÍ recibió su mensaje
+
+
+def test_el_registro_no_bloquea_el_bucle_de_eventos(bot_aislado, monkeypatch):
+    """Escenario que más importa: Supabase caído ⇒ TODOS los turnos fallan. Si
+    el registro (hasta 3 peticiones × 10 s de timeout) corriera en el bucle, el
+    bot quedaría mudo para todos mientras registra el error de uno."""
+    bot, _ = bot_aislado
+    hilos: list = []
+    import threading
+
+    def _anota(**kw):
+        hilos.append(threading.current_thread().name)
+        return True
+
+    monkeypatch.setattr(bot, "log_bot_error", _anota)
+    monkeypatch.setattr(bot, "log_query", _anota)
+
+    async def _escenario():
+        update, _ = _update_falso()
+        await bot._reportar_error(update, KeyError("x"), etapa="g",
+                                  query="una pregunta")
+        return threading.current_thread().name
+
+    principal = asyncio.run(_escenario())
+    assert hilos and all(h != principal for h in hilos), (
+        f"el registro corrió en el hilo del bucle ({principal})"
+    )
 
 
 def test_el_manejador_no_lanza_si_falla_el_manejador(bot_module, monkeypatch):
