@@ -7201,3 +7201,38 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
   dúo r33 Sol ts=2026-08-16T22:52:37 / Fable 22:55:15 · `s324c_d1_prueba_offline_v1` · `s324c_replay_congelado_flips_v1`
   · LEVER_DIGEST fila «Etapa 3 / síntesis» sobrescrita in-place · TECH_DEBT #89 (5 defectos de la sonda).
 - **Relacionado**: DEC-173/175 (banner corregido) · DEC-225 · DEC-224 (gold-review vía `gold_store`).
+
+## DEC-228 (s324d, autónoma diurna) — La sonda de alcanzabilidad se ENDURECE (TECH_DEBT #89) con dúo r34: oráculo `serve` PAREADO por defecto, guard de cobertura del span con valor+predicado, votos caídos del juez no cuentan como «no», recibo parcial nunca completo, coste real; y el runner Fable audita sus `tool_use` reales (#86)
+
+- **Fecha**: 17 ago 2026 (Alberto revisando packets; trabajo autónomo acordado: «¿qué puedes avanzar tú por tu lado?»).
+  **Impacto**: MEDIO en zona de dolor (instrumento de medición de etapa 3; no serving). Producción sin cambios.
+- **Decide (1) — semántica del instrumento a partir de hoy**: (a) el oráculo `serve` se genera sobre la MISMA vista
+  que recibió el generador en la base + la inyección (pareado; `--oracle-fresco` restaura los turnos independientes),
+  y si el carrier YA estaba servido no se duplica (similarity elevada in-place, `aviso_prominencia`); (b) `appendix`
+  elige el span con guard de cobertura (`elegir_span`/`span_cubre`: sin partir por «:», extensión ≤2 líneas, tokens
+  del valor con frontera de palabra + ≥2 tokens de predicado) y si nada cubre la rep es NO construible ⇒
+  INCONCLUYENTE, nunca se juzga un apéndice incompleto; (c) `n_fail` del juez se registra y una rep no firme con
+  votos caídos no sostiene un negativo (`INCONCLUYENTE_JUEZ_INCOMPLETO`); (d) un fallo tardío escribe recibo
+  PARCIAL con `PARCIAL_<…>` (nunca `NO_ALCANZABLE`/`ALCANZABLE` a secas); (e) `--receipt` o el FULL v3* más
+  reciente por defecto (`receipt_usado` estampado); (f) coste real por llamada (`scripts/usage_meter.py`) con
+  disponibilidad declarada. Lógica pura en `scripts/reachability_verdict.py` (15 tests nuevos + 10 previos).
+- **Por qué con dúo y no de paso**: cambia lo que MIDEN los recibos futuros (pareado ≠ independiente; JUEZ_INCOMPLETO
+  ≠ NO). Sol xhigh 7 hallazgos (3 críticos) todos verificados y aplicados; Fable emparejado (11 `tool_use` reales,
+  auditoría #86 activa) 1 medio = Sol#2. El propio smoke validó el guard nuevo: mi oráculo pareado pasaba el dict del
+  generador al juez (5 fallos) y salió `JUEZ_INCOMPLETO` en vez de un NO falso.
+- **Lo que NO cambia**: la vara (`judge_conveyed21` K=5, THRESH_FIRM 4); el fail-closed del negativo de s321; los
+  8 recibos de etapa 3 y DEC-175 (no se re-miden). Lectura colateral declarada: el ALCANZABLE de s324b para `hp017#1`
+  en `serve` venía con el carrier duplicado; pareado, 1 rep da 0/5 — coherente con la prueba offline D1; 1 rep no es
+  medida y no cambia la cifra de cabecera («1 hecho»).
+- **Decide (2) — #86**: el runner Fable estampa `tools_reales`/`sin_tools`/`log_de_tools_fabricado`, sufija el `.md`
+  `_SIN-TOOLS`, deja nota lateral y avisa; el `.md` no se toca (sha del texto final del proveedor). Regla de
+  operación: no mover HEAD durante un dúo emparejado.
+- **Colateral de la mañana**: E2 re-derivado tras los lotes de s324b/c (conservador PASS; pleno STOP con 5 pérdidas
+  conocidas — CCD-103 ya no pierde; split 618+743); PLAN podado 162 KB → 17 KB (archivo íntegro en HISTORY);
+  #88 preparado (55 retags de `documents.product_model` al canónico E3, dry-run 55/55, NADA aplicado — decide Alberto);
+  #87: no hay pipeline OCR en el repo (declarado).
+- **Alternativas descartadas**: (a) endurecer «de paso» sin dúo — TECH_DEBT #89 lo prohibía y el dúo cazó 3 críticos;
+  (b) mantener el oráculo independiente para «medir prominencia» — era el defecto, no una feature; (c) re-medir las
+  8 sondas con el instrumento nuevo — ~$12 sin pregunta que lo justifique hoy (la población está adjudicada como 1).
+- **Recibos**: `evals/s324d_sonda_endurecida_propuesta_v1.md` (+ADENDA) · tally ts=2026-08-17T10:39:29 (Sol 7/7, Fable
+  1/1, 0 FP) · smokes `evals/s324d_reachability_smoke_hp017_1_{appendix,serve}.json` · `evals/s324d_retag_documents_pm_dry-run_*.json`.

@@ -52,7 +52,14 @@ ARTEFACTO), 22 no (10 con desacuerdo cross-model Sonnet↔GPT) → bloque `k5_co
 — `evals/s324c_rejuicio_k5_v1.md`. Suite verde (3.891; `test_s307` desacoplado de los datos del catálogo). Deuda nueva #89
 (5 defectos del instrumento de sonda). Coste de la noche ≈ $25 (sondas ~$12, replay $5,44, K=5 ≈$6,6, resto $0). **PR #276 abierta** (rama `claude/s324b-sondas-etapa3`; la mergea Alberto).
 
-**Qué sigue (s324c — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
+**s324d (17-ago, mañana autónoma mientras Alberto revisa packets; DEC-228)**: E2 **re-derivado** tras los lotes
+(conservador PASS · pleno STOP con las 5 pérdidas conocidas, CCD-103 ya no pierde · split 618+743); **PLAN podado**
+162 KB → 17 KB (archivo íntegro en HISTORY); **#86** runner Fable audita `tool_use` reales; **#89 RESUELTO** con dúo
+r34 (Sol 7/7 + Fable 1/1 aplicados): sonda con oráculo `serve` PAREADO, guard de cobertura valor+predicado,
+`JUEZ_INCOMPLETO`, recibo parcial honesto, coste real, `--receipt`; **#88 PREPARADO** (55 retags `documents.pm` →
+canónico E3, dry-run 55/55, nada aplicado); **#87**: sin pipeline OCR en el repo. Suite verde.
+
+**Qué sigue (s324c/d — VIGENTE, consolidado; LO PRIMERO al abrir sesión):**
 (a) **Alberto, con lo preparado delante** (todo ⏳ en los packets canónicos): **bloques E1b** — un «sí» por bloque =
 re-dry-run del mismo sha + `--aplicar` (cross-bloque morley↔unresolved/notifier exige adjudicar homónimos); las
 3 preguntas de §0.D (MADT015_01 ¿NFS2-8?, MNDT600 ¿familia SMART 3?, MNDT701 sin id) · paraguas «2X-A» (¿con
@@ -61,8 +68,9 @@ re-dry-run del mismo sha + `--aplicar` (cross-bloque morley↔unresolved/notifie
 (b) **E2**: re-derivar snapshot + G1/G2 tras cada lote (conservador PASS hoy) antes de cualquier swap.
 (c) Etapa 3 sin lever de serving: la varianza de síntesis (4/4 flips) es OTRA clase — si se quiere atacar, es
 diseño nuevo con pregunta cero (¿medir con N≥5 por hecho antes de etiquetar el FULL?), no D1.
-(d) #89 endurecer la sonda (5 defectos) · #86 runner Fable exige `tool_use` reales · #87 OCR TI-007 + ingestas
-vacías · #88 `documents.product_model` artefactos · #84 doc_map como fuente de aplicabilidad (dúo).
+(d) ~~#89~~ ~~#86~~ hechos (s324d) · **#88: un «sí» de Alberto aplica los 55 retags** (`scripts/s324d_retag_documents_pm.py --aplicar`) ·
+#87 OCR TI-007: sin pipeline OCR (Alberto aporta PDF OCR-izado o se diseña el paso con dúo) · #84 doc_map como
+fuente de aplicabilidad (dúo).
 (e) DEC-226 (conducta `mismatch`, decisión de producto multi-modelo) y DEC-186b siguen donde estaban.
 (f) podar el PLAN (>160 KB).
 
