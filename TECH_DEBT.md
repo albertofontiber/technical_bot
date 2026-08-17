@@ -3288,6 +3288,16 @@ estado los chunks/chars que `_DROP_LANGUAGES` descarta, coste ≈0, sin tocar po
 que da la atribución end-to-end por chunk; con esa cifra se decide el fix. Añadido: el filtro por chunk **contradice
 un invariante declarado** (`retriever.py:2430`: «el corpus indexa ES, multilingüe-con-ES y EN-only»), así que esto
 no es sólo coste/beneficio sino desvío de política declarada.
+**⚠️ HALLAZGO COLATERAL (s324d, lo cazó la suite): RE-PARSEAR DEGRADA LA METADATA.** El dry-run de diagnóstico
+sobre `D1056-1` escribió su JSON nuevo en el store de extracción y el gate de no-regresión
+`test_manufacturer_registry::test_behavior_snapshot_full_corpus` se puso ROJO: con el JSON de mayo la atribución era
+`manufacturer=Notifier · product_model=NFS-32-001 · category=MIXED`; con el re-parse de hoy pasa a
+`manufacturer=None · product_model=TO-16 · category=None`. El JSON de diagnóstico se retiró del store (no era una
+ingesta autorizada) y el gate volvió a verde. **Consecuencia para CUALQUIER plan de re-ingesta**: el re-parse **no es
+idempotente en metadata** — re-ingestar un documento puede empeorar su atribución aunque mejore su texto. Toda
+re-ingesta futura debe (a) comparar la metadata derivada antes/después y (b) pasar ese gate, no sólo mirar los chars.
+Refuerza el M3 de Sol en r36 (el re-ingestador ya daba `manufacturer=null` y `product_model="EN-54-3"` para este doc).
+
 **Caso real que queda declarado y sin arreglar: `D1056-1_NFXI-BS-BSF`** (93 % del documento fuera). La «excepción por
 documento» que propuse quedó RETIRADA: no funcionaría (serving lo volvería a filtrar) y el re-ingestador le asigna
 metadata incorrecta (`manufacturer=null`, `product_model="EN-54-3"`). Propuesta completa:
