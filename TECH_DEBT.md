@@ -3248,3 +3248,28 @@ s324b para `hp017#1` en `serve` venía con el carrier DUPLICADO a similarity má
 4. No imprime ni guarda **coste** (~$11-13 estimados a mano para 14 invocaciones).
 5. `serve` sobre un chunk ya servido por lane (hp017#1) lo duplica con similarity máxima: el ALCANZABLE mide PROMINENCIA, no evidencia ausente; el recibo no guarda la composición de la base.
 **Qué hacer**: RECEIPT parametrizable (o el FULL más reciente por defecto); guard de cobertura en `appendix` (el span debe contener valor y predicado o abortar a INCONCLUYENTE explícito); recibo parcial ante SystemExit; coste en el recibo; en `serve`, detectar carrier ya servido y declararlo. Con dúo, no de paso.
+
+## #90 — El filtro de idioma POR CHUNK tira castellano en documentos multilingües (fichas con tabla mezclada) — s324d
+
+**Estado: MEDIDO sobre un caso, alcance en medición.** `src/reingest/pipeline.py` descarta los chunks cuyo
+`detect_language` cae en `_DROP_LANGUAGES = {fr, it, pt, de}` (política de idiomas s65/DEC-066). En un documento
+multilingüe cuya TABLA mezcla idiomas por fila/columna, el idioma dominante del chunk es el extranjero y **el
+castellano se va dentro del chunk descartado**.
+
+**Caso medido (17-ago, `D1056-1_NFXI-BS-BSF`, ficha de base NFXI-BS/BSF):** el markdown de LlamaParse trae el
+documento entero (**50.540 chars**, con «Configuración», «Desactivado», «Descripción»); la guarda de md degenerado
+NO dispara (ratio 0,95 y 0,43, con estructura — correcto); `chunk_document` produce **4 chunks / 50.527 chars**; el
+filtro de idioma descarta **2 chunks = 47.193 chars (93 % del documento)** clasificados «de», **y esos dos chunks
+contienen el castellano** (verificado token a token). En el corpus el documento vive con **2 chunks / 3.593 chars**.
+
+**Por qué importa**: es la clase «gap de manual ya ingestado» (el documento cuenta como cubierto y su contenido
+español no está). Y el censo de cobertura de páginas puede estar ENMASCARÁNDOLO: clasifica 157 documentos como
+`paginas_perdidas_otro_idioma` adjudicando idioma al texto ausente **en global**; si ese texto es multilingüe con
+castellano intercalado, la clasificación lo da por política cuando es pérdida. **Medición en curso** (agente):
+cuántos de esos 157 llevan castellano intercalado y cuántos chars son.
+
+**Qué NO hacer sin Alberto y sin dúo**: cambiar la política de idiomas es zona de dolor + decisión de producto.
+Opciones a evaluar cuando haya cifra: (a) partir los chunks multilingües por idioma antes del filtro; (b) conservar
+el chunk si contiene ≥N chars adjudicables a `es`; (c) marcar el documento como multilingüe en la ingesta y aplicar
+política por documento, no por chunk; (d) no tocar nada si la cifra resulta despreciable.
+**Verificado que NO es**: ni OCR, ni la guarda de markdown degenerado (#87), ni el chunker.
