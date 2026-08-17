@@ -3277,6 +3277,15 @@ haría falta esquema + persistencia + contrato de serving/generación; (c) ning�
 (verificado contra `pool_ids`/`topk_ids`/`served_ids`). **Límite declarado (Sol, crítico)**: la atribución end-to-end
 del mecanismo NO está hecha — el censo compara texto NATIVO del PDF, así que un chunk descartado cuyo contenido
 venga de OCR de imagen no se vería; medirlo exige el store de extracción de 966 JSON, que no está en esta máquina.
+**⚠️ CORRECCIÓN tras Opus 5 (r36, pin alternativo adjudicado): el «0 accionables» NO zanja el fix.** Ese umbral es
+**por DOCUMENTO sobre texto nativo ausente (≥500)**, mientras el fix decidiría **por CHUNK (≥400)**: métricas
+distintas (`MNDT040P`, 426 chars, cruzaría el del fix). Y la clase `sano` del censo significa ausencia **< 500**, no
+cero, así que el suelo es **tautológico** (cohorte y métrica comparten el 500) y un fenómeno de ~400 chars/chunk es
+invisible por construcción. **Recomendación revisada: (E) DECLARAR EL DROP** —contar y persistir en el registro de
+estado los chunks/chars que `_DROP_LANGUAGES` descarta, coste ≈0, sin tocar política— que además es el instrumento
+que da la atribución end-to-end por chunk; con esa cifra se decide el fix. Añadido: el filtro por chunk **contradice
+un invariante declarado** (`retriever.py:2430`: «el corpus indexa ES, multilingüe-con-ES y EN-only»), así que esto
+no es sólo coste/beneficio sino desvío de política declarada.
 **Caso real que queda declarado y sin arreglar: `D1056-1_NFXI-BS-BSF`** (93 % del documento fuera). La «excepción por
 documento» que propuse quedó RETIRADA: no funcionaría (serving lo volvería a filtrar) y el re-ingestador le asigna
 metadata incorrecta (`manufacturer=null`, `product_model="EN-54-3"`). Propuesta completa:

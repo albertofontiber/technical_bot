@@ -1,6 +1,6 @@
 # s324d — TECH_DEBT #90: el filtro de idioma POR CHUNK tira castellano en documentos multilingües. Diagnóstico, alcance y fix propuesto
 
-**Estado: NADA cableado. v3 tras el dúo r36 (Sol 5 hallazgos, 2 críticos, todos verificados y aplicados).** La recomendación sigue siendo **D (no tocar el pipeline)**, pero por razones distintas y mejor fundadas: el alcance medido no la sostenía sola (cohorte sesgada) y el fix es bastante más caro de lo que yo había escrito (toca ingesta **y serving y esquema**). Propuesta para el sí de Alberto.
+**Estado: NADA cableado. v4 tras el dúo r36 COMPLETO (Sol 5 + Opus 5 —pin alternativo adjudicado— 6 hallazgos, 4 críticos entre ambos; TODOS verificados y aplicados).** Opus dictaminó **NO SÓLIDO** la v3 y tenía razón: el veredicto sobrevive, pero **no por las razones que yo había escrito**, y el espacio de opciones estaba incompleto. La recomendación sigue siendo **D (no tocar el pipeline)**, pero por razones distintas y mejor fundadas: el alcance medido no la sostenía sola (cohorte sesgada) y el fix es bastante más caro de lo que yo había escrito (toca ingesta **y serving y esquema**). Propuesta para el sí de Alberto.
 Producción no cambia con este documento.
 
 ## 1 · El defecto, medido en la cadena entera (no inferido)
@@ -45,6 +45,8 @@ fragmento no esté ya indexado:
 (`MNDT040P`, 426 chars), el párrafo de exención de garantía de las hojas Kidde (`2x-a-lb` 344, `2x-lb` 100), una
 línea de índice (`MNDT742P`), avisos genéricos («Toda la información contenida en este documento puede ser
 modificada sin previo aviso»). El único con contenido semi-técnico es `D 1149-1 BGL Notifier` (361 chars).
+
+⚠️ **Y estos números NO zanjan la opción B (Opus r36, crítico — «mismatch de métrica del settled»)**: el «0 accionables» usa un umbral **por DOCUMENTO sobre texto nativo ausente (≥500)**, mientras el predicado de B decidiría **por CHUNK (≥400)**. Son preguntas distintas. Con mi propio dato, `MNDT040P` (426 chars) **sí cruzaría** el umbral de B. Es exactamente el fallo que el Protocolo 4 del proyecto llama «el settled tiene MÉTRICA»: un settled medido en una métrica no zanja un lever definido en otra. **Lo cometí yo.**
 
 Verificado por mí sobre el JSON del censo (regla C): 13 documentos con `chars_es_ausentes > 0`, suma **2.146**,
 **0** por encima del umbral; `meta.castellano_intercalado.veredictos = {otro_idioma_puro: 160}`.
@@ -141,9 +143,12 @@ dos casos de castellano perdido **no estaban en la muestra**. Decir «D1056 es l
 que lo excluye es circular. **Verificado**: las clases excluidas son 8 documentos (`texto_perdido_es` 1,
 `paginas_perdidas_es` 2, `sin_url` 3, `escaneado_sin_texto` 1, `fuente_ilegible` 1).
 
-**Reformulación honesta de lo que SÍ está medido:** de los **164** documentos del corpus con texto nativo ausente,
-**160** se midieron (los `*_otro_idioma`) y su castellano es boilerplate (2.146 chars, 0 sobre el umbral); los **4**
-restantes ya estaban identificados como pérdida española o no son medibles. Los 842 «sano» no tienen texto ausente.
+**Reformulación honesta de lo que SÍ está medido:** de los **164** documentos clasificados con texto nativo ausente
+**≥500 chars**, **160** se midieron y su castellano es boilerplate (2.146 chars). ⚠️ **Corrección de Opus r36 (crítico):
+mi frase «los 842 “sano” no tienen texto ausente» era FALSA** — `sano` significa ausencia **< 500 chars**
+(`s324d_censo_cobertura_paginas.py:88,386`, `MIN_CHARS_PERDIDA = 500`), no cero. Cada uno puede llevar hasta 499 chars
+ausentes, y 842 × algo < 500 no es despreciable a priori. **El suelo es tautológico**: cohorte y métrica comparten el
+mismo 500, así que un fenómeno de escala ~400 chars/chunk es invisible **por construcción**.
 
 **Y el límite que Sol destapa y yo no había declarado:** esto **no es la atribución end-to-end del mecanismo**. El
 censo compara *texto nativo del PDF* contra el corpus; un chunk descartado por el filtro de idioma cuyo contenido
@@ -193,3 +198,41 @@ Frase corregida y evidencia cambiada por la verificación real.
 **`D1056-1_NFXI-BS-BSF`** queda **declarado como caso conocido** en TECH_DEBT #90 (93 % del documento fuera del
 corpus, con su tabla DIP española). Ya no propongo la excepción por documento: el dúo demostró que no funcionaría.
 Si Alberto quiere ese contenido dentro, el camino honesto es el proyecto completo de C2 — con su propia sentada.
+
+---
+
+## ADENDA 2 — dúo r36 completo: Opus 5 (pin alternativo adjudicado) dictamina NO SÓLIDO y aporta la opción que faltaba
+
+Fable no pudo correr (dos veces: presupuesto de tokens reventado por pasarle `TECH_DEBT.md` de 293 KB como semilla, y
+subject descuadrado porque commiteé entre medias). Alberto adjudicó el fallback: **Opus 5** como segundo revisor
+(`FABLE_REVIEW_MODEL=claude-opus-5`, conjunto cerrado de pines, canónico intacto). 12 `tool_use` reales.
+
+| # | Hallazgo | Verificación | Qué cambió |
+|---|---|---|---|
+| **O1** (crítico) | **Mismatch de métrica del «settled»**: el kill de B se apoya en «0 docs ≥500 chars de texto nativo ausente» (por DOCUMENTO) mientras B decide **por CHUNK ≥400**; `MNDT040P` (426) cruzaría el de B | **CIERTO** (`s324d_castellano_intercalado.py:77` vs §Diseño de B) | §2 corregida: **el kill de B NO está sostenido**. B queda ABIERTA, pendiente de una medición en su propia métrica |
+| **O2** (crítico) | **«Los 842 sano no tienen texto ausente» es FALSO**: `sano` = ausencia < 500, no = 0; y el suelo es tautológico (cohorte y métrica comparten el 500) | **CIERTO** (`s324d_censo_cobertura_paginas.py:88,386`) | frase corregida y declarada como sobre-afirmación mía |
+| **O3** (medio) | **Falta la opción E**: *declarar el drop* — contar chunks/chars descartados por `_DROP_LANGUAGES` en el registro de estado. Hoy, si sobrevive 1 chunk, el 93 % tirado **no deja rastro** (`empty_after_language` sólo cubre el caso de 0 supervivientes) | **CIERTO** (`pipeline.py:151-158`) | **añadida y RECOMENDADA** (abajo). Coste ≈0, mismo patrón que la guarda #87, y resuelve el límite de atribución de C1 sin tocar política |
+| **O4** (medio) | Autoridad miscitada: yo escribí «política de idiomas s65/**DEC-066**»; DEC-066 es el pre-filtro vectorial family-aware. El código cita `PLAN_RAG_2026 §4 (B2) + filtro diferido s30` | **CIERTO** (`DECISIONS.md:1179` vs `retriever.py:2434`) | cita corregida |
+| **O5** (medio) | **Conflicto con un invariante DECLARADO**: `retriever.py:2430` dice que «el corpus indexa ES, **multilingüe-con-ES** y EN-only» — el filtro por chunk lo **viola** (un multilingüe-con-ES adjudicado `de` nunca llega al índice) ⇒ esto es **desvío de política declarada**, no sólo coste/beneficio | **CIERTO**, verificado en el comentario canónico | incorporado como argumento de peso: cambia la naturaleza del problema |
+| O6 (menor) | El criterio de B decía heredar «~35 palabras» del censo; la adjudicación de idioma es línea a línea con ≥4 palabras (los 35 son el test de *ausencia*) | CIERTO | corregido |
+
+## RECOMENDACIÓN FINAL (v4) — cambia respecto a v3
+
+**E ahora + B/D en suspenso hasta medirlo en su propia métrica.**
+
+1. **E — declarar el drop (recomendada, coste ≈0, sin tocar política).** Que `process_file` cuente y persista en el
+   registro de estado los chunks y chars que `_DROP_LANGUAGES` descarta, con su idioma. Hoy ese mecanismo es
+   **silencioso** salvo cuando tira el documento entero — y el propio §5 de esta propuesta invoca «nada silencioso»
+   como principio mientras D lo dejaba mudo. Además **es el instrumento que da la atribución end-to-end** que C1
+   declaraba imposible: con el drop declarado, la siguiente ingesta (o un replay del store cuando esté disponible)
+   mide el alcance real **por chunk**, que es la métrica de B.
+2. **B — NO se mata: queda ABIERTA.** Mi «0 accionables» respondía a otra pregunta (O1). Con la cifra de E en la
+   métrica correcta se decidirá; si entonces sigue siendo despreciable, se cierra con dato y no con framing.
+3. **D — no cambiar la política de idiomas hoy** sigue en pie, y ahora con un matiz importante de O5: no es sólo
+   coste/beneficio, es que **el filtro por chunk contradice un invariante declarado del propio retriever**. Eso hay
+   que resolverlo o corregir el comentario — pero es decisión de Alberto, no mía.
+4. **`D1056-1`** sigue declarado y sin arreglar (la excepción por documento quedó retirada en v3 por C2 de Sol).
+
+**Lo que este dúo demuestra sobre el método:** dos revisores independientes cazaron dos clases distintas de fallo —
+Sol, que el fix no funcionaría end-to-end; Opus, que mi evidencia no sostenía el veredicto y que faltaba una opción
+barata. Ninguno de los dos hallazgos era visible desde dentro de mi propio razonamiento.
