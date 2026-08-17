@@ -92,10 +92,10 @@ def test_welcome_sin_db_usa_el_fallback_sin_numero(monkeypatch):
     assert "*Notifier*" in texto                        # pero sí marcas reales
 
 
-def test_el_texto_legal_sigue_estatico_v8():
+def test_el_texto_legal_sigue_estatico_v9():
     """`_CONSENT_TERMS` es lo que la gente ACEPTÓ: nada puede entrar ahí sin bump de
     versión. Pin por HASH del texto completo (Sol s307: la subcadena no pinna byte-
-    identidad). Si falla: o alguien tocó el texto legal SIN bump a v9 — revertir — o
+    identidad). Si falla: o alguien tocó el texto legal SIN bump a v10 — revertir — o
     es el bump deliberado: actualizar hash Y TERMS_VERSION juntos.
 
     (s324f) Bump DELIBERADO v7 → v8 para abrir el piloto a Directores Generales. El
@@ -106,4 +106,4 @@ def test_el_texto_legal_sigue_estatico_v8():
     """
     import hashlib
     assert hashlib.sha256(bot._CONSENT_TERMS.encode("utf-8")).hexdigest() == (
-        "eba71c78ebfa4784a5c2b010491966a352f589a0c4defaf05b881719121400f5")
+        "d98bba8b3c3ef7142cc1abd66e9bcd8b993ac7d00b0cd04775d6c9721ecb8dc3")

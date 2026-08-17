@@ -339,6 +339,16 @@ _CENSO_ESTADO_DE_PROCESO = {
     "_inventario_falla_ts": "backoff tras un fallo de DB; un float, sin contenido",
     "_marcas_db_cache": "lista de fabricantes con documentos en la DB",
     "_INTENT_FN_CELL": "el CLIENTE del clasificador (una construcción por proceso)",
+    # (s324f) Cota del aviso al operador ante incidencias críticas. Cumple el
+    # requisito de este censo por construcción: la CLAVE es `clase:etapa` de la
+    # incidencia —vocabulario cerrado de la taxonomía, sin nada de quien la
+    # sufrió— y el VALOR es una marca de tiempo. Ni una ni otro dependen del
+    # usuario, así que no hay nada que pueda cruzarse entre dos DG. Lo que sí
+    # comparten es el EFECTO: si la incidencia de un DG dispara el aviso, el
+    # fallo del siguiente queda callado una hora. Es deliberado —el aviso
+    # describe el SISTEMA, no a la persona— y es justo lo que evita que un fallo
+    # persistente mande un Telegram por turno.
+    "_ULTIMO_AVISO_CRITICO": "cota del aviso al operador: clase:etapa -> timestamp",
 }
 
 

@@ -798,8 +798,14 @@ _CONSENT_TERMS = (
     "trabajas en otra empresa del grupo: el responsable es Fontiber, no tu empresa.\n"
     "*Cuánto*: 24 meses vinculado a ti; después se retira tu identificador de tus consultas "
     "y valoraciones.\n"
-    "*Quién lo ve*: el equipo técnico de Fontiber. Para funcionar, tus preguntas pasan por "
-    "proveedores de IA y de alojamiento que operan *fuera de la UE*.\n"
+    # (s324f, v9 — decisión de Alberto) La mención EXPRESA a que los datos salen
+    # de la UE baja a `/privacidad`. No desaparece: el RGPD exige informar de las
+    # transferencias internacionales y son reales (Anthropic, Voyage, OpenAI y
+    # Telegram operan fuera). Lo que cambia es DÓNDE se lee — la segunda capa es
+    # justo donde el aviso en dos capas pone el detalle, y esta primera queda
+    # para lo que hay que saber antes de decidir si aceptas.
+    "*Quién lo ve*: el equipo técnico de Fontiber y los proveedores de IA y "
+    "alojamiento necesarios para que funcione (detalle en /privacidad).\n"
     "*Tus derechos*: escribe a *info@fontiber.com* para acceder o borrar tus datos.\n\n"
     "📄 Detalle completo (qué proveedores, para qué, y qué pasa a los 24 meses): /privacidad\n\n"
     "Para aceptar y empezar, envía:\n"
@@ -1034,6 +1040,78 @@ async def access_gate(update: object, context: ContextTypes.DEFAULT_TYPE) -> Non
     if veredicto is not None and veredicto.mensaje:
         await _responder_puerta(update, veredicto.mensaje)
     raise ApplicationHandlerStop
+
+
+#: (s324f) Última vez que se avisó de cada clase de incidencia crítica, para no
+#: inundar. Un fallo de cuota o de credenciales no ocurre UNA vez: ocurre en cada
+#: turno hasta que alguien lo arregla, así que sin cota el operador recibiría un
+#: Telegram por mensaje y dejaría de mirarlos — que es exactamente perder el
+#: aviso. En memoria y declarado: un redespliegue lo reinicia y se vuelve a
+#: avisar, que es la degradación correcta (mejor un aviso de más tras un
+#: reinicio que ninguno).
+_ULTIMO_AVISO_CRITICO: dict[str, float] = {}
+#: Una hora entre avisos de la misma clase+etapa. Suficiente para no repetirse
+#: en una tormenta y corto para que un problema nuevo del día siguiente avise.
+_SILENCIO_AVISO_S = 3600.0
+
+
+async def _avisar_al_operador(context: ContextTypes.DEFAULT_TYPE,
+                              incidencia) -> None:
+    """Manda a quien administra un aviso de incidencia CRÍTICA.
+
+    QUÉ RESUELVE: hasta hoy, un fallo que sólo una persona puede arreglar
+    —cuota agotada, credenciales rechazadas, canal roto— viajaba al técnico, que
+    no puede hacer nada, y al informe de incidencias, que alguien tiene que
+    acordarse de mirar. En el piloto eso significó que Alberto se enteró porque
+    la usuaria se lo contó.
+
+    NO lleva ni la consulta ni el identificador de quien la hizo: el operador
+    necesita saber QUÉ está roto, no quién tropezó. Eso ya vive en
+    `bot_errors`/`query_logs` con su gobernanza.
+
+    Nunca lanza: es un aviso, no un paso del turno. Si falla, se deja constancia
+    en el log y ya — la incidencia original ya está registrada, y recursar aquí
+    sería convertir un fallo en dos.
+    """
+    try:
+        destinos = access.ids_bootstrap()
+        if not destinos:
+            return
+        # (dúo r40) La clave lleva el TIPO de excepción, no sólo clase+etapa:
+        # mientras `cuota_agotada` y `AuthenticationError` compartan la clase
+        # `llm_fallo` —lo harán hasta que se aplique la 017— una silenciaría a la
+        # otra durante una hora, y son dos problemas con dos arreglos distintos.
+        clave = f"{incidencia.clase}:{incidencia.etapa}:{incidencia.tipo_excepcion}"
+        ahora = _time.time()
+        ultimo = _ULTIMO_AVISO_CRITICO.get(clave, 0.0)
+        if ahora - ultimo < _SILENCIO_AVISO_S:
+            return
+
+        texto = (
+            "⚠️ Incidencia CRÍTICA en el bot\n\n"
+            f"Qué: {incidencia.tipo_excepcion} en {incidencia.etapa}\n"
+            f"Detalle: {(incidencia.mensaje_corto or '-')[:300]}\n"
+            f"Código: {incidencia.codigo}\n\n"
+            "Le afecta a quien esté usando el bot y no se arregla solo. "
+            "No volveré a avisar de esto en una hora."
+        )
+        entregado = False
+        for destino in destinos:
+            try:
+                await context.bot.send_message(chat_id=destino, text=texto)
+                entregado = True
+            except Exception as envio:                       # noqa: BLE001
+                logger.warning("aviso critico no entregado a %s (%s)",
+                               destino, type(envio).__name__)
+        # (dúo r40) La cota se marca DESPUÉS y sólo si alguien lo recibió. Antes
+        # se marcaba al entrar, así que una caída transitoria de Telegram dejaba
+        # al operador sin aviso Y silenciaba la siguiente hora: el peor de los
+        # dos mundos, y precisamente cuando algo va mal de verdad.
+        if entregado:
+            _ULTIMO_AVISO_CRITICO[clave] = ahora
+    except Exception:                                        # noqa: BLE001
+        logger.warning("el aviso al operador fallo (incidencia %s)",
+                       getattr(incidencia, "codigo", "?"))
 
 
 async def _avisar_canje(context: ContextTypes.DEFAULT_TYPE, update: Update,
@@ -2451,6 +2529,18 @@ async def _reportar_error(update: object, exc: BaseException | None, *,
                 )
             except Exception:                                # noqa: BLE001
                 logger.warning("incidencia %s: registro fallo open", incidencia.codigo)
+
+        # 4) (s324f) Avisar a QUIEN PUEDE ARREGLARLO. Nace de un fallo real: la
+        #    primera usuaria del piloto se topó con la cuenta de OpenAI sin
+        #    saldo, y el único camino por el que eso llegó a Alberto fue que ella
+        #    se lo contara. Un fallo crítico —credenciales, cuota, canal roto—
+        #    no es información para el técnico, que no puede hacer nada: es
+        #    información para el operador.
+        #    Sólo `critico`: los avisos y los fallos graves ya se ven en el
+        #    informe de incidencias, y mandar un Telegram por cada timeout
+        #    convertiría el aviso en ruido que se ignora.
+        if incidencia.severidad == "critico":
+            await _avisar_al_operador(context, incidencia)
     except Exception:                                        # noqa: BLE001
         # Último cinturón. `logging.exception` va aquí y solo aquí: si ESTO
         # falla, el stack completo es lo único que permitirá arreglarlo, y el

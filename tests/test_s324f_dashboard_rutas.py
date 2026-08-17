@@ -560,7 +560,12 @@ def test_cabeceras_de_seguridad_en_toda_respuesta(nombre, hacer):
     assert csp and "default-src 'none'" in csp
     assert "frame-ancestors 'none'" in csp
     assert respuesta.cabecera("x-content-type-options") == "nosniff"
-    assert respuesta.cabecera("referrer-policy") == "no-referrer"
+    # (s324f, tras probarlo en un navegador de verdad) `same-origin`, no
+    # `no-referrer`: con `no-referrer` el panel se quedaba sin `Referer` en sus
+    # PROPIOS formularios y el control de origen rechazaba el login legítimo con
+    # un 403. Frente a terceros protege igual —la URL no sale del panel—; hacia
+    # dentro devuelve la señal que su propia defensa necesitaba.
+    assert respuesta.cabecera("referrer-policy") == "same-origin"
     assert "no-store" in respuesta.cabecera("cache-control")
     assert respuesta.cabecera("strict-transport-security")
 
@@ -662,3 +667,50 @@ def test_el_arranque_falla_sin_secreto(monkeypatch):
     monkeypatch.delenv(sesion.VARIABLE_SECRETO, raising=False)
     with pytest.raises(RuntimeError, match="DASHBOARD_SECRET"):
         panel.comprobar_arranque()
+
+
+# ───────────── s324f · el control de origen NO puede rechazar un login legítimo
+#
+# Cazado abriendo el panel en un navegador real: el POST del formulario propio
+# se quedaba sin `Origin` (normal en same-origin) y sin `Referer` (lo suprimía
+# la propia cabecera `Referrer-Policy: no-referrer` del panel), así que moría en
+# su propia defensa con un 403 que no explicaba nada. Ningún test lo veía porque
+# todos mandaban `Origin` a mano.
+
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize("cabeceras, pasa, caso", [
+    ({"sec-fetch-site": "same-origin"}, True,  "formulario del propio panel"),
+    ({"sec-fetch-site": "none"},        True,  "URL tecleada a mano"),
+    ({"sec-fetch-site": "cross-site",
+      "origin": "https://malo.example"}, False, "ATAQUE desde otro sitio"),
+    ({"sec-fetch-site": "same-site"},   False, "subdominio vecino"),
+    ({"origin": "http://panel.local"},  True,  "navegador viejo, con Origin"),
+    ({"referer": "http://panel.local/entrar"}, True, "navegador viejo, con Referer"),
+    ({},                                False, "cliente sin ninguna señal"),
+])
+def test_mismo_origen_cubre_el_navegador_real(cabeceras, pasa, caso):
+    from dashboard.app import Peticion, _mismo_origen
+
+    peticion = Peticion(
+        metodo="POST", ruta="/entrar", consulta={},
+        cabeceras={"host": "panel.local", **cabeceras},
+        cuerpo=b"", ip="1.2.3.4",
+    )
+    assert _mismo_origen(peticion) is pasa, caso
+
+
+def test_sec_fetch_site_manda_sobre_un_origin_falsificado():
+    """`Sec-Fetch-Site` la escribe el NAVEGADOR y no se puede falsear desde otro
+    sitio; `Origin` sí lo controla quien monta la petición. Si dicen cosas
+    distintas, gana la que no se puede mentir."""
+    from dashboard.app import Peticion, _mismo_origen
+
+    peticion = Peticion(
+        metodo="POST", ruta="/entrar", consulta={},
+        cabeceras={"host": "panel.local", "sec-fetch-site": "cross-site",
+                   "origin": "http://panel.local"},
+        cuerpo=b"", ip="1.2.3.4",
+    )
+    assert _mismo_origen(peticion) is False
