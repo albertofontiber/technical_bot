@@ -7375,3 +7375,43 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Recibos**: dúos r37 (2026-08-17T13:46:29) y r38 (15:53:44) + 2º revisor Opus 5 standalone ·
   `evals/s324e_{allowlist_propuesta,allowlist_duo_r1,error_handling_propuesta,mismatch_conducta_cableado,aislamiento_usuarios_auditoria}_v1.md`
   · suite **4192 verde**.
+
+
+## DEC-231 (s324f) — Se REABRE DEC-183 («dashboard SIN app»): Alberto pide un panel web propio con gestión + métricas, ANTES del piloto, con acceso compartido con el war room
+
+- **Fecha**: 17 ago 2026. **Impacto**: ALTO (servicio NUEVO expuesto a internet que muestra DATOS PERSONALES).
+  **Estado**: diseño en curso; **nada construido ni desplegado** al escribir esto.
+- **Qué decía DEC-183 (s301) y por qué se reabre**: «el lado servidor ya está construido y VIVO (vistas
+  versionadas + `rag_trace`); el front son clicks en el dashboard de Supabase. Un panel web propio sería
+  cambio de rumbo (auth + RGPD) y **hoy no paga**». Lo que ha cambiado desde entonces: (a) el piloto trae
+  **varios usuarios** donde había uno; (b) hay **gestión** que antes no existía —generar, listar y revocar
+  invitaciones, ver la allowlist— hoy sólo por CLI; (c) hay una **tabla de errores** nueva que mirar; (d) el
+  destinatario del panel son **Directores Generales**, no el autor del sistema. El motivo del NO-GO (auth +
+  RGPD) **sigue siendo cierto y sigue siendo el coste**: no desaparece, se acepta.
+- **Decide (alcance v1, adjudicado por Alberto)**: **gestión + métricas**. Invitaciones (generar/listar/
+  revocar), allowlist con ids y notas, las **7 vistas ya existentes** (`bot_health_daily`,
+  `bot_health_semanal`, `bot_uso_por_canal`, `bot_feedback_semanal`, `bot_motivos_negativos`,
+  `salud_canal_retrieval_v1`, `salud_latencia_etapas_v1`) y los errores agregados. **Fuera de v1**: leer las
+  conversaciones de los DGs y marcar respuestas desde la web (es lo más útil para mejorar el bot y también
+  lo más sensible; entra cuando el piloto lo pida y con su propia vuelta de RGPD).
+- **Decide (secuencia, adjudicado por Alberto)**: **ANTES de invitar a nadie**. Consecuencia declarada y
+  aceptada: el piloto se retrasa lo que tarde el panel, y el panel entra en el paquete del abogado.
+- **Decisiones estructurales (mías, para que no las improvise quien construya)**:
+  1. **Server-side, no SPA**: el panel renderiza en el servidor. Motivo: la clave de servicio de Supabase
+     **jamás** puede viajar al navegador, y un front que llama a la base desde el cliente obliga a montar
+     RLS por usuario para un panel de dos personas.
+  2. **Un servicio más en Railway**, en este repo. Motivo: es donde ya vive el worker, comparte `.env` y
+     despliegue, y no añade proveedor nuevo. El panel **no comparte proceso** con el bot: si el panel cae,
+     el bot sigue.
+  3. **La autenticación es una pieza ENCHUFABLE** detrás de una interfaz mínima. Motivo: el war room tiene
+     login propio y todavía no sé si es reutilizable; v1 lleva su propia autenticación sólida (contraseña
+     con hash fuerte, sesión en cookie firmada, sin secretos en el cliente) y el día que sepamos qué es el
+     war room se sustituye el backend sin tocar el resto.
+  4. **Sólo lectura salvo en gestión de acceso**: el panel puede emitir y revocar invitaciones, y revocar
+     accesos. No edita corpus, ni catálogo, ni golds.
+- **Riesgo declarado de entrada**: esto es **superficie nueva expuesta a internet con datos personales
+  dentro** (ids de Telegram, notas con nombre y cargo, preguntas de los técnicos). Es exactamente el coste
+  que DEC-183 no quiso pagar. Mitigaciones exigidas: sin acceso anónimo a nada, hash fuerte de contraseña,
+  cookies de sesión firmadas y `Secure`, cabeceras de seguridad, y **entra en la matriz de retención y en el
+  paquete del abogado** junto con el aviso v8.
+- **Pendiente de Alberto**: qué es técnicamente el login del war room y si es alcanzable desde este proyecto.
