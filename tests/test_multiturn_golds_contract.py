@@ -299,6 +299,7 @@ def _adapters(record):
 
 def _req(chat, update, query):
     return TurnRequest(
+        source="text",
         query=query, query_for_retrieval=query, retrieval_top_k=50, rerank_top_k=5,
         channel="telegram", conversation_id=chat, external_update_id=update,
     )

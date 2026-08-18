@@ -34,7 +34,7 @@ def build_turn_request(
     available_models: Sequence[str] | None,
     update_id: int | str,
     chat_id: int | str,
-    source: str = "text",
+    source: str,
     transcription: str | None = None,
     retrieval_top_k: int = RETRIEVAL_TOP_K,
     rerank_top_k: int = RERANK_TOP_K,

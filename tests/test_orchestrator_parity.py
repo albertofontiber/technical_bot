@@ -113,6 +113,7 @@ def test_orchestrator_route_matches_direct_pipeline_byte_for_byte(captured_envel
 
     # Route ORCH — the same turn driven through the orchestrator.
     request = TurnRequest(
+        source="text",
         query=_QUERY,
         retrieval_top_k=_RETRIEVAL_TOP_K,
         rerank_top_k=_RERANK_TOP_K,
@@ -166,6 +167,7 @@ def test_orchestrator_route_matches_direct_with_resolved_query_and_models(
     )
 
     request = TurnRequest(
+        source="text",
         query=_QUERY,
         retrieval_top_k=_RETRIEVAL_TOP_K,
         rerank_top_k=_RERANK_TOP_K,

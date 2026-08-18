@@ -151,3 +151,64 @@ def test_process_query_tampoco():
 
     firma = inspect.signature(_process_query)
     assert firma.parameters["source"].default is inspect.Parameter.empty
+
+
+# ─────────── Fase 2: los defaults del orquestador tampoco pueden volver
+
+@pytest.mark.parametrize("modulo,funcion", [
+    ("src.orchestrator.telegram_adapter", "build_turn_request"),
+])
+def test_el_adaptador_no_tiene_default_de_canal(modulo, funcion):
+    """(s324h Fase 2) `build_turn_request` es el ÚNICO constructor de
+    `TurnRequest` en producción. Mientras tuviera default, un turno de voz podía
+    llegar al orquestador etiquetado como texto."""
+    import importlib
+
+    fn = getattr(importlib.import_module(modulo), funcion)
+    assert inspect.signature(fn).parameters["source"].default is inspect.Parameter.empty
+
+
+def test_TurnRequest_tampoco():
+    """El DTO mismo. `kw_only=True` obliga a nombrarlo; sin default, olvidarlo es
+    un TypeError en vez de una fila que afirma un canal falso."""
+    from dataclasses import fields
+
+    from src.orchestrator.contracts import TurnRequest
+
+    campo = next(f for f in fields(TurnRequest) if f.name == "source")
+    import dataclasses
+    assert campo.default is dataclasses.MISSING, (
+        "TurnRequest.source volvio a tener default: el olvido vuelve a ser mudo")
+
+
+def test_el_censo_de_defaults_de_canal_esta_a_CERO():
+    """La puerta que cierra el lote entero.
+
+    El diagnostico de s324h fue que el mismo `= "text"` estaba replicado SEIS
+    veces. Este test recorre las cinco capas de Python y exige que ninguna lo
+    tenga; la sexta (`query_logs.source DEFAULT 'text'`) vive en el esquema y la
+    cierra la migracion 018, que aplica Alberto a mano.
+    """
+    import dataclasses
+    import importlib
+    from dataclasses import fields
+
+    from src.bot.telegram_bot import _process_query
+    from src.logging_db import log_query
+    from src.orchestrator.contracts import TurnRequest
+    from src.orchestrator.telegram_adapter import build_turn_request
+
+    con_default = []
+    for fn, nombre in ((log_query, "log_query"), (_process_query, "_process_query"),
+                       (build_turn_request, "build_turn_request")):
+        if inspect.signature(fn).parameters["source"].default is not inspect.Parameter.empty:
+            con_default.append(nombre)
+    campo = next(f for f in fields(TurnRequest) if f.name == "source")
+    if campo.default is not dataclasses.MISSING:
+        con_default.append("TurnRequest.source")
+
+    # `Meta.fuente` conserva su default a proposito: NO es un canal de transporte
+    # sino un campo del plan, y el manejador lo rellena SIEMPRE desde el mapa
+    # explicito `_FUENTE_META` (con su propio test de completitud). Se declara
+    # aqui para que la asimetria sea intencionada y no un olvido.
+    assert con_default == [], f"volvieron defaults de canal en: {con_default}"

@@ -369,6 +369,7 @@ def _turno_servido(texto, *, lever, det_fixture):
         texto, WorkingState(), datetime.now(timezone.utc),
         resolved_model=(pre.modelo if pre else None))
     request = build_turn_request(
+        source="text",
         query=resolucion.query_for_retrieval,
         query_for_retrieval=resolucion.query_for_retrieval,
         target_models=resolucion.target_models,

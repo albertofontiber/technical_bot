@@ -81,6 +81,7 @@ def _adapters(gen_calls, *, answer_prefix="ANSWER"):
 
 def _request(*, chat="chat-1", update="u-1", query="¿tensión del lazo?"):
     return TurnRequest(
+        source="text",
         query=query,
         retrieval_top_k=50,
         rerank_top_k=5,

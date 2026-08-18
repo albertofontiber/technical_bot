@@ -19,7 +19,7 @@ from src.orchestrator.contracts import (
 
 
 def test_turn_request_defaults_are_stateless_and_telegram_channel():
-    req = TurnRequest(query="¿tensión del lazo?", retrieval_top_k=50, rerank_top_k=5)
+    req = TurnRequest(query="¿tensión del lazo?", retrieval_top_k=50, rerank_top_k=5, source="text")
     assert req.channel == "telegram"
     assert req.conversation_id is None
     assert req.external_update_id is None
@@ -29,12 +29,13 @@ def test_turn_request_defaults_are_stateless_and_telegram_channel():
 
 
 def test_effective_retrieval_query_falls_back_to_query_when_unset():
-    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5)
+    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5, source="text")
     assert req.effective_retrieval_query == "Q"
 
 
 def test_effective_retrieval_query_uses_resolved_value_when_present():
     req = TurnRequest(
+        source="text",
         query="¿y la corriente?",
         retrieval_top_k=50,
         rerank_top_k=5,
@@ -44,7 +45,7 @@ def test_effective_retrieval_query_uses_resolved_value_when_present():
 
 
 def test_turn_request_is_frozen():
-    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5)
+    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5, source="text")
     with pytest.raises(dataclasses.FrozenInstanceError):
         req.query = "otra"  # type: ignore[misc]
 
