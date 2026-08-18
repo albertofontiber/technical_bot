@@ -64,7 +64,7 @@ def _run_pipeline(monkeypatch, update, diagrams):
     )
     monkeypatch.setattr(bot, "log_query", lambda **_k: None)
     context = types.SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "¿Conexionado CAD-250?"))
+    asyncio.run(bot._process_query(update, context, "¿Conexionado CAD-250?", source="text"))
 
 
 # ---------------------------------------------------------------------------

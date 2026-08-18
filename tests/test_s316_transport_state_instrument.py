@@ -484,8 +484,13 @@ def test_un_solo_escritor_de_estado_por_ast():
 
 def test_los_replies_no_invalidan():
     """Un reply es feedback (#60 5b), no un cambio de tema. Dos capas: el predicado
-    PRESERVA con es_reply (unit) y handle_message construye es_reply del
-    reply_to_message real (contrato de wiring por fuente)."""
+    PRESERVA con es_reply (unit) y el preludio construye es_reply del
+    reply_to_message real (contrato de wiring por fuente).
+
+    (s324h) El contrato se movio de `handle_message` a `_servir_turno`, que es el
+    preludio COMPARTIDO por los dos canales: antes la voz construia su Meta sin
+    `es_reply` y un audio en reply invalidaba donde el texto preservaba. Vigilarlo
+    aqui cubre ahora AMBOS canales, no solo uno."""
     import inspect
 
     import src.bot.telegram_bot as bot
@@ -495,7 +500,7 @@ def test_los_replies_no_invalidan():
         "pasemos a productos Morley", ("NC-PF2",), tp.Meta(es_reply=True),
         ["Kidde", "Morley"])
     assert transicion == tp.PRESERVAR, "un reply invalido contexto"
-    fuente = inspect.getsource(bot.handle_message)
+    fuente = inspect.getsource(bot._servir_turno)
     assert "es_reply=update.message.reply_to_message is not None" in fuente
 
 
@@ -509,10 +514,19 @@ def test_la_voz_tambien_invoca_la_guardia():
 
     import src.bot.telegram_bot as bot
 
+    # (s324h) La voz ya NO llama a `_decidir_transicion` por su cuenta: entra al
+    # preludio compartido, y `plan_turn` invoca el predicado por dentro y devuelve
+    # la transicion. Un punto de decision, no dos. Lo que hay que vigilar es que la
+    # voz siga ENTRANDO al plan — si volviera a saltar directa al RAG, un cambio de
+    # marca DICHO en voz alta no invalidaria contexto, que es el defecto s324h.
     cuerpo = inspect.getsource(bot.handle_voice)
-    assert "_decidir_transicion" in cuerpo, (
-        "handle_voice dejo de decidir la invalidacion: la voz queda sin cobertura de #70")
-    assert "_aplicar_estado" in cuerpo, "la voz no aplica por el escritor unico"
+    assert "_servir_turno" in cuerpo, (
+        "handle_voice dejo de entrar al plan: la voz queda sin cobertura de #70 "
+        "y sin las nueve rutas de atajo (el defecto que s324h arreglo)")
+    preludio = inspect.getsource(bot._servir_turno)
+    assert "plan_turn" in preludio and "_aplicar_estado" in preludio, (
+        "el preludio dejo de planificar o de aplicar la transicion")
+    assert "_aplicar_estado" in preludio, "la voz no aplica por el escritor unico"
     assert cuerpo.index("_decidir_transicion") < cuerpo.index("_process_query"), (
         "la invalidacion debe decidirse ANTES de procesar la consulta")
 
@@ -550,7 +564,13 @@ def test_camino_caliente_no_pide_lexico(monkeypatch):
 # no_servida, mismatch/feedback); handle_message conserva solo los PRE-PASOS
 # declarados (vacío, consentimiento, reply-capture). Una ruta nueva ya no puede
 # nacer como if suelto: nace como ruta del plan, con su decisión de log y estado.
-_CENSO_RETURNS = {"handle_message": 3, "handle_voice": 3, "_ejecutar_plan": 8}
+#: (s324h) `handle_message` 3→2: su cuerpo se movió al preludio compartido, que
+#: ENTRA al censo con sus propias ramas terminales. `_servir_turno` es ahora la
+#: única función que aplica `mt_working_state` para los DOS canales, así que
+#: vigilarla es justo el trabajo de este instrumento; dejarla fuera habría
+#: convertido la refactorización en un punto ciego.
+_CENSO_RETURNS = {"handle_message": 2, "handle_voice": 3, "_servir_turno": 1,
+                  "_ejecutar_plan": 8}
 
 
 def test_ventanas_iguales_en_ambos_regimenes():

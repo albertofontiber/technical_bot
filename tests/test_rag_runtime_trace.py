@@ -388,7 +388,7 @@ def test_query_logger_retries_once_without_trace_for_missing_column(monkeypatch)
         calls,
     )
 
-    logging_db.log_query(1, "q", rag_trace=_minimal_valid_trace())
+    logging_db.log_query(1, "q", source="text", rag_trace=_minimal_valid_trace())
 
     assert len(calls) == 2
     assert "rag_trace" in calls[0]["json"]
@@ -404,7 +404,7 @@ def test_query_logger_does_not_retry_uncertain_timeout(monkeypatch):
         calls,
     )
 
-    logging_db.log_query(1, "q", rag_trace=_minimal_valid_trace())
+    logging_db.log_query(1, "q", source="text", rag_trace=_minimal_valid_trace())
 
     assert len(calls) == 1
 
@@ -416,6 +416,7 @@ def test_query_logger_rejects_arbitrary_json_at_the_sink(monkeypatch):
     logging_db.log_query(
         1,
         "q",
+        source="text",
         rag_trace={
             "schema": "rag_serving_trace_v1",
             "content": "PRIVATE-CONTENT",

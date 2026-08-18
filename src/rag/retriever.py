@@ -1075,24 +1075,46 @@ def get_all_models_by_category() -> dict[str, list[str]]:
 
 
 def get_category_models(category: str) -> list[str]:
-    """Get distinct product models available in a category."""
+    """Get distinct product models available in a category.
+
+    (s324g, TECH_DEBT #91 A) PAGINADO. Pedía `limit=2000` y PostgREST devuelve
+    como mucho **1.000**, así que en las categorías grandes la lista salía
+    TRUNCADA — y sin `ORDER BY`, truncada de forma arbitraria. Medido el 17-ago:
+    cuatro categorías superan el tope (`None` 15.619 filas, `ES` 6.233,
+    «Detectores especiales» 1.670, `EN_unico` 1.060), o sea que el defecto no
+    era teórico.
+
+    Se pagina con orden estable, que es el mismo patrón que ya usaban
+    `get_available_manufacturers` y `get_manufacturers_by_docs` — dos funciones
+    de este mismo fichero que aprendieron la lección antes (smokes s21, s65 y
+    s307). Ésta era la que faltaba.
+    """
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
+    rows: list[dict] = []
+    offset, page = 0, 1000
     with abierto(timeout=15.0) as client:
-        resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
-            headers=headers,
-            params={
-                "category": f"eq.{category}",
-                "select": "product_model",
-                "limit": "2000",
-            },
-        )
-        resp.raise_for_status()
+        while True:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
+                headers=headers,
+                params={
+                    "category": f"eq.{category}",
+                    "select": "product_model",
+                    "order": "id.asc",
+                    "limit": str(page),
+                    "offset": str(offset),
+                },
+            )
+            resp.raise_for_status()
+            lote = resp.json()
+            rows.extend(lote)
+            if len(lote) < page:
+                break
+            offset += page
 
-    rows = resp.json()
     models = sorted(set(
         r["product_model"] for r in rows
         if r.get("product_model") and r["product_model"] != "unknown"

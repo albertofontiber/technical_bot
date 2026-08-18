@@ -69,7 +69,7 @@ def test_log_query_returns_true_and_sends_client_side_id(monkeypatch):
     monkeypatch.setattr(logging_db.httpx, "Client", fake)
     row_id = str(uuid.uuid4())
     ok = log_query(
-        telegram_user_id=1, query="q", query_log_id=row_id
+        telegram_user_id=1, query="q", source="text", query_log_id=row_id
     )
     assert ok is True
     assert fake.calls[0]["json"]["id"] == row_id
@@ -78,20 +78,20 @@ def test_log_query_returns_true_and_sends_client_side_id(monkeypatch):
 def test_log_query_without_id_omits_id_key(monkeypatch):
     fake = _FakeClient(status_code=201)
     monkeypatch.setattr(logging_db.httpx, "Client", fake)
-    assert log_query(telegram_user_id=1, query="q") is True
+    assert log_query(telegram_user_id=1, query="q", source="text") is True
     assert "id" not in fake.calls[0]["json"]
 
 
 def test_log_query_returns_false_on_http_error(monkeypatch):
     fake = _FakeClient(status_code=500)
     monkeypatch.setattr(logging_db.httpx, "Client", fake)
-    assert log_query(telegram_user_id=1, query="q") is False
+    assert log_query(telegram_user_id=1, query="q", source="text") is False
 
 
 def test_log_query_returns_false_on_exception(monkeypatch):
     fake = _FakeClient(raise_on_post=True)
     monkeypatch.setattr(logging_db.httpx, "Client", fake)
-    assert log_query(telegram_user_id=1, query="q") is False
+    assert log_query(telegram_user_id=1, query="q", source="text") is False
 
 
 def test_log_answer_feedback_upsert_contract(monkeypatch):

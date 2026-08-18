@@ -439,6 +439,10 @@ def test_cifras_de_control():
     # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
     # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
     # matriz es justo lo que impide el import inverso `raiz → bot`).
+    # 126→127 (s324h): + bot/procedencia.py — de dónde viene el turno. El mismo
+    # `= "text"` estaba replicado SEIS veces y ninguna era verdad la mitad de las
+    # veces, así que olvidar la procedencia registraba en silencio que un audio se
+    # había tecleado. Ahora hay UN origen y no tiene default.
     # 125→126 (s324f): + bot/acotar.py — las respuestas que NO caben: recortar
     # DICIÉNDOLO y ofrecer el follow-up (adjudicación de Alberto tras el primer
     # smoke del piloto). Es PRODUCTO: lo ejecuta el serving en cada respuesta de
@@ -449,7 +453,7 @@ def test_cifras_de_control():
     # un helper de un solo uso: nace con tres consumidores declarados (lista de
     # fabricantes, catálogo por marca e inventario agrupado, que hoy implementa
     # el mismo patrón a mano dos veces).
-    assert len(MODULOS) == 126, (
+    assert len(MODULOS) == 127, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

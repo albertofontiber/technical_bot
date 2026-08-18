@@ -197,7 +197,7 @@ def _run(monkeypatch, update, *, query_logged: bool, stamped: list):
         lambda *args: stamped.append(args) or True,
     )
     context = types.SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "¿Conexionado CAD-250?"))
+    asyncio.run(bot._process_query(update, context, "¿Conexionado CAD-250?", source="text"))
 
 
 def test_bot_estampa_el_ancla_cuando_el_log_esta_committed(monkeypatch):

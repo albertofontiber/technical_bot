@@ -318,12 +318,19 @@ def test_despachador_consulta_los_campos_del_plan(eq):
 
     from test_s316_transport_state_instrument import _update
 
+    from src.bot.procedencia import Procedencia
+
     # un plan de catálogo con typing y log APAGADOS: si el despachador los
     # re-codificara por ruta (decorativos), esto loggearía y enviaría typing.
     plan = TurnPlan(ruta="catalogo", log_consulta=False, typing=False)
     u = _update("da igual el texto: el despachador no lo examina")
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._ejecutar_plan(u, context, 7, "consulta", plan))
+    # (s324h) `procedencia` es keyword-only y sin default a proposito. Esto es
+    # adaptacion MECANICA de la fixture: los asserts de CONDUCTA de abajo no se
+    # tocan — la distincion la exigio Sol (r44) porque la propuesta decia «los
+    # tests s316e no pueden moverse» mientras cambiaba esta firma.
+    asyncio.run(bot._ejecutar_plan(u, context, 7, "consulta", plan,
+                                   procedencia=Procedencia.de_texto()))
     assert eq["catalogo"] == 1               # la ruta se ejecutó
     assert u.message.chat.actions == []      # sin typing: el campo manda
     assert eq["logs"] == [] and eq["seud"] == []   # sin log: el campo manda

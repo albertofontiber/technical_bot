@@ -60,6 +60,7 @@ from ..rag.retriever import (
 # execute_rag_turn ya NO se importan aquí — el handler dejó de construir el
 # pipeline inline; los adapters de producción los arma el orquestador
 # (from_production) y el seam execute_rag_turn vive en serving_pipeline.
+from .procedencia import Procedencia  # noqa: E402
 from ..rag.runtime_trace import build_rag_serving_trace
 from ..flags import mismatch_answer_activo
 from .acotar import acotar
@@ -1374,40 +1375,48 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
         await update.message.reply_text(confirmation)
 
-        # (#70, fase B) El texto de la voz solo existe tras el ASR, asi que la
-        # invalidacion se decide aqui -- con el MISMO predicado puro del plan, el MISMO
-        # escritor unico y la MISMA disciplina de cache que el camino de texto.
-        # (Expandir la voz al plan completo -- cortesia/catalogo hablados -- sigue
-        # siendo una decision de producto SEPARADA, v3 seccion 2.)
-        if isinstance(getattr(context, "user_data", None), dict):
-            # (Sol fase-B M2) el proveedor va SIN llamar: MarcasDB acepta callable y el
-            # core solo lo invoca tras regex-miss + pre-gate — con parentesis, el
-            # primer audio tras un restart pagaba 0,54 s de httpx sincrono AUNQUE no
-            # hubiera ni estado ni senal de switch.
-            # (Sol fase-B M5) fail-open LOCAL con warning (paridad con la guardia
-            # historica): el predicado propaga excepciones a proposito, y sin esta
-            # frontera un fallo del clasificador tumbaria el turno de voz entero.
-            try:
-                _transicion_voz, _marca_voz = _turn_plan._decidir_transicion(
-                    query, _estado_modelos_conversacion(context.user_data),
-                    Meta(fuente="voz"), _lexico_marcas_cacheado)
-                if _transicion_voz == _turn_plan.INVALIDAR:
-                    _aplicar_estado(context.user_data, WorkingState())
-                    logger.info(
-                        "plan #70 (voz): cambio de marca a %r -- contexto invalidado",
-                        _marca_voz)
-            except Exception as exc:             # noqa: BLE001
-                logger.warning("invalidacion (voz) no aplicada (%s)",
-                               type(exc).__name__)
-
-        # Process the normalized query while preserving raw ASR for audits.
-        await _process_query(
-            update,
-            context,
-            query,
-            source="voice",
-            transcription=raw_transcription,
-        )
+        # (s324h) La voz entra por el MISMO preludio que el texto. Antes esto era
+        # una llamada suelta a `_decidir_transicion` seguida de un salto directo a
+        # `_process_query`: el predicado de invalidación corría, pero el PLAN no,
+        # así que las nueve rutas de atajo eran inalcanzables hablando. El propio
+        # código lo declaraba como aplazamiento de fase B del #70; el piloto lo
+        # convirtió en defecto y Alberto lo adjudicó como prioridad (18-ago).
+        #
+        # `plan_turn` ya llama al predicado por dentro y devuelve la transición, así
+        # que la llamada duplicada desaparece: un punto de decisión, no dos.
+        #
+        # La guarda de `user_data` se conserva (era propia del camino de voz): sin
+        # ella, un `context` sin `user_data` de tipo dict reventaría el turno donde
+        # hoy sólo se salta la invalidación.
+        #
+        # RESTRICCIÓN PAGADA QUE SE RETIRA, y por qué (Sol fase-B M5): aquí había un
+        # `try/except` local que, ante un fallo del clasificador, escribía un
+        # `logger.warning` y dejaba que el turno de voz continuase.
+        #
+        # La razón que la retira es UNA sola: PARIDAD. El camino de texto nunca la
+        # tuvo, y este lote existe para que los dos canales se comporten igual;
+        # mantenerla sería conservar a propósito la divergencia que venimos a matar.
+        #
+        # CORRECCIÓN (Sol, r49) — la primera versión de este comentario añadía una
+        # segunda razón, «observabilidad», y era FALSA: decía que la excepción pasa
+        # a subir a la taxonomía y a dejar fila en `bot_errors`. No sube. Para ESTE
+        # fallo concreto, `plan_turn` la captura en su propio `try/except` de
+        # fail-open (`turn_plan.py`, «plan total: fail-open») y preserva la
+        # transición. Así que se pierde también el `warning` anterior SIN ganar la
+        # incidencia: en observabilidad la conducta nueva es PEOR, no mejor.
+        #
+        # Eso NO es un defecto que introduzca este lote — el fail-open mudo de
+        # `plan_turn` ya se tragaba la misma señal en el camino de texto —, pero
+        # queda declarado como deuda en vez de vendido como mejora. Lo que sí sube
+        # a la taxonomía, y sí deja incidencia, son los fallos de las consultas de
+        # identidad (`_resolver_hechos`), que corren FUERA de ese `try`.
+        #
+        # Lo que NO se hace, y es deliberado: NO se añade una frontera de fail-open
+        # que degrade al RAG. El dúo la mató dos veces — Sol por SEGURIDAD (saltarse
+        # `mismatch`/`marca_no_servida` puede contestar con el manual de otra marca
+        # cuando no se pudo verificar la identidad) y Fable por OBSERVABILIDAD.
+        await _servir_turno(update, context, user_id, query,
+                            procedencia=Procedencia.de_voz(raw_transcription))
 
     except Exception as e:
         # s324e: antes se registraba `f"...: {e}"` — el texto CRUDO de la excepción
@@ -1496,6 +1505,36 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # esta telemetría), NO se degrada a «última consulta»: se sigue el camino
     # normal y el bot responde, que es lo que el técnico espera si en realidad
     # estaba preguntando otra cosa (aviso de Alberto: puede «pasar» del feedback).
+    await _servir_turno(update, context, user_id, query,
+                        procedencia=Procedencia.de_texto())
+
+
+#: `Meta.fuente` mantiene su propio vocabulario en castellano. El mapa es
+#: EXPLÍCITO a propósito: la primera versión escribía `"voz" if source == "voice"
+#: else "texto"`, que manda cualquier canal futuro a «texto» en silencio — el
+#: mismo default mentiroso que este lote existe para matar, reintroducido en el
+#: propio arreglo (Sol, r47). Con el mapa, un canal sin traducir revienta en el
+#: test en vez de clasificarse mal en producción.
+_FUENTE_META = {"text": "texto", "voice": "voz"}
+
+
+async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                        user_id: int, query: str, *,
+                        procedencia: Procedencia) -> None:
+    """El turno, igual para los dos canales.
+
+    (s324h) Antes esto vivía dentro de `handle_message` y la voz se lo saltaba
+    entero: llamaba al predicado de invalidación por su cuenta y saltaba al RAG,
+    así que las NUEVE rutas de atajo eran inalcanzables hablando. Lo que se
+    comparte es el PRELUDIO —captura de reply, `Meta`, hechos, plan, transición—;
+    el despachador (`_ejecutar_plan`) ya estaba separado.
+
+    Lo ÚNICO que distingue un canal de otro es de dónde sale `query` y qué
+    `Procedencia` lo acompaña. Cero ramas por canal aquí dentro.
+    """
+    # s294 (#60 punto 5b): si el mensaje RESPONDE a un mensaje del bot que está
+    # anclado, es una explicación sobre esa consulta. Pasa a correr también en voz
+    # (cambio B1, declarado): hoy una explicación hablada en reply se iba al RAG.
     if await _capture_reply_explanation(update, user_id, query):
         return
 
@@ -1508,8 +1547,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # (s324e — DEC-224 §B / DEC-226 opción (a)) El LEVER entra al plan como DATO:
     # `plan_turn` sigue pura y no lee entorno.
     meta = Meta(es_reply=update.message.reply_to_message is not None,
-                mismatch_answer=mismatch_answer_activo())
-    estado_modelos = _estado_modelos_conversacion(context.user_data)
+                mismatch_answer=mismatch_answer_activo(),
+                fuente=_FUENTE_META[procedencia.source])
+    # (s324h, Fable r49 + hallazgo propio) La guarda de `user_data` protege SÓLO
+    # lo que necesita `user_data` —el estado y la invalidación—, no el plan entero.
+    # La primera versión la puso como una rama en `handle_voice` que mandaba la voz
+    # directa al RAG: funcionalmente, la frontera de fail-open que el comentario de
+    # arriba declara muerta dos veces por el dúo. Sin plan no corre `mismatch`, así
+    # que podía contestarse con el manual de otra marca — y encima degradaba SIN
+    # log. Aquí el plan corre SIEMPRE y en los dos canales; sólo el estado se salta.
+    _ud = context.user_data if isinstance(
+        getattr(context, "user_data", None), dict) else None
+    estado_modelos = _estado_modelos_conversacion(_ud) if _ud is not None else ()
     plan = plan_turn(query, estado_modelos, meta,
                      _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
     # Fase B: la transicion del plan ES la fuente de invalidacion (la guardia -1 se
@@ -1517,11 +1566,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # se aplica ANTES de ejecutar la ruta, asi la politica F1 resuelve DESDE el estado
     # post-plan -- sin esto, un carry-forward calculado sobre el estado viejo
     # sobrescribiria la invalidacion y #70 reviviria por construccion.
-    if plan.transicion == _turn_plan.INVALIDAR:
-        _aplicar_estado(context.user_data, WorkingState())
+    if plan.transicion == _turn_plan.INVALIDAR and _ud is not None:
+        _aplicar_estado(_ud, WorkingState())
         logger.info("plan #70: cambio de marca a %r -- contexto de producto invalidado",
                     plan.transicion_marca)
-    await _ejecutar_plan(update, context, user_id, query, plan)
+    await _ejecutar_plan(update, context, user_id, query, plan,
+                         procedencia=procedencia)
 
 
 def _resolver_hechos(necesita) -> dict:
@@ -1553,9 +1603,15 @@ def _resolver_hechos(necesita) -> dict:
 
 
 async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
-                         user_id: int, query: str, plan: TurnPlan):
+                         user_id: int, query: str, plan: TurnPlan, *,
+                         procedencia: Procedencia):
     """Despachador TONTO: ejecuta la ruta del plan sin re-examinar el texto. Las
-    respuestas son las de hoy, byte a byte (tests de equivalencia s316e)."""
+    respuestas son las de hoy, byte a byte (tests de equivalencia s316e).
+
+    (s324h) `procedencia` es keyword-only y SIN DEFAULT a propósito: el defecto que
+    este lote arregla era justo un default que mentía. Omitirla es un `TypeError`
+    aquí y ahora, no una fila de `query_logs` que afirma para siempre que un audio
+    se tecleó."""
     ruta = plan.ruta
     # (Sol r8, C2) plan.typing y plan.log_consulta NO son decorativos: el despachador
     # los CONSULTA. typing del plan cubre la ruta planificada (catálogo); el ejecutor
@@ -1574,6 +1630,8 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
             if plan.log_consulta:
                 log_query(telegram_user_id=user_id, query=query,
                           route="catalog_shortcut",
+                          source=procedencia.source,
+                          transcription=procedencia.transcription,
                           response=respuesta, response_length=len(respuesta))
                 asegurar_seudonimo(user_id)
             return
@@ -1608,7 +1666,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         respuesta = _texto_fabricantes(por_producto=(ruta == "catalogo"))
         await _responder_atajo(
             update, respuesta, user_id=user_id, query=query,
-            registrar=plan.log_consulta,
+            registrar=plan.log_consulta, procedencia=procedencia,
         )
         return
     if ruta == "mismatch":
@@ -1622,6 +1680,8 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         await update.message.reply_text(respuesta, parse_mode="Markdown")
         if plan.log_consulta:
             log_query(telegram_user_id=user_id, query=query, route="manufacturer_mismatch",
+                      source=procedencia.source,
+                      transcription=procedencia.transcription,
                       response=respuesta, response_length=len(respuesta))
             asegurar_seudonimo(user_id)
         return
@@ -1636,6 +1696,8 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         await update.message.reply_text(respuesta, parse_mode="Markdown")
         if plan.log_consulta:
             log_query(telegram_user_id=user_id, query=query, route="manufacturer_no_model",
+                      source=procedencia.source,
+                      transcription=procedencia.transcription,
                       response=respuesta, response_length=len(respuesta))
             asegurar_seudonimo(user_id)
         return
@@ -1643,8 +1705,15 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
         await _handle_feedback(update, context, query)
         return
     # conversacional (default del plan y de los fallbacks)
+    # (s324h, CRÍTICO convergente de Sol y Opus 5 en r44) La procedencia se
+    # REENVÍA. Sin esto, cablear la voz al despachador registraría TODA pregunta
+    # técnica hablada —el destino mayoritario del canal— como si fuera texto: una
+    # regresión de algo que hoy funciona, porque `handle_voice` sí la pasa cuando
+    # llama a `_process_query` por su cuenta.
     await update.message.chat.send_action("typing")
-    await _process_query(update, context, query, preambulo=plan.preambulo)
+    await _process_query(update, context, query, preambulo=plan.preambulo,
+                         source=procedencia.source,
+                         transcription=procedencia.transcription)
 
 
 def _texto_fabricantes(*, por_producto: bool) -> str:
@@ -1696,7 +1765,8 @@ def _texto_fabricantes(*, por_producto: bool) -> str:
 
 
 async def _responder_atajo(update: Update, respuesta: str, *, user_id: int,
-                           query: str, registrar: bool) -> None:
+                           query: str, registrar: bool,
+                           procedencia: Procedencia) -> None:
     """Envía la respuesta de un atajo REGISTRÁNDOLA ANTES, y con sus botones.
 
     (s324f, hallazgo del dúo r39) El orden es el arreglo. Hasta hoy los atajos
@@ -1717,6 +1787,7 @@ async def _responder_atajo(update: Update, respuesta: str, *, user_id: int,
         query_log_uuid = str(uuid.uuid4())
         registrada = log_query(
             telegram_user_id=user_id, query=query, route="catalog_shortcut",
+            source=procedencia.source, transcription=procedencia.transcription,
             response=respuesta, response_length=len(respuesta),
             query_log_id=query_log_uuid,
         )
@@ -1839,7 +1910,8 @@ async def _process_query(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     query: str,
-    source: str = "text",
+    *,
+    source: str,
     transcription: str | None = None,
     preambulo: Preambulo | None = None,
 ):
@@ -1913,7 +1985,8 @@ async def _process_query(
                     log_query(
                         telegram_user_id=(update.effective_user.id
                                           if update.effective_user else 0),
-                        query=query, source=source, route="clarify",
+                        query=query, source=source, transcription=transcription,
+                        route="clarify",
                         response=respuesta_clarify,
                         response_length=len(respuesta_clarify),
                     )
@@ -2027,7 +2100,7 @@ async def _process_query(
                 _clarify_logged = log_query(
                     telegram_user_id=(update.effective_user.id
                                       if update.effective_user else 0),
-                    query=query, source=source,
+                    query=query, source=source, transcription=transcription,
                     route=("clarify"
                            if f1_resolution.route is PolicyRoute.CLARIFY
                            else "decline"),

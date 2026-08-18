@@ -160,7 +160,7 @@ def test_orchestrator_path_on_but_policy_off_keeps_mt0d_path(monkeypatch):
 
     update = _make_update()
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica"))
+    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica", source="text"))
 
     assert update.message.replies == ["MT0D-ANSWER"]
     # (fase B, DEC-202) el régimen stub TAMBIÉN escribe el estado ÚNICO — vía
@@ -191,7 +191,7 @@ def test_flags_all_off_no_working_state(monkeypatch):
 
     update = _make_update()
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000"))
+    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000", source="text"))
 
     assert update.message.replies == ["estable"]
     # (fase B) el estado único se escribe también con flags off — ver el test gemelo
@@ -208,7 +208,7 @@ def test_two_turn_carry_forward_generation_gets_resolved_query(f1_env):
     # Turn 1: explicit product -> STANDALONE. The working state fixes CAD-250.
     u1 = _make_update(update_id=1, chat_id=42)
     asyncio.run(
-        bot._process_query(u1, context, "¿Cuál es la tensión del lazo de la CAD-250?")
+        bot._process_query(u1, context, "¿Cuál es la tensión del lazo de la CAD-250?", source="text")
     )
     ws = context.user_data["mt_working_state"]
     assert isinstance(ws, WorkingState)
@@ -216,7 +216,7 @@ def test_two_turn_carry_forward_generation_gets_resolved_query(f1_env):
 
     # Turn 2: product-less follow-up within the window -> CARRY_FORWARD.
     u2 = _make_update(update_id=2, chat_id=42)
-    asyncio.run(bot._process_query(u2, context, "¿y su tensión?"))
+    asyncio.run(bot._process_query(u2, context, "¿y su tensión?", source="text"))
 
     # The GENERATION call for turn 2 saw the RESOLVED query, not the raw follow-up
     # (the measured e2e fix: the resolved query feeds retrieval AND generation).
@@ -238,7 +238,7 @@ def test_clarify_route_answers_directly_without_pipeline(f1_env):
     # A dangling first turn (no antecedent) => CLARIFY.
     update = _make_update(update_id=9, chat_id=9)
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "¿y cuál es su tensión?"))
+    asyncio.run(bot._process_query(update, context, "¿y cuál es su tensión?", source="text"))
 
     # Exactly one reply — the policy's clarify question, verbatim.
     assert len(update.message.replies) == 1
@@ -260,7 +260,7 @@ def test_answer_excerpt_backfilled_into_working_state(f1_env):
     update = _make_update(update_id=3, chat_id=3)
     context = SimpleNamespace(user_data={})
     asyncio.run(
-        bot._process_query(update, context, "¿Cuál es la tensión del lazo de la CAD-250?")
+        bot._process_query(update, context, "¿Cuál es la tensión del lazo de la CAD-250?", source="text")
     )
 
     ws = context.user_data["mt_working_state"]
@@ -288,10 +288,10 @@ def test_rewriter_not_constructed_on_zero_cost_routes(f1_env, monkeypatch):
     # Turn 1 STANDALONE, turn 2 CARRY_FORWARD — both $0 routes.
     u1 = _make_update(update_id=1, chat_id=7)
     asyncio.run(
-        bot._process_query(u1, context, "¿Cuál es la tensión del lazo de la CAD-250?")
+        bot._process_query(u1, context, "¿Cuál es la tensión del lazo de la CAD-250?", source="text")
     )
     u2 = _make_update(update_id=2, chat_id=7)
-    asyncio.run(bot._process_query(u2, context, "¿y su tensión?"))
+    asyncio.run(bot._process_query(u2, context, "¿y su tensión?", source="text"))
 
     # No REWRITE route was hit => the economical rewriter was never built.
     assert calls["n"] == 0
