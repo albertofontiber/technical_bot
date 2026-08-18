@@ -7579,3 +7579,82 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Recibos**: `evals/s324f_lote_piloto_propuesta_v1.md` · tally r40 (ts=2026-08-17T23:22:28) ·
   `tests/test_s324f_cuota_agotada.py` · `tests/test_s324f_dashboard_rutas.py` (control de origen).
 
+## DEC-232 (s324h, 18 ago 2026) — La voz pasa por el plan: el default que mentía estaba SEIS veces (Fase 1 APLICADA, PR #284 mergeada)
+
+**Síntoma** (piloto vivo, Alberto): «¿Qué centrales de Detnov tienes?» **por voz**, con la
+transcripción YA correcta → «no he encontrado información relevante»; **tecleada** → el listado
+de 14. Medido: las dos formas planifican `ruta='inventario'` idéntica. `handle_voice` nunca
+llamaba a `plan_turn` — las **nueve** rutas de atajo eran inalcanzables hablando. Estaba
+declarado en el código como aplazamiento de fase B del #70; el piloto lo volvió defecto.
+
+**Causa**, y no era «la ruta que faltaba»: el mismo default optimista replicado SEIS veces —
+`log_query`, `_process_query`, `TurnRequest`, `build_turn_request`, `Meta.fuente` y
+`query_logs.source`. Un default sólo debe existir cuando el valor omitido es VERDAD; `"text"`
+es la mitad de los casos, así que olvidar la procedencia no fallaba: registraba en silencio, y
+para siempre, que un audio se había tecleado.
+
+**Decisión**: `Procedencia` (canal + ASR crudo, invariante en `__post_init__`, sin default) como
+origen único; `_servir_turno` como preludio compartido; frontera keyword-only sin default en el
+despacho; y `_FUENTE_META` como mapa explícito (el `else "texto"` de la primera versión colapsaba
+cualquier canal futuro — el defecto reintroducido en el propio arreglo).
+
+**Alcance en DOS fases, declarado.** Fase 1 (aplicada) cierra lo ROTO. Fase 2 (pendiente):
+`TurnRequest`, `build_turn_request` y la migración del esquema — mismo patrón donde HOY NO está
+roto; meterla habría sido el cuarto ensanchamiento del lote.
+
+**Alternativas descartadas**: (a) cablear sólo la ruta de inventario — el parche que Alberto ya
+rechazó en la tabla de transcripción; (b) fabricar un Update de texto y delegar en
+`handle_message` — pierde el ASR crudo y acopla por un objeto falsificado; (c) una frontera de
+fail-open que degrade al RAG — **muerta dos veces por el dúo**: Sol por SEGURIDAD (saltarse
+`mismatch`/`marca_no_servida` puede contestar con el manual de otra marca) y Fable por
+OBSERVABILIDAD (convierte incidencias visibles en degradación muda); (d) `Entrada` como tipo
+nuevo — sería un tercer vocabulario, `TurnRequest` ya lleva los campos.
+
+**Restricción PAGADA retirada y declarada** (Sol fase-B M5): el `try/except` local de
+`handle_voice`. Razón única: PARIDAD. La segunda razón que escribí —observabilidad— era FALSA y
+Sol lo probó: `plan_turn` captura esa excepción en su fail-open MUDO, así que se pierde el
+warning SIN ganar la incidencia. Declarado como deuda preexistente, no vendido como mejora.
+
+**Puertas**: paridad 9 rutas × 2 canales (compara secuencia de mensajes y payload RAG, no sólo
+la respuesta) · anti-vacuidad · no-regresión ×3 sobre la ruta conversacional · invariante de
+`Procedencia` (8 estados inválidos) · AST que distingue pseudo-fuente de logging (`source="error"`)
+de turno real. Verificado que el gate DISCRIMINA: antes de cablear fallaban 12 de 24.
+
+**Proceso — 8 rondas de dúo** (Sol xhigh + Fable 5, más un refuerzo Opus 5 declarado). Tres
+versiones tumbadas antes de cablear; una ronda más sobre el código. Evitó: una regresión del lever
+de mismatch **en el camino de TEXTO**, la frontera insegura, un comentario con una afirmación
+falsa, y filas de voz sin nada que auditar. Al extender el AST aparecieron **TRES** rutas clarify
+perdiendo el ASR crudo, no dos: la tercera la encontró la PUERTA, no los revisores.
+
+**Y lo que el dúo NO podía ver**: CI cazó que el gate llamaba a la red (`get_available_manufacturers`
+sin fail-open). Pasaba en local por tener `.env`. Sol y Fable leen el código; no lo ejecutan sin
+credenciales. **El entorno limpio es un revisor que ningún modelo sustituye.**
+
+Suite: 4426 verde. Ref: `evals/s324h_voz_al_plan_propuesta_v5.md` + `s324h_v5_addendum_r48.md`,
+tally en `evals/adversarial_review_log.jsonl` (r42–r49).
+
+## DEC-233 (s324h, 18 ago 2026) — El runner de Fable ahogaba a su propio revisor (#86, diagnóstico MEDIDO)
+
+En r43/r44 el runner marcó `tools_reales=0` y detectó **transcripción FABRICADA**. Dos hipótesis
+mías murieron con sonda: NO era `tool_choice` (Fable llama a la herramienta sin él) y NO era
+«opina a ciegas». **Causa medida**: el runner PEGA los ficheros semilla enteros — 191.576
+caracteres en r45, con `telegram_bot.py` (145 KB) dentro. Con el código delante el modelo no
+necesita tools; y cuando sí las usa, muere con «preflight conservador excede el presupuesto».
+
+**Experimento controlado** (r46): mismo modelo, mismo prompt, sólo cambiando semillas.
+191 KB → **0** tool-calls. 46 KB → **10** tool-calls, sin aviso `SIN_TOOLS`, revisión completa.
+
+Consecuencias: el flag `SIN_TOOLS` de #86 etiqueta «a ciegas» algo que no lo está del todo
+(falso positivo del guardarraíl); la transcripción fabricada SÍ es defecto real y grave. **Pin
+adjudicado por Alberto (18-ago): Fable 5 sigue siendo el 2º revisor aunque comparta modelo con el
+autor — el rol adversarial cambia la conducta, no sólo el modelo.** Arreglo pendiente: no pegar
+ficheros de código enteros; dejar que las tools los lean (es lo que hace Sol).
+
+## DEC-234 (s324h, 18 ago 2026) — El bake-off de ASR incumplió un gate vigente que no cité
+
+`gpt-4o-transcribe` se recomendó y Alberto lo desplegó con un bake-off de **voz sintética y 8
+marcas** (4/8 vs 7/8). Sol (r45) encontró el constraint que yo no cité: **migrar de ASR exige el
+gate ciego con ≥30 audios reales estratificados** (`evals/voice_asr_model_selection_gate_v1.yaml`,
+DECISIONS ~2256). El Protocolo 4 obliga a grep en DECISIONS antes de opinar sobre un lever, y no
+lo hice. El cambio funciona y es reversible por variable de entorno; **el listón declarado sigue
+sin cumplirse** y queda a decisión de Alberto recoger los 30 audios.

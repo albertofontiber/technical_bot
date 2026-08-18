@@ -5612,3 +5612,34 @@ apoyarse en el consentimiento de esa persona— y una pieza nueva que Alberto pi
 cuando una respuesta no cabe, **se dice y se ofrece cómo pedir el resto**, con el espacio del aviso
 reservado antes que el contenido para que sea imposible recortar en silencio.
 
+
+
+## s324h (18 ago 2026) — La noche en que el dúo me corrigió ocho veces
+
+El piloto llevaba horas vivo cuando Alberto mandó un audio con la transcripción ya arreglada y el
+bot le dijo que no tenía información. La misma pregunta, tecleada, devolvía el listado. Medirlo
+costó dos minutos: el plan acertaba con las dos formas — por voz nadie le preguntaba.
+
+Lo que costó fue **no arreglarlo mal**. Escribí cinco versiones de la propuesta y el dúo tumbó las
+tres primeras. La v1 metía una regresión del lever de mismatch **en el camino de texto**, que
+funcionaba. La v2 añadía una frontera de fail-open que Sol mató por seguridad —podía contestar con
+el manual de otra central— y Fable por observabilidad, cada uno sin ver lo del otro. La v3 declaró
+«resuelto» un punto apoyándose en una sonda del clasificador que no probaba la cadena.
+
+El patrón de los ocho hallazgos siempre fue el mismo, y es mío: **afirmar por encima de lo medido**.
+«Siete rutas» siendo nueve. «Escalable a bilingüe» sin verificarlo. «Irrepresentable» cuando era una
+puerta. «Radio medido» con un subconjunto. «Todos adaptados» con la suite en rojo. Y una
+justificación de observabilidad escrita en un comentario del código que era simplemente falsa.
+
+Tres veces el instrumento con el que iba a corregir algo resultó ser el que fallaba: un grep con un
+filtro que se comía las líneas comentadas —y por poco acuso a Sol de un falso positivo—, un script
+de migración que introdujo cuatro defectos que los tests no cazaban, y una prueba en directorio
+temporal montada sin `data/`.
+
+Al final el diagnóstico real no era «falta cablear una ruta»: era que el mismo default optimista
+estaba replicado seis veces, y un default que miente convierte el olvido en un registro falso y
+permanente. Eso sí se puede cerrar de raíz.
+
+Y cerró CI, no el dúo. El gate llamaba a la red y pasaba en local porque yo tenía credenciales.
+Sol y Fable leen el código; no lo ejecutan sin `.env`. El entorno limpio resultó ser un revisor que
+ningún modelo sustituye.
