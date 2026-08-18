@@ -90,7 +90,7 @@ Selector de nube → **Add cloud environment** (o el engranaje del existente).
 | `DATABASE_URL` | **migraciones/DDL** y scripts de operador (rgpd_retencion, marcar_utilidad) | opcional — ver §3.4 |
 | `RAILWAY_TOKEN` | censo de flags y variables vivas de producción | opcional |
 | `NOTIFIER_USER` / `NOTIFIER_PASSWORD` | harvest del portal Notifier | opcional |
-| `LLAMA_CLOUD_API_KEY` | LlamaParse, solo si se ingesta desde cloud | opcional |
+| `LLAMAPARSE_API_KEY` | LlamaParse. **Ese es el nombre** que lee `ingest_new.py:319` — el `LLAMA_CLOUD_API_KEY` que decía el doc de s315c no lo lee nadie | opcional |
 
 **NO añadir `TELEGRAM_BOT_TOKEN`**: el bot vive en Railway y un script haciendo
 polling en una sesión cloud competiría con producción, robándole updates a los
