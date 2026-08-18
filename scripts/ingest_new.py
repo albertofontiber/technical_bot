@@ -58,6 +58,7 @@ load_dotenv(ROOT / ".env", override=True)
 # Imports del pipeline vivo (chdir al ROOT del código como efecto de import; los
 # paths de datos son absolutos, así que es inocuo).
 from src.reingest.extract import llamaparse_extract, CREDITS_PER_PAGE  # noqa: E402
+from src.extraction_store import publicar_al_bucket  # noqa: E402
 from src.reingest.pipeline import process_file, DEFAULT_CONFIG  # noqa: E402
 from src.reingest.metadata import detect_document_metadata  # noqa: E402
 from src.reingest import sidecar  # noqa: E402
@@ -400,20 +401,43 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
         print(f"  extracción OK ({time.time() - t0:.0f}s)")
     else:
         print("  extracción ya en store (reanudación)")
+
+    # s325b — PUERTA de consistencia: aquí se ESCRIBE en el store, así que aquí se
+    # publica al bucket `extraction`. Sin esto, el store de la nube derivaría del de
+    # OneDrive en cuanto alguien se olvidase de re-subir, y una sesión cloud leería un
+    # corpus viejo sin saberlo.
+    # Va FUERA del `if`: al reanudar, el fichero ya está en disco pero puede no estar
+    # en el bucket —justo el caso de la ejecución anterior que falló—, y saltarlo
+    # dejaba la puerta sin reintento (medio de Sol, ronda 2). La publicación es
+    # idempotente (upsert + manifiesto por nombre), así que republicar no cuesta nada.
+    # FAIL-OPEN a propósito: la extracción YA está en disco y es lo que vale; un fallo
+    # de red no debe tumbar una ingesta que cuesta dinero. Queda DECLARADO en el
+    # RECIBO del documento —no solo por consola— y `--verificar` lo caza después.
+    publicacion = None
+    try:
+        publicar_al_bucket(out)
+        print("  publicada en el bucket `extraction`")
+    except Exception as e:
+        publicacion = f"{type(e).__name__}: {str(e)[:120]}"
+        print(f"  AVISO: no se pudo publicar en el bucket ({e}) — "
+              f"corre `upload_extraction_store.py --aplicar` al terminar")
     with open(out, encoding="utf-8") as f:
         record = json.load(f)
 
     # B-dry en memoria → identidad + nº de chunks esperado.
     dry = process_file(record, None, dry_run=True)
     if dry["status"] != "dry_run":
-        resultados.append({"file": fn, "sha256": sha, "status": f"NO-INDEXABLE: {dry['status']}"})
+        resultados.append({"file": fn, "sha256": sha, "status": f"NO-INDEXABLE: {dry['status']}",
+                           "publicacion_fallida": publicacion})
         print(f"  ✗ no indexable ({dry['status']}) — fila de documents NO creada")
         return
     kept = dry.pop("_chunks")
     muestra = " ".join(ch.content for ch in kept[:4])
     meta = detect_document_metadata(path, muestra)
     if not meta.manufacturer:
-        resultados.append({"file": fn, "sha256": sha, "status": "SIN-FABRICANTE (revisar sidecar/overrides)"})
+        resultados.append({"file": fn, "sha256": sha,
+                           "status": "SIN-FABRICANTE (revisar sidecar/overrides)",
+                           "publicacion_fallida": publicacion})
         print("  ✗ fabricante no resuelto — NO se ingesta (identidad es fail-closed)")
         return
 
@@ -456,7 +480,9 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
                        "manufacturer": meta.manufacturer, "product_model": meta.product_model,
                        # (#73, Sol r13 M5) el veredicto de revisión — y si hubo
                        # override — queda AUDITADO en el recibo de commit.
-                       "revision": c.get("revision")})
+                       "revision": c.get("revision"),
+                       # s325b: el fail-open de la puerta al bucket, en el RECIBO
+                       "publicacion_fallida": publicacion})
     print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')}, "
           f"doc_type→{parcheados} chunks)")
 
@@ -546,6 +572,19 @@ def main() -> None:
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(recibo, f, ensure_ascii=False, indent=1)
     print(f"\nRecibo: {ruta}")
+
+    # s325b (Fable, ronda 2): el fail-open de la publicacion al bucket no puede
+    # quedarse solo en el recibo — «que alguien lo lea» es justo el mecanismo de
+    # acordarse que la puerta unica venia a eliminar. Se dice EN LA CARA al final,
+    # con el comando exacto. No corta el lote: la ingesta en si fue correcta y la
+    # extraccion esta en disco; lo que falta es la copia de la nube.
+    sin_publicar = [r for r in recibo.get("resultados", []) if r.get("publicacion_fallida")]
+    if sin_publicar:
+        print(f"\n{'=' * 60}\nATENCION: {len(sin_publicar)} extraccion(es) NO se "
+              f"publicaron en el bucket `extraction` — el store de la nube esta "
+              f"DESFASADO respecto a este disco.\n  Arreglo: python "
+              f"scripts/upload_extraction_store.py \"{data_root}\" --aplicar\n{'=' * 60}")
+
     # el corte va DESPUES de persistir: primero la traza, luego el veredicto.
     if veredicto_gate is not None and not veredicto_gate.get("ok", True):
         raise SystemExit(

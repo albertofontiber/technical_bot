@@ -3347,3 +3347,27 @@ filtro es `imatch` por familia y nada garantiza el margen al crecer el corpus. S
 cruza, el sesgo del diversify sería **silencioso** — no hay error, sólo peores fuentes. Arreglo
 barato: un test-guarda que se ponga rojo al acercarse al tope.
 
+## #80 — Residuos declarados del extraction store en la nube: disco parcial, config del estado y caché sin límite — s325b
+
+**Qué es** (tres cosas pequeñas que el dúo dejó declaradas al cablear DEC-221, ninguna
+bloqueante hoy):
+
+1. **Un directorio local PARCIAL manda sobre el bucket.** `abrir_store` elige disco en
+   cuanto el directorio existe, sin contrastar conteo, manifiesto ni huella. Un
+   OneDrive a medio sincronizar se procesa entero y en silencio como si fuera el store
+   completo. Forma BP: comparar contra el manifiesto remoto cuando ambos existan y
+   declarar la diferencia (no elegir por él: el disco debe seguir mandando).
+2. **El estado del pipeline no valida su `config`.** `logs/reingest_pipeline_state.json`
+   es global y el skip se decide por sha del PDF, así que correr OTRA configuración de
+   extracción puede saltar documentos marcados `done` por un extractor distinto.
+3. **La caché de descargas no tiene límite ni limpieza.** Se indexa por sha (correcto:
+   una re-extracción no puede servirse de la vieja), pero con `EXTRACTION_CACHE_DIR`
+   persistente las versiones antiguas se acumulan sin tope.
+
+**Por qué importa**: (1) y (2) son de la misma familia que el crítico que Sol cazó en
+la ronda 2 — el sistema elige una fuente completa sin comprobar que lo es. (3) es
+higiene: en un VM de 30 GB con re-extracciones repetidas, acaba doliendo.
+
+**Forma BP**: (1) y (2) piden el mismo gesto —que la elección de fuente/estado declare
+CONTRA QUÉ se validó—, así que se abordan juntos y con dúo (tocan el seam de datos).
+(3) es un barrido por antigüedad al abrir el store: trivial y sin dúo.

@@ -7579,6 +7579,147 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Recibos**: `evals/s324f_lote_piloto_propuesta_v1.md` · tally r40 (ts=2026-08-17T23:22:28) ·
   `tests/test_s324f_cuota_agotada.py` · `tests/test_s324f_dashboard_rutas.py` (control de origen).
 
+## DEC-221 (s325b) — El extraction store a la nube: consumo cloud SIN PC, con puerta única de consistencia; la INGESTA de manuales nuevos sigue siendo local (dúo NO SÓLIDO → rediseño)
+
+- **Fecha**: 18 ago 2026 (s325b). **Impacto**: MEDIO en ZONA DE DOLOR (corpus/ingesta)
+  ⇒ dúo COMPLETO (Sol xhigh + Fable), innegociable. Continúa DEC-220.
+- **Mandato**: Alberto quiere usar el modo cloud **sin depender de tener el PC
+  encendido**. Medido: de todo el corpus fuente, lo único que NO estaba ya en la nube
+  era el **extraction store** — 1.143 JSON / 353,7 MB (`agent_anthropic-sonnet-45`) +
+  28 / 2,6 MB (`llm`), solo en OneDrive. Los PDFs ya estaban (bucket `manuales`:
+  1.007 objetos; 1.084/1.243 `documents` con `source_url`) por #69/DEC-199.
+- **Cableado**: bucket **privado** `extraction` (`manuales` es público-por-URL porque
+  el bot sirve esos PDFs; el store es derivado) · `scripts/upload_extraction_store.py`
+  (dry-run por defecto, `--aplicar`, `--verificar`, recibo) ·
+  `src/extraction_store.py` = resolutor **disco primero, bucket después** con cuatro
+  operaciones (`listar`/`ruta_de`/`indice`/`buscar_por_sha`) y **fail-closed** en todo
+  camino degradado · consumidores cableados: `enunciados_pass`, `s94_f1_generate`
+  (el open REAL vive ahí), `src/reingest/pipeline.run`.
+- **VERIFICADO (Protocolo 1, mismo turno)**: subida completa **1.143 + 28 objetos**,
+  `--verificar` 0 fallos cruzando SHA · smoke del camino cloud contra el bucket REAL
+  (sin disco): `listar()` 1.143 en 1,2 s · `_build_sha_map()` **1.136 claves, las
+  MISMAS que desde disco**, en 0,5 s · `store_pages()` descarga y parsea. Equivalencia
+  del mapa disco-vs-nuevo-código: **idénticos** (1.136/1.136).
+- **El dúo cortó el diseño v1: NO SÓLIDO por ambos lados, con 3 críticos convergentes**
+  (verificados contra el código antes de actuar, regla C):
+  1. **Faltaba un consumidor entero**: `src/reingest/pipeline.py:223` lista el store
+     con su propio glob — la propuesta hablaba de «tres consumidores» y eran cuatro.
+  2. **`ingest_new` es PRODUCTOR, no solo lector** (`:378-404` escribe la extracción;
+     `:182-205` exige PDFs y sidecar locales) ⇒ un resolutor de solo lectura no puede
+     adaptarlo. **Consecuencia adjudicada por Alberto: se cierra en CONSUMO** y la
+     ingesta de manuales nuevos sigue siendo local, declarado, no pendiente.
+  3. **La «descarga perezosa» era falsa**: `enunciados_pass._build_sha_map` lee la
+     cabecera de TODOS los JSON ⇒ el primer uso habría bajado los 1.143 objetos.
+     Arreglo: el manifiesto lleva `source_path` y `sha_pdf`, y el índice sale de **un
+     GET**. (Y el open real estaba en `s94_f1_generate._sha_path`, que busca por
+     PATRÓN, no por nombre — de ahí `buscar_por_sha`.)
+  Otros aplicados: el skip de la subida se decidía por **tamaño** mientras el
+  manifiesto se regeneraba con el sha local (manifiesto que miente, `--verificar` en
+  verde) → ahora se decide por **sha contra el manifiesto remoto**; la caché se indexa
+  por sha (no por tamaño); `fallos` es por config; y un `StoreError` **aborta el
+  tramo** en vez de contarse como error por-documento — sin eso, `derive_channels_lote`
+  lo habría absorbido como el aviso esperable «doc sin store» (decisión del dúo s316
+  contra la fatiga de alarma) y un lote podría cerrarse COMPLETO con la red caída.
+- **Bug de plataforma cazado de paso**: `_build_sha_map` hacía `os.path.basename` sobre
+  `source_path` de Windows; en Linux (que es donde corre una sesión cloud) eso NO
+  separa por `\` y el mapa habría salido vacío **en silencio**. Ahora el basename es
+  agnóstico de plataforma.
+- **CONSISTENCIA — puerta única (petición de Alberto, 18-ago)**: el store tiene un
+  solo productor, así que la publicación al bucket ocurre **en el mismo acto que la
+  escritura** (`ingest_new` → `publicar_al_bucket`: sube el objeto y luego el
+  manifiesto; ese orden deja «objeto sin registrar» ante un corte, nunca «registrado
+  sin objeto»). **Fail-open declarado**: la extracción ya está en disco y cuesta
+  dinero; el fallo queda anotado y `--verificar` lo caza. Las otras dos capas son red,
+  no mecanismo: `--verificar` cruza **sha** (no tamaño), y **la `config` ES la versión
+  del mecanismo de extracción** — cambiar de extractor es un prefijo nuevo, así que no
+  puede producirse una mezcla silenciosa de extracciones viejas y nuevas.
+- **Alternativas descartadas**: meter el store en git (354 MB clonados en cada sesión
+  cloud); montar OneDrive en el VM (credenciales de Microsoft dentro del sandbox);
+  regenerar la extracción en cloud (el store existe para no volver a pagarla);
+  sincronizar el directorio entero al arrancar (no escala a 30+ fabricantes).
+- **Gap declarado**: el emparejamiento del tally Sol↔Fable falló («no revisaron
+  exactamente los mismos bytes ordenados») pese a correr sobre la misma propuesta;
+  ambas revisiones existen y están archivadas, pero el log quedó sin emparejar.
+- **Relacionado**: DEC-220 y su addendum · DEC-199 (#69, PDFs al bucket) · DEC-140
+  (migraciones por MCP) · `docs/ENTORNO_CLOUD.md` §3.5 ·
+  `evals/s325b_extraction_store_nube_propuesta.md` ·
+  `evals/s325b_extraction_upload_v1.json` ·
+  `evals/adversarial_reviews/2026-08-18T21-21-30_claude-fable-5_53e51e4dae75.md` ·
+  `evals/adversarial_review_log.jsonl` (Sol ts=2026-08-18T21:18:48).
+
+### DEC-221 addendum — RONDA 2 del dúo sobre el CÓDIGO: NO SÓLIDO otra vez, y cazó un bug que la suite no podía ver
+
+La ronda 1 revisó el diseño; esta revisó el cableado. **Sol devolvió 4 críticos, todos
+verificados contra el código y aplicados**:
+
+1. **`NameError` en `src/reingest/pipeline.py`** (mío): al renombrar el universo de
+   `files` a `nombres` dejé **cuatro** referencias huérfanas, y los caminos NORMALES
+   (`dry_run`, `register_only`, `done`) reventaban — en algún caso después de escribir
+   en DB. **La suite no lo cazó porque no existía ni un test que EJECUTARA `run()`**:
+   ahora hay dos (`test_pipeline_run_recorre_el_store_resuelto_sin_romperse`, que
+   recorre la rama procesada de verdad, y el de la guarda sin store). Es la lección
+   más cara de la sesión: cablear un seam sin ejercitarlo end-to-end.
+2. **La «puerta única» no era única**: `src/reingest/extract.py:179` es un SEGUNDO
+   productor (json.dump + os.replace) y no publicaba ⇒ un reparseo volvía a divergir.
+   Publica ya, con el mismo fail-open declarado.
+3. **Sobrescritura destructiva del manifiesto**: `publicar_al_bucket` trataba
+   CUALQUIER respuesta ≥400 del GET como «no hay manifiesto» y lo sobrescribía — un
+   500 transitorio podía dejar el store con UNA entrada visible. Ahora solo un **404**
+   significa vacío; el resto lanza. Y queda DECLARADO el límite: es read-modify-write
+   **sin CAS** (Storage no lo ofrece), así que dos publicaciones concurrentes pueden
+   perder una entrada; hoy no ocurre —`ingest_new` es proceso único— y la red es
+   reconstruir el manifiesto con el script.
+4. **No todo fallo de store era `StoreError`**: timeouts de `httpx` y JSON/UTF-8
+   inválido escapaban con otro tipo, y el consumidor —que solo relanza `StoreError`—
+   los degradaba a error por-documento, pudiendo cerrar el tramo con rc=0 con la red
+   caída. Ahora transporte y parseo se envuelven.
+
+**Medios aplicados**: `--verificar` era **circular** (comparaba el sha local contra el
+que declara el propio manifiesto, generado de ese mismo local) ⇒ nace `--profundo`,
+que DESCARGA y hashea el objeto — ejecutado sobre `llm`: 28/28 íntegros. Y el
+fail-open de la publicación no llegaba al recibo ni se reintentaba al reanudar
+(`out` ya existía ⇒ se saltaba la puerta entera) ⇒ la publicación salió del `if` y
+`publicacion_fallida` viaja en los tres caminos del recibo.
+
+**CORRECCIÓN de una afirmación mía**: donde este DEC decía «`--verificar` 0 fallos
+cruzando SHA», lo medido era el sha contra el MANIFIESTO, no contra el objeto remoto.
+La verificación real es `--profundo`, y hasta ahora solo se ha corrido entera sobre
+`llm`; sobre `agent_anthropic-sonnet-45` (354 MB) queda pendiente.
+
+**Declarados y NO resueltos** (van a la deuda, no al silencio): un directorio local
+PARCIAL manda sobre el bucket sin contraste de conteo ni huella; el estado del
+pipeline es global y no valida que su `config` coincida con la solicitada; y la caché
+de descargas no tiene límite ni limpieza.
+
+**Fable (mismo ronda 2, lado independiente): NO SÓLIDO por poco — ningún crítico**, y
+tres medios que se cerraron antes de dar el cableado por zanjado:
+
+- **Asimetría de comportamiento en LOCAL no declarada**: el índice del lado bucket se
+  cachea (el manifiesto) pero el del lado disco NO, así que cada búsqueda fallida
+  releía las cabeceras de los 1.143 ficheros — un lote con muchos misses salía O(n·m).
+  Cacheado. Y de paso, el match EXACTO por `sha_pdf` pasa ANTES que el de prefijo de 12
+  hex: si colisionaran, el prefijo ganaba por orden lexicográfico y devolvía el fichero
+  equivocado.
+- **Cabeceras nulas silenciosas, ahora HORNEADAS en el manifiesto**: `_cabecera` solo
+  mira 600 bytes; si `source_path`/`sha256` cayeran más allá (p.ej. si un extractor
+  futuro cambia el orden de claves), el manifiesto estampa `null` y `_build_sha_map`
+  hacía `continue` sin avisar ⇒ documento invisible con `--verificar` en verde. Ahora
+  se CUENTA y se declara en el recibo de subida y en consola. Hoy pasa con 1 de 1.143.
+- **El fail-open no llegaba al exit**: dejarlo solo en el recibo devolvía el mecanismo
+  a «que alguien se acuerde de leerlo», justo lo que la puerta única elimina. Ahora, al
+  final del lote, se dice en la cara con el comando exacto de reparación (sin cortar el
+  lote: la ingesta fue correcta; lo que falta es la copia de la nube).
+
+Menores cerrados: `manifiesto_remoto` trataba cualquier ≥400 como «no hay manifiesto»
+(un 500 producía 1.143 falsos DIFIERE o una re-subida entera) → ahora solo el 404
+significa vacío. Menor NO cerrado, a deuda: la caché no purga versiones viejas (#80).
+
+Nota de proceso: el emparejamiento del tally Sol↔Fable volvió a fallar por bytes
+(«no revisaron exactamente los mismos bytes ordenados») pese a correr sobre el mismo
+fichero de propuesta; ambas revisiones están archivadas en `evals/adversarial_reviews/`.
+Ref ronda 2: Sol ts=2026-08-18T21:44:56 · Fable
+`2026-08-18T21-54-44_claude-fable-5_a4a0aa0222c0.md` ·
+propuesta `evals/s325b_cableado_revision_v2.md`.
 ## DEC-232 (s324h, 18 ago 2026) — La voz pasa por el plan: el default que mentía estaba SEIS veces (Fase 1 APLICADA, PR #284 mergeada)
 
 **Síntoma** (piloto vivo, Alberto): «¿Qué centrales de Detnov tienes?» **por voz**, con la

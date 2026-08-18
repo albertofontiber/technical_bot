@@ -43,6 +43,7 @@ from src.config import LLM_MODEL
 from src.ingestion.embedder import embed_query
 from src.rag.retriever import _cos
 from src.reingest.embed import embed
+from src.extraction_store import abrir_store
 
 STORE = "data/extraction/agent_anthropic-sonnet-45"
 TRACKC_FACTS = {("hp011", "05 a 295 seg"), ("hp012", "2 lazos / 396"),
@@ -56,15 +57,24 @@ Reglas ESTRICTAS: cada enunciado expresa UN dato como frase completa en español
 R3_PROMPT = """Describe la siguiente tabla de un manual técnico PCI en 1-2 frases en español técnico: su PROPÓSITO (qué pregunta responde), el producto/modelo EXACTO ({producto}) y qué magnitudes/columnas lista. NO enumeres los valores. Sin markdown."""
 
 
+_RESOLUTORES: dict = {}
+
+
+def _store():
+    """El store de `STORE`, resuelto a disco o al bucket `extraction` (s325b).
+
+    Cacheado POR RUTA porque `enunciados_pass` reasigna el global `STORE` cuando
+    le pasan `--store`; y porque en modo bucket la instancia guarda el manifiesto,
+    que no queremos volver a bajar en cada búsqueda.
+    """
+    if STORE not in _RESOLUTORES:
+        _RESOLUTORES[STORE] = abrir_store(directorio=STORE)
+    return _RESOLUTORES[STORE]
+
+
 def _sha_path(sha: str) -> str | None:
-    hits = _glob.glob(f"{STORE}/{sha[:12]}*.json") or _glob.glob(f"{STORE}/*{sha[:12]}*.json")
-    if hits:
-        return hits[0]
-    for p in _glob.glob(f"{STORE}/*.json"):
-        with open(p, encoding="utf-8") as fh:
-            if f'"{sha}"' in fh.read(400):
-                return p
-    return None
+    nombre = _store().buscar_por_sha(sha)
+    return str(_store().ruta_de(nombre)) if nombre else None
 
 
 _DOC_CACHE: dict = {}

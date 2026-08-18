@@ -49,6 +49,21 @@ adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
 
+**s325b — el extraction store, a la nube (DEC-221)**: lo ÚNICO del corpus fuente que
+no estaba ya en cloud (1.143 JSON / 354 MB, solo en OneDrive) vive ahora también en el
+bucket privado `extraction`. `src/extraction_store.py` resuelve **disco primero,
+bucket después**, así que en local nada cambia; cableados `enunciados_pass`,
+`s94_f1_generate` y `src/reingest/pipeline`. Verificado contra el bucket REAL sin
+disco: `_build_sha_map` da **1.136 claves, las mismas que desde disco**, en 0,5 s.
+Consistencia por **puerta única**: `ingest_new` publica al bucket en el mismo acto en
+que escribe (fail-open declarado), con `--verificar` por SHA como red y la `config`
+como versión del mecanismo de extracción. **LÍMITE declarado**: ingestar manuales
+NUEVOS sigue siendo local — `ingest_new` escribe al store y exige PDFs y sidecar en
+disco. Dúo completo NO SÓLIDO → 3 críticos convergentes aplicados (faltaba un
+consumidor; ingest_new es productor; la «descarga perezosa» era falsa), más un bug de
+plataforma: `os.path.basename` sobre rutas Windows habría vaciado el mapa EN SILENCIO
+al correr en Linux.
+
 **Dos frentes en una sola sesión, en paralelo (Alberto: «prefiero la simplicidad de una sesión»): él
 adjudica la asignación documento→modelo en los packets; yo mido la etapa 3 y aplico lo firmado (DEC-227).**
 **Etapa 3, MEDIDA antes de construir**: sondas de los 8 «servido y omitido» del FULL 16-ago → 7 ALCANZABLE / 1 NO
