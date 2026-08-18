@@ -5643,3 +5643,52 @@ permanente. Eso sí se puede cerrar de raíz.
 Y cerró CI, no el dúo. El gate llamaba a la red y pasaba en local porque yo tenía credenciales.
 Sol y Fable leen el código; no lo ejecutan sin `.env`. El entorno limpio resultó ser un revisor que
 ningún modelo sustituye.
+
+## s325 (18 ago 2026) — «Dónde corre Claude»: el cloud deja de depender del PC, y el dúo tumba mi diseño dos veces
+
+Alberto pidió montar el cambio de «where Claude runs» para gobernar el trabajo desde
+el móvil. Lo primero que apareció no fue comodidad: el environment estaba en
+**Default**, que es exactamente lo que en s315/s316 dejó fuera `OPENAI_API_KEY` y al
+revisor Sol sin ejecutar — una sesión cloud no podía cerrar nada de impacto ALTO y
+**nada avisaba**. Nace `cloud_smoke.py` para que eso no vuelva a pasar en silencio:
+verifica superficie, historial git, imports reales, presencia de keys sin volcar su
+valor y conectividad, y estampa recibo. Su contrato —nunca vuelca un secreto— se fija
+en tests, no en el docstring.
+
+Alberto adjudicó **contra mis dos recomendaciones**: un solo environment con todas las
+keys y red Full, con el riesgo escrito delante (no hay secret store). Y acotó el
+alcance a **Cloud + Dispatch**, dejando Remote Control documentado sin activar; no deja
+hueco, porque las sesiones que abre Dispatch corren EN EL PC y ven OneDrive.
+
+**Después vino la pregunta que cambió la sesión**: «quiero usar cloud sin depender de
+tener el ordenador encendido». Medido, el único hueco real era el **extraction store**
+(1.143 JSON / 354 MB, solo en OneDrive): los PDFs llevaban en el bucket desde #69. Se
+subió a un bucket privado y nació el resolutor disco-primero-bucket-después.
+
+**Y el dúo hizo su trabajo dos veces, ambas NO SÓLIDO.** En el diseño: faltaba un
+consumidor entero, `ingest_new` resultó ser PRODUCTOR y no solo lector, y mi «descarga
+perezosa» era falsa porque el mapa doc→sha recorre el store completo. En el código —la
+ronda que casi me salto— apareció lo más caro: al renombrar una variable dejé cuatro
+referencias huérfanas y `pipeline.run()` reventaba con `NameError` en sus caminos
+normales… **y la suite pasó verde con el bug dentro**, porque no existía ni un test que
+EJECUTARA `run()`. Hoy existen dos. También salió que el manifiesto se sobrescribía
+ante cualquier error del GET (un 500 podía dejar el store con UNA entrada visible), que
+los timeouts escapaban sin ser `StoreError` y que mi `--verificar` era **circular**:
+comparaba el sha local contra el que declaraba el propio manifiesto, generado de ese
+mismo local. Cuando dije «0 fallos cruzando SHA», medía menos de lo que sonaba.
+
+De propina, un bug que solo mordía en la nube: `os.path.basename` sobre rutas de
+Windows **no separa en Linux**, así que el mapa doc→sha habría salido vacío sin decir
+nada justo al correr en cloud.
+
+Alberto pidió entonces la pieza que faltaba: consistencia como **mecanismo, no
+runbook**. El store tiene productores conocidos, así que publican al bucket en el mismo
+acto en que escriben —Sol encontró que eran dos, no uno—, el verificador por hash es
+red y no mecanismo, y la `config` de extracción es la versión: un extractor nuevo
+estrena prefijo y no puede mezclarse con el anterior. Lo que quedó sin cerrar está en
+#80, declarado: disco parcial que manda sin contraste, estado que no valida su config,
+caché sin purga.
+
+Cierre: cloud cubre evals, sondas, harness, enunciados, re-ingesta, DB, código y docs
+con el portátil cerrado. Ingestar manuales NUEVOS sigue siendo local, y está escrito
+como límite, no como pendiente.
