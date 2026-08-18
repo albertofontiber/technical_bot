@@ -64,7 +64,7 @@ SECRETOS = [
     ("ANTHROPIC_API_KEY", True, "generadores, harness, sondas, revisor Fable"),
     ("VOYAGE_API_KEY", True, "embeddings de chunks_v2 (retrieval real)"),
     ("OPENAI_API_KEY", True, "revisor Sol del dúo (Protocolo 3) y juez"),
-    ("LLAMA_CLOUD_API_KEY", False, "solo si se ingesta desde cloud (LlamaParse)"),
+    ("LLAMAPARSE_API_KEY", False, "LlamaParse — el nombre que exige ingest_new.py:319"),
     ("DATABASE_URL", False, "DDL/migraciones y scripts de operador (por el pooler)"),
     ("RAILWAY_TOKEN", False, "censo de producción: flags y vars vivas (s322f)"),
     ("NOTIFIER_USER", False, "harvest del portal Notifier (con NOTIFIER_PASSWORD)"),
