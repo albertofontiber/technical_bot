@@ -42,7 +42,11 @@ class TurnRequest:
     conversation_id: str | None = None
     # Ingress dedup key (assessment: unique ``(channel, external_update_id)``).
     external_update_id: str | None = None
-    source: str = "text"  # text | voice — mirrors _process_query
+    # (s324h Fase 2) SIN default: el mismo `= "text"` estaba replicado seis veces
+    # y ninguna era verdad la mitad de las veces, asi que olvidar la procedencia
+    # registraba en silencio que un audio se habia tecleado. `kw_only` obliga a
+    # nombrarlo; sin default, olvidarlo es un TypeError y no una fila falsa.
+    source: str  # text | voice — lo construye `Procedencia` en el manejador
     transcription: str | None = None  # raw ASR preserved for audit
 
     # --- resolved retrieval inputs (Phase 0: filled by the ingress adapter) ---

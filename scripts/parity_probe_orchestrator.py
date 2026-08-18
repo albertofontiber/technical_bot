@@ -101,6 +101,7 @@ def _probe(*, resolved: bool) -> dict:
         adapters=adapters,
     )
     request = TurnRequest(
+        source="text",
         query=_QUERY,
         retrieval_top_k=_RETRIEVAL_TOP_K,
         rerank_top_k=_RERANK_TOP_K,

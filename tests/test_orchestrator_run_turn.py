@@ -43,7 +43,7 @@ def test_run_turn_passthrough_returns_answer_diagrams_and_served_context():
     adapters = replay_adapters(
         retrieved=_FIXTURE, generate=_recording_generate(record)
     )
-    req = TurnRequest(query="¿tensión?", retrieval_top_k=50, rerank_top_k=2)
+    req = TurnRequest(query="¿tensión?", retrieval_top_k=50, rerank_top_k=2, source="text")
 
     result = run_turn(req, adapters)
 
@@ -68,6 +68,7 @@ def test_run_turn_uses_query_for_generation_and_effective_query_for_retrieval():
         rerank=_recording_rerank(rr_record),
     )
     req = TurnRequest(
+        source="text",
         query="¿y la corriente?",
         retrieval_top_k=50,
         rerank_top_k=5,
@@ -90,7 +91,7 @@ def test_run_turn_maps_none_models_to_none():
         generate=_recording_generate(gen_record),
         rerank=_recording_rerank(rr_record),
     )
-    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5)  # target None
+    req = TurnRequest(query="Q", retrieval_top_k=50, rerank_top_k=5, source="text")  # target None
 
     run_turn(req, adapters)
 
@@ -109,6 +110,7 @@ def test_run_turn_maps_empty_tuple_models_to_empty_list():
         rerank=_recording_rerank(rr_record),
     )
     req = TurnRequest(
+        source="text",
         query="Q",
         retrieval_top_k=50,
         rerank_top_k=5,
@@ -131,6 +133,7 @@ def test_run_turn_passes_populated_models_through():
         rerank=_recording_rerank(rr_record),
     )
     req = TurnRequest(
+        source="text",
         query="Q",
         retrieval_top_k=50,
         rerank_top_k=5,

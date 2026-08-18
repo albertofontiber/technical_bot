@@ -25,7 +25,29 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
+## Estado actual (s324h — 18 ago 2026; piloto DG vivo)
+
+**La voz ya hace lo mismo que el texto (DEC-232, PR #284 mergeada).** El piloto destapó que
+`handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
+— la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
+faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
+procedencia registrase en silencio un audio como si se hubiera tecleado. Fase 1 aplicada
+(`Procedencia` + preludio compartido + frontera sin default); **Fase 2 pendiente**
+(`TurnRequest`/`build_turn_request` + migración del esquema: mismo patrón donde HOY no está roto).
+Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
+
+**Pendiente de Alberto**: el smoke real (audio «¿qué centrales de Detnov tienes?» → listado de 14).
+
+**Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
+un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
+generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
+(DEC-234: el bake-off no lo cumplió) · #86 el runner de Fable pega 191 KB y ahoga a su revisor
+(DEC-233, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
+adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
+
+---
+
+## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
 
 **s325b — el extraction store, a la nube (DEC-221)**: lo ÚNICO del corpus fuente que
 no estaba ya en cloud (1.143 JSON / 354 MB, solo en OneDrive) vive ahora también en el

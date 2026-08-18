@@ -223,6 +223,7 @@ def test_build_turn_request_preserves_none_vs_empty_and_fields():
 
     # Empty list must stay an EMPTY tuple (-> [] downstream), never None.
     r = build_turn_request(
+        source="text",
         query="q",
         query_for_retrieval="q",
         target_models=[],
@@ -260,6 +261,7 @@ def test_build_turn_request_preserves_none_vs_empty_and_fields():
 
     # None target stays None (the gold-harness shape).
     r3 = build_turn_request(
+        source="text",
         query="q",
         query_for_retrieval="q",
         target_models=None,
@@ -293,6 +295,7 @@ def test_adapter_route_matches_direct_pipeline_byte_for_byte(captured_envelopes)
 
     # ORCH — the same turn built through the ingress adapter.
     request = build_turn_request(
+        source="text",
         query=_QUERY,
         query_for_retrieval=_QUERY,
         target_models=[],
