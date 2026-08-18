@@ -7490,3 +7490,64 @@ se verifica con **smoke del bot real** cuando se cablee. `hp002` NO es su testig
 - **Recibos**: `evals/s324f_catalogo_propuesta_{v1,v2}.md` · tally r39 (ts=2026-08-17T19:18:19,
   `duo_status=adjudicado`) · gate en `tests/test_s324f_catalogo_fabricantes.py`.
 
+
+## DEC-233 (s324f) — El piloto REAL rompió tres cosas en su primera hora, y ninguna la veía la suite: cuota confundida con saturación, marcas destrozadas por voz, y el panel rechazando su propio login
+
+- **Fecha**: 17-18 ago 2026. **Impacto**: MEDIO-ALTO en serving + panel. **DESPLEGADO** (commit
+  `5eda845`, verificado: bot arrancado con la puerta activa). Dúo r40. Suite **4373**.
+- **La lección que ordena todo lo demás**: en la primera hora con usuarios de verdad —Alberto y
+  Sara— aparecieron **cuatro defectos que 4.300 tests no veían**. Dos los destapó una persona
+  usando el bot; dos, abrir el panel en un navegador. Ninguno era un caso raro: eran el camino
+  normal. Es la segunda vez en el día (DEC-232 fue la primera) que el testigo útil es el uso real.
+- **Decide (1) — EL 429 TIENE DOS CARAS**: Sara mandó un audio, OpenAI devolvió `insufficient_quota`
+  («no credits remaining») y el bot le dijo que estaba **saturado** y que probara más tarde. No
+  había congestión y reintentar no iba a funcionar nunca. Ahora se lee el TEXTO del error dentro
+  del 429 —único sitio donde el proveedor lo dice— y la cuota es **no reintentable, crítica y con
+  aviso al operador**. Causa raíz: la `OPENAI_API_KEY` de Railway era otra clave, de una cuenta sin
+  saldo (verificado por huella, sin exponer valores; Anthropic y Voyage eran la misma y con saldo,
+  o sea que el bot servía texto y no audio).
+- **Decide (2) — EL AVISO VA A QUIEN PUEDE ARREGLARLO**: toda incidencia crítica manda un Telegram
+  a los ids del bootstrap, **sin la consulta ni el autor**. Hasta hoy, el único camino por el que
+  un fallo que sólo el operador puede resolver llegó a Alberto fue que Sara se lo contara. Con cota
+  de una hora por clase+etapa+tipo, marcada **sólo tras entregar**.
+- **Decide (3) — LAS MARCAS POR VOZ**: «Detnov» → «Death Knob», y el turno se quedó sin ancla.
+  Medido y revelador: **«Detnov» YA ESTABA en el prompt de Whisper**, que además está **saturado
+  (990/1000 chars)**. El prompt es una pista, no un diccionario: añadir los 30 fabricantes habría
+  diluido más. Se corrige DESPUÉS, con tabla de confusiones **observadas** (hoy: una, con su cita).
+- **Decide (4) — v9**: la mención a las transferencias fuera de la UE baja a `/privacidad`
+  (decisión de Alberto). No desaparece —es obligatoria y cierta—; cambia dónde se lee, con un test
+  cuyo único trabajo es separar «lo movimos» de «lo perdimos».
+- **DÚO r40 — Sol 8/8 confirmados, 0 falsos positivos.** El mejor hallazgo movió una pieza entera:
+  yo corregía la transcripción **en el borde**, y eso **rompía un contrato que ya estaba escrito en
+  el código** («raw ASR stays visible and is logged unchanged»). Con mi versión, el técnico no podía
+  detectar una corrección FALSA y el histórico mentía sobre lo que produjo Whisper. Movido a
+  `normalize_voice_query`, que ya tenía ese contrato. También suyos: la cota marcada antes de
+  entregar (una caída de Telegram dejaba al operador sin aviso Y silenciaba una hora), la clave sin
+  `tipo_excepcion` (cuota y credenciales comparten clase y una silenciaba a la otra), y la 017 con
+  `DROP`+`ADD` sueltos (podía dejar la columna sin vocabulario cerrado).
+  **Fable NO emparejó**: modifiqué el worktree mientras corría —fallo de proceso mío, y el runner
+  lo detectó y lo dijo en vez de fingir (control de #86 vivo)—. Su review standalone aportó dos
+  correcciones aplicadas: la contradicción entre propuesta y código tras el arreglo de Sol, y que
+  la señal `"billing"` era **demasiado ancha** (un 429 de congestión real enlaza a facturación: el
+  falso positivo diría «no reintentes» ante algo que sí se arregla esperando).
+- **EL PANEL, ABIERTO EN UN NAVEGADOR DE VERDAD** (lo pidió Alberto antes de desplegarlo):
+  · **el login legítimo daba 403** — el formulario del propio panel no manda `Origin` (normal en
+    same-origin) y `Referer` lo suprimía **su propia** cabecera `Referrer-Policy: no-referrer`: se
+    saboteaba a sí mismo. Arreglado aceptando `Sec-Fetch-Site` —que escribe el navegador y no se
+    puede falsificar desde otro sitio— y pasando la política a `same-origin`. **Ningún test lo veía
+    porque todos mandaban `Origin` a mano**;
+  · **la portada decía «0 errores»** la misma noche en que había dos, porque contaba la fuente
+    HEREDADA (`query_logs`) en vez de `bot_errors`. El sitio donde uno mira primero daba el dato
+    equivocado, que es peor que no dar ninguno.
+- **El trinquete del RED LINE saltó solo**: la variable nueva de estado compartido puso la suite
+  roja hasta declarar por qué su clave y su valor no dependen del usuario.
+- **Alternativas descartadas**: distinguir la cuota por código HTTP (los dos son 429) · meter los
+  30 fabricantes en el prompt (medido: ya estaba «Detnov» y el prompt está lleno) · reintentar la
+  transcripción · avisar de todo fallo (ruido que se ignora) · usar ya la clase `cuota_agotada` (el
+  CHECK la rechazaría y se perdería el registro) · quitar la mención a la UE (haría el aviso falso).
+- **Pendiente de Alberto**: aplicar `migrations/017_bot_errores_clase_cuota.sql` —y **sólo
+  entonces** cambiar la clase en el código; al revés se pierde el registro—, y un smoke de audio y
+  del aviso al operador contra Telegram real, que es lo único que estos cambios no ejercitan.
+- **Recibos**: `evals/s324f_lote_piloto_propuesta_v1.md` · tally r40 (ts=2026-08-17T23:22:28) ·
+  `tests/test_s324f_cuota_agotada.py` · `tests/test_s324f_dashboard_rutas.py` (control de origen).
+

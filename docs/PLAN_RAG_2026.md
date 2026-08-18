@@ -90,7 +90,23 @@ intención en el PLAN, y toda respuesta que no quepa **lo dice y ofrece el follo
 (`src/bot/acotar.py`, adjudicado por Alberto). **Panel web v1 construido y verificado**
 (`dashboard/`, DEC-231): nada responde sin sesión, la service key no sale del servidor.
 
+**s324f-noche (17/18-ago) — EL PILOTO ESTÁ VIVO Y YA HA ENSEÑADO CUATRO DEFECTOS (DEC-233).**
+Alberto invitó a la primera usuaria (Sara, alta por invitación: **O3 verificado con tráfico
+real**). En la primera hora: el bot le dijo «saturado» cuando lo que faltaba era **saldo** en la
+cuenta de OpenAI de Railway (clave distinta de la local, ya corregida), y transcribió **«Detnov»
+como «Death Knob»**, dejando el turno sin fabricante. Los dos arreglados y **desplegados**
+(commit `5eda845`, verificado). Además, abrir el panel en un navegador destapó que **su propio
+login daba 403** y que **la portada decía «0 errores» habiendo dos**. Dúo r40: Sol 8/8
+confirmados — el mejor me hizo mover la corrección de voz porque rompía un contrato ya escrito.
+Aviso **v9** desplegado. Suite **4373**.
+
 **Qué sigue (s324f — VIGENTE; LO PRIMERO al abrir sesión):**
+(0-0) **DE ALBERTO, cuando se levante**: (a) **volver a aceptar los términos** (`/start` +
+`/accept`) — el v9 invalidó el v8, y Sara también tendrá que hacerlo; (b) **smoke de audio**
+—preguntar por Detnov por voz— que es lo único que los arreglos de esta noche NO ejercitan;
+(c) aplicar `migrations/017_bot_errores_clase_cuota.sql` y **sólo entonces** avisarme para
+cambiar la clase en el código (al revés se pierde el registro).
+
 (0-a) **DESPLEGAR lo de esta sesión**: PR → merge → Railway. Incluye el catálogo arreglado (que
 hoy sigue roto en producción) y el panel, que además necesita **servicio Railway aparte** +
 `DASHBOARD_SECRET` y `DASHBOARD_USUARIOS` (el hash lo genera

@@ -10,7 +10,7 @@ contra una tabla de sesiones— compra una cosa real (poder matar UNA sesión de
 el servidor) a cambio de una tabla, una migración, un job de limpieza y una
 dependencia de Supabase en el camino de CADA petición del panel. Para dos
 usuarios no paga; y el poder que se pierde se recupera entero por otra vía que
-además es instantánea: **rotar `DASHBOARD_SECRET` en Railway invalida TODAS las
+además es instantánea: **rotar `DASHBOARD_SECRET` donde esté desplegado invalida TODAS las
 sesiones vivas al reiniciar**. Ése es el botón de pánico ante una cookie robada,
 y está escrito en el runbook del panel.
 
@@ -67,7 +67,8 @@ def secreto() -> bytes:
             f"{VARIABLE_SECRETO} ausente o demasiado corto "
             f"(mínimo {SECRETO_MIN_CHARS} caracteres). Genera uno con "
             f"`python -c \"import secrets;print(secrets.token_urlsafe(32))\"` "
-            f"y ponlo en Railway. Rotarlo cierra todas las sesiones abiertas."
+            f"y ponlo en las variables del despliegue (hoy Vercel). Rotarlo cierra "
+            f"todas las sesiones abiertas."
         )
     return crudo.encode("utf-8")
 

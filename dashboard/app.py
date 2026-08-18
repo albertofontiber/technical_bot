@@ -436,7 +436,12 @@ def pagina_resumen(peticion: Peticion) -> Respuesta:
     # Misma ventana de 7 días que el resto de la tarjeta, y misma función que
     # usa la pestaña, para que las dos cifras no puedan volver a divergir.
     incidencias, _heredadas = errores.leer(7)
-    fallos = (len(incidencias.filas) if incidencias.estado == datos.OK else 0)
+    # (dúo r41) «no se pudo leer» NO es «cero». El primer arreglo cambió la
+    # fuente pero mantuvo el mismo defecto en otra forma: si `bot_errors` no
+    # responde, un `0` en la portada se lee como «todo va bien» cuando lo cierto
+    # es «no lo sé». La pestaña de Errores sí distinguía las dos cosas, así que
+    # las dos pantallas podían volver a divergir justo cuando algo falla.
+    fallos = (len(incidencias.filas) if incidencias.estado == datos.OK else None)
 
     tarjetas = [
         _tarjeta_salud(salud),
@@ -445,7 +450,9 @@ def pagina_resumen(peticion: Peticion) -> Respuesta:
             render.rejilla([
                 render.cifra(render.numero(consultas), "Consultas"),
                 render.cifra(render.numero(personas), "Personas (día pico)"),
-                render.cifra(render.numero(fallos), "Errores"),
+                (render.cifra(render.numero(fallos), "Errores")
+                 if fallos is not None else
+                 render.cifra("—", "Errores", detalle="no se pudo leer")),
                 render.cifra(render.numero(cifras["con_acceso"]), "Con acceso",
                              detalle=f"{cifras['pendientes']} invitación(es) "
                                      f"pendiente(s)"),
