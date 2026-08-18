@@ -203,8 +203,15 @@ def test_paridad_voz_texto(monkeypatch, ruta, pregunta, registra):
         f"[{ruta}] la voz no emite los mismos mensajes que el texto")
     assert _comparables(v.logs) == _comparables(t.logs), (
         f"[{ruta}] las filas de query_logs difieren mas alla de source/transcription")
-    assert len(v.rag) == len(t.rag), (
-        f"[{ruta}] distinto numero de llamadas al RAG: voz={len(v.rag)} texto={len(t.rag)}")
+    # (Sol, r49) Contar llamadas no basta: una divergencia FUNCIONAL entre canales
+    # podia conservar el 24/24. Se compara el payload entero, quitando sólo lo que
+    # DEBE diferir — la misma regla que para las filas de log.
+    def _rag_comparable(llamadas):
+        return [{k: val for k, val in d.items()
+                 if k not in ("source", "transcription")} for d in llamadas]
+
+    assert _rag_comparable(v.rag) == _rag_comparable(t.rag), (
+        f"[{ruta}] el RAG recibe cosas distintas por voz que por texto")
 
 
 @pytest.mark.parametrize("ruta,pregunta,registra", _TABLA_PROCEDENCIA)
@@ -321,3 +328,23 @@ def test_b2_control_un_audio_normal_SI_invalida(monkeypatch):
                     es_reply=False, user_data=_con_contexto(("CAD-250",)))
     assert bot._estado_modelos_conversacion(ud) == (), (
         "un cambio de marca hablado debe invalidar el contexto de producto")
+
+
+@pytest.mark.parametrize("ruta,pregunta,registra", _TABLA_PROCEDENCIA)
+def test_el_texto_declara_que_es_texto(monkeypatch, ruta, pregunta, registra):
+    """(Fable, r49) El lado que faltaba vigilar.
+
+    Se comprobaba que la voz declarase `source="voice"` + ASR crudo, pero nada
+    comprobaba que el texto declarase `source="text"` y `transcription=None`. Hoy
+    lo garantiza la invariante de `Procedencia`; sin esta puerta, quedaría sin
+    vigilancia el día que alguien registre saltándose el tipo.
+    """
+    from src.bot import telegram_bot as bot
+
+    t, _ = _correr(monkeypatch, bot, pregunta, canal="texto")
+    if registra:
+        assert t.logs, f"[{ruta}] el texto no escribio NINGUNA fila"
+    for fila in t.logs:
+        assert fila.get("source") == "text", f"[{ruta}] fila de texto mal atribuida"
+        assert fila.get("transcription") is None, (
+            f"[{ruta}] una fila de TEXTO llevaba transcripcion: no existe tal cosa")

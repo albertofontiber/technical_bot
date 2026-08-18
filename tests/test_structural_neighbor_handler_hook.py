@@ -45,7 +45,7 @@ def test_real_handler_shadow_exception_cannot_change_served_context_or_answer(mo
     update = _Update()
     context = types.SimpleNamespace(user_data={})
 
-    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000"))
+    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000", source="text"))
 
     assert generator_inputs == [served]
     assert update.message.replies == ["respuesta estable"]

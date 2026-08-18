@@ -1391,27 +1391,32 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         #
         # RESTRICCIÓN PAGADA QUE SE RETIRA, y por qué (Sol fase-B M5): aquí había un
         # `try/except` local que, ante un fallo del clasificador, escribía un
-        # `logger.warning` y dejaba que el turno de voz continuase. Se retira por dos
-        # razones. (1) PARIDAD: el camino de texto nunca lo tuvo, y este lote existe
-        # para que los dos canales se comporten igual — mantenerlo sería conservar a
-        # propósito la divergencia que venimos a matar. (2) OBSERVABILIDAD: ese
-        # `warning` moría en el log del worker y no dejaba fila en `bot_errors`;
-        # ahora la excepción sube al `except` de abajo, pasa por la taxonomía y el
-        # técnico recibe el mensaje HONESTO (`red_datos`: «no he podido consultar la
-        # base… vuelve a enviarme la pregunta en unos segundos») mientras el operador
-        # ve la incidencia. Es la telemetría que s324e construyó, y que Fable (r43)
-        # defendió cuando yo propuse una degradación silenciosa.
+        # `logger.warning` y dejaba que el turno de voz continuase.
+        #
+        # La razón que la retira es UNA sola: PARIDAD. El camino de texto nunca la
+        # tuvo, y este lote existe para que los dos canales se comporten igual;
+        # mantenerla sería conservar a propósito la divergencia que venimos a matar.
+        #
+        # CORRECCIÓN (Sol, r49) — la primera versión de este comentario añadía una
+        # segunda razón, «observabilidad», y era FALSA: decía que la excepción pasa
+        # a subir a la taxonomía y a dejar fila en `bot_errors`. No sube. Para ESTE
+        # fallo concreto, `plan_turn` la captura en su propio `try/except` de
+        # fail-open (`turn_plan.py`, «plan total: fail-open») y preserva la
+        # transición. Así que se pierde también el `warning` anterior SIN ganar la
+        # incidencia: en observabilidad la conducta nueva es PEOR, no mejor.
+        #
+        # Eso NO es un defecto que introduzca este lote — el fail-open mudo de
+        # `plan_turn` ya se tragaba la misma señal en el camino de texto —, pero
+        # queda declarado como deuda en vez de vendido como mejora. Lo que sí sube
+        # a la taxonomía, y sí deja incidencia, son los fallos de las consultas de
+        # identidad (`_resolver_hechos`), que corren FUERA de ese `try`.
         #
         # Lo que NO se hace, y es deliberado: NO se añade una frontera de fail-open
         # que degrade al RAG. El dúo la mató dos veces — Sol por SEGURIDAD (saltarse
         # `mismatch`/`marca_no_servida` puede contestar con el manual de otra marca
         # cuando no se pudo verificar la identidad) y Fable por OBSERVABILIDAD.
-        if isinstance(getattr(context, "user_data", None), dict):
-            await _servir_turno(update, context, user_id, query,
-                                procedencia=Procedencia.de_voz(raw_transcription))
-        else:
-            await _process_query(update, context, query, source="voice",
-                                 transcription=raw_transcription)
+        await _servir_turno(update, context, user_id, query,
+                            procedencia=Procedencia.de_voz(raw_transcription))
 
     except Exception as e:
         # s324e: antes se registraba `f"...: {e}"` — el texto CRUDO de la excepción
@@ -1544,7 +1549,16 @@ async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
     meta = Meta(es_reply=update.message.reply_to_message is not None,
                 mismatch_answer=mismatch_answer_activo(),
                 fuente=_FUENTE_META[procedencia.source])
-    estado_modelos = _estado_modelos_conversacion(context.user_data)
+    # (s324h, Fable r49 + hallazgo propio) La guarda de `user_data` protege SÓLO
+    # lo que necesita `user_data` —el estado y la invalidación—, no el plan entero.
+    # La primera versión la puso como una rama en `handle_voice` que mandaba la voz
+    # directa al RAG: funcionalmente, la frontera de fail-open que el comentario de
+    # arriba declara muerta dos veces por el dúo. Sin plan no corre `mismatch`, así
+    # que podía contestarse con el manual de otra marca — y encima degradaba SIN
+    # log. Aquí el plan corre SIEMPRE y en los dos canales; sólo el estado se salta.
+    _ud = context.user_data if isinstance(
+        getattr(context, "user_data", None), dict) else None
+    estado_modelos = _estado_modelos_conversacion(_ud) if _ud is not None else ()
     plan = plan_turn(query, estado_modelos, meta,
                      _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
     # Fase B: la transicion del plan ES la fuente de invalidacion (la guardia -1 se
@@ -1552,8 +1566,8 @@ async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
     # se aplica ANTES de ejecutar la ruta, asi la politica F1 resuelve DESDE el estado
     # post-plan -- sin esto, un carry-forward calculado sobre el estado viejo
     # sobrescribiria la invalidacion y #70 reviviria por construccion.
-    if plan.transicion == _turn_plan.INVALIDAR:
-        _aplicar_estado(context.user_data, WorkingState())
+    if plan.transicion == _turn_plan.INVALIDAR and _ud is not None:
+        _aplicar_estado(_ud, WorkingState())
         logger.info("plan #70: cambio de marca a %r -- contexto de producto invalidado",
                     plan.transicion_marca)
     await _ejecutar_plan(update, context, user_id, query, plan,
@@ -1971,7 +1985,8 @@ async def _process_query(
                     log_query(
                         telegram_user_id=(update.effective_user.id
                                           if update.effective_user else 0),
-                        query=query, source=source, route="clarify",
+                        query=query, source=source, transcription=transcription,
+                        route="clarify",
                         response=respuesta_clarify,
                         response_length=len(respuesta_clarify),
                     )
@@ -2085,7 +2100,7 @@ async def _process_query(
                 _clarify_logged = log_query(
                     telegram_user_id=(update.effective_user.id
                                       if update.effective_user else 0),
-                    query=query, source=source,
+                    query=query, source=source, transcription=transcription,
                     route=("clarify"
                            if f1_resolution.route is PolicyRoute.CLARIFY
                            else "decline"),

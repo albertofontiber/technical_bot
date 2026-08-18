@@ -72,10 +72,10 @@ def test_log_query_lleva_la_ruta(monkeypatch):
     cliente = _ClienteFalso()
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="hola", route="greeting") is True
+    assert log_query(telegram_user_id=1, query="hola", route="greeting", source="text") is True
     assert cliente.posts[0]["route"] == "greeting"
 
-    log_query(telegram_user_id=1, query="¿bornes del sensor?")
+    log_query(telegram_user_id=1, query="¿bornes del sensor?", source="text")
     assert cliente.posts[1]["route"] == "rag"          # el default es el pipeline
 
 
@@ -87,7 +87,7 @@ def test_si_la_columna_no_existe_el_log_no_se_pierde(monkeypatch):
     cliente = _ClienteFalso([_falta_columna("route"), _Respuesta(201)])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="hola", route="catalog_shortcut") is True
+    assert log_query(telegram_user_id=1, query="hola", route="catalog_shortcut", source="text") is True
     assert len(cliente.posts) == 2
     assert "route" in cliente.posts[0]
     assert "route" not in cliente.posts[1]             # el reintento va sin la columna
@@ -104,7 +104,7 @@ def test_con_las_dos_columnas_ausentes_el_log_sobrevive(monkeypatch):
     ])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="q", route="rag",
+    assert log_query(telegram_user_id=1, query="q", route="rag", source="text",
                      rag_trace=_minimal_valid_trace()) is True
     assert len(cliente.posts) == 3
     assert "rag_trace" in cliente.posts[0] and "route" in cliente.posts[0]
@@ -123,7 +123,7 @@ def test_la_violacion_del_CHECK_de_route_falla_ruidosa(monkeypatch):
     })])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="x", route="rag") is False
+    assert log_query(telegram_user_id=1, query="x", route="rag", source="text") is False
     assert len(cliente.posts) == 1                     # SIN strip, SIN reintento
 
 
@@ -133,7 +133,7 @@ def test_un_400_ajeno_no_dispara_el_fallback(monkeypatch):
     })])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="x", route="rag") is False
+    assert log_query(telegram_user_id=1, query="x", route="rag", source="text") is False
     assert len(cliente.posts) == 1                     # sin reintento a ciegas
 
 

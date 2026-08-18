@@ -170,7 +170,7 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
 
-    asyncio.run(telegram_bot._process_query(update, context, "Estado ID_3000"))
+    asyncio.run(telegram_bot._process_query(update, context, "Estado ID_3000", source="text"))
 
     assert logged["response"] == raw_answer
     assert logged["rag_trace"]["schema"] == "rag_serving_trace_v1"
@@ -229,7 +229,7 @@ def test_handler_logs_and_sends_plain_text_when_formatter_fails(monkeypatch):
         lambda _answer: (_ for _ in ()).throw(ValueError("formatter bug")),
     )
 
-    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P", source="text"))
 
     assert logged["response"] == raw_answer
     assert logged["rag_trace"]["transport"] == {
@@ -295,7 +295,7 @@ def test_handler_never_logs_or_sends_an_empty_generation(monkeypatch, empty_answ
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
 
-    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P", source="text"))
 
     fallback = telegram_bot._EMPTY_ANSWER_FALLBACK
     assert logged["response"] == fallback
@@ -354,7 +354,7 @@ def test_handler_rejects_empty_formatter_parts_and_uses_plain_fallback(
         lambda _answer: formatted_parts,
     )
 
-    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P", source="text"))
 
     assert logged["rag_trace"]["transport"] == {
         "message_parts": 1,
@@ -416,7 +416,7 @@ def test_handler_wires_appended_coverage_through_generation_and_receipt(monkeypa
     monkeypatch.setattr("src.rag.generator.generate_answer", generate)
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
 
-    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P", source="text"))
 
     assert generated["ids"] == ["prefix", "coverage"]
     assert logged["chunks_used"] == 2

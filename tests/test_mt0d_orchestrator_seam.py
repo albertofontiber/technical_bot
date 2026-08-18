@@ -211,7 +211,7 @@ def test_default_handler_path_never_touches_shadow(monkeypatch):
 
     update = _make_update()
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000"))
+    asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000", source="text"))
 
     assert update.message.replies == ["estable"]
     assert called == []  # shadow_persist_turn never invoked while CONVO_SHADOW off
@@ -334,7 +334,7 @@ def test_orchestrator_path_on_real_handler_matches(monkeypatch):
 
     update = _make_update(update_id=11, chat_id=22)
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica"))
+    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica", source="text"))
 
     assert update.message.replies == ["ANSWER-ORCH"]
 
@@ -403,7 +403,7 @@ def test_handler_shadow_persists_turn_del_orquestador(monkeypatch):
 
     update = _make_update(update_id=321, chat_id=654)
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica"))
+    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica", source="text"))
 
     # The user answer is unchanged by the shadow.
     assert update.message.replies == ["respuesta servida"]
@@ -467,7 +467,7 @@ def test_handler_shadow_failopen_does_not_tumble_the_reply(monkeypatch):
 
     update = _make_update(update_id=1, chat_id=2)
     context = SimpleNamespace(user_data={})
-    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica"))
+    asyncio.run(bot._process_query(update, context, "pregunta tecnica generica", source="text"))
 
     # Exactly the served answer — no "Ha ocurrido un error..." error message.
     assert update.message.replies == ["respuesta intacta"]

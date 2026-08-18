@@ -94,7 +94,15 @@ def _llamadas_log_query(fn) -> list[ast.Call]:
             and getattr(n.func, "id", None) == "log_query"]
 
 
-@pytest.mark.parametrize("nombre", ["_ejecutar_plan", "_responder_atajo"])
+#: `_process_query` entra en la vigilancia tras la r49: sus rutas `clarify`
+#: pasaban `source=source` pero NO `transcription=`, así que un turno de voz que
+#: cayera ahí registraba `source="voice"` con el ASR crudo a NULL — exactamente el
+#: estado que `Procedencia` prohíbe a nivel de TIPO y que la fila podía tener
+#: igual, porque `log_query` no valida la relación. Lo cazaron Sol y Fable por
+#: separado, y ni el AST ni el gate de paridad lo veían: el AST sólo miraba las dos
+#: funciones del despacho, y la tabla no alcanza clarify.
+@pytest.mark.parametrize("nombre", ["_ejecutar_plan", "_responder_atajo",
+                                    "_process_query"])
 def test_ningun_atajo_registra_sin_declarar_su_canal(nombre):
     """La puerta que convierte «acuérdate» en «no pasa la suite».
 
@@ -107,11 +115,23 @@ def test_ningun_atajo_registra_sin_declarar_su_canal(nombre):
     llamadas = _llamadas_log_query(getattr(bot, nombre))
     assert llamadas, f"{nombre} ya no registra: ¿se movió el log?"
     for c in llamadas:
-        claves = {k.arg for k in c.keywords}
-        assert "source" in claves, (
+        kw = {k.arg: k.value for k in c.keywords}
+        assert "source" in kw, (
             f"{nombre}: un log_query sin `source=` quedaría atribuido a texto")
-        assert "transcription" in claves, (
-            f"{nombre}: un log_query sin `transcription=` tiraría el ASR crudo")
+
+        # La regla NO es ciega. Si `source` es un LITERAL, la fila no es un turno
+        # servido sino una pseudo-fuente de logging — hoy sólo `source="error"`,
+        # la fila padre de una incidencia, donde el ASR crudo ni aplica ni debe
+        # ir (s295 restringió qué se guarda ahí). Es la misma asimetría que
+        # `Procedencia` declara: los canales de TURNO son dos; `'error'` no es uno.
+        # Si `source` es una VARIABLE, la fila SÍ es un turno y puede ser de voz:
+        # ahí `transcription` es obligatorio o se pierde el ASR crudo (Sol y Fable,
+        # r49, convergente — pasaba en las dos rutas de clarify).
+        es_literal = isinstance(kw["source"], ast.Constant)
+        if not es_literal:
+            assert "transcription" in kw, (
+                f"{nombre}: un log_query con `source` dinámico y sin "
+                f"`transcription=` deja una fila de voz sin nada que auditar")
 
 
 def test_log_query_no_tiene_default_de_canal():
