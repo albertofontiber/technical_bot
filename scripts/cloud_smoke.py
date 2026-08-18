@@ -61,11 +61,14 @@ def cargar_dotenv() -> bool:
 SECRETOS = [
     ("SUPABASE_URL", True, "scripts contra la DB (harness, sondas, loaders)"),
     ("SUPABASE_SERVICE_KEY", True, "ídem — los SCRIPTS leen esto, no el MCP"),
-    ("ANTHROPIC_API_KEY", True, "generadores, harness, sondas, revisor Fable"),
+    # En CLOUD la plataforma no inyecta esta variable (s325d): define
+    # ANTHROPIC_API_KEY_SCRIPTS y el hook de arranque la reconstruye.
+    ("ANTHROPIC_API_KEY", True, "generadores, harness, sondas, revisor Fable "
+                                "— en cloud: define ANTHROPIC_API_KEY_SCRIPTS"),
     ("VOYAGE_API_KEY", True, "embeddings de chunks_v2 (retrieval real)"),
     ("OPENAI_API_KEY", True, "revisor Sol del dúo (Protocolo 3) y juez"),
     ("LLAMAPARSE_API_KEY", False, "LlamaParse — el nombre que exige ingest_new.py:319"),
-    ("DATABASE_URL", False, "DDL/migraciones y scripts de operador (por el pooler)"),
+    ("DATABASE_URL", False, "DDL y scripts de operador EN LOCAL (en cloud no hay TCP)"),
     ("RAILWAY_TOKEN", False, "censo de producción: flags y vars vivas (s322f)"),
     ("NOTIFIER_USER", False, "harvest del portal Notifier (con NOTIFIER_PASSWORD)"),
     ("NOTIFIER_PASSWORD", False, "harvest del portal Notifier (con NOTIFIER_USER)"),
@@ -362,8 +365,16 @@ def check_red():
                 _res("red:postgres", OK, "conexión directa OK — DDL posible", critico=False)
             )
         except Exception as exc:
+            # En CLOUD esto es lo ESPERADO, no un environment mal montado: el proxy
+            # de la sesion deja pasar HTTP/HTTPS y no TCP arbitrario, asi que el 5432
+            # da timeout aunque la red este en Full (medido en s325d). Las
+            # migraciones desde cloud van por el conector MCP de Supabase.
+            nota = (" — ESPERADO en cloud: el proxy no permite TCP al 5432; para DDL "
+                    "usa el conector MCP de Supabase"
+                    if os.getenv("CLAUDE_CODE_REMOTE") == "true" else "")
             res.append(
-                _res("red:postgres", FALLO, f"{type(exc).__name__}: {exc}"[:200], critico=False)
+                _res("red:postgres", FALLO,
+                     f"{type(exc).__name__}: {exc}"[:200] + nota, critico=False)
             )
         finally:
             if conexion is not None:
