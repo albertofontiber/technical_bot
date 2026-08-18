@@ -246,6 +246,13 @@ denominador) — smoke antes del full.
 
 ## Estado anterior (s323 — 15 ago 2026)
 
+> **ACOTADO en s325 (18 ago 2026, addendum DEC-220)**: el alcance ADOPTADO es
+> **Cloud + Dispatch**; Remote Control queda documentado pero **NO activado**. No deja
+> hueco: Dispatch abre sus sesiones EN EL PC, así que cubre igual lo que necesita
+> OneDrive. Y la DB no exige tocar nada en Supabase (`service_role` por REST para datos;
+> para DDL, `DATABASE_URL` por el pooler IPv4 o el conector MCP).
+
+
 **s323 — «dónde corre Claude» montado (DEC-220)**: las TRES superficies quedan
 cubiertas — **Cloud** (VM de Anthropic, sigue con el PC apagado), **Remote Control**
 (la sesión corre en el PC y se dirige desde el móvil) y **Dispatch**. El hallazgo de

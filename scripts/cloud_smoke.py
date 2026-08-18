@@ -65,6 +65,7 @@ SECRETOS = [
     ("VOYAGE_API_KEY", True, "embeddings de chunks_v2 (retrieval real)"),
     ("OPENAI_API_KEY", True, "revisor Sol del dúo (Protocolo 3) y juez"),
     ("LLAMA_CLOUD_API_KEY", False, "solo si se ingesta desde cloud (LlamaParse)"),
+    ("DATABASE_URL", False, "DDL/migraciones y scripts de operador (por el pooler)"),
     ("RAILWAY_TOKEN", False, "censo de producción: flags y vars vivas (s322f)"),
     ("NOTIFIER_USER", False, "harvest del portal Notifier (con NOTIFIER_PASSWORD)"),
     ("NOTIFIER_PASSWORD", False, "harvest del portal Notifier (con NOTIFIER_USER)"),
@@ -109,6 +110,11 @@ def _sanear(texto: str) -> str:
         valor = os.getenv(nombre, "")
         if len(valor) >= 8 and valor in texto:
             texto = texto.replace(valor, f"‹{nombre} REDACTADO›")
+    # La password del DSN aparte: un error de psycopg2 puede citar trozos del DSN
+    # sin citarlo entero, y entonces el reemplazo de arriba no engancha.
+    clave = re.search(r"://[^:/@\s]+:([^@\s]+)@", os.getenv("DATABASE_URL", ""))
+    if clave and len(clave.group(1)) >= 6 and clave.group(1) in texto:
+        texto = texto.replace(clave.group(1), "‹DATABASE_URL:password REDACTADO›")
     return texto
 
 
@@ -335,6 +341,43 @@ def check_red():
         res.append(r)
     else:
         res.append(_res("red:voyage", SKIP, "sin VOYAGE_API_KEY", critico=True))
+
+    # Conexión DIRECTA a Postgres: es lo que hace falta para DDL/migraciones y
+    # para los scripts de operador (rgpd_retencion, marcar_utilidad). Opcional: sin
+    # DATABASE_URL la sesión puede leer y escribir DATOS por REST igualmente.
+    # Nota: el DSN del repo apunta al POOLER (aws-N-<region>.pooler.supabase.com),
+    # que resuelve por IPv4 — la conexión directa `db.<ref>.supabase.co` es IPv6 y
+    # no está garantizada desde el VM.
+    dsn = os.getenv("DATABASE_URL", "")
+    if dsn:
+        conexion = None
+        try:
+            import psycopg2
+
+            conexion = psycopg2.connect(dsn, connect_timeout=15)
+            with conexion.cursor() as cur:
+                cur.execute("select 1")
+                cur.fetchone()
+            res.append(
+                _res("red:postgres", OK, "conexión directa OK — DDL posible", critico=False)
+            )
+        except Exception as exc:
+            res.append(
+                _res("red:postgres", FALLO, f"{type(exc).__name__}: {exc}"[:200], critico=False)
+            )
+        finally:
+            if conexion is not None:
+                conexion.close()
+    else:
+        res.append(
+            _res(
+                "red:postgres",
+                SKIP,
+                "sin DATABASE_URL — esta sesión no puede aplicar migraciones por "
+                "conexión directa (los DATOS por REST sí funcionan)",
+                critico=False,
+            )
+        )
 
     # Portal de fabricante: prueba la POLÍTICA DE RED del environment, no una
     # key. Con Trusted esto se bloquea (s315); con Full o Custom-con-el-dominio
