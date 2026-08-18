@@ -65,7 +65,8 @@ python scripts/cloud_smoke.py --sin-dotenv   # desde LOCAL, simula lo que vería
 |---|---|
 | `CLAUDE.md`, `docs/`, `.claude/settings.json` y sus hooks | `~/.claude/CLAUDE.md`, skills, agentes y comandos de usuario |
 | Lo que esté commiteado, sin más | MCPs locales — este repo **no tiene `.mcp.json`**: en cloud la DB se toca por REST con `SUPABASE_*`, no por MCP |
-| Los tests, los golds, los recibos | El `.env` (por eso las keys van al environment) y **OneDrive** |
+| Los tests, los golds, los recibos | El `.env` (por eso las keys van al environment) |
+| Los PDFs (bucket `manuales`) y el **extraction store** (bucket `extraction`, §3.5) | Los PDFs **nuevos** sin subir y su sidecar `_metadata.json` de identidad |
 
 ## 3. Checklist de Alberto (una vez, ~10 min)
 
@@ -156,6 +157,58 @@ lado de Supabase (verificado: `GET /rest/v1/documents` → 200).
 Supabase (allowlist de IPs, en Settings → Database): las sesiones salen desde IPs de
 Anthropic, que no son fijas. Están desactivadas por defecto; si algún día se activan,
 hay que contar con esto. El `service_role` no las esquiva.
+
+### 3.5 El extraction store en la nube (s325b) — y lo que SIGUE siendo local
+
+El store (`data/extraction/<config>/*.json`, un fichero por PDF llamado `<sha>.json`)
+vivía **solo en OneDrive**: 1.143 JSON / 353,7 MB en `agent_anthropic-sonnet-45` y 28
+/ 2,6 MB en `llm`. Era lo que ataba la fase de enunciados y las re-ingestas al PC.
+
+Ahora vive también en el bucket **privado** `extraction` (privado a conciencia:
+`manuales` es público-por-URL porque el bot sirve esos PDFs a los técnicos; el store
+es contenido derivado). Quién lo lee no cambia de código: `src/extraction_store.py`
+resuelve **disco primero, bucket después**, así que en local todo sigue igual.
+
+```
+python scripts/upload_extraction_store.py "<data-root>"             # dry-run
+python scripts/upload_extraction_store.py "<data-root>" --aplicar   # se corre en LOCAL
+python scripts/upload_extraction_store.py "<data-root>" --verificar # cruza SHA local vs bucket
+```
+
+**Consistencia (la parte que evita el problema, no que lo detecta).** El store tiene
+**un solo productor**: `scripts/ingest_new.py`, el único sitio del repo que escribe
+`<sha>.json`. Ahí mismo, en el acto que escribe, se **publica al bucket**
+(`publicar_al_bucket`) y se actualiza el manifiesto. Así el bucket no depende de que
+nadie se acuerde de re-subir. La publicación es **fail-open declarado**: la extracción
+ya está en disco y cuesta dinero, así que un fallo de red no tumba la ingesta — queda
+anotado en el resultado del documento y en el recibo del lote.
+
+Las otras dos capas son red, no mecanismo:
+
+1. **`--verificar`** cruza el **sha** de cada fichero local contra el manifiesto del
+   bucket (no el tamaño: un JSON re-extraído del mismo peso pasaba desapercibido).
+   Correrlo tras cada lote y cuando algo huela raro.
+2. **La `config` ES la versión del mecanismo de extracción**: `agent_anthropic-sonnet-45`,
+   `llm`, y lo que venga. Cambiar de extractor significa un **prefijo nuevo** en el
+   bucket, no pisar el anterior — por eso un cambio de mecanismo no puede producir una
+   mezcla silenciosa de extracciones viejas y nuevas bajo el mismo nombre. Re-extraer
+   con el MISMO mecanismo sí cambia el sha, y entonces la publicación (o `--verificar`)
+   lo reconcilia.
+
+Detalles que importan: cada config sube un `_manifest.json` con `sha256`, `bytes`,
+`source_path` y `sha_pdf` por fichero, de forma que `listar()` y el mapa doc→sha
+cuesten **un GET** en vez de recorrer 1.143 objetos; la caché local se indexa por sha
+(`EXTRACTION_CACHE_DIR` para moverla); y todo camino degradado **lanza** en vez de
+devolver una lista corta — un fallo del store aborta el tramo en lugar de contarse
+como «documento sin extracción», que es el aviso esperable de un lote real.
+
+**Lo que sigue siendo local (declarado, no pendiente):** **ingestar manuales nuevos**.
+`scripts/ingest_new.py` no solo lee el store: **escribe** en él la extracción nueva, y
+antes exige los PDFs en `Manuales_<canal>` con su `_metadata.json`. Por eso el
+resolutor no ofrece publicación: prometerla sin cablear la escritura haría que una
+ingesta en cloud dejara JSONs en una caché efímera que nunca entran al manifiesto, y
+la fuente de verdad divergiría en silencio. Cubrir eso es otro frente (subir PDFs y
+sidecars + operación de publicación), con su propio dúo.
 
 ## 4. Trampas conocidas (medidas, no supuestas)
 

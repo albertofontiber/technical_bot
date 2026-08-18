@@ -439,6 +439,15 @@ def test_cifras_de_control():
     # de la base ENTRA como parámetro, así que se prueba entera sin Supabase. El
     # I/O correspondiente vive en `logging_db`, junto al de consentimiento (y la
     # matriz es justo lo que impide el import inverso `raiz → bot`).
+    # 127→128 (s325b): + extraction_store.py — el resolutor del store de
+    # extracciones: disco primero, bucket `extraction` después, para que una sesión
+    # cloud pueda leerlo sin el PC de Alberto. Es PRODUCTO y tiene que vivir en
+    # `src`: su consumidor natural es `src/reingest/pipeline.run`, así que ponerlo
+    # en `scripts/` obligaría al import inverso que esta misma matriz prohíbe. Es
+    # hoja: no importa nada del repo, solo stdlib (+ httpx perezoso dentro de las
+    # funciones que hablan con el bucket, para que importarlo no exija red ni
+    # credenciales — la CI corre sin ellas). Nace con cuatro consumidores
+    # declarados: pipeline, enunciados_pass, s94_f1_generate e ingest_new.
     # 126→127 (s324h): + bot/procedencia.py — de dónde viene el turno. El mismo
     # `= "text"` estaba replicado SEIS veces y ninguna era verdad la mitad de las
     # veces, así que olvidar la procedencia registraba en silencio que un audio se
@@ -453,7 +462,7 @@ def test_cifras_de_control():
     # un helper de un solo uso: nace con tres consumidores declarados (lista de
     # fabricantes, catálogo por marca e inventario agrupado, que hoy implementa
     # el mismo patrón a mano dos veces).
-    assert len(MODULOS) == 127, (
+    assert len(MODULOS) == 128, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

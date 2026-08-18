@@ -180,6 +180,20 @@ def main():
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(record, f, ensure_ascii=False)
             os.replace(tmp, out)  # escritura atómica → resumability robusta
+            # s325b — este es el SEGUNDO productor del store (el otro es
+            # `scripts/ingest_new.py`), y sin esto la «puerta única» era falsa: un
+            # reparseo o una config nueva volvían a divergir local↔cloud (crítico de
+            # Sol, ronda 2). Fail-open igual que allí: la extracción ya está en disco
+            # y cuesta dinero; el fallo se DECLARA y `--verificar` lo caza.
+            try:
+                from ..extraction_store import publicar_al_bucket
+
+                publicar_al_bucket(out, os.path.basename(store))
+            except Exception as e:
+                failures.append({"path": path, "sha256": rec["sha256"],
+                                 "error": f"publicacion_fallida: {type(e).__name__}: {e}"})
+                print(f"  AVISO: no se pudo publicar {rec['sha256'][:12]} en el bucket "
+                      f"({e}) — corre `upload_extraction_store.py --aplicar` al terminar")
             done += 1
             print(f"  [{i+1}/{len(files)}] OK     {os.path.basename(path)[:55]}  "
                   f"({time.time()-t0:.0f}s)")

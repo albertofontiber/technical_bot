@@ -379,6 +379,23 @@ def check_red():
             )
         )
 
+    # Extraction store (s325b): ¿puede ESTA sesión leer las extracciones? Se pregunta
+    # al bucket a propósito (`directorio=None`), que es lo que verá una sesión cloud.
+    # No es crítico: evals, código y docs no lo necesitan; enunciados y re-ingesta sí.
+    try:
+        from src.extraction_store import abrir_store
+
+        st = abrir_store()
+        res.append(
+            _res("red:extraction_store", OK,
+                 f"{st.origen}: {len(st.listar())} extracciones", critico=False)
+        )
+    except Exception as exc:
+        res.append(
+            _res("red:extraction_store", FALLO,
+                 f"{type(exc).__name__}: {exc}"[:200], critico=False)
+        )
+
     # Portal de fabricante: prueba la POLÍTICA DE RED del environment, no una
     # key. Con Trusted esto se bloquea (s315); con Full o Custom-con-el-dominio
     # pasa. No es crítico: solo el harvest lo necesita.

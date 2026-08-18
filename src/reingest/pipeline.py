@@ -45,6 +45,7 @@ from .chunk import chunk_document
 from .metadata import detect_document_metadata, apply_metadata
 from .contextualize import contextualize_document, full_document_text
 from .embed import embed_chunks
+from ..extraction_store import StoreError, abrir_store
 from .dedup import mark_duplicates
 from .index import index_chunks, resolver_documento
 from ..ingestion.page_content import sanear_record
@@ -222,23 +223,26 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
 
 def run(config: str, limit: int, dry_run: bool, reset: bool,
         gate=None) -> None:
-    store = os.path.join(STORE_ROOT, config)
     # GUARDAS (s301): salir con codigo != 0 cuando el paso NO puede correr — un
     # "return" con exit 0 aparenta ejecucion (clase manifiesto-vacio: el corpus y el
     # store viven en la carpeta OneDrive; desde el checkout de C:\dev esto esta vacio).
-    if not os.path.isdir(store):
-        raise SystemExit(f"No existe el store {store} — ¿config correcta? ¿cwd con corpus?")
+    # s325b: el store puede venir del disco (OneDrive, como siempre) o del bucket
+    # `extraction`, para que una sesion cloud pueda re-ingestar sin el PC. La
+    # resolucion es del resolutor; las guardas siguen siendo estas.
+    try:
+        store = abrir_store(config, directorio=os.path.join(STORE_ROOT, config))
+        nombres = sorted(n for n in store.listar() if _SHA_RE.match(n))
+    except StoreError as e:
+        raise SystemExit(f"No hay store para {config}: {e}")
 
-    files = sorted(p for p in glob.glob(os.path.join(store, "*.json"))
-                   if _SHA_RE.match(os.path.basename(p)))
-    if not files:
+    if not nombres:
         raise SystemExit(
             f"Store {store} VACIO: 0 extracciones. ¿Ejecutando desde el checkout sin "
             f"corpus? El store vive en la carpeta OneDrive del proyecto."
         )
     if limit:
-        files = files[:limit]
-    logger.info("Store %s — %d archivos de extracción", store, len(files))
+        nombres = nombres[:limit]
+    logger.info("Store %s — %d archivos de extracción", store, len(nombres))
 
     state = {"config": config, "files": {}} if reset else \
         _load_json(STATE_FILE, {"config": config, "files": {}})
@@ -250,12 +254,22 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
     dry_samples = []
     t0 = time.time()
 
-    for i, path in enumerate(files):
-        sha = os.path.basename(path)[:-5]
+    for i, nombre in enumerate(nombres):
+        sha = nombre[:-5]
         prev = state["files"].get(sha)
         if prev and prev.get("status") in ("done", "register_only") and not dry_run:
             counts["skipped"] += 1
             continue
+
+        # La ruta se resuelve AQUI, no al listar: en modo bucket eso descarga solo
+        # las extracciones que se van a procesar (las ya hechas ni se bajan).
+        # Y un fallo del store es de INFRAESTRUCTURA: aborta el run en vez de
+        # contarse como un documento fallido mas (duo s325b) — si no, un lote
+        # podria cerrarse "completo" habiendose caido la red.
+        try:
+            path = str(store.ruta_de(nombre))
+        except StoreError as e:
+            raise SystemExit(f"FALLO DEL STORE en {sha[:12]}: {e}")
 
         try:
             record = _load_json(path, None)
@@ -287,7 +301,7 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
                     ],
                 })
             logger.info("[%d/%d] dry-run %s -> %d chunks (%d flowchart)",
-                        i + 1, len(files), sha[:12], result["chunks"],
+                        i + 1, len(nombres), sha[:12], result["chunks"],
                         result["flow_diagram"])
         elif status == "register_only":
             registered.append({"sha256": sha, **result})
@@ -296,7 +310,7 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
                                    **_traza_extraccion(result)}
             counts["register_only"] += 1
             logger.info("[%d/%d] register-only %s (idioma %s)",
-                        i + 1, len(files), sha[:12], result["language"])
+                        i + 1, len(nombres), sha[:12], result["language"])
         elif status == "done":
             state["files"][sha] = {"status": "done", "chunks": result["chunks"],
                                    "indexed": result["indexed"],
@@ -305,7 +319,7 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
                                    **_traza_extraccion(result)}
             counts["done"] += 1
             logger.info("[%d/%d] OK %s -> %d chunks indexados (%d dup, %d flowchart)",
-                        i + 1, len(files), sha[:12], result["indexed"],
+                        i + 1, len(nombres), sha[:12], result["indexed"],
                         result["duplicates"], result["flow_diagram"])
         elif status == "sin_indexar":
             # s323 (duo r33): NO es un vacio. Se persiste el motivo TIPADO — si
@@ -317,7 +331,7 @@ def run(config: str, limit: int, dry_run: bool, reset: bool,
                                    "detalle": result.get("detalle"),
                                    **_traza_extraccion(result)}
             counts["sin_indexar"] = counts.get("sin_indexar", 0) + 1
-            logger.warning("[%d/%d] SIN INDEXAR %s -> %s (%s)", i + 1, len(files),
+            logger.warning("[%d/%d] SIN INDEXAR %s -> %s (%s)", i + 1, len(nombres),
                            sha[:12], result.get("motivo"), result.get("detalle"))
         else:  # empty / empty_after_language
             state["files"][sha] = {"status": status, **_traza_extraccion(result)}

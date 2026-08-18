@@ -179,6 +179,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
     },
+    "EXTRACTION_CACHE_DIR": {
+        "default_fuente": 'tempfile.gettempdir() / "technical_bot_extraction"',
+        "via": ['getenv'],
+        # s325b: donde se cachean las extracciones descargadas del bucket.
+        # No es un flag de conducta: mueve un directorio de trabajo (util en
+        # tests y en un VM con disco acotado). La cache se indexa por sha, asi
+        # que cambiarla no puede servir contenido viejo.
+        "lectores": ('src/extraction_store.py',),
+    },
     "FACET_COMPLEMENT_FALLBACK": {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
@@ -512,7 +521,12 @@ REGISTRO: dict[str, dict] = {
         # s323 fase C: + rag/identidad_gate.py — el gate de invariantes consulta
         # la DB viva (lectura PEREZOSA: leerlas al importar habria roto la CI,
         # que corre pytest sin secretos — critico del duo r34).
-        "lectores": ('src/config.py', 'src/rag/identidad_gate.py'),
+        # s325b: + extraction_store.py — el resolutor lee del bucket
+        # `extraction` cuando no hay store en disco (sesion cloud). Lectura
+        # PEREZOSA por el mismo motivo que el gate: importar no debe exigir
+        # credenciales, que la CI corre sin ellas.
+        "lectores": ('src/config.py', 'src/extraction_store.py',
+                     'src/rag/identidad_gate.py'),
         "sensible": True,
         # DIVERGENCIA declarada (s323 fase C): config.py usa default "" y el gate
         # las exige con os.environ[...] — sin credenciales NO se puede evaluar, y
@@ -526,7 +540,12 @@ REGISTRO: dict[str, dict] = {
         # s323 fase C: + rag/identidad_gate.py — el gate de invariantes consulta
         # la DB viva (lectura PEREZOSA: leerlas al importar habria roto la CI,
         # que corre pytest sin secretos — critico del duo r34).
-        "lectores": ('src/config.py', 'src/rag/identidad_gate.py'),
+        # s325b: + extraction_store.py — el resolutor lee del bucket
+        # `extraction` cuando no hay store en disco (sesion cloud). Lectura
+        # PEREZOSA por el mismo motivo que el gate: importar no debe exigir
+        # credenciales, que la CI corre sin ellas.
+        "lectores": ('src/config.py', 'src/extraction_store.py',
+                     'src/rag/identidad_gate.py'),
         "sensible": True,
         # DIVERGENCIA declarada (s323 fase C): config.py usa default "" y el gate
         # las exige con os.environ[...] — sin credenciales NO se puede evaluar, y
