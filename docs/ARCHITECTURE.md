@@ -538,7 +538,7 @@ conserva hash, rol y utilidad; `uncertain`, portadas y marketing nunca se sirven
 > hiperparámetro intercambiable en runtime. Cambiar modelo o dimensión exige otra tabla/índice,
 > re-embedding completo y una evaluación de retrieval independiente.
 
-**(6) Storage en Supabase** — Postgres con la extensión `pgvector` almacena los embeddings y permite búsqueda por similitud coseno. Las imágenes van a Supabase Storage (bucket `manual-images`).
+**(6) Storage en Supabase** — Postgres con la extensión `pgvector` almacena los embeddings y permite búsqueda por similitud coseno. Y tres buckets de Storage, cada uno con su régimen: `manual-images` (17.615 objetos / 3,8 GB) y `manuales` (1.007 PDFs / 1,2 GB) son **públicos-por-URL** porque el bot sirve esas imágenes y esos manuales a los técnicos —`documents.source_url` apunta ahí, 1.084 de 1.243—; `extraction` (1.143 + 28 JSON / 356 MB, s325b/DEC-221) es **privado** y se lee con la service key, porque es contenido derivado. Ese tercero es lo que permite que la fase de enunciados y las re-ingestas corran en una sesión cloud sin la máquina de Alberto: `src/extraction_store.py` resuelve disco primero y bucket después.
 
 > **Por qué importa:** Supabase consolida DB + storage + auth + vector search en un único servicio managed. Alternativa sería manejar Pinecone + S3 + Postgres por separado (3 servicios, 3 costes, 3 integraciones). El índice activo usa HNSW; cualquier cambio de índice se evalúa como parte del stack de retrieval.
 
