@@ -6822,6 +6822,34 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   (runbook de backup, que sigue siendo LOCAL) · TECH_DEBT #82 ·
   `docs/ENTORNO_CLOUD.md`.
 
+### DEC-220 addendum (s325, 18 ago 2026) — el ALCANCE se acota a Cloud + Dispatch, y la DB queda resuelta sin tocar Supabase
+
+- **Alberto acota el alcance**: se adoptan **Cloud + Dispatch**; **Remote Control NO**
+  (documentado, sin activar). El doc ya no afirma «las tres superficies montadas».
+- **Por qué no deja hueco**: las sesiones que abre **Dispatch corren en el PC** (pestaña
+  *Cowork* de la app de escritorio, badge *Dispatch* en la barra lateral de Code), así que
+  **ven OneDrive y el `.env`** — el gap que Remote Control iba a cubrir queda cubierto
+  igual, cambiando el modo: se le encarga y avisa por push, en vez de conducir el turno.
+  Matiz de la doc oficial: en sesiones de Dispatch las aprobaciones de apps caducan a los
+  30 min. Requiere Pro/Max (no existe en Team/Enterprise).
+- **Supabase: NADA que configurar del lado de Supabase para DATOS.** Los scripts van por
+  REST con `SUPABASE_SERVICE_KEY` (`service_role`, se salta RLS) — misma ruta que local y
+  que el bot en Railway; verificado con `GET /rest/v1/documents` → 200.
+- **Para DDL/migraciones, dos vías**: (a) `DATABASE_URL` + psycopg2 — y aquí el dato que
+  lo desbloquea: **el DSN del repo apunta al POOLER**
+  (`aws-1-eu-north-1.pooler.supabase.com:5432`), que resuelve por **IPv4**, así que
+  funciona desde un VM sin IPv6 (la directa `db.<ref>.supabase.co` no lo garantiza);
+  (b) el conector MCP de Supabase habilitado en la sesión cloud, cuyo tráfico va por
+  Anthropic y no depende de la allowlist (es la vía de DEC-140 / migración 007).
+  `cloud_smoke.py` gana el check `red:postgres`, no crítico: dice si ESA sesión puede
+  aplicar migraciones.
+- **Lo único que rompería una sesión cloud**: las *Network Restrictions* de Supabase
+  (allowlist de IPs) — las sesiones salen desde IPs de Anthropic, que no son fijas. Hoy
+  desactivadas por defecto; el `service_role` no las esquiva.
+- **Fuga cerrada de paso**: el saneador del smoke redacta ahora también la **password
+  embebida en el DSN**, porque un error de psycopg2 puede citar trozos del DSN sin citarlo
+  entero (y entonces el reemplazo por valor completo no engancharía).
+
 ## DEC-221 (s321) — Cuando dos pasajes del MISMO manual dicen lo mismo, el gold se ancla en el que da el MECANISMO; y la inconsistencia de la fuente se DECLARA, no se elige
 
 **Decisión.** Criterio de autoría, recurrente, que nace de un caso real (`hp017#2`, ítem 3 de la

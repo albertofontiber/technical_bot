@@ -92,6 +92,7 @@ def test_check_red_no_filtra_secretos_en_excepciones(monkeypatch) -> None:
 
     for nombre, valor in SECRETOS_FALSOS.items():
         monkeypatch.setenv(nombre, valor)
+    monkeypatch.delenv("DATABASE_URL", raising=False)  # el check de DDL, a SKIP
 
     def _peta(metodo, url, **kwargs):
         raise httpx.ConnectError(
@@ -111,6 +112,7 @@ def test_check_red_no_filtra_secretos_en_respuestas_de_error(monkeypatch) -> Non
 
     for nombre, valor in SECRETOS_FALSOS.items():
         monkeypatch.setenv(nombre, valor)
+    monkeypatch.delenv("DATABASE_URL", raising=False)  # el check de DDL, a SKIP
 
     def _cuatrocientos(metodo, url, **kwargs):
         return httpx.Response(
