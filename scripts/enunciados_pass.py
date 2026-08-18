@@ -47,9 +47,23 @@ import httpx
 from enunciados_qa import cobertura_pagina, qa_statement, tokens_valor
 from s94_f1_generate import item_text, store_pages
 from src.config import LLM_MODEL, SUPABASE_SERVICE_KEY, SUPABASE_URL
+from src.extraction_store import StoreError, abrir_store
 
 NAMESPACE = uuid.UUID("6d0c6f2a-94b4-4e10-9c1e-a1b2c3d4e5f6")   # fijo: ids idempotentes uuid5(ancla)
 STORE = "data/extraction/agent_anthropic-sonnet-45"
+
+_RESOLUTORES: dict = {}
+
+
+def _store_res():
+    """El store de `STORE`: disco si existe, bucket `extraction` si no (s325b).
+
+    Cacheado POR RUTA: `--store` reasigna el global (ver el wiring de `main`), y en
+    modo bucket la instancia guarda el manifiesto para no volver a bajarlo.
+    """
+    if STORE not in _RESOLUTORES:
+        _RESOLUTORES[STORE] = abrir_store(directorio=STORE)
+    return _RESOLUTORES[STORE]
 _H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
       "Content-Type": "application/json"}
 
@@ -141,15 +155,27 @@ def _build_sha_map() -> dict:
     micro-smoke): la desambiguación es contra el `extraction_sha256` de la DB (la DB sabe
     qué vintage está vivo); sin match → None (declarado, no adivinado)."""
     m: dict[str, set] = {}
-    for p in glob.glob(f"{STORE}/*.json"):
-        head = open(p, encoding="utf-8").read(600)
-        mm = re.search(r'"source_path":\s*"([^"]+)"', head)
-        ms = re.search(r'"sha256":\s*"([0-9a-f]{16,})"', head)
-        if not (mm and ms):
+    # s325b: el índice lo sirve el resolutor. En disco lee las MISMAS cabeceras que
+    # antes; en bucket sale del manifiesto con UN GET — sin eso, este recorrido
+    # completo del store bajaría las 1.143 extracciones (lo cazaron Sol y Fable).
+    sin_cabecera = 0
+    for cab in _store_res().indice().values():
+        origen, sha = cab.get("source_path"), cab.get("sha_pdf")
+        if not (origen and sha):
+            # Antes era un `continue` mudo: el documento quedaba invisible para la
+            # resolucion por nombre y nadie se enteraba (Fable, ronda 2).
+            sin_cabecera += 1
             continue
-        base = re.sub(r"\.(pdf|json)$", "", os.path.basename(mm.group(1)), flags=re.I)
+        # basename agnóstico de plataforma: los `source_path` del store son rutas
+        # de Windows y `os.path.basename` NO separa por '\' cuando esto corre en
+        # Linux — en cloud el mapa entero habría salido vacío sin decir nada.
+        base = re.sub(r"\.(pdf|json)$", "", re.split(r"[\\/]", origen)[-1], flags=re.I)
         key = re.sub(r"[^a-z0-9]", "", base.lower())
-        m.setdefault(key, set()).add(ms.group(1))
+        m.setdefault(key, set()).add(sha)
+    if sin_cabecera:
+        print(f"AVISO: {sin_cabecera} extraccion(es) sin source_path/sha256 legibles "
+              f"— NO entran en el mapa doc->sha (se resolveran por sha de la DB o "
+              f"quedaran sin padre, declarado)")
     return m
 
 
@@ -474,6 +500,12 @@ def main() -> int:
             res = process_doc(client, doc, a.tranche, a.dry, vintage=a.vintage,
                               to_dump=dump_path)
         except KeyboardInterrupt:
+            raise
+        except StoreError:
+            # (dúo s325b, crítico de Sol) El store es INFRAESTRUCTURA, no un documento
+            # más: degradarlo a "error de este doc" dejaría que el tramo terminase con
+            # rc=0 y que `derive_channels_lote` lo contase como el aviso esperable
+            # "doc sin store" — un lote declarado COMPLETO habiéndose caído la red.
             raise
         except Exception as e:
             # (s104) cinturón por-DOC: un hipo de red/API no mata el tramo entero (el tail
