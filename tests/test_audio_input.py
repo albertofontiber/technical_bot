@@ -63,6 +63,7 @@ def test_voice_handler_normalizes_for_rag_but_preserves_raw_transcription(monkey
         audio=None,
         chat=SimpleNamespace(send_action=AsyncMock()),
         reply_text=AsyncMock(),
+        reply_to_message=None,
     )
     update = SimpleNamespace(
         message=message,
@@ -79,10 +80,17 @@ def test_voice_handler_normalizes_for_rag_but_preserves_raw_transcription(monkey
 
     asyncio.run(bot.handle_voice(update, context))
 
+    # (s324h) La voz ya no salta al RAG por su cuenta: pasa por el MISMO plan que
+    # el texto, asi que `_process_query` recibe ademas `preambulo` — el lever de
+    # mismatch (DEC-224) que hasta ahora solo llegaba por teclado. Es CONDUCTA
+    # NUEVA y deseada, no adaptacion de fixture: se declara aqui y no se disimula.
+    # Lo que NO cambia es el contrato que este test existe para proteger: la
+    # consulta va NORMALIZADA y el ASR crudo viaja intacto al lado.
     assert captured == {
         "query": "fallo en ID3000",
         "source": "voice",
         "transcription": raw,
+        "preambulo": None,
     }
     confirmation = message.reply_text.await_args.args[0]
     assert raw in confirmation

@@ -132,7 +132,8 @@ def _warn_route_compatibility_once() -> None:
 def log_query(
     telegram_user_id: int,
     query: str,
-    source: str = "text",
+    *,
+    source: str,
     transcription: str | None = None,
     product_models: list[str] | None = None,
     category: str | None = None,

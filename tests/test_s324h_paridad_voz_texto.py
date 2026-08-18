@@ -41,11 +41,11 @@ import pytest
 #: Se pone a True EN EL MISMO COMMIT que cablea la voz al plan. Los `xfail` son
 #: `strict`, así que si el cableado llega y esto sigue en False, la suite lo canta
 #: por XPASS en vez de dejar la puerta abierta en silencio.
-VOZ_CABLEADA_AL_PLAN = False
+VOZ_CABLEADA_AL_PLAN = True
 
 _PENDIENTE = pytest.mark.xfail(
     not VOZ_CABLEADA_AL_PLAN, strict=True,
-    reason="s324h: la voz aún no pasa por plan_turn (pendiente de adjudicación)")
+    reason="s324h: la voz aún no pasa por plan_turn")
 
 
 # ─────────────────────────────────── dobles (mismo patrón que test_audio_input.py)
@@ -179,7 +179,16 @@ def _sin_burbuja_asr(mensajes: list[str], crudo: str) -> list[str]:
 
 
 def _comparables(logs: list[dict]) -> list[dict]:
-    return [{k: v for k, v in d.items() if k not in ("source", "transcription")}
+    """Quita lo que DEBE diferir y normaliza lo que es aleatorio POR DISEÑO.
+
+    `query_log_id` es un `uuid4()` por fila: compararlo sería comparar el
+    generador de UUIDs, no la conducta. Se NORMALIZA en vez de borrarse — así el
+    gate sigue cazando que una ruta dejara de generarlo (presente/ausente sí es
+    conducta; el valor no).
+    """
+    fuera = ("source", "transcription")
+    return [{k: ("<uuid>" if k == "query_log_id" and v else v)
+             for k, v in d.items() if k not in fuera}
             for d in logs]
 
 
