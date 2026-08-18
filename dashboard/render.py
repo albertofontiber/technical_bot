@@ -220,19 +220,33 @@ _NAV = (
 )
 
 _ESTILO = """
-:root { color-scheme: light dark;
-  --fondo:#f6f7f9; --papel:#fff; --tinta:#1b1f24; --suave:#5b6672;
-  --linea:#e2e6ea; --acento:#1f6feb; --barra:#4c8dff;
-  --malo:#b3261e; --malo-fondo:#fdeceb; --bien:#0f6b3f; --bien-fondo:#e8f5ee;
-  --avisa:#8a5300; --avisa-fondo:#fdf3e2; }
-@media (prefers-color-scheme: dark) { :root {
-  --fondo:#14171a; --papel:#1c2024; --tinta:#e8eaed; --suave:#9aa4af;
-  --linea:#2c3238; --acento:#79a9ff; --barra:#3b6fc4;
-  --malo:#ff8a80; --malo-fondo:#3a1f1d; --bien:#8fd6ae; --bien-fondo:#12291f;
-  --avisa:#f0c27a; --avisa-fondo:#332713; } }
+/* Design system del WAR ROOM (s324g, pedido por Alberto). Los valores salen de
+   `war-room/src/app/globals.css` —shadcn/ui, estilo base-nova, baseColor
+   neutral— para que las dos herramientas se vean como la misma casa.
+   Se adoptan los TOKENS, no la tecnología: el panel sigue sin Tailwind, sin JS
+   y sin dependencias, así que aquí sólo cambia este bloque y ni un componente.
+
+   SIEMPRE OSCURO, igual que el war room («always dark, no light mode»): se
+   retira el `@media prefers-color-scheme` para que no haya un segundo aspecto
+   que nadie ha diseñado ni revisado. */
+:root { color-scheme: dark;
+  --fondo:#0f1117;          /* --background */
+  --papel:#161b27;          /* --card */
+  --tinta:#e2e8f0;          /* --foreground */
+  --suave:#94a3b8;          /* --muted-foreground */
+  --linea:#2d3548;          /* --border / --input */
+  --acento:#3b82f6;         /* --primary */
+  --barra:#3b82f6;
+  --hueco:#1a2035;          /* --muted / --secondary / --accent */
+  --radio:0.5rem;           /* --radius */
+  --malo:#ef4444;           /* --destructive */
+  --malo-fondo:#2a1620;
+  --bien:#34d399; --bien-fondo:#12261f;
+  --avisa:#fbbf24; --avisa-fondo:#2a2113; }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--fondo); color:var(--tinta);
-  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased; }
 header { background:var(--papel); border-bottom:1px solid var(--linea);
   padding:0 20px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 header .marca { font-weight:600; padding:14px 0; }
@@ -249,7 +263,7 @@ main { max-width:1100px; margin:0 auto; padding:20px; }
 h1 { font-size:20px; margin:4px 0 16px; }
 h2 { font-size:15px; margin:0 0 2px; }
 .tarjeta { background:var(--papel); border:1px solid var(--linea);
-  border-radius:10px; padding:16px; margin-bottom:16px; }
+  border-radius:var(--radio); padding:16px; margin-bottom:16px; }
 .pregunta { color:var(--suave); font-size:13px; margin:0 0 12px; }
 .pie, .nota { color:var(--suave); font-size:13px; margin:10px 0 0; }
 .scroll { overflow-x:auto; }
@@ -261,7 +275,7 @@ th { color:var(--suave); font-weight:600; font-size:12px;
 td.ancho, th.ancho { white-space:normal; min-width:260px; }
 .rejilla { display:flex; gap:10px; flex-wrap:wrap; }
 .cifra { background:var(--papel); border:1px solid var(--linea);
-  border-radius:10px; padding:12px 16px; min-width:150px; flex:1; }
+  border-radius:var(--radio); padding:12px 16px; min-width:150px; flex:1; }
 .cifra .valor { font-size:22px; font-weight:600; }
 .cifra .rotulo { color:var(--suave); font-size:12px; }
 .cifra .detalle { color:var(--suave); font-size:12px; margin-top:4px; }
@@ -271,7 +285,7 @@ td.ancho, th.ancho { white-space:normal; min-width:260px; }
   white-space:nowrap; line-height:22px; }
 .barra { fill:var(--barra); }
 .valor { fill:var(--suave); font-size:12px; }
-.banda { border-radius:8px; padding:10px 12px; margin:0 0 12px; font-size:14px; }
+.banda { border-radius:var(--radio); padding:10px 12px; margin:0 0 12px; font-size:14px; }
 .banda.error { background:var(--malo-fondo); color:var(--malo); }
 .banda.bien { background:var(--bien-fondo); color:var(--bien); }
 .banda.aviso { background:var(--avisa-fondo); color:var(--avisa); }
@@ -283,21 +297,25 @@ td.ancho, th.ancho { white-space:normal; min-width:260px; }
 form { display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; margin:0; }
 label { display:flex; flex-direction:column; gap:4px; font-size:13px;
   color:var(--suave); }
-input, select { padding:7px 9px; border:1px solid var(--linea); border-radius:7px;
-  background:var(--fondo); color:var(--tinta); font:inherit; min-width:200px; }
-button.principal, button.peligro { padding:8px 14px; border:0; border-radius:7px;
+input, select { padding:7px 9px; border:1px solid var(--linea); border-radius:var(--radio);
+  background:var(--hueco); color:var(--tinta); font:inherit; min-width:200px; }
+button.principal, button.peligro { padding:8px 14px; border:0; border-radius:var(--radio);
   cursor:pointer; font:inherit; color:#fff; }
 button.principal { background:var(--acento); }
 button.peligro { background:none; color:var(--malo); text-decoration:underline;
   padding:4px; min-width:0; }
-.enlace { font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
-  font-size:13px; word-break:break-all; background:var(--fondo);
-  border:1px dashed var(--linea); border-radius:7px; padding:10px;
+.enlace { font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:13px; word-break:break-all; background:var(--hueco);
+  border:1px dashed var(--linea); border-radius:var(--radio); padding:10px;
   margin:8px 0; }
 .entrar { max-width:340px; margin:12vh auto; }
 .entrar form { flex-direction:column; align-items:stretch; }
 .entrar input, .entrar button { width:100%; }
 footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--fondo); }
+::-webkit-scrollbar-thumb { background:var(--linea); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#4a5568; }
 """
 
 
