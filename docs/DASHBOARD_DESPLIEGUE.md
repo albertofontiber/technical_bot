@@ -39,7 +39,7 @@ Variables de entorno en Vercel:
 | Variable | Qué es | Cómo se obtiene |
 |---|---|---|
 | `DASHBOARD_SECRET` | Firma de la cookie de sesión. Rotarla **cierra todas las sesiones**: es el botón de pánico ante una cookie robada | `python -c "import secrets;print(secrets.token_urlsafe(32))"` |
-| `DASHBOARD_USUARIOS` | `usuario:registro` separados por coma. El registro lleva el algoritmo y sus parámetros dentro | `python scripts/s324f_dashboard_password.py` — pide la contraseña por consola, imprime el registro y **no guarda nada** |
+| `DASHBOARD_USUARIOS` | `usuario:registro` separados por **`;`** o por salto de línea — **no por coma**, que ya vive dentro de los parámetros del registro (`n=32768,r=8,p=1`) y partirla trocearía cada hash (dúo r41: la guía decía «coma» y seguirla rompía el arranque multiusuario). El registro lleva el algoritmo y sus parámetros dentro | `python scripts/s324f_dashboard_password.py` — pide la contraseña por consola, imprime el registro y **no guarda nada** |
 | `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` | La base del **bot** (no la del war room) | Las mismas que usa Railway |
 | `DASHBOARD_SESION_HORAS` | Opcional. Duración de la sesión; por defecto 8 h | — |
 

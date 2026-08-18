@@ -7,7 +7,7 @@ EL CONTRATO, y es todo el contrato:
 
 Nada más arriba en la pila sabe CÓMO se comprueba una identidad. Hoy la
 comprueba `BackendEntorno` (contraseña con hash fuerte en una variable de
-Railway); el día que sepamos qué es técnicamente el login del war room —el
+el proveedor de despliegue); el día que sepamos qué es técnicamente el login del war room —el
 pendiente que DEC-231 deja en manos de Alberto— se escribe otro backend, se
 llama a `usar_backend()` y no se toca ni una ruta ni una plantilla. Por eso la
 interfaz devuelve `Usuario | None` y no un booleano: un backend corporativo
@@ -157,7 +157,7 @@ def _partir(registro: str) -> tuple[int, int, int, bytes, bytes]:
 
 def verificar(contrasena: str, registro: str) -> bool:
     """¿Esta contraseña produce ese registro? Nunca lanza: un registro corrupto
-    en Railway tiene que ser un «no» rotundo, no un 500 que revele su forma."""
+    en las variables del despliegue tiene que ser un «no» rotundo, no un 500 que revele su forma."""
     try:
         n, r, p, sal, esperado = _partir(registro)
     except RegistroInvalido:

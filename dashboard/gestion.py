@@ -216,6 +216,20 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
     )
 
 
+def _nota_con_firma(nota: object, por: str) -> str:
+    """Añade quién actuó al final de la nota, sin perder lo que hubiera.
+
+    (s324f, dúo r41) La tabla no tiene columna `revocada_por` y añadirla exige
+    migración; la nota es el rastro humano que ya existe y donde el listado la
+    enseña. Se acota para no crecer sin límite con anulaciones repetidas.
+    """
+    base = (str(nota) if nota else "").strip()
+    firma = f"[anulada por {str(por or '?').strip()[:40]}]"
+    if firma in base:
+        return base[:500]
+    return (f"{base} {firma}".strip())[:500]
+
+
 def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
     try:
         identificador = str(uuid.UUID(str(invitacion_id).strip()))
@@ -251,7 +265,12 @@ def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
         "PATCH", "bot_invitaciones",
         params={"id": f"eq.{identificador}", "revocada_at": "is.null",
                 "canjeada_at": "is.null"},
-        json={"revocada_at": _iso(_ahora())},
+        # (dúo r41) `por` se recibía y se tiraba: la anulación quedaba sin
+        # firmar y la auditoría no podía decir QUIÉN la anuló, pese a que la
+        # propuesta afirmaba que cada acción queda firmada. Se persiste en la
+        # nota, que es la columna que ya existe para el rastro humano.
+        json={"revocada_at": _iso(_ahora()),
+              "nota": _nota_con_firma(fila.get("nota"), por)},
     )
     if estado != datos.OK:
         return Accion(False, _texto_de_fallo(estado, detalle,

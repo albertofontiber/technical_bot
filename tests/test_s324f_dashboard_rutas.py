@@ -714,3 +714,28 @@ def test_sec_fetch_site_manda_sobre_un_origin_falsificado():
         cuerpo=b"", ip="1.2.3.4",
     )
     assert _mismo_origen(peticion) is False
+
+
+def test_las_rutas_publicas_estan_PINEADAS_una_por_una():
+    """(dúo r41) El trinquete que faltaba, y sin el cual el de arriba era circular.
+
+    `RUTAS_PROTEGIDAS` se construye como «todo lo de `RUTAS` menos lo que la
+    propia implementación declare público». Así, una ruta añadida a la vez a
+    `RUTAS` **y** a `RUTAS_PUBLICAS` —por error o por prisa— quedaba pública y
+    **fuera** del test que debía protegerla: el conjunto se comprobaba contra sí
+    mismo. Aquí se ancla el CONTENIDO exacto, así que abrir una ruta nueva al
+    público pone la suite roja y obliga a justificarlo en un diff que se lee.
+
+    Las dos son la pantalla de entrada. No hay excepción para «salud», ni para
+    métricas, ni para un ping: un endpoint sin sesión es un endpoint que alguien
+    acabará usando para saber si el panel existe y quién hay detrás.
+    """
+    assert panel.RUTAS_PUBLICAS == frozenset({("GET", "/entrar"),
+                                              ("POST", "/entrar")}), (
+        "Se ha cambiado el conjunto de rutas PÚBLICAS del panel. Si es "
+        "deliberado, actualiza este pin y explica en el PR por qué esa ruta "
+        "puede responder a cualquiera de internet sin sesión."
+    )
+    # y que ninguna quede sin cubrir por los dos lados
+    assert set(panel.RUTAS) >= panel.RUTAS_PUBLICAS
+    assert len(RUTAS_PROTEGIDAS) == len(panel.RUTAS) - len(panel.RUTAS_PUBLICAS)
