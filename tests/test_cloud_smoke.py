@@ -30,7 +30,12 @@ SECRETOS_FALSOS = {
 def _correr(env_extra, recibo: Path, args=()):
     # PYTHONIOENCODING + encoding explícito: en Windows la consola decodifica en
     # cp1252 y los acentos de la salida llegarían como mojibake al test.
-    env = {**os.environ, "PYTHONIOENCODING": "utf-8", **env_extra}
+    # CLAUDE_CODE_REMOTE se limpia del entorno HEREDADO y solo entra si el test lo
+    # pide: corriendo la suite DENTRO de una sesion cloud, el subproceso la heredaba
+    # y el caso "local" veia superficie=cloud (fallo real, cazado por el smoke de
+    # recepcion de s325d — el unico sitio donde podia aparecer).
+    env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CODE_REMOTE"}
+    env.update({"PYTHONIOENCODING": "utf-8", **env_extra})
     # `--sin-dotenv` para que el `.env` local no contamine el entorno bajo test.
     proc = subprocess.run(
         [sys.executable, str(SCRIPT), "--sin-red", "--sin-dotenv",
