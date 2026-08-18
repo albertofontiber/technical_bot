@@ -108,6 +108,15 @@ def _instrumentar(monkeypatch, bot, grab):
     monkeypatch.setattr(bot, "manufacturer_in_db", lambda n: n.lower() in _MARCAS)
     monkeypatch.setattr(bot, "lookup_model_manufacturer", lambda m: _MODELO_DE.get(m))
     monkeypatch.setattr(bot, "_lexico_marcas_cacheado", lambda: frozenset(_MARCAS))
+    # HERMÉTICO: el gate NO puede tocar la red. Estas dos componen el TEXTO de dos
+    # rutas de atajo, y `get_available_manufacturers` no tiene fail-open: sin
+    # credenciales lanza `httpx.UnsupportedProtocol`. En local pasaba porque el
+    # `.env` tiene las reales — y en CI reventó. Un gate que depende de la máquina
+    # donde corre no prueba nada; el fallo es del test, no del código.
+    monkeypatch.setattr(bot, "get_available_manufacturers",
+                        lambda: sorted(m.title() for m in _MARCAS))
+    monkeypatch.setattr(bot, "get_manufacturers_by_docs",
+                        lambda: [(m.title(), 10) for m in sorted(_MARCAS)])
 
     def _log(**kw):
         grab.logs.append(kw)
