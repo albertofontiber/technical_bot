@@ -270,6 +270,7 @@ def _drive_turn_through_orchestrator(
             generate=_recording_generate(record),
         )
     req = TurnRequest(
+        source="text",
         query=query,
         query_for_retrieval=query_for_retrieval,
         target_models=target_models,
