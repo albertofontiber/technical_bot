@@ -36,6 +36,31 @@ bug-s45: medir top-5 local cuando la demo sirve 10). Smoke SIEMPRE antes del ful
 | **corpus-gap** | NO servible en el corpus (**default = FN-MÍO**, `feedback_corpus_gap`) | verificación anti-FN reforzada |
 | *(meta-ref)* | el valor es un puntero (apéndice/tabla), no un dato → fuera del histograma | — |
 
+### La ESTABILIDAD ya se mide — y hay que MIRARLA (s324g, dúo r42)
+
+Cada `synthesis-miss` dual-confirmado lleva un campo **`stability`** que el FULL calcula solo:
+dos réplicas más (`K_STAB=3`) generadas **sobre la composición servida** y adjudicadas con el
+**mismo árbitro dual** que la clasificación. `stable-miss` = falló las tres veces · `flip` = no.
+
+**Por qué importa, medido**: de los hechos con `conveyed_yes < THRESH_FIRM` del FULL 16-ago,
+**una parte grande son `flip`** — fallos que la mitad de las veces no ocurren. Perseguirlos es
+gastar en ruido, y un delta medido sin mirar esto arrastra ese ruido.
+
+**Cómo se usa, y cómo NO** (esta línea es el resultado del dúo r42, no una preferencia):
+
+- ✅ **Para PRIORIZAR la cola de defectos.** Un `flip` baja en la lista; un `stable-miss` sube.
+- ❌ **NUNCA para reclasificar a OK.** Las réplicas sólo se generan para lo que YA falló, así que
+  promover un `flip` introduce **sesgo direccional**: un hecho que acierta por suerte a la primera
+  se queda OK sin verificar, mientras que uno que falla necesita dos aciertos seguidos. El %OK
+  subiría por construcción y no porque el bot mejore. Reclasificar de verdad exigiría replicar
+  **todos** los hechos (N=3 simétrico), declarar serie nueva y pagar ~×3 la generación — y hoy
+  ninguna decisión abierta lo pide.
+
+**Límites declarados**: `stability` está gateado a los `synthesis-miss`, así que los fallos
+upstream (rerank, retrieval) no lo llevan; y `stable-miss` es **cota superior** del defecto real
+—fallar tres veces no prueba que sea estructural, sólo que no se recuperó en tres tiradas—.
+
+
 **FAMILY-AWARE (clave):** un chunk-soporte solo acredita si es de la **misma familia de producto** que el
 gold (vía `product_model`, reusa `retrieval_miss_famtie`). Sin esto, un valor que coincide por casualidad en
 OTRO producto acredita mal (bug hp018/DEC-091b). **`lexically_anchorable`** es FLAG, no gate: prosa/
