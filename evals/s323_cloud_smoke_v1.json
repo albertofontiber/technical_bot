@@ -1,0 +1,237 @@
+{
+  "generado_utc": "2026-08-18T21:14:43+00:00",
+  "veredicto": "NO LISTO",
+  "superficie": "cloud",
+  "dotenv_cargado": false,
+  "red_comprobada": true,
+  "checks": [
+    {
+      "check": "superficie",
+      "estado": "OK",
+      "detalle": "sesión CLOUD · Linux x86_64 · python 3.11.15",
+      "critico": false
+    },
+    {
+      "check": "sesion_url",
+      "estado": "OK",
+      "detalle": "https://claude.ai/code/session_01SW8rnGRT5GycRNH4cfvWyR",
+      "critico": false
+    },
+    {
+      "check": "PYTHONPATH",
+      "estado": "OK",
+      "detalle": ".",
+      "critico": false
+    },
+    {
+      "check": "git_historial_completo",
+      "estado": "OK",
+      "detalle": "completo (no shallow)",
+      "critico": true
+    },
+    {
+      "check": "git_head",
+      "estado": "OK",
+      "detalle": "claude/smoke-test-cloud-env-skh5d0 @ 45102d9",
+      "critico": false
+    },
+    {
+      "check": "git_origin",
+      "estado": "OK",
+      "detalle": "https://github.com/albertofontiber/technical_bot",
+      "critico": false
+    },
+    {
+      "check": "import:pytest",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:jsonschema",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:httpx",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:dotenv",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:anthropic",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:openai",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:voyageai",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:supabase",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": false
+    },
+    {
+      "check": "import:cryptography",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:pandas",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:openpyxl",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": true
+    },
+    {
+      "check": "import:fitz",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": false
+    },
+    {
+      "check": "import:lingua",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": false
+    },
+    {
+      "check": "import:psycopg2",
+      "estado": "OK",
+      "detalle": "importa",
+      "critico": false
+    },
+    {
+      "check": "import:langdetect",
+      "estado": "AVISO",
+      "detalle": "ModuleNotFoundError: No module named 'langdetect'",
+      "critico": false
+    },
+    {
+      "check": "key:SUPABASE_URL",
+      "estado": "OK",
+      "detalle": "presente (40 chars) — scripts contra la DB (harness, sondas, loaders)",
+      "critico": true
+    },
+    {
+      "check": "key:SUPABASE_SERVICE_KEY",
+      "estado": "OK",
+      "detalle": "presente (219 chars) — ídem — los SCRIPTS leen esto, no el MCP",
+      "critico": true
+    },
+    {
+      "check": "key:ANTHROPIC_API_KEY",
+      "estado": "FALLO",
+      "detalle": "AUSENTE — generadores, harness, sondas, revisor Fable",
+      "critico": true
+    },
+    {
+      "check": "key:VOYAGE_API_KEY",
+      "estado": "OK",
+      "detalle": "presente (46 chars) — embeddings de chunks_v2 (retrieval real)",
+      "critico": true
+    },
+    {
+      "check": "key:OPENAI_API_KEY",
+      "estado": "OK",
+      "detalle": "presente (164 chars) — revisor Sol del dúo (Protocolo 3) y juez",
+      "critico": true
+    },
+    {
+      "check": "key:LLAMAPARSE_API_KEY",
+      "estado": "AVISO",
+      "detalle": "AUSENTE — LlamaParse — el nombre que exige ingest_new.py:319",
+      "critico": false
+    },
+    {
+      "check": "key:DATABASE_URL",
+      "estado": "OK",
+      "detalle": "presente (125 chars) — DDL/migraciones y scripts de operador (por el pooler)",
+      "critico": false
+    },
+    {
+      "check": "key:RAILWAY_TOKEN",
+      "estado": "OK",
+      "detalle": "presente (36 chars) — censo de producción: flags y vars vivas (s322f)",
+      "critico": false
+    },
+    {
+      "check": "key:NOTIFIER_USER",
+      "estado": "AVISO",
+      "detalle": "AUSENTE — harvest del portal Notifier (con NOTIFIER_PASSWORD)",
+      "critico": false
+    },
+    {
+      "check": "key:NOTIFIER_PASSWORD",
+      "estado": "AVISO",
+      "detalle": "AUSENTE — harvest del portal Notifier (con NOTIFIER_USER)",
+      "critico": false
+    },
+    {
+      "check": "red:supabase",
+      "estado": "OK",
+      "detalle": "HTTP 200",
+      "critico": true
+    },
+    {
+      "check": "red:anthropic",
+      "estado": "SKIP",
+      "detalle": "sin ANTHROPIC_API_KEY",
+      "critico": true
+    },
+    {
+      "check": "red:openai",
+      "estado": "OK",
+      "detalle": "HTTP 200",
+      "critico": true
+    },
+    {
+      "check": "red:voyage",
+      "estado": "OK",
+      "detalle": "HTTP 200",
+      "critico": true
+    },
+    {
+      "check": "red:postgres",
+      "estado": "FALLO",
+      "detalle": "OperationalError: connection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (13.60.102.132), port 5432 failed: timeout expired\nconnection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (51.2",
+      "critico": false
+    },
+    {
+      "check": "red:extraction_store",
+      "estado": "OK",
+      "detalle": "bucket: 1143 extracciones",
+      "critico": false
+    },
+    {
+      "check": "red:portal_fabricante",
+      "estado": "OK",
+      "detalle": "HTTP 200",
+      "critico": false
+    }
+  ]
+}
