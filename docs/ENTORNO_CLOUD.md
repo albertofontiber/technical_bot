@@ -5,26 +5,34 @@
 > versión anterior (s315c) mandaba a un menú «Environments» que ya no se llama así
 > y daba por buena una lista de secretos que hoy tiene una advertencia explícita.
 
-## 1. Las tres superficies (el selector «dónde corre Claude»)
+## 1. Alcance adoptado: Cloud + Dispatch (el selector «dónde corre Claude»)
 
-No es una superficie, son tres, y cubren mitades distintas del trabajo de ESTE repo:
+**Adjudicación de Alberto (s323): se adoptan DOS superficies, Cloud y Dispatch.**
+Remote Control queda documentado pero NO adoptado — se activa el día que haga
+falta conducir una sesión local paso a paso desde el móvil.
 
 | Superficie | Dónde corre | Qué cubre aquí | Qué NO |
 |---|---|---|---|
-| **Cloud session** | VM de Anthropic (Ubuntu 24.04) | evals, sondas, harness, código, docs, DB, harvest de portales. **Sigue con el PC apagado** | **OneDrive**: PDFs del corpus y el extraction store → ingesta y fase de enunciados |
-| **Remote Control** | **Tu PC**, dirigido desde móvil/web | justo lo que cloud no cubre: OneDrive, `.env`, MCPs locales, todo el entorno real | necesita el PC encendido; sin paralelismo |
-| **Dispatch** | App de escritorio | mensajear una tarea desde el móvil y que ella la ejecute | ídem PC encendido (Pro/Max) |
+| **Cloud session** ✅ | VM de Anthropic (Ubuntu 24.04) | evals, sondas, harness, código, docs, DB, harvest de portales. **Sigue con el PC apagado** | **OneDrive**: PDFs del corpus y el extraction store |
+| **Dispatch** ✅ | **Tu PC** (pestaña *Cowork* de la app de escritorio) | le mandas la tarea desde el móvil y, si es trabajo de código, abre una sesión de Code **en tu máquina** ⇒ ve OneDrive y el `.env` | necesita el PC encendido (Pro/Max; no existe en Team/Enterprise) |
+| **Remote Control** ⬜ | Tu PC, conducido desde móvil/web | conversación en vivo con una sesión local | no adoptado por ahora |
+
+**Consecuencia útil de esa combinación**: como las sesiones que abre Dispatch corren
+en el PC, **el gap de OneDrive queda cubierto igualmente** — la diferencia con Remote
+Control es el modo (le encargas y te avisa, en vez de conducir tú el turno). Ojo: en
+sesiones nacidas de Dispatch, las aprobaciones de apps caducan a los 30 minutos y
+vuelven a pedirse, en vez de durar toda la sesión.
 
 **Dónde está el selector:** el icono de nube en la fila de encima del cuadro de
 mensaje, en claude.ai/code, en la app de escritorio y en la app móvil. No hay
-página de ajustes ni URL directa. Ahí se crean y editan los environments, y ahí
-está la sección de Remote Control.
+página de ajustes ni URL directa. Ahí se crean y editan los environments.
 
-**Regla de decisión:** ¿el trabajo toca PDFs/OneDrive? → Remote Control. ¿Es
-evals, DB, código o docs y quieres cerrar el portátil? → Cloud. Doc oficial:
+**Regla de decisión:** ¿el trabajo toca PDFs/OneDrive, o necesita el `.env` y los
+MCPs locales? → Dispatch (o sesión normal aquí). ¿Es evals, DB, código o docs y
+quieres cerrar el portátil? → Cloud. Doc oficial:
 <https://code.claude.com/docs/en/claude-code-on-the-web> ·
 <https://code.claude.com/docs/en/cloud-environments> ·
-<https://code.claude.com/docs/en/remote-control>
+<https://code.claude.com/docs/en/desktop#sessions-from-dispatch>
 
 ## 2. Qué es automático (versionado en el repo, no en la web)
 
@@ -78,6 +86,7 @@ Selector de nube → **Add cloud environment** (o el engranaje del existente).
 | `ANTHROPIC_API_KEY` | generadores, harness, sondas, revisor Fable | sí |
 | `VOYAGE_API_KEY` | embeddings de `chunks_v2` (retrieval real) | sí |
 | `OPENAI_API_KEY` | **revisor Sol del dúo (Protocolo 3)** y juez | sí — sin ella, s316 se repite |
+| `DATABASE_URL` | **migraciones/DDL** y scripts de operador (rgpd_retencion, marcar_utilidad) | opcional — ver §3.4 |
 | `RAILWAY_TOKEN` | censo de flags y variables vivas de producción | opcional |
 | `NOTIFIER_USER` / `NOTIFIER_PASSWORD` | harvest del portal Notifier | opcional |
 | `LLAMA_CLOUD_API_KEY` | LlamaParse, solo si se ingesta desde cloud | opcional |
@@ -108,18 +117,45 @@ Debe dar `VEREDICTO: LISTO` y la suite en verde. El recibo queda en
 `evals/s323_cloud_smoke_v1.json` y se commitea: es la prueba fechada de que ese
 environment sirve. Repetir cuando caduque el caché (~7 días) o al tocar una variable.
 
-### 3.3 Móvil, Remote Control y Dispatch
+### 3.3 Móvil y Dispatch
 
-- **App**: Claude para iOS/Android, misma cuenta claude.ai → pestaña **Code**. Ahí
-  aparecen las sesiones cloud y las de Remote Control.
-- **Remote Control** (para lo que necesita OneDrive): en la sesión local, `/remote-control`;
-  o `claude remote-control` al arrancar. Luego, en el móvil, pestaña **Code** → elegir
-  la sesión (o escanear el QR que muestra el terminal). Da notificaciones push cuando
-  termina algo largo o cuando Claude necesita una decisión.
-- **Dispatch**: mensajear la tarea a la app de escritorio desde el móvil.
-- **Traer una sesión cloud al terminal**: `claude --teleport` (requiere árbol limpio,
-  el mismo repo y la misma cuenta). Ojo: hoy no hay CLI `claude` en el PATH de esta
-  máquina; desde la app de escritorio se usa el menú **Continue in**.
+- **App**: Claude para iOS/Android, misma cuenta claude.ai → pestaña **Code**: ahí
+  están las sesiones cloud (empezar una, contestar preguntas, revisar el diff,
+  pedirle que abra el PR o que vigile CI de uno abierto).
+- **Dispatch**: vive en la pestaña **Cowork**, no en Code. Le mandas la tarea desde
+  el móvil como un mensaje; si es trabajo de desarrollo, abre una sesión de Code **en
+  tu PC** —aparece en la barra lateral con el badge *Dispatch*— y te llega un push
+  cuando termina o cuando necesita tu aprobación. Es la vía para lo que toca OneDrive
+  o el `.env`, y requiere el PC encendido.
+- **Traer una sesión cloud al terminal**: `claude --teleport` (árbol limpio, mismo
+  repo, misma cuenta). Hoy no hay CLI `claude` en el PATH de esta máquina; desde la
+  app de escritorio se usa el menú **Continue in**.
+
+### 3.4 Supabase: qué hace falta configurar (y qué no)
+
+**Para DATOS (leer, insertar, actualizar, borrar, RPC): nada.** Los scripts van por
+REST con `SUPABASE_SERVICE_KEY`, que es la clave `service_role` y **se salta RLS**;
+es la misma ruta que ya usan en local y que usa el bot en Railway. Con esa variable
+en el environment y red *Full*, una sesión cloud escribe en la DB sin tocar nada del
+lado de Supabase (verificado: `GET /rest/v1/documents` → 200).
+
+**Para ESQUEMA (DDL/migraciones) hay dos vías**, y conviene elegir a conciencia:
+
+1. **Conexión directa** con `DATABASE_URL` + psycopg2 — lo que ya hacen
+   `scripts/rgpd_retencion.py` y `scripts/marcar_utilidad.py`. El DSN del repo apunta
+   al **pooler** (`aws-1-eu-north-1.pooler.supabase.com:5432`), que resuelve por
+   **IPv4**: por eso funciona desde un VM sin IPv6, cosa que la conexión directa
+   `db.<ref>.supabase.co` no garantiza. Añadir `DATABASE_URL` al environment es todo
+   lo que hace falta; `cloud_smoke.py` lo comprueba (`red:postgres`).
+2. **El conector MCP de Supabase**, habilitándolo en la sesión cloud. Su tráfico va
+   por los servidores de Anthropic, no por la red de la sesión, así que no depende de
+   la allowlist. Es la vía con la que se aplicaron migraciones históricamente
+   (DEC-140, migración 007).
+
+**Lo único que SÍ rompería una sesión cloud** son las *Network Restrictions* de
+Supabase (allowlist de IPs, en Settings → Database): las sesiones salen desde IPs de
+Anthropic, que no son fijas. Están desactivadas por defecto; si algún día se activan,
+hay que contar con esto. El `service_role` no las esquiva.
 
 ## 4. Trampas conocidas (medidas, no supuestas)
 
