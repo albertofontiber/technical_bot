@@ -51,6 +51,10 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
   centinela = huella sha1 de los requirements + import real; **vive en
   site-packages** (s325g), no en `/tmp`, para que marcador y paquetes viajen JUNTOS
   en el snapshot del filesystem.
+  El check `deps_cache` del smoke NO adivina el origen: `install-deps.sh` apendiza
+  lo que hace en cada corrida (`acción huella boot_id`) y el smoke solo lee las
+  líneas de ESTE arranque — así un reinicio del contenedor ya no puede disfrazar de
+  «snapshot» una instalación hecha en la propia VM (s325h).
 - **`scripts/cloud_smoke.py`** — verificador del entorno con recibo. Es el
   instrumento del Protocolo 1 aquí: sin él, «el cloud funciona» es una declaración
   sin comprobar. Contrato fijado en `tests/test_cloud_smoke.py`: **nunca vuelca el
