@@ -137,6 +137,12 @@ class Vista:
     columnas: tuple[Columna, ...]
     #: (columna de etiqueta, columna de valor, unidad) para el gráfico, o None.
     grafico: tuple[str, str, str] | None = None
+    #: (s326, hallazgo Sol r1) True = el gráfico SUMA el valor por etiqueta
+    #: sobre todas las filas cargadas antes de pintar. Para vistas
+    #: DIMENSIONALES (semana × categoría/marca/...): sin esto, «14 filas» son
+    #: barras que mezclan semanas con la misma etiqueta repetida. Las vistas
+    #: temporales (una fila por periodo) lo dejan en False.
+    grafico_agregado: bool = False
     #: Qué hay que hacer si la vista no existe.
     si_falta: str = ""
 
@@ -220,6 +226,132 @@ VISTAS: tuple[Vista, ...] = (
             Columna("votos", "Votos", "numero"),
         ),
         grafico=("motivo", "votos", "votos"),
+    ),
+    # ---- s326: uso y calidad (migración 021; adjudicación de Alberto 19-ago) --
+    Vista(
+        clave="bot_tipologia_semanal",
+        titulo="De qué TIPO son las preguntas",
+        pregunta="Tipología por semana (taxonomía cerrada; «otros» es el cajón "
+                 "que alimenta la siguiente versión). El gráfico suma las "
+                 "semanas cargadas.",
+        orden="semana.desc,consultas.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("categoria", "Categoría", "texto"),
+            Columna("consultas", "Consultas", "numero"),
+            Columna("personas", "Personas", "numero"),
+            Columna("taxonomia_version", "Taxonomía", "numero"),
+        ),
+        grafico=("categoria", "consultas", "consultas"),
+        grafico_agregado=True,
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_clasificacion_cobertura",
+        titulo="Cobertura del clasificador",
+        pregunta="Cuántas preguntas no tienen NINGUNA clasificación — si esto "
+                 "crece, las gráficas de tipología miran el pasado. Tras subir "
+                 "la taxonomía, el desfase se ve en Tax. mín/máx (el recibo del "
+                 "job es la autoridad de «cuánto queda»).",
+        orden="semana.desc",
+        limite=14,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("consultas", "Consultas", "numero"),
+            Columna("clasificadas", "Clasificadas", "numero"),
+            Columna("sin_clasificar", "Sin clasificar", "numero"),
+            Columna("taxonomia_min", "Tax. mín", "numero"),
+            Columna("taxonomia_max", "Tax. máx", "numero"),
+        ),
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_marcas_semanal",
+        titulo="Fabricantes más preguntados",
+        pregunta="Marcas CANÓNICAS resueltas contra el catálogo (lo que el bot "
+                 "entendió; los huecos, en «Demanda no cubierta»). El gráfico "
+                 "suma las semanas cargadas.",
+        orden="semana.desc,consultas.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("marca", "Fabricante", "texto"),
+            Columna("consultas", "Consultas", "numero"),
+            Columna("personas", "Personas", "numero"),
+        ),
+        grafico=("marca", "consultas", "consultas"),
+        grafico_agregado=True,
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_modelos_semanal",
+        titulo="Modelos más preguntados",
+        pregunta="Modelos detectados en las preguntas, por semana. El gráfico "
+                 "suma las semanas cargadas.",
+        orden="semana.desc,consultas.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("modelo", "Modelo", "texto"),
+            Columna("consultas", "Consultas", "numero"),
+            Columna("personas", "Personas", "numero"),
+        ),
+        grafico=("modelo", "consultas", "consultas"),
+        grafico_agregado=True,
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_feedback_tipologia_semanal",
+        titulo="En qué tipo de pregunta falla el bot",
+        pregunta="El cruce calidad×tipología: los votos del AUTOR de cada "
+                 "pregunta, por categoría.",
+        orden="semana.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("categoria", "Categoría", "texto"),
+            Columna("votos_up", "👍", "numero"),
+            Columna("votos_down", "👎", "numero"),
+            Columna("down_con_motivo", "👎 con motivo", "numero"),
+        ),
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_preguntas_por_usuario_semanal",
+        titulo="Quién pregunta cuánto",
+        pregunta="Consultas y feedback por persona. El alias es la nota de la "
+                 "allowlist (s326); el histórico pre-piloto se agrupa como "
+                 "«sin alta», sin id. El gráfico suma las semanas cargadas.",
+        orden="semana.desc,consultas.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("quien", "Quién", "texto"),
+            Columna("consultas", "Consultas", "numero"),
+            Columna("votos_up", "👍", "numero"),
+            Columna("votos_down", "👎", "numero"),
+        ),
+        grafico=("quien", "consultas", "consultas"),
+        grafico_agregado=True,
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
+    ),
+    Vista(
+        clave="bot_marcas_sin_corpus_semanal",
+        titulo="Demanda no cubierta (marcas sin corpus)",
+        pregunta="Marcas mencionadas que NO resolvieron contra el catálogo — "
+                 "señal de qué manuales faltan (y de M&A). El gráfico suma las "
+                 "semanas cargadas.",
+        orden="semana.desc,menciones.desc",
+        limite=40,
+        columnas=(
+            Columna("semana", "Semana", "dia"),
+            Columna("marca_libre", "Marca mencionada", "texto"),
+            Columna("menciones", "Menciones", "numero"),
+        ),
+        grafico=("marca_libre", "menciones", "menciones"),
+        grafico_agregado=True,
+        si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
         clave="salud_canal_retrieval_v1",

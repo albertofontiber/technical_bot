@@ -17,6 +17,16 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s326 (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (falta aplicar la 021).**
+> Adjudicación completa de Alberto (prosa opción (a) · taxonomía v1 · alias · coste):
+> tabla derivada `query_clasificacion` + clasificador batch determinista-primero (regla $0,
+> Haiku en el residuo; taxonomía versionada con «otros» re-taxonomizable) + 7 vistas nuevas
+> en Métricas + pestaña **Explorador** (pregunta a pregunta CON texto y comentario — el
+> «fuera de v1» de DEC-231, reabierto; RGPD_RETENCION §s326). La CONDUCTA del bot no cambia
+> (`CLASIFICADOR_PREGUNTAS` default off; el clasificador jamás corre en la ruta de
+> respuesta). Para usarlo: aplicar `migrations/021` → backfill con gate de acuerdo ≥85 % →
+> (opcional) flag on. Detalle y orden en el PLAN §«qué sigue».
+>
 > **Estado s324j (19 ago 2026) — EL PANEL WEB ESTÁ VIVO Y VERIFICADO.** Desplegado en
 > **https://technical-bot-lake.vercel.app** (proyecto Vercel propio, DEC-244), con las
 > migraciones **019/020 aplicadas** (usuarios en `panel_usuarios`, cerrojo distribuido

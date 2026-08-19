@@ -289,6 +289,15 @@ CONVO_SHADOW = _strict_on_off("CONVO_SHADOW")
 # scheduling actor and a sync delivery sender bridged to ``bot.send_message``.
 CONVO_MAINTENANCE = _strict_on_off("CONVO_MAINTENANCE")
 
+# CLASIFICADOR_PREGUNTAS (s326): registra en la JobQueue la corrida periódica
+# del clasificador batch de `query_clasificacion` (``schedule_clasificacion``).
+# Default OFF = conducta del bot idéntica (el seam devuelve [] y no programa
+# nada; los bytes del módulo sí cambian — precisión de Fable r1 s326).
+# Encenderlo exige la migración 021 aplicada
+# (sin ella el job falla-open y lo dice en el log, no rompe nada). El backfill
+# y la re-taxonomización van por `scripts/clasificar_preguntas.py`, no por aquí.
+CLASIFICADOR_PREGUNTAS = _strict_on_off("CLASIFICADOR_PREGUNTAS")
+
 # LLM config
 # s308 (GO de Alberto): el modelo del GENERADOR pasa a ser configurable por entorno —
 # patrón CHUNKS_TABLE/RERANK_TOP_K: default = prod histórico INERTE; el swap es una

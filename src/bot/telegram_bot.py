@@ -47,6 +47,7 @@ from ..config import (
     COVERAGE_RELEASE_POLICY,
     CONVO_SHADOW,
     CONVO_MAINTENANCE,
+    CLASIFICADOR_PREGUNTAS,
     validate_config,
 )
 from ..rag.retriever import (
@@ -55,6 +56,7 @@ from ..rag.retriever import (
     _MANUFACTURER_ALIASES, resolve_manufacturer_alias,
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
     lookup_model_manufacturer, get_available_manufacturers, manufacturer_in_db,
+    classify_model_manufacturer,
 )
 # s319 PR-C: retrieve_chunks/rerank/generate_answer/RagServingAdapters/
 # execute_rag_turn ya NO se importan aquí — el handler dejó de construir el
@@ -2825,6 +2827,60 @@ def schedule_maintenance(app, store, interval, *, sender, worker_id="janitor-f0"
     ]
 
 
+def schedule_clasificacion(app, *, interval=6 * 3600, first=600, cap=200):
+    """Register the s326 question-classifier sweep on PTB's JobQueue — gated by
+    CLASIFICADOR_PREGUNTAS (default OFF: returns ``[]`` and schedules nothing).
+
+    FUERA de la ruta de respuesta a propósito (propuesta s326 §3.B): la corrida
+    lee `query_logs`, clasifica pendientes (regla primero, Haiku en el residuo)
+    y upserta `query_clasificacion`. Fail-open TOTAL: cualquier fallo — 021 sin
+    aplicar, Supabase caído, LLM caído — se queda en un warning del log y se
+    reintenta en la corrida siguiente; el bot no se entera. El backfill inicial
+    y las re-taxonomizaciones se corren a mano con
+    `python -m scripts.clasificar_preguntas` (mismo código, con recibo).
+    """
+    if not CLASIFICADOR_PREGUNTAS:
+        return []
+    if app.job_queue is None:
+        # PTB sin el extra [job-queue] (apscheduler): requirements.txt lo trae
+        # SIN extra a propósito (nada del producto lo usaba). Encender el flag
+        # sin el extra NO puede tumbar el arranque: se degrada VISIBLE al modo
+        # manual (scripts/clasificar_preguntas.py) y lo dice en el log.
+        logger.warning(
+            "CLASIFICADOR_PREGUNTAS=on pero PTB no trae JobQueue "
+            "(pip install 'python-telegram-bot[job-queue]') — corrida "
+            "automática NO programada; el backfill manual sigue disponible")
+        return []
+
+    async def _clasificar(_context):
+        from ..clasificacion import Catalogo, correr_pendientes
+
+        def _corrida():
+            # El catálogo se construye AQUÍ (bot sí importa rag; el módulo de
+            # clasificación es raíz y lo recibe inyectado) y en cada corrida,
+            # para que un fabricante ingestado ayer cuente hoy.
+            catalogo = Catalogo(
+                nombres=[n for n, _d in get_manufacturers_by_docs()],
+                marca_de_modelo=classify_model_manufacturer,
+                resolver_alias=resolve_manufacturer_alias,
+            )
+            return correr_pendientes(cap, catalogo=catalogo,
+                                     api_key=ANTHROPIC_API_KEY)
+
+        try:
+            recibo = await asyncio.to_thread(_corrida)
+            logger.info("clasificacion_preguntas: %s", recibo)
+        except Exception:                                    # noqa: BLE001
+            logger.warning("clasificacion_preguntas falló open", exc_info=True)
+
+    return [
+        app.job_queue.run_repeating(
+            _clasificar, interval=interval, first=first,
+            name="clasificacion_preguntas",
+        )
+    ]
+
+
 def run_bot():
     """Start the Telegram bot."""
     validate_config(require_telegram=True)
@@ -2889,6 +2945,11 @@ def run_bot():
             "puerta de acceso APAGADA (BOT_ALLOWLIST=off): cualquiera que acepte "
             "los terminos puede usar el bot"
         )
+
+    # s326: la corrida periódica del clasificador de preguntas. Inerte con
+    # CLASIFICADOR_PREGUNTAS=off (default); encendida, clasifica en background
+    # cada 6 h con fail-open total — jamás toca la ruta de respuesta.
+    schedule_clasificacion(app)
 
     logger.info("Bot started. Listening for text and voice messages...")
     # s307: calienta la caché de fabricantes ANTES del polling — el primer saludo

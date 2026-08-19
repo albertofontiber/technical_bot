@@ -462,7 +462,15 @@ def test_cifras_de_control():
     # un helper de un solo uso: nace con tres consumidores declarados (lista de
     # fabricantes, catálogo por marca e inventario agrupado, que hoy implementa
     # el mismo patrón a mano dos veces).
-    assert len(MODULOS) == 128, (
+    # 128→129 (s326): + clasificacion.py — la tabla derivada `query_clasificacion`:
+    # taxonomía versionada + clasificador batch de preguntas (regla primero, LLM en
+    # el residuo). Es PRODUCTO: el panel lo consume (dashboard/explorador, vistas de
+    # la 021) y el worker lo corre con flag (CLASIFICADOR_PREGUNTAS, default off).
+    # Vive en RAÍZ e importa SOLO raíz a propósito: el conocimiento de catálogo
+    # (nombres, marca-de-modelo, alias) entra INYECTADO como `Catalogo` desde sus
+    # llamadores (seam del bot y script) — la matriz raiz→rag ni se toca, y lo fija
+    # test_s326_clasificacion.test_el_modulo_de_clasificacion_es_raiz_pura.
+    assert len(MODULOS) == 129, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

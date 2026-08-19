@@ -8157,7 +8157,7 @@ prometía y habrá que decidir si se revierte.
 
 ## DEC-242 (s325h-c, 19 ago 2026) — La caché del environment NO ahorra: la medición que s325h dejó pendiente sale NO; se para la inversión a ciegas, se instrumenta la CAUSA y DEC-238 se degrada (no se revierte)
 
-> **⚠️ CONCLUSIÓN CENTRAL FALSA — REFUTADA por DEC-245 (s325h-e, 19-ago).** La caché SÍ puede
+> **⚠️ CONCLUSIÓN CENTRAL FALSA — REFUTADA por DEC-246 (s325h-e, 19-ago).** La caché SÍ puede
 > persistir `site-packages`: una VM cuyo registro la sella con **uptime 40,89 s** arrancó con el
 > marcador `663fae88` de **mtime 14:09:35Z** — imposible de escribir en 41 segundos de vida, luego
 > sobrevivió a un arranque anterior. Lo medido aquí era correcto para UNA VM y se generalizó mal.
@@ -8270,7 +8270,7 @@ tenía sentido si la causa eran las rutas.
 desenlaces, y dos son indistinguibles a simple vista:
 - el hook imprime **«marcador previo 663fae88 … huella caduca»** ⇒ la caché persistió en ESA VM
   (trajo el estado viejo) y el diagnóstico de «no persiste» era erróneo — **es lo que ocurrió**, ver
-  DEC-245;
+  DEC-246;
 - el hook imprime **«ya instaladas (1ead8d63)»** ⇒ **ambiguo**: puede ser que no hubiera caché (el
   setup script instaló antes, en esa misma VM) o que la caché se reconstruyera post-merge y sí
   funcione. Distinguirlos exige `python scripts/cloud_smoke.py` y leer **`deps_cache`**, que
@@ -8358,7 +8358,125 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   PROYECTO PROPIO», con el paso de crear el proyecto) + PLAN (paso 4 de «falta para live»).
   Cero código.
 
-## DEC-245 (s325h-e, 19 ago 2026) — La caché del environment PUEDE persistir (no siempre): la conclusión de DEC-242 queda REFUTADA, y el mensaje del check que indujo el error se arregla
+## DEC-245 (s326, 19 ago 2026) — Las métricas de USO/CALIDAD del panel: adjudicadas ENTERAS por Alberto y cableadas con dúo secuencial (Sol 7/7 + Fable 5/5, 0 FP); la prosa entra al panel (opción a) y el bot no se toca
+
+- **Fecha**: 19 ago 2026. **Impacto**: MEDIO-ALTO (esquema nuevo + superficie del panel expuesto +
+  reapertura del «fuera de v1» de DEC-231). **Estado**: cableado en rama (PR del cableado); la
+  migración 021 SIN aplicar; flag `CLASIFICADOR_PREGUNTAS` default off.
+- **Qué pidió Alberto** (19-ago, chat): tipología de pregunta con «otros» re-taxonomizable ·
+  fabricantes · modelos · feedback por pregunta con sub-feedback y motivo en texto · preguntas por
+  usuario; tabla por-pregunta + agregados + gráficas + filtros. **El hallazgo que dimensionó el
+  trabajo** (medido en producción ANTES de opinar): la captura de feedback ya estaba COMPLETA
+  (s294: verdict + reason_class + «te lo explico»→comment; 9 votos, 8 👎) y `product_models` al
+  70 % — el gap era de EXPOSICIÓN y de dos dimensiones (tipología, fabricante), no de captura.
+- **Adjudicaciones de Alberto (en el hilo)**: drill-down con prosa = **OPCIÓN (a)** completa
+  (pregunta + comentario en el panel; el gatillo que DEC-231 preveía — «entra cuando el piloto lo
+  pida» — ejercido por quien lo aplazó) · taxonomía v1 OK · por-usuario con **alias de allowlist**
+  OK · coste OK (céntimos de LLM + dúo).
+- **Decide (arquitectura, propuesta `evals/s326_panel_metricas_uso_propuesta_v1.md`)**:
+  1. **Tabla DERIVADA `query_clasificacion`** (021): 1:1 con `query_logs`, CASCADE, sin id de
+     persona; desechable y reconstruible ⇒ re-taxonomizar es barato y seguro. RLS ENABLE+FORCE,
+     ACL enumerada (9-bis: payload==GRANT, cruzado en test).
+  2. **Clasificador batch determinista-primero**: rutas de atajo por REGLA ($0); marcas/modelos
+     SIEMPRE deterministas (product_models del turno + catálogo + alias-scan del texto); Haiku
+     solo para la categoría del residuo, JSON estricto (categoría fuera de lista = fila pendiente,
+     JAMÁS degradada a `otros`). Menciones sin corpus → `marcas_libres` → vista de demanda no
+     cubierta (cierra la intención de `query_gaps`, TECH_DEBT #8, con datos ya capturados).
+  3. **Módulo RAÍZ PURO** (`src/clasificacion.py`): el catálogo entra INYECTADO (`Catalogo`)
+     desde el seam del bot y el script — la matriz de imports (raiz→rag prohibido) ni se toca;
+     censo 128→129 explicado en el propio test.
+  4. **Corrida**: seam JobQueue cada 6 h gateado por flag (off = conducta idéntica; guard si PTB
+     no trae el extra job-queue) + `scripts/clasificar_preguntas.py` manual con recibo (backfill
+     y re-taxonomización = MISMO camino: subir `version` en el YAML re-encola el histórico).
+  5. **Panel**: 7 vistas nuevas (tipología · cobertura-honesta · marcas · modelos ·
+     feedback×tipología · por-usuario · demanda-no-cubierta) + pestaña **Explorador** fila-a-fila
+     con filtros de LISTAS CERRADAS (patrón errores.py) y prosa escapada; `response` NO se expone.
+     Gráficas dimensionales AGREGADAS por etiqueta (`grafico_agregado`).
+- **El dúo (Protocolo 3), secuencial a conciencia**: Sol xhigh sobre el diff vivo (60 tools,
+  449k tokens) → **7 hallazgos, 7 confirmados, 0 FP** (etiqueta con id directo · el doc RGPD
+  desmentido por el código · JobQueue sin extra tumba el arranque —convergente con hallazgo
+  propio— · cobertura mentía tras subir taxonomía · barrido con tope estructural 20k · gráficas
+  mezclando semanas · modelos solo-upper vs prosa) → TODOS cerrados → **Fable sobre el árbol
+  POST-cierres** (control fresco del estado final; el runner lo dejó sin emparejar por bytes,
+  correcto y documentado en el tally): **SÓLIDO estructural en seguridad/ACL/RGPD** + 5 (1 medio:
+  docstring describía la fuente vieja de la whitelist; 4 menores) → TODOS aplicados, 0 FP.
+  Tally 2026-08-19T20:26:04 adjudicado con verdict_notes regla-C punto por punto.
+- **RGPD**: `docs/RGPD_RETENCION.md` enmendado in-place (dos claims supersedidas, marcadas) +
+  subsección «s326 — El Explorador y las métricas de uso» + `query_clasificacion` en la matriz
+  con el criterio de `bot_errors` (enlazable, hereda gobernanza, CASCADE verificado en
+  postcondición). **Gate de EXPONER nuevo**: addendum del abogado ANTES de invitar DGs al panel;
+  uso interno (Alberto) no espera.
+- **Verificación (Protocolo 1)**: suite completa verde (4580 passed pre-cierres; re-corrida final
+  en el PR); tests s326 138 verdes (incl. puerta de sesión de /explorador: 18 = 9 rutas × 2);
+  **smoke REAL contra producción** (5 preguntas, $0,003): regla clasifica el atajo Kidde a $0 con
+  marca por texto; el multi-turno hereda modelo del contexto (2X-AF1→Aritech); «Luka Modric» →
+  `otros` sin inventar marca; camino de error del CLI pre-021 limpio y explicado.
+- **Alternativas descartadas**: en la propuesta §7 (clasificar en-turno · columnas en query_logs ·
+  reusar `category` muerta · BI externo · pivot-UI a mano · pg_cron para LLM).
+- **Deuda declarada**: sin gate pg propio para la 021 (postcondiciones internas + gate ACL de
+  texto) · gate de acuerdo ≥85 % del clasificador pendiente del backfill · canónico de modelo =
+  workstream DEC-074 · `feedback` libre (161 filas, mezcla épocas) sin curar.
+- **Traza**: tally `2026-08-19T20:26:04` (adjudicado) en `evals/adversarial_review_log.jsonl`;
+  recibos Sol/Fable en `evals/adversarial_reviews/2026-08-19T20-{26-04,35-13}_*`; briefing
+  `evals/s326_cableado_briefing_v1.md` (recibo congelado: describe la fuente PRE-cierre de la
+  whitelist de marcas — la vigente es `documents.manufacturer`, hallazgo F1 de Fable).
+
+### DEC-245 addendum (s326, 19-ago noche) — El preview cazó un 500 en /explorador: PyYAML faltaba en la función del panel porque un import PEREZOSO esquivó el gate de la clausura
+
+- **El incidente**: Alberto abrió el preview de Vercel del PR #308 y /explorador sirvió el 500
+  del panel. Traza (runtime logs de Vercel): `categorias_validas()` → `import yaml` →
+  `ModuleNotFoundError` — `api/requirements.txt` es mínimo A PROPÓSITO (DEC-244, el bundle de
+  541MB) y PyYAML no estaba.
+- **La causa raíz no es «faltaba un paquete»**: es que el gate que existe EXACTAMENTE para esto
+  (`test_s324j_panel_requirements`, clausura estática de la superficie) escanea imports a
+  **columna 0**, y mi `from src.clasificacion import …` vivía DENTRO de una función → invisible
+  → el gate quedó verde con la función coja. Un import perezoso en la superficie del panel
+  evade su red de seguridad.
+- **Cierres (los tres, no uno)**: (1) el import sube a NIVEL DE MÓDULO en
+  `dashboard/explorador.py` — visible al gate; si aún faltara el paquete, el panel falla EN FRÍO
+  y en el log (patrón de la sonda del lifespan), no con un 500 mudo a mitad de clic; (2)
+  `PyYAML>=6.0.0` declarado en `api/requirements.txt` + mapa `yaml→PyYAML` en el gate + el pin
+  de la raíz pierde su comentario en línea (el test de pins exige cita LITERAL); (3)
+  `categorias_validas()` FAIL-OPEN con caché (regla del panel «este módulo no lanza»): YAML
+  roto/no empaquetado ⇒ select en «todas» y validación que rechaza el parámetro — la página
+  vive. Test nuevo del fail-open.
+- **Límite declarado que queda**: el gate sigue siendo columna-0 (estático a conciencia); la
+  regla operativa es «en la superficie del panel, los imports de terceros van a nivel de módulo
+  o no van». `import anthropic` dentro de `construir_llm` queda perezoso A PROPÓSITO: el panel
+  jamás llama al LLM y arrastrarlo engordaría la función hacia el límite.
+- **Verificación**: gate de requirements rojo→verde con la detección real (pasó con PyYAML
+  declarado ⇒ el BFS lo ve); 135 tests del panel/s326 verdes; suite completa re-corrida en el
+  PR. El preview re-desplegado con la función que SÍ trae yaml es el smoke que cierra.
+
+### DEC-245 addendum 2 (s326, 19-ago noche) — La 021 APLICADA en producción con el GO de Alberto; el backfill destapó que el upsert de PostgREST re-escribe la PK, y el verbo de escritura pasa a decidirlo la procedencia de la fila
+
+- **Aplicación (GO literal de Alberto: «aplica la migración»)**: la 021 entró por el conector,
+  ENTERA y transaccional; postcondiciones internas verdes + verificación EXTERNA (Protocolo 1):
+  RLS+FORCE ✓ · 8 vistas con security_invoker ✓ · anon/authenticated sin SELECT ✓ ·
+  service_role INSERT por columna ✓.
+- **El incidente, medido con 4 llamadas mínimas** (SELECT 200 · anti-join 200 · INSERT 201 ·
+  UPSERT 403/42501): `resolution=merge-duplicates` de PostgREST construye `DO UPDATE SET` de
+  TODAS las columnas del payload **incluida la PK**, y `UPDATE(query_log_id)` está prohibido a
+  conciencia (trinquete del gate ACL: una clasificación no se muda de pregunta). El upsert era
+  incompatible con el GRANT por diseño — el fallo estaba en mi elección de verbo, no en el ACL.
+- **Cierre (el trinquete SOBREVIVE, no se ablanda)**: `leer_pendientes` marca la procedencia
+  (`_ya_clasificada`) y `escribir_clasificaciones` separa: fila nueva → INSERT en lote con
+  `ignore-duplicates` (carrera concurrente = resultado equivalente, se ignora); fila con versión
+  vieja → PATCH por fila con el payload SIN la PK. Test nuevo del split + payload sin marca
+  interna; 37 tests del clasificador verdes.
+- **Backfill EJECUTADO (recibo `evals/s326_backfill_v1.json`)**: 108 examinadas → **108
+  escritas, 0 fallos** (10 por regla $0 + 98 por Haiku), 70.533 tokens entrada / 2.874 salida,
+  **$0,085**, 83 s. Más 1 fila re-clasificada aparte (la del diagnóstico del 403, que quedó
+  con un `otros` manual) → **109/109 clasificadas**. Distribución: catálogo 46 · specs 22 ·
+  configuración 13 · otros 9 (8 %) · compatibilidad 7 · instalación 6 · averías 6.
+- **Las vistas ya PAGAN**: `bot_marcas_sin_corpus_semanal` enseña «death knife», «death knob» y
+  «nfs» — el ASR destrozando «Detnov» (DEC-233), por primera vez visible como métrica y no como
+  anécdota. Verificado por la ruta REST del panel (bot_tipologia_semanal 200 con datos).
+- **Pendiente**: el gate de acuerdo ≥85 % (muestra estratificada de 35 entregada a Alberto en el
+  hilo) ANTES de leer las gráficas como verdad · `CLASIFICADOR_PREGUNTAS=on` opcional · addendum
+  del abogado antes de invitar DGs al panel.
+
+## DEC-246 (s325h-e, 19 ago 2026) — La caché del environment PUEDE persistir (no siempre): la conclusión de DEC-242 queda REFUTADA, y el mensaje del check que indujo el error se arregla
 
 - **Fecha**: 19 ago 2026. **Impacto**: MEDIO (corrige un hecho falso en el registro canónico + un
   mensaje de instrumento). **Estado**: **la caché PUEDE persistir `site-packages` — observado al menos una

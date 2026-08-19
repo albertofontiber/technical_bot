@@ -94,6 +94,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
     },
+    # s326: corrida periódica del clasificador de preguntas (query_clasificacion)
+    # en la JobQueue del worker. Default off = conducta idéntica (no se programa
+    # nada); el batch manual (backfill/re-taxonomización) vive en scripts/ y no
+    # depende de este flag.
+    "CLASIFICADOR_PREGUNTAS": {
+        "default_fuente": '"off"',
+        "via": ['strict_on_off'],
+        "lectores": ('src/config.py',),
+    },
     "CHUNKS_TABLE": {
         "default_fuente": '"chunks_v2"',
         "via": ['getenv'],

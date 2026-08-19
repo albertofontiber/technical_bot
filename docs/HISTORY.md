@@ -5951,3 +5951,36 @@ taxonomía, identidad del por-usuario, coste) y el dúo al cablear. El bot no se
 pieza. **Adjudicado en el hilo (19-ago tarde)**: taxonomía v1 OK · por-usuario con ALIAS de
 allowlist OK · coste OK; el drill-down con prosa quedó explicado con opciones (a/b/c) y
 pendiente de Alberto.
+
+**Cierre s326 (misma tarde-noche):** la adjudicación que faltaba llegó en minutos —
+**opción (a): prosa completa**— y la sesión cableó el paquete entero: migración **021**
+(`query_clasificacion` + 8 vistas con postcondiciones que comprueban TODO lo que revocan),
+`src/clasificacion.py` (raíz PURA: el catálogo entra inyectado, la matriz de imports ni se
+toca), el seam `CLASIFICADOR_PREGUNTAS` (off; con guard para el PTB sin job-queue), el CLI
+con recibo, y la pestaña **Explorador** con filtros de listas cerradas. El dúo corrió
+SECUENCIAL a conciencia: Sol xhigh sobre el diff vivo devolvió **7/7 confirmados, 0 FP** —
+el mejor: el barrido más-antiguo-primero habría dejado filas nuevas PERMANENTEMENTE sin
+clasificar al pasar de 20k (reescrito a dos consultas anti-join auto-drenantes); el más
+delicado: la etiqueta «sin alta · id N» correlacionaba un identificador directo con conteos
+y prosa (fuera el id; trinquete en el gate ACL) — y `RGPD_RETENCION.md` afirmaba tres cosas
+que el código nuevo desmentía (enmendado, con la subsección s326 y la tabla en la matriz).
+Con los cierres aplicados, **Fable revisó el árbol FINAL** (sin emparejar por bytes, correcto
+y documentado): **SÓLIDO estructural en seguridad/ACL/RGPD**, 1 medio (mi docstring describía
+la fuente vieja de la whitelist — el sesgo conocido: la prosa contando un diseño que ya no
+es) y 4 menores, todos aplicados. Smoke REAL contra producción ($0,003): el atajo de Kidde
+se clasifica por regla a $0, el multi-turno hereda el modelo del contexto (2X-AF1→Aritech) y
+«¿tienes productos de Luka Modric?» cae a `otros` sin inventar marca. Queda, en orden:
+aplicar la 021 → backfill con gate de acuerdo ≥85 % → (opcional) flag on → addendum del
+abogado antes de invitar DGs al panel. DEC-245.
+
+**Cierre s326-b (noche):** con el GO de Alberto la **021 entró en producción** por el conector
+(entera; postcondiciones + verificación externa verdes) y el **backfill clasificó las 109
+preguntas del histórico** (10 por regla a $0, 98+1 por Haiku, 0 fallos, $0,085, recibo en
+`evals/s326_backfill_v1.json`). Por el camino, el backfill destapó un incidente de libro: el
+upsert `merge-duplicates` de PostgREST re-escribe también la PK, chocando con el trinquete del
+gate ACL — se cerró SIN ablandar el trinquete (fila nueva → INSERT ignore-duplicates; fila
+vieja → PATCH sin PK), medido con cuatro llamadas mínimas. Y la vista de demanda-no-cubierta
+pagó en su primera lectura: «death knife», «death knob» y «nfs» — el ASR destrozando «Detnov»
+(DEC-233), por fin como métrica. Distribución del histórico: catálogo 46 · specs 22 ·
+configuración 13 · otros 9 (8 %) · compatibilidad 7 · instalación 6 · averías 6. Queda el gate
+de acuerdo de Alberto (muestra de 35 en el hilo), el flag opcional y el addendum del abogado.
