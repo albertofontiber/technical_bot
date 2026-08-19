@@ -265,6 +265,73 @@ def test_el_cap_es_un_techo_con_la_aritmetica_exacta(panel):
     panel.rollback()
 
 
+def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
+    """Ronda de verificación del cableado, S2-M1: el check de bloqueo va ANTES
+    de sembrar/podar — un atacante ya bloqueado por una clave (aquí `ip:`) no
+    puede seguir creando filas `u:` frescas para inflar la tabla. Es el orden
+    del doble en memoria; sembrar antes dejaba vivo el bypass del cap."""
+    with _como_service_role(panel) as cur:
+        # Bloquear la clave ip: del atacante (6 intentos = FALLOS_LIBRES+2):
+        for _ in range(auth.FALLOS_LIBRES + 2):
+            _puerta(cur, ["u:objetivo", "ip:atacante"])
+        cur.execute("SELECT count(*) FROM panel_intentos")
+        antes = cur.fetchone()[0]
+        # Ahora el atacante, YA bloqueado por ip:, intenta con un usuario
+        # inventado NUEVO — que sin el fix sembraría una fila más:
+        espera = _puerta(cur, ["u:inventado-nuevo", "ip:atacante"])
+        assert espera > 0                        # bloqueado por ip:
+        cur.execute("SELECT count(*) FROM panel_intentos")
+        assert cur.fetchone()[0] == antes        # NO sembró la clave nueva
+        cur.execute("SELECT 1 FROM panel_intentos WHERE clave='u:inventado-nuevo'")
+        assert cur.fetchone() is None
+    panel.rollback()
+
+
+def test_ultimo_no_retrocede_bajo_concurrencia(panel):
+    """Ronda de verificación, S2-m1: con `clock_timestamp()` leído DESPUÉS del
+    advisory lock (no `now()` de inicio de tx), llamadas serializadas escriben
+    `ultimo` monótonamente creciente — no hacia atrás."""
+    panel.rollback()
+    barrera = threading.Barrier(8)
+
+    def intento():
+        conexion = _conectar()
+        try:
+            with conexion.cursor() as cur:
+                cur.execute("SET ROLE service_role;")
+                barrera.wait(timeout=30)
+                cur.execute(
+                    "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
+                    (["u:mono"], CONSTANTES["libres"], CONSTANTES["base_s"],
+                     CONSTANTES["max_s"], CONSTANTES["retencion_s"],
+                     CONSTANTES["cap"]))
+            conexion.commit()
+        finally:
+            conexion.close()
+
+    hilos = [threading.Thread(target=intento) for _ in range(8)]
+    for h in hilos:
+        h.start()
+    for h in hilos:
+        h.join(timeout=60)
+    # De las 8 serializadas, admiten FALLOS_LIBRES+1 (=5) y las demás se
+    # bloquean sin incrementar — igual que el doble en memoria. Lo que este
+    # test añade sobre `test_la_rafaga...` es la MONOTONÍA de `ultimo`: con
+    # clock_timestamp() bajo el lock, la última escritura es del presente y no
+    # quedó ninguna en un instante anterior (con `now()` de inicio-de-tx, una
+    # llamada encolada habría escrito un `ultimo` retrasado).
+    with panel.cursor() as cur:
+        cur.execute("SELECT fallos, ultimo, ultimo <= clock_timestamp() "
+                    "FROM panel_intentos WHERE clave='u:mono'")
+        fallos, ultimo, coherente = cur.fetchone()
+        assert fallos == auth.FALLOS_LIBRES + 1
+        assert coherente
+        cur.execute("SELECT clock_timestamp() - %s < interval '5 seconds'",
+                    (ultimo,))
+        assert cur.fetchone()[0], "ultimo quedó en el pasado — ¿now() en vez de clock?"
+    panel.rollback()
+
+
 def test_la_sonda_con_claves_vacias_no_toca_contadores(panel):
     with _como_service_role(panel) as cur:
         _puerta(cur, ["u:previa"])

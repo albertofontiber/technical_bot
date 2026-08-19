@@ -18,10 +18,12 @@ on:
       - "migrations/020_invitaciones_op.sql"
       - "dashboard/**"
       - "tests/test_s324j_panel_pg.py"
-      # NO se lista test_s295_*.py aquí (ronda del dúo sobre el cableado,
-      # S-m3): este workflow corre SOLO el gate del panel; s295 tiene el suyo
-      # (s295-rgpd-retencion-pg.yml). El fixture `base` de s295 se importa,
-      # pero su regresión la mantiene su propio workflow — no éste.
+      # SÍ se lista test_s295 (ronda de verificación, S2-M3): este gate IMPORTA
+      # su fixture `base`, que aplica la cola s295→s299 entera. Un cambio en
+      # ese arnés puede romper el gate del panel — así que este workflow debe
+      # re-correr cuando cambie, aunque su propio workflow (s295) también corra.
+      # Es una dependencia de IMPORT, no un trigger espurio.
+      - "tests/test_s295_rgpd_integracion_pg.py"
       - ".github/workflows/s324j-panel-pg.yml"
   workflow_dispatch:
 

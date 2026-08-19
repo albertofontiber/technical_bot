@@ -202,9 +202,10 @@ BEGIN
     -- DISJUNTAS. Semántica REAL, sin eufemismo: un advisory lock DE
     -- TRANSACCIÓN se retiene hasta el COMMIT, así que cada `admitir` se
     -- serializa ENTERO contra los demás — a esta escala es gratis y es el
-    -- invariante exacto del cerrojo en memoria. La siembra + FOR UPDATE de
-    -- abajo queda como SEGUNDA capa: hoy redundante bajo este lock, y lo que
-    -- sostiene la corrección si algún día alguien lo estrecha.
+    -- invariante exacto del cerrojo en memoria. Es este lock el que hace que
+    -- el upsert final baste como siembra (la ráfaga contra una clave fresca no
+    -- puede ver «ausente» N veces: entra de una en una), y el que sostiene el
+    -- techo del cap frente a claves disjuntas.
     PERFORM pg_advisory_xact_lock(hashtext('panel_intentos'));
 
     -- El reloj se lee DESPUÉS del lock, y con clock_timestamp() — NO now()
@@ -213,18 +214,45 @@ BEGIN
     -- encoladas en el lock (T2 empezó antes que T1 pero espera su turno)
     -- escribirían `ultimo` con instantes en desorden, haciéndolo RETROCEDER.
     -- `clock_timestamp()` leído aquí es el tiempo real en el momento en que
-    -- esta llamada YA tiene el lock: monotónico entre las transacciones que el
-    -- lock serializa, que es justo lo que el reloj monotónico del doble en
-    -- memoria garantiza.
+    -- esta llamada YA tiene el lock. LÍMITE declarado: es reloj de PARED, no
+    -- monotónico como el `time.monotonic()` del doble en memoria — un ajuste
+    -- del reloj del sistema podría hacerlo retroceder. En la práctica es raro,
+    -- afecta a todo por igual, y el techo del castigo (`max_s`) acota el daño.
     v_ahora := clock_timestamp();
 
-    -- (1) Poda: la retención ejecutada en cada escritura. La constante viaja
-    -- como argumento (una sola fuente en Python); la ventana RGPD canónica la
-    -- impone la POLICY de arriba — si divergieran, manda la política.
+    -- (1) EL CHECK DE BLOQUEO VA PRIMERO — sobre las claves que YA EXISTEN, y
+    -- SIN sembrar ni podar (ronda de verificación del cableado, S2-M1). Es el
+    -- orden del doble en memoria (`auth.Cerrojo.admitir`: `bloqueado()` —que
+    -- solo LEE— antes de `fallo()` —que siembra e incrementa—). Sembrar antes
+    -- de comprobar dejaba que un atacante YA bloqueado por su clave `ip:`
+    -- siguiera creando una fila `u:` fresca por cada intento, inflando la
+    -- tabla hasta expulsar el bloqueo de un objetivo — y encima más barato,
+    -- porque el 429 corta antes del scrypt. Con el check delante, un intento
+    -- bloqueado NO toca la tabla: ni siembra la clave nueva ni poda.
+    FOR v_clave IN SELECT t.c FROM unnest(claves) AS t(c) ORDER BY t.c LOOP
+        SELECT p.fallos, p.ultimo INTO v_fallos, v_ultimo
+          FROM public.panel_intentos p WHERE p.clave = v_clave;
+        IF FOUND AND v_fallos > libres THEN
+            v_espera := GREATEST(
+                0,
+                extract(epoch FROM (v_ultimo - v_ahora))
+                + LEAST(base_s * power(2, v_fallos - libres - 1), max_s)
+            );
+            v_max := GREATEST(v_max, v_espera);
+        END IF;
+    END LOOP;
+    IF v_max > 0 THEN
+        RETURN v_max;   -- bloqueado: SIN sembrar, podar ni incrementar
+    END IF;
+
+    -- (2) No bloqueado → poda: la retención ejecutada en cada escritura. La
+    -- constante viaja como argumento (una sola fuente en Python); la ventana
+    -- RGPD canónica la impone la POLICY de arriba — si divergieran, manda la
+    -- política.
     DELETE FROM public.panel_intentos
      WHERE ultimo < v_ahora - make_interval(secs => retencion_s);
 
-    -- (2) El techo DURO, con la aritmética exacta (ronda S2-M3): si el
+    -- (3) El techo DURO, con la aritmética exacta (ronda S2-M3): si el
     -- recuento MÁS las claves que esta llamada va a sembrar supera el cap, se
     -- sacrifica lo más antiguo hasta que la siembra quepa. Perder un bloqueo
     -- vivo regala una tanda de intentos; quedarse sin techo regala la tabla.
@@ -239,42 +267,16 @@ BEGIN
                           LIMIT (v_count + v_nuevas - cap));
     END IF;
 
-    -- (3) SIEMBRA antes del lock de fila (ronda S-C3): FOR UPDATE no puede
-    -- bloquear una fila que no existe — sin esto, la primera ráfaga contra
-    -- una clave fresca vería «ausente» N veces y entraría entera. En orden
-    -- estable de claves (sin interbloqueo entre llamadas).
-    INSERT INTO public.panel_intentos (clave, fallos, ultimo)
-        SELECT t.c, 0, v_ahora FROM unnest(claves) AS t(c) ORDER BY t.c
-        ON CONFLICT (clave) DO NOTHING;
-
-    -- (4) La espera, con la fórmula del cerrojo de hoy (auth.py:
-    -- min(base·2^(fallos−libres−1), max) desde `ultimo`). FOR UPDATE en el
-    -- mismo orden estable: la llamada que espera relee la versión confirmada
-    -- (EvalPlanQual bajo READ COMMITTED — el mismo mecanismo con el que el
-    -- canje gana a dos pulsadores simultáneos).
-    FOR v_clave IN SELECT t.c FROM unnest(claves) AS t(c) ORDER BY t.c LOOP
-        SELECT p.fallos, p.ultimo INTO v_fallos, v_ultimo
-          FROM public.panel_intentos p WHERE p.clave = v_clave FOR UPDATE;
-        IF FOUND AND v_fallos > libres THEN
-            v_espera := GREATEST(
-                0,
-                extract(epoch FROM (v_ultimo - v_ahora))
-                + LEAST(base_s * power(2, v_fallos - libres - 1), max_s)
-            );
-            v_max := GREATEST(v_max, v_espera);
-        END IF;
-    END LOOP;
-    IF v_max > 0 THEN
-        RETURN v_max;   -- bloqueado: SIN incrementar (basta una clave cerrada)
-    END IF;
-
-    -- (5) Admitido: CONTAR YA (contar-al-admitir es lo que acota el rebaño;
+    -- (4) Admitido: CONTAR YA (contar-al-admitir es lo que acota el rebaño;
     -- `acierto` — un DELETE por REST — es la devolución del provisional). El
-    -- incremento es SIEMPRE upsert, nunca UPDATE a secas (ronda S6-M2): un
-    -- `acierto` concurrente, que corre FUERA del advisory lock, puede borrar
-    -- la fila sembrada entre (3) y aquí — con el upsert renace con fallos=1,
-    -- que además es la verdad: ese fallo es POSTERIOR al acierto que limpió.
-    -- La admisión nunca queda sin contar.
+    -- incremento es SIEMPRE upsert, que además SIEMBRA la clave fresca: ya no
+    -- hace falta una siembra-antes-del-FOR-UPDATE aparte (la de S-C3), porque
+    -- el advisory lock global serializa las llamadas — la ráfaga contra una
+    -- clave nueva no puede ver «ausente» N veces, entra de una en una. Y sigue
+    -- cubriendo S6-M2: un `acierto` concurrente (DELETE fuera del lock) que
+    -- borre la fila entre el check y aquí no deja la admisión sin contar — el
+    -- upsert la recrea con fallos=1, que es la verdad (ese fallo es POSTERIOR
+    -- al acierto que limpió).
     INSERT INTO public.panel_intentos (clave, fallos, ultimo)
         SELECT t.c, 1, v_ahora FROM unnest(claves) AS t(c) ORDER BY t.c
         ON CONFLICT (clave) DO UPDATE
@@ -340,11 +342,16 @@ BEGIN
               AND p.policyname = 'rgpd_retencion_ventana'
               AND 'rgpd_retencion' = ANY(p.roles)
               AND p.qual LIKE '%ultimo%'
-              -- Acepta las dos representaciones equivalentes de '24 hours' que
-              -- normaliza Postgres (ronda del dúo sobre el cableado, F-m2):
-              -- '24:00:00' hoy, '1 day' si alguien reescribe la política con
-              -- esa forma idéntica. Tirante por SEMÁNTICA, no por texto.
-              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
+              -- '24:00:00' es la forma CANÓNICA con la que Postgres almacena el
+              -- `interval '24 hours'` que crea ESTA migración (verificado en el
+              -- gate pg). El tirante se ancla a esa forma exacta a propósito
+              -- (ronda de verificación, S2-M2): aceptar también '1 day' —como
+              -- probó F-m2— era LAXO ('1 day' matchea '1 day 01:00:00', que NO
+              -- es equivalente), y `interval '24 hours'` nunca se almacena como
+              -- '1 day'. Que una política reescrita a mano con otra forma
+              -- aborte la pasada es CORRECTO: es justo la alteración no
+              -- autorizada que este autocontrol existe para cazar.
+              AND p.qual LIKE '%24:00:00%'
        ) THEN
         RAISE EXCEPTION 'panel_retencion: la ventana NO esta armada en '
                         'panel_intentos (RLS deshabilitada, politica ausente o '
@@ -472,7 +479,7 @@ BEGIN
               AND p.policyname = 'rgpd_retencion_ventana'
               AND 'rgpd_retencion' = ANY(p.roles)
               AND p.qual LIKE '%ultimo%'
-              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
+              AND p.qual LIKE '%24:00:00%'   -- forma canónica exacta (S2-M2)
        ) THEN
         RAISE EXCEPTION '019: la POLICY de ventana de panel_intentos no quedó '
                         'como se declaró';

@@ -44,20 +44,26 @@
   «inefectiva»: con la IP compartida del proxy y el MAX sobre claves, 5 fallos de un atacante
   serían un 429 GLOBAL. Encenderla = medir primero, voltear la constante después.
 
-## Riesgo declarado del cerrojo: el desalojo del cap es forzable (dúo del cableado, F-M1)
+## Riesgo declarado del cerrojo: el desalojo del cap con `ip:` apagada
 
-`panel_puerta` siembra una fila `u:<hmac>` por cada intento de login ANTES de comprobar
-credenciales, y la poda del cap (`CERROJO_MAX_ENTRADAS = 10.000`) borra las filas más antiguas.
-Consecuencia, heredada del cerrojo en memoria y ahora declarada: un atacante que mande ~10.000
-logins con usuarios inventados **distintos** llena la tabla y expulsa la fila de bloqueo de un
-usuario concreto, cuyo backoff se resetea (renace con `fallos = 0`). No es gratis para el
-servidor —cada intento paga el señuelo scrypt (~100 ms), así que 10.000 son también un coste de
-CPU—, pero sí barato para el atacante. Dos cosas lo acotan, y por eso van aquí y no como bug:
-(1) el suelo scrypt sigue haciendo inviable la fuerza bruta de una contraseña larga aunque el
-backoff se resetee; (2) **encender la mitad `ip:` tras la medición de XFF lo mitiga de raíz** —
-con la clave por IP contando, el atacante acumula su propio bloqueo mientras infla las `u:`. Es
-un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara en producción, la
-respuesta es subir el cap o adelantar la medición de XFF, no un parche.
+Con la clave `ip:` apagada (estado actual, hasta medir XFF), un atacante que mande muchos logins
+con usuarios inventados **distintos** crea una fila `u:<hmac>` fresca por intento; cuando la tabla
+llega al cap (`CERROJO_MAX_ENTRADAS = 10.000`) la poda expulsa las más antiguas, y puede empujar
+fuera la fila de bloqueo de un usuario concreto, cuyo backoff se resetea. No es gratis para el
+servidor —mientras el atacante no esté bloqueado, cada intento paga el señuelo scrypt (~100 ms)—,
+pero sí barato para él. Dos cosas lo acotan, y por eso va declarado y no como bug pendiente:
+
+1. El suelo scrypt hace inviable la fuerza bruta de una contraseña larga aunque el backoff se
+   resetee.
+2. **Encender la mitad `ip:` tras la medición de XFF lo cierra**, y esto SÍ es cierto desde la
+   ronda de verificación del cableado (S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar
+   o sembrar, así que un intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea
+   la fila `u:` nueva ni dispara la poda. Con `ip:` contando, el atacante se bloquea a sí mismo y
+   deja de poder inflar. (Antes del reorden la siembra iba primero y este bypass sobrevivía a
+   `ip:` — se corrigió realineando la RPC con el doble en memoria.)
+
+Es un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara con `ip:` aún
+apagada, la respuesta es subir el cap o adelantar la medición de XFF, no un parche.
 
 ## Por qué Vercel
 
