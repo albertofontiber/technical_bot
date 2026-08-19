@@ -6873,6 +6873,12 @@ nueva). **Decisión mantenida**: la instalación se queda en el hook versionado;
 por contenedor nuevo no justifican duplicar la lógica en un setup script fuera del
 repo. Si algún día molesta, el movimiento está descrito y el dato es este.
 
+> **→ SUPERADO por DEC-238 (s325g, 19-ago, PR #295).** Ese «algún día» fue el mismo día:
+> Alberto adjudicó mover la instalación al setup script, y la objeción de arriba (duplicar
+> lógica fuera del repo) se resolvió por EXTRACCIÓN — la lógica vive en
+> `.claude/hooks/install-deps.sh`, versionada, y el campo del environment solo la invoca.
+> El párrafo se conserva como traza del razonamiento vigente entonces, no como decisión viva.
+
 **Estado: DEC-220 VERIFICADA.** El primer recibo (NO LISTO, PR #289) queda como traza
 de lo que faltaba; este es el de aceptación.
 
@@ -7872,3 +7878,55 @@ con la estructura correcta) + los diez defectos enumerados arriba. Traza:
 duplicados**. Los dos míos (s324h) se renumeraron a **DEC-235** (la voz al plan) y **DEC-236** (el
 runner de Fable), con sus tres referencias actualizadas. Los **9 históricos** quedan declarados en
 `TECH_DEBT`, sin renumerar: tocan referencias cruzadas antiguas y no es trabajo de esta sesión.
+
+## DEC-238 (s325g, 19 ago 2026) — La instalación de deps cloud se muda al setup script del environment; el hook queda de fallback autosanador
+
+**Decisión.** La instalación de dependencias de las sesiones cloud deja de pagar ~50 s en
+cada VM nueva: se extrae a `.claude/hooks/install-deps.sh` (fichero ÚNICO, versionado; TRES cambios
+declarados sobre el original: centinela→site-packages, indirección `TB_MARCA_DIR` para
+dry-runs herméticos, y `cd` auto-raíz para invocarse desde clones distintos)
+con dos llamadores — el **setup script del environment** (corre solo al construir la caché;
+Anthropic hace snapshot del filesystem y las sesiones siguientes arrancan con las deps en
+disco, ~7 días) y el **hook de SessionStart**, que la sigue corriendo en cada arranque como
+fallback: con caché caliente es un no-op de ~3 s (medido); con caché fría/caducada o
+requirements cambiados tras el snapshot, instala como siempre. **Peor caso** (afinado por el
+hallazgo Fable de esta ronda): = comportamiento pre-s325g para todo módulo del sondeo del
+centinela, que en s325g se completó con los críticos del smoke que faltaban (`dotenv`,
+`openpyxl`) — un crítico import-roto TUMBA el sondeo y el hook reinstala por VM, como hoy.
+El residuo declarado (dos formas): una corrupción que el sondeo no ve y que un pip fresco
+arreglaría quedaba antes re-resuelta en cada VM y ahora viaja pinneada ~7 días; y el drift
+de versiones sin pin (los `>=` de requirements) — antes cada VM resolvía a lo último y ahora
+las resoluciones del build viajan congeladas la ventana (hallazgo Fable r3; probablemente
+benigno: MÁS determinista, más cercano a cómo congela Railway un deploy). Se
+acepta por improbable y porque el recibo del smoke la hace observable (check `deps_cache`:
+marcador + atribución por el boot de la VM, añadido en s325g para que un setup que nunca
+funciona no pase invisible). **Ronda 2 del revisor:** la huella del centinela incluye desde
+r2 el PROPIO `install-deps.sh` — un cambio del script sin tocar requirements invalida el
+marcador (sin eso quedaría snapshoteado ~7 días sin aplicarse, una regresión real vs hoy);
+los marcadores de huellas viejas se limpian al estampar; y la atribución de `deps_cache`
+compara mtime contra el arranque de la VM en vez de un umbral de edad (correcta también en
+la sesión de build y si el restore reescribiera mtimes). Adjudicación de Alberto (s325g); revierte
+el «se deja en el hook» de s325d, cuya objeción (duplicar lógica fuera del repo) se resuelve
+dejando en el campo del environment SOLO un bloque mínimo que clona `main` con `--depth 1` e
+invoca el script del repo (bloque canónico en `ENTORNO_CLOUD.md` §3.1).
+
+**Motivo técnico no obvio.** El centinela de idempotencia (s323) se muda de `/tmp` a
+**site-packages** (`sysconfig.get_paths()["purelib"]`): la caché es un snapshot del
+FILESYSTEM y `/tmp` puede ser tmpfs — un marcador que no viaje con los paquetes haría
+reinstalar en cada VM aunque el snapshot trajera todo instalado. En site-packages, marcador
+y paquetes viven y mueren JUNTOS (cambia el python del contenedor → cambia purelib →
+desaparecen ambos → reinstala). El bloque del setup clona él mismo porque la doc oficial
+no garantiza que el clon de la sesión exista cuando corre, y va entero con fallback a
+`exit 0` porque exit≠0 tumba el arranque de la sesión.
+
+**Alternativas descartadas.** Pips pegados directamente en el campo (duplica los
+workarounds s315 fuera del repo y diverge en silencio); quitar la instalación del hook
+(sin fallback, un fallo del setup o un cambio de requirements rompe ~7 días de sesiones);
+marcador en `$HOME` o `/tmp` (no acoplado a los paquetes / no garantizado en el snapshot);
+detectar un clon existente en vez de clonar (camino condicional sobre un orden no
+documentado; clonar siempre es determinista).
+
+**Gaps declarados.** La atribución de `deps_cache` asume mtimes coherentes tras el restore y que `/proc/uptime` es de la VM, no de un host longevo (medido en la VM de s325g: uptime 0,52 h ≡ edad real del contenedor — procfs namespaced; re-contrastar en la primera VM con snapshot). El snapshot real y el `git clone` dentro del setup no son verificables
+desde una sesión: se confirman en la primera VM nueva tras pegar el campo (esperado:
+~77 s → ~30 s). Hasta que `install-deps.sh` esté en `main`, pegar el campo es inocuo pero
+no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g, 3 rondas: NO SÓLIDO → NO SÓLIDO → **SÓLIDO**).

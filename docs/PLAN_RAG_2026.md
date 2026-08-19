@@ -54,6 +54,10 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
+**Pendiente de Alberto**: pegar el **Setup script** del environment cloud (bloque en
+`ENTORNO_CLOUD.md` §3.1, tras el merge de s325g/DEC-238) y verificar en la próxima VM nueva
+que el arranque baja ~77 s → ~30 s.
+
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
 generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
