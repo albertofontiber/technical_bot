@@ -6850,6 +6850,38 @@ queda COMPLETO: 0 filas pendientes.** Recibo `s322_e3_zxra_split_v1.json`.
   embebida en el DSN**, porque un error de psycopg2 puede citar trozos del DSN sin citarlo
   entero (y entonces el reemplazo por valor completo no engancharía).
 
+### DEC-220 addendum 2 (s325d, 18-ago 21:52 UTC) — el environment queda VERIFICADO, con recibo
+
+Lo que faltaba para que esto dejara de ser aparato preparado. Recibo:
+`evals/s323_cloud_smoke_v1.json` (PR #291), generado EN una sesión cloud del
+environment `technical-bot`:
+
+- `cloud_smoke.py` → **VEREDICTO: LISTO**, 0 críticos · `pytest -q` → **4447 passed,
+  45 skipped, 2 xfailed** (9m20s, en el contenedor) · `check_deps.py` → OK.
+- `red:extraction_store` → **OK, 1.143 extracciones leídas del bucket**: DEC-221
+  funciona desde la nube, no solo en el banco de pruebas local.
+- `key:ANTHROPIC_API_KEY` → **OK (108 chars)**, reconstruida por el hook desde
+  `ANTHROPIC_API_KEY_SCRIPTS` (`session-start: ANTHROPIC_API_KEY derivada de …` en el
+  log). **Confirmado por Alberto**: pegó `ANTHROPIC_API_KEY` en el environment y la
+  sesión NO la vio ⇒ la plataforma la filtra, no fue un descuido.
+- Único FALLO: `red:postgres`, no crítico y esperado (sin TCP al 5432).
+
+**Arranque medido por mtimes reales, no estimado**: boot 21:50:33 → clon 21:50:58
+(25 s) → `unshallow` 21:51:08 (10 s) → fin de instalación 21:52:08 (**60 s**).
+**Total ~95 s**, y el hook INSTALÓ (la marca del centinela vive en `/tmp` y la VM era
+nueva). **Decisión mantenida**: la instalación se queda en el hook versionado; 60 s
+por contenedor nuevo no justifican duplicar la lógica en un setup script fuera del
+repo. Si algún día molesta, el movimiento está descrito y el dato es este.
+
+> **→ SUPERADO por DEC-238 (s325g, 19-ago, PR #295).** Ese «algún día» fue el mismo día:
+> Alberto adjudicó mover la instalación al setup script, y la objeción de arriba (duplicar
+> lógica fuera del repo) se resolvió por EXTRACCIÓN — la lógica vive en
+> `.claude/hooks/install-deps.sh`, versionada, y el campo del environment solo la invoca.
+> El párrafo se conserva como traza del razonamiento vigente entonces, no como decisión viva.
+
+**Estado: DEC-220 VERIFICADA.** El primer recibo (NO LISTO, PR #289) queda como traza
+de lo que faltaba; este es el de aceptación.
+
 ## DEC-221 (s321) — Cuando dos pasajes del MISMO manual dicen lo mismo, el gold se ancla en el que da el MECANISMO; y la inconsistencia de la fuente se DECLARA, no se elige
 
 **Decisión.** Criterio de autoría, recurrente, que nace de un caso real (`hp017#2`, ítem 3 de la

@@ -92,7 +92,7 @@ Selector de nube → **Add cloud environment** (o el engranaje del existente).
 |---|---|---|
 | `SUPABASE_URL` | scripts contra la DB (harness, sondas, loaders) | sí |
 | `SUPABASE_SERVICE_KEY` | ídem — los SCRIPTS leen esto, el MCP no llega | sí |
-| `ANTHROPIC_API_KEY` | generadores, harness, sondas, revisor Fable | sí |
+| `ANTHROPIC_API_KEY_SCRIPTS` | generadores, harness, sondas, **revisor Fable**. Ese nombre y no `ANTHROPIC_API_KEY`: la plataforma filtra la original y la sesión no la ve (§3.6); el hook la reconstruye | sí |
 | `VOYAGE_API_KEY` | embeddings de `chunks_v2` (retrieval real) | sí |
 | `OPENAI_API_KEY` | **revisor Sol del dúo (Protocolo 3)** y juez | sí — sin ella, s316 se repite |
 | `DATABASE_URL` | scripts de operador **en local** (rgpd_retencion, marcar_utilidad). En cloud NO habilita DDL: no hay TCP al 5432 (§3.4) | opcional |
@@ -250,28 +250,31 @@ ingesta en cloud dejara JSONs en una caché efímera que nunca entran al manifie
 la fuente de verdad divergiría en silencio. Cubrir eso es otro frente (subir PDFs y
 sidecars + operación de publicación), con su propio dúo.
 
-### 3.6 Lo que midió el primer smoke de recepción (s325d, 18-ago)
+### 3.6 Lo que midió el smoke de recepción (s325d, 18-ago) — environment VERIFICADO
 
-Recibo: `evals/s323_cloud_smoke_v1.json` (PR #289). Lo que funcionó a la primera:
-Supabase REST, OpenAI, Voyage, el **bucket `extraction` (1.143 extracciones)**, el
-portal de fabricante (la red Full pasa), git completo, `PYTHONPATH` y todos los
-imports. Y tres cosas que conviene saber antes de montar otro environment:
+Recibo de aceptación: `evals/s323_cloud_smoke_v1.json` (PR #291). En una sesión cloud
+del environment `technical-bot`: `cloud_smoke` **LISTO** (0 críticos), `pytest` **4447
+passed / 45 skipped**, `check_deps` OK, y el bucket sirviendo sus **1.143
+extracciones**. Hizo falta un segundo intento, y lo que enseñó el primero (recibo
+NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
 
-- **`ANTHROPIC_API_KEY` no llegó al contenedor.** La UI avisa de que esa variable «no
-  se usará para autenticar las solicitudes», y en la práctica **la sesión no la ve**.
-  Nuestros scripts (harness, sondas, generadores, revisor Fable) sí la necesitan, así
-  que el hook de arranque la reconstruye desde un alias: define
-  **`ANTHROPIC_API_KEY_SCRIPTS`** en el environment y `session-start.sh` exporta
-  `ANTHROPIC_API_KEY` a partir de ella. Sin eso, una sesión cloud NO puede correr el
-  dúo ni el harness.
-- **Arranque en frío: ~77 s**, de los cuales ~50 s son la instalación de dependencias
-  (VM nueva, sin centinela previo). En s325d se dejó en el hook para no duplicar
-  lógica fuera del repo; **en s325g Alberto adjudicó moverla al setup script** y la
-  objeción se resolvió extrayendo la lógica a `install-deps.sh` (el campo del
-  environment solo la invoca — §3.1). Con la caché caliente, el arranque queda en
-  ~30 s (unshallow + no-op del instalador, medidos) en las VMs que arrancan sobre caché
-  ya construida; el hook sigue cubriendo caché fría.
-- **Sin TCP al 5432** (ver §3.4): DDL desde cloud va por el conector MCP.
+- **`ANTHROPIC_API_KEY` NO llega al contenedor.** La UI avisa de que «no se usará para
+  autenticar las solicitudes» y, comprobado, **la sesión no la ve aunque la pegues**.
+  Nuestros scripts (harness, sondas, generadores, **revisor Fable**) sí la necesitan:
+  sin ella una sesión cloud no puede correr el dúo. **Define
+  `ANTHROPIC_API_KEY_SCRIPTS`** en el environment y `session-start.sh` reconstruye
+  `ANTHROPIC_API_KEY` al arrancar.
+- **Arranque en frío medido por mtimes en DOS VMs distintas**: ~77 s en la primera
+  (~50 s de instalación) y **~95 s** en la del recibo LISTO (25 s de clon, 10 s de
+  `unshallow`, 60 s de instalación). En s325d se dejó en el hook para no duplicar
+  lógica fuera del repo; **en s325g Alberto adjudicó moverla al setup script**
+  (DEC-238) y la objeción se resolvió extrayendo la lógica a `install-deps.sh` (el
+  campo del environment solo la invoca — §3.1). Con la caché caliente el arranque
+  queda en ~30 s (unshallow + no-op del instalador, medidos) en las VMs que arrancan
+  sobre caché ya construida; el hook sigue cubriendo caché fría.
+- **Sin TCP al 5432** (§3.4): las migraciones desde cloud van por el conector MCP.
+- Avisos que son CORRECTOS y no hay que arreglar: `langdetect` (no compila su wheel y
+  no lo importa nadie), `LLAMAPARSE_API_KEY` y `NOTIFIER_*` (no se usan en cloud).
 
 ## 4. Trampas conocidas (medidas, no supuestas)
 
