@@ -8188,3 +8188,29 @@ prometía y habrá que decidir si se revierte.
 - **Traza**: recibos en `evals/adversarial_reviews/2026-08-19T14-3*`/`14-4*`; briefings
   `evals/s324j_trozos_briefing_{1,2,3}_*.md`; verificación: gate pg 22/22 (PostgreSQL 17.11)
   tras cada cambio, subset sin red 212 verdes, suite completa citada en el cierre de sesión.
+
+## DEC-243 (s324j, 19 ago 2026) — El panel va en proyecto de Vercel PROPIO, separado del war room (decisión de Alberto)
+
+- **Decisión (Alberto, literal)**: «no quiero que el panel comparta proyecto con el war room —
+  quiero que sean dos proyectos diferentes». Matiza la decisión del 17-ago, cuya redacción en el
+  runbook («comparte cuenta, dominio y forma de configurar credenciales») dejaba la frontera
+  ambigua — y que el asistente había leído en su resumen como «mismo proyecto», imprecisión que
+  disparó la aclaración.
+- **Qué queda**: misma CUENTA de Vercel y nada más. Dos proyectos, dos URLs, dos juegos de
+  variables, dos superficies de fallo y de credenciales. El proyecto del panel apunta a ESTE
+  repo (`api/index.py` + `vercel.json`); el del war room sigue con el suyo.
+- **Qué NO cambia (verificado en código antes de escribir esto — Protocolo 1)**: nada. El check
+  de Origin compara contra el `host` de la propia petición (`app.py:227`), la cookie de sesión
+  es host-only (sin `Domain=` en `sesion.py`), y `vercel.json` no nombra proyecto ni dominio.
+  El aislamiento entre bases/audiencias ya estaba (la sección «Mismas credenciales, dos logins»
+  del runbook siempre habló de dos proyectos y cero secretos compartidos).
+- **Por qué es BP además de preferencia**: aísla el blast-radius (un incidente/config del war
+  room no toca el panel ni al revés), separa los logs y los límites de función por audiencia, y
+  evita que un dominio compartido convierta a los dos en «same-site» a efectos de cookies de
+  terceros — la frontera más limpia es la de proyecto.
+- **Alternativas descartadas**: mismo proyecto con el panel bajo una ruta (`/panel`) — mezcla
+  audiencias y credenciales en un runtime y complica el origin-check; monorepo-multiproyecto con
+  root distinto — innecesario, el panel ya vive en este repo.
+- **Cambios**: solo doctrina — runbook (`DASHBOARD_DESPLIEGUE.md` §«Por qué Vercel — y en
+  PROYECTO PROPIO», con el paso de crear el proyecto) + PLAN (paso 4 de «falta para live»).
+  Cero código.

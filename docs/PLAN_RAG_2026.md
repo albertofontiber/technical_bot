@@ -96,9 +96,11 @@ MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
    NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
 4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
-   `psql --single-transaction`); variables en Vercel (`DASHBOARD_SECRET` + `SUPABASE_URL`/`
-   SUPABASE_SERVICE_KEY` del bot); alta de usuarios con `scripts/s324j_panel_usuario.py`; sonda
-   del cerrojo; smoke de la URL. Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
+   `psql --single-transaction`); crear el **proyecto Vercel PROPIO del panel** (DEC-243: separado
+   del war room — misma cuenta, dos proyectos/URLs) con sus variables (`DASHBOARD_SECRET` +
+   `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` del bot); alta de usuarios con
+   `scripts/s324j_panel_usuario.py`; sonda del cerrojo; smoke de la URL. Runbook:
+   `docs/DASHBOARD_DESPLIEGUE.md`.
 
 **Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
 contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);

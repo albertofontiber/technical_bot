@@ -73,15 +73,28 @@ El gate de XFF no es opcional, pero tampoco es una bala de plata contra el desal
 se observara, la respuesta es subir el cap, adelantar la medición de XFF, o —si un botnet lo
 explotara— endurecer aguas arriba (rate-limit del borde), no un parche en la RPC.
 
-## Por qué Vercel
+## Por qué Vercel — y en PROYECTO PROPIO
 
-Decisión de Alberto (17-ago). Antes se había fijado «servicio aparte en Railway» (DEC-231 §2), y
-Vercel lo mejora en tres cosas: es donde **ya vive el war room**, así que comparte cuenta, dominio
-y forma de configurar credenciales; **no se paga por tenerlo encendido** (un panel que se abre unas
-veces al día no justifica un contenedor 24/7); y **mantiene intacta la decisión de seguridad**,
-porque las funciones corren en el servidor y la clave de Supabase sigue sin llegar al navegador.
-Eso último es lo que separa esta opción de la alternativa «SPA que habla con Supabase», que exigiría
-escribir políticas RLS desde cero y convertirlas en la única barrera.
+Decisión de Alberto (17-ago; **matizada el 19-ago, DEC-243**). Antes se había fijado «servicio
+aparte en Railway» (DEC-231 §2), y Vercel lo mejora en tres cosas: es donde ya vive el war room,
+así que comparte **cuenta** y forma de configurar credenciales; **no se paga por tenerlo
+encendido** (un panel que se abre unas veces al día no justifica un contenedor 24/7); y
+**mantiene intacta la decisión de seguridad**, porque las funciones corren en el servidor y la
+clave de Supabase sigue sin llegar al navegador. Eso último es lo que separa esta opción de la
+alternativa «SPA que habla con Supabase», que exigiría escribir políticas RLS desde cero y
+convertirlas en la única barrera.
+
+**PROYECTO PROPIO, no el del war room (Alberto, 19-ago — DEC-243)**: el panel se despliega como
+un proyecto de Vercel NUEVO apuntando a ESTE repo, con su URL propia. La frase original
+«comparte dominio» queda superada: comparten cuenta de Vercel y nada más — dos proyectos, dos
+URLs, dos juegos de variables, dos superficies de fallo. El código no nota la diferencia
+(verificado al decidirlo): el check de Origin compara contra el `host` de la propia petición, la
+cookie es host-only (sin `Domain=`), y `vercel.json` no nombra proyecto ni dominio.
+
+**Crear el proyecto** (una vez): Vercel → Add New Project → importar `technical_bot` (root del
+repo, framework «Other» — `vercel.json` ya trae runtime, región y rewrites) → poner las
+variables de la tabla de abajo EN ESE proyecto → deploy. La URL resultante (la
+`*.vercel.app` del proyecto, o el dominio propio que se le asigne) es la del panel.
 
 ## El cerrojo en serverless — RESUELTO en s324j (histórico abajo)
 
