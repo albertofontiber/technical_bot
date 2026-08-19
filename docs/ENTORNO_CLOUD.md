@@ -43,9 +43,9 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
 - **`.claude/hooks/install-deps.sh`** (s325g) — la instalación de dependencias con
   sus tres workarounds de s315 (langdetect, PyJWT/cryptography de deb,
   requirements-dev arrastrando el base), extraída a un fichero ÚNICO con dos
-  llamadores: el **setup script del environment** (§3.1) la deja cacheada en el
-  snapshot ~7 días, y el hook la corre en cada arranque como **fallback
-  autosanador** — con la caché caliente es un no-op de ~3 s (medido); si la caché caducó, el
+  llamadores: el **setup script del environment** (§3.1), que *pretende* dejarla
+  cacheada en el snapshot ~7 días —**MEDIDO s325h-c: hoy NO lo consigue**, ver §4—, y
+  el hook, que la corre en cada arranque como **fallback autosanador** — con la caché caliente es un no-op de ~3 s (medido); si la caché caducó, el
   setup no corrió o los requirements cambiaron tras el snapshot, instala como
   siempre (el peor caso = el comportamiento pre-s325g). **Idempotente** (s323):
   centinela = huella sha1 de los requirements + import real; **vive en
@@ -122,17 +122,23 @@ rm -rf "$D"
 exit 0
 ```
 
-  Semántica contrastada con la doc oficial (cloud-environments; la medición real
-  llega con la primera VM nueva — gap declarado en DEC-238): corre **solo al
+  Semántica contrastada con la doc oficial (cloud-environments). **AVISO s325h-c: la
+  medición en la primera VM nueva CONTRADICE el párrafo que sigue** — el snapshot no
+  trajo nada y el ahorro no existe hoy (§4, DEC-241). Se conserva como lo que la doc
+  oficial promete, no como lo que este environment hace. Según esa doc: corre **solo al
   construir la caché** (primera sesión, cambio del setup script o de la política de
   red, o caducidad ~7 días), tiene que acabar en **<5 min** (hoy: ~50 s) y con
   **exit 0** siempre; después Anthropic hace **snapshot del filesystem** y las
   sesiones siguientes arrancan con las deps y el centinela ya en disco — el ahorro
   es de la sesión 2.ª en adelante de cada ventana (la que dispara el build paga el
   clone+install además de su propio arranque). El recibo del smoke lo hace VISIBLE:
-  el check informativo `deps_cache` reporta el marcador y su edad (edad de días =
-  vino del snapshot; de minutos = lo instaló el hook en este arranque → la caché no
-  lo trajo). Clona
+  el check informativo `deps_cache` reporta el marcador y compara su mtime contra el
+  **arranque de la VM** (`ahora − /proc/uptime`), no contra un umbral de edad —
+  anterior al boot = vino del snapshot; posterior = se estampó en este arranque y la
+  caché no lo trajo. Desde s325h-c, además, `install-deps.sh` declara al reinstalar
+  **cuál de las tres causas** se dio (sin marcador / huella caduca / huella vigente con
+  sondeo roto), que es lo que separa «el snapshot no persiste» de «persiste pero la
+  huella cambió». Clona
   `main`: si una rama cambia los requirements, su huella difiere y el hook
   reinstala en esa sesión — consistente por construcción. OJO: el bloque solo
   funciona con `install-deps.sh` ya mergeado en `main`.
@@ -269,9 +275,10 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
   `unshallow`, 60 s de instalación). En s325d se dejó en el hook para no duplicar
   lógica fuera del repo; **en s325g Alberto adjudicó moverla al setup script**
   (DEC-238) y la objeción se resolvió extrayendo la lógica a `install-deps.sh` (el
-  campo del environment solo la invoca — §3.1). Con la caché caliente el arranque
-  queda en ~30 s (unshallow + no-op del instalador, medidos) en las VMs que arrancan
-  sobre caché ya construida; el hook sigue cubriendo caché fría.
+  campo del environment solo la invoca — §3.1). El ~30 s con caché caliente
+  (unshallow + no-op del instalador) es una PROYECCIÓN, no una medida de VM real:
+  **s325h-c midió la VM siguiente en 99 s de boot a deps listas, con 56 s de pip** —
+  la caché no llegó a estar caliente nunca (§4).
 - **Sin TCP al 5432** (§3.4): las migraciones desde cloud van por el conector MCP.
 - Avisos que son CORRECTOS y no hay que arreglar: `langdetect` (no compila su wheel y
   no lo importa nadie), `LLAMAPARSE_API_KEY` y `NOTIFIER_*` (no se usan en cloud).
@@ -284,6 +291,17 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
 - **`gh` no viene preinstalado** y `GH_TOKEN` vale `proxy-injected`: las herramientas
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
+- **Las deps NO están en disco al arrancar la VM (medido s325h-c, DEC-241; la lectura más
+  probable es que la caché no persista `site-packages`, pero eso no está probado)**:
+  en la primera VM nueva tras pegar el campo, **163 de 164** entradas de
+  `/usr/local/lib/python3.11/dist-packages` se escribieron DESPUÉS del boot (única
+  excepción `uno.pth`, de la imagen base) y el marcador se estampó a los 99 s. No viajó
+  ni un paquete: **de facto el sistema se comporta como pre-s325g**, con el hook
+  instalando en cada VM. La línea del hook «deps: ya instaladas — se salta la
+  instalación» NO desmiente esto: solo dice que el setup script dejó el marcador ~90 s
+  antes, en esa misma VM. Causa raíz ABIERTA (¿el snapshot no cubre `/usr/local`? ¿el
+  build falla?); el discriminador es la traza nueva de `install-deps.sh` en la próxima
+  VM. Lo de abajo es la semántica documentada — lo esperado, no lo medido.
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
   en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
   setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar

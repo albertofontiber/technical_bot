@@ -49,6 +49,26 @@ if [ -f "$MARCA" ] && python3 -c "import pytest, jsonschema, pandas, httpx, dote
   exit 0
 fi
 
+# Traza de diagnóstico (s325h-c). Llegados aquí SE VA A REINSTALAR, y hay tres causas
+# con arreglos OPUESTOS: (a) la VM no traía nada — el snapshot no persiste purelib;
+# (b) traía un marcador de huella CADUCA — persiste, pero algo entró en la huella
+# (este script entra en la suya, así que editarlo invalida a propósito); (c) traía la
+# huella VIGENTE y lo que falló fue el sondeo de imports — persiste y hay corrupción.
+# El `rm -f` de huérfanos de más abajo borra justo esa evidencia antes de estampar, así
+# que se imprime ANTES de instalar (también si pip revienta después). Medido en s325h-c:
+# 163/164 entradas de purelib escritas después del boot de la VM ⇒ caso (a), no viaja nada.
+# Va en subshell con `|| true` A PROPÓSITO (hallazgo Fable r1): bajo `set -e`, un `date`
+# sin `-r`, un MARCA_DIR ilegible o cualquier sorpresa del entorno matarían el arranque en
+# una ruta que ANTES no podía fallar. Esto es diagnóstico: si no puede hablar, calla.
+(
+  for _m in "${MARCA_DIR}"/.technical_bot_deps_*; do
+    [ -e "$_m" ] || { echo "deps: la VM no traía NINGÚN marcador en ${MARCA_DIR} — el snapshot no persiste purelib O el build de la caché no corrió/falló (no distingue: eso es del dashboard)"; break; }
+    _h="${_m##*_}"
+    if [ "$_m" = "$MARCA" ]; then _q="huella VIGENTE → falló el sondeo de imports"; else _q="huella caduca → el snapshot SÍ persistió"; fi
+    echo "deps: marcador previo ${_h:0:8} mtime=$(date -u -r "$_m" +%Y-%m-%dT%H:%M:%SZ) — ${_q}"
+  done
+) || true
+
 $PIP --ignore-installed PyJWT cryptography
 grep -v '^langdetect' requirements.txt > /tmp/req_sin_langdetect.txt
 sed 's|^-r requirements.txt|-r /tmp/req_sin_langdetect.txt|' requirements-dev.txt \

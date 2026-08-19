@@ -54,9 +54,12 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
-**Pendiente de Alberto**: pegar el **Setup script** del environment cloud (bloque en
-`ENTORNO_CLOUD.md` §3.1, tras el merge de s325g/DEC-238) y verificar en la próxima VM nueva
-que el arranque baja ~77 s → ~30 s.
+**Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
+~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. La
+deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
+y la causa raíz sigue abierta (DEC-241 · `evals/s325h_setup_script_verificacion_v2.json`).
+**Pendiente de Alberto, 30 s**: mirar en el dashboard del environment si la caché figura
+construida o su build da error — es el único dato que decide si hay palanca.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se

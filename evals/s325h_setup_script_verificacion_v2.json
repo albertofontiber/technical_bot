@@ -24,5 +24,38 @@
   "deps_cache": "[  OK  ] deps_cache                marcador 663fae88 · estampado en esta VM hace 1 min — build del snapshot o fallback del hook (la caché no lo traía)",
   "veredicto": "VEREDICTO: LISTO · 0 crítico(s) en fallo · 4 aviso(s)",
   "delta_marcador_vs_boot_segundos": 99,
-  "conclusion": "NO. La cache NO persistio a una VM nueva. El marcador se estampo a las 14:14:12.6Z, 99 s DESPUES del arranque de esta VM (boot derivado 14:12:33Z) — no decenas de minutos ni horas antes, como exigiria un fichero heredado del snapshot. Su edad al leerlo era de ~21 s. El .git nacio a las 14:12:39Z, 6 s tras el boot: la VM se construyo entera en este arranque (clon + instalacion), no se restauro con las deps ya puestas. La linea del hook «deps: ya instaladas (663fae88) — se salta la instalacion» es CIERTA pero NO prueba persistencia entre VMs: solo dice que cuando el hook SessionStart corrio, alguien (el Setup script del environment, unos 90 s antes, en esta misma VM) ya habia dejado el marcador. Es exactamente el mismo resultado que s325h — la prueba que faltaba sigue sin pasar."
+  "conclusion": "NO. La cache NO persistio a una VM nueva. El marcador se estampo a las 14:14:12.6Z, 99 s DESPUES del arranque de esta VM (boot derivado 14:12:33Z) — no decenas de minutos ni horas antes, como exigiria un fichero heredado del snapshot. Su edad al leerlo era de ~21 s. El .git nacio a las 14:12:39Z, 6 s tras el boot: la VM se construyo entera en este arranque (clon + instalacion), no se restauro con las deps ya puestas. La linea del hook «deps: ya instaladas (663fae88) — se salta la instalacion» es CIERTA pero NO prueba persistencia entre VMs: solo dice que cuando el hook SessionStart corrio, alguien (el Setup script del environment, unos 90 s antes, en esta misma VM) ya habia dejado el marcador. Es exactamente el mismo resultado que s325h — la prueba que faltaba sigue sin pasar.",
+  "evidencia_mtimes_site_packages": {
+    "por_que": "El mtime del marcador solo es concluyente si el script no lo re-estampa cuando la cache sirve. Verificado en .claude/hooks/install-deps.sh: con marcador valido + sondeo de imports OK hace `exit 0` SIN tocarlo; el unico `touch` esta al final de la rama de instalacion real. Aun asi, el marcador no distingue «no viajo nada» de «viajaron los paquetes pero no el marcador»: eso lo decide el mtime de los PAQUETES, que el centinela no toca.",
+    "dir": "/usr/local/lib/python3.11/dist-packages",
+    "boot_vm_derivado": "2026-08-19T14:12:33Z",
+    "entradas_total": 164,
+    "entradas_post_boot": 163,
+    "entradas_pre_boot": 1,
+    "unica_pre_boot": "2026-03-31 13:26:11 ./uno.pth (de la imagen base, no del repo)",
+    "ventana_de_escritura": "14:13:16.284Z (./jwt, primera) -> 14:14:12.565Z (el marcador, ultima) = 56.3 s de instalacion real",
+    "muestra": {
+      "anthropic": "2026-08-19 14:14:06.837 +0000",
+      "voyageai": "2026-08-19 14:14:05.327 +0000",
+      "openai": "2026-08-19 14:14:05.961 +0000",
+      "pandas": "2026-08-19 14:14:00.189 +0000",
+      "httpx": "2026-08-19 14:14:05.026 +0000",
+      "cryptography": "2026-08-19 14:13:16.664 +0000",
+      "openpyxl": "2026-08-19 14:14:04.064 +0000",
+      "pytest": "2026-08-19 14:13:59.399 +0000",
+      "jsonschema": "2026-08-19 14:14:06.549 +0000"
+    },
+    "lectura": "163 de 164 entradas de purelib se escribieron DESPUES del boot de esta VM. No es «el marcador fallo pero los paquetes estaban»: no viajo NI UN paquete. Instalacion completa desde cero, 56 s de pip."
+  },
+  "conclusion_reforzada": "NO, y ahora con la prueba fuerte. La conclusion por el marcador (mtime 99 s posterior al boot) queda confirmada por una medida que el centinela no puede contaminar: 163/164 entradas de site-packages escritas post-boot, unica excepcion uno.pth de la imagen base (31-mar). La premisa central de DEC-238 —«Anthropic hace snapshot del filesystem y las sesiones siguientes arrancan con las deps en disco, ~7 dias»— esta MEDIDA COMO FALSA para /usr/local/lib/python3.11/dist-packages. El ahorro esperado en DEC-238 (~77 s -> ~30 s) no se esta materializando: de boot a deps listas van 99 s.",
+  "causa_raiz": "NO DETERMINADA. Tres candidatas con arreglos opuestos: (a) el snapshot no cubre purelib —hipotesis principal, NO probada—; (b) cubre, pero la huella del centinela cambio (el propio install-deps.sh entra en su huella y los PR #295/#297 la movieron) y el `rm -f` de huerfanos borro la evidencia antes de estampar; (c) el build de la cache falla en el dashboard del environment. Discriminar (a)/(b) es lo que instrumenta el cambio de esta sesion; (c) solo se ve desde el dashboard, fuera del contenedor.",
+  "acciones_s325h_c": [
+    "install-deps.sh: traza de diagnostico ANTES de instalar (y antes del `rm -f` que borra la evidencia) declarando cual de los tres casos se dio. En subshell con `|| true` para que un fallo del diagnostico no pueda tumbar el arranque bajo `set -e` (hallazgo Fable r1). Cinco ramas verificadas en dry-run hermetico via TB_MARCA_DIR/TB_PIP_CMD: (a) sin marcador, (b) huella caduca, (c) huella vigente + sondeo roto, control que NO imprime traza cuando la cache sirve, y MARCA_DIR ilegible (exit=0, sobrevive).",
+    "El propio cambio invalida la huella (663fae88 -> 58aa661d), lo que convierte a la PROXIMA VM en discriminador PARCIAL: «marcador previo 663fae88 — huella caduca» ⇒ el snapshot SI persiste (causa b). El converso NO aisla: «no traia NINGUN marcador» ⇒ (a) el snapshot no persiste purelib O (c) el build de la cache no corrio/fallo — separarlas exige el dashboard.",
+    "DECISIONS.md: addendum de estado a DEC-238 + DEC-241 (NO 240: ese ID ya lo ocupaba el panel Vercel de s324j — colision cazada por Fable r1) con la adjudicacion de no invertir mas a ciegas.",
+    "ENTORNO_CLOUD.md (§2, §3.1, arranque en frio, §4) y bloque «Estado actual» del PLAN reconciliados."
+  ],
+  "limite_del_instrumento": "Declarado tras Fable r1 (especulativo pero sano): los mtimes ya hacen (b) poco probable — si el snapshot hubiera traido purelib, pip sobre requirements ya satisfechos no reescribiria 163/164 entradas en 56 s (solo PyJWT y cryptography llevan --ignore-installed). El instrumento paga porque cuesta cero en la ruta feliz, pero NO es la pieza que cierra el caso: eso es el dashboard.",
+  "alcance_de_lo_medido": "Lo PROBADO es que en las VMs observadas las deps no estaban en disco al arrancar. «La cache del environment no persiste site-packages» es la lectura mas probable, no una propiedad probada del environment.",
+  "revision_adversarial": "Fable 5 standalone, ronda 1 (2026-08-19T14:37:32): NO SOLIDO, 6 hallazgos (1 critico, 4 medios, 1 menor). Ver evals/adversarial_review_log.jsonl."
 }
