@@ -7931,6 +7931,36 @@ desde una sesión: se confirman en la primera VM nueva tras pegar el campo (espe
 ~77 s → ~30 s). Hasta que `install-deps.sh` esté en `main`, pegar el campo es inocuo pero
 no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g, 3 rondas: NO SÓLIDO → NO SÓLIDO → **SÓLIDO**).
 
+### DEC-238 addendum (s325h, 19-ago) — el instrumento mentía: `deps_cache` pasa de INFERIR a LEER un registro
+
+**Lo que se rompió, medido.** La atribución por `mtime` vs `/proc/uptime` daba un FALSO
+«vino del snapshot»: en una sesión de verificación el contenedor **se reinició** a mitad
+(~14:02:53Z), el uptime se reseteó, y un marcador estampado en la propia VM (13:48:56Z) pasó
+por heredado. El gap estaba declarado arriba («asume /proc/uptime de la VM … no
+garantizados»), pero el dúo de s325g previó el *host longevo*, no el *reinicio*. El delator
+fue la edad impresa: «0.0 días» para 17 minutos.
+
+**El arreglo (adjudicado por Alberto).** `install-deps.sh` **apendiza** en cada corrida
+`acción huella boot_id fecha` (`$TB_REGISTRO`, por defecto `/tmp/.technical_bot_deps_registro`);
+`boot_id` viene de `/proc/sys/kernel/random/boot_id` y **cambia en un reinicio**. El smoke solo
+lee las líneas de ESTE arranque y responde lo que importa —¿se pagó la instalación ahora?—
+sin pronunciarse sobre el origen: `instalada` → «la caché no las traía»; solo `saltada` → «la
+caché las trajo hechas»; sin líneas → **AVISO**, y nunca se nombra el snapshot. Se apendiza y
+no se sobrescribe porque en un mismo arranque corren DOS llamadores (setup y hook): si el
+segundo pisara al primero, «el setup instaló» se perdería y el ahorro parecería real.
+
+**Principio que deja.** Un verificador puede decir «no lo sé»; lo que no puede es afirmar en
+la dirección optimista lo que no ha medido. Cinco tests fijan el contrato, incluido el del
+reinicio (líneas con otro `boot_id` no cuentan).
+
+**Lo que este addendum NO resuelve, y sigue abierto:** si la caché del environment ahorra de
+verdad. Las tres sesiones de prueba de s325h (creadas por API) **volvieron a construir la
+caché en cada VM** — el Setup script se ejecuta y funciona (instaló y estampó en 104 s con el
+repo sin clonar, luego el hook saltó), pero ninguna arrancó sobre un snapshot pre-horneado. Se
+mide con una sesión abierta desde la UI: si el arranque baja a ~30 s y `deps_cache` dice «ya
+estaban al arrancar», el mecanismo paga; si vuelve a instalar, DEC-238 no compra lo que
+prometía y habrá que decidir si se revierte.
+
 ## DEC-239 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
 
 - **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto a internet).

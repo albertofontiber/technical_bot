@@ -38,6 +38,24 @@ MARCA_DIR="${TB_MARCA_DIR:-$(python3 -c 'import sysconfig; print(sysconfig.get_p
 REQ_HUELLA="$(cat requirements.txt requirements-dev.txt "$SELF" | sha1sum | cut -d' ' -f1)"
 MARCA="${MARCA_DIR}/.technical_bot_deps_${REQ_HUELLA}"
 
+# REGISTRO de lo que se hace en CADA ejecución (s325h). Nace porque la atribución
+# del smoke por mtime-vs-/proc/uptime dio un FALSO «vino del snapshot»: un reinicio
+# del contenedor resetea el uptime y un marcador nacido en esa misma VM pasa por
+# heredado (medido en s325h, VM 13:47→14:02). El registro sustituye la INFERENCIA
+# por el HECHO: cada corrida apendiza «acción huella boot_id», y el `boot_id` del
+# kernel (único por arranque, cambia en un reinicio) permite al smoke saber qué
+# líneas son de ESTE arranque y cuáles de otro. Se apendiza —no se sobrescribe—
+# porque en un mismo arranque corren DOS llamadores (setup script y hook): si el
+# segundo pisara al primero, «el setup instaló» se perdería y el ahorro parecería
+# real cuando no lo fue.
+REGISTRO="${TB_REGISTRO:-/tmp/.technical_bot_deps_registro}"
+BOOT_ID="$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo desconocido)"
+
+anotar() {  # $1 = saltada | instalada
+  printf '%s %s %s %s\n' "$1" "${REQ_HUELLA:0:8}" "$BOOT_ID" \
+    "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$REGISTRO" 2>/dev/null || true
+}
+
 # El sondeo incluye `cryptography` A PROPÓSITO: su PanicException de s315 salta AL
 # IMPORTAR, y un sondeo que no lo tocase daría por buena una VM rota. La lista es
 # TODOS los módulos críticos de scripts/cloud_smoke.py (contrato s323, completado
@@ -45,6 +63,7 @@ MARCA="${MARCA_DIR}/.technical_bot_deps_${REQ_HUELLA}"
 # muere con la VM sino que viaja en el snapshot ~7 días (hallazgo Fable s325g):
 # cualquier crítico roto tiene que TUMBAR el sondeo para que el hook reinstale.
 if [ -f "$MARCA" ] && python3 -c "import pytest, jsonschema, pandas, httpx, dotenv, anthropic, openai, voyageai, cryptography, openpyxl" 2>/dev/null; then
+  anotar saltada
   echo "deps: ya instaladas (${REQ_HUELLA:0:8}) — se salta la instalación"
   exit 0
 fi
@@ -59,4 +78,5 @@ $PIP pytest jsonschema pandas openpyxl \
   lingua-language-detector psycopg2-binary
 rm -f "${MARCA_DIR}/.technical_bot_deps_"*   # sin huérfanos de huellas viejas (Fable r2)
 touch "$MARCA"
+anotar instalada
 echo "deps: instaladas (${REQ_HUELLA:0:8})"

@@ -160,3 +160,79 @@ def test_aviso_de_telegram_solo_en_sesiones_cloud(tmp_path) -> None:
     assert "PRESENTE y no debería" in cloud.stdout
     datos = json.loads((tmp_path / "cloud.json").read_text(encoding="utf-8"))
     assert datos["superficie"] == "cloud"
+
+
+# ---------------------------------------------------------------- s325h ------
+# El check `deps_cache` dejó de INFERIR el origen por mtime-vs-/proc/uptime (un
+# reinicio del contenedor reseteaba el uptime y un marcador nacido en la propia VM
+# se declaraba «vino del snapshot» — falso, medido en s325h) y pasó a LEER el
+# registro que install-deps.sh apendiza en cada corrida, sellado con el boot_id.
+def _deps_cache(tmp_path, lineas_registro, con_marcador=True, monkeypatch=None):
+    """Corre check_deps_cache con un registro y un marcador controlados."""
+    import hashlib
+    import sysconfig
+
+    from scripts import cloud_smoke
+
+    registro = tmp_path / "registro"
+    if lineas_registro is not None:
+        registro.write_text("\n".join(lineas_registro) + "\n", encoding="utf-8")
+
+    raiz = cloud_smoke.ROOT
+    huella = hashlib.sha1(
+        (raiz / "requirements.txt").read_bytes()
+        + (raiz / "requirements-dev.txt").read_bytes()
+        + (raiz / ".claude" / "hooks" / "install-deps.sh").read_bytes()
+    ).hexdigest()
+    marca = Path(sysconfig.get_paths()["purelib"]) / f".technical_bot_deps_{huella}"
+    monkeypatch.setenv("CLAUDE_CODE_REMOTE", "true")
+    monkeypatch.setenv("TB_REGISTRO", str(registro))
+    return cloud_smoke.check_deps_cache()[0], marca.exists(), huella
+
+
+def test_deps_cache_dice_la_verdad_cuando_se_instalo_en_este_arranque(tmp_path, monkeypatch):
+    """El caso que la versión vieja disfrazaba de «vino del snapshot»."""
+    boot = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"instalada abcd1234 {boot} 2026-08-19T14:14:12Z",
+         f"saltada abcd1234 {boot} 2026-08-19T14:14:20Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "INSTALADAS en este arranque" in res["detalle"]
+    assert "no las traía" in res["detalle"]
+    assert res["critico"] is False
+
+
+def test_deps_cache_reconoce_el_ahorro_solo_si_nadie_instalo(tmp_path, monkeypatch):
+    boot = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+    res, _, _ = _deps_cache(
+        tmp_path, [f"saltada abcd1234 {boot} 2026-08-19T15:00:00Z"], monkeypatch=monkeypatch
+    )
+    assert "ya estaban al arrancar" in res["detalle"]
+    assert "las trajo hechas" in res["detalle"]
+
+
+def test_deps_cache_ignora_lineas_de_OTRO_arranque(tmp_path, monkeypatch):
+    """El corazón del arreglo: un registro heredado (otro boot_id) no cuenta —
+    antes, tras un reinicio, esas líneas se atribuían a esta VM."""
+    res, _, _ = _deps_cache(
+        tmp_path,
+        ["instalada abcd1234 00000000-1111-2222-3333-444444444444 2026-08-19T13:48:56Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "SIN registro de este arranque" in res["detalle"] or "sin registro" in res["detalle"]
+    assert res["estado"] == "AVISO", "sin evidencia no se afirma un origen"
+
+
+def test_deps_cache_no_inventa_origen_sin_registro(tmp_path, monkeypatch):
+    res, _, _ = _deps_cache(tmp_path, None, monkeypatch=monkeypatch)
+    assert "snapshot" not in res["detalle"].lower(), "no se afirma lo que no se puede probar"
+    assert res["estado"] == "AVISO"
+
+
+def test_deps_cache_solo_aplica_a_cloud(tmp_path, monkeypatch):
+    from scripts import cloud_smoke
+
+    monkeypatch.delenv("CLAUDE_CODE_REMOTE", raising=False)
+    assert cloud_smoke.check_deps_cache()[0]["estado"] == "SKIP"
