@@ -3371,3 +3371,30 @@ higiene: en un VM de 30 GB con re-extracciones repetidas, acaba doliendo.
 **Forma BP**: (1) y (2) piden el mismo gesto —que la elección de fuente/estado declare
 CONTRA QUÉ se validó—, así que se abordan juntos y con dúo (tocan el seam de datos).
 (3) es un barrido por antigüedad al abrir el store: trivial y sin dúo.
+
+## #92 — `DECISIONS.md` tiene 11 números DEC duplicados, y la causa es estructural — s324i
+
+**Medido (19-ago)**: 242 encabezados `DEC-*` para **230 números únicos**. Duplicados: `091, 092,
+132, 162, 195, 203, 205, 220, 221` (+ `232, 233`, ya corregidos — ver abajo).
+
+**Por qué duele**: `DECISIONS.md` es la traza que el Protocolo 4 obliga a consultar antes de
+opinar o NEGAR sobre un lever. Con dos DEC-232 distintas, una cita es ambigua — y **ya lo era**:
+`migrations/018` y `PLAN:30` decían DEC-232 por «la voz al plan» mientras `ARCHITECTURE:26`,
+`TECH_DEBT #91` y `PLAN:134` decían DEC-232 por «el arreglo del catálogo». Dos documentos
+canónicos, un identificador, dos decisiones.
+
+**Causa raíz, no descuido**: el repo tiene worktrees vivos en paralelo (`.claude/worktrees/s325c`,
+`s325e`, `s325f`, `s325g`), cada uno con su copia de `DECISIONS.md`. Varias sesiones apendizan a la
+vez, cada una lee «el máximo usado» en su propia copia y asigna el siguiente — **y coinciden**. Los
+pares duplicados se agrupan justo en tramos de trabajo paralelo (220/221, 232/233).
+
+**Corregido en s324i**: los dos míos, renumerados a `DEC-235` (la voz al plan) y `DEC-236` (el
+runner de Fable), con sus tres referencias actualizadas y control de que las cinco de s324f
+siguieran en DEC-232.
+
+**Pendiente, con dueño sin asignar**: (a) los **9 históricos** — no renumerados a propósito:
+tocan referencias cruzadas antiguas y el riesgo de romper trazas supera la ganancia; (b) el
+**mecanismo que lo impida**. Un verificador que detecte duplicados es red, no mecanismo. Lo que
+impide de verdad es que el número no se asigne por lectura del máximo: sufijar por sesión
+(`DEC-235-s324h`) o una puerta en la suite que falle si `DECISIONS.md` repite un número —
+15 líneas, y convierte «se me coló» en «no pasa la suite».
