@@ -5717,6 +5717,15 @@ fichero — sin añadir la de `install-deps.sh`, el commit habría salido SIN el
 central y el setup script habría clonado un main donde no existe, con el fallback del hook
 tapando el hueco indefinidamente. Cazado revisando `git status` antes de commitear.
 
+Tres rondas de revisor (Fable standalone, con la key derivada del alias de s325f — primera
+sesión que la usa). La r1 no pudo leer los shells (`.claude/` está en el SKIP del sandbox)
+y aun así cazó el over-claim del peor caso y la falta de señal observable; la r2, con los
+shells adjuntos, cazó el hueco material — la huella no incluía el PROPIO script, así que un
+cambio del instalador habría viajado ~7 días sin aplicarse — más la mal-atribución de
+`deps_cache` en la sesión de build; la r3 devolvió SÓLIDO dejando dos residuos que quedaron
+escritos (drift de versiones sin pin, semántica de /proc/uptime — esta última medida cierta
+en esta VM). Adjudicación Regla C completa en el log: 14 hallazgos, 13 confirmados.
+
 La sesión venía de cerrar el ciclo del PR #289 (el recibo NO LISTO quedó superado por el
 recibo LISTO de la re-corrida y se cerró sin merge), y corrió con la key de Anthropic
 derivada del alias `ANTHROPIC_API_KEY_SCRIPTS` que s325f cableó — primera sesión que usa

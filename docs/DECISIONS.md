@@ -7814,8 +7814,11 @@ requirements cambiados tras el snapshot, instala como siempre. **Peor caso** (af
 hallazgo Fable de esta ronda): = comportamiento pre-s325g para todo módulo del sondeo del
 centinela, que en s325g se completó con los críticos del smoke que faltaban (`dotenv`,
 `openpyxl`) — un crítico import-roto TUMBA el sondeo y el hook reinstala por VM, como hoy.
-El residuo declarado: una corrupción que el sondeo no ve y que un pip fresco arreglaría
-quedaba antes re-resuelta en cada VM y ahora viaja pinneada ~7 días en el snapshot; se
+El residuo declarado (dos formas): una corrupción que el sondeo no ve y que un pip fresco
+arreglaría quedaba antes re-resuelta en cada VM y ahora viaja pinneada ~7 días; y el drift
+de versiones sin pin (los `>=` de requirements) — antes cada VM resolvía a lo último y ahora
+las resoluciones del build viajan congeladas la ventana (hallazgo Fable r3; probablemente
+benigno: MÁS determinista, más cercano a cómo congela Railway un deploy). Se
 acepta por improbable y porque el recibo del smoke la hace observable (check `deps_cache`:
 marcador + atribución por el boot de la VM, añadido en s325g para que un setup que nunca
 funciona no pase invisible). **Ronda 2 del revisor:** la huella del centinela incluye desde
@@ -7844,7 +7847,7 @@ marcador en `$HOME` o `/tmp` (no acoplado a los paquetes / no garantizado en el 
 detectar un clon existente en vez de clonar (camino condicional sobre un orden no
 documentado; clonar siempre es determinista).
 
-**Gaps declarados.** La atribución de `deps_cache` asume mtimes coherentes tras el restore (mitigado midiendo contra el boot; se contrasta en la primera VM). El snapshot real y el `git clone` dentro del setup no son verificables
+**Gaps declarados.** La atribución de `deps_cache` asume mtimes coherentes tras el restore y que `/proc/uptime` es de la VM, no de un host longevo (medido en la VM de s325g: uptime 0,52 h ≡ edad real del contenedor — procfs namespaced; re-contrastar en la primera VM con snapshot). El snapshot real y el `git clone` dentro del setup no son verificables
 desde una sesión: se confirman en la primera VM nueva tras pegar el campo (esperado:
 ~77 s → ~30 s). Hasta que `install-deps.sh` esté en `main`, pegar el campo es inocuo pero
-no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g).
+no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g, 3 rondas: NO SÓLIDO → NO SÓLIDO → **SÓLIDO**).

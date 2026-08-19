@@ -260,8 +260,9 @@ def check_deps_cache():
         marca = purelib / f".technical_bot_deps_{huella}"
         if marca.exists():
             # Atribución por el ARRANQUE de la VM, no por umbral de edad (Fable r2):
-            # mtime anterior al boot solo puede venir del snapshot restaurado; y si
-            # el restore reescribiera mtimes, también caería antes del boot.
+            # mtime anterior al boot solo puede venir del snapshot restaurado. Asume
+            # /proc/uptime de la VM (medido cierto en s325g) y restore previo al
+            # instante medido de boot — ambos declarados en DEC-235, no garantizados.
             mtime = marca.stat().st_mtime
             arranque_vm = time.time() - float(Path("/proc/uptime").read_text().split()[0])
             edad_min = (time.time() - mtime) / 60
