@@ -5931,3 +5931,23 @@ gates de exponer con dueño.
 (scrypt, sello, cookie, cerrojo vía PostgREST) verificada con el login real.
 Sesión cerrada con todo mergeado y sin pendientes; lo siguiente que pidió:
 las métricas que quiere añadir al panel (feedback suyo, sesión próxima).
+
+## s326 (19-ago-2026) — Métricas de uso/calidad para el panel: la mitad ya estaba capturada; propuesta v1 sin cablear
+
+Alberto pidió cinco métricas de usabilidad para el panel (tipología de pregunta, fabricantes,
+modelos, feedback por pregunta con sub-feedback y motivo, preguntas por usuario) con la idea de
+una tabla por-pregunta + pivot + gráficas + filtros. La sesión midió antes de opinar: 109 filas
+en `query_logs` (2 usuarios, pre-piloto), `product_models` al 70 %, la `category` legacy muerta
+(1/109), y la captura de feedback de s294 COMPLETA (verdict + `reason_class` + «te lo explico»
+→`comment`) — el gap real es de EXPOSICIÓN y de dos dimensiones que faltan (tipología,
+fabricante), no de captura. Propuesta v1 escrita y NO cableada
+(`evals/s326_panel_metricas_uso_propuesta_v1.md`): tabla derivada `query_clasificacion` (1:1,
+CASCADE, sin id de persona) + job batch determinista-primero (rutas y catálogo a $0; Haiku solo
+para la categoría de filas `rag`; taxonomía cerrada versionada, el «otros» se limpia y se
+re-corre global — céntimos) + vistas semanales nuevas y página Explorador con filtros fijos;
+bonus `bot_marcas_sin_corpus` (demanda no cubierta = señal M&A, el `query_gaps` de TECH_DEBT #8).
+Quedan las 4 adjudicaciones de Alberto (drill-down con prosa —el «fuera de v1» de DEC-231—,
+taxonomía, identidad del por-usuario, coste) y el dúo al cablear. El bot no se toca en ninguna
+pieza. **Adjudicado en el hilo (19-ago tarde)**: taxonomía v1 OK · por-usuario con ALIAS de
+allowlist OK · coste OK; el drill-down con prosa quedó explicado con opciones (a/b/c) y
+pendiente de Alberto.
