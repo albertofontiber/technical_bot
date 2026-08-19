@@ -7848,7 +7848,7 @@ runner de Fable), con sus tres referencias actualizadas. Los **9 históricos** q
 `TECH_DEBT`, sin renumerar: tocan referencias cruzadas antiguas y no es trabajo de esta sesión.
 
 
-## DEC-238 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
+## DEC-239 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
 
 - **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto a internet).
   **Estado**: diseño CERRADO (`evals/s324i_panel_vercel_propuesta_v9.md`); **nada cableado ni

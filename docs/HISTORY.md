@@ -5770,7 +5770,7 @@ ve. De ahí la puerta 9-bis: toda columna escrita tiene su GRANT, cruzado estát
 **Cierre**: r6 terminó con Fable en «SÓLIDO» explícito y Sol sin un solo defecto de mecanismo
 desde r2. Adjudiqué el cierre de las rondas de diseño (el guardarraíl anti-ritual existe para
 esto) — la v9 es SÓLIDO-para-cablear, el GO es de Alberto, y la sesión de cableado corre SU dúo
-sobre el diff. DEC-238. Operativa: el primer Fable de r3 murió por presupuesto (el default de
+sobre el diff. DEC-239 (renumerada de 238 en la propia sesión: la PR #295 viva de s325g ya había tomado DEC-238 — la lección de DEC-237 aplicada ANTES del merge, no después). Operativa: el primer Fable de r3 murió por presupuesto (el default de
 300k; DEC-236 sigue pendiente de raíz) y corrió con 600k/16 tools el resto de la sesión, con
 tool_use reales y ~20-30 anclas verificadas por ronda. Nota de higiene cloud: el digest de levers
 no apareció inyectado en el contexto (el hook está cableado y el script funciona — verificado

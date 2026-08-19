@@ -61,7 +61,7 @@ generan las de los modelos, no coleccionar confusiones) · el gate de ASR con �
 (DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
-### QUÉ SIGUE — cablear el panel (diseño CERRADO en s324j; DEC-238)
+### QUÉ SIGUE — cablear el panel (diseño CERRADO en s324j; DEC-239)
 
 **El diseño del panel a Vercel está TERMINADO y validado: `evals/s324i_panel_vercel_propuesta_v9.md`**
 (s324j, 19-ago). Seis rondas del dúo en una sesión (v3→v9, 64 hallazgos, cada uno verificado con
