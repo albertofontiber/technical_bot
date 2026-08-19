@@ -7941,7 +7941,7 @@ garantizados»), pero el dúo de s325g previó el *host longevo*, no el *reinici
 fue la edad impresa: «0.0 días» para 17 minutos.
 
 **El arreglo (adjudicado por Alberto).** `install-deps.sh` **apendiza** en cada corrida
-`acción huella boot_id fecha` (`$TB_REGISTRO`, por defecto `/tmp/.technical_bot_deps_registro`);
+`acción huella boot_id uptime fecha` (`$TB_REGISTRO`, por defecto `/tmp/.technical_bot_deps_registro`);
 `boot_id` viene de `/proc/sys/kernel/random/boot_id` y **cambia en un reinicio**. El smoke solo
 lee las líneas de ESTE arranque y responde lo que importa —¿se pagó la instalación ahora?—
 sin pronunciarse sobre el origen: `instalada` → «la caché no las traía»; solo `saltada` → «la
@@ -7968,6 +7968,15 @@ podría repetirse. Como segundo sello se anota el **uptime**, que solo crece den
 arranque: una línea con uptime mayor que el actual se descarta aunque el `boot_id` coincida.
 El reset de uptime observado en el incidente sugiere kernel por-VM, pero eso es inferencia,
 no medición — y por eso se escribe aquí en vez de darse por bueno.
+
+**Dirección residual del sello (Fable r2, honesto):** el descarte por uptime es
+UNIDIRECCIONAL. Caza la línea heredada con uptime MAYOR que el actual (restore con memoria),
+pero NO la de uptime menor — que es justo la forma típica que tendría una línea del snapshot
+si el `boot_id` se reutilizara: instalada temprano en la VM que construyó la caché y leída
+más tarde. En ese escenario el recibo diría «INSTALADAS en este arranque» siendo herencia.
+Exige encadenar tres condiciones (boot_id reutilizado + `/tmp` viajando en el snapshot +
+misma huella), por eso no se blinda más aquí; pero queda escrito para no confundir «segundo
+sello» con «cobertura completa».
 
 **Lo que este addendum NO resuelve, y sigue abierto:** si la caché del environment ahorra de
 verdad. Las tres sesiones de prueba de s325h (creadas por API) **volvieron a construir la

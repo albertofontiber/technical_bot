@@ -185,6 +185,19 @@ def _boot_uptime():
     )
 
 
+def _huella_actual_completa():
+    import hashlib
+
+    from scripts import cloud_smoke
+
+    raiz = cloud_smoke.ROOT
+    return hashlib.sha1(
+        (raiz / "requirements.txt").read_bytes()
+        + (raiz / "requirements-dev.txt").read_bytes()
+        + (raiz / ".claude" / "hooks" / "install-deps.sh").read_bytes()
+    ).hexdigest()
+
+
 def _huella_actual():
     import hashlib
 
@@ -199,8 +212,12 @@ def _huella_actual():
 
 
 def _deps_cache(tmp_path, lineas_registro, con_marcador=True, monkeypatch=None):
-    """Corre check_deps_cache con un registro y un marcador controlados."""
-    import hashlib
+    """Corre check_deps_cache con un registro y un marcador CONTROLADOS.
+
+    `con_marcador` redirige purelib a un directorio propio: sin esto el test
+    dependía del marcador real de la máquina (y el parámetro estaba muerto —
+    hallazgo Fable r2: el contrato de «SIN marcador» no lo fijaba ningún test).
+    """
     import sysconfig
 
     from scripts import cloud_smoke
@@ -209,16 +226,16 @@ def _deps_cache(tmp_path, lineas_registro, con_marcador=True, monkeypatch=None):
     if lineas_registro is not None:
         registro.write_text("\n".join(lineas_registro) + "\n", encoding="utf-8")
 
-    raiz = cloud_smoke.ROOT
-    huella = hashlib.sha1(
-        (raiz / "requirements.txt").read_bytes()
-        + (raiz / "requirements-dev.txt").read_bytes()
-        + (raiz / ".claude" / "hooks" / "install-deps.sh").read_bytes()
-    ).hexdigest()
-    marca = Path(sysconfig.get_paths()["purelib"]) / f".technical_bot_deps_{huella}"
+    purelib = tmp_path / "purelib"
+    purelib.mkdir(exist_ok=True)
+    monkeypatch.setattr(sysconfig, "get_paths", lambda *a, **k: {"purelib": str(purelib)})
+
+    huella = _huella_actual_completa()
+    if con_marcador:
+        (purelib / f".technical_bot_deps_{huella}").touch()
     monkeypatch.setenv("CLAUDE_CODE_REMOTE", "true")
     monkeypatch.setenv("TB_REGISTRO", str(registro))
-    return cloud_smoke.check_deps_cache()[0], marca.exists(), huella
+    return cloud_smoke.check_deps_cache()[0], con_marcador, huella
 
 
 @sin_proc
@@ -301,3 +318,47 @@ def test_deps_cache_solo_aplica_a_cloud(tmp_path, monkeypatch):
 
     monkeypatch.delenv("CLAUDE_CODE_REMOTE", raising=False)
     assert cloud_smoke.check_deps_cache()[0]["estado"] == "SKIP"
+
+
+@sin_proc
+def test_deps_cache_no_afirma_un_marcador_que_no_existe(tmp_path, monkeypatch):
+    """Fable r2: el check nació para dejar de afirmar lo no probado, y nombraba
+    el marcador sin comprobarlo. Sin marcador debe decirlo."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"saltada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        con_marcador=False,
+        monkeypatch=monkeypatch,
+    )
+    assert res["detalle"].startswith("SIN marcador")
+    assert "ya estaban al arrancar" in res["detalle"]
+
+
+@sin_proc
+def test_deps_cache_afirma_el_marcador_solo_cuando_existe(tmp_path, monkeypatch):
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"saltada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        con_marcador=True,
+        monkeypatch=monkeypatch,
+    )
+    assert res["detalle"].startswith(f"marcador {h}")
+
+
+@sin_proc
+def test_deps_cache_ignora_acciones_desconocidas(tmp_path, monkeypatch):
+    """Vocabulario cerrado: contar una acción que no escribe el instalador haría
+    que «solo saltada ×N — las trajo hechas» afirmara algo no leído."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"reinstalada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert res["estado"] == "AVISO"
+    assert "sin registro de este arranque" in res["detalle"]

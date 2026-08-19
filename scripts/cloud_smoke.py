@@ -240,7 +240,7 @@ def check_deps_cache():
     reinicio del contenedor a mitad de sesión resetea ese uptime: un marcador nacido
     en la propia VM pasaba por heredado y el recibo declaraba «vino del snapshot»
     siendo falso (medido en s325h). Ahora `install-deps.sh` APENDIZA lo que hace en
-    cada corrida —«acción huella boot_id fecha»— y aquí solo se leen las líneas cuyo
+    cada corrida —«acción huella boot_id uptime fecha»— y aquí solo se leen las líneas cuyo
     `boot_id` es el de ESTE arranque. Lo que se responde es lo que de verdad importa
     (¿se pagó la instalación ahora?) y nunca se afirma un origen que no se pueda
     probar: sin registro de este arranque, se dice eso y no se adivina.
@@ -280,6 +280,10 @@ def check_deps_cache():
             for linea in registro.read_text(encoding="utf-8").splitlines():
                 campos = linea.split()  # acción huella boot_id uptime fecha
                 if len(campos) < 4 or campos[2] != boot_id:
+                    continue
+                # Vocabulario cerrado (Fable r2): contar una acción desconocida haría
+                # que «solo saltada ×N — las trajo hechas» afirmara algo no leído.
+                if campos[0] not in ("instalada", "saltada"):
                     continue
                 # Filtrar por HUELLA (Fable r2): si el script o los requirements
                 # cambian a mitad de sesión —pasó en s325h, 663fae88→e28aecda—, las
