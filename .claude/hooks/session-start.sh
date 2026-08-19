@@ -67,5 +67,17 @@ fi
 #    de haber instalado — el trabajo hecho no debe perderse por eso.
 echo 'export PYTHONPATH="."' >> "${CLAUDE_ENV_FILE:-/dev/null}"
 
+# 4) La key de Anthropic para los SCRIPTS (s325f). La plataforma NO inyecta
+#    `ANTHROPIC_API_KEY` en el contenedor —la UI avisa de que no autentica la sesion,
+#    y el smoke de recepcion s325d confirmo que la sesion no la ve— pero el harness,
+#    las sondas, los generadores y el revisor Fable la necesitan para llamar a la API.
+#    Salida: define `ANTHROPIC_API_KEY_SCRIPTS` en el environment y aqui se reconstruye.
+#    printf %q escapa el valor: una key con caracteres de shell romperia el env file.
+if [ -z "${ANTHROPIC_API_KEY:-}" ] && [ -n "${ANTHROPIC_API_KEY_SCRIPTS:-}" ]; then
+  printf 'export ANTHROPIC_API_KEY=%q
+' "$ANTHROPIC_API_KEY_SCRIPTS"     >> "${CLAUDE_ENV_FILE:-/dev/null}"
+  echo "session-start: ANTHROPIC_API_KEY derivada de ANTHROPIC_API_KEY_SCRIPTS"
+fi
+
 echo "session-start: entorno web listo (deps + historial completo + PYTHONPATH)"
 echo "session-start: verifica el entorno con \`python scripts/cloud_smoke.py\`"

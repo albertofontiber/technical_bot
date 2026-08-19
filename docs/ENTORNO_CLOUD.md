@@ -87,7 +87,7 @@ Selector de nube → **Add cloud environment** (o el engranaje del existente).
 | `ANTHROPIC_API_KEY` | generadores, harness, sondas, revisor Fable | sí |
 | `VOYAGE_API_KEY` | embeddings de `chunks_v2` (retrieval real) | sí |
 | `OPENAI_API_KEY` | **revisor Sol del dúo (Protocolo 3)** y juez | sí — sin ella, s316 se repite |
-| `DATABASE_URL` | **migraciones/DDL** y scripts de operador (rgpd_retencion, marcar_utilidad) | opcional — ver §3.4 |
+| `DATABASE_URL` | scripts de operador **en local** (rgpd_retencion, marcar_utilidad). En cloud NO habilita DDL: no hay TCP al 5432 (§3.4) | opcional |
 | `RAILWAY_TOKEN` | censo de flags y variables vivas de producción | opcional |
 | `NOTIFIER_USER` / `NOTIFIER_PASSWORD` | harvest del portal Notifier | opcional |
 | `LLAMAPARSE_API_KEY` | LlamaParse. **Ese es el nombre** que lee `ingest_new.py:319` — el `LLAMA_CLOUD_API_KEY` que decía el doc de s315c no lo lee nadie | opcional |
@@ -140,18 +140,17 @@ es la misma ruta que ya usan en local y que usa el bot en Railway. Con esa varia
 en el environment y red *Full*, una sesión cloud escribe en la DB sin tocar nada del
 lado de Supabase (verificado: `GET /rest/v1/documents` → 200).
 
-**Para ESQUEMA (DDL/migraciones) hay dos vías**, y conviene elegir a conciencia:
+**Para ESQUEMA (DDL/migraciones) la vía en cloud es el CONECTOR MCP de Supabase**, no
+la conexión directa. Medido en el smoke de recepción (s325d): con red **Full**, un
+`psycopg2.connect` al pooler da **timeout en el puerto 5432** contra las dos IPs del
+host — el proxy de la sesión deja pasar HTTP/HTTPS, no TCP arbitrario. `DATABASE_URL`
+sigue siendo la vía en LOCAL (`rgpd_retencion.py`, `marcar_utilidad.py`), y ponerla en
+el environment no hace daño, pero **no habilita DDL desde cloud**. El conector MCP, en
+cambio, viaja por los servidores de Anthropic y ni siquiera depende de la allowlist —
+es como se aplicaron las migraciones históricas (DEC-140, migración 007).
 
-1. **Conexión directa** con `DATABASE_URL` + psycopg2 — lo que ya hacen
-   `scripts/rgpd_retencion.py` y `scripts/marcar_utilidad.py`. El DSN del repo apunta
-   al **pooler** (`aws-1-eu-north-1.pooler.supabase.com:5432`), que resuelve por
-   **IPv4**: por eso funciona desde un VM sin IPv6, cosa que la conexión directa
-   `db.<ref>.supabase.co` no garantiza. Añadir `DATABASE_URL` al environment es todo
-   lo que hace falta; `cloud_smoke.py` lo comprueba (`red:postgres`).
-2. **El conector MCP de Supabase**, habilitándolo en la sesión cloud. Su tráfico va
-   por los servidores de Anthropic, no por la red de la sesión, así que no depende de
-   la allowlist. Es la vía con la que se aplicaron migraciones históricamente
-   (DEC-140, migración 007).
+`cloud_smoke.py` lo comprueba (`red:postgres`, no crítico): en una sesión cloud, ese
+FALLO es el comportamiento esperado y no un environment mal montado.
 
 **Lo único que SÍ rompería una sesión cloud** son las *Network Restrictions* de
 Supabase (allowlist de IPs, en Settings → Database): las sesiones salen desde IPs de
@@ -209,6 +208,26 @@ resolutor no ofrece publicación: prometerla sin cablear la escritura haría que
 ingesta en cloud dejara JSONs en una caché efímera que nunca entran al manifiesto, y
 la fuente de verdad divergiría en silencio. Cubrir eso es otro frente (subir PDFs y
 sidecars + operación de publicación), con su propio dúo.
+
+### 3.6 Lo que midió el primer smoke de recepción (s325d, 18-ago)
+
+Recibo: `evals/s323_cloud_smoke_v1.json` (PR #289). Lo que funcionó a la primera:
+Supabase REST, OpenAI, Voyage, el **bucket `extraction` (1.143 extracciones)**, el
+portal de fabricante (la red Full pasa), git completo, `PYTHONPATH` y todos los
+imports. Y tres cosas que conviene saber antes de montar otro environment:
+
+- **`ANTHROPIC_API_KEY` no llegó al contenedor.** La UI avisa de que esa variable «no
+  se usará para autenticar las solicitudes», y en la práctica **la sesión no la ve**.
+  Nuestros scripts (harness, sondas, generadores, revisor Fable) sí la necesitan, así
+  que el hook de arranque la reconstruye desde un alias: define
+  **`ANTHROPIC_API_KEY_SCRIPTS`** en el environment y `session-start.sh` exporta
+  `ANTHROPIC_API_KEY` a partir de ella. Sin eso, una sesión cloud NO puede correr el
+  dúo ni el harness.
+- **Arranque en frío: ~77 s**, de los cuales ~50 s son la instalación de dependencias
+  (VM nueva, sin centinela previo). Se deja en el hook a propósito: mover eso al setup
+  script lo cachearía ~7 días, pero 50 s una vez por VM no justifica duplicar la
+  lógica fuera del repo. Si algún día duele, el movimiento está descrito en §4.
+- **Sin TCP al 5432** (ver §3.4): DDL desde cloud va por el conector MCP.
 
 ## 4. Trampas conocidas (medidas, no supuestas)
 
