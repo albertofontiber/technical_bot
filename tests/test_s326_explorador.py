@@ -32,6 +32,23 @@ def _filtros(**consulta):
     return explorador.normalizar(consulta, categorias=CATS, marcas=MARCAS)
 
 
+def test_categorias_fail_open_si_la_taxonomia_no_carga(monkeypatch):
+    """Incidente del preview (19-ago): un fallo cargando la taxonomía no puede
+    ser un 500 — la lista queda vacía, el select en «todas», la página vive."""
+    def _roto():
+        raise RuntimeError("yaml roto o ausente")
+
+    explorador.categorias_validas.cache_clear()
+    monkeypatch.setattr(explorador, "cargar_taxonomia", _roto)
+    try:
+        assert explorador.categorias_validas() == ()
+        filtros = explorador.normalizar({"categoria": ["normativa"]},
+                                        categorias=(), marcas=MARCAS)
+        assert filtros.categoria is None
+    finally:
+        explorador.categorias_validas.cache_clear()
+
+
 def test_todo_fuera_de_lista_cae_al_defecto():
     filtros = _filtros(dias="9999", categoria="inventada",
                        marca="ACME'; DROP TABLE--", feedback="lo que sea")

@@ -26,6 +26,16 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
+from functools import lru_cache
+
+# A NIVEL DE MÓDULO a propósito (incidente del preview, 19-ago): el gate de la
+# clausura del panel (test_s324j_panel_requirements) escanea imports a columna
+# 0 — un import perezoso lo esquivaba y PyYAML faltó en la función de Vercel:
+# /explorador servía un 500 en runtime. Visible aquí, el gate exige el paquete
+# ANTES del deploy; si aún así faltara, el panel entero falla EN FRÍO y en el
+# log (fail-closed de arranque, el patrón de la sonda del lifespan), no con un
+# 500 mudo a mitad de clic.
+from src.clasificacion import cargar_taxonomia
 
 from . import datos
 
@@ -53,12 +63,17 @@ class Filtros:
     feedback: str
 
 
+@lru_cache(maxsize=1)
 def categorias_validas() -> tuple[str, ...]:
     """Los ids de la taxonomía vigente — la misma lista que usa el clasificador,
-    para que el filtro y el dato no puedan divergir."""
-    from src.clasificacion import cargar_taxonomia
-
-    return cargar_taxonomia().ids
+    para que el filtro y el dato no puedan divergir. Cacheada: la taxonomía
+    solo cambia con un deploy. FAIL-OPEN a `()` si el YAML no está o no parsea
+    (regla del panel: este módulo no lanza) — el select queda en «todas» y la
+    validación rechaza cualquier parámetro de categoría; la página vive."""
+    try:
+        return cargar_taxonomia().ids
+    except Exception:                                        # noqa: BLE001
+        return ()
 
 
 def marcas_disponibles() -> tuple[list[str], bool]:

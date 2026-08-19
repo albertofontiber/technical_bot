@@ -8409,3 +8409,30 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   recibos Sol/Fable en `evals/adversarial_reviews/2026-08-19T20-{26-04,35-13}_*`; briefing
   `evals/s326_cableado_briefing_v1.md` (recibo congelado: describe la fuente PRE-cierre de la
   whitelist de marcas — la vigente es `documents.manufacturer`, hallazgo F1 de Fable).
+
+### DEC-245 addendum (s326, 19-ago noche) — El preview cazó un 500 en /explorador: PyYAML faltaba en la función del panel porque un import PEREZOSO esquivó el gate de la clausura
+
+- **El incidente**: Alberto abrió el preview de Vercel del PR #308 y /explorador sirvió el 500
+  del panel. Traza (runtime logs de Vercel): `categorias_validas()` → `import yaml` →
+  `ModuleNotFoundError` — `api/requirements.txt` es mínimo A PROPÓSITO (DEC-244, el bundle de
+  541MB) y PyYAML no estaba.
+- **La causa raíz no es «faltaba un paquete»**: es que el gate que existe EXACTAMENTE para esto
+  (`test_s324j_panel_requirements`, clausura estática de la superficie) escanea imports a
+  **columna 0**, y mi `from src.clasificacion import …` vivía DENTRO de una función → invisible
+  → el gate quedó verde con la función coja. Un import perezoso en la superficie del panel
+  evade su red de seguridad.
+- **Cierres (los tres, no uno)**: (1) el import sube a NIVEL DE MÓDULO en
+  `dashboard/explorador.py` — visible al gate; si aún faltara el paquete, el panel falla EN FRÍO
+  y en el log (patrón de la sonda del lifespan), no con un 500 mudo a mitad de clic; (2)
+  `PyYAML>=6.0.0` declarado en `api/requirements.txt` + mapa `yaml→PyYAML` en el gate + el pin
+  de la raíz pierde su comentario en línea (el test de pins exige cita LITERAL); (3)
+  `categorias_validas()` FAIL-OPEN con caché (regla del panel «este módulo no lanza»): YAML
+  roto/no empaquetado ⇒ select en «todas» y validación que rechaza el parámetro — la página
+  vive. Test nuevo del fail-open.
+- **Límite declarado que queda**: el gate sigue siendo columna-0 (estático a conciencia); la
+  regla operativa es «en la superficie del panel, los imports de terceros van a nivel de módulo
+  o no van». `import anthropic` dentro de `construir_llm` queda perezoso A PROPÓSITO: el panel
+  jamás llama al LLM y arrastrarlo engordaría la función hacia el límite.
+- **Verificación**: gate de requirements rojo→verde con la detección real (pasó con PyYAML
+  declarado ⇒ el BFS lo ve); 135 tests del panel/s326 verdes; suite completa re-corrida en el
+  PR. El preview re-desplegado con la función que SÍ trae yaml es el smoke que cierra.

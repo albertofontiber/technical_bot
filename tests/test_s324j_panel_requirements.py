@@ -25,7 +25,7 @@ from pathlib import Path
 REPO = Path(__file__).parent.parent
 
 #: import-name → nombre en PyPI (solo hace falta mapear los que difieren).
-PYPI = {"dotenv": "python-dotenv"}
+PYPI = {"dotenv": "python-dotenv", "yaml": "PyYAML"}
 
 _IMPORT_RE = re.compile(r"^(?:import|from)\s+([A-Za-z0-9_.]+)", re.MULTILINE)
 
