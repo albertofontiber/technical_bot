@@ -5926,3 +5926,8 @@ cuerpo vacío, /entrar en 200, ni rastro de SUPABASE en el fuente, CSP y DENY
 servidas. https://technical-bot-lake.vercel.app — «-lake» porque el nombre
 pelado ya era de otro. Queda el alta (contraseña de Alberto, no mía) y los dos
 gates de exponer con dueño.
+
+**Cierre (19-ago noche):** Alberto se dio de alta y ENTRÓ — la cadena entera
+(scrypt, sello, cookie, cerrojo vía PostgREST) verificada con el login real.
+Sesión cerrada con todo mergeado y sin pendientes; lo siguiente que pidió:
+las métricas que quiere añadir al panel (feedback suyo, sesión próxima).
