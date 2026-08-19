@@ -300,8 +300,9 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
   instalando en cada VM. La línea del hook «deps: ya instaladas — se salta la
   instalación» NO desmiente esto: solo dice que el setup script dejó el marcador ~90 s
   antes, en esa misma VM. Causa raíz ABIERTA (¿el snapshot no cubre `/usr/local`? ¿el
-  build falla?); el discriminador es la traza nueva de `install-deps.sh` en la próxima
-  VM. Lo de abajo es la semántica documentada — lo esperado, no lo medido.
+  build falla?); el discriminador es PARCIAL: la traza nueva de
+  `install-deps.sh` en la próxima VM separa «el snapshot persistió» de «no había nada», pero la
+  pieza que cierra el caso es el dashboard del environment (DEC-241, gap iv). Lo de abajo es la semántica documentada — lo esperado, no lo medido.
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
   en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
   setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar

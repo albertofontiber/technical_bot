@@ -8053,16 +8053,23 @@ no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone,
   vive en el dashboard del environment, fuera del contenedor. Se para hasta tener ese dato.
 - **Decisión 2 — instrumentar en vez de adivinar.** `install-deps.sh` imprime, ANTES de instalar
   y antes del `rm -f` de huérfanos que borraba justo esa evidencia, cuál de las tres causas se
-  dio: (a) la VM no traía marcador — el snapshot no persiste purelib; (b) traía uno de huella
-  CADUCA — persiste, pero algo entró en la huella; (c) traía la huella VIGENTE y falló el sondeo
-  de imports — persiste y hay corrupción. Cuatro ramas verificadas en dry-run hermético
-  (`TB_MARCA_DIR`/`TB_PIP_CMD`), incluido el control que NO imprime traza cuando la caché sirve.
-  **Efecto lateral buscado**: el propio cambio mueve la huella (`663fae88` → `58aa661d`, porque el
+  dio: (a) la VM no traía marcador — el snapshot no persiste purelib **o** el build no corrió/falló;
+  (b) traía uno de huella CADUCA — persiste, pero algo entró en la huella; (c) traía la huella
+  VIGENTE y falló el sondeo de imports — persiste y hay corrupción. **CINCO** ramas verificadas en
+  dry-run hermético (`TB_MARCA_DIR`/`TB_PIP_CMD`): las tres causas, el control que NO imprime traza
+  cuando la caché sirve, y `MARCA_DIR` ilegible → `exit=0` (la traza va en subshell `|| true`: es
+  diagnóstico y bajo `set -e` no puede tumbar el arranque — hallazgo Fable r1).
+  **Efecto lateral buscado**: el propio cambio mueve la huella (`663fae88` → `cf08cbda`, porque el
   script entra en la suya por DEC-238 r2), lo que convierte a la PRÓXIMA VM en discriminador — si
   su traza dice «marcador previo 663fae88 — huella caduca», el snapshot SÍ persiste y la causa era
   (b). **Cuidado con el converso** (hallazgo Fable): «no traía NINGÚN marcador» NO aísla (a) — es
   **(a) ∨ (c)**, porque un build de caché que nunca corrió o que falló tampoco deja marcador.
   Separar esas dos exige el dashboard, y por eso el gap (iv) sigue siendo el que decide.
+  **Condición temporal, declarada** (hallazgo Fable r2): esto discrimina solo si el snapshot que se
+  restaure se construyó ANTES de este merge. Si el build se re-dispara después y sí persiste, la
+  próxima VM heredaría el marcador `cf08cbda` ya vigente → salta por el control, en silencio y sin
+  traza. Ese hueco lo cubre el otro instrumento: `deps_cache` vería un mtime ANTERIOR al boot y lo
+  reportaría como «vino del snapshot» (`cloud_smoke.py`). Los dos se leen juntos, no por separado.
 - **Decisión 3 — DEC-238 se degrada, no se revierte.** Su premisa central queda marcada como
   falsada in-place (traza, no borrado). El setup script se queda: hoy es redundancia inocua
   —el sistema se comporta como pre-s325g— y si la caché llega a funcionar el beneficio vuelve

@@ -64,7 +64,11 @@ fi
   for _m in "${MARCA_DIR}"/.technical_bot_deps_*; do
     [ -e "$_m" ] || { echo "deps: la VM no traía NINGÚN marcador en ${MARCA_DIR} — el snapshot no persiste purelib O el build de la caché no corrió/falló (no distingue: eso es del dashboard)"; break; }
     _h="${_m##*_}"
-    if [ "$_m" = "$MARCA" ]; then _q="huella VIGENTE → falló el sondeo de imports"; else _q="huella caduca → el snapshot SÍ persistió"; fi
+    # El mensaje NO asevera persistencia (hallazgo Fable r3): en una sesión de RAMA cuya
+    # huella difiere de main, el setup script (que clona main) estampa la suya ~90 s antes en
+    # ESTA misma VM y el hook la vería como «caduca» — afirmar «vino del snapshot» ahí sería
+    # exactamente la confusión que motivó s325h-c. Quien decide es el mtime contra el boot.
+    if [ "$_m" = "$MARCA" ]; then _q="huella VIGENTE → falló el sondeo de imports"; else _q="huella caduca (¿del snapshot o del setup de esta VM? lo dice el mtime de arriba contra el boot)"; fi
     echo "deps: marcador previo ${_h:0:8} mtime=$(date -u -r "$_m" +%Y-%m-%dT%H:%M:%SZ) — ${_q}"
   done
 ) || true

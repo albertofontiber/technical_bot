@@ -1,4 +1,4 @@
-# s325h-c — Propuesta (r2): instrumentar por qué las deps no estaban en disco, y corregir el registro de DEC-238
+# s325h-c — Propuesta (r3): instrumentar por qué las deps no estaban en disco, y corregir el registro de DEC-238
 
 **Impacto: MEDIO** (tooling de arranque cloud; no toca retrieval, corpus, esquema ni producción).
 
@@ -38,7 +38,7 @@ y del bloque «Estado actual» del PLAN.
 - **Estructural**: el `rm -f` destruía la evidencia justo antes de estamparla. Se informa antes de
   tocar nada, y también si `pip` revienta después.
 - **Discriminador parcial, declarado como tal**: el cambio mueve la huella (`663fae88` →
-  `58aa661d`, porque el script entra en la suya por DEC-238 r2). Si la próxima VM dice «marcador
+  `cf08cbda`, porque el script entra en la suya por DEC-238 r2). Si la próxima VM dice «marcador
   previo 663fae88 — huella caduca», el snapshot SÍ persiste (causa b). El converso NO aísla: «no
   traía NINGÚN marcador» ⇒ **(a) ∨ (c)** — un build que nunca corrió tampoco deja marcador.
 - **Coste cero en la ruta feliz**: verificado que el control no imprime traza cuando la caché sirve.
@@ -73,9 +73,81 @@ y del bloque «Estado actual» del PLAN.
 
 | # | Hallazgo | Adjudicación |
 |---|---|---|
-| 1 | **[crítico]** el script no era auditable: no estaba commiteado, el claim «cableado» no tenía evidencia revisable | **ACEPTADO**: se commitea ANTES de esta ronda; el script está en el árbol que el revisor lee |
+| 1 | **[crítico]** el script no era auditable: no estaba commiteado, el claim «cableado» no tenía evidencia revisable | **ACEPTADO, y mi adjudicación r1 sobre-afirmó** (cazado en r2): commitearlo NO basta — el runner deniega `.claude/` por política de sandbox, así que `read_file` sigue sin poder abrirlo. Corregido en r3 adjuntando el diff verbatim abajo como **snapshot autorizado**, que es el mecanismo previsto en CLAUDE.md §Protocolo 3 para memoria externa material |
 | 2 | **[medio]** colisión de ID: ya existía un `DEC-240` (panel Vercel, s324j) | **ACEPTADO, verificado** (`DECISIONS.md:7998`): renumerado a **DEC-241** |
 | 3 | **[medio]** el discriminador sobre-afirmaba: sin marcador ⇒ (a)∨(c), no (a) | **ACEPTADO**: corregido en el script, en DEC-241 y en el recibo |
 | 4 | **[medio]** el dry-run no ejercita el riesgo de `set -e` que yo mismo señalé | **ACEPTADO**: traza en subshell `|| true` + rama de prueba con `MARCA_DIR` ilegible |
 | 5 | **[medio, especulativo]** los mtimes ya casi excluyen (b) → el instrumento discrimina algo casi resuelto | **ACEPTADO como límite declarado** (§5.3); no se retira el instrumento: coste cero |
 | 6 | **[menor]** los titulares afirmaban propiedad («no persiste») donde lo medido es «no estaban al boot» | **ACEPTADO**: titulares de DEC-241/§4/PLAN reescritos al alcance real |
+
+## 7. Ronda 2 (Fable) — **NO SÓLIDO**, 1 medio + 2 menores, los 3 adjudicados
+
+| # | Hallazgo | Adjudicación |
+|---|---|---|
+| 1 | **[medio]** el artefacto central sigue INAUDITABLE: el runner deniega `.claude/`; §6.1 afirmaba lo contrario | **ACEPTADO**: §6.1 corregido y el diff va adjunto abajo como snapshot autorizado |
+| 2 | **[menor]** DEC-241 decía «cuatro ramas», el recibo y §3 dicen CINCO | **ACEPTADO, verificado**: DEC-241 corregido a cinco |
+| 3 | **[menor, especulativo]** el discriminador depende del calendario de rebuilds: si el build se re-dispara post-merge y persiste, el marcador heredado sería `cf08cbda` vigente → control silencioso | **ACEPTADO**: declarado en DEC-241 y en el recibo, con el hueco cubierto por `deps_cache` (mtime pre-boot) |
+
+Nota de r2 sobre lo verificado: «aritmética coherente; alcance ejemplarmente calibrado; colisión
+DEC-240 real y resuelta; converso (a)∨(c) correctamente declarado; ENTORNO_CLOUD reconciliado;
+addendum in-place sin borrado; alternativas con razones sustantivas, sin sobre-ingeniería».
+
+## 8. SNAPSHOT AUTORIZADO — diff de `.claude/hooks/install-deps.sh` (el runner no puede abrirlo)
+
+Es el artefacto central del cambio. Se adjunta verbatim para que esta ronda pueda auditarlo en vez
+de tomarlo por fe. Contexto que NO se ve en el diff y que importa para juzgarlo: el bloque se
+inserta justo DESPUÉS del centinela (`if [ -f "$MARCA" ] && python3 -c "import …"; then echo "deps:
+ya instaladas…"; exit 0; fi`) y ANTES del primer `$PIP`, y el `rm -f "${MARCA_DIR}/.technical_bot_deps_"*`
++ `touch "$MARCA"` siguen al final, sin tocar.
+
+```diff
+diff --git a/.claude/hooks/install-deps.sh b/.claude/hooks/install-deps.sh
+index 35ee00b..bee0988 100755
+--- a/.claude/hooks/install-deps.sh
++++ b/.claude/hooks/install-deps.sh
+@@ -49,6 +49,30 @@ if [ -f "$MARCA" ] && python3 -c "import pytest, jsonschema, pandas, httpx, dote
+   exit 0
+ fi
+ 
++# Traza de diagnóstico (s325h-c). Llegados aquí SE VA A REINSTALAR, y hay tres causas
++# con arreglos OPUESTOS: (a) la VM no traía nada — el snapshot no persiste purelib;
++# (b) traía un marcador de huella CADUCA — persiste, pero algo entró en la huella
++# (este script entra en la suya, así que editarlo invalida a propósito); (c) traía la
++# huella VIGENTE y lo que falló fue el sondeo de imports — persiste y hay corrupción.
++# El `rm -f` de huérfanos de más abajo borra justo esa evidencia antes de estampar, así
++# que se imprime ANTES de instalar (también si pip revienta después). Medido en s325h-c:
++# 163/164 entradas de purelib escritas después del boot de la VM ⇒ caso (a), no viaja nada.
++# Va en subshell con `|| true` A PROPÓSITO (hallazgo Fable r1): bajo `set -e`, un `date`
++# sin `-r`, un MARCA_DIR ilegible o cualquier sorpresa del entorno matarían el arranque en
++# una ruta que ANTES no podía fallar. Esto es diagnóstico: si no puede hablar, calla.
++(
++  for _m in "${MARCA_DIR}"/.technical_bot_deps_*; do
++    [ -e "$_m" ] || { echo "deps: la VM no traía NINGÚN marcador en ${MARCA_DIR} — el snapshot no persiste purelib O el build de la caché no corrió/falló (no distingue: eso es del dashboard)"; break; }
++    _h="${_m##*_}"
++    # El mensaje NO asevera persistencia (hallazgo Fable r3): en una sesión de RAMA cuya
++    # huella difiere de main, el setup script (que clona main) estampa la suya ~90 s antes en
++    # ESTA misma VM y el hook la vería como «caduca» — afirmar «vino del snapshot» ahí sería
++    # exactamente la confusión que motivó s325h-c. Quien decide es el mtime contra el boot.
++    if [ "$_m" = "$MARCA" ]; then _q="huella VIGENTE → falló el sondeo de imports"; else _q="huella caduca (¿del snapshot o del setup de esta VM? lo dice el mtime de arriba contra el boot)"; fi
++    echo "deps: marcador previo ${_h:0:8} mtime=$(date -u -r "$_m" +%Y-%m-%dT%H:%M:%SZ) — ${_q}"
++  done
++) || true
++
+ $PIP --ignore-installed PyJWT cryptography
+ grep -v '^langdetect' requirements.txt > /tmp/req_sin_langdetect.txt
+ sed 's|^-r requirements.txt|-r /tmp/req_sin_langdetect.txt|' requirements-dev.txt \```
+
+## 9. Ronda 3 (Fable) — **SÓLIDO**; 3 menores, 2 accionables aplicados
+
+El revisor confirmó por sí mismo que el runner deniega `.claude/` («denegado: directorio interno»),
+por lo que el snapshot autorizado de §8 es el mecanismo correcto y no una excusa. Verificó contra
+el repo: DEC-241, addendum in-place sin borrado, colisión DEC-240 resuelta, aritmética de la medida,
+PLAN y ENTORNO_CLOUD reconciliados, converso (a)∨(c) consistente en los tres documentos.
+
+| # | Hallazgo | Adjudicación |
+|---|---|---|
+| 1 | **[menor]** el mensaje «huella caduca → el snapshot SÍ persistió» sobre-afirma: en una sesión de RAMA, el setup script (que clona `main`) estampa su huella en la MISMA VM y el hook de la rama la vería como caduca → afirmaría persistencia en falso | **ACEPTADO**: el mensaje ya no asevera — remite al mtime contra el boot, que es quien decide. La inferencia concreta de DEC-241 (`663fae88` ⇒ persiste) sigue en pie: `main` post-merge no puede producir esa huella |
+| 2 | **[menor]** `ENTORNO_CLOUD.md:303` decía «el discriminador es la traza» sin cualificar, mientras DEC-241 y §5.3 lo llaman PARCIAL | **ACEPTADO**: cualificado in-place; la pieza que cierra el caso es el dashboard |
+| 3 | **[menor]** residual inherente: no puede verificar byte a byte que el snapshot coincida con el fichero commiteado, ni la cifra de la suite | **SIN ACCIÓN POSIBLE** desde ese runner; queda declarado. Sí verificó el diff en sí: guard `[ -e ]` para glob sin match, `${_m##*_}` extrae bien la huella, subshell `|| true` neutraliza `set -e` |
+
+Tras aplicar 1 y 2 la huella pasa a `cf08cbda` y las cinco ramas se re-verificaron verdes.
