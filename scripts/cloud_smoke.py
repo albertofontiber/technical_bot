@@ -229,6 +229,67 @@ def check_modulos():
     return res
 
 
+def check_deps_cache():
+    """s325g: ¿la caché del environment trajo las deps pre-instaladas?
+
+    El setup script deja un marcador en site-packages (install-deps.sh); sin esta
+    línea en el recibo, un setup que NUNCA funciona sería invisible — el hook lo
+    taparía instalando en silencio cada VM (hallazgo del revisor adversarial,
+    s325g). La EDAD del marcador es la señal: días = vino del snapshot; minutos =
+    lo acaba de estampar el hook en este arranque, la caché no lo trajo.
+    Informativo a propósito: su ausencia o edad no rompe nada (el hook cubre).
+    """
+    if os.getenv("CLAUDE_CODE_REMOTE", "") != "true":
+        return [_res("deps_cache", SKIP, "solo aplica a sesiones cloud", critico=False)]
+    try:
+        import hashlib
+        import sysconfig
+        import time
+
+        # MISMA receta que install-deps.sh (requirements + requirements-dev + el
+        # PROPIO script — la huella cambió en s325g-r2 para que un cambio del
+        # script invalide el marcador). Si esto y el shell divergen, esta línea
+        # reportará «sin marcador para la huella actual» con el marcador presente
+        # — esa asimetría ES el detector de la divergencia.
+        huella = hashlib.sha1(
+            (ROOT / "requirements.txt").read_bytes()
+            + (ROOT / "requirements-dev.txt").read_bytes()
+            + (ROOT / ".claude" / "hooks" / "install-deps.sh").read_bytes()
+        ).hexdigest()
+        purelib = Path(sysconfig.get_paths()["purelib"])
+        marca = purelib / f".technical_bot_deps_{huella}"
+        if marca.exists():
+            # Atribución por el ARRANQUE de la VM, no por umbral de edad (Fable r2):
+            # mtime anterior al boot solo puede venir del snapshot restaurado; y si
+            # el restore reescribiera mtimes, también caería antes del boot.
+            mtime = marca.stat().st_mtime
+            arranque_vm = time.time() - float(Path("/proc/uptime").read_text().split()[0])
+            edad_min = (time.time() - mtime) / 60
+            origen = (
+                f"anterior a esta VM (edad {edad_min / 1440:.1f} días) — vino del snapshot"
+                if mtime < arranque_vm
+                else f"estampado en esta VM hace {edad_min:.0f} min — build del snapshot o "
+                "fallback del hook (la caché no lo traía)"
+            )
+            return [_res("deps_cache", OK, f"marcador {huella[:8]} · {origen}", critico=False)]
+        otras = len(list(purelib.glob(".technical_bot_deps_*")))
+        return [
+            _res(
+                "deps_cache",
+                OK,
+                f"sin marcador para la huella actual ({huella[:8]})"
+                + (
+                    f"; hay {otras} de otra huella — los requirements cambiaron tras el snapshot"
+                    if otras
+                    else " — caché fría o setup script sin configurar (el hook instala)"
+                ),
+                critico=False,
+            )
+        ]
+    except Exception as exc:
+        return [_res("deps_cache", AVISO, f"{type(exc).__name__}: {exc}"[:200], critico=False)]
+
+
 def check_secretos():
     res = []
     for nombre, critico, para_que in SECRETOS:
@@ -444,6 +505,7 @@ def main() -> int:
     resultados += check_entorno()
     resultados += check_repo()
     resultados += check_modulos()
+    resultados += check_deps_cache()
     resultados += check_secretos()
     resultados += [] if args.sin_red else check_red()
 

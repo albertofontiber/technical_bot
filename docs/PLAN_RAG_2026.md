@@ -36,7 +36,9 @@ procedencia registrase en silencio un audio como si se hubiera tecleado. Fase 1 
 (`TurnRequest`/`build_turn_request` + migración del esquema: mismo patrón donde HOY no está roto).
 Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
 
-**Pendiente de Alberto**: el smoke real (audio «¿qué centrales de Detnov tienes?» → listado de 14).
+**Pendiente de Alberto**: el smoke real (audio «¿qué centrales de Detnov tienes?» → listado de 14)
+· pegar el **Setup script** del environment cloud (bloque en `ENTORNO_CLOUD.md` §3.1, tras el
+merge de s325g/DEC-235) y verificar en la próxima VM nueva que el arranque baja ~77 s → ~30 s.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se

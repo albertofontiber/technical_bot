@@ -5692,3 +5692,32 @@ caché sin purga.
 Cierre: cloud cubre evals, sondas, harness, enunciados, re-ingesta, DB, código y docs
 con el portátil cerrado. Ingestar manuales NUEVOS sigue siendo local, y está escrito
 como límite, no como pendiente.
+
+## s325g (19 ago 2026) — Los 50 segundos se van a la caché: el setup script entra en juego sin sacar la lógica del repo
+
+Alberto adjudicó lo que s325d dejó medido y aparcado: mover la instalación de dependencias
+al setup script del environment, que se cachea ~7 días como snapshot del filesystem. La
+objeción que lo había congelado («no duplicar la lógica fuera del repo») se resolvió por
+extracción, no por copia: la instalación entera —workarounds s315, centinela s323— vive
+ahora en `.claude/hooks/install-deps.sh`, y el campo del environment queda en cinco líneas
+que clonan `main` e invocan ese script. El hook de SessionStart no pierde la instalación:
+la conserva como fallback autosanador (caché caliente → no-op de ~3 s medidos; caché fría o
+requirements cambiados → instala como siempre), de modo que el peor caso del movimiento es
+exactamente el comportamiento anterior.
+
+El detalle que hacía o rompía el diseño: el centinela en `/tmp` no sobreviviría a un
+snapshot si `/tmp` es tmpfs, y entonces la caché traería los paquetes pero el hook
+reinstalaría igual. Se mudó a site-packages, donde marcador y paquetes viajan juntos por
+construcción. Verificado en la sesión: dry-run de ambas ramas, doble corrida real
+(instala con la tolerancia de langdetect disparándose tal cual s315 → salta en 3,1 s),
+hook end-to-end en 2,3 s. Lo inverificable desde aquí quedó declarado: el snapshot real y
+el clone dentro del setup solo se confirman en la primera VM nueva tras pegar el campo.
+Y el casi-accidente del cierre: `.gitignore` ignora `.claude/hooks/*` con excepciones por
+fichero — sin añadir la de `install-deps.sh`, el commit habría salido SIN el fichero
+central y el setup script habría clonado un main donde no existe, con el fallback del hook
+tapando el hueco indefinidamente. Cazado revisando `git status` antes de commitear.
+
+La sesión venía de cerrar el ciclo del PR #289 (el recibo NO LISTO quedó superado por el
+recibo LISTO de la re-corrida y se cerró sin merge), y corrió con la key de Anthropic
+derivada del alias `ANTHROPIC_API_KEY_SCRIPTS` que s325f cableó — primera sesión que usa
+esa vía para el revisor del Protocolo 3.
