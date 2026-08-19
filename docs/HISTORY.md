@@ -5693,6 +5693,48 @@ Cierre: cloud cubre evals, sondas, harness, enunciados, re-ingesta, DB, código 
 con el portátil cerrado. Ingestar manuales NUEVOS sigue siendo local, y está escrito
 como límite, no como pendiente.
 
+## s324h — cierre VERIFICADO EN PRODUCCIÓN (19-ago-2026)
+
+Alberto aplicó las migraciones **017** y **018**. La 017 se confirma en su propio `CHECK`
+(ya lista `cuota_agotada`). La 018 la verifiqué contra el catálogo, porque «ejecutada con
+éxito» no es la postcondición: un `COMMIT` limpio es compatible con que el `DEFAULT` siga
+vivo. Medido: `column_default = NULL`, `is_nullable = NO`, `CHECK (source IN
+('text','voice','error'))`. **Las seis capas del default mentiroso están cerradas.**
+
+Y el smoke que quedaba pendiente **ya había ocurrido sin que ninguno lo supiera**. El recibo
+no es un test: es `query_logs.route`, que separa `rag` de `catalog_shortcut`. La MISMA
+pregunta cambió de ruta al cambiar de canal —14:16 voz → `rag` (152 chars, «no he encontrado
+información relevante»); 20:36 voz → `catalog_shortcut` (494)— y ese 494 es **idéntico al del
+turno tecleado de las 14:18**, con la pregunta redactada distinta. Paridad byte a byte en
+tráfico real. El censo de las 10 filas de voz da **cero ASR perdidos**: la invariante que
+`Procedencia` impone en el TIPO se cumple también en los datos ya escritos.
+
+**Dato del piloto que reordena prioridades**: desde el 10-ago, la voz es **9 de 21 turnos
+(43%)**. La paridad de voz no era un caso de borde — Alberto la puso primero y el tráfico le
+da la razón. Reparto por ruta: `rag` 13 · `catalog_shortcut` 7 · `manufacturer_mismatch` 1 ·
+sin ruta 1 (fila anterior a la instrumentación).
+
+**`route` es un instrumento que no estaba en el radar** y mide en producción lo que hasta hoy
+sólo medía el harness: qué ruta toma cada turno, por canal.
+
+### s324i — el panel a Vercel: DOS rondas NO SÓLIDO, sin cablear
+
+Alberto adjudicó `techassistant.fontiber.com` y, al saber que `DASHBOARD_USUARIOS` es variable
+de entorno (revocar exige redesplegar), eligió **(a2)**: los usuarios a Supabase.
+
+La v1 cayó con un crítico que **cambió su decisión**; la v2 con **tres**, dos de ellos fallos
+de seguridad míos: (1) la tabla de credenciales sin RLS/FORCE/REVOKE, con el patrón YA escrito
+en `migrations/016:266-292` — en `public`, PostgREST expondría usuarios y hashes scrypt;
+(2) `HMAC(usuario|ip)` **fusiona** dos claves que el cerrojo cuenta por separado
+(`auth.py:363`), así que rotar IP daba intentos ilimitados contra un usuario: mi «sirve igual»
+DEBILITABA el cerrojo mientras yo creía mejorar la privacidad; (3) el contrato del digest `h`
+es irrealizable con la firma de `vigente()`. Más: el HMAC con clave conservada es
+seudonimización, y `docs/RGPD_RETENCION.md:67-75` ya rechaza ese framing.
+
+**Decisión: no se cablea.** El patrón de los tres críticos es «no vi un contrato que estaba en
+el repo», y eso empeora con contexto acumulado. Va a sesión fresca, con la v2 y sus diez
+defectos enumerados como punto de partida.
+
 ## s325g (19 ago 2026) — Los 50 segundos se van a la caché: el setup script entra en juego sin sacar la lógica del repo
 
 Alberto adjudicó lo que s325d dejó medido y aparcado: mover la instalación de dependencias

@@ -10,7 +10,7 @@
 # FALLBACK autosanador: caché con las deps → no-op de ~3 s (medido); caché caducada, setup
 # que no corrió, o requirements cambiados tras el snapshot → instala como siempre.
 # Peor caso = el comportamiento de hoy para todo módulo del sondeo (críticos del
-# smoke al completo); el residuo que el sondeo no ve queda declarado en DEC-235.
+# smoke al completo); el residuo que el sondeo no ve queda declarado en DEC-238.
 set -euo pipefail
 
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then

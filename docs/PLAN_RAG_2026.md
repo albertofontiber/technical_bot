@@ -27,25 +27,66 @@
 <a id="estado-actual-s277--22-jul-2026"></a>
 ## Estado actual (s324h — 18 ago 2026; piloto DG vivo)
 
-**La voz ya hace lo mismo que el texto (DEC-232, PR #284 mergeada).** El piloto destapó que
+**La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
 — la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
 faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
-procedencia registrase en silencio un audio como si se hubiera tecleado. Fase 1 aplicada
-(`Procedencia` + preludio compartido + frontera sin default); **Fase 2 pendiente**
-(`TurnRequest`/`build_turn_request` + migración del esquema: mismo patrón donde HOY no está roto).
+procedencia registrase en silencio un audio como si se hubiera tecleado. **Las SEIS capas
+cerradas**: Fase 1 (`Procedencia` + preludio compartido), Fase 2 (`TurnRequest` /
+`build_turn_request`, PR #287) y la sexta —el `DEFAULT` del esquema— con la **018 APLICADA por
+Alberto** (verificado 19-ago: `column_default = NULL`, `is_nullable = NO`, CHECK
+`text|voice|error`). La **017** también (el CHECK ya lista `cuota_agotada`).
 Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
 
-**Pendiente de Alberto**: el smoke real (audio «¿qué centrales de Detnov tienes?» → listado de 14)
-· pegar el **Setup script** del environment cloud (bloque en `ENTORNO_CLOUD.md` §3.1, tras el
-merge de s325g/DEC-235) y verificar en la próxima VM nueva que el arranque baja ~77 s → ~30 s.
+**VERIFICADO EN PRODUCCIÓN (19-ago), no sólo en la suite.** El recibo está en `query_logs.route`,
+que separa `rag` de `catalog_shortcut`, y lo prueba **la misma pregunta cambiando de ruta al
+cambiar de canal**:
+
+| hora (18-ago) | canal | `route` | `response_length` |
+|---|---|---|---|
+| 14:16 | voice | `rag` | 152 — «no he encontrado información relevante» |
+| 14:18 | text | `catalog_shortcut` | **494** — el listado de 14 |
+| **20:36** | **voice** | **`catalog_shortcut`** | **494** |
+| 21:42 | voice | `catalog_shortcut` | 1041 — Kidde, 36 centrales |
+
+Los dos `494` son **la misma respuesta byte a byte** por canales distintos y con la pregunta
+redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el censo de las 10 filas
+de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
+también en los datos que ya estaban escritos.
+
+**Pendiente de Alberto**: pegar el **Setup script** del environment cloud (bloque en
+`ENTORNO_CLOUD.md` §3.1, tras el merge de s325g/DEC-238) y verificar en la próxima VM nueva
+que el arranque baja ~77 s → ~30 s.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
 generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
 (DEC-234: el bake-off no lo cumplió) · #86 el runner de Fable pega 191 KB y ahoga a su revisor
-(DEC-233, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
+(DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
+
+### QUÉ SIGUE — el panel del dashboard a Vercel (s324i, DEC-237)
+
+**Adjudicado**: `techassistant.fontiber.com` + **(a2)**, los usuarios salen de las variables de
+entorno y pasan a Supabase. Motivo: mientras la lista viva en el entorno, **revocar no puede ser
+más rápido que un despliegue** (`auth.py:233-236`).
+
+**Estado: diseñado, NO cableado.** Dos rondas del dúo, **dos NO SÓLIDO**. La v2 tiene la
+estructura correcta y **diez defectos enumerados**, tres críticos:
+
+1. tabla de credenciales **sin RLS/FORCE/REVOKE** — patrón ya escrito en `migrations/016:266-292`;
+   en `public`, PostgREST expondría usuarios y hashes scrypt;
+2. `HMAC(usuario|ip)` **fusiona** dos claves que el cerrojo cuenta por separado (`auth.py:363`) y
+   **debilita** el cerrojo: rotar IP da intentos ilimitados contra un usuario;
+3. el digest `h` es **irrealizable** con la firma de `vigente()`.
+
+**Arranque de la sesión**: leer `evals/s324i_panel_vercel_propuesta_v2.md` + DEC-237, escribir la
+**v3** que cierre los diez, y pasarla por el dúo ANTES de cablear. Es autenticación: el precio de
+equivocarse es una tabla de credenciales expuesta. **No desplegar hasta que la v3 sea SÓLIDO.**
+
+Bloqueante aparte, sin resolver: `X-Forwarded-For` en Vercel no está medido (`_ip_cliente` está
+calibrado para EXACTAMENTE un proxy). Hasta fijar la regla de confianza, **el cerrojo por IP no
+cuenta como efectivo**.
 
 ---
 

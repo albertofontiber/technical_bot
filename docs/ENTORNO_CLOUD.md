@@ -123,7 +123,7 @@ exit 0
 ```
 
   Semántica contrastada con la doc oficial (cloud-environments; la medición real
-  llega con la primera VM nueva — gap declarado en DEC-235): corre **solo al
+  llega con la primera VM nueva — gap declarado en DEC-238): corre **solo al
   construir la caché** (primera sesión, cambio del setup script o de la política de
   red, o caducidad ~7 días), tiene que acabar en **<5 min** (hoy: ~50 s) y con
   **exit 0** siempre; después Anthropic hace **snapshot del filesystem** y las
