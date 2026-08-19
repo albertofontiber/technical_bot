@@ -121,10 +121,13 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
    conducta del bot idéntica; nada corre en la ruta de respuesta) ·
    `scripts/clasificar_preguntas.py` (backfill/re-taxonomización con
    recibo) · página **Explorador** con filtros de listas cerradas. **Para USARLO, en orden**:
-   (i) aplicar `migrations/021_query_clasificacion.sql` (SQL Editor/conector, entera);
-   (ii) backfill `python -m scripts.clasificar_preguntas --cap 500 --receipt ...` + gate de
-   acuerdo ≥85 % (~30 etiquetas a mano) ANTES de fiarse de la gráfica; (iii) opcional
-   `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática cada 6 h.
+   (i) ~~aplicar la 021~~ **APLICADA en producción** (19-ago noche, conector, GO de Alberto;
+   postcondiciones + verificación externa verdes; el backfill destapó y cerró el incidente
+   upsert-PK — DEC-245 addendum 2); (ii) ~~backfill~~ **HECHO**: 109/109 clasificadas, 0 fallos,
+   $0,085 (recibo `evals/s326_backfill_v1.json`) — **queda el gate de acuerdo ≥85 %**: Alberto
+   marca los desacuerdos de la muestra de 35 (en el hilo) ANTES de leer las gráficas como
+   verdad; (iii) opcional `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática
+   cada 6 h (sin ella, re-correr el script tras tráfico nuevo).
    **Gate de EXPONER nuevo que nace aquí: addendum del Explorador (prosa de
    preguntas/comentarios, adjudicación (a)/DEC-231) al paquete del abogado.**
 5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·

@@ -76,9 +76,13 @@ $s326_preflight$;
 -- ----------------------------------------------------------------------------
 -- FASE A — LA TABLA DERIVADA
 -- ----------------------------------------------------------------------------
--- PK = query_log_id (1:1): re-clasificar es un UPSERT que SOBRESCRIBE la fila
--- con la versión vigente — una fila por pregunta, nunca apilar (el histórico de
--- corridas vive en los recibos del job, no aquí).
+-- PK = query_log_id (1:1): re-clasificar SOBRESCRIBE la fila con la versión
+-- vigente — una fila por pregunta, nunca apilar (el histórico de corridas vive
+-- en los recibos del job, no aquí). El verbo lo decide el job: fila nueva →
+-- INSERT (ignore-duplicates); fila con versión vieja → PATCH de columnas. El
+-- upsert merge-duplicates de PostgREST se DESCARTÓ medido (backfill 19-ago):
+-- su DO UPDATE SET re-escribe también la PK y exigiría GRANT
+-- UPDATE(query_log_id) — justo el permiso que el trinquete de abajo prohíbe.
 --   · `origen` declara la procedencia: 'regla' (ruta del plan de turno, $0) o
 --     'llm' (Haiku sobre taxonomía cerrada). `origen_coherente` hace imposible
 --     un 'llm' sin modelo declarado y un 'regla' con él.
