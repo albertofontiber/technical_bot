@@ -1,0 +1,77 @@
+# ============================================================================
+# Taxonomía de TIPOLOGÍA DE PREGUNTA — v1 (s326, adjudicada por Alberto 19-ago-2026)
+#
+# Qué es: la lista CERRADA de categorías con que el clasificador batch etiqueta
+# cada pregunta de `query_logs` (tabla derivada `query_clasificacion`,
+# migración 021). El LLM elige EXACTAMENTE una; lo que no encaja va a `otros`.
+#
+# CONTRATO DE VERSIONADO (el ciclo del «otros» que pidió Alberto):
+#   · `version` sube cuando cambia CUALQUIER cosa de la lista (alta, baja,
+#     redefinición). Subirla hace que el job re-clasifique TODO el histórico
+#     (las filas con taxonomia_version < version cuentan como pendientes) —
+#     así el «otros» se limpia y se reconstruye hacia atrás, por céntimos.
+#   · Los ids también viven como CHECK en la migración 021: cambiar la lista
+#     exige una migración hermana que altere el CHECK. Es deliberado
+#     (gobernanza: una taxonomía nueva es un evento adjudicado, no un hot-swap
+#     de YAML) y lo vigila tests/test_s326_query_clasificacion_acl.py.
+#   · Las categorías se ANCLARON en las formas de pregunta del gold set real
+#     (evals/gold_answers_v1.yaml) — no son un invento de pizarra. Los 9
+#     arquetipos de evidence_coverage_facets_v5 fueron insumo, no copia
+#     (propósito distinto: cobertura de evidencia ≠ tipología de demanda).
+#
+# La descripción de cada categoría ES parte del prompt del clasificador:
+# redactarla bien es afinar el clasificador.
+# ============================================================================
+
+version: 1
+
+categorias:
+  - id: especificaciones
+    descripcion: >-
+      Datos técnicos y valores del equipo: tensiones, consumos, capacidades
+      (nº de lazos, zonas, dispositivos), resistencias de fin de línea,
+      rangos de temperatura, dimensiones, cálculo de baterías, vida útil.
+  - id: instalacion_cableado
+    descripcion: >-
+      Montaje físico e instalación: cómo conectar, cablear, alimentar o
+      alinear un equipo; secciones y topología del cableado; conexión de
+      módulos, sirenas o baterías.
+  - id: configuracion_programacion
+    descripcion: >-
+      Programación y puesta en marcha: menús, contraseñas y niveles de
+      acceso, alta de dispositivos en el lazo, zonas y salidas, retardos,
+      maniobras causa-efecto, ajustes de sensibilidad.
+  - id: averias_diagnostico
+    descripcion: >-
+      Averías y diagnóstico: qué significa un aviso o código de error, por
+      qué falla algo, cómo localizar la causa, rearme tras alarma o fallo,
+      anulación de zonas en avería.
+  - id: mantenimiento_pruebas
+    descripcion: >-
+      Mantenimiento y pruebas periódicas: tests funcionales, revisiones,
+      limpieza, sustitución de baterías o consumibles, actualización de
+      firmware, calibración.
+  - id: compatibilidad_sustitucion
+    descripcion: >-
+      Compatibilidad entre equipos y sustituciones: qué detectores admite
+      una central, equivalencias y reemplazos de equipos descatalogados,
+      ampliaciones (tarjetas, lazos extra), mezcla de marcas o familias.
+  - id: normativa
+    descripcion: >-
+      Requisitos normativos como intención principal: normas UNE/EN, RIPCI,
+      certificaciones (EN 54, ATEX), niveles o plazos exigidos por norma.
+  - id: catalogo_documentacion
+    descripcion: >-
+      Sobre el propio catálogo o la documentación: qué fabricantes, modelos
+      o manuales hay disponibles, petición de un manual o documento,
+      selección de producto («necesito un detector que…»).
+  - id: otros
+    descripcion: >-
+      Nada de lo anterior encaja con claridad. Preferir `otros` antes que
+      forzar una categoría: este cajón se revisa y alimenta la siguiente
+      versión de la taxonomía.
+
+# Rutas que se clasifican por REGLA ($0, sin LLM): el plan de turno ya decidió
+# la intención con más contexto del que tendría el clasificador.
+regla_rutas:
+  catalog_shortcut: catalogo_documentacion

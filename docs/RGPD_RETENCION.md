@@ -379,7 +379,9 @@ el **PLAZO** de `user_consent`/`consent_events` — **[DECIDIR]** con el asesor.
 métricas. No recoge ni un dato que no se recogiera ya, no crea ninguna tabla y no llama a
 ningún proveedor nuevo: **es una forma nueva de MIRAR datos que ya existen**. Por eso no
 añade filas a la matriz — pero sí añade una superficie, y una superficie sobre datos
-personales se declara.
+personales se declara. **⚠️ (s326) El «no crea ninguna tabla» quedó atrás**: la migración
+021 añade `query_clasificacion` (derivada, enlazable) — dada de alta en la subsección s326
+de abajo, con el criterio de `bot_errors`.
 
 **Qué expone exactamente, y con qué base.** El panel no tiene una base jurídica propia: lee
 para las MISMAS finalidades ya declaradas arriba, y el acceso de quien administra es una
@@ -388,14 +390,51 @@ medida de seguridad del art. 32 (control de acceso), no una finalidad nueva.
 | Pantalla | Qué datos personales enseña | Para qué (finalidad ya declarada) | Minimización aplicada |
 |---|---|---|---|
 | **Acceso** | `telegram_user_id` (identificador DIRECTO), `nota` (nombre y cargo), quién dio de alta y quién revocó, `canjeada_por` | Control de acceso del piloto: emitir, auditar y revocar | Es la única pantalla con identificadores directos, y los necesita: **sin el id no se puede revocar y sin la nota no se puede auditar**. El `select` es explícito columna a columna (no `select=*`) y **no trae `token_hash`**. La nota se recorta a 60 caracteres en pantalla |
-| **Resumen** y **Métricas** | Ninguno directo: las 7 vistas trabajan con **seudónimo** o con agregados (s295-s299) | Salud y uso del bot | El panel **no cruza** las vistas con la lista de acceso: desde aquí no se puede saber qué preguntó una persona concreta, y ésa es una propiedad del diseño, no una casualidad |
+| **Resumen** y **Métricas** | Ninguno directo en las 7 vistas de s301-s315 (seudónimo o agregados). **⚠️ SUPERSEDIDO EN PARTE por s326** (ver «El Explorador y las métricas de uso», más abajo): la vista «Quién pregunta cuánto» SÍ cruza con la allowlist por adjudicación de Alberto | Salud y uso del bot | Las 7 vistas originales siguen sin cruzar nada; el cruce nuevo usa el alias (`nota`), nunca el id, y el histórico sin alta se agrupa SIN identificador |
 | **Errores** | Preguntas escritas por técnicos (top de las que más fallan), sin autor | Saber qué falla para arreglarlo | Se muestran **recortadas a 110 caracteres, agregadas por repetición y sin `telegram_user_id`**. La cifra «técnicos afectados» es un CONTEO de identificadores distintos, no la lista |
 | **Cualquiera** | — | — | `Cache-Control: no-store` en TODA respuesta: ni el navegador ni un proxy intermedio guardan copia de una página con estos datos dentro |
 
-**Lo que el panel NO puede hacer, por diseño y no por convención**: leer las conversaciones
-de los DGs (fuera de v1 por DEC-231, y es lo más sensible), escribir en `query_logs`,
+**Lo que el panel NO puede hacer, por diseño y no por convención**: escribir en `query_logs`,
 `user_consent` o `consent_events`, y canjear una invitación. Sus únicas escrituras son tres:
 emitir una invitación y poner dos marcas de tiempo (anular invitación, revocar acceso).
+**⚠️ La primera prohibición original —«leer las conversaciones de los DGs (fuera de v1 por
+DEC-231)»— quedó SUPERSEDIDA en s326**: Alberto, como el gatillo que la propia DEC-231
+preveía («entra cuando el piloto lo pida»), adjudicó abrir el Explorador con la PREGUNTA y el
+comentario del técnico. El detalle y sus salvaguardas, en la sección siguiente.
+
+### s326 — El Explorador y las métricas de uso: la ventana crece, y se declara
+
+**Qué cambió (19-ago-2026, adjudicación de Alberto en el hilo; propuesta
+`evals/s326_panel_metricas_uso_propuesta_v1.md`)**: (a) una pestaña nueva, **Explorador**,
+enseña pregunta a pregunta el TEXTO escrito por el técnico y su comentario del «✍️ Te lo
+explico», con su clasificación y su feedback — es exactamente el «fuera de v1» de DEC-231,
+reabierto a conciencia por quien lo aplazó; (b) la vista «Quién pregunta cuánto» cruza los
+conteos con el **alias** de la allowlist (`nota`) — el mismo dato humano que la pestaña de
+Acceso; el histórico sin alta se agrupa bajo la etiqueta fija «sin alta (histórico)», **sin
+identificador** (hallazgo del dúo s326: correlacionar id↔conteos↔prosa habría sido exposición
+nueva; el alias no lo es).
+
+**La tabla nueva de la matriz — `query_clasificacion` (migración 021)**: derivada 1:1 de
+`query_logs` (categoría de la pregunta por taxonomía cerrada, marcas/modelos canónicos,
+menciones sin corpus). **Sin identificador propio**, pero FK a `query_logs` ⇒ **dato
+enlazable**, exactamente el criterio ya fijado para `bot_errors` (arriba): hereda la
+gobernanza de `query_logs` — la supresión a petición la alcanza **sin pasos nuevos** (ON
+DELETE CASCADE, verificado en la postcondición de la 021), el job mensual no necesita
+conocerla (nada que disociar), y es **reconstruible y desechable** (borrarla no pierde dato
+original). El clasificador envía la pregunta a la API de Anthropic para etiquetarla — el
+MISMO encargado y el mismo flujo ya declarados para generar respuestas; finalidad:
+estadística de uso/calidad del propio servicio.
+
+**Minimización del Explorador**: solo panel autenticado (misma puerta y cabeceras);
+`response` NO se expone (solo su longitud); filas `source='error'` fuera; filtros de listas
+cerradas; prosa siempre escapada; `Cache-Control: no-store` como en todo el panel.
+
+**Para el paquete del abogado — ADDENDUM PENDIENTE (gate declarado en el PLAN)**: que el
+asesor confirme (1) la lectura de conversaciones desde el panel por el responsable/admins
+como parte del tratamiento ya informado (el aviso ya dice que las consultas se guardan y
+quién las ve), y (2) si la clasificación estadística merece mención expresa en el registro
+de actividades. Hasta ese addendum, el Explorador puede usarse internamente (Alberto), y la
+invitación de DGs al panel espera al paquete — como ya esperaba por DEC-231.
 
 **Medidas de seguridad, para el registro de actividades**: sin acceso anónimo a ninguna ruta
 (sólo la pantalla de entrada responde sin sesión); contraseña con `scrypt` (memory-hard, sal

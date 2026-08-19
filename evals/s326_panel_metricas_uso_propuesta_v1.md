@@ -1,6 +1,13 @@
 # s326 — Métricas de USO y CALIDAD en el panel: propuesta v1
 
-> **Estado**: PROPUESTA, pendiente de adjudicación de Alberto. Nada cableado, nada migrado.
+> **Estado (actualizado 19-ago tarde)**: **ADJUDICADA ENTERA por Alberto en el hilo** —
+> (1) drill-down con prosa = **OPCIÓN (a)** completa (pregunta + comentario; gate nuevo:
+> addendum al paquete del abogado); (2) taxonomía v1 OK; (3) por-usuario con **alias de
+> allowlist** OK; (4) coste OK. **Cableada en la rama del PR de cableado** (migración 021 +
+> `src/clasificacion.py` + seam `CLASIFICADOR_PREGUNTAS` off + Explorador). Sin aplicar en
+> producción: falta aplicar la 021 (Alberto/conector) + backfill con gate de acuerdo.
+>
+> _Texto original de la propuesta (pre-adjudicación) a continuación, sin retocar:_
 > **Origen**: petición de Alberto (19-ago-2026): tipología de pregunta · fabricantes · modelos ·
 > feedback por pregunta (con sub-feedback y motivo en texto) · preguntas por usuario; tabla
 > por-pregunta + «pivot» de agregados + gráficas + filtros. Diagnóstico suyo: «las métricas que
