@@ -6,9 +6,11 @@ POR QUÉ EXISTE. `auth.Cerrojo` cuenta en memoria del proceso, y en serverless
 cada intento puede caer en una instancia distinta: la espera creciente casi no
 llega a aplicarse (`docs/DASHBOARD_DESPLIEGUE.md`). Aquí el contador vive en
 `panel_intentos` (migración 019) y la ADMISIÓN entera es UNA función en la base
-(`panel_puerta`): poda, siembra, comprobación y conteo en una sola transacción —
-contar AL admitir es lo que acota el rebaño concurrente que «comprobar → scrypt
-→ registrar» dejaba pasar (v9 §3.2).
+(`panel_puerta`): comprobación de bloqueo → poda → cap → conteo en una sola
+transacción (el check va PRIMERO, sin sembrar ni podar — el orden del doble en
+memoria, fijado por la ronda de verificación del cableado). Contar AL admitir
+es lo que acota el rebaño concurrente que «comprobar → scrypt → registrar»
+dejaba pasar (v9 §3.2, con el addendum de supersesión).
 
 LAS CLAVES SALEN SEUDONIMIZADAS, la estructura no (v9 §3.1): se conservan los
 DOS espacios de nombres de `auth.claves_de` (`u:` / `ip:`, contados por

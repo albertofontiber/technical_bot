@@ -292,15 +292,17 @@ def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
 
 
 def test_ultimo_es_del_presente_no_del_inicio_de_transaccion(panel):
-    """Ronda de verificación, S2-m1 / honestidad S3-M5: lo que este test PRUEBA
-    es que `ultimo` queda en el PRESENTE tras una ráfaga serializada — no en el
-    pasado. La monotonía FUERTE (cada escritura ≥ la anterior) se sostiene por
-    CONSTRUCCIÓN, no por este test: `clock_timestamp()` se lee una vez por
-    transacción, DESPUÉS del advisory lock que las serializa, así que la
-    llamada k lo lee después de que la k−1 haya confirmado. Con `now()` (inicio
-    de tx) una llamada encolada escribiría un `ultimo` retrasado; el assert de
-    «< 5 s» lo cazaría solo si el retraso fuera grande, así que el valor real
-    de este test es de regresión gruesa, no la prueba de la monotonía."""
+    """Ronda de verificación, S2-m1 / honestidad S3-M5, S4-M4: lo que este test
+    PRUEBA es que `ultimo` queda en el PRESENTE tras una ráfaga serializada —
+    no retrasado al inicio de una transacción encolada. NO prueba monotonía
+    fuerte (cada escritura ≥ la anterior): solo observa el valor final.
+    Y la monotonía fuerte tampoco está GARANTIZADA por construcción: leer
+    `clock_timestamp()` bajo el lock la hace robusta al desorden de tiempos de
+    inicio de transacción —el bug que motivó el fix—, pero es reloj de PARED y
+    un ajuste del sistema puede hacerlo retroceder (límite declarado en el SQL).
+    El motivo del cambio `now()`→`clock_timestamp()` sigue siendo válido —quita
+    el retroceso SISTEMÁTICO por tiempo de inicio de tx—; lo que no se puede
+    afirmar es no-retroceso ABSOLUTO."""
     panel.rollback()
     barrera = threading.Barrier(8)
 

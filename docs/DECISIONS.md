@@ -7892,3 +7892,46 @@ runner de Fable), con sus tres referencias actualizadas. Los **9 históricos** q
 - **Traza**: tallies `2026-08-19T07:50:18` · `08:06:55` · `08:19:51` · `08:34:58` · `08:48:06` ·
   `09:02:03` en `evals/adversarial_review_log.jsonl`, con `verdict_notes` de regla C punto por
   punto y los recibos apareados en `evals/adversarial_reviews/`.
+
+
+## DEC-240 (s324j, 19 ago 2026) — El panel a Vercel: la v9 CABLEADA y verificada, con el dúo del diff INCOMPLETO por crédito agotado (no mergear aún)
+
+- **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto). **Estado**:
+  código cableado y verificado; **NO desplegado, NO mergeado** — el dúo formal en ALTO no está
+  cerrado (ver abajo).
+- **Qué se hizo**: se cableó el diseño de DEC-239 (`evals/s324i_panel_vercel_propuesta_v9.md`)
+  pieza a pieza: migraciones `019` (tablas `panel_usuarios`/`panel_intentos` + ACL enumerada +
+  RPC `panel_puerta` + hermana de retención diaria + postcondiciones + NOTIFY) y `020`
+  (`op` + `revocada_por` + backfill + CHECK), `dashboard/cerrojo.py` (nuevo), sello +
+  `IdentidadNoDisponible` + `BackendSupabase` + `validar_registro_estricto` en `auth.py`, la
+  puerta con sello + 503 + `/salir` local en `app.py`, `DUPLICADO`/`op`/`revocada_por` en
+  `gestion.py`, `scripts/s324j_panel_usuario.py`, el enchufe en `api/index.py`, y ~90 puertas de
+  test nuevas + un gate de integración pg + su workflow.
+- **Verificación (Protocolo 1)**: suite completa **4517 passed / 62 skipped / 2 xfailed**; el gate
+  de integración `test_s324j_panel_pg.py` ejecutado contra un **PostgreSQL 17 REAL** (17/17,
+  incluye la ráfaga concurrente de 12 hilos que admite exactamente `FALLOS_LIBRES+1`, el bypass
+  del cap cerrado, la política-como-ventana, la 020 con backfill); s295 pg intacto (42/42).
+- **El dúo del diff** (Protocolo 3, ALTO): el cross-model **Sol (GPT-5.6 xhigh) corrió CUATRO
+  rondas** sobre el cableado y sus fixes, y cazó **un fallo de SEGURIDAD real** que ni el otro
+  revisor ni yo habíamos visto en el cableado: `panel_puerta` sembraba una fila `u:` ANTES de
+  comprobar el bloqueo, así que un atacante ya bloqueado por su clave `ip:` seguía inflando el cap
+  (divergencia con el doble en memoria, que comprueba antes de sembrar). Se corrigió reordenando
+  la RPC (check → poda → cap → conteo). Las demás rondas afinaron precisión de claims. **Dos de
+  mis fixes fueron sobre-correcciones que Sol revirtió** (aceptar `'1 day'` en el autocontrol;
+  quitar el trigger de `test_s295`).
+- **Por qué NO se declara SÓLIDO ni se mergea** (crítico procedimental de Sol, verificado contra
+  el canon): a partir de la 2ª ronda del diff, el **2º revisor frontera Anthropic** (Fable, y su
+  fallback Opus) cae por **crédito agotado** de la cuenta (`400 credit balance too low`, verificado
+  con sonda mínima). `docs/ADVERSARIAL_REVIEWER.md:80-92` es LITERAL: una credencial ausente deja
+  `pending_fable` y **«no completa ni dispensa el dúo»**; y DEC-236 documenta el *ahogo por
+  contexto* del runner, NO una dispensa por crédito — citarlo como precedente de dispensa fue un
+  error mío que el adversarial cazó. En impacto ALTO el dúo es innegociable, así que **el cableado
+  queda pendiente del 2º revisor** y no se mergea hasta cerrarlo.
+- **Qué desbloquea el cierre**: recargar el crédito de Anthropic (acción de Alberto) y correr
+  `scripts/adversarial_review_fable.py` sobre el diff del cableado, emparejado con las entradas Sol
+  ya registradas. Si el 2º revisor vuelve limpio, el cableado queda listo para el GO de despliegue
+  (que sigue siendo de Alberto, con los tres gates de exponer de la v9 §13: plazo de
+  `panel_usuarios`, paquete del abogado, medición XFF antes de encender `ip:`).
+- **Traza**: tallies `2026-08-19T10:45:38` · `11:10:01` · `11:34:33` · `11:51:49` en
+  `evals/adversarial_review_log.jsonl` (con `verdict_notes` de regla C); recibos Sol en
+  `evals/adversarial_reviews/`; el addendum de supersesión de §3.2 al final del eval v9.

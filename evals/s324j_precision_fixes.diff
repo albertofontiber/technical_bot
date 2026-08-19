@@ -1,0 +1,194 @@
+diff --git a/dashboard/auth.py b/dashboard/auth.py
+index e0046d1..6808c67 100644
+--- a/dashboard/auth.py
++++ b/dashboard/auth.py
+@@ -545,9 +545,17 @@ class Cerrojo:
+         declarado: si el proceso muere entre `admitir` y `acierto`, queda un
+         +1 fantasma que decae solo (solo pesa por encima de `FALLOS_LIBRES`).
+ 
+-        Este doble en memoria fija la SEMÁNTICA que `panel_puerta` reproduce en
+-        SQL para el cerrojo distribuido (`dashboard/cerrojo.py`); la tabla de
+-        casos de la puerta 4 ata las dos implementaciones."""
++        Este doble en memoria fija la SEMÁNTICA DE BLOQUEO Y BACKOFF que
++        `panel_puerta` reproduce en SQL para el cerrojo distribuido
++        (`dashboard/cerrojo.py`); la tabla de casos de la puerta 4 ata esa
++        parte. Lo que NO es idéntico, a propósito (ronda de verificación,
++        S3-M2): la RETENCIÓN. El SQL poda una clave inactiva a las
++        `CERROJO_RETENCION_S` (24 h) SIEMPRE —requisito RGPD de `panel_intentos`,
++        que es dato personal seudonimizado—; este `_podar` solo actúa cuando la
++        tabla llega al cap, porque un dict en memoria no tiene ese requisito.
++        La diferencia solo se nota en una clave que lleva >24 h sin actividad y
++        por debajo del cap: en SQL renace su backoff, en memoria persiste. Es
++        una divergencia declarada, no un defecto de paridad."""
+         if ahora is None:
+             ahora = time.monotonic()
+         espera = self.bloqueado(claves, ahora)
+diff --git a/dashboard/cerrojo.py b/dashboard/cerrojo.py
+index c3a1271..dfefe79 100644
+--- a/dashboard/cerrojo.py
++++ b/dashboard/cerrojo.py
+@@ -145,8 +145,10 @@ def _transporte_delete(params: dict) -> httpx.Response:
+ 
+ 
+ class CerrojoSupabase:
+-    """`admitir` = la RPC `panel_puerta` (una transacción: poda, cap, siembra,
+-    comprobación y conteo — v9 §3.2-§3.4); `acierto` = un DELETE por PostgREST.
++    """`admitir` = la RPC `panel_puerta` (una transacción: comprobación de
++    bloqueo → poda → cap → conteo; el orden lo fijó la ronda de verificación
++    del cableado — el check va PRIMERO, sin sembrar ni podar, igual que el
++    doble en memoria); `acierto` = un DELETE por PostgREST.
+ 
+     Los transportes se INYECTAN para que la suite corra sin red (puerta 10)."""
+ 
+@@ -156,8 +158,9 @@ class CerrojoSupabase:
+ 
+     def admitir(self, claves: tuple[str, ...], ahora: float | None = None,
+                 *, _sonda: bool = False) -> float:
+-        # `ahora` se ignora a propósito: el reloj es `now()` DE LA BASE —
+-        # coherente entre instancias serverless que nacen y mueren (v9 §3.2).
++        # `ahora` se ignora a propósito: el reloj lo pone la base con
++        # `clock_timestamp()` DESPUÉS del advisory lock — coherente entre
++        # instancias serverless que nacen y mueren.
+         if not (SUPABASE_URL and SUPABASE_SERVICE_KEY):
+             raise CerrojoNoDisponible(
+                 "el panel no tiene credenciales de Supabase (SUPABASE_URL / "
+diff --git a/docs/DASHBOARD_DESPLIEGUE.md b/docs/DASHBOARD_DESPLIEGUE.md
+index 826681b..0bfa842 100644
+--- a/docs/DASHBOARD_DESPLIEGUE.md
++++ b/docs/DASHBOARD_DESPLIEGUE.md
+@@ -55,15 +55,23 @@ pero sí barato para él. Dos cosas lo acotan, y por eso va declarado y no como
+ 
+ 1. El suelo scrypt hace inviable la fuerza bruta de una contraseña larga aunque el backoff se
+    resetee.
+-2. **Encender la mitad `ip:` tras la medición de XFF lo cierra**, y esto SÍ es cierto desde la
+-   ronda de verificación del cableado (S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar
+-   o sembrar, así que un intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea
+-   la fila `u:` nueva ni dispara la poda. Con `ip:` contando, el atacante se bloquea a sí mismo y
+-   deja de poder inflar. (Antes del reorden la siembra iba primero y este bypass sobrevivía a
+-   `ip:` — se corrigió realineando la RPC con el doble en memoria.)
+-
+-Es un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara con `ip:` aún
+-apagada, la respuesta es subir el cap o adelantar la medición de XFF, no un parche.
++2. **Encender la mitad `ip:` tras la medición de XFF cierra el caso de UNA IP** (ronda de
++   verificación, S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar o sembrar, así que un
++   intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea la fila `u:` nueva ni
++   dispara la poda. Con `ip:` contando, un atacante desde una IP fija se bloquea a sí mismo y deja
++   de inflar. (Antes del reorden la siembra iba primero y el bypass sobrevivía a `ip:`; se
++   corrigió realineando la RPC con el doble en memoria.)
++
++   **Lo que `ip:` NO cierra**, y hay que decirlo: un botnet con IPs rotatorias y usuarios frescos
++   no bloquea ninguna clave, así que sigue pudiendo inflar el cap. Es el límite estructural del
++   cerrojo por-IP, ya declarado en `dashboard/auth.py` («un botnet con mil direcciones»): contra
++   un ataque verdaderamente distribuido la defensa es el suelo scrypt sobre una contraseña larga,
++   no el cerrojo. El cap mantiene la tabla acotada; no promete preservar todos los bloqueos vivos
++   bajo un ataque distribuido.
++
++El gate de XFF no es opcional, pero tampoco es una bala de plata contra el desalojo. Si el patrón
++se observara, la respuesta es subir el cap, adelantar la medición de XFF, o —si un botnet lo
++explotara— endurecer aguas arriba (rate-limit del borde), no un parche en la RPC.
+ 
+ ## Por qué Vercel
+ 
+diff --git a/evals/s324i_panel_vercel_propuesta_v9.md b/evals/s324i_panel_vercel_propuesta_v9.md
+index 9a906b3..6a1a103 100644
+--- a/evals/s324i_panel_vercel_propuesta_v9.md
++++ b/evals/s324i_panel_vercel_propuesta_v9.md
+@@ -1045,3 +1045,31 @@ candidato natural el día que se haga), pero el abogado y el gate la ven declara
+ (4) la medición de XFF, tras la cual
+ — y solo tras la cual — se enciende la mitad `ip:` del cerrojo (§3.1/§8). El paso (3) incluye el
+ smoke del cerrojo contra el despliegue real (la capa PostgREST que el contenedor de CI no cubre).
++
++---
++
++## ADDENDUM (s324j, cableado — supersesión de §3.2 por el HEAD)
++
++El diseño de arriba es el CONTRATO adjudicado (seis rondas de dúo). Al cablearlo, dos rondas más
++del dúo SOBRE EL DIFF refinaron un punto de §3.2, y el CÓDIGO en HEAD supera a la prosa de §3.2 en
++esto — registrado aquí para que nadie «restaure» la versión del diseño creyéndola canónica:
++
++- **§3.2 describía**: poda → siembra (`INSERT ... ON CONFLICT DO NOTHING`) → `FOR UPDATE` →
++  comprobación de bloqueo → conteo. La siembra iba ANTES de comprobar el bloqueo.
++- **El HEAD hace** (ronda de verificación, S2-M1): **comprobación de bloqueo PRIMERO** (con
++  `SELECT` simple bajo el advisory lock, sin sembrar ni podar) → si bloqueado, `return` sin tocar
++  la tabla → si no, poda → cap → conteo (el upsert final siembra la clave fresca). Motivo: sembrar
++  antes de comprobar dejaba que un atacante ya bloqueado por su clave `ip:` siguiera creando una
++  fila `u:` fresca por intento e inflara el cap. El orden nuevo es el del doble en memoria
++  (`auth.Cerrojo.admitir`: `bloqueado()` —solo lee— antes de `fallo()` —siembra—). La
++  siembra-separada-antes-del-`FOR UPDATE` se RETIRÓ: el advisory lock global ya serializa las
++  llamadas, así que el upsert final basta como siembra sin reintroducir S-C3.
++- **Reloj** (S-m1): `clock_timestamp()` leído DESPUÉS del lock, no `now()` del inicio de
++  transacción (que dejaba a llamadas encoladas escribir `ultimo` hacia atrás). Límite declarado:
++  es reloj de pared, no monotónico como `time.monotonic()`.
++
++Todo lo demás de §3.2-§3.5 (contar-al-admitir, upsert anti-`acierto`, advisory lock, fail-open por
++conexión / 503 por respuesta ≥400, `ip:` apagada hasta XFF) se cableó tal cual. Traza de las dos
++rondas de cableado: tallies `2026-08-19T10:45:38`, `11:10:01` y `11:34:33` en
++`evals/adversarial_review_log.jsonl` (el 2º revisor frontera Anthropic cayó por crédito agotado a
++partir de la ronda de las 11:10 — DEC-236; adjudicado con el cross-model Sol + regla C).
+diff --git a/migrations/019_panel_usuarios_cerrojo.sql b/migrations/019_panel_usuarios_cerrojo.sql
+index 0d82e55..82275c2 100644
+--- a/migrations/019_panel_usuarios_cerrojo.sql
++++ b/migrations/019_panel_usuarios_cerrojo.sql
+@@ -325,9 +325,16 @@ BEGIN
+     END IF;
+ 
+     -- La ventana, ARMADA (el autocontrol del patrón s299, para ESTA tabla):
+-    -- RLS forzada + exactamente UNA política alcanza al rol + es LA de la
+-    -- ventana de 24 h. Sin esto, un DISABLE de debug o una política extra
+-    -- permisiva vaciarían la tabla con un recibo de aspecto normal.
++    -- RLS forzada + exactamente UNA política alcanza al rol + su predicado
++    -- nombra `ultimo` y contiene la forma canónica '24:00:00'. ALCANCE HONESTO
++    -- (ronda de verificación, S3-M3): es un tirante anti-sabotaje BEST-EFFORT
++    -- —caza el DISABLE de RLS, la política ausente, y una segunda política
++    -- permisiva— NO una verificación SEMÁNTICA exacta de la ventana: una
++    -- política reescrita a mano a `now() - (interval '24 hours' + interval
++    -- '1 hour')` contendría '24:00:00' y pasaría. Verificar el intervalo
++    -- exacto desde el texto de `pg_qual` sería más frágil que lo que compra;
++    -- la defensa REAL es que el DELETE no lleva WHERE y la ventana la impone
++    -- la política, con este tirante cazando las alteraciones groseras.
+     IF NOT EXISTS (
+            SELECT 1 FROM pg_class c
+             WHERE c.oid = to_regclass('public.panel_intentos')
+diff --git a/tests/test_s324j_panel_pg.py b/tests/test_s324j_panel_pg.py
+index 3b2b4f7..7822b5f 100644
+--- a/tests/test_s324j_panel_pg.py
++++ b/tests/test_s324j_panel_pg.py
+@@ -236,10 +236,14 @@ def test_la_rafaga_concurrente_sobre_clave_fresca_admite_libres_mas_uno(panel):
+     assert admitidos == auth.FALLOS_LIBRES + 1, resultados
+ 
+ 
+-def test_el_entrelazado_con_acierto_no_deja_admisiones_sin_contar(panel):
++def test_el_upsert_recrea_la_fila_que_acierto_borro(panel):
+     """Ronda S6-M2: el DELETE de `acierto` corre FUERA del advisory lock y
+-    puede borrar la fila «garantizada». Con el incremento-siempre-upsert la
+-    fila renace con fallos=1 — la admisión nunca queda sin contar."""
++    puede borrar la fila. Este test modela el EFECTO de ese entrelazado con un
++    DELETE secuencial (no reproduce la carrera — honestidad de test, ronda de
++    verificación S3-m1): el upsert-siempre recrea la fila con fallos=1, así que
++    la admisión que sigue nunca queda sin contar. Que el upsert sea correcto
++    BAJO la carrera lo sostiene READ COMMITTED + el advisory lock, no este
++    test."""
+     with _como_service_role(panel) as cur:
+         for _ in range(3):
+             assert _puerta(cur, ["u:leg"]) == 0.0
+@@ -287,10 +291,16 @@ def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
+     panel.rollback()
+ 
+ 
+-def test_ultimo_no_retrocede_bajo_concurrencia(panel):
+-    """Ronda de verificación, S2-m1: con `clock_timestamp()` leído DESPUÉS del
+-    advisory lock (no `now()` de inicio de tx), llamadas serializadas escriben
+-    `ultimo` monótonamente creciente — no hacia atrás."""
++def test_ultimo_es_del_presente_no_del_inicio_de_transaccion(panel):
++    """Ronda de verificación, S2-m1 / honestidad S3-M5: lo que este test PRUEBA
++    es que `ultimo` queda en el PRESENTE tras una ráfaga serializada — no en el
++    pasado. La monotonía FUERTE (cada escritura ≥ la anterior) se sostiene por
++    CONSTRUCCIÓN, no por este test: `clock_timestamp()` se lee una vez por
++    transacción, DESPUÉS del advisory lock que las serializa, así que la
++    llamada k lo lee después de que la k−1 haya confirmado. Con `now()` (inicio
++    de tx) una llamada encolada escribiría un `ultimo` retrasado; el assert de
++    «< 5 s» lo cazaría solo si el retraso fuera grande, así que el valor real
++    de este test es de regresión gruesa, no la prueba de la monotonía."""
+     panel.rollback()
+     barrera = threading.Barrier(8)
+ 

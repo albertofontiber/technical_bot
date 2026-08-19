@@ -25,7 +25,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324j — 19 ago 2026; piloto DG vivo)
+## Estado actual (s324j — 19 ago 2026; panel CABLEADO, dúo pendiente de crédito)
 
 **La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
@@ -61,36 +61,33 @@ generan las de los modelos, no coleccionar confusiones) · el gate de ASR con �
 (DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
-### QUÉ SIGUE — cablear el panel (diseño CERRADO en s324j; DEC-239)
+### QUÉ SIGUE — el panel a Vercel: CABLEADO y verificado, dúo pendiente de crédito (DEC-240)
 
-**El diseño del panel a Vercel está TERMINADO y validado: `evals/s324i_panel_vercel_propuesta_v9.md`**
-(s324j, 19-ago). Seis rondas del dúo en una sesión (v3→v9, 64 hallazgos, cada uno verificado con
-regla C y cerrado — traza completa en el tally, ts `07:50:18`→`09:02:03` del 19-ago): r1 tumbó 3
-críticos; desde r2, cero defectos de mecanismo; r6 terminó con **Fable en «SÓLIDO» explícito**
-(~30 anclas, cero desajustes) y Sol con 5 medios de contrato-de-integración sobre código aún
-inexistente, cerrados en la v9. Piezas del diseño: `sello` de credencial en la cookie
-(revocación/cambio de contraseña efectivos en la siguiente petición), cerrojo distribuido
-contar-al-admitir (RPC `panel_puerta` INVOKER endurecida), frontera RLS/REVOKE de la 016 en las
-tablas nuevas, idempotencia por `op`, retención por el patrón s299 (función hermana diaria con
-recibo), y `IdentidadNoDisponible` (una caída no miente «credenciales incorrectas»).
+**El panel está CABLEADO, no solo diseñado** (s324j, 19-ago; diseño validado en
+`evals/s324i_panel_vercel_propuesta_v9.md`, DEC-239). Migraciones `019`/`020`, `dashboard/cerrojo.py`,
+sello + `IdentidadNoDisponible` + `BackendSupabase`, cerrojo distribuido `panel_puerta`, `op`,
+`revocada_por`, script de alta, enchufe en `api/index.py`, ~90 puertas + gate de integración pg.
+**Verificado**: suite **4517 passed**; el gate pg contra un **Postgres 17 REAL** 17/17 (ráfaga
+concurrente, bypass del cap cerrado, política-como-ventana). No desplegado.
 
-**La sesión siguiente CABLEA — con el GO de Alberto** (un diseño SÓLIDO no es un GO, DEC-173):
-migraciones `019`/`020` + `dashboard/cerrojo.py` + sello + op, las ~13 puertas y el test de
-integración pg (patrón s295). El dúo VUELVE a correr sobre el DIFF (Protocolo 3, ALTO). La v9
-lleva §13 con el alcance exacto y la secuencia.
+**Lo que FALTA para cerrar, en orden**:
+1. **Recargar el crédito de Anthropic** (acción de Alberto): el 2º revisor frontera del dúo
+   (Fable/Opus) cae por `400 credit balance too low` desde la 2ª ronda del diff. El canon dice que
+   eso NO dispensa el dúo en ALTO (`ADVERSARIAL_REVIEWER.md:80-92`), así que **el cableado queda
+   PENDIENTE de ese 2º revisor** — corrió solo el cross-model Sol (4 rondas; cazó un fallo de
+   seguridad real: la siembra antes del check de bloqueo). Con crédito, correr
+   `scripts/adversarial_review_fable.py` sobre el diff.
+2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173).
+3. **Los tres gates de EXPONER** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+   panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
+   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False).
+4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
+   `psql --single-transaction`); alta de usuarios con `scripts/s324j_panel_usuario.py`; sonda del
+   cerrojo; smoke. Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
 
-**Gates previos a EXPONER, no opcionales** (v9 §13): plazo `[DECIDIR: Alberto]` de
-`panel_usuarios` decidido · panel dentro del paquete del abogado (DEC-231) — que además NOMBRA el
-pendiente canónico de la purga 24m de `bot_invitaciones`/allowlist (adjudicada s324e, sin
-mecanismo) · medición XFF, tras la cual (y solo entonces) se enciende la mitad `ip:` del cerrojo
-— hasta entonces esa clave NI CUENTA NI BLOQUEA (con la IP compartida del proxy, 5 fallos de un
-atacante serían un 429 global; cazado en r5).
-
-**Hallazgo LATENTE de HOY, aparte del panel** (r1, S-C1 — verificado): anular una invitación está
-ROTA contra Supabase real — `gestion.py:271-273` firma en `nota` (r41) y el GRANT de la 016 no
-concede `UPDATE (nota)` → 42501. Invisible para los tests sin red. La 020 lo arregla de raíz
-(`revocada_por` + CHECK); si alguien anula una invitación desde el panel ANTES de cablear, fallará
-con «Supabase respondió 400».
+**Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
+contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);
+la 020 lo cierra de raíz con `revocada_por`.
 
 ---
 

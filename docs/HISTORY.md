@@ -5777,3 +5777,35 @@ no apareció inyectado en el contexto (el hook está cableado y el script funcio
 ejecutándolo); esta sesión no opinaba sobre ningún lever, no bloqueó. La memoria indexada
 (MEMORY.md) no está versionada en el repo y no se toca desde cloud; la traza canónica queda en
 DECISIONS/PLAN/HISTORY.
+
+## s324j — continuación (19 ago 2026): el panel, cableado; y el adversarial impidiéndome cerrar con medio dúo
+
+Con el diseño v9 ya cerrado (seis rondas del dúo, DEC-239), la continuación fue CABLEARLO. Se leyó
+la v9 entera y se implementó pieza a pieza contra su contrato: el sello de credencial en la cookie,
+el backend de Supabase con la disciplina del señuelo heredada, el cerrojo distribuido
+`panel_puerta`, la idempotencia por `op`, la firma `revocada_por` (que además cierra el 42501
+LATENTE de hoy en la anulación), las dos migraciones con su ACL enumerada y sus postcondiciones, y
+~90 puertas de test. Detalle que vale la pena: los tests PREDIJERON sus propias roturas — los dos
+dobles de backend sin `sello` se rompieron EN el test con traza, que es exactamente donde S4-M4 del
+diseño dijo que debían romperse. Para correr el gate de integración de verdad hizo falta instalar
+Postgres 17 local (PG16 no basta: la propuesta s295 usa el privilegio `MAINTAIN`, 17+); 17/17
+contra base real, incluida la ráfaga concurrente y el escenario adversarial del cap.
+
+El dúo sobre el DIFF (Protocolo 3) fue lo más instructivo. El cross-model Sol corrió cuatro rondas
+y cazó un fallo de SEGURIDAD real que ni el 2º revisor ni yo vimos en el cableado: `panel_puerta`
+sembraba una fila `u:` antes de comprobar el bloqueo, así que un atacante ya cerrado por su `ip:`
+seguía inflando el cap — una divergencia con el doble en memoria, que comprueba antes de sembrar.
+Se corrigió reordenando la RPC. Y dos de MIS fixes de esa ronda fueron sobre-correcciones que Sol
+revirtió (aceptar `'1 day'` en un autocontrol; quitar un trigger de CI que era una dependencia
+real). La ronda de verificación no fue ritual.
+
+El final es el mejor ejemplo de `feedback_my_bias` de la sesión. Estaba a punto de declarar el
+cableado «sólido» con un «sello final» que corría SOLO el cross-model Sol, porque el 2º revisor
+frontera Anthropic (Fable, y su fallback Opus) cayó por **crédito agotado** de la cuenta a mitad
+del diff. Sol emitió un crítico PROCEDIMENTAL, y la regla C lo confirmó contra el canon:
+`ADVERSARIAL_REVIEWER.md` dice literal que una credencial ausente deja `pending_fable` y «no
+completa ni dispensa el dúo», y yo había citado DEC-236 (que es sobre el ahogo por CONTEXTO, no por
+crédito) como si dispensara. No dispensa. Así que el cableado NO se declara sólido ni se mergea:
+queda cableado + verificado + cross-model completo, con el 2º revisor PENDIENTE hasta que Alberto
+recargue crédito. El adversarial existe justo para esto — para que no llame «hecho» a medio
+control. La PR se queda en draft.

@@ -545,17 +545,23 @@ class Cerrojo:
         declarado: si el proceso muere entre `admitir` y `acierto`, queda un
         +1 fantasma que decae solo (solo pesa por encima de `FALLOS_LIBRES`).
 
-        Este doble en memoria fija la SEMÁNTICA DE BLOQUEO Y BACKOFF que
-        `panel_puerta` reproduce en SQL para el cerrojo distribuido
-        (`dashboard/cerrojo.py`); la tabla de casos de la puerta 4 ata esa
-        parte. Lo que NO es idéntico, a propósito (ronda de verificación,
-        S3-M2): la RETENCIÓN. El SQL poda una clave inactiva a las
-        `CERROJO_RETENCION_S` (24 h) SIEMPRE —requisito RGPD de `panel_intentos`,
-        que es dato personal seudonimizado—; este `_podar` solo actúa cuando la
-        tabla llega al cap, porque un dict en memoria no tiene ese requisito.
-        La diferencia solo se nota en una clave que lleva >24 h sin actividad y
-        por debajo del cap: en SQL renace su backoff, en memoria persiste. Es
-        una divergencia declarada, no un defecto de paridad."""
+        Lo que este doble fija y `panel_puerta` reproduce EXACTAMENTE es la
+        FÓRMULA DE BLOQUEO Y BACKOFF para una clave presente (el intento k ve
+        `fallos=k−1`, mismo umbral, mismo castigo); la tabla de casos de la
+        puerta 4 ata esa parte. Lo que NO comparten son las POLÍTICAS DE PODA,
+        y difieren en criterio Y en momento (rondas S3-M2/S4-M2), no solo «tras
+        24 h»:
+          · este `_podar` solo actúa cuando la tabla llega al cap, y entonces
+            purga PRIMERO todo lo de espera≤0 —incluidas filas recientes con
+            ≤`FALLOS_LIBRES` fallos— y luego el ~10% más antiguo;
+          · el SQL poda >`CERROJO_RETENCION_S` (24 h) SIEMPRE (requisito RGPD de
+            `panel_intentos`, dato personal seudonimizado), y solo si aún supera
+            el cap sacrifica las más antiguas necesarias.
+        Así que qué claves sobreviven —y por tanto los conteos y el backoff
+        FUTURO de una clave repoblada— puede diferir entre las dos bajo presión
+        de cap o de retención. Es una divergencia deliberada (el cerrojo
+        distribuido tiene un requisito RGPD que el dict no), declarada aquí para
+        no venderla como paridad total."""
         if ahora is None:
             ahora = time.monotonic()
         espera = self.bloqueado(claves, ahora)
