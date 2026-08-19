@@ -8564,3 +8564,31 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   COMPLETO de `otros` (no por muestra): **2 de 109 = 1,8 %**. El tuneo se para aquí.
 - **Coste total del ciclo**: cinco pasadas del histórico (v2→v6), ~$0,62, 109/109 y 0 fallos en
   todas. **Traza**: tally `2026-08-19T22:18:08`; recibos Sol/Fable en `evals/adversarial_reviews/`.
+
+### DEC-246 addendum 2 (s326b) — El smoke del preview destapó que `config/` nunca viajaba al bundle: el Explorador llevaba desde #308 con el filtro de categorías VACÍO en producción, en silencio
+
+- **Cómo se encontró**: haciendo el smoke público del preview de #311. Las tres rutas daban 302
+  y eso **no era la app** sino el SSO de Vercel (`location: vercel.com/sso-api`) — es decir, el
+  smoke no probaba nada, y decirlo obligó a buscar el riesgo por otro lado: ¿viaja al bundle el
+  fichero que el Explorador lee? **No.** `.vercelignore` excluye todo (`/*`) y re-incluye a mano
+  `api`, `dashboard`, `src`, `scripts`, `requirements.txt` y `vercel.json`. `config/` **nunca
+  estuvo**.
+- **El efecto real, desde el merge de #308**: en producción `cargar_taxonomia()` falla,
+  `categorias_validas()` hace fail-open a `()` y el desplegable de categorías del Explorador
+  sale **vacío**. Sin excepción, sin 500 y sin log: el fail-open que se añadió para que un YAML
+  ausente no tumbara la página convirtió un fallo ruidoso en uno **mudo**. Misma clase que el
+  PyYAML ausente (addendum 1) pero silenciosa — y por eso más cara.
+- **Falsa tranquilidad por el camino, declarada**: la primera comprobación del autor usó
+  `fnmatch` contra los patrones y dio «NINGUNO → el YAML viaja al bundle». Era **falsa**:
+  `.vercelignore` es gitignore-style (gana el último patrón que casa; `/*` barre la raíz
+  entera), no glob suelto. Verificar con la semántica equivocada es no verificar.
+- **Cierres**: (1) `!/config` en `.vercelignore` con el porqué escrito (244 KB enteros, no se
+  afina más); (2) **gate nuevo** `tests/test_s326_datos_del_panel_en_el_bundle.py` — hermano del
+  de requirements, pero para FICHEROS DE DATOS: implementa la semántica real de gitignore y
+  falla si un fichero que la superficie lee queda fuera del bundle. **Control negativo
+  ejecutado**: quitar `!/config` lo pone rojo; restaurarlo, verde. Y el propio comprobador
+  tiene su control (`evals/` y `docs/` fuera, `dashboard/` y `src/` dentro).
+- **Lección para el registro**: un fail-open protege la PÁGINA, no la VERDAD. Cuando se añade
+  uno, hay que preguntarse qué deja de verse — aquí, que faltaba un fichero. Los fail-open del
+  panel que degradan a «vacío» necesitan que algo AFIRME la precondición en CI, o el silencio
+  se instala.
