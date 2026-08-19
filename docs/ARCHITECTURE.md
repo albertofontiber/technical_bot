@@ -17,13 +17,21 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s324j (19 ago 2026) — EL PANEL WEB ESTÁ VIVO Y VERIFICADO.** Desplegado en
+> **https://technical-bot-lake.vercel.app** (proyecto Vercel propio, DEC-244), con las
+> migraciones **019/020 aplicadas** (usuarios en `panel_usuarios`, cerrojo distribuido
+> `panel_puerta` + reloj diario de retención) y **acceso verificado por Alberto** — el login
+> real ejercitó scrypt+sello+cookie+cerrojo contra PostgREST. Dúo completo sobre TODO el
+> cableado (DEC-239→244). Gates abiertos: plazo de retención de `panel_usuarios` · paquete
+> del abogado · medición XFF (la mitad `ip:` del cerrojo sigue apagada).
+>
 > **Estado s324e/f (17 ago 2026) — EL PILOTO DG ESTÁ ABIERTO Y CONTROLADO.** La **puerta de acceso
 > está ACTIVA en producción** (`BOT_ALLOWLIST=on`, allowlist + invitación de un solo uso, tope
 > diario 30, chat privado obligatorio) con las migraciones **015 y 016 aplicadas**: `bot_errors`,
 > `bot_allowlist` (1 fila: Alberto, alta por la propia migración) y `bot_invitaciones`. La red de
-> errores registra por clase/módulo/severidad sin dato personal directo. **En rama, sin desplegar**:
+> errores registra por clase/módulo/severidad sin dato personal directo. **En rama entonces, HOY desplegado** (ver estado s324j arriba):
 > el **panel web** (`dashboard/`, servicio ASGI aparte — nada responde sin sesión, la clave de
-> servicio no sale del proceso) y el **arreglo del catálogo** (DEC-232): la pregunta por fabricantes
+> servicio no sale del proceso); y el **arreglo del catálogo** (DEC-232): la pregunta por fabricantes
 > se responde con las **30 marcas** de `documents` (activas, paginado), no con un volcado de
 > `product_model` de chunks que servía 22 de 756. Flags apagados: `MISMATCH_ANSWER`.
 >

@@ -101,9 +101,14 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
 **Lo que FALTA para USARLO, en orden**:
 1. ~~Mergear las PRs~~ HECHO (#301 tandas, #302 requirements — mergeadas por Alberto).
 2. ~~El GO de despliegue~~ DADO por los hechos (Alberto creó el proyecto y ordenó aplicar las migraciones).
-3. **El ALTA de usuarios** (Alberto, en su máquina): `python -m scripts.s324j_panel_usuario alta alberto`
-   con las credenciales de producción; luego login real + smoke del cerrojo (runbook paso 4).
-4. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+3. ~~El ALTA de usuarios~~ HECHA (19-ago noche): Alberto se dio de alta y **ENTRÓ** — el login
+   real ejercitó la cadena entera (scrypt, sello, cookie firmada, cerrojo `panel_puerta` vía
+   PostgREST). El panel está OPERATIVO de punta a punta.
+4. **QUÉ SIGUE (próxima sesión): las MÉTRICAS del panel** — Alberto va a pasar feedback con
+   las métricas que quiere añadir a las vistas. Arranque: recibir su lista ANTES de diseñar
+   (nada de anticipar vistas); recordar que `_tabla_de_vista` solo pinta columnas DECLARADAS
+   (v9 §7) y que toda vista nueva sale de vistas SQL agregadas, no de tablas crudas.
+5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
    NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
