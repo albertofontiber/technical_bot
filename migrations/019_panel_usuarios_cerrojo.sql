@@ -325,9 +325,16 @@ BEGIN
     END IF;
 
     -- La ventana, ARMADA (el autocontrol del patrón s299, para ESTA tabla):
-    -- RLS forzada + exactamente UNA política alcanza al rol + es LA de la
-    -- ventana de 24 h. Sin esto, un DISABLE de debug o una política extra
-    -- permisiva vaciarían la tabla con un recibo de aspecto normal.
+    -- RLS forzada + exactamente UNA política alcanza al rol + su predicado
+    -- nombra `ultimo` y contiene la forma canónica '24:00:00'. ALCANCE HONESTO
+    -- (ronda de verificación, S3-M3): es un tirante anti-sabotaje BEST-EFFORT
+    -- —caza el DISABLE de RLS, la política ausente, y una segunda política
+    -- permisiva— NO una verificación SEMÁNTICA exacta de la ventana: una
+    -- política reescrita a mano a `now() - (interval '24 hours' + interval
+    -- '1 hour')` contendría '24:00:00' y pasaría. Verificar el intervalo
+    -- exacto desde el texto de `pg_qual` sería más frágil que lo que compra;
+    -- la defensa REAL es que el DELETE no lleva WHERE y la ventana la impone
+    -- la política, con este tirante cazando las alteraciones groseras.
     IF NOT EXISTS (
            SELECT 1 FROM pg_class c
             WHERE c.oid = to_regclass('public.panel_intentos')

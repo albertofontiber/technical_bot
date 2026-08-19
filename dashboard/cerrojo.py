@@ -145,8 +145,10 @@ def _transporte_delete(params: dict) -> httpx.Response:
 
 
 class CerrojoSupabase:
-    """`admitir` = la RPC `panel_puerta` (una transacción: poda, cap, siembra,
-    comprobación y conteo — v9 §3.2-§3.4); `acierto` = un DELETE por PostgREST.
+    """`admitir` = la RPC `panel_puerta` (una transacción: comprobación de
+    bloqueo → poda → cap → conteo; el orden lo fijó la ronda de verificación
+    del cableado — el check va PRIMERO, sin sembrar ni podar, igual que el
+    doble en memoria); `acierto` = un DELETE por PostgREST.
 
     Los transportes se INYECTAN para que la suite corra sin red (puerta 10)."""
 
@@ -156,8 +158,9 @@ class CerrojoSupabase:
 
     def admitir(self, claves: tuple[str, ...], ahora: float | None = None,
                 *, _sonda: bool = False) -> float:
-        # `ahora` se ignora a propósito: el reloj es `now()` DE LA BASE —
-        # coherente entre instancias serverless que nacen y mueren (v9 §3.2).
+        # `ahora` se ignora a propósito: el reloj lo pone la base con
+        # `clock_timestamp()` DESPUÉS del advisory lock — coherente entre
+        # instancias serverless que nacen y mueren.
         if not (SUPABASE_URL and SUPABASE_SERVICE_KEY):
             raise CerrojoNoDisponible(
                 "el panel no tiene credenciales de Supabase (SUPABASE_URL / "

@@ -1045,3 +1045,31 @@ candidato natural el día que se haga), pero el abogado y el gate la ven declara
 (4) la medición de XFF, tras la cual
 — y solo tras la cual — se enciende la mitad `ip:` del cerrojo (§3.1/§8). El paso (3) incluye el
 smoke del cerrojo contra el despliegue real (la capa PostgREST que el contenedor de CI no cubre).
+
+---
+
+## ADDENDUM (s324j, cableado — supersesión de §3.2 por el HEAD)
+
+El diseño de arriba es el CONTRATO adjudicado (seis rondas de dúo). Al cablearlo, dos rondas más
+del dúo SOBRE EL DIFF refinaron un punto de §3.2, y el CÓDIGO en HEAD supera a la prosa de §3.2 en
+esto — registrado aquí para que nadie «restaure» la versión del diseño creyéndola canónica:
+
+- **§3.2 describía**: poda → siembra (`INSERT ... ON CONFLICT DO NOTHING`) → `FOR UPDATE` →
+  comprobación de bloqueo → conteo. La siembra iba ANTES de comprobar el bloqueo.
+- **El HEAD hace** (ronda de verificación, S2-M1): **comprobación de bloqueo PRIMERO** (con
+  `SELECT` simple bajo el advisory lock, sin sembrar ni podar) → si bloqueado, `return` sin tocar
+  la tabla → si no, poda → cap → conteo (el upsert final siembra la clave fresca). Motivo: sembrar
+  antes de comprobar dejaba que un atacante ya bloqueado por su clave `ip:` siguiera creando una
+  fila `u:` fresca por intento e inflara el cap. El orden nuevo es el del doble en memoria
+  (`auth.Cerrojo.admitir`: `bloqueado()` —solo lee— antes de `fallo()` —siembra—). La
+  siembra-separada-antes-del-`FOR UPDATE` se RETIRÓ: el advisory lock global ya serializa las
+  llamadas, así que el upsert final basta como siembra sin reintroducir S-C3.
+- **Reloj** (S-m1): `clock_timestamp()` leído DESPUÉS del lock, no `now()` del inicio de
+  transacción (que dejaba a llamadas encoladas escribir `ultimo` hacia atrás). Límite declarado:
+  es reloj de pared, no monotónico como `time.monotonic()`.
+
+Todo lo demás de §3.2-§3.5 (contar-al-admitir, upsert anti-`acierto`, advisory lock, fail-open por
+conexión / 503 por respuesta ≥400, `ip:` apagada hasta XFF) se cableó tal cual. Traza de las dos
+rondas de cableado: tallies `2026-08-19T10:45:38`, `11:10:01` y `11:34:33` en
+`evals/adversarial_review_log.jsonl` (el 2º revisor frontera Anthropic cayó por crédito agotado a
+partir de la ronda de las 11:10 — DEC-236; adjudicado con el cross-model Sol + regla C).

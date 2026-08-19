@@ -236,10 +236,14 @@ def test_la_rafaga_concurrente_sobre_clave_fresca_admite_libres_mas_uno(panel):
     assert admitidos == auth.FALLOS_LIBRES + 1, resultados
 
 
-def test_el_entrelazado_con_acierto_no_deja_admisiones_sin_contar(panel):
+def test_el_upsert_recrea_la_fila_que_acierto_borro(panel):
     """Ronda S6-M2: el DELETE de `acierto` corre FUERA del advisory lock y
-    puede borrar la fila «garantizada». Con el incremento-siempre-upsert la
-    fila renace con fallos=1 — la admisión nunca queda sin contar."""
+    puede borrar la fila. Este test modela el EFECTO de ese entrelazado con un
+    DELETE secuencial (no reproduce la carrera — honestidad de test, ronda de
+    verificación S3-m1): el upsert-siempre recrea la fila con fallos=1, así que
+    la admisión que sigue nunca queda sin contar. Que el upsert sea correcto
+    BAJO la carrera lo sostiene READ COMMITTED + el advisory lock, no este
+    test."""
     with _como_service_role(panel) as cur:
         for _ in range(3):
             assert _puerta(cur, ["u:leg"]) == 0.0
@@ -287,10 +291,16 @@ def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
     panel.rollback()
 
 
-def test_ultimo_no_retrocede_bajo_concurrencia(panel):
-    """Ronda de verificación, S2-m1: con `clock_timestamp()` leído DESPUÉS del
-    advisory lock (no `now()` de inicio de tx), llamadas serializadas escriben
-    `ultimo` monótonamente creciente — no hacia atrás."""
+def test_ultimo_es_del_presente_no_del_inicio_de_transaccion(panel):
+    """Ronda de verificación, S2-m1 / honestidad S3-M5: lo que este test PRUEBA
+    es que `ultimo` queda en el PRESENTE tras una ráfaga serializada — no en el
+    pasado. La monotonía FUERTE (cada escritura ≥ la anterior) se sostiene por
+    CONSTRUCCIÓN, no por este test: `clock_timestamp()` se lee una vez por
+    transacción, DESPUÉS del advisory lock que las serializa, así que la
+    llamada k lo lee después de que la k−1 haya confirmado. Con `now()` (inicio
+    de tx) una llamada encolada escribiría un `ultimo` retrasado; el assert de
+    «< 5 s» lo cazaría solo si el retraso fuera grande, así que el valor real
+    de este test es de regresión gruesa, no la prueba de la monotonía."""
     panel.rollback()
     barrera = threading.Barrier(8)
 

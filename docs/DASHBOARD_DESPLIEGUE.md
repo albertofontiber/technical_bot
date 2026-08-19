@@ -55,15 +55,23 @@ pero sí barato para él. Dos cosas lo acotan, y por eso va declarado y no como 
 
 1. El suelo scrypt hace inviable la fuerza bruta de una contraseña larga aunque el backoff se
    resetee.
-2. **Encender la mitad `ip:` tras la medición de XFF lo cierra**, y esto SÍ es cierto desde la
-   ronda de verificación del cableado (S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar
-   o sembrar, así que un intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea
-   la fila `u:` nueva ni dispara la poda. Con `ip:` contando, el atacante se bloquea a sí mismo y
-   deja de poder inflar. (Antes del reorden la siembra iba primero y este bypass sobrevivía a
-   `ip:` — se corrigió realineando la RPC con el doble en memoria.)
+2. **Encender la mitad `ip:` tras la medición de XFF cierra el caso de UNA IP** (ronda de
+   verificación, S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar o sembrar, así que un
+   intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea la fila `u:` nueva ni
+   dispara la poda. Con `ip:` contando, un atacante desde una IP fija se bloquea a sí mismo y deja
+   de inflar. (Antes del reorden la siembra iba primero y el bypass sobrevivía a `ip:`; se
+   corrigió realineando la RPC con el doble en memoria.)
 
-Es un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara con `ip:` aún
-apagada, la respuesta es subir el cap o adelantar la medición de XFF, no un parche.
+   **Lo que `ip:` NO cierra**, y hay que decirlo: un botnet con IPs rotatorias y usuarios frescos
+   no bloquea ninguna clave, así que sigue pudiendo inflar el cap. Es el límite estructural del
+   cerrojo por-IP, ya declarado en `dashboard/auth.py` («un botnet con mil direcciones»): contra
+   un ataque verdaderamente distribuido la defensa es el suelo scrypt sobre una contraseña larga,
+   no el cerrojo. El cap mantiene la tabla acotada; no promete preservar todos los bloqueos vivos
+   bajo un ataque distribuido.
+
+El gate de XFF no es opcional, pero tampoco es una bala de plata contra el desalojo. Si el patrón
+se observara, la respuesta es subir el cap, adelantar la medición de XFF, o —si un botnet lo
+explotara— endurecer aguas arriba (rate-limit del borde), no un parche en la RPC.
 
 ## Por qué Vercel
 

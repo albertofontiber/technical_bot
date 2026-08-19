@@ -545,9 +545,17 @@ class Cerrojo:
         declarado: si el proceso muere entre `admitir` y `acierto`, queda un
         +1 fantasma que decae solo (solo pesa por encima de `FALLOS_LIBRES`).
 
-        Este doble en memoria fija la SEMÁNTICA que `panel_puerta` reproduce en
-        SQL para el cerrojo distribuido (`dashboard/cerrojo.py`); la tabla de
-        casos de la puerta 4 ata las dos implementaciones."""
+        Este doble en memoria fija la SEMÁNTICA DE BLOQUEO Y BACKOFF que
+        `panel_puerta` reproduce en SQL para el cerrojo distribuido
+        (`dashboard/cerrojo.py`); la tabla de casos de la puerta 4 ata esa
+        parte. Lo que NO es idéntico, a propósito (ronda de verificación,
+        S3-M2): la RETENCIÓN. El SQL poda una clave inactiva a las
+        `CERROJO_RETENCION_S` (24 h) SIEMPRE —requisito RGPD de `panel_intentos`,
+        que es dato personal seudonimizado—; este `_podar` solo actúa cuando la
+        tabla llega al cap, porque un dict en memoria no tiene ese requisito.
+        La diferencia solo se nota en una clave que lleva >24 h sin actividad y
+        por debajo del cap: en SQL renace su backoff, en memoria persiste. Es
+        una divergencia declarada, no un defecto de paridad."""
         if ahora is None:
             ahora = time.monotonic()
         espera = self.bloqueado(claves, ahora)
