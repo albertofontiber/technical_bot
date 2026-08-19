@@ -8086,3 +8086,50 @@ no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone,
   `13:52:45`·`14:00:56` (la final `duo_status=complete`) en `evals/adversarial_review_log.jsonl`;
   recibos en `evals/adversarial_reviews/`; sujeto: `evals/s324j_seguimiento_briefing_v3.md` (con
   addendum post-sello de cifras) + `evals/s324j_seguimiento.diff`.
+
+## DEC-242 (s324j, 19 ago 2026) — La revisión 2º-frontera por trozos, PAGADA y COMPLETA: el gap de DEC-241 queda CERRADO con tres cierres de código aplicados
+
+- **Contexto**: DEC-241 dejó declarado que el cableado del panel (#296, mergeado) tenía el resto
+  (identidad/rutas/gestión) sin pasada del 2º revisor frontera, con la factura de cerrarlo
+  (revisión por trozos) a decisión de Alberto. **Alberto adjudicó pagarla** («pago el segundo
+  revisor») y además mergeó la #298 (el seguimiento) durante la sesión.
+- **Estructura de la revisión** (para que el canon quede satisfecho sin re-pagar cobertura):
+  los ficheros de las tres tandas son **BYTE-IDÉNTICOS** al snapshot `8298c74` que Sol auditó en
+  sus 4 rondas del cableado (verificado: `git diff 8298c74..HEAD -- dashboard/ api/ scripts/...`
+  vacío) — así que el dúo por fichero queda: Sol (rondas talladas del cableado) + **Fable
+  standalone sobre el snapshot actual** (runner `--standalone`, briefings compactos por tanda —
+  el remedio DEC-236 — con `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000`; las tres tandas completaron a
+  la primera, 12 tool-calls cada una).
+- **Resultados y cierres aplicados** (regla C sobre cada hallazgo; 13 hallazgos, 13 confirmados,
+  **0 falsos positivos**; tallies en el log con ts `14:36:15` / `14:42:39` / `14:46:44`):
+  1. **Tanda 1 — identidad (auth/sesion): SÓLIDO con reservas**, 2 medios + 3 menores. Cableado:
+     `validar_registro_estricto` ya NO acepta params duplicados ni tokens vacíos (el `dict()`
+     los colapsaba en silencio — ahora exige `['n','r','p']` en orden, una vez); nuevo flag
+     `exigir_produccion=True` (el alta real exige los params del señuelo — un registro más
+     barato delataría por tiempo qué usuarios existen; antes era convención del script, ahora es
+     el validador); `csrf_valido` compara BYTES (con `str`, `compare_digest` exige ASCII y
+     LANZABA `TypeError` con un csrf no-ASCII — ahora es el False/403 prometido). +4 tests.
+  2. **Tanda 2 — puerta HTTP (app/datos/api): CÓDIGO SÓLIDO**, rojo documental. Cableado: el
+     docstring de `api/index.py` describía el cerrojo EN MEMORIA siendo ya distribuido
+     (contaminación legacy que una auditoría heredaría) — reescrito con la verdad, incluido el
+     hueco real: la sonda de arranque corre en lifespan/`__main__` y Vercel no garantiza el
+     lifespan → controles compensatorios = runbook (pasos 3-4) + fail-CERRAR por petición (503).
+     Dos comentarios anclados a Railway re-anclados a Vercel.
+  3. **Tanda 3 — gestión (gestion/scripts/020): SÓLIDO**. Cableado: el CHECK de `op` en la 020
+     lleva ahora longitud Y charset (`^[A-Za-z0-9_-]{8,64}$` — antes el charset vivía solo en el
+     regex del panel; la 020 sigue sin aplicar en prod, el backfill uuid lo cumple, gate pg
+     22/22 y gate de texto verdes con el cambio).
+  Los hallazgos restantes eran framing de MIS briefings (punteros §4/§2, orden firma↔CSRF,
+  GRANTs 016 vs 020) — tallados como hallazgos, sin cambio de código.
+- **Con esto, el gap de DEC-241 queda CERRADO**: todo el cableado del panel tiene dúo completo
+  (cross-model + 2º frontera). Los bloqueos restantes para live son los de siempre: GO de
+  Alberto (DEC-173) + los tres gates de exponer (v9 §13) + aplicar 019/020 + variables Vercel +
+  alta + smoke (runbook).
+- **Alternativas descartadas**: re-correr también a Sol por tanda (bytes ya cubiertos por sus 4
+  rondas talladas — coste sin control nuevo; la byte-identidad está verificada y escrita);
+  sonda de arranque en `api/index.py` a nivel de import (RTT por cold-start para cubrir lo que
+  el runbook + el 503 por petición ya cubren; el diseño v9 lo adjudicó así); dejar el charset
+  de `op` solo en el panel (asimetría que un filtro futuro heredaría — cerrada en la base).
+- **Traza**: recibos en `evals/adversarial_reviews/2026-08-19T14-3*`/`14-4*`; briefings
+  `evals/s324j_trozos_briefing_{1,2,3}_*.md`; verificación: gate pg 22/22 (PostgreSQL 17.11)
+  tras cada cambio, subset sin red 212 verdes, suite completa citada en el cierre de sesión.

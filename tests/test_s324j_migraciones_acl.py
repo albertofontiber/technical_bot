@@ -108,7 +108,9 @@ def test_la_hermana_corre_como_el_rol_con_cinturon_y_ventana_asertada():
 def test_la_020_lleva_op_revocada_por_check_y_sus_grant():
     assert ("ADD COLUMN op TEXT NOT NULL UNIQUE "
             "DEFAULT gen_random_uuid()::text") in C020
-    assert "CHECK (char_length(op) BETWEEN 8 AND 64)" in C020
+    # Tanda 3 del 2º frontera: longitud Y charset en la base (antes el charset
+    # vivía solo en el regex del panel).
+    assert "CHECK (op ~ '^[A-Za-z0-9_-]{8,64}$')" in C020
     assert "ADD COLUMN revocada_por TEXT" in C020
     assert "SET revocada_por = '(anterior a la 020)'" in C020
     assert "bot_invitaciones_revocacion_completa" in C020

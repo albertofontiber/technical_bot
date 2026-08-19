@@ -24,12 +24,18 @@ LO QUE ENCAJA SIN TOCAR NADA:
     mantiene intacta, que es la diferencia con montar una SPA que hable con la
     base directamente.
 
-LO QUE **NO** ENCAJA, y está declarado en `docs/DASHBOARD_DESPLIEGUE.md`: el
-cerrojo contra fuerza bruta cuenta los intentos fallidos en memoria del proceso.
-En un servicio siempre encendido eso sólo se pierde al reiniciar; aquí, cada
-invocación puede caer en una instancia distinta, así que el cerrojo protege mucho
-menos de lo que su código promete. Hasta que se mueva a la base, la defensa real
-es `scrypt` (~170 ms por intento) más una contraseña larga.
+LO QUE **NO** ENCAJA, y está declarado (tanda 2 del 2º frontera cazó aquí un
+párrafo legacy que aún describía el cerrojo en memoria): el cerrojo YA es
+distribuido — `panel_intentos` + la RPC `panel_puerta` (migración 019, DEC-239),
+enchufado abajo — así que contar intentos NO depende de la instancia. Lo que
+serverless sí deja fuera es la **sonda de arranque** (`comprobar_arranque`):
+corre en el lifespan ASGI y en `python -m dashboard`, y el runtime de Vercel no
+garantiza el lifespan, así que el fail-CERRAR de arranque puede no ejecutarse
+aquí. El control compensatorio es del runbook (`docs/DASHBOARD_DESPLIEGUE.md`
+pasos 3-4): la MISMA sonda lanzada a mano con credenciales de producción tras
+aplicar la 019, más el smoke del cerrojo contra el despliegue real. En runtime
+la protección no depende de la sonda: un `panel_puerta` ausente o sin GRANT
+responde >=400 → `CerrojoNoDisponible` → 503 (fail-CERRAR por petición).
 """
 # EL PUNTO DE ARRANQUE ELIGE (s324j, v9 §9): el panel no sabe que está en
 # Vercel — quien lo arranca, sí. Aquí se enchufan los backends de Supabase:

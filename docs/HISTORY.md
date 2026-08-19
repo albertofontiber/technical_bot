@@ -5881,3 +5881,29 @@ TECH_DEBT, sin roce) y cambió el modelo de la sesión a Fable 5 «porque Opus 4
 dando demasiadas vueltas» — el aviso llegó justo cuando las rondas convergían a nits, y
 la respuesta correcta fue la que pedía: cerrar la adjudicación de una vez en lugar de
 otra vuelta de dúo.
+
+## s324j-ter (19 ago 2026) — «Pago el segundo revisor»: las tres tandas que cerraron el gap
+
+Alberto mergeó la #298 a los seis minutos de abrirse, adjudicó pagar la revisión
+2º-frontera del resto del cableado, y preguntó — en llano — qué es lo que estaba
+pasando. Las tres tandas (identidad, puerta HTTP, gestión) completaron a la primera
+con el remedio DEC-236 por fin operativo: briefing compacto por trozo + presupuesto
+600k. La estructura que satisface el canon sin re-pagar: los bytes eran IDÉNTICOS a
+los que Sol auditó en sus 4 rondas (git diff vacío, escrito en DEC-242), así que
+Fable standalone completa el dúo por fichero.
+
+Trece hallazgos, trece confirmados, cero falsos positivos — y la mitad fueron el
+revisor cazando MIS briefings en vez del código (punteros errados, orden invertido,
+GRANTs mal atribuidos): el framing falso ES hallazgo, y esta vez el sesgo del autor
+quedó tallado tres veces. Del código salieron tres cierres reales: el validador
+estricto tragaba params duplicados en silencio (el dict() colapsaba `n=999,n=32768`),
+la invariante señuelo↔params vivía en una convención de script (ahora es un flag del
+validador que el alta exige), y `csrf_valido` convertía un token no-ASCII en
+TypeError en vez del 403 prometido (compare_digest sobre str exige ASCII — ahora
+compara bytes). Más un docstring de api/index.py que aún contaba el cerrojo en
+memoria de la era pre-019, y el charset de `op` subido del regex del panel al CHECK
+de la base.
+
+El panel queda con dúo completo en TODO el cableado y una lista de «falta» que ya es
+solo operación: merge de la PR de tandas, GO, dos gates de exponer con dueño, y el
+runbook de aplicar/configurar/smoke.

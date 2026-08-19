@@ -169,7 +169,11 @@ def csrf_valido(payload: dict, enviado: str | None) -> bool:
     esperado = (payload or {}).get("csrf")
     if not isinstance(esperado, str) or not isinstance(enviado, str) or not enviado:
         return False
-    return hmac.compare_digest(esperado, enviado)
+    # Sobre BYTES: `compare_digest` con `str` exige ASCII puro y LANZA TypeError
+    # con cualquier otro carácter — y `enviado` viene del formulario (utf-8 con
+    # errors="replace"), así que un csrf no-ASCII convertía el 403 prometido en
+    # una excepción (tanda 1 del 2º frontera). Codificado, compara siempre.
+    return hmac.compare_digest(esperado.encode("utf-8"), enviado.encode("utf-8"))
 
 
 # ----------------------------------------------------------------- la cabecera

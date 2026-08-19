@@ -33,9 +33,10 @@ EL ORDEN DE LA PUERTA, que es lo único que no se puede equivocar:
 `RUTAS_PUBLICAS` tiene exactamente DOS entradas y las dos son la pantalla de
 entrada. No hay excepción para «salud», ni para métricas, ni para un ping: un
 endpoint sin sesión es un endpoint que alguien acabará usando para saber si el
-panel existe. La consecuencia operativa, declarada: **no configures healthcheck
-en Railway** (o apúntalo a `/entrar`, que es lo único que responde 200 sin
-credenciales, y no dice nada de nadie).
+panel existe. La consecuencia operativa, declarada: **no configures ningún
+healthcheck de plataforma** (el panel vive en Vercel — tanda 2: el aviso decía
+«Railway» por herencia; si algún día hiciera falta, apúntalo a `/entrar`, que es
+lo único que responde 200 sin credenciales, y no dice nada de nadie).
 """
 from __future__ import annotations
 
@@ -177,7 +178,8 @@ def _ip_cliente(cabeceras: dict, directa: str) -> str:
     Se toma el elemento **más a la derecha** de `X-Forwarded-For`, no el
     primero. La cabecera se construye «cliente, proxy1, proxy2…» y cada salto
     AÑADE la dirección que vio: por tanto el último valor lo escribió el proxy
-    de confianza (el borde de Railway) y es la dirección que de verdad conectó.
+    de confianza (el borde de la plataforma — hoy Vercel; el texto decía
+    «Railway» por herencia, tanda 2) y es la dirección que de verdad conectó.
     Los de la izquierda los puede escribir cualquiera — usar el primero, que es
     el error habitual, convierte el cerrojo por IP en decorativo: basta con
     mandar una cabecera distinta en cada intento.

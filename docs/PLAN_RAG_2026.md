@@ -80,22 +80,25 @@ Remedio DEC-236 que funcionó: briefing compacto + `FABLE_REVIEW_MAX_TOTAL_TOKEN
 **Verificado**: gate pg **22/22** contra Postgres 17 real (control negativo del discriminante
 ejecutado); suite **4517 passed, 67 skipped**.
 
-**Gap DECLARADO, no dispensado** (críticos procedimentales de Sol, DEC-241): el 2º frontera solo
-vio `panel_puerta`+`Cerrojo.admitir` (al verificar S-M1/S-M2) — **el resto del cableado
-(rutas/sello/sesión/gestión) sigue sin pasada 2º-frontera** (el snapshot de #296 ya no existe
-intacto; no se hereda cobertura). Pagarlo = revisión por trozos con briefings compactos (~3-4
-tandas). Decisión de Alberto.
+**El gap 2º-frontera está CERRADO (DEC-242)**: Alberto pagó la revisión por trozos y las TRES
+tandas completaron a la primera (briefings compactos + presupuesto 600k — el remedio DEC-236).
+Identidad **SÓLIDO con reservas** (3 cierres cableados: estricto anti-duplicados +
+`exigir_produccion` en el alta + csrf sobre bytes), puerta HTTP **SÓLIDO** (rojo documental:
+docstring legacy de `api/index.py` reescrito), gestión **SÓLIDO** (charset de `op` al CHECK de
+la 020). 13 hallazgos, 13 confirmados, 0 falsos positivos. La #298 (seguimiento) también está
+MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
 
-**Lo que FALTA para cerrar, en orden**:
-1. **Mergear la PR del seguimiento** (lleva el fix real del cap que hoy viaja en `main`).
-2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173) — y decidir
-   si se paga la revisión por trozos del gap 2º-frontera antes o después del deploy.
+**Lo que FALTA para live, en orden** (ya solo operación — no queda revisión pendiente):
+1. **Mergear la PR de las tandas** (los 3 cierres de identidad + docstrings + CHECK de `op`).
+2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173).
 3. **Los tres gates de EXPONER** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
-   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False).
+   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
+   NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
 4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
-   `psql --single-transaction`); alta de usuarios con `scripts/s324j_panel_usuario.py`; sonda del
-   cerrojo; smoke. Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
+   `psql --single-transaction`); variables en Vercel (`DASHBOARD_SECRET` + `SUPABASE_URL`/`
+   SUPABASE_SERVICE_KEY` del bot); alta de usuarios con `scripts/s324j_panel_usuario.py`; sonda
+   del cerrojo; smoke de la URL. Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
 
 **Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
 contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);

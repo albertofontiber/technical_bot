@@ -302,6 +302,16 @@ def test_csrf_valido_solo_con_el_token_de_esa_sesion():
     assert not sesion.csrf_valido({}, "loquesea")
 
 
+def test_csrf_no_ascii_es_falso_no_excepcion():
+    """Tanda 1 del 2º frontera: `compare_digest` sobre `str` exige ASCII y
+    LANZA con cualquier otro carácter — y el token enviado viene del
+    formulario (utf-8 con errors="replace"). Un csrf no-ASCII debe ser el 403
+    de siempre (False), jamás un TypeError que rompa el despacho."""
+    una = sesion.nueva("alberto")
+    assert sesion.csrf_valido(una, "café-\ufffd") is False   # sin lanzar
+    assert sesion.csrf_valido(una, una["csrf"])               # el bueno sigue OK
+
+
 def test_la_cookie_sale_endurecida():
     cabecera = sesion.cabecera_cookie("valor", max_age=3600)
     for atributo in ("HttpOnly", "Secure", "SameSite=Strict", "Path=/"):

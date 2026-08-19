@@ -102,9 +102,11 @@ def cmd_alta(args) -> int:
             return 2
         registro = auth.hash_contrasena(contrasena)
 
-    # Puerta 11: estricto, no solo legible.
+    # Puerta 11: estricto, no solo legible — y con los params de PRODUCCIÓN
+    # (tanda 1 del 2º frontera): el señuelo corre con N_DEFECTO; un alta más
+    # barata delataría por tiempo qué usuarios existen.
     try:
-        auth.validar_registro_estricto(registro)
+        auth.validar_registro_estricto(registro, exigir_produccion=True)
     except auth.RegistroInvalido as exc:
         print(f"Registro RECHAZADO ({exc}). Nada escrito.")
         return 2
