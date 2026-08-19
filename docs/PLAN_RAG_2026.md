@@ -110,6 +110,15 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
 5. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
    el runbook). Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
 
+**PROPUESTO s326 (19-ago, pendiente de adjudicación de Alberto)** — métricas de USO/CALIDAD en el
+panel (petición suya): tipología de pregunta (clasificador batch Haiku + taxonomía versionada con
+«otros» re-taxonomizable) · fabricantes/modelos (derivados del catálogo + `product_models`, 70 %
+fill medido) · feedback POR PREGUNTA (la captura ya existe entera desde s294: verdict +
+`reason_class` + «te lo explico»→`comment`; falta exponerla) · preguntas por usuario. Propuesta:
+`evals/s326_panel_metricas_uso_propuesta_v1.md` (rama `claude/technical-bot-dashboard-metrics-jpbrns`).
+Sus 4 gates: alcance RGPD del drill-down con prosa (el «fuera de v1» LITERAL de DEC-231) ·
+taxonomía v1 · identidad en pantalla del por-usuario · coste. Cero cambios en el bot; dúo al cablear.
+
 **Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
 contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);
 la 020 lo cierra de raíz con `revocada_por`.
