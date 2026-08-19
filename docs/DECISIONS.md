@@ -7953,6 +7953,22 @@ segundo pisara al primero, «el setup instaló» se perdería y el ahorro parece
 la dirección optimista lo que no ha medido. Cinco tests fijan el contrato, incluido el del
 reinicio (líneas con otro `boot_id` no cuentan).
 
+**Ronda 2 del revisor (4 hallazgos, los 4 aplicados).** (1) El check no filtraba por
+HUELLA: si el instalador cambia a mitad de sesión —pasó aquí mismo, `663fae88`→`e28aecda`—
+las líneas de la receta vieja contaban y el recibo hablaba de otra instalación; ahora se
+descartan. (2) Nombraba el marcador sin comprobar que existe: ahora dice «SIN marcador
+(huella)» cuando no está. (3) Los tests leían `/proc` sin guarda y habrían fallado en
+Windows, superficie declarada en ese mismo fichero: van con `skipif`. (4) El gap decía que
+la ausencia de `boot_id` degradaba a «desconocido», y eso solo pasaba en el shell; en Python
+lanzaba excepción — ahora responde «sin /proc legible».
+
+**Supuesto declarado NO medido** (Fable r2, honesto): que `boot_id` sea por-VM y cambie en un
+reinicio. En un contenedor sin kernel propio sería del host, y en un restore con memoria
+podría repetirse. Como segundo sello se anota el **uptime**, que solo crece dentro de un
+arranque: una línea con uptime mayor que el actual se descarta aunque el `boot_id` coincida.
+El reset de uptime observado en el incidente sugiere kernel por-VM, pero eso es inferencia,
+no medición — y por eso se escribe aquí en vez de darse por bueno.
+
 **Lo que este addendum NO resuelve, y sigue abierto:** si la caché del environment ahorra de
 verdad. Las tres sesiones de prueba de s325h (creadas por API) **volvieron a construir la
 caché en cada VM** — el Setup script se ejecuta y funciona (instaló y estampó en 104 s con el

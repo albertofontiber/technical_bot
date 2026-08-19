@@ -51,8 +51,14 @@ MARCA="${MARCA_DIR}/.technical_bot_deps_${REQ_HUELLA}"
 REGISTRO="${TB_REGISTRO:-/tmp/.technical_bot_deps_registro}"
 BOOT_ID="$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo desconocido)"
 
+# El UPTIME acompaña al boot_id (Fable r2): si el runtime reutilizara el boot_id
+# —contenedor sin kernel propio, o restore con memoria— una línea heredada tendría
+# un uptime MAYOR que el actual, cosa imposible dentro de un mismo arranque porque
+# el uptime solo crece. Es un segundo sello barato sobre un supuesto que NO está
+# medido en este runtime (declarado en DEC-238 addendum).
 anotar() {  # $1 = saltada | instalada
-  printf '%s %s %s %s\n' "$1" "${REQ_HUELLA:0:8}" "$BOOT_ID" \
+  printf '%s %s %s %s %s\n' "$1" "${REQ_HUELLA:0:8}" "$BOOT_ID" \
+    "$(cut -d' ' -f1 /proc/uptime 2>/dev/null || echo 0)" \
     "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$REGISTRO" 2>/dev/null || true
 }
 

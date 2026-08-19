@@ -262,43 +262,66 @@ def check_deps_cache():
         ).hexdigest()
         marca = Path(sysconfig.get_paths()["purelib"]) / f".technical_bot_deps_{huella}"
 
-        boot_id = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+        try:
+            boot_id = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+            uptime = float(Path("/proc/uptime").read_text().split()[0])
+        except OSError:
+            # El shell degrada a boot_id «desconocido»; aquí se dice, en vez de
+            # dejar escapar una excepción con mensaje opaco (hallazgo Fable r2).
+            return [
+                _res("deps_cache", AVISO,
+                     "sin /proc legible: no se puede saber si este arranque instaló",
+                     critico=False)
+            ]
+
         registro = Path(os.getenv("TB_REGISTRO", "/tmp/.technical_bot_deps_registro"))
         acciones = []
         if registro.exists():
             for linea in registro.read_text(encoding="utf-8").splitlines():
-                campos = linea.split()
-                # «acción huella boot_id fecha»: solo las de ESTE arranque.
-                if len(campos) >= 3 and campos[2] == boot_id:
-                    acciones.append(campos[0])
+                campos = linea.split()  # acción huella boot_id uptime fecha
+                if len(campos) < 4 or campos[2] != boot_id:
+                    continue
+                # Filtrar por HUELLA (Fable r2): si el script o los requirements
+                # cambian a mitad de sesión —pasó en s325h, 663fae88→e28aecda—, las
+                # líneas de la receta VIEJA describen otra instalación y contarlas
+                # haría hablar al recibo de algo que no es lo que mide.
+                if campos[1] != huella[:8]:
+                    continue
+                # Segundo sello: el uptime solo crece dentro de un arranque, así que
+                # una línea con uptime mayor que el actual es de OTRO arranque aunque
+                # el boot_id coincida (runtime que lo reutilice).
+                try:
+                    if float(campos[3]) > uptime + 1:
+                        continue
+                except ValueError:
+                    continue
+                acciones.append(campos[0])
+
+        # El marcador se nombra solo si EXISTE: afirmar uno ausente sería la misma
+        # clase de mentira que este arreglo viene a quitar.
+        sello = f"marcador {huella[:8]}" if marca.exists() else f"SIN marcador ({huella[:8]})"
 
         if not acciones:
-            detalle = (
-                f"marcador {huella[:8]} presente, pero SIN registro de este arranque"
-                if marca.exists()
-                else f"sin marcador para la huella {huella[:8]} y sin registro de este arranque"
-            ) + " — el hook no corrió aquí (¿sesión sin repo?) o el registro se perdió"
-            return [_res("deps_cache", AVISO, detalle, critico=False)]
+            return [
+                _res("deps_cache", AVISO,
+                     f"{sello} · sin registro de este arranque para esta huella — el hook "
+                     "no corrió aquí (¿sesión sin repo?) o el registro se perdió",
+                     critico=False)
+            ]
 
         # El HECHO: si en este arranque alguien instaló, el coste se pagó ahora.
         if "instalada" in acciones:
             return [
-                _res(
-                    "deps_cache",
-                    OK,
-                    f"marcador {huella[:8]} · INSTALADAS en este arranque "
-                    f"({'+'.join(acciones)}) — la caché del environment no las traía",
-                    critico=False,
-                )
+                _res("deps_cache", OK,
+                     f"{sello} · INSTALADAS en este arranque ({'+'.join(acciones)}) — "
+                     "la caché del environment no las traía",
+                     critico=False)
             ]
         return [
-            _res(
-                "deps_cache",
-                OK,
-                f"marcador {huella[:8]} · ya estaban al arrancar (solo «saltada» "
-                f"×{len(acciones)}) — la caché del environment las trajo hechas",
-                critico=False,
-            )
+            _res("deps_cache", OK,
+                 f"{sello} · ya estaban al arrancar (solo «saltada» ×{len(acciones)}) — "
+                 "la caché del environment las trajo hechas",
+                 critico=False)
         ]
     except Exception as exc:
         return [_res("deps_cache", AVISO, f"{type(exc).__name__}: {exc}"[:200], critico=False)]
