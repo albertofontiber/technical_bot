@@ -139,8 +139,13 @@ día se quiere.
 - `api/index.py` — el punto de entrada que Vercel descubre. Una línea: importa `app`. El panel no
   sabe que está en Vercel.
 - `vercel.json` — región y runtime.
-- `requirements.txt` — el del repo; el panel sólo necesita `httpx` y `python-dotenv` (medido: no
-  arrastra anthropic, voyage ni telegram).
+- `api/requirements.txt` — **el que Vercel instala** (el builder Python prefiere el que vive
+  junto al entrypoint): SOLO `httpx` y `python-dotenv`, la clausura transitiva real de la
+  superficie del panel. Existe porque el primer deploy (19-ago) murió instalando el
+  `requirements.txt` de la raíz — el del bot entero — con «bundle size 541.43 MB > 500 MB».
+  Lo vigila `tests/test_s324j_panel_requirements.py`: un tercero nuevo en `api/`/`dashboard/`
+  sin declararlo ahí (o uno declarado de más) pone la suite en rojo antes que el deploy.
+- `requirements.txt` (raíz) — sigue siendo el del BOT (Railway); el panel no lo usa en Vercel.
 
 ## Verificación después de desplegar
 

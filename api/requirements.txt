@@ -1,0 +1,17 @@
+# Dependencias del PANEL, no del bot (s324j, deploy real 19-ago).
+#
+# Por qué existe este fichero: el builder Python de Vercel instala el
+# requirements.txt que encuentra JUNTO al entrypoint (api/) con preferencia al
+# de la raíz. El de la raíz es el del BOT entero y pesa más que el límite de
+# función de Vercel — medido en el primer deploy (commit da0a9d7):
+# «Total bundle size (541.43 MB) exceeds the maximum function size (500 MB)».
+#
+# La lista es la CLAUSURA TRANSITIVA real de imports de terceros de la
+# superficie desplegada (api/index.py → dashboard/* → src.config /
+# src.bot.access / scripts.s324e_bot_errores_insights): httpx y python-dotenv;
+# el resto es stdlib. La verifica tests/test_s324j_panel_requirements.py — si
+# alguien importa un tercero nuevo en esa superficie sin añadirlo aquí, ese
+# test se pone rojo ANTES de que el deploy reviente o la función casque en
+# frío. Pins idénticos a los de la raíz (una sola fuente de versiones).
+httpx>=0.27.0
+python-dotenv>=1.0.0
