@@ -1,7 +1,48 @@
 # Panel del bot — cómo se despliega (y qué falta antes)
 
-> **Estado (17-ago-2026)**: el panel está **construido, probado y sin desplegar**. Este documento
-> es el runbook para ponerlo en Vercel, más lo que hay que arreglar antes de exponerlo.
+> **Estado (19-ago-2026, s324j)**: el panel está **construido, probado y sin desplegar** — CON el
+> cableado de la v9 dentro (DEC-239: usuarios en Supabase, sello, cerrojo distribuido, `op`,
+> `revocada_por`). Este documento es el runbook para ponerlo en Vercel, con sus GATES.
+
+## Los pasos de la 019/020, en orden (lo nuevo de s324j)
+
+1. **Aplicar `migrations/019_panel_usuarios_cerrojo.sql` y luego
+   `migrations/020_invitaciones_op.sql`** — **CADA fichero ENTERO, con un aplicador
+   transaccional** (el SQL Editor de Supabase ejecuta el script completo en UNA transacción;
+   desde consola, `psql --single-transaction`). NUNCA sentencia a sentencia: entre el CREATE y su
+   REVOKE los defaults de Supabase dejarían la tabla de credenciales expuesta. Los ficheros NO
+   llevan BEGIN propio a propósito (la lección de la 016, dos fallos reales). La 019 exige la
+   cola s295→s299 aplicada (su preflight lo comprueba y aborta con el motivo).
+2. **Alta de los usuarios del panel**: `python -m scripts.s324j_panel_usuario alta alberto`
+   (valida estricto + challenge; escribe con la service key). `DASHBOARD_USUARIOS` desaparece de
+   Vercel — la lista vive en `panel_usuarios` y revocar es un UPDATE efectivo en la siguiente
+   petición (`... revocar <usuario>`).
+3. **La sonda del cerrojo**, antes de dar nada por bueno:
+   `curl` de login NO hace falta — basta ejecutar en local con las credenciales de producción
+   `python -c "from dashboard import auth, cerrojo; auth.usar_backend(auth.BackendSupabase()); cerrojo.usar_cerrojo(cerrojo.CerrojoSupabase()); cerrojo.sonda(); print('cerrojo OK')"`
+   (es la MISMA sonda que ejecuta `comprobar_arranque` donde el lifespan corre: función migrada,
+   GRANT concedidos, caché de PostgREST recargada — sin tocar contadores).
+4. **Smoke del cerrojo contra el despliegue real** (la capa PostgREST que el contenedor de CI no
+   cubre): 6 intentos de login con contraseña mala → el sexto debe responder 429; un login bueno
+   después del bloqueo… espera el minuto o usa otro usuario. Con DOS terminales a la vez si se
+   quiere el entrelazado.
+5. **Vigilancia del reloj de retención** (herencia del canon: un reloj roto ABORTA en silencio y
+   solo el recibo demuestra ejecución): en cada sesión de mantenimiento,
+   `SELECT max(ejecutado_at) FROM rgpd_recibos WHERE resultado ? 'panel_intentos';` debe ser de
+   las últimas 48 h; si no, `SELECT * FROM cron.job_run_details ORDER BY start_time DESC LIMIT 5;`
+   y arreglar el reloj antes que nada.
+
+## Gates previos a EXPONER — no opcionales (v9 §13, DEC-239)
+
+- **Plazo de `panel_usuarios` revocados**: `[DECIDIR: Alberto]` en la matriz de retención — una
+  fila en blanco no entra a producción.
+- **El panel dentro del paquete del abogado** (la mitigación que DEC-231 exigió), nombrando el
+  pendiente canónico: la purga 24m de `bot_invitaciones`/`bot_allowlist` está adjudicada (s324e)
+  y sin mecanismo — declarada, no escondida.
+- **La medición de XFF** (método en v9 §8): hasta fijar la regla de confianza, la clave `ip:` del
+  cerrojo NI CUENTA NI BLOQUEA (`dashboard/cerrojo.py::INCLUIR_CLAVE_IP = False`). No es solo
+  «inefectiva»: con la IP compartida del proxy y el MAX sobre claves, 5 fallos de un atacante
+  serían un 429 GLOBAL. Encenderla = medir primero, voltear la constante después.
 
 ## Por qué Vercel
 
@@ -13,24 +54,22 @@ porque las funciones corren en el servidor y la clave de Supabase sigue sin lleg
 Eso último es lo que separa esta opción de la alternativa «SPA que habla con Supabase», que exigiría
 escribir políticas RLS desde cero y convertirlas en la única barrera.
 
-## Lo que hay que arreglar ANTES de exponerlo — no es opcional
+## El cerrojo en serverless — RESUELTO en s324j (histórico abajo)
 
-**El cerrojo contra fuerza bruta cuenta en memoria del proceso.** `dashboard/auth.py::Cerrojo`
-guarda los intentos fallidos en un diccionario; su docstring ya declaraba el precio («si Railway
-reinicia, los contadores se van con él»). En serverless es peor: **cada intento puede caer en una
-instancia distinta**, así que la espera creciente casi no llega a aplicarse. Lo que queda de
-defensa es `scrypt` (~170 ms por intento, medido) y la longitud de la contraseña.
+**La opción (1) está cableada** (DEC-239, tras seis rondas de dúo sobre el diseño y una sobre el
+diff): el contador vive en `panel_intentos` y la admisión entera es UNA transacción en la base
+(`panel_puerta`, migración 019) — contar AL admitir acota el rebaño concurrente que
+«comprobar→scrypt→registrar» dejaba pasar. `api/index.py` enchufa `CerrojoSupabase`; en local y
+en tests sigue el de memoria. **Matiz vigente**: hasta la medición de XFF, el cerrojo distribuido
+cuenta y bloquea SOLO por usuario (la clave `ip:` está apagada — gate de arriba); la contraseña
+larga generada (20+ del gestor) sigue siendo higiene recomendada, ya no condición.
 
-Opciones, por orden de preferencia:
-
-1. **Mover el contador a Supabase** — una tabla pequeña (`clave`, `fallos`, `ultimo`) y dos
-   sentencias en el camino del login. Es lo correcto y es lo que hay que hacer, pero **toca
-   autenticación**, así que va con dúo adversarial antes de cablearse (Protocolo 3).
-2. **Contraseña larga generada** (20+ caracteres de un gestor) y aceptar el hueco **declarado**
-   mientras el panel sea de dos personas. Con esa entropía, 170 ms por intento hace inviable la
-   fuerza bruta aunque el cerrojo no cuente.
-
-Mientras no esté (1), **la opción 2 es una condición de despliegue, no una recomendación**.
+<details><summary>Histórico (17-ago): el análisis que llevó a (1)</summary>
+El cerrojo en memoria («si Railway reinicia, los contadores se van») era casi decorativo en
+serverless: cada intento puede caer en una instancia distinta. Defensa restante: scrypt (~170 ms
+por intento, medido) + longitud de contraseña. La opción 2 (contraseña larga como condición de
+despliegue) fue el puente hasta cablear (1).
+</details>
 
 ## Configuración
 
@@ -39,7 +78,7 @@ Variables de entorno en Vercel:
 | Variable | Qué es | Cómo se obtiene |
 |---|---|---|
 | `DASHBOARD_SECRET` | Firma de la cookie de sesión. Rotarla **cierra todas las sesiones**: es el botón de pánico ante una cookie robada | `python -c "import secrets;print(secrets.token_urlsafe(32))"` |
-| `DASHBOARD_USUARIOS` | `usuario:registro` separados por **`;`** o por salto de línea — **no por coma**, que ya vive dentro de los parámetros del registro (`n=32768,r=8,p=1`) y partirla trocearía cada hash (dúo r41: la guía decía «coma» y seguirla rompía el arranque multiusuario). El registro lleva el algoritmo y sus parámetros dentro | `python scripts/s324f_dashboard_password.py` — pide la contraseña por consola, imprime el registro y **no guarda nada** |
+| ~~`DASHBOARD_USUARIOS`~~ | **NO va en Vercel (s324j, a2/DEC-239)**: la lista vive en `panel_usuarios` y revocar es un UPDATE, no un redespliegue. La variable queda SOLO para el modo local (`python -m dashboard`, `BackendEntorno`): `usuario:registro` separados por `;` o salto de línea — no por coma (dúo r41) | Local: `python scripts/s324f_dashboard_password.py`. Producción: `python -m scripts.s324j_panel_usuario alta <usuario>` |
 | `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` | La base del **bot** (no la del war room) | Las mismas que usa Railway |
 | `DASHBOARD_SESION_HORAS` | Opcional. Duración de la sesión; por defecto 8 h | — |
 

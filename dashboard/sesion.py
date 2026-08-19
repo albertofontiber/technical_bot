@@ -5,7 +5,12 @@ QUÉ HAY DENTRO DE LA COOKIE, y por qué eso y no un identificador opaco:
 
     base64url(json) . base64url(hmac_sha256(json, secreto))
 
-El payload lleva `{u, iat, exp, csrf}`. La alternativa clásica —un id aleatorio
+El payload lleva `{u, iat, exp, csrf, h}`. Los cuatro primeros los construye
+`nueva()`; **`h` — el sello de la credencial — lo añade LA PUERTA al entrar**
+(`app.accion_entrar` hace `payload["h"] = identidad.sello` antes de `firmar`):
+este módulo lo firma y lo devuelve, no lo escribe (s324j, v9 §2). Con `h`, la
+revalidación por petición expulsa al revocado y al que cambió de contraseña en
+la SIGUIENTE petición. La alternativa clásica —un id aleatorio
 contra una tabla de sesiones— compra una cosa real (poder matar UNA sesión desde
 el servidor) a cambio de una tabla, una migración, un job de limpieza y una
 dependencia de Supabase en el camino de CADA petición del panel. Para dos
