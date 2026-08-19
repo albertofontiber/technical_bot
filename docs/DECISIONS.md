@@ -8213,6 +8213,61 @@ prometía y habrá que decidir si se revierte.
   ese hueco lo cubre `deps_cache` leyendo el registro de s325h. (iv) **Pendiente de Alberto, 30 s**:
   mirar en el dashboard si la caché figura construida o su build da error — el único dato que
   decide si existe palanca.
+
+### DEC-242 addendum (s325h-d, 19-ago) — la doc oficial CONTRADICE la hipótesis de rutas y desplaza la sospecha fuera del repo (sin cerrarla)
+
+El gap (i) apostaba por «el snapshot no cubre `/usr/local`». Contrastado con
+<https://code.claude.com/docs/en/cloud-environments>, esa hipótesis **queda contradicha por la
+doc** —que no es lo mismo que refutada por medición: es prosa externa, mutable y no versionada
+aquí—. Tres frases, verbatim:
+
+1. *«The cache is a filesystem snapshot, so it keeps what the setup script writes to disk.
+   Packages you install, Docker images you pull, and files you write all carry over.»* → **no
+   documenta exclusión de rutas**. Ausencia de exclusión documentada no es prueba de que no exista,
+   pero deja la hipótesis de purelib sin ningún apoyo: se retira como línea de trabajo.
+2. *«The setup script runs first, before Claude Code launches, and only when no cached environment
+   exists»* (tabla: *«skipped when a cached environment exists»*).
+3. *«The setup script runs again to rebuild the cache when you change the environment's setup
+   script or allowed network hosts, and when the cache reaches its expiry after roughly seven
+   days.»* → **Alberto declara no haber tocado ni el script ni los dominios desde que lo pegó**, y
+   las cuatro VMs son del mismo día: ninguna de las tres causas aplica.
+
+**La inferencia central, con su soporte y su límite.** De (2) se sigue que si el setup script
+corrió, esa VM no tenía caché. Que corriera es **inferencia bien fundada, no observación**: el
+hook imprimió «ya instaladas (663fae88) — se salta la instalación», luego el hook NO instaló;
+`session-start.sh` es el ÚNICO invocador de `install-deps.sh` dentro de la sesión (verificado por
+grep); y 163/164 entradas de purelib son post-boot, lo que excluye que vinieran de un snapshot.
+Queda algo instalando entre el boot y el hook, y el setup script es el único candidato conocido.
+**Pero no hay log del setup script que lo confirme directamente**, y el propio recibo del smoke lo
+dejó como «build del snapshot o fallback del hook». Si el instalador hubiera sido otra cosa, la
+cadena «corrió ⇒ no había caché ⇒ causa fuera del repo» se cae y la hipótesis de rutas resucita.
+
+**Cuarta condición, estimada — NO medida**: *«keep the script's total runtime under roughly five
+minutes so the environment cache can build»*. Medido: 56,3 s de pip y 16 s de `clone --depth 1`
+en local sobre un repo de 128 MiB de pack. Por red el clone será mayor y **no se ha medido**, así
+que «cabe en 5 min» es estimación con margen aparente, no comprobación. (El «hoy: ~50 s» de
+`ENTORNO_CLOUD` §3.1 es de antes de que el bloque clonara el repo: no son la misma cifra.)
+
+**Estado, sin adelantar el veredicto.** Las causas documentadas no explican lo medido, lo que
+**desplaza la sospecha** hacia el mecanismo de caché y fuera de este repo — pero eso es una
+sospecha con el experimento decisivo aún sin correr, no una conclusión. Lo que sí queda cerrado
+hoy: se retira la vía «mover la instalación a un venv bajo un prefijo que sí viaje», que solo
+tenía sentido si la causa eran las rutas.
+
+**El experimento que decide, y cómo se lee de verdad** (corrige mi versión anterior, que decía
+«basta la primera línea del hook»: es FALSO — hallazgo Fable). El merge de #300 movió la huella a
+`1ead8d63` mientras un snapshot construido hoy llevaría `663fae88`. En una VM nueva hay TRES
+desenlaces, y dos son indistinguibles a simple vista:
+- el hook imprime **«marcador previo 663fae88 … huella caduca»** ⇒ la caché SÍ persiste (trajo el
+  estado viejo) y el diagnóstico de «no persiste» era erróneo;
+- el hook imprime **«ya instaladas (1ead8d63)»** ⇒ **ambiguo**: puede ser que no hubiera caché (el
+  setup script instaló antes, en esa misma VM) o que la caché se reconstruyera post-merge y sí
+  funcione. Distinguirlos exige `python scripts/cloud_smoke.py` y leer **`deps_cache`**, que
+  responde por el registro sellado con `boot_id`: «instalada» en este arranque ⇒ se pagó ⇒ no
+  había caché; «solo saltada» ⇒ ya estaban al arrancar ⇒ la caché funcionó.
+
+Coste: una sesión nueva y un smoke. Nada que cablear.
+
 - **Traza**: revisor adversarial Fable standalone, 3 rondas con agente fresco —
   **NO SÓLIDO → NO SÓLIDO → SÓLIDO**—, 11 hallazgos pasados por la regla C contra el código; dos
   eran errores míos reales (colisión de ID con el `DEC-240` de s324j, y mi adjudicación falsa de

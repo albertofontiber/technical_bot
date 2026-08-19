@@ -109,7 +109,12 @@ polling en una sesión cloud competiría con producción, robándole updates a l
 técnicos. `cloud_smoke.py` avisa si aparece.
 
 - **Setup script** (s325g — adjudicación de Alberto; sustituye al «se deja en el
-  hook» de s325d). Pegar esto en el campo **Setup script** del environment:
+  hook» de s325d). **Dónde está el campo** (s325h-d, doc oficial): NO hay página de «Environments»
+  ni URL directa — *«There's no settings page or direct URL for the selector»*. Se llega por el
+  **icono de nube con el nombre del environment, en la fila encima del cuadro de mensaje** en
+  claude.ai/code; al pasar el ratón sobre el environment aparece un **engranaje** que abre el
+  diálogo (nombre · acceso de red · variables · Setup script). Los compartidos de una organización
+  sí tienen página: `claude.ai/admin-settings` → **Cloud environments**. Pegar esto en el campo:
 
 ```bash
 #!/bin/bash
@@ -304,7 +309,15 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
   antes, en esa misma VM. Causa raíz ABIERTA (¿el snapshot no cubre `/usr/local`? ¿el
   build falla?); el discriminador es PARCIAL: la traza nueva de
   `install-deps.sh` en la próxima VM separa «el snapshot persistió» de «no había nada», pero la
-  pieza que cierra el caso es el dashboard del environment (DEC-242, gap iv). Lo de abajo es la semántica documentada — lo esperado, no lo medido.
+  pieza que cierra el caso NO era el dashboard (no existe tal página). **s325h-d, contra la doc
+  oficial**: la caché «keeps what the setup script writes to disk … all carry over» —sin exclusión
+  de rutas, luego cae la hipótesis de purelib— y el script «runs … only when no cached environment
+  exists», de donde se INFIERE (no se observa) que esa VM no tenía caché — el hook se saltó la
+  instalación y es el único invocador en sesión, pero no hay log del setup script. Con el script y
+  los dominios sin tocar desde que se pegó, **ninguna causa documentada de rebuild aplica**, lo que
+  desplaza la sospecha fuera del repo sin cerrarla: falta correr el smoke en una VM nueva y leer
+  `deps_cache` (DEC-242 addendum). Lo de abajo es la semántica documentada — lo esperado,
+  no lo medido.
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
   en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
   setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar
