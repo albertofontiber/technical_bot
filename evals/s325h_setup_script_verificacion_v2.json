@@ -1,0 +1,28 @@
+{
+  "sesion": "s325h-c",
+  "objetivo": "Probar si la cache de deps del environment (Setup script, DEC-238) PERSISTE a una VM nueva desde el snapshot, o si se re-estampa en cada arranque.",
+  "lineas_hook": [
+    "deps: ya instaladas (663fae88) — se salta la instalación",
+    "session-start: ANTHROPIC_API_KEY derivada de ANTHROPIC_API_KEY_SCRIPTS",
+    "session-start: entorno web listo (deps + historial completo + PYTHONPATH)",
+    "session-start: verifica el entorno con `python scripts/cloud_smoke.py`"
+  ],
+  "uptime_inicio": "119.39 378.06",
+  "uptime_fin": "174.81 593.43",
+  "reinicio_contenedor_detectado": false,
+  "nota_instrumento": "uptime subio 119.39 -> 174.81 (+55.4 s) y el reloj avanzo 14:14:33Z -> 14:15:28Z (+55 s). Monotono y coherente: no hubo reinicio a mitad de sesion, la atribucion es fiable.",
+  "ahora_utc": "2026-08-19T14:14:33Z",
+  "fin_utc": "2026-08-19T14:15:28Z",
+  "git_head": "374b0ab Merge pull request #297 from albertofontiber/claude/smoke-test-cloud-env-skh5d0",
+  "git_birth": "2026-08-19 14:12:39.601383390 +0000",
+  "git_mtime": "2026-08-19 14:14:21.769381053 +0000",
+  "marcador_path": "/usr/local/lib/python3.11/dist-packages/.technical_bot_deps_663fae8823566173d2ec8e8f3c6e8326bdd7ed13",
+  "marcador_mtime": "2026-08-19 14:14:12.565381263 +0000",
+  "marcador_size_bytes": 0,
+  "boot_vm_derivado": "2026-08-19T14:12:33Z",
+  "boot_vm_derivacion": "ahora(14:14:33Z) - uptime(119.39 s) = 14:12:33.6Z; contraste con la medida final: 14:15:28Z - 174.81 s = 14:12:33.2Z",
+  "deps_cache": "[  OK  ] deps_cache                marcador 663fae88 · estampado en esta VM hace 1 min — build del snapshot o fallback del hook (la caché no lo traía)",
+  "veredicto": "VEREDICTO: LISTO · 0 crítico(s) en fallo · 4 aviso(s)",
+  "delta_marcador_vs_boot_segundos": 99,
+  "conclusion": "NO. La cache NO persistio a una VM nueva. El marcador se estampo a las 14:14:12.6Z, 99 s DESPUES del arranque de esta VM (boot derivado 14:12:33Z) — no decenas de minutos ni horas antes, como exigiria un fichero heredado del snapshot. Su edad al leerlo era de ~21 s. El .git nacio a las 14:12:39Z, 6 s tras el boot: la VM se construyo entera en este arranque (clon + instalacion), no se restauro con las deps ya puestas. La linea del hook «deps: ya instaladas (663fae88) — se salta la instalacion» es CIERTA pero NO prueba persistencia entre VMs: solo dice que cuando el hook SessionStart corrio, alguien (el Setup script del environment, unos 90 s antes, en esta misma VM) ya habia dejado el marcador. Es exactamente el mismo resultado que s325h — la prueba que faltaba sigue sin pasar."
+}
