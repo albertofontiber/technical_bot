@@ -154,7 +154,8 @@ class CerrojoSupabase:
         self._rpc = rpc or _transporte_rpc
         self._delete = delete or _transporte_delete
 
-    def admitir(self, claves: tuple[str, ...], ahora: float | None = None) -> float:
+    def admitir(self, claves: tuple[str, ...], ahora: float | None = None,
+                *, _sonda: bool = False) -> float:
         # `ahora` se ignora a propósito: el reloj es `now()` DE LA BASE —
         # coherente entre instancias serverless que nacen y mueren (v9 §3.2).
         if not (SUPABASE_URL and SUPABASE_SERVICE_KEY):
@@ -173,8 +174,16 @@ class CerrojoSupabase:
         try:
             resp = self._rpc(payload)
         except httpx.HTTPError as exc:
-            # No se pudo HABLAR: fail-open CON log — un fallo de telemetría no
-            # deja fuera al legítimo, pero tampoco es invisible (v9 §3.5).
+            # No se pudo HABLAR. La respuesta depende de CUÁNDO (ronda del dúo
+            # sobre el cableado, S-M1): el fail-open es política de RUNTIME (un
+            # fallo de telemetría no deja fuera al legítimo), NO de ARRANQUE. En
+            # la sonda, no poder hablar con Supabase ES un despliegue roto y
+            # debe fail-CERRAR — si no, `sonda()` imprimiría «cerrojo OK» sin
+            # haber contactado la base.
+            if _sonda:
+                raise CerrojoNoDisponible(
+                    f"la sonda no pudo hablar con Supabase ({type(exc).__name__})"
+                ) from exc
             logger.error(
                 "cerrojo: fail-open, no se pudo hablar con Supabase (%s)",
                 type(exc).__name__,
@@ -239,7 +248,7 @@ def sonda() -> None:
     if not isinstance(_activo, CerrojoSupabase):
         return
     try:
-        _activo.admitir(())
+        _activo.admitir((), _sonda=True)     # fail-CERRAR también ante httpx
     except CerrojoNoDisponible as exc:
         raise RuntimeError(
             f"El cerrojo distribuido no está operativo: {exc}. El panel NO "

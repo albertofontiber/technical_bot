@@ -239,6 +239,26 @@ def test_la_sonda_prueba_extremo_a_extremo_sin_tocar_contadores(credenciales):
         cerrojo.usar_cerrojo(anterior)
 
 
+def test_la_sonda_fail_cierra_tambien_ante_un_fallo_de_conexion(credenciales):
+    """Ronda del dúo sobre el cableado, S-M1: en RUNTIME un httpx.HTTPError es
+    fail-OPEN (no dejar fuera al legítimo por telemetría), pero en el ARRANQUE
+    no poder hablar con Supabase ES un despliegue roto y la sonda debe
+    fail-CERRAR — si no, imprimiría «cerrojo OK» sin haber contactado la base."""
+    def rpc_caido(payload):
+        raise httpx.ConnectError("dns down")
+
+    # En runtime, el mismo fallo es fail-open:
+    c = cerrojo.CerrojoSupabase(rpc=rpc_caido, delete=lambda p: _Resp(204, ""))
+    assert c.admitir(("u:x",)) == 0.0
+    # ...pero la sonda de arranque, no:
+    anterior = cerrojo.usar_cerrojo(c)
+    try:
+        with pytest.raises(RuntimeError, match="sonda"):
+            cerrojo.sonda()
+    finally:
+        cerrojo.usar_cerrojo(anterior)
+
+
 def test_con_el_cerrojo_de_memoria_la_sonda_no_hace_nada():
     anterior = cerrojo.usar_cerrojo(auth.Cerrojo())
     try:

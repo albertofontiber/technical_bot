@@ -44,6 +44,21 @@
   «inefectiva»: con la IP compartida del proxy y el MAX sobre claves, 5 fallos de un atacante
   serían un 429 GLOBAL. Encenderla = medir primero, voltear la constante después.
 
+## Riesgo declarado del cerrojo: el desalojo del cap es forzable (dúo del cableado, F-M1)
+
+`panel_puerta` siembra una fila `u:<hmac>` por cada intento de login ANTES de comprobar
+credenciales, y la poda del cap (`CERROJO_MAX_ENTRADAS = 10.000`) borra las filas más antiguas.
+Consecuencia, heredada del cerrojo en memoria y ahora declarada: un atacante que mande ~10.000
+logins con usuarios inventados **distintos** llena la tabla y expulsa la fila de bloqueo de un
+usuario concreto, cuyo backoff se resetea (renace con `fallos = 0`). No es gratis para el
+servidor —cada intento paga el señuelo scrypt (~100 ms), así que 10.000 son también un coste de
+CPU—, pero sí barato para el atacante. Dos cosas lo acotan, y por eso van aquí y no como bug:
+(1) el suelo scrypt sigue haciendo inviable la fuerza bruta de una contraseña larga aunque el
+backoff se resetee; (2) **encender la mitad `ip:` tras la medición de XFF lo mitiga de raíz** —
+con la clave por IP contando, el atacante acumula su propio bloqueo mientras infla las `u:`. Es
+un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara en producción, la
+respuesta es subir el cap o adelantar la medición de XFF, no un parche.
+
 ## Por qué Vercel
 
 Decisión de Alberto (17-ago). Antes se había fijado «servicio aparte en Railway» (DEC-231 §2), y
@@ -84,11 +99,13 @@ Variables de entorno en Vercel:
 
 **Mismas credenciales que el war room, dos logins.** El war room identifica al admin con
 `ADMIN_EMAIL_n` + `ADMIN_PASS_HASH_n` (bcrypt) en variables de Vercel. El panel del bot usa el
-mismo email y la misma contraseña, pero con **su propio hash** (scrypt) en su propia variable: se
-teclea lo mismo en los dos sitios y no viaja ningún secreto entre proyectos, que son dos bases de
-datos y dos audiencias distintas. Sesión única real (SSO) exigiría compartir el secreto de NextAuth
-y un dominio raíz común — factible, más acoplamiento del que compra hoy, y la pieza de
-autenticación es enchufable si algún día se quiere.
+mismo email y la misma contraseña, pero con **su propio hash** (scrypt) — que en producción vive
+en la fila de `panel_usuarios` (s324j/DEC-239), NO en una variable de Vercel (esa era la lista en
+`DASHBOARD_USUARIOS`, retirada de producción con a2). Se teclea lo mismo en los dos sitios y no
+viaja ningún secreto entre proyectos, que son dos bases de datos y dos audiencias distintas.
+Sesión única real (SSO) exigiría compartir el secreto de NextAuth y un dominio raíz común —
+factible, más acoplamiento del que compra hoy, y la pieza de autenticación es enchufable si algún
+día se quiere.
 
 ## Ficheros
 

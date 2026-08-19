@@ -762,9 +762,11 @@ def accion_invitar(peticion: Peticion) -> Respuesta:
     )
     # Se RENDERIZA en vez de redirigir, y es deliberado: el enlace se enseña una
     # sola vez y no puede viajar en la URL de una redirección (quedaría en el
-    # historial del navegador y en los logs de cualquier proxy). Precio
-    # declarado: recargar con F5 vuelve a enviar el formulario y emite una
-    # invitación de más — visible en la lista y anulable en un click.
+    # historial del navegador y en los logs de cualquier proxy). El F5 que ese
+    # render deja abierto NO emite una credencial de más: reenvía el MISMO `op`,
+    # que choca con el UNIQUE de la base y produce el aviso «ya emitiste esta
+    # invitación» sin crear nada (s324j, v9 §4.2 — la idempotencia por
+    # operación es lo que sustituye al PRG que aquí no se puede usar).
     return pagina_acceso(peticion, resultado=resultado)
 
 
@@ -844,33 +846,14 @@ def despachar(peticion: Peticion) -> Respuesta:
             # 303 a la entrada y NUNCA un 401 con contenido: quien no tiene
             # sesión no ve ni el esqueleto de la página protegida.
             return _redirigir("/entrar")
-        if clave != ("POST", "/salir"):
-            # LA REVALIDACIÓN POR PETICIÓN (v9 §2): el sello de la cookie
-            # contra el sello VIGENTE del backend. Es lo que hace efectivos en
-            # la SIGUIENTE petición la revocación y el cambio de contraseña —
-            # la promesa por la que Alberto eligió (a2). La regla completa:
-            #   · `h` ausente o no-cadena → fuera (cookies de antes del
-            #     despliegue; `compare_digest` no llega a ver un None);
-            #   · `sello(u)` devuelve None (revocado/cambiada) → fuera;
-            #   · sellos distintos → fuera;
-            #   · el backend NO PUDO comprobar → 503 sin servir nada y SIN
-            #     matar la cookie (un timeout no es un cierre de sesión falso;
-            #     el revocado durante la caída ve el mismo 503 que todos).
-            # «Fuera» es siempre el mismo camino: 303 a /entrar borrando la
-            # cookie.
-            h = payload.get("h")
-            if not isinstance(h, str) or not h:
-                return _redirigir("/entrar", extra=[
-                    ("set-cookie", sesion.cabecera_borrado())])
-            try:
-                vigente = auth.backend_activo().sello(payload["u"])
-            except auth.IdentidadNoDisponible:
-                return _error(503, _TEXTO_503, peticion.nonce)
-            if vigente is None or not hmac.compare_digest(vigente, h):
-                return _redirigir("/entrar", extra=[
-                    ("set-cookie", sesion.cabecera_borrado())])
         peticion.sesion = payload
 
+    # Origen y CSRF van ANTES de la revalidación de sello (ronda del dúo sobre
+    # el cableado, F-m1): son comprobaciones LOCALES (gratis), la del sello es
+    # un RTT a Supabase. Un POST malformado o cross-site con sesión válida no
+    # debe gastar una llamada de red antes de un rechazo que se computa gratis.
+    # El resultado aceptar/rechazar es idéntico — solo cambia cuál rechazo gana
+    # y se quita la amplificación.
     if peticion.metodo == "POST":
         if not _mismo_origen(peticion):
             return _error(403, "Petición rechazada: viene de otro sitio.",
@@ -879,6 +862,34 @@ def despachar(peticion: Peticion) -> Respuesta:
                 peticion.sesion or {}, peticion.campo("csrf")):
             return _error(403, "Formulario caducado. Vuelve a cargar la página.",
                           peticion.nonce)
+
+    if clave not in RUTAS_PUBLICAS and clave != ("POST", "/salir"):
+        # LA REVALIDACIÓN POR PETICIÓN (v9 §2): el sello de la cookie contra el
+        # sello VIGENTE del backend. Es lo que hace efectivos en la SIGUIENTE
+        # petición la revocación y el cambio de contraseña — la promesa por la
+        # que Alberto eligió (a2). La regla completa:
+        #   · `h` ausente o no-cadena → fuera (cookies de antes del despliegue;
+        #     `compare_digest` no llega a ver un None);
+        #   · `sello(u)` devuelve None (revocado/cambiada) → fuera;
+        #   · sellos distintos → fuera;
+        #   · el backend NO PUDO comprobar → 503 sin servir nada y SIN matar la
+        #     cookie (un timeout no es un cierre de sesión falso; el revocado
+        #     durante la caída ve el mismo 503 que todos).
+        # «Fuera» es siempre el mismo camino: 303 a /entrar borrando la cookie.
+        # `/salir` es la excepción declarada: borrar tu propia cookie no puede
+        # depender de que Supabase responda.
+        payload = peticion.sesion or {}
+        h = payload.get("h")
+        if not isinstance(h, str) or not h:
+            return _redirigir("/entrar", extra=[
+                ("set-cookie", sesion.cabecera_borrado())])
+        try:
+            vigente = auth.backend_activo().sello(payload["u"])
+        except auth.IdentidadNoDisponible:
+            return _error(503, _TEXTO_503, peticion.nonce)
+        if vigente is None or not hmac.compare_digest(vigente, h):
+            return _redirigir("/entrar", extra=[
+                ("set-cookie", sesion.cabecera_borrado())])
 
     return manejador(peticion)
 

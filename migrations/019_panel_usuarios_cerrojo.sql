@@ -179,7 +179,7 @@ SECURITY INVOKER
 SET search_path = ''
 AS $panel_puerta$
 DECLARE
-    v_ahora   timestamptz := now();   -- reloj DE LA BASE: coherente entre instancias
+    v_ahora   timestamptz;   -- se fija DESPUÉS del lock (ver abajo)
     v_clave   text;
     v_fallos  int;
     v_ultimo  timestamptz;
@@ -206,6 +206,17 @@ BEGIN
     -- abajo queda como SEGUNDA capa: hoy redundante bajo este lock, y lo que
     -- sostiene la corrección si algún día alguien lo estrecha.
     PERFORM pg_advisory_xact_lock(hashtext('panel_intentos'));
+
+    -- El reloj se lee DESPUÉS del lock, y con clock_timestamp() — NO now()
+    -- (ronda del dúo sobre el cableado, S-m1): `now()` es el instante de
+    -- INICIO de la transacción, constante durante toda ella; dos `admitir`
+    -- encoladas en el lock (T2 empezó antes que T1 pero espera su turno)
+    -- escribirían `ultimo` con instantes en desorden, haciéndolo RETROCEDER.
+    -- `clock_timestamp()` leído aquí es el tiempo real en el momento en que
+    -- esta llamada YA tiene el lock: monotónico entre las transacciones que el
+    -- lock serializa, que es justo lo que el reloj monotónico del doble en
+    -- memoria garantiza.
+    v_ahora := clock_timestamp();
 
     -- (1) Poda: la retención ejecutada en cada escritura. La constante viaja
     -- como argumento (una sola fuente en Python); la ventana RGPD canónica la
@@ -329,7 +340,11 @@ BEGIN
               AND p.policyname = 'rgpd_retencion_ventana'
               AND 'rgpd_retencion' = ANY(p.roles)
               AND p.qual LIKE '%ultimo%'
-              AND p.qual LIKE '%24:00:00%'
+              -- Acepta las dos representaciones equivalentes de '24 hours' que
+              -- normaliza Postgres (ronda del dúo sobre el cableado, F-m2):
+              -- '24:00:00' hoy, '1 day' si alguien reescribe la política con
+              -- esa forma idéntica. Tirante por SEMÁNTICA, no por texto.
+              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
        ) THEN
         RAISE EXCEPTION 'panel_retencion: la ventana NO esta armada en '
                         'panel_intentos (RLS deshabilitada, politica ausente o '
@@ -456,7 +471,8 @@ BEGIN
             WHERE p.schemaname = 'public' AND p.tablename = 'panel_intentos'
               AND p.policyname = 'rgpd_retencion_ventana'
               AND 'rgpd_retencion' = ANY(p.roles)
-              AND p.qual LIKE '%ultimo%' AND p.qual LIKE '%24:00:00%'
+              AND p.qual LIKE '%ultimo%'
+              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
        ) THEN
         RAISE EXCEPTION '019: la POLICY de ventana de panel_intentos no quedó '
                         'como se declaró';

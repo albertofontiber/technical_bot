@@ -141,3 +141,18 @@ def test_salir_funciona_con_el_backend_caido(backend):
     respuesta = Cliente(cookie).post("/salir", {"csrf": csrf})
     assert respuesta.estado == 303
     assert "Max-Age=0" in respuesta.cabecera("set-cookie")
+
+
+def test_un_post_sin_csrf_no_gasta_una_llamada_al_backend(backend):
+    """Ronda del dúo sobre el cableado, F-m1: origen y CSRF (locales, gratis)
+    van ANTES de la revalidación de sello (un RTT a Supabase). Un POST con
+    sesión válida pero sin CSRF muere en el 403 sin haber tocado el backend —
+    sin amplificación."""
+    cookie, _ = _cookie_para(backend)            # construir la cookie usa sello
+    llamadas = []
+    original = backend.sello
+    backend.sello = lambda nombre: (llamadas.append(nombre) or original(nombre))
+    respuesta = Cliente(cookie).post("/acceso/revocar",
+                                     {"telegram_user_id": "1"})  # sin csrf
+    assert respuesta.estado == 403
+    assert llamadas == [], "el sello se revalidó antes de rechazar por CSRF"
