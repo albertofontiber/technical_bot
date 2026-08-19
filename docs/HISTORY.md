@@ -5889,7 +5889,7 @@ Alberto mergeó la #298 a los seis minutos de abrirse, adjudicó pagar la revisi
 pasando. Las tres tandas (identidad, puerta HTTP, gestión) completaron a la primera
 con el remedio DEC-236 por fin operativo: briefing compacto por trozo + presupuesto
 600k. La estructura que satisface el canon sin re-pagar: los bytes eran IDÉNTICOS a
-los que Sol auditó en sus 4 rondas (git diff vacío, escrito en DEC-242), así que
+los que Sol auditó en sus 4 rondas (git diff vacío, escrito en DEC-243 — renumerada de 242 al chocar con el DEC-242 de s325h-c en el merge), así que
 Fable standalone completa el dúo por fichero.
 
 Trece hallazgos, trece confirmados, cero falsos positivos — y la mitad fueron el

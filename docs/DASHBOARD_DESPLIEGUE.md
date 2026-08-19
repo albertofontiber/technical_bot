@@ -75,7 +75,7 @@ explotara— endurecer aguas arriba (rate-limit del borde), no un parche en la R
 
 ## Por qué Vercel — y en PROYECTO PROPIO
 
-Decisión de Alberto (17-ago; **matizada el 19-ago, DEC-243**). Antes se había fijado «servicio
+Decisión de Alberto (17-ago; **matizada el 19-ago, DEC-244**). Antes se había fijado «servicio
 aparte en Railway» (DEC-231 §2), y Vercel lo mejora en tres cosas: es donde ya vive el war room,
 así que comparte **cuenta** y forma de configurar credenciales; **no se paga por tenerlo
 encendido** (un panel que se abre unas veces al día no justifica un contenedor 24/7); y
@@ -84,7 +84,7 @@ clave de Supabase sigue sin llegar al navegador. Eso último es lo que separa es
 alternativa «SPA que habla con Supabase», que exigiría escribir políticas RLS desde cero y
 convertirlas en la única barrera.
 
-**PROYECTO PROPIO, no el del war room (Alberto, 19-ago — DEC-243)**: el panel se despliega como
+**PROYECTO PROPIO, no el del war room (Alberto, 19-ago — DEC-244)**: el panel se despliega como
 un proyecto de Vercel NUEVO apuntando a ESTE repo, con su URL propia. La frase original
 «comparte dominio» queda superada: comparten cuenta de Vercel y nada más — dos proyectos, dos
 URLs, dos juegos de variables, dos superficies de fallo. El código no nota la diferencia

@@ -54,9 +54,12 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
-**Pendiente de Alberto**: pegar el **Setup script** del environment cloud (bloque en
-`ENTORNO_CLOUD.md` §3.1, tras el merge de s325g/DEC-238) y verificar en la próxima VM nueva
-que el arranque baja ~77 s → ~30 s.
+**Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
+~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. La
+deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
+y la causa raíz sigue abierta (DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
+**Pendiente de Alberto, 30 s**: mirar en el dashboard del environment si la caché figura
+construida o su build da error — es el único dato que decide si hay palanca.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
@@ -80,7 +83,7 @@ Remedio DEC-236 que funcionó: briefing compacto + `FABLE_REVIEW_MAX_TOTAL_TOKEN
 **Verificado**: gate pg **22/22** contra Postgres 17 real (control negativo del discriminante
 ejecutado); suite **4517 passed, 67 skipped**.
 
-**El gap 2º-frontera está CERRADO (DEC-242)**: Alberto pagó la revisión por trozos y las TRES
+**El gap 2º-frontera está CERRADO (DEC-243)**: Alberto pagó la revisión por trozos y las TRES
 tandas completaron a la primera (briefings compactos + presupuesto 600k — el remedio DEC-236).
 Identidad **SÓLIDO con reservas** (3 cierres cableados: estricto anti-duplicados +
 `exigir_produccion` en el alta + csrf sobre bytes), puerta HTTP **SÓLIDO** (rojo documental:
@@ -96,7 +99,7 @@ MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
    NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
 4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
-   `psql --single-transaction`); crear el **proyecto Vercel PROPIO del panel** (DEC-243: separado
+   `psql --single-transaction`); crear el **proyecto Vercel PROPIO del panel** (DEC-244: separado
    del war room — misma cuenta, dos proyectos/URLs) con sus variables (`DASHBOARD_SECRET` +
    `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` del bot); alta de usuarios con
    `scripts/s324j_panel_usuario.py`; sonda del cerrojo; smoke de la URL. Runbook:
