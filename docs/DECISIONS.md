@@ -8464,3 +8464,103 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Pendiente**: el gate de acuerdo ≥85 % (muestra estratificada de 35 entregada a Alberto en el
   hilo) ANTES de leer las gráficas como verdad · `CLASIFICADOR_PREGUNTAS=on` opcional · addendum
   del abogado antes de invitar DGs al panel.
+
+## DEC-246 (s326b, 19 ago 2026) — El gate de acuerdo de la taxonomía v1 NO pasó, y el ciclo del «otros» se ejecuta por primera vez: v2 adjudicada por Alberto, histórico re-clasificado en minutos por céntimos
+
+- **Fecha**: 19 ago 2026 (noche). **Impacto**: MEDIO (esquema: `ALTER CHECK` sobre tabla con
+  datos en producción + cambio de la definición de producto que alimenta todas las gráficas de
+  tipología). **Estado**: 022 APLICADA, histórico re-clasificado 109/109, cableado en rama.
+- **El gate hizo su trabajo, y su veredicto fue NO**: sobre la muestra de 35 que se le pasó a
+  Alberto, ~7 desacuerdos de asignación ≈ **80 % < 85 %** — más dos fusiones de diseño que él
+  pidió. La v1 se diseñó declarando que esto pasaría; que pasara **a la primera** confirma que
+  la vara servía, no que el trabajo estuviera mal hecho. La alternativa —mirar las gráficas sin
+  validar la vara— habría dado por buenas seis categorías que el dueño del producto no usa.
+- **Las SIETE adjudicaciones de Alberto** (literales, del hilo): (1) instalación y configuración
+  «son difíciles de diferenciar» → una sola categoría; (2) catálogo y especificaciones → una
+  sola; (3) un mensaje de una sola palabra («ZX1e») → `otros`; (4) «¿cómo consigo 32 lazos?» es
+  catálogo, y **compatibilidad se ACOTA** a «¿se pueden conectar dos equipos, típicamente de
+  marcas distintas?»; (5) «¿qué diferencias hay entre X e Y?» → catálogo; (6) «¿tienes productos
+  de Luka Modric?» → catálogo; (7) «esto parece incluir muchos más productos…» **no es una
+  pregunta, es feedback**.
+- **Decide (1) — el punto 7 NACE una categoría, no un matiz**: `no_es_pregunta`. Sin ella, los
+  turnos que no consultan nada (continuaciones del hilo, acuses de recibo, quejas sobre la
+  respuesta) contaminan el DENOMINADOR de todas las gráficas de tipología. Son **11 de 109
+  (10 %)**: no era un detalle.
+- **Decide (2) — el criterio de `otros` no es la LONGITUD sino si se sabe QUÉ se pide**
+  (corrección de un efecto colateral MEDIDO, ver abajo): un código suelto va a `otros`; una
+  pregunta corta cuyo sujeto viene del hilo («¿cuántos lazos tiene?») va a su categoría.
+- **Decide (3) — la versión deja de vivir en el NOMBRE del fichero**: `taxonomia_preguntas.yaml`
+  con `version` dentro. Tenerla en los dos sitios eran dos fuentes de la misma verdad y mordió a
+  las tres horas (un cambio de solo-descripciones no quiere fichero nuevo). Regla resultante:
+  cambiar IDS exige migración hermana; cambiar descripciones, no — y el test cruza YAML↔CHECK
+  vigente en ambos casos.
+- **La migración 022, y su lección**: DROP del CHECK viejo → mapa de ids → CHECK nuevo →
+  postcondiciones que miran los DOS lados. El **primer intento puso el UPDATE delante y murió
+  con 23514** (el CHECK v1 rechazaba el id v2 que el propio mapa escribía) **revirtiendo entero:
+  cero filas tocadas** — la transacción hizo exactamente lo que la 016 enseñó a exigirle. La
+  lección queda escrita en la cabecera del fichero.
+- **El mapa NO es la re-clasificación**: existe solo para que el CHECK nuevo pueda aplicarse sin
+  vaciar la tabla ni un minuto. Las filas conservan su `taxonomia_version` viejo ⇒ el job las
+  re-clasifica TODAS con el prompt nuevo, que es lo único capaz de aplicar los puntos 3-7.
+- **Coste MEDIDO del ciclo completo** (la promesa de la propuesta, verificada): cuatro pasadas
+  del histórico entero (v2, v3, v4, v5) = **~$0,49 y ~6 minutos**, 109/109 filas y **0 fallos**
+  en las cuatro. Re-taxonomizar es barato de verdad; el diseño derivado-y-desechable paga.
+- **Honestidad sobre las iteraciones (`feedback_my_bias`)**: v3, v4 y v5 fueron afinados MÍOS de
+  las descripciones contra el histórico. v3 y v4 cierran adjudicaciones explícitas de Alberto
+  que el clasificador incumplía (puntos 6 y 3); **v5 corrige un daño que causaron mis propios
+  refuerzos** (tanto insistir en «escueto → otros» empujó allí preguntas de especificaciones
+  claras). El tuneo se PARÓ con un residual conocido en pie —«especificaciones técnicas del NC»
+  sigue en `otros», 1/109— precisamente para no seguir ajustando a un corpus de 109 filas.
+- **Gaps declarados**: `catalogo_especificaciones` = **61,5 %** del histórico (la fusión que pidió
+  Alberto hace una categoría dominante que discrimina poco: es su decisión, y se declara) ·
+  `no_es_pregunta` MEZCLA ruido («ok, entendido») con quejas sustantivas de calidad («me has
+  pasado información de la ID3000 que no es de Detnov») — candidata a partirse en una versión
+  futura CON datos · `mantenimiento_pruebas` a cero en el histórico · el gate de acuerdo de la
+  v5 sigue PENDIENTE de Alberto (muestra nueva entregada en el hilo).
+- **Alternativas descartadas**: mapear los ids y NO re-clasificar (el mapa no sabe nada de los
+  puntos 3-7: dejaría las gráficas con la taxonomía nueva y las decisiones viejas) · vaciar la
+  tabla y reconstruir (ventana con el panel vacío, innecesaria) · una regla determinista para
+  «¿tienes X?» (la descripción de la categoría es el sitio de esa semántica, no un parche) ·
+  seguir iterando hasta 7/7 + 0 residuales (overfitting a 109 filas).
+- **Traza**: recibos `evals/s326b_retaxonomizacion_v{2,3,4,5}.json` · briefing del dúo
+  `evals/s326b_taxonomia_v2_briefing_v1.md` · tally en `evals/adversarial_review_log.jsonl`.
+
+### DEC-246 addendum (s326b) — El dúo sobre el cambio de taxonomía: Sol 8/8 confirmados, Fable SÓLIDO-en-mecánica con 4 de framing; el «1/109» era sobre-afirmación mía
+
+- **Sol (GPT-5.6 xhigh, agéntico)**: **8 hallazgos, 8 confirmados contra el código, 0 falsos
+  positivos**. Los tres que cambiaron cosas de verdad:
+  1. **El rollback estaba ROTO** (`022`): remapeaba categorías pero dejaba `taxonomia_version`
+     en el número alto ⇒ `es_pendiente` no re-encolaba nada y el dato quedaba etiquetado con
+     una versión que no correspondía a sus categorías. Cierre: el rollback **vacía** la tabla
+     derivada (es lo único consistente) y así queda escrito.
+  2. **El contrato «cambiar una descripción sube `version`» era SOLO PROSA**: los tests fijaban
+     ids y número, así que reescribir una descripción —que ES el prompt— dejaba todo verde y
+     el histórico sin re-encolar. Cierre: **huella sha256 del contenido semántico por versión**
+     (`HUELLAS_TAXONOMIA`), con control negativo ejecutado (alterar una descripción pone el
+     test ROJO; restaurarla, verde).
+  3. **No había artefacto auditable del gate**: los recibos prueban ejecución y coste, no
+     acuerdo. Cierre: `evals/s326b_gate_acuerdo_paquete.json` — muestra estratificada
+     congelada, reproducible (orden por md5), con hueco para el veredicto de Alberto.
+  Los otros cinco: banner `APLICADA EN PRODUCCIÓN` en 021/022 + deuda **#91** (gate pg para
+  esas migraciones) · el estado intermedio del mapa declarado con su coste y el patrón
+  preferido para la próxima (vaciar) · deuda **#92** (el clasificador no ve el hilo y
+  `no_es_pregunta` depende del hilo — no se arregla con descripciones) · referencias legacy al
+  YAML viejo · una sobre-afirmación mía («el único orden posible»).
+- **Fable (árbol POST-cierres, control fresco)**: **mecánica SÓLIDA** — verificó que el ALTER
+  toma ACCESS EXCLUSIVE, que ADD CONSTRAINT valida las filas, que la postcondición por
+  substring no da falso positivo con `'especificaciones'` dentro de `'catalogo_especificaciones'`
+  (por el quote-wrapping), y que el cruce YAML↔CHECK matchea la Fase C y no el rollback
+  comentado. **4 hallazgos de framing, todos confirmados**: (a) **mi «1/109» era
+  sub-declaración** — había un segundo residual a la vista («¿Para qué productos tienes
+  información?» en `otros`); (b) un PASS del gate v6 **no es evidencia comparable** al gate v1,
+  porque se afinó sobre estas mismas filas — hay que decirlo, y ahora lo dice el propio
+  paquete; (c) la regla dura «¿tienes X?» → catálogo, escrita mirando UNA fila, se tragaría
+  preguntas META sobre el asistente en tráfico nuevo → **acotada en v6** a productos, marcas,
+  modelos y documentación; (d) la muestra del gate tenía la misma pregunta 3 veces →
+  **deduplicada por texto**.
+- **Lo que NO se arregló, y se dice**: la v6 nombró LITERALMENTE «¿para qué productos tienes
+  información?» en la descripción de catálogo **y el modelo la sigue mandando a `otros`**. Dos
+  intentos ⇒ es techo de Haiku en esa frase, no falta de prompt. Residuales medidos por censo
+  COMPLETO de `otros` (no por muestra): **2 de 109 = 1,8 %**. El tuneo se para aquí.
+- **Coste total del ciclo**: cinco pasadas del histórico (v2→v6), ~$0,62, 109/109 y 0 fallos en
+  todas. **Traza**: tally `2026-08-19T22:18:08`; recibos Sol/Fable en `evals/adversarial_reviews/`.

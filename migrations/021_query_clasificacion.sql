@@ -1,5 +1,8 @@
 -- ============================================================================
 -- 021 — `query_clasificacion` + las vistas de USO/CALIDAD del panel (s326).
+--       ✅ APLICADA EN PRODUCCIÓN el 19-ago-2026 (conector Supabase). NO se
+--          edita: un cambio aquí deja CI verde y producción sin él — lo que
+--          haga falta va en una migración nueva.
 --       Petición de Alberto (19-ago-2026): tipología de pregunta · fabricantes ·
 --       modelos · feedback por pregunta · preguntas por usuario. Propuesta
 --       adjudicada entera: `evals/s326_panel_metricas_uso_propuesta_v1.md`

@@ -1,0 +1,145 @@
+# ============================================================================
+# Taxonomía de TIPOLOGÍA DE PREGUNTA — la VIGENTE (s326b, adjudicada por
+# Alberto 19-ago-2026). La versión vive en el campo `version` de abajo, NO en
+# el nombre del fichero: tenerla en los dos sitios eran dos fuentes de la
+# misma verdad, y mordió a la primera (un cambio de descripciones no quiere
+# fichero nuevo). El histórico anterior se conserva en
+# `taxonomia_preguntas_v1.yaml` como recibo de las 109 filas que clasificó.
+#
+# QUÉ CAMBIA respecto a la v1, y por qué (el gate de acuerdo de la v1 NO pasó:
+# ~7 desacuerdos de asignación sobre 35 ≈ 80 % < 85 %, más dos fusiones de
+# diseño — exactamente el ciclo que la v1 preveía, ejecutado a la primera):
+#
+#   1. `especificaciones` + `catalogo_documentacion` → `catalogo_especificaciones`.
+#      Alberto: «catálogo y especificaciones deberían ser la misma categoría».
+#   2. `instalacion_cableado` + `configuracion_programacion` → `instalacion_configuracion`.
+#      Alberto: «son difíciles de diferenciar».
+#   3. `compatibilidad_sustitucion` se ACOTA a la definición de Alberto: preguntar
+#      si dos equipos (típicamente de MARCAS distintas) funcionan juntos, o si uno
+#      sirve de recambio de otro. Salen de aquí: «¿cómo consigo 32 lazos en la
+#      CAD-250?» y «¿qué diferencias hay entre CAD-150 y CAD-250?» → ambas son
+#      catálogo/especificaciones.
+#   4. `no_es_pregunta` NACE (punto 7 de Alberto: «la 26 no es una pregunta, es
+#      feedback»). Sin ella, los turnos que no consultan nada contaminan el
+#      denominador de todas las gráficas de tipología.
+#   5. Un mensaje demasiado escueto para saber qué pide —un código de modelo
+#      suelto, p. ej. «ZX1e»— va a `otros` (adjudicación 3 de Alberto), NO a
+#      catálogo: podría ser una consulta implícita, pero sin contexto no se
+#      fuerza.
+#
+# El ciclo del «otros» sigue igual: se revisa, se extiende la taxonomía, sube
+# `version` y el job re-clasifica TODO el histórico (~$0,09 a escala de hoy).
+# Contrato de versionado y de CHECK: idéntico a la v1 (ver abajo).
+#
+# CONTRATO DE VERSIONADO:
+#   · `version` sube con CUALQUIER cambio de la lista. Las filas con
+#     taxonomia_version < version cuentan como pendientes para el job.
+#   · Los ids viven TAMBIÉN como CHECK en SQL: cambiar la lista exige una
+#     migración hermana (aquí, `migrations/022_taxonomia_v2.sql`). Es
+#     deliberado — una taxonomía nueva es un evento adjudicado, no un hot-swap
+#     de YAML. Lo cruza tests/test_s326_clasificacion.py.
+#   · La v1 se conserva en `config/taxonomia_preguntas_v1.yaml` como recibo
+#     histórico: es la que clasificó las 109 primeras filas (DEC-245 add. 2).
+#
+# La descripción de cada categoría ES parte del prompt del clasificador:
+# redactarla bien es afinar el clasificador.
+# ============================================================================
+
+# v3 (misma lista de ids que la v2; solo se afinan DESCRIPCIONES, así que NO
+# hace falta migración hermana): el primer pase de la v2 mandó «¿tienes
+# productos de Luka Modric?» a `no_es_pregunta` —contra la adjudicación 6 de
+# Alberto— porque leyó «sujeto absurdo» como «no es una consulta». El eje de
+# `no_es_pregunta` es la FORMA del mensaje, no si el asunto tiene sentido; se
+# dice explícito abajo, en las tres categorías que se tocan.
+# v4 (misma lista de ids; solo descripciones): la v3 sacó «¿tienes productos de
+# Luka Modric?» de `no_es_pregunta` pero la dejó en `otros`, y la adjudicación 6
+# de Alberto dice catálogo. Se hace explícito el PATRÓN («¿tienes / tenéis / hay
+# / existe X?» = catálogo, siempre) y se cierra la puerta desde `otros`. La
+# regla generaliza y además paga: esas preguntas son las que alimentan la vista
+# de demanda no cubierta.
+# v5 (misma lista de ids; solo descripciones): efecto colateral MEDIDO de los
+# refuerzos de v3/v4 — al insistir en «mensaje escueto → otros», el modelo mandó
+# allí preguntas que SÍ se entienden («¿me puedes dar las especificaciones
+# técnicas del NC?», «¿cuántos lazos tiene?»). El criterio correcto no es la
+# LONGITUD: es si se sabe QUÉ SE PIDE. Si se sabe (una especificación, un
+# procedimiento…), va a su categoría aunque falte el sujeto porque venga del
+# hilo; `otros` es solo para cuando ni eso se sabe.
+# v6 (misma lista de ids; solo descripciones): la regla dura de la v4 —«¿tienes
+# X?» → catálogo SIEMPRE— se escribió mirando UNA fila y quedó demasiado ancha:
+# en tráfico nuevo se tragaría preguntas META sobre el asistente («¿tienes
+# acceso a internet?», «¿tenéis soporte en inglés?»), que no son catálogo
+# (hallazgo Fable s326b, predicho sobre tráfico futuro, no observado en el
+# histórico). Se acota a lo que la pregunta busca: productos, marcas, modelos o
+# documentación.
+version: 6
+
+categorias:
+  - id: catalogo_especificaciones
+    descripcion: >-
+      Qué productos, marcas o manuales existen, y qué características tienen.
+      Incluye: listados de fabricantes o modelos, si existe documentación de
+      algo, datos técnicos (tensiones, consumos, capacidades como número de
+      lazos o zonas, resistencias de fin de línea, temperaturas, dimensiones,
+      cálculo de baterías), DIFERENCIAS entre dos modelos, y qué hace falta
+      para alcanzar una capacidad determinada (p. ej. «cómo consigo 32 lazos
+      en la CAD-250»). También preguntar si EXISTE o si tenemos algo —una
+      marca, un modelo, un manual—, aunque la respuesta acabe siendo que no y
+      aunque lo preguntado no exista en este sector.
+  - id: instalacion_configuracion
+    descripcion: >-
+      Cómo se monta y cómo se pone en marcha un equipo. Incluye por igual el
+      montaje físico (conexionado, cableado, alimentación, secciones,
+      topología, alineación) y la programación (menús, contraseñas y niveles
+      de acceso, alta de dispositivos en el lazo, zonas y salidas, retardos,
+      maniobras causa-efecto, sensibilidades). Las dos mitades van juntas
+      porque en el trabajo real no se distinguen.
+  - id: averias_diagnostico
+    descripcion: >-
+      Averías y diagnóstico: qué significa un aviso o código de error, por
+      qué falla algo, cómo localizar la causa, rearme tras alarma o fallo,
+      anulación de zonas en avería.
+  - id: mantenimiento_pruebas
+    descripcion: >-
+      Mantenimiento y pruebas periódicas: tests funcionales, revisiones,
+      limpieza, sustitución de baterías o consumibles, actualización de
+      firmware, calibración.
+  - id: compatibilidad_sustitucion
+    descripcion: >-
+      Si dos equipos funcionan juntos, o si uno sirve de recambio de otro.
+      El caso típico cruza MARCAS: si un dispositivo de una marca se puede
+      conectar a una central de otra, si dos marcas son compatibles entre sí,
+      o qué equipos admite una central. También el reemplazo de un equipo
+      descatalogado. NO entra aquí preguntar por la capacidad de un equipo ni
+      por las diferencias entre dos modelos: eso es catalogo_especificaciones.
+  - id: normativa
+    descripcion: >-
+      Requisitos normativos como intención principal: normas UNE/EN, RIPCI,
+      certificaciones (EN 54, ATEX), niveles o plazos exigidos por norma.
+  - id: no_es_pregunta
+    descripcion: >-
+      El mensaje no PIDE nada: continúa la conversación respondiendo a lo que
+      el bot acababa de preguntar («sobre la 2X-AF1-FBS», «programación
+      principalmente»), acusa recibo («ok, entendido»), o da feedback y
+      observaciones sobre la respuesta anterior («esto parece incluir muchos
+      más productos que centrales de incendios»). El criterio es la FORMA del
+      mensaje, no si el asunto tiene sentido: una pregunta con un sujeto
+      absurdo, inexistente o ajeno al sector SIGUE siendo una pregunta y va a
+      la categoría que le toque por tema.
+  - id: otros
+    descripcion: >-
+      Es una consulta pero no encaja con claridad en ninguna categoría, o no
+      se sabe QUÉ pide: un código de modelo SUELTO, sin nada más («ZX1e»),
+      va aquí. Ojo, el criterio NO es la longitud: si se entiende qué tipo de
+      dato se pide, va a su categoría aunque el mensaje sea corto y aunque el
+      producto venga del hilo y no se nombre («¿cuántos lazos tiene?» o «sus
+      especificaciones básicas» son catalogo_especificaciones, no `otros`). Un mensaje corto pero que sí es
+      una frase de continuación («sobre la 2X-AF1-FBS») NO va aquí, va a
+      `no_es_pregunta`; y una pregunta de la forma «¿tienes/tenéis/hay X?»
+      TAMPOCO va aquí, va siempre a `catalogo_especificaciones` por rara que
+      sea X. Preferir `otros` antes que forzar una categoría: este
+      cajón se revisa y alimenta la siguiente versión de la taxonomía.
+
+# Rutas que se clasifican por REGLA ($0, sin LLM): el plan de turno ya decidió
+# la intención con más contexto del que tendría el clasificador.
+regla_rutas:
+  catalog_shortcut: catalogo_especificaciones
