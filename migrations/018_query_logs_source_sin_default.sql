@@ -2,7 +2,7 @@
 --
 -- Diagnóstico del lote: `source = "text"` estaba replicado en seis sitios, y en
 -- ninguno era verdad la mitad de las veces. Las cinco capas de Python ya no lo
--- tienen (DEC-232 + Fase 2). Ésta es la que queda, y es la que manda: mientras la
+-- tienen (DEC-235 + Fase 2). Ésta es la que queda, y es la que manda: mientras la
 -- columna tenga DEFAULT, un escritor SQL directo que omita `source` seguirá
 -- afirmando que un audio se tecleó.
 --

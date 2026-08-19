@@ -27,7 +27,7 @@
 <a id="estado-actual-s277--22-jul-2026"></a>
 ## Estado actual (s324h — 18 ago 2026; piloto DG vivo)
 
-**La voz ya hace lo mismo que el texto (DEC-232, PR #284 mergeada).** El piloto destapó que
+**La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
 — la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
 faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
@@ -58,8 +58,31 @@ también en los datos que ya estaban escritos.
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
 generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
 (DEC-234: el bake-off no lo cumplió) · #86 el runner de Fable pega 191 KB y ahoga a su revisor
-(DEC-233, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
+(DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
+
+### QUÉ SIGUE — el panel del dashboard a Vercel (s324i, DEC-237)
+
+**Adjudicado**: `techassistant.fontiber.com` + **(a2)**, los usuarios salen de las variables de
+entorno y pasan a Supabase. Motivo: mientras la lista viva en el entorno, **revocar no puede ser
+más rápido que un despliegue** (`auth.py:233-236`).
+
+**Estado: diseñado, NO cableado.** Dos rondas del dúo, **dos NO SÓLIDO**. La v2 tiene la
+estructura correcta y **diez defectos enumerados**, tres críticos:
+
+1. tabla de credenciales **sin RLS/FORCE/REVOKE** — patrón ya escrito en `migrations/016:266-292`;
+   en `public`, PostgREST expondría usuarios y hashes scrypt;
+2. `HMAC(usuario|ip)` **fusiona** dos claves que el cerrojo cuenta por separado (`auth.py:363`) y
+   **debilita** el cerrojo: rotar IP da intentos ilimitados contra un usuario;
+3. el digest `h` es **irrealizable** con la firma de `vigente()`.
+
+**Arranque de la sesión**: leer `evals/s324i_panel_vercel_propuesta_v2.md` + DEC-237, escribir la
+**v3** que cierre los diez, y pasarla por el dúo ANTES de cablear. Es autenticación: el precio de
+equivocarse es una tabla de credenciales expuesta. **No desplegar hasta que la v3 sea SÓLIDO.**
+
+Bloqueante aparte, sin resolver: `X-Forwarded-For` en Vercel no está medido (`_ip_cliente` está
+calibrado para EXACTAMENTE un proxy). Hasta fijar la regla de confianza, **el cerrojo por IP no
+cuenta como efectivo**.
 
 ---
 
