@@ -1,0 +1,114 @@
+{
+  "id": "s325h_setup_script_verificacion_v1",
+  "sesion": "s325h",
+  "session_url": "https://claude.ai/code/session_01Qu9FXoFQorrnPLr6U8ABFX",
+  "fecha_utc": "2026-08-19",
+  "decision": "DEC-238",
+  "pr_referencia": "#295 (mergeado)",
+  "objetivo": "Medir si el Setup script pegado en el environment cloud precalentó la caché de dependencias.",
+
+  "ANOMALIA_PRINCIPAL": {
+    "que": "Esta sesión arrancó SIN el repo clonado por la plataforma. /home/user estaba vacío.",
+    "evidencia": [
+      "ls -la /home/user/ a las 13:49:09Z -> solo . y .. (vacío)",
+      "find / -maxdepth 6 -name cloud_smoke.py -> sin resultados",
+      "find / -maxdepth 5 -name .git -type d -> solo /opt/rbenv/.git, /opt/rbenv/plugins/ruby-build/.git, /opt/nvm/.git",
+      "get_session -> origin: 'claude_code_mcp_seed', sin source repo adjunto"
+    ],
+    "consecuencia": "El hook SessionStart del repo (.claude/hooks/session-start.sh) NUNCA se ejecutó en esta sesión, porque no había repo. Por tanto NO existe la línea del hook que se pedía citar literalmente.",
+    "mitigacion": "Cloné el repo a mano a las 14:05:35Z para poder correr el smoke y escribir este recibo. Ese clon es POSTERIOR a la medición y está marcado como tal en cada campo afectado."
+  },
+
+  "1_evidencias_arranque": {
+    "lineas_hook_SessionStart": {
+      "valor": "NO EXISTEN",
+      "explicacion": "En el contexto de esta sesión no apareció NINGUNA línea del hook del repo. Ni «deps: ya instaladas (…) — se salta la instalación» ni «deps: instaladas (…)». No es que dijera una u otra: no hubo hook. El único SessionStart registrado era el de la plataforma (~/.claude/session-start-git-identity.sh), según /root/.claude/launcher-settings.json.",
+      "corroboracion_independiente": [
+        "cloud_smoke: '[ AVISO] PYTHONPATH  vacío — usa `PYTHONPATH=. python -m pytest` o el hook no corrió'",
+        "cloud_smoke: '[ FALLO] red:extraction_store  ModuleNotFoundError: No module named \\'src\\'' (consecuencia de PYTHONPATH sin fijar)"
+      ]
+    },
+    "proc_uptime": {
+      "medicion_1": {"raw": "117.21 358.42", "instante_utc": "2026-08-19T13:49:09Z", "boot_vm_derivado_utc": "~2026-08-19T13:47:12Z"},
+      "medicion_2": {"raw": "43.70 136.92", "instante_utc": "2026-08-19T14:03:37Z", "boot_vm_derivado_utc": "~2026-08-19T14:02:53Z"},
+      "nota": "IMPORTANTE: el contenedor se reinició a mitad de sesión (~14:02:53Z). La primera medición es la del arranque original de la VM; la segunda es del reinicio. Esto contamina la atribución del smoke (ver seccion 2)."
+    },
+    "stat_git": {
+      "en_el_momento_de_la_medicion": "stat: cannot statx '/home/user/technical_bot/.git': No such file or directory",
+      "tras_clon_manual_no_valido_como_evidencia": ".git | birth=2026-08-19 14:05:35.656648002 +0000 | mtime=2026-08-19 14:05:53.923716370 +0000"
+    },
+    "marcador_centinela": {
+      "existe": true,
+      "path": "/usr/local/lib/python3.11/dist-packages/.technical_bot_deps_663fae8823566173d2ec8e8f3c6e8326bdd7ed13",
+      "ls_literal": "-rw-r--r-- 1 root root 0 2026-08-19 13:48:56.169621270 +0000 /usr/local/lib/python3.11/dist-packages/.technical_bot_deps_663fae8823566173d2ec8e8f3c6e8326bdd7ed13",
+      "mtime_utc": "2026-08-19T13:48:56.169621270Z",
+      "tamano_bytes": 0,
+      "huella": "663fae8823566173d2ec8e8f3c6e8326bdd7ed13",
+      "huella_verificada": {
+        "metodo": "sha1(requirements.txt + requirements-dev.txt + .claude/hooks/install-deps.sh) en HEAD 374b0ab",
+        "calculada": "663fae8823566173d2ec8e8f3c6e8326bdd7ed13",
+        "coincide": true,
+        "implicacion": "El marcador fue estampado ejecutando el install-deps.sh EXACTO de este commit. Quien lo estampó tenía el repo delante."
+      }
+    },
+    "ventana_de_instalacion_de_deps": {
+      "fuente": "mtimes de /usr/local/lib/python3.11/dist-packages/",
+      "base_de_la_imagen": "2026-03-31 13:25–13:26 (uno.pth, directorio padre)",
+      "primer_paquete_instalado_hoy": "2026-08-19 13:47:49.229621135 (_cffi_backend, cryptography)",
+      "ultimo_paquete_instalado_hoy": "2026-08-19 13:48:49.345621257 (supabase-2.31.0.dist-info)",
+      "marcador_estampado": "2026-08-19 13:48:56.169621270",
+      "relativo_al_boot_original_13_47_12": "instalación de +37s a +97s; marcador a +104s",
+      "paquetes_confirmados": ["anthropic-0.97.0", "openai-2.30.0", "supabase-2.31.0", "python_telegram_bot-22.8", "pytest-9.1.1", "aiohttp-3.14.3", "python_dotenv-1.2.3"]
+    }
+  },
+
+  "2_cloud_smoke": {
+    "comando": "python3 scripts/cloud_smoke.py --sin-recibo",
+    "ejecutado_en": "clon manual (14:05Z), no en el checkout de la plataforma",
+    "CLAUDE_CODE_REMOTE": "true",
+    "git_head": "main @ 374b0ab",
+    "linea_deps_cache_LITERAL": "[  OK  ] deps_cache                marcador 663fae88 · anterior a esta VM (edad 0.0 días) — vino del snapshot",
+    "linea_veredicto_LITERAL": "VEREDICTO: NO LISTO · 2 crítico(s) en fallo · 5 aviso(s)",
+    "criticos_en_fallo": [
+      "key:ANTHROPIC_API_KEY: AUSENTE — generadores, harness, sondas, revisor Fable — en cloud: define ANTHROPIC_API_KEY_SCRIPTS",
+      "red:anthropic: sin ANTHROPIC_API_KEY"
+    ],
+    "CAVEAT_SOBRE_deps_cache": {
+      "problema": "La frase «anterior a esta VM — vino del snapshot» es un ARTEFACTO, no una prueba.",
+      "por_que": "check_deps_cache() compara mtime del marcador contra time.time() - /proc/uptime. El contenedor se reinició a ~14:02:53Z. El marcador (13:48:56Z) es anterior a ESE segundo arranque, así que el smoke lo atribuye al snapshot. Pero el marcador se creó durante el PRIMER arranque de esta misma VM (13:47:12Z), no vino de ningún snapshot pre-horneado.",
+      "sintoma_delator": "«edad 0.0 días» — 17 minutos, no días. Un marcador realmente venido de snapshot tendría edad en días.",
+      "lectura_correcta": "El marcador se estampó EN ESTA VM. En términos del propio smoke, la rama honesta habría sido «estampado en esta VM hace 17 min»."
+    }
+  },
+
+  "3_secretos": {
+    "politica": "Solo presencia y longitud. NINGÚN valor.",
+    "presentes": [
+      {"nombre": "SUPABASE_URL", "chars": 40},
+      {"nombre": "SUPABASE_SERVICE_KEY", "chars": 219},
+      {"nombre": "VOYAGE_API_KEY", "chars": 46},
+      {"nombre": "OPENAI_API_KEY", "chars": 164},
+      {"nombre": "DATABASE_URL", "chars": 125},
+      {"nombre": "RAILWAY_TOKEN", "chars": 36}
+    ],
+    "ausentes": ["ANTHROPIC_API_KEY", "LLAMAPARSE_API_KEY", "NOTIFIER_USER", "NOTIFIER_PASSWORD"]
+  },
+
+  "4_CONCLUSION": {
+    "el_setup_script_precalento_la_cache": "SÍ — pero en esta misma VM, no entregada pre-horneada desde un snapshot.",
+    "en_que_me_baso": [
+      "1. Las deps se instalaron entre 13:47:49Z y 13:48:49Z, y el marcador se estampó a 13:48:56Z. El boot de la VM fue ~13:47:12Z. Todo cae dentro de los primeros 104 segundos de vida de esta VM.",
+      "2. NO fue el hook del repo quien las instaló: el repo no estaba clonado, el hook no figuraba registrado y no imprimió una sola línea. PYTHONPATH vacío lo corrobora de forma independiente.",
+      "3. La huella del marcador (663fae88…) coincide EXACTAMENTE con sha1(requirements.txt + requirements-dev.txt + install-deps.sh) del HEAD 374b0ab. Quien lo estampó ejecutó el install-deps.sh de este commit, con el repo delante.",
+      "4. Por eliminación, el único actor que instaló las deps y estampó el marcador fue el Setup script del environment, ejecutándose en el arranque de esta VM.",
+      "5. La imagen base es de 2026-03-31; nada de esto venía horneado."
+    ],
+    "es_esto_fallo": "NO. Es exactamente el caso que Alberto anticipó: primera sesión tras guardar el Setup script — el marcador se estampa en esta misma VM. Esperado.",
+    "lo_que_NO_pude_medir": [
+      "El arranque de ~3 s (salta instalación) frente a ~50 s (instala). El hook del repo no llegó a ejecutarse en esta sesión, así que no hay arranque que cronometrar. La comparación 3 s vs 50 s queda PENDIENTE para la siguiente sesión que sí arranque con el repo montado.",
+      "Confirmar que la caché PERSISTE entre VMs distintas. Esta sesión solo demuestra que el Setup script se ejecuta y estampa; la prueba de precalentado real es una segunda sesión, en VM nueva, cuyo marcador tenga mtime anterior a su boot."
+    ],
+    "hallazgo_colateral_para_DEC_238": "check_deps_cache() atribuye por comparación con /proc/uptime. Un reinicio del contenedor a mitad de sesión reescribe uptime y hace que el smoke declare «vino del snapshot» un marcador nacido en esa misma VM. El propio código lo declara como supuesto no garantizado ('asume /proc/uptime de la VM ... ambos declarados en DEC-238, no garantizados') — este recibo es un caso real de ese supuesto rompiéndose. La edad en días imprimiéndose como «0.0 días» es el delator disponible.",
+    "veredicto_del_smoke_en_contexto": "NO LISTO por ANTHROPIC_API_KEY ausente. Los 2 críticos son de configuración de secretos y NADA tienen que ver con el Setup script ni con la caché de deps. En el eje que medía esta sesión (deps precalentadas), el resultado es favorable."
+  }
+}
