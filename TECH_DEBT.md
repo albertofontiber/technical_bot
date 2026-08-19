@@ -3398,3 +3398,50 @@ tocan referencias cruzadas antiguas y el riesgo de romper trazas supera la ganan
 impide de verdad es que el número no se asigne por lectura del máximo: sufijar por sesión
 (`DEC-235-s324h`) o una puerta en la suite que falle si `DECISIONS.md` repite un número —
 15 líneas, y convierte «se me coló» en «no pasa la suite».
+
+## #93 — Dos sesiones paralelas sobre el MISMO frente llegaron a decisiones OPUESTAS, y la segunda casi revierte la primera al mergear — s325g
+
+**Hermano de #92, distinto problema**: aquel es la colisión de *números* de DEC; éste es la
+colisión de *decisiones*. El mismo mecanismo (worktrees vivos en paralelo) produce las dos.
+
+**Medido (19-ago)**: dos PRs abiertos a la vez, ambos rotulados **s325g**, ambos editando
+`docs/ENTORNO_CLOUD.md` §3.1 y §3.6:
+
+| | PR #292 (`claude/s325g-entorno-verificado`) | PR #295 (`claude/smoke-test-cloud-env-skh5d0`) |
+|---|---|---|
+| Veredicto sobre el mismo lever | «**Decisión mantenida**: la instalación se queda en el hook; 60 s por VM no justifican duplicar la lógica fuera del repo» | **DEC-238**: la instalación **se mueve al setup script** (adjudicación de Alberto), y la objeción se resuelve por extracción a `install-deps.sh` |
+| Arranque medido | ~95 s (25 clon + 10 unshallow + 60 install) | ~77 s (~50 s install) |
+| Corrección de la tabla de variables | `ANTHROPIC_API_KEY_SCRIPTS` (la que la plataforma no filtra) | no la tenía |
+
+**Por qué duele, con el daño concreto que estuvo a punto de ocurrir**: #295 mergeó primero
+(10:07Z) y dejó #292 en conflicto. Resolver ese conflicto «a favor de la rama» —el reflejo
+normal— habría **borrado el bloque del Setup script de §3.1 y reescrito §3.6 con la decisión ya
+revertida**: una adjudicación de Alberto deshecha en silencio por un merge posterior, sin que
+ningún test lo detecte (es documentación: la suite pasa igual). Y en paralelo, **la tabla de §3.1
+de main siguió pidiendo `ANTHROPIC_API_KEY`** —la variable que la plataforma filtra— durante las
+**~13,5 h** que van de la apertura de #292 (18-ago 22:07Z) a su merge (19-ago 11:46Z): el fix
+existía todo ese tiempo, pero solo dentro de una rama sin mergear. Montar un
+environment siguiendo el checklist canónico en esa ventana dejaba el dúo sin key (el agujero de
+s315/s316, que este mismo frente venía a cerrar).
+
+**Causa raíz**: no hay asignación de FRENTE. El nombre de rama no reserva el tema, dos sesiones
+pueden medir lo mismo por separado (~77 s vs ~95 s: ambas ciertas, VMs distintas) y concluir lo
+contrario sin verse nunca. La revisión adversarial no lo cubre: cada dúo revisa su propia
+propuesta contra el repo, no contra el PR abierto del vecino.
+
+**Trigger condition**: la próxima vez que haya **≥2 PRs abiertos cuyo diff toque el mismo fichero
+canónico** (`docs/DECISIONS.md`, `docs/PLAN_RAG_2026.md`, `docs/ENTORNO_CLOUD.md`,
+`docs/ARCHITECTURE.md`, `docs/LEVER_DIGEST.md`) o el mismo lever. En ese momento, parar y
+reconciliar por CONTENIDO antes de mergear el segundo.
+
+**Regla que sí se aplicó aquí y funcionó** (queda como procedimiento, no como mecanismo): al
+resolver el conflicto NO se acepta `ours`/`theirs` en un fichero canónico — se reconcilia pieza
+a pieza (se conservó la corrección de la tabla de #292 y el bloque del Setup script de #295, y
+las dos mediciones por ser de VMs distintas), y en un fichero append-only lo que quedó desmentido
+**se anota como superado, no se borra** (`DECISIONS.md`: «→ SUPERADO por DEC-238»).
+
+**Pendiente, con dueño sin asignar**: el mecanismo. Un chequeo en el flujo de cierre de sesión
+que liste los PRs abiertos y avise si alguno toca los mismos ficheros canónicos que el PR que se
+va a abrir (una llamada a la API de GitHub) convierte «no me enteré» en «me lo dijo antes de
+abrir». Alternativa más barata y más débil: declarar el frente en el nombre de rama y exigir que
+sea único entre las ramas vivas.
