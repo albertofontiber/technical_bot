@@ -31,12 +31,28 @@
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
 — la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
 faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
-procedencia registrase en silencio un audio como si se hubiera tecleado. Fase 1 aplicada
-(`Procedencia` + preludio compartido + frontera sin default); **Fase 2 pendiente**
-(`TurnRequest`/`build_turn_request` + migración del esquema: mismo patrón donde HOY no está roto).
+procedencia registrase en silencio un audio como si se hubiera tecleado. **Las SEIS capas
+cerradas**: Fase 1 (`Procedencia` + preludio compartido), Fase 2 (`TurnRequest` /
+`build_turn_request`, PR #287) y la sexta —el `DEFAULT` del esquema— con la **018 APLICADA por
+Alberto** (verificado 19-ago: `column_default = NULL`, `is_nullable = NO`, CHECK
+`text|voice|error`). La **017** también (el CHECK ya lista `cuota_agotada`).
 Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
 
-**Pendiente de Alberto**: el smoke real (audio «¿qué centrales de Detnov tienes?» → listado de 14).
+**VERIFICADO EN PRODUCCIÓN (19-ago), no sólo en la suite.** El recibo está en `query_logs.route`,
+que separa `rag` de `catalog_shortcut`, y lo prueba **la misma pregunta cambiando de ruta al
+cambiar de canal**:
+
+| hora (18-ago) | canal | `route` | `response_length` |
+|---|---|---|---|
+| 14:16 | voice | `rag` | 152 — «no he encontrado información relevante» |
+| 14:18 | text | `catalog_shortcut` | **494** — el listado de 14 |
+| **20:36** | **voice** | **`catalog_shortcut`** | **494** |
+| 21:42 | voice | `catalog_shortcut` | 1041 — Kidde, 36 centrales |
+
+Los dos `494` son **la misma respuesta byte a byte** por canales distintos y con la pregunta
+redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el censo de las 10 filas
+de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
+también en los datos que ya estaban escritos.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
