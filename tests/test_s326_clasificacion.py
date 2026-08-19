@@ -227,7 +227,7 @@ def test_correr_pendientes_cuenta_sin_escribir(monkeypatch):
     ]
     monkeypatch.setattr(cl, "leer_pendientes", lambda version, cap: filas)
 
-    def _prohibido(_filas):
+    def _prohibido(_nuevas, _existentes=None):
         raise AssertionError("dry_run no escribe")
 
     monkeypatch.setattr(cl, "escribir_clasificaciones", _prohibido)
@@ -241,6 +241,39 @@ def test_correr_pendientes_cuenta_sin_escribir(monkeypatch):
     assert recibo["por_regla"] == 1
     assert recibo["sin_llm"] == 1
     assert recibo["escritas"] == 0 and recibo["dry_run"] is True
+
+
+def test_las_ya_clasificadas_van_por_update_y_las_nuevas_por_insert(monkeypatch):
+    """Incidente del backfill (19-ago): el upsert merge-duplicates de PostgREST
+    re-escribe la PK y el GRANT lo prohíbe (trinquete del gate ACL). El verbo
+    lo decide la marca de `leer_pendientes`: nueva→INSERT, ya-clasificada→PATCH
+    (payload SIN query_log_id — eso lo garantiza escribir_clasificaciones)."""
+    filas = [
+        _fila(),
+        _fila(id="00000000-0000-0000-0000-000000000002",
+              **{"_ya_clasificada": True}),
+    ]
+    monkeypatch.setattr(cl, "leer_pendientes", lambda version, cap: filas)
+    capturado = {}
+
+    def _doble(nuevas, existentes=None):
+        capturado["nuevas"] = nuevas
+        capturado["existentes"] = existentes or []
+        return len(nuevas) + len(existentes or [])
+
+    monkeypatch.setattr(cl, "escribir_clasificaciones", _doble)
+    catalogo = cl.Catalogo(nombres=NOMBRES,
+                           marca_de_modelo=_marca_de_modelo,
+                           resolver_alias=lambda m: m)
+    recibo = cl.correr_pendientes(cap=10, catalogo=catalogo, api_key=None)
+    assert recibo["escritas"] == 2
+    assert [f["query_log_id"] for f in capturado["nuevas"]] == \
+        ["00000000-0000-0000-0000-000000000001"]
+    assert [f["query_log_id"] for f in capturado["existentes"]] == \
+        ["00000000-0000-0000-0000-000000000002"]
+    # la marca interna jamás viaja en el payload
+    assert all("_ya_clasificada" not in f
+               for f in capturado["nuevas"] + capturado["existentes"])
 
 
 def test_aplanar_vieja_acepta_objeto_lista_y_nada():

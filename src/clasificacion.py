@@ -388,21 +388,38 @@ def leer_pendientes(version: int, cap: int) -> list[dict]:
     for fila in viejas:
         padre = aplanar_vieja(fila)
         if padre is not None:
+            # La marca decide el VERBO de escritura (incidente del backfill,
+            # 19-ago): una fila que YA tiene clasificación se re-escribe con
+            # PATCH (UPDATE de columnas, jamás la PK); una nueva, con INSERT.
+            # El upsert merge-duplicates de PostgREST quedó descartado: su
+            # DO UPDATE SET incluye la PK y exigiría GRANT UPDATE(query_log_id)
+            # — exactamente el permiso que el trinquete del gate ACL prohíbe.
+            padre["_ya_clasificada"] = True
             pendientes.append(padre)
     return pendientes
 
 
-def escribir_clasificaciones(filas: list[dict]) -> int:
-    """UPSERT por PK (merge-duplicates): re-clasificar SOBRESCRIBE, nunca apila."""
+def escribir_clasificaciones(nuevas: list[dict],
+                             existentes: list[dict] | None = None) -> int:
+    """Re-clasificar SOBRESCRIBE, nunca apila — con el VERBO que el GRANT
+    permite (la PK jamás se re-escribe):
+
+      · `nuevas` → INSERT en lotes con `resolution=ignore-duplicates`: si una
+        corrida concurrente ya insertó la fila, la nuestra se ignora — ambas
+        eran de la taxonomía vigente, el resultado es equivalente;
+      · `existentes` (marcadas por `leer_pendientes`) → PATCH por fila con el
+        payload SIN `query_log_id` (UPDATE de columnas concedido; mover una
+        clasificación a otra pregunta no es una operación que exista).
+    """
     escritas = 0
-    for i in range(0, len(filas), _LOTE_ESCRITURA):
-        lote = filas[i:i + _LOTE_ESCRITURA]
+    for i in range(0, len(nuevas), _LOTE_ESCRITURA):
+        lote = nuevas[i:i + _LOTE_ESCRITURA]
         try:
             with abierto(timeout=15.0) as cliente:
                 resp = cliente.post(
                     f"{SUPABASE_URL}/rest/v1/query_clasificacion",
                     headers=_cabeceras({
-                        "Prefer": "resolution=merge-duplicates,return=minimal",
+                        "Prefer": "resolution=ignore-duplicates,return=minimal",
                         "Content-Type": "application/json",
                     }),
                     params={"on_conflict": "query_log_id"},
@@ -417,6 +434,28 @@ def escribir_clasificaciones(filas: list[dict]) -> int:
                 f"query_clasificacion respondió {resp.status_code}: "
                 f"{resp.text[:200]}")
         escritas += len(lote)
+    for fila in (existentes or []):
+        cuerpo = {k: v for k, v in fila.items() if k != "query_log_id"}
+        try:
+            with abierto(timeout=15.0) as cliente:
+                resp = cliente.patch(
+                    f"{SUPABASE_URL}/rest/v1/query_clasificacion",
+                    headers=_cabeceras({
+                        "Prefer": "return=minimal",
+                        "Content-Type": "application/json",
+                    }),
+                    params={"query_log_id": f"eq.{fila['query_log_id']}"},
+                    content=json.dumps(cuerpo),
+                )
+        except Exception as exc:                              # noqa: BLE001
+            raise ClasificacionNoDisponible(
+                f"no se pudo actualizar query_clasificacion "
+                f"({type(exc).__name__})") from exc
+        if resp.status_code >= 400:
+            raise ClasificacionNoDisponible(
+                f"query_clasificacion (update) respondió {resp.status_code}: "
+                f"{resp.text[:200]}")
+        escritas += 1
     return escritas
 
 
@@ -475,7 +514,8 @@ def correr_pendientes(cap: int = CAP_DEFECTO, *, catalogo: Catalogo,
         "duracion_s": 0.0,
     }
     arranque = time.monotonic()
-    listas: list[dict] = []
+    nuevas: list[dict] = []
+    existentes: list[dict] = []
     for fila in pendientes:
         ruta = fila.get("route") or "rag"
         if taxonomia.regla_rutas.get(ruta) is None and llm is None:
@@ -497,10 +537,10 @@ def correr_pendientes(cap: int = CAP_DEFECTO, *, catalogo: Catalogo,
             recibo["llm_fallos"] += 1
             continue
         recibo["por_regla" if clasif["origen"] == "regla" else "por_llm"] += 1
-        listas.append(clasif)
+        (existentes if fila.get("_ya_clasificada") else nuevas).append(clasif)
 
-    if listas and not dry_run:
-        recibo["escritas"] = escribir_clasificaciones(listas)
+    if (nuevas or existentes) and not dry_run:
+        recibo["escritas"] = escribir_clasificaciones(nuevas, existentes)
     if llm is not None:
         recibo["tokens_entrada"] = getattr(llm, "tokens_entrada", 0)
         recibo["tokens_salida"] = getattr(llm, "tokens_salida", 0)

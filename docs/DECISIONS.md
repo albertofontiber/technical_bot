@@ -8436,3 +8436,31 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Verificación**: gate de requirements rojo→verde con la detección real (pasó con PyYAML
   declarado ⇒ el BFS lo ve); 135 tests del panel/s326 verdes; suite completa re-corrida en el
   PR. El preview re-desplegado con la función que SÍ trae yaml es el smoke que cierra.
+
+### DEC-245 addendum 2 (s326, 19-ago noche) — La 021 APLICADA en producción con el GO de Alberto; el backfill destapó que el upsert de PostgREST re-escribe la PK, y el verbo de escritura pasa a decidirlo la procedencia de la fila
+
+- **Aplicación (GO literal de Alberto: «aplica la migración»)**: la 021 entró por el conector,
+  ENTERA y transaccional; postcondiciones internas verdes + verificación EXTERNA (Protocolo 1):
+  RLS+FORCE ✓ · 8 vistas con security_invoker ✓ · anon/authenticated sin SELECT ✓ ·
+  service_role INSERT por columna ✓.
+- **El incidente, medido con 4 llamadas mínimas** (SELECT 200 · anti-join 200 · INSERT 201 ·
+  UPSERT 403/42501): `resolution=merge-duplicates` de PostgREST construye `DO UPDATE SET` de
+  TODAS las columnas del payload **incluida la PK**, y `UPDATE(query_log_id)` está prohibido a
+  conciencia (trinquete del gate ACL: una clasificación no se muda de pregunta). El upsert era
+  incompatible con el GRANT por diseño — el fallo estaba en mi elección de verbo, no en el ACL.
+- **Cierre (el trinquete SOBREVIVE, no se ablanda)**: `leer_pendientes` marca la procedencia
+  (`_ya_clasificada`) y `escribir_clasificaciones` separa: fila nueva → INSERT en lote con
+  `ignore-duplicates` (carrera concurrente = resultado equivalente, se ignora); fila con versión
+  vieja → PATCH por fila con el payload SIN la PK. Test nuevo del split + payload sin marca
+  interna; 37 tests del clasificador verdes.
+- **Backfill EJECUTADO (recibo `evals/s326_backfill_v1.json`)**: 108 examinadas → **108
+  escritas, 0 fallos** (10 por regla $0 + 98 por Haiku), 70.533 tokens entrada / 2.874 salida,
+  **$0,085**, 83 s. Más 1 fila re-clasificada aparte (la del diagnóstico del 403, que quedó
+  con un `otros` manual) → **109/109 clasificadas**. Distribución: catálogo 46 · specs 22 ·
+  configuración 13 · otros 9 (8 %) · compatibilidad 7 · instalación 6 · averías 6.
+- **Las vistas ya PAGAN**: `bot_marcas_sin_corpus_semanal` enseña «death knife», «death knob» y
+  «nfs» — el ASR destrozando «Detnov» (DEC-233), por primera vez visible como métrica y no como
+  anécdota. Verificado por la ruta REST del panel (bot_tipologia_semanal 200 con datos).
+- **Pendiente**: el gate de acuerdo ≥85 % (muestra estratificada de 35 entregada a Alberto en el
+  hilo) ANTES de leer las gráficas como verdad · `CLASIFICADOR_PREGUNTAS=on` opcional · addendum
+  del abogado antes de invitar DGs al panel.

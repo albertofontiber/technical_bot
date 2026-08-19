@@ -5972,3 +5972,15 @@ se clasifica por regla a $0, el multi-turno hereda el modelo del contexto (2X-AF
 «¿tienes productos de Luka Modric?» cae a `otros` sin inventar marca. Queda, en orden:
 aplicar la 021 → backfill con gate de acuerdo ≥85 % → (opcional) flag on → addendum del
 abogado antes de invitar DGs al panel. DEC-245.
+
+**Cierre s326-b (noche):** con el GO de Alberto la **021 entró en producción** por el conector
+(entera; postcondiciones + verificación externa verdes) y el **backfill clasificó las 109
+preguntas del histórico** (10 por regla a $0, 98+1 por Haiku, 0 fallos, $0,085, recibo en
+`evals/s326_backfill_v1.json`). Por el camino, el backfill destapó un incidente de libro: el
+upsert `merge-duplicates` de PostgREST re-escribe también la PK, chocando con el trinquete del
+gate ACL — se cerró SIN ablandar el trinquete (fila nueva → INSERT ignore-duplicates; fila
+vieja → PATCH sin PK), medido con cuatro llamadas mínimas. Y la vista de demanda-no-cubierta
+pagó en su primera lectura: «death knife», «death knob» y «nfs» — el ASR destrozando «Detnov»
+(DEC-233), por fin como métrica. Distribución del histórico: catálogo 46 · specs 22 ·
+configuración 13 · otros 9 (8 %) · compatibilidad 7 · instalación 6 · averías 6. Queda el gate
+de acuerdo de Alberto (muestra de 35 en el hilo), el flag opcional y el addendum del abogado.
