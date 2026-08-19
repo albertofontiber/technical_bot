@@ -54,15 +54,19 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
-**s325h-e — la conclusión de s325h-c («la caché no persiste») queda RETIRADA, y la contraria NO
-está probada.** Una VM de las 20:05 mostró el marcador `663fae88` con **mtime 14:09:35Z**, seis
-horas anterior: incompatible con lo que concluyó s325h-c, cuya medida era correcta para SU VM y se
-generalizó mal. **Pero falta el cross-check** (no se registró el uptime de esa VM: no está excluido
-que fuera la misma viva 6 h) y **no hay ni un arranque con ahorro medido** — los cuatro de hoy
-tienen la huella movida porque tocamos el instalador tres veces. Arreglado el mensaje del check
-`deps_cache`, que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error; ahora
-ninguna rama afirma origen, con el contrato fijado por clase de afirmación (DEC-245).
-**Pendiente**: el uptime de esa sesión de las 20:05.
+**s325h-e — la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
+REFUTADA.** El
+registro de una VM la sella con **uptime 40,89 s** en el momento de instalar, y esa VM traía el
+marcador `663fae88` de **mtime 14:09:35Z**: en 41 s de vida no pudo escribirlo, luego viajó en el
+snapshot. Lo medido en s325h-c era correcto para SU VM y se generalizó mal — **pero ojo con el
+error simétrico**: esa misma VM NO recibió la caché, así que lo observado es «al menos a veces»,
+no una propiedad uniforme, y la causa de ese hueco sigue sin cerrar. **Sigue sin medirse el
+AHORRO** (cero arranques que se salten la instalación: los de ese día llevan la huella movida por
+haber tocado el instalador tres veces; se medirá solo en cuanto pase un día sin tocarlo). Dos hechos
+nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (confirma s325g), y
+**cada `resume` re-provisiona el contenedor y resetea el uptime** (4 boots en una sesión), lo que
+invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
+que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-245).
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se

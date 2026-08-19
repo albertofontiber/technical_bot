@@ -44,8 +44,8 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
   sus tres workarounds de s315 (langdetect, PyJWT/cryptography de deb,
   requirements-dev arrastrando el base), extraída a un fichero ÚNICO con dos
   llamadores: el **setup script del environment** (§3.1), que *pretende* dejarla
-  cacheada en el snapshot ~7 días —s325h-c concluyó que NO lo conseguía y **esa conclusión está
-  retirada** (s325h-e); que el mecanismo AHORRE sigue sin medirse, ver §4—, y
+  cacheada en el snapshot ~7 días —**a veces lo consigue**: en s325h-e se observó el marcador
+  sobrevivir de una VM a otra, pero otra VM no lo recibió y el AHORRE sigue sin medirse, ver §4—, y
   el hook, que la corre en cada arranque como **fallback autosanador** — con la caché caliente es un no-op de ~3 s (medido); si la caché caducó, el
   setup no corrió o los requirements cambiaron tras el snapshot, instala como
   siempre (el peor caso = el comportamiento pre-s325g). **Idempotente** (s323):
@@ -132,10 +132,12 @@ rm -rf "$D"
 exit 0
 ```
 
-  Semántica contrastada con la doc oficial (cloud-environments). **AVISO s325h-c: la
-  medición en la primera VM nueva CONTRADICE el párrafo que sigue** — el snapshot no
-  trajo nada y el ahorro no existe hoy (§4, DEC-242). Se conserva como lo que la doc
-  oficial promete, no como lo que este environment hace. Según esa doc: corre **solo al
+  Semántica contrastada con la doc oficial (cloud-environments). **El AVISO que aquí decía
+  «el snapshot no trajo nada» era de s325h-c y está REFUTADO** (s325h-e / DEC-245): una VM
+  recibió el marcador de otra anterior, así que la persistencia ocurre. Lo que sigue sin
+  medirse es el AHORRO, y una VM (la de 14:12:33) **no** recibió la caché por causa aún sin
+  cerrar — o sea, el párrafo que sigue describe lo que la doc promete y lo observado lo
+  cumple al menos a veces, no siempre. Según esa doc: corre **solo al
   construir la caché** (primera sesión, cambio del setup script o de la política de
   red, o caducidad ~7 días), tiene que acabar en **<5 min** (hoy: ~50 s) y con
   **exit 0** siempre; después Anthropic hace **snapshot del filesystem** y las
@@ -299,12 +301,24 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
 - **`gh` no viene preinstalado** y `GH_TOKEN` vale `proxy-injected`: las herramientas
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
-- **¿Persiste la caché? SIN CERRAR — pero «no persiste» está RETIRADO (s325h-e, DEC-245)**: una VM
-  de las ~20:05 arrancó con el marcador `663fae88` de **mtime 14:09:35Z**, seis horas antes. Eso es
-  incompatible con la conclusión de s325h-c, cuya medición (163/164 entradas post-boot) era correcta
-  **para su VM** pero se generalizó al mecanismo. **Falta el cross-check**: no se registró el uptime
-  de esa VM de las 20:05, así que no está excluido que fuera la misma VM viva 6 h — el modo de fallo
-  que este mismo doc documenta. Y **ahorro real medido: ninguno**. Lo que sí hay que
+- **La caché PUEDE persistir `site-packages` — observado al menos una vez; NO uniformemente
+  (s325h-e, DEC-245; refuta el «no persiste» de s325h-c)**: una VM cuyo registro se sella con
+  **uptime 40,89 s** arrancó con el marcador `663fae88` de **mtime 14:09:35Z**; en 41 segundos de
+  vida no pudo escribirlo, luego llegó de un arranque anterior. Pero **otra VM (la de 14:12:33) NO
+  lo recibió**, por causa sin cerrar: lo que hay es «al menos a veces», no una propiedad uniforme.
+  Lo medido en s325h-c era correcto para SU VM y se generalizó al mecanismo — el error simétrico al
+  que este punto vigila. **Ahorro real: cero arranques medidos** (todos los de ese día llevan la
+  huella movida por haber tocado el instalador).
+- **Lo que persiste incluye `purelib` y NO incluye `/tmp` (s325h-e)**: el marcador —UN fichero de
+  site-packages, no las 164 entradas: eso no se comprobó— sobrevivió, mientras el registro de esa VM
+  empieza en su propio arranque, sin la línea del build. **Confirma la decisión de s325g** de mudar
+  el centinela de `/tmp` a site-packages: en `/tmp` habría hecho reinstalar en cada VM aunque el
+  resto viajara. (El mecanismo exacto —snapshot del filesystem frente a, p. ej., un volumen
+  persistente— no se distingue desde dentro; para la decisión da igual.)
+- **Cada `resume` RE-PROVISIONA el contenedor y resetea el uptime (medido s325h-e)**: cuatro
+  `boot_id` distintos en una sola sesión (20:06 → 20:28 → 20:54 → 21:18). **Ninguna medida basada en
+  `/proc/uptime` entre turnos es válida** —incluida la derivación de boot de s325h-c—; por eso el
+  origen lo dictamina el registro, que sella uptime y `boot_id` en cada línea. Lo que sí hay que
   recordar: **tocar `install-deps.sh` mueve su huella a propósito** (entra en ella, DEC-238 r2), así
   que en cualquier sesión posterior a un cambio del instalador el hook reinstala aunque la caché
   haya viajado — eso NO es un fallo de la caché. Y el check `deps_cache` ya no deduce de ahí que «la

@@ -1,4 +1,4 @@
-# s325h-e (r2) — «La caché no persiste» queda RETIRADO; la contraria NO está probada
+# s325h-e (r4) — La caché PUEDE persistir (no siempre): cross-check hecho; el AHORRO sigue sin medir
 
 **Impacto: MEDIO.** Corrige un hecho FALSO ya mergeado en el registro canónico + el mensaje de un
 instrumento. Es una autocorrección: el diagnóstico que sostuve toda la tarde estaba equivocado.
@@ -72,3 +72,50 @@ diagnóstico el listón es más alto»*.
 | 3 | **[medio]** «viajó en el snapshot» es una inferencia mtime→origen — la misma clase que s325h declaró NO fiable — y no registré `boot_id`/uptime de la VM de las 20:05, así que no está excluido que fuera la VM-A viva 6 h | **ACEPTADO, es el hallazgo central**: queda como cross-check pendiente y bloquea el cierre |
 | 4 | **[menor]** instancia residual del mismo pecado: la rama «solo saltada» seguía afirmando origen («la caché las trajo hechas») | **ACEPTADO**: ninguna rama afirma ya el origen; se reporta el COSTE |
 | 5 | **[menor]** el assert negativo fijaba una FRASE, no la clase — otra redacción pasaría | **ACEPTADO**: ahora exige la cláusula de no-afirmación y prohíbe una lista de veredictos de origen |
+
+
+## 8. El cross-check que faltaba, HECHO (r3)
+
+Fable r1 #3 bloqueaba el cierre: «viajó en el snapshot» exigía excluir que la VM de las 20:05 fuera
+la VM-A viva 6 h, y yo no había registrado su uptime. Lo cierra el registro de s325h, que sella el
+uptime en cada línea:
+
+```
+instalada 1ead8d63 3ed69f66-… 40.89 2026-08-19T20:06:56Z   ← el arranque
+saltada   1ead8d63 c6a2be29-… 14.30 2026-08-19T20:28:51Z   ← resume 1
+saltada   1ead8d63 26d13e00-… 15.81 2026-08-19T20:54:36Z   ← resume 2
+saltada   1ead8d63 5b85241a-… 22.26 2026-08-19T21:18:50Z   ← boot actual
+```
+
+**Uptime 40,89 s en el momento de instalar.** En 41 segundos de vida esa VM no pudo escribir un
+fichero con mtime `14:09:35Z`. El marcador viajó en el snapshot ⇒ la caché persiste `site-packages`.
+No es la aritmética mtime-vs-uptime que s325h declaró no fiable: es el uptime **sellado en la línea
+del propio evento**, que es exactamente para lo que se diseñó ese registro.
+
+**Dos hechos nuevos, más valiosos que el veredicto:**
+
+1. **El snapshot trae `purelib` pero NO el `/tmp` del build** — el marcador viajó, el registro del
+   build no (empieza en el arranque de la VM). Confirma **empíricamente** la decisión de s325g de
+   mudar el centinela de `/tmp` a site-packages, que se tomó por razonamiento.
+2. **Cada `resume` re-provisiona el contenedor y resetea el uptime** (4 `boot_id` en una sesión).
+   Invalida toda medida por `/proc/uptime` entre turnos — **incluida la derivación de boot de
+   DEC-242**, lo que da una segunda razón, independiente, para desconfiar de aquel diagnóstico.
+
+**Lo que sigue sin probarse, y no se disfraza**: el AHORRO. Que el snapshot porte `purelib` no es
+que el mecanismo ahorre; eso exige una VM que arranque y se salte la instalación, y no hay ninguna
+medida — las de ese día llevan todas la huella movida. Se medirá sola en cuanto pase un día sin
+tocar `install-deps.sh`.
+
+
+## 9. Ronda 2 (Fable) — **NO SÓLIDO**; los 4 aplicados
+
+| # | Hallazgo | Adjudicación |
+|---|---|---|
+| 1 | **[medio]** la inversión documental dejó una **contradicción viva**: `ENTORNO_CLOUD` §3.1 conservaba el AVISO de s325h-c («el snapshot no trajo nada») mientras §2 y §4 decían lo contrario, en el mismo fichero. Y yo declaré «§2/§4 y PLAN invertidos» — alcance sobre-afirmado | **ACEPTADO, verificado**: §3.1 reescrito; ya no hay dos veredictos en el doc |
+| 2 | **[medio]** «SÍ persiste — PROBADO» compra **uniformidad** que mis propios datos niegan: una VM la recibió y otra no. Lo probado es «puede persistir / al menos a veces». Y «el snapshot trae `purelib`» extiende a 164 entradas lo observado en **un** fichero | **ACEPTADO**: titulares reescritos en DECISIONS, ENTORNO_CLOUD y PLAN; el punto del `purelib` dice ahora «UN fichero; las 164 no se comprobaron» |
+| 3 | **[menor]** «el uptime sellado en la línea del propio evento» estira: el sello está en la línea `instalada`, el `mtime` lo ve la traza del hook, que no lleva `boot_id`; se emparejan por identidad de sesión | **ACEPTADO**: matiz escrito — sólido, pero no un sello único |
+| 4 | **[menor, especulativo]** «viajó en el snapshot» atribuye **mecanismo**; un volumen persistente daría la misma observación | **ACEPTADO**: se dice «sobrevivió a un arranque anterior»; el mecanismo se declara indistinguible desde dentro |
+
+Es la tercera vez en esta línea de trabajo que el revisor caza la misma clase de error —comprar
+uniformidad desde una observación—, dos veces hacia la conclusión pesimista y una hacia la optimista.
+Queda anotado como el sesgo a vigilar en este expediente.
