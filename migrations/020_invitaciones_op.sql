@@ -35,7 +35,11 @@
 -- ----------------------------------------------------------------------------
 ALTER TABLE public.bot_invitaciones
     ADD COLUMN op TEXT NOT NULL UNIQUE DEFAULT gen_random_uuid()::text
-    CHECK (char_length(op) BETWEEN 8 AND 64);
+    -- Longitud Y charset (tanda 3 del 2º frontera): el regex del panel
+    -- (`gestion._OP_RE`) acotaba el charset solo en el cliente — un futuro
+    -- filtro `op=eq.X` heredaría un charset que la base no garantiza. El
+    -- backfill (uuid: hex + guiones) lo cumple.
+    CHECK (op ~ '^[A-Za-z0-9_-]{8,64}$');
 
 COMMENT ON COLUMN public.bot_invitaciones.op IS
     'Token de OPERACIÓN (s324j/DEC-239): identifica el formulario pintado, no '

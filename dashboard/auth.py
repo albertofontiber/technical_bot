@@ -184,28 +184,43 @@ def verificar(contrasena: str, registro: str) -> bool:
     return hmac.compare_digest(obtenido, esperado)
 
 
-def validar_registro_estricto(registro: str) -> None:
+def validar_registro_estricto(registro: str, *,
+                              exigir_produccion: bool = False) -> None:
     """Lanza `RegistroInvalido` si el registro no es EXACTAMENTE lo que
     `hash_contrasena` emite. Es la puerta del script de alta de usuarios del
     panel (s324j, v9 §1.1 — rondas S3-M3/S4-M2): `_partir` tolera una sal o un
     hash de UN byte, y `verificar` deriva siempre `LONGITUD_CLAVE_BYTES` — un
     registro así es legible y NO PUEDE verificar jamás: un usuario inalcanzable
     que ningún login rescata. Aquí se exige la forma canónica completa: sal de
-    16, clave de 32, y solo los parámetros `n,r,p` (sin extras que `_partir`
-    ignoraría en silencio).
+    16, clave de 32, y el segmento de parámetros LITERALMENTE como se emite —
+    `n=..,r=..,p=..` en ese orden, cada clave una vez, sin tokens vacíos (la
+    tanda 1 del 2º frontera cazó que el `dict()` de antes colapsaba duplicados
+    en silencio: `n=999,n=32768` pasaba).
+
+    `exigir_produccion=True` exige ADEMÁS los parámetros de producción
+    (`N_DEFECTO`/`R_DEFECTO`/`P_DEFECTO`) — la puerta del ALTA real (misma
+    tanda): el señuelo anti-enumeración corre con `N_DEFECTO`, así que un
+    registro real con params baratos verificaría en ~ms y reabriría el oráculo
+    temporal existe/no-existe. Sin el flag (tests, herramientas) valen las
+    cotas de `_validar_parametros`.
 
     Lo que esto garantiza es que el registro es ESTRUCTURALMENTE verificable —
     no que case con una contraseña concreta (un hash aleatorio de 32 bytes pasa
     la forma): ese par lo comprueba el challenge del script, que re-pide la
     contraseña y corre `verificar` antes de emitir el INSERT."""
     n, r, p, sal, clave = _partir(registro)                      # cotas incluidas
-    params = dict(
-        trozo.split("=", 1)
-        for trozo in registro.split("$")[1].split(",") if trozo
-    )
-    if set(params) != {"n", "r", "p"}:
+    tokens = registro.split("$")[1].split(",")
+    claves_vistas = [t.split("=", 1)[0] for t in tokens]
+    if claves_vistas != ["n", "r", "p"]:
         raise RegistroInvalido(
-            f"parámetros extra o ausentes: {sorted(params)} (canónico: n,r,p)"
+            f"segmento de parámetros no canónico: {claves_vistas} "
+            f"(canónico: ['n', 'r', 'p'] — en orden, una vez, sin vacíos)"
+        )
+    if exigir_produccion and (n, r, p) != (N_DEFECTO, R_DEFECTO, P_DEFECTO):
+        raise RegistroInvalido(
+            f"parámetros n={n},r={r},p={p} no son los de producción "
+            f"(n={N_DEFECTO},r={R_DEFECTO},p={P_DEFECTO}) — un registro más "
+            f"barato que el señuelo delataría por tiempo qué usuarios existen"
         )
     if len(sal) != LONGITUD_SAL_BYTES:
         raise RegistroInvalido(

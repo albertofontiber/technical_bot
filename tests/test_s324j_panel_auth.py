@@ -159,12 +159,34 @@ def test_el_registro_canonico_pasa_el_estricto():
     lambda r: _con_sal_y_clave(r, sal_b=None, clave_b=b"12345678"),
     # parámetro extra que _partir ignoraría en silencio:
     lambda r: r.replace("$n=", "$extra=9,n="),
+    # parámetro DUPLICADO: el dict() de _partir colapsa al último en silencio
+    # (`n=999` desaparece) — tanda 1 del 2º frontera; el estricto lo rechaza
+    # por la lista de tokens.
+    lambda r: r.replace("$n=", "$n=999,n="),
+    # token VACÍO en el segmento de parámetros (mismo hallazgo):
+    lambda r: r.replace(",r=", ",,r="),
+    # orden no canónico (hash_contrasena emite n,r,p SIEMPRE en ese orden):
+    lambda r: r.replace("$n=1024,r=2,p=1$", "$r=2,n=1024,p=1$"),
     # contraseña en claro (ni siquiera es un registro):
     lambda r: "mi-contraseña-en-claro",
 ])
 def test_lo_legible_pero_no_canonico_se_rechaza(romper):
+    roto = romper(REGISTRO)
+    assert roto != REGISTRO                      # la mutación ocurrió de verdad
     with pytest.raises(auth.RegistroInvalido):
-        auth.validar_registro_estricto(romper(REGISTRO))
+        auth.validar_registro_estricto(roto)
+
+
+def test_exigir_produccion_rechaza_params_baratos_y_acepta_el_default():
+    """Tanda 1 del 2º frontera: el señuelo anti-enumeración corre con
+    N_DEFECTO; un registro REAL más barato verificaría en ~ms y delataría por
+    tiempo qué usuarios existen. La puerta del alta exige los params de
+    producción; sin el flag, los baratos de test siguen valiendo."""
+    with pytest.raises(auth.RegistroInvalido):
+        auth.validar_registro_estricto(REGISTRO, exigir_produccion=True)
+    auth.validar_registro_estricto(REGISTRO)     # sin flag: cotas normales
+    de_produccion = auth.hash_contrasena("la buena")
+    auth.validar_registro_estricto(de_produccion, exigir_produccion=True)
 
 
 def _con_sal_y_clave(registro, *, sal_b, clave_b):
