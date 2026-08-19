@@ -5734,3 +5734,46 @@ seudonimización, y `docs/RGPD_RETENCION.md:67-75` ya rechaza ese framing.
 **Decisión: no se cablea.** El patrón de los tres críticos es «no vi un contrato que estaba en
 el repo», y eso empeora con contexto acumulado. Va a sesión fresca, con la v2 y sus diez
 defectos enumerados como punto de partida.
+
+## s324j (19 ago 2026) — El diseño del panel sobrevive a seis rondas del dúo, y el dúo me caza mintiendo tres veces por sesión de camino
+
+Sesión cloud (web), arrancada con la PR #294 recién mergeada y un solo encargo del handoff de
+s324i: escribir la v3 del panel a Vercel que cerrara los diez defectos de DEC-237, y pasarla por
+el dúo ANTES de tocar código. Se hizo eso — y el dúo convirtió «una v3 y una ronda» en v3→v9 y
+seis rondas completas, todas en la misma sesión.
+
+**El arranque fue el protocolo, no la memoria**: los diez defectos salieron del log del dúo (no
+del resumen del PLAN), y cada ancla se verificó contra el código antes de diseñar — auth.py
+entero, la 016, el precedente RPC endurecido de s277, y el rechazo histórico de RPC de s296→s299
+que vive en el docstring del canje. El auto-pushback de la v3 añadió tres cierres que nadie había
+pedido (IdentidadNoDisponible para que una caída no mienta «credenciales incorrectas», charset
+cerrado antes del filtro PostgREST, auditoría no reescribible por REST). No bastó: r1 la tumbó
+con 3 críticos, y el peor era MÍO y de esa misma tarde — §5 y §1.3 prescribían conductas OPUESTAS
+para el transporte caído, y lo cazaron LOS DOS revisores por separado.
+
+**Lo que dejó la maratón** (64 hallazgos, 0 falsos positivos, regla C en todos): el sello de
+credencial realizable donde vigente() era imposible; el cerrojo contar-al-admitir con siembra
+antes del lock (FOR UPDATE no bloquea filas que no existen), upsert siempre (el DELETE de acierto
+no deja admisiones sin contar) y advisory lock con su semántica dicha sin eufemismo; la clave ip:
+APAGADA hasta medir XFF (el hallazgo de r5: con la IP compartida del proxy, 5 fallos de un
+atacante eran un 429 GLOBAL — el gate decía «inefectivo» donde había denegación de servicio); la
+retención por función hermana diaria con recibo (ampliar la pasada de 24 meses tocaba un contrato
+vivo que afirma EXACTAMENTE 4 tablas); y la lección meta: tres veces en seis rondas el defecto
+fue «mi prosa afirmaba más que el diseño» (el 503 «sin contar», el «formato completo», las «≤48h
+garantizadas» que el canon desmiente porque un reloj roto aborta en silencio).
+
+**El regalo colateral de r1**: anular una invitación está ROTA HOY contra Supabase real — r41
+(s324f) arregló «la anulación queda sin firmar» escribiendo la firma en `nota`, y la 016 nunca
+concedió UPDATE sobre esa columna. Un dúo cerrando un hallazgo abrió otro que ningún test sin red
+ve. De ahí la puerta 9-bis: toda columna escrita tiene su GRANT, cruzado estáticamente.
+
+**Cierre**: r6 terminó con Fable en «SÓLIDO» explícito y Sol sin un solo defecto de mecanismo
+desde r2. Adjudiqué el cierre de las rondas de diseño (el guardarraíl anti-ritual existe para
+esto) — la v9 es SÓLIDO-para-cablear, el GO es de Alberto, y la sesión de cableado corre SU dúo
+sobre el diff. DEC-238. Operativa: el primer Fable de r3 murió por presupuesto (el default de
+300k; DEC-236 sigue pendiente de raíz) y corrió con 600k/16 tools el resto de la sesión, con
+tool_use reales y ~20-30 anclas verificadas por ronda. Nota de higiene cloud: el digest de levers
+no apareció inyectado en el contexto (el hook está cableado y el script funciona — verificado
+ejecutándolo); esta sesión no opinaba sobre ningún lever, no bloqueó. La memoria indexada
+(MEMORY.md) no está versionada en el repo y no se toca desde cloud; la traza canónica queda en
+DECISIONS/PLAN/HISTORY.

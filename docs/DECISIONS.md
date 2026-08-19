@@ -7846,3 +7846,49 @@ con la estructura correcta) + los diez defectos enumerados arriba. Traza:
 duplicados**. Los dos míos (s324h) se renumeraron a **DEC-235** (la voz al plan) y **DEC-236** (el
 runner de Fable), con sus tres referencias actualizadas. Los **9 históricos** quedan declarados en
 `TECH_DEBT`, sin renumerar: tocan referencias cruzadas antiguas y no es trabajo de esta sesión.
+
+
+## DEC-238 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
+
+- **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto a internet).
+  **Estado**: diseño CERRADO (`evals/s324i_panel_vercel_propuesta_v9.md`); **nada cableado ni
+  desplegado** — ese era el mandato de DEC-237 y se cumplió.
+- **Qué se hizo**: la v3 cerró los diez defectos de DEC-237 (verificados primero contra el código,
+  no de memoria) y el dúo corrió SEIS rondas completas en la sesión (v3→v9; Sol xhigh agéntico +
+  Fable emparejado con semilla mínima — lección DEC-236 — y presupuesto 600k tras morir un intento
+  al default de 300k). **64 hallazgos, cada uno pasado por la regla C contra código/docs antes de
+  actuar; 0 falsos positivos en las seis rondas.** Trayectoria: r1 = 3 críticos (el peor: mi
+  contradicción interna §5↔§1.3, cazada por LOS DOS revisores) → desde r2, cero defectos de
+  mecanismo → r6 = Fable **«SÓLIDO»** explícito (~30 anclas, cero desajustes) y Sol 5 medios, todos
+  contrato-de-integración sobre código aún inexistente, cerrados en la v9.
+- **Decisión 1 — cerrar las rondas de diseño** (regla F: decido yo y soy responsable): el
+  guardarraíl anti-ritual manda no iterar por iterar; lo que Sol ataca desde r4 exige el DIFF real
+  para ser verificable. El dúo VUELVE a correr al cablear, sobre el diff (Protocolo 3, ALTO,
+  innegociable).
+- **Decisión 2 — el diseño es SÓLIDO-para-cablear, y un SÓLIDO no es un GO** (DEC-173): cablear
+  exige el GO explícito de Alberto. Gates previos a EXPONER, en la v9 §13: plazo
+  `[DECIDIR: Alberto]` de `panel_usuarios` · panel dentro del paquete del abogado (DEC-231),
+  nombrando el pendiente canónico de la purga 24m de `bot_invitaciones`/allowlist (adjudicada
+  s324e, sin mecanismo) · medición XFF antes de encender la mitad `ip:` del cerrojo (hasta
+  entonces esa clave NI CUENTA NI BLOQUEA — con IP compartida del proxy, 5 fallos = 429 global;
+  r5/F5-M1).
+- **Hallazgo LATENTE de hoy, fuera del panel** (r1/S-C1, verificado): anular una invitación está
+  ROTA contra Supabase real — `gestion.py:271-273` firma en `nota` (dúo r41 de s324f) y la 016
+  solo concede `UPDATE (canjeada_at, canjeada_por, revocada_at)` (016:321-322) → 42501. Un dúo
+  arreglando un hallazgo (r41: «la anulación queda sin firmar») abrió otro que ningún test sin red
+  puede ver. La 020 lo cierra de raíz (`revocada_por` + CHECK del patrón
+  `bot_allowlist_revocacion_completa` + backfill) y nace la puerta 9-bis (toda columna escrita
+  tiene su GRANT, cruzada estáticamente).
+- **Alternativas descartadas** (las nuevas de la sesión; cada una con su porqué en la v9 §10):
+  BEGIN/COMMIT dentro de las migraciones (la 016 lo prohíbe tras dos fallos reales — el cierre es
+  el contrato de aplicación) · ampliar `rgpd_retencion_pasada` (su autocontrol afirma EXACTAMENTE
+  4 tablas: se instancia el patrón en una función hermana diaria) · pepper dedicado para `K` ·
+  cache del sello con TTL · PRG con canal flash · devolver el +1 en fallo parcial.
+- **Método, para la traza**: la mecánica «un fichero de propuesta por versión + tabla
+  defecto→cierre por ronda» mantuvo las seis rondas auditables; el coste total del dúo fue del
+  orden de $15-25. El primer intento de Fable r3 murió por presupuesto (preflight tras 12 tools):
+  `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000` + 16 tools lo resolvió — DEC-236 sigue teniendo pendiente
+  el arreglo de raíz en el runner (no pegar código como semilla).
+- **Traza**: tallies `2026-08-19T07:50:18` · `08:06:55` · `08:19:51` · `08:34:58` · `08:48:06` ·
+  `09:02:03` en `evals/adversarial_review_log.jsonl`, con `verdict_notes` de regla C punto por
+  punto y los recibos apareados en `evals/adversarial_reviews/`.

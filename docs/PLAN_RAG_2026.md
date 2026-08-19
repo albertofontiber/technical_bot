@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 ago 2026 (s324d — poda: los estados anteriores a s323 se archivaron en HISTORY; el estado
+> 19 ago 2026 (s324j — el diseño del panel a Vercel CERRADO tras seis rondas del dúo; el estado
 > vigente es el bloque «Estado actual» de abajo).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
@@ -25,7 +25,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324h — 18 ago 2026; piloto DG vivo)
+## Estado actual (s324j — 19 ago 2026; piloto DG vivo)
 
 **La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
@@ -61,28 +61,36 @@ generan las de los modelos, no coleccionar confusiones) · el gate de ASR con �
 (DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
-### QUÉ SIGUE — el panel del dashboard a Vercel (s324i, DEC-237)
+### QUÉ SIGUE — cablear el panel (diseño CERRADO en s324j; DEC-238)
 
-**Adjudicado**: `techassistant.fontiber.com` + **(a2)**, los usuarios salen de las variables de
-entorno y pasan a Supabase. Motivo: mientras la lista viva en el entorno, **revocar no puede ser
-más rápido que un despliegue** (`auth.py:233-236`).
+**El diseño del panel a Vercel está TERMINADO y validado: `evals/s324i_panel_vercel_propuesta_v9.md`**
+(s324j, 19-ago). Seis rondas del dúo en una sesión (v3→v9, 64 hallazgos, cada uno verificado con
+regla C y cerrado — traza completa en el tally, ts `07:50:18`→`09:02:03` del 19-ago): r1 tumbó 3
+críticos; desde r2, cero defectos de mecanismo; r6 terminó con **Fable en «SÓLIDO» explícito**
+(~30 anclas, cero desajustes) y Sol con 5 medios de contrato-de-integración sobre código aún
+inexistente, cerrados en la v9. Piezas del diseño: `sello` de credencial en la cookie
+(revocación/cambio de contraseña efectivos en la siguiente petición), cerrojo distribuido
+contar-al-admitir (RPC `panel_puerta` INVOKER endurecida), frontera RLS/REVOKE de la 016 en las
+tablas nuevas, idempotencia por `op`, retención por el patrón s299 (función hermana diaria con
+recibo), y `IdentidadNoDisponible` (una caída no miente «credenciales incorrectas»).
 
-**Estado: diseñado, NO cableado.** Dos rondas del dúo, **dos NO SÓLIDO**. La v2 tiene la
-estructura correcta y **diez defectos enumerados**, tres críticos:
+**La sesión siguiente CABLEA — con el GO de Alberto** (un diseño SÓLIDO no es un GO, DEC-173):
+migraciones `019`/`020` + `dashboard/cerrojo.py` + sello + op, las ~13 puertas y el test de
+integración pg (patrón s295). El dúo VUELVE a correr sobre el DIFF (Protocolo 3, ALTO). La v9
+lleva §13 con el alcance exacto y la secuencia.
 
-1. tabla de credenciales **sin RLS/FORCE/REVOKE** — patrón ya escrito en `migrations/016:266-292`;
-   en `public`, PostgREST expondría usuarios y hashes scrypt;
-2. `HMAC(usuario|ip)` **fusiona** dos claves que el cerrojo cuenta por separado (`auth.py:363`) y
-   **debilita** el cerrojo: rotar IP da intentos ilimitados contra un usuario;
-3. el digest `h` es **irrealizable** con la firma de `vigente()`.
+**Gates previos a EXPONER, no opcionales** (v9 §13): plazo `[DECIDIR: Alberto]` de
+`panel_usuarios` decidido · panel dentro del paquete del abogado (DEC-231) — que además NOMBRA el
+pendiente canónico de la purga 24m de `bot_invitaciones`/allowlist (adjudicada s324e, sin
+mecanismo) · medición XFF, tras la cual (y solo entonces) se enciende la mitad `ip:` del cerrojo
+— hasta entonces esa clave NI CUENTA NI BLOQUEA (con la IP compartida del proxy, 5 fallos de un
+atacante serían un 429 global; cazado en r5).
 
-**Arranque de la sesión**: leer `evals/s324i_panel_vercel_propuesta_v2.md` + DEC-237, escribir la
-**v3** que cierre los diez, y pasarla por el dúo ANTES de cablear. Es autenticación: el precio de
-equivocarse es una tabla de credenciales expuesta. **No desplegar hasta que la v3 sea SÓLIDO.**
-
-Bloqueante aparte, sin resolver: `X-Forwarded-For` en Vercel no está medido (`_ip_cliente` está
-calibrado para EXACTAMENTE un proxy). Hasta fijar la regla de confianza, **el cerrojo por IP no
-cuenta como efectivo**.
+**Hallazgo LATENTE de HOY, aparte del panel** (r1, S-C1 — verificado): anular una invitación está
+ROTA contra Supabase real — `gestion.py:271-273` firma en `nota` (r41) y el GRANT de la 016 no
+concede `UPDATE (nota)` → 42501. Invisible para los tests sin red. La 020 lo arregla de raíz
+(`revocada_por` + CHECK); si alguien anula una invitación desde el panel ANTES de cablear, fallará
+con «Supabase respondió 400».
 
 ---
 
