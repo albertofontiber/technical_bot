@@ -109,19 +109,24 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
 3. ~~El ALTA de usuarios~~ HECHA (19-ago noche): Alberto se dio de alta y **ENTRÓ** — el login
    real ejercitó la cadena entera (scrypt, sello, cookie firmada, cerrojo `panel_puerta` vía
    PostgREST). El panel está OPERATIVO de punta a punta.
-4. **EN CURSO (s326): las MÉTRICAS del panel — lista recibida, propuesta v1 ADJUDICADA ENTERA,
-   cableando** (PR #305, rama `claude/technical-bot-dashboard-metrics-jpbrns`). La lista de
-   Alberto (19-ago): tipología · fabricantes · modelos · feedback por pregunta (sub-feedback +
-   motivo en texto) · por-usuario. Propuesta: `evals/s326_panel_metricas_uso_propuesta_v1.md` —
-   `query_clasificacion` derivada + job batch determinista-primero (Haiku solo en filas `rag`;
-   taxonomía versionada con «otros» re-taxonomizable) + vistas semanales + Explorador con
-   filtros. La captura de feedback ya existía entera (s294). **Adjudicaciones de Alberto
-   (19-ago, en el hilo): drill-down con prosa = OPCIÓN (a) completa · taxonomía v1 OK ·
-   por-usuario con ALIAS de allowlist OK · coste OK.** Al cablear: dúo sobre el diff (Protocolo
-   3); `_tabla_de_vista` solo pinta columnas DECLARADAS (v9 §7); toda vista nueva sale de vistas
-   SQL (las métricas, AGREGADAS; el Explorador, fila-a-fila — es la adjudicación (a), el
-   «fuera de v1» de DEC-231 que Alberto reabre a conciencia). **Gate de EXPONER nuevo que nace
-   aquí: addendum del Explorador (prosa de preguntas/comentarios) al paquete del abogado.**
+4. **s326: las MÉTRICAS del panel — adjudicada ENTERA y CABLEADA (propuesta mergeada en
+   #305; el cableado va en PR aparte, rama `claude/technical-bot-dashboard-metrics-jpbrns`).**
+   La lista de Alberto (19-ago): tipología · fabricantes · modelos · feedback por pregunta
+   (sub-feedback + motivo en texto) · por-usuario. Propuesta:
+   `evals/s326_panel_metricas_uso_propuesta_v1.md`. **Adjudicaciones (19-ago, en el hilo):
+   drill-down con prosa = OPCIÓN (a) completa · taxonomía v1 OK · por-usuario con ALIAS de
+   allowlist OK · coste OK.** Cableado: migración **021** (`query_clasificacion` + 8 vistas,
+   postcondiciones dentro) · `src/clasificacion.py` (raíz pura, catálogo INYECTADO — la
+   matriz de imports ni se toca) · seam `CLASIFICADOR_PREGUNTAS` (default off =
+   conducta del bot idéntica; nada corre en la ruta de respuesta) ·
+   `scripts/clasificar_preguntas.py` (backfill/re-taxonomización con
+   recibo) · página **Explorador** con filtros de listas cerradas. **Para USARLO, en orden**:
+   (i) aplicar `migrations/021_query_clasificacion.sql` (SQL Editor/conector, entera);
+   (ii) backfill `python -m scripts.clasificar_preguntas --cap 500 --receipt ...` + gate de
+   acuerdo ≥85 % (~30 etiquetas a mano) ANTES de fiarse de la gráfica; (iii) opcional
+   `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática cada 6 h.
+   **Gate de EXPONER nuevo que nace aquí: addendum del Explorador (prosa de
+   preguntas/comentarios, adjudicación (a)/DEC-231) al paquete del abogado.**
 5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;

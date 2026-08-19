@@ -49,7 +49,7 @@ from datetime import datetime, timezone
 
 from src.bot import access
 
-from . import auth, cerrojo, datos, errores, gestion, render, sesion
+from . import auth, cerrojo, datos, errores, explorador, gestion, render, sesion
 from .render import Seguro, esc
 
 #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
@@ -432,10 +432,26 @@ def _grafico_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
     if not vista.grafico or not resultado.filas:
         return Seguro("")
     col_etiqueta, col_valor, unidad = vista.grafico
-    # Las vistas vienen en orden descendente (lo más reciente primero) porque es
-    # como se lee una tabla; un gráfico temporal se lee al revés.
-    pares = [(str(f.get(col_etiqueta, "?")), f.get(col_valor))
-             for f in reversed(resultado.filas[:14])]
+    if vista.grafico_agregado:
+        # (s326, hallazgo Sol r1) Vistas DIMENSIONALES: sumar por etiqueta
+        # sobre TODAS las filas cargadas — si no, las «14 filas» mezclan
+        # semanas y una etiqueta sale repetida en barras indistinguibles. La
+        # ventana del gráfico es la de la tabla (vista.limite) y la tabla
+        # sigue siendo la verdad fila a fila.
+        total: dict[str, float] = {}
+        for f in resultado.filas:
+            try:
+                total[str(f.get(col_etiqueta, "?"))] = (
+                    total.get(str(f.get(col_etiqueta, "?")), 0)
+                    + (f.get(col_valor) or 0))
+            except TypeError:
+                continue
+        pares = sorted(total.items(), key=lambda kv: kv[1], reverse=True)[:14]
+    else:
+        # Las vistas temporales vienen en orden descendente (lo más reciente
+        # primero) porque es como se lee una tabla; el gráfico se lee al revés.
+        pares = [(str(f.get(col_etiqueta, "?")), f.get(col_valor))
+                 for f in reversed(resultado.filas[:14])]
     return render.barras(pares, unidad=unidad)
 
 
@@ -517,11 +533,105 @@ def pagina_metricas(peticion: Peticion) -> Respuesta:
     tarjetas.append(render.tarjeta(
         "Sobre quién pregunta",
         render.nota(
-            "Estas vistas trabajan con SEUDÓNIMO estable, no con identidad "
-            "(s295-s299). El panel no las cruza con la lista de acceso, y por "
-            "eso aquí no se puede saber qué preguntó una persona concreta."),
+            "Desde s326 (adjudicación de Alberto) «Quién pregunta cuánto» SÍ "
+            "cruza con la lista de acceso: el alias es la nota de la allowlist "
+            "— el mismo dato que ya enseña la pestaña de Acceso. Y el texto de "
+            "las preguntas se lee en el Explorador, que reabre a conciencia lo "
+            "que DEC-231 dejó fuera de la v1. Sigue siendo dato de personas: "
+            "mira solo lo que necesites."),
     ))
     return _pagina(peticion, "Métricas", tarjetas, ruta="/metricas")
+
+
+def pagina_explorador(peticion: Peticion) -> Respuesta:
+    """Pregunta a pregunta, CON su texto (adjudicación (a), s326): clasificación,
+    feedback del autor y su comentario. Filtros de listas CERRADAS (patrón
+    errores.py): nada de la URL se parsea, se elige o cae al defecto."""
+    categorias = explorador.categorias_validas()
+    marcas, marcas_ok = explorador.marcas_disponibles()
+    filtros = explorador.normalizar(peticion.consulta,
+                                    categorias=categorias, marcas=marcas)
+    resultado = explorador.leer(filtros)
+
+    def _opciones(pares, elegido: str) -> str:
+        return "".join(
+            f'<option value="{esc(valor)}"'
+            + (" selected" if valor == elegido else "")
+            + f">{esc(texto)}</option>"
+            for valor, texto in pares
+        )
+
+    dias = _opciones(
+        [(str(d), "todo" if d == 0 else f"{d} días")
+         for d in explorador.VENTANAS], str(filtros.dias))
+    categoria = _opciones(
+        [("", "todas")] + [(c, c) for c in categorias], filtros.categoria or "")
+    marca = _opciones(
+        [("", "todas")] + [(m, m) for m in marcas], filtros.marca or "")
+    feedback = _opciones(
+        [("todos", "todos"), ("up", "👍"), ("down", "👎"),
+         ("comentados", "con comentario")], filtros.feedback)
+
+    tarjetas = [render.tarjeta(
+        "Filtros",
+        render.unir([Seguro(
+            # GET a propósito: leer no cambia estado, no lleva CSRF, y la URL
+            # resultante se puede compartir entre los usuarios del panel.
+            '<form method="get" action="/explorador">'
+            f'<label>Periodo<select name="dias">{dias}</select></label>'
+            f'<label>Categoría<select name="categoria">{categoria}</select></label>'
+            f'<label>Fabricante<select name="marca">{marca}</select></label>'
+            f'<label>Feedback<select name="feedback">{feedback}</select></label>'
+            '<button type="submit" class="principal">Aplicar</button>'
+            "</form>")] + ([] if marcas_ok else [render.aviso(
+                # «no hay marcas» y «no se pudo leer la lista» son pantallas
+                # distintas (Fable r1 s326): sin esto, el filtro desaparecía en
+                # silencio justo cuando Supabase falla.
+                "No se pudo leer la lista de fabricantes: ese filtro no está "
+                "disponible ahora.", tono="aviso")])),
+        pregunta="Listas cerradas: el periodo y el feedback son fijos, la "
+                 "categoría es la taxonomía vigente y las marcas son las "
+                 "canónicas del corpus.",
+    )]
+
+    if resultado.estado == datos.OK:
+        def _fila(f: dict) -> list:
+            veredicto = {"up": "👍", "down": "👎"}.get(f.get("verdict") or "", "—")
+            if f.get("reason_class"):
+                veredicto += f" · {f['reason_class']}"
+            return [
+                esc(str(f.get("created_at") or "")[:16].replace("T", " ")),
+                esc(f.get("quien")),
+                esc(f"{f.get('canal') or '?'} · {f.get('ruta') or '?'}"),
+                esc(f.get("categoria") or "(sin clasificar)"),
+                esc(", ".join((f.get("marcas") or []) + (f.get("modelos") or []))
+                    or "—"),
+                Seguro(f'<span class="ancho">{esc(f.get("pregunta"))}</span>'),
+                esc(veredicto),
+                (Seguro(f'<span class="ancho">{esc(f.get("comment"))}</span>')
+                 if f.get("comment") else "—"),
+            ]
+
+        tarjetas.append(render.tarjeta(
+            f"{len(resultado.filas)} pregunta(s)",
+            render.tabla(
+                ["Cuándo", "Quién", "Canal · ruta", "Categoría",
+                 "Marcas y modelos", "Pregunta", "Feedback", "Comentario"],
+                [_fila(f) for f in resultado.filas],
+            ),
+            pregunta=f"De la más reciente a la más antigua (tope "
+                     f"{explorador.TOPE_FILAS}; para exportar, SQL en Supabase).",
+            pie="Prosa escrita por técnicos — dato personal (s326 reabre el "
+                "«fuera de v1» de DEC-231): mira solo lo que necesites.",
+        ))
+    else:
+        tarjetas.append(render.tarjeta(
+            "Preguntas",
+            _pintar_resultado(
+                resultado, que="preguntas con esos filtros",
+                si_falta="falta aplicar migrations/021_query_clasificacion.sql"),
+        ))
+    return _pagina(peticion, "Explorador", tarjetas, ruta="/explorador")
 
 
 def pagina_errores(peticion: Peticion) -> Respuesta:
@@ -804,6 +914,7 @@ RUTAS = {
     ("GET", "/"): pagina_resumen,
     ("GET", "/acceso"): pagina_acceso,
     ("GET", "/metricas"): pagina_metricas,
+    ("GET", "/explorador"): pagina_explorador,
     ("GET", "/errores"): pagina_errores,
     ("GET", "/entrar"): pagina_entrar,
     ("POST", "/entrar"): accion_entrar,

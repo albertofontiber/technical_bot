@@ -8346,3 +8346,93 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Cambios**: solo doctrina — runbook (`DASHBOARD_DESPLIEGUE.md` §«Por qué Vercel — y en
   PROYECTO PROPIO», con el paso de crear el proyecto) + PLAN (paso 4 de «falta para live»).
   Cero código.
+
+## DEC-245 (s326, 19 ago 2026) — Las métricas de USO/CALIDAD del panel: adjudicadas ENTERAS por Alberto y cableadas con dúo secuencial (Sol 7/7 + Fable 5/5, 0 FP); la prosa entra al panel (opción a) y el bot no se toca
+
+- **Fecha**: 19 ago 2026. **Impacto**: MEDIO-ALTO (esquema nuevo + superficie del panel expuesto +
+  reapertura del «fuera de v1» de DEC-231). **Estado**: cableado en rama (PR del cableado); la
+  migración 021 SIN aplicar; flag `CLASIFICADOR_PREGUNTAS` default off.
+- **Qué pidió Alberto** (19-ago, chat): tipología de pregunta con «otros» re-taxonomizable ·
+  fabricantes · modelos · feedback por pregunta con sub-feedback y motivo en texto · preguntas por
+  usuario; tabla por-pregunta + agregados + gráficas + filtros. **El hallazgo que dimensionó el
+  trabajo** (medido en producción ANTES de opinar): la captura de feedback ya estaba COMPLETA
+  (s294: verdict + reason_class + «te lo explico»→comment; 9 votos, 8 👎) y `product_models` al
+  70 % — el gap era de EXPOSICIÓN y de dos dimensiones (tipología, fabricante), no de captura.
+- **Adjudicaciones de Alberto (en el hilo)**: drill-down con prosa = **OPCIÓN (a)** completa
+  (pregunta + comentario en el panel; el gatillo que DEC-231 preveía — «entra cuando el piloto lo
+  pida» — ejercido por quien lo aplazó) · taxonomía v1 OK · por-usuario con **alias de allowlist**
+  OK · coste OK (céntimos de LLM + dúo).
+- **Decide (arquitectura, propuesta `evals/s326_panel_metricas_uso_propuesta_v1.md`)**:
+  1. **Tabla DERIVADA `query_clasificacion`** (021): 1:1 con `query_logs`, CASCADE, sin id de
+     persona; desechable y reconstruible ⇒ re-taxonomizar es barato y seguro. RLS ENABLE+FORCE,
+     ACL enumerada (9-bis: payload==GRANT, cruzado en test).
+  2. **Clasificador batch determinista-primero**: rutas de atajo por REGLA ($0); marcas/modelos
+     SIEMPRE deterministas (product_models del turno + catálogo + alias-scan del texto); Haiku
+     solo para la categoría del residuo, JSON estricto (categoría fuera de lista = fila pendiente,
+     JAMÁS degradada a `otros`). Menciones sin corpus → `marcas_libres` → vista de demanda no
+     cubierta (cierra la intención de `query_gaps`, TECH_DEBT #8, con datos ya capturados).
+  3. **Módulo RAÍZ PURO** (`src/clasificacion.py`): el catálogo entra INYECTADO (`Catalogo`)
+     desde el seam del bot y el script — la matriz de imports (raiz→rag prohibido) ni se toca;
+     censo 128→129 explicado en el propio test.
+  4. **Corrida**: seam JobQueue cada 6 h gateado por flag (off = conducta idéntica; guard si PTB
+     no trae el extra job-queue) + `scripts/clasificar_preguntas.py` manual con recibo (backfill
+     y re-taxonomización = MISMO camino: subir `version` en el YAML re-encola el histórico).
+  5. **Panel**: 7 vistas nuevas (tipología · cobertura-honesta · marcas · modelos ·
+     feedback×tipología · por-usuario · demanda-no-cubierta) + pestaña **Explorador** fila-a-fila
+     con filtros de LISTAS CERRADAS (patrón errores.py) y prosa escapada; `response` NO se expone.
+     Gráficas dimensionales AGREGADAS por etiqueta (`grafico_agregado`).
+- **El dúo (Protocolo 3), secuencial a conciencia**: Sol xhigh sobre el diff vivo (60 tools,
+  449k tokens) → **7 hallazgos, 7 confirmados, 0 FP** (etiqueta con id directo · el doc RGPD
+  desmentido por el código · JobQueue sin extra tumba el arranque —convergente con hallazgo
+  propio— · cobertura mentía tras subir taxonomía · barrido con tope estructural 20k · gráficas
+  mezclando semanas · modelos solo-upper vs prosa) → TODOS cerrados → **Fable sobre el árbol
+  POST-cierres** (control fresco del estado final; el runner lo dejó sin emparejar por bytes,
+  correcto y documentado en el tally): **SÓLIDO estructural en seguridad/ACL/RGPD** + 5 (1 medio:
+  docstring describía la fuente vieja de la whitelist; 4 menores) → TODOS aplicados, 0 FP.
+  Tally 2026-08-19T20:26:04 adjudicado con verdict_notes regla-C punto por punto.
+- **RGPD**: `docs/RGPD_RETENCION.md` enmendado in-place (dos claims supersedidas, marcadas) +
+  subsección «s326 — El Explorador y las métricas de uso» + `query_clasificacion` en la matriz
+  con el criterio de `bot_errors` (enlazable, hereda gobernanza, CASCADE verificado en
+  postcondición). **Gate de EXPONER nuevo**: addendum del abogado ANTES de invitar DGs al panel;
+  uso interno (Alberto) no espera.
+- **Verificación (Protocolo 1)**: suite completa verde (4580 passed pre-cierres; re-corrida final
+  en el PR); tests s326 138 verdes (incl. puerta de sesión de /explorador: 18 = 9 rutas × 2);
+  **smoke REAL contra producción** (5 preguntas, $0,003): regla clasifica el atajo Kidde a $0 con
+  marca por texto; el multi-turno hereda modelo del contexto (2X-AF1→Aritech); «Luka Modric» →
+  `otros` sin inventar marca; camino de error del CLI pre-021 limpio y explicado.
+- **Alternativas descartadas**: en la propuesta §7 (clasificar en-turno · columnas en query_logs ·
+  reusar `category` muerta · BI externo · pivot-UI a mano · pg_cron para LLM).
+- **Deuda declarada**: sin gate pg propio para la 021 (postcondiciones internas + gate ACL de
+  texto) · gate de acuerdo ≥85 % del clasificador pendiente del backfill · canónico de modelo =
+  workstream DEC-074 · `feedback` libre (161 filas, mezcla épocas) sin curar.
+- **Traza**: tally `2026-08-19T20:26:04` (adjudicado) en `evals/adversarial_review_log.jsonl`;
+  recibos Sol/Fable en `evals/adversarial_reviews/2026-08-19T20-{26-04,35-13}_*`; briefing
+  `evals/s326_cableado_briefing_v1.md` (recibo congelado: describe la fuente PRE-cierre de la
+  whitelist de marcas — la vigente es `documents.manufacturer`, hallazgo F1 de Fable).
+
+### DEC-245 addendum (s326, 19-ago noche) — El preview cazó un 500 en /explorador: PyYAML faltaba en la función del panel porque un import PEREZOSO esquivó el gate de la clausura
+
+- **El incidente**: Alberto abrió el preview de Vercel del PR #308 y /explorador sirvió el 500
+  del panel. Traza (runtime logs de Vercel): `categorias_validas()` → `import yaml` →
+  `ModuleNotFoundError` — `api/requirements.txt` es mínimo A PROPÓSITO (DEC-244, el bundle de
+  541MB) y PyYAML no estaba.
+- **La causa raíz no es «faltaba un paquete»**: es que el gate que existe EXACTAMENTE para esto
+  (`test_s324j_panel_requirements`, clausura estática de la superficie) escanea imports a
+  **columna 0**, y mi `from src.clasificacion import …` vivía DENTRO de una función → invisible
+  → el gate quedó verde con la función coja. Un import perezoso en la superficie del panel
+  evade su red de seguridad.
+- **Cierres (los tres, no uno)**: (1) el import sube a NIVEL DE MÓDULO en
+  `dashboard/explorador.py` — visible al gate; si aún faltara el paquete, el panel falla EN FRÍO
+  y en el log (patrón de la sonda del lifespan), no con un 500 mudo a mitad de clic; (2)
+  `PyYAML>=6.0.0` declarado en `api/requirements.txt` + mapa `yaml→PyYAML` en el gate + el pin
+  de la raíz pierde su comentario en línea (el test de pins exige cita LITERAL); (3)
+  `categorias_validas()` FAIL-OPEN con caché (regla del panel «este módulo no lanza»): YAML
+  roto/no empaquetado ⇒ select en «todas» y validación que rechaza el parámetro — la página
+  vive. Test nuevo del fail-open.
+- **Límite declarado que queda**: el gate sigue siendo columna-0 (estático a conciencia); la
+  regla operativa es «en la superficie del panel, los imports de terceros van a nivel de módulo
+  o no van». `import anthropic` dentro de `construir_llm` queda perezoso A PROPÓSITO: el panel
+  jamás llama al LLM y arrastrarlo engordaría la función hacia el límite.
+- **Verificación**: gate de requirements rojo→verde con la detección real (pasó con PyYAML
+  declarado ⇒ el BFS lo ve); 135 tests del panel/s326 verdes; suite completa re-corrida en el
+  PR. El preview re-desplegado con la función que SÍ trae yaml es el smoke que cierra.
