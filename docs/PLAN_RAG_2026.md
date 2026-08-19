@@ -91,19 +91,24 @@ docstring legacy de `api/index.py` reescrito), gestión **SÓLIDO** (charset de 
 la 020). 13 hallazgos, 13 confirmados, 0 falsos positivos. La #298 (seguimiento) también está
 MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
 
-**Lo que FALTA para live, en orden** (ya solo operación — no queda revisión pendiente):
-1. **Mergear la PR de las tandas** (los 3 cierres de identidad + docstrings + CHECK de `op`).
-2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173).
-3. **Los tres gates de EXPONER** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+**LIVE (19-ago noche): el panel está DESPLEGADO en https://technical-bot-lake.vercel.app**
+(proyecto Vercel propio, DEC-244; `api/requirements.txt` mínimo tras el 541MB>500 del primer
+deploy) **y las migraciones 019/020 APLICADAS en producción** (vía conector Supabase, enteras y
+transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado (303 vacío →
+/entrar 200, sin SUPABASE en el fuente, CSP/DENY). Medido: el lifespan ASGI SÍ corre en Vercel
+— el fail-CERRAR de arranque se observó en producción con la 019 aún sin aplicar.
+
+**Lo que FALTA para USARLO, en orden**:
+1. ~~Mergear las PRs~~ HECHO (#301 tandas, #302 requirements — mergeadas por Alberto).
+2. ~~El GO de despliegue~~ DADO por los hechos (Alberto creó el proyecto y ordenó aplicar las migraciones).
+3. **El ALTA de usuarios** (Alberto, en su máquina): `python -m scripts.s324j_panel_usuario alta alberto`
+   con las credenciales de producción; luego login real + smoke del cerrojo (runbook paso 4).
+4. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
    NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
-4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
-   `psql --single-transaction`); crear el **proyecto Vercel PROPIO del panel** (DEC-244: separado
-   del war room — misma cuenta, dos proyectos/URLs) con sus variables (`DASHBOARD_SECRET` +
-   `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` del bot); alta de usuarios con
-   `scripts/s324j_panel_usuario.py`; sonda del cerrojo; smoke de la URL. Runbook:
-   `docs/DASHBOARD_DESPLIEGUE.md`.
+5. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
+   el runbook). Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
 
 **Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
 contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);

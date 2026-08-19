@@ -1,8 +1,16 @@
 # Panel del bot — cómo se despliega (y qué falta antes)
 
-> **Estado (19-ago-2026, s324j)**: el panel está **construido, probado y sin desplegar** — CON el
-> cableado de la v9 dentro (DEC-239: usuarios en Supabase, sello, cerrojo distribuido, `op`,
-> `revocada_por`). Este documento es el runbook para ponerlo en Vercel, con sus GATES.
+> **Estado (19-ago-2026 noche, s324j)**: el panel está **DESPLEGADO y VIVO** en
+> **https://technical-bot-lake.vercel.app** (proyecto Vercel propio `technical-bot`, DEC-244;
+> «-lake» porque el subdominio pelado ya era de otro usuario). Las migraciones **019 y 020 están
+> APLICADAS en producción** (19-ago, vía conector Supabase, cada una entera y transaccional, con
+> sus postcondiciones en verde y el reloj `panel-retencion-diaria` activo). Smoke verificado:
+> `/` sin sesión → 303 a `/entrar` con cuerpo vacío; `/entrar` 200; CERO menciones de SUPABASE
+> en el fuente; CSP/no-store/DENY servidas. **Medición del 19-ago**: el lifespan ASGI SÍ corre
+> en Vercel hoy — la sonda de arranque se ejecutó de verdad (con la 019 sin aplicar, la app se
+> negó a arrancar: fail-CERRAR observado en producción); el contrato sigue declarándolo no
+> garantizado y los pasos 3-4 siguen siendo el control. **Pendiente**: alta de usuarios (paso 2)
+> y los gates de EXPONER de abajo.
 
 ## Los pasos de la 019/020, en orden (lo nuevo de s324j)
 

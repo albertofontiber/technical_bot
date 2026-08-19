@@ -5907,3 +5907,22 @@ de la base.
 El panel queda con dúo completo en TODO el cableado y una lista de «falta» que ya es
 solo operación: merge de la PR de tandas, GO, dos gates de exponer con dueño, y el
 runbook de aplicar/configurar/smoke.
+
+## s324j-quater (19 ago 2026, noche) — El panel, VIVO
+
+Alberto creó el proyecto de Vercel (propio, DEC-244) y el primer deploy murió
+exactamente donde estaba previsto: 541 MB de requirements del bot contra el
+límite de 500. El arreglo (`api/requirements.txt` con la clausura real: httpx y
+python-dotenv, más el test que impide que se pudra) entró por la #302 y Vercel
+lo validó solo — preview Ready antes de que nadie lo pidiera. El segundo 500
+fue el diseño defendiéndose: la sonda de arranque —que resultó SÍ correr en
+Vercel, medición que zanja el «lifespan no garantizado»— encontró la base sin
+migrar y se negó a arrancar, con el error exacto escrito en los logs.
+
+Alberto dijo «aplícalas tú»: 019 y 020 entraron por el conector de Supabase,
+cada una entera y transaccional, con las postcondiciones en verde y el reloj
+diario activo a la primera. El smoke de producción salió de libro: 303 con
+cuerpo vacío, /entrar en 200, ni rastro de SUPABASE en el fuente, CSP y DENY
+servidas. https://technical-bot-lake.vercel.app — «-lake» porque el nombre
+pelado ya era de otro. Queda el alta (contraseña de Alberto, no mía) y los dos
+gates de exponer con dueño.
