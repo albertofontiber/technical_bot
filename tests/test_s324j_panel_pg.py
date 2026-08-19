@@ -34,6 +34,7 @@ from dashboard import auth
 from tests.test_s295_rgpd_integracion_pg import base  # noqa: F401
 
 REPO = Path(__file__).parent.parent
+M016 = REPO / "migrations" / "016_allowlist_invitaciones.sql"
 M019 = REPO / "migrations" / "019_panel_usuarios_cerrojo.sql"
 M020 = REPO / "migrations" / "020_invitaciones_op.sql"
 
@@ -43,31 +44,14 @@ pytestmark = pytest.mark.skipif(
     reason="requiere RGPD_TEST_DATABASE_URL (Postgres desechable); en CI lo da el workflow",
 )
 
-#: `bot_invitaciones` mínima con la forma de la 016 (la 020 la altera). No se
-#: copia la 016 entera: se copia lo que las migraciones nuevas tocan.
-ESQUEMA_INVITACIONES = """
-DROP TABLE IF EXISTS bot_invitaciones CASCADE;
-CREATE TABLE bot_invitaciones (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    token_hash TEXT NOT NULL UNIQUE,
-    nota TEXT NOT NULL,
-    creada_por TEXT NOT NULL,
-    creada_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    expira_at TIMESTAMPTZ NOT NULL,
-    canjeada_at TIMESTAMPTZ,
-    canjeada_por BIGINT,
-    revocada_at TIMESTAMPTZ
-);
-ALTER TABLE bot_invitaciones ENABLE ROW LEVEL SECURITY;
-ALTER TABLE bot_invitaciones FORCE ROW LEVEL SECURITY;
-REVOKE ALL PRIVILEGES ON TABLE bot_invitaciones
-    FROM PUBLIC, anon, authenticated, service_role;
-GRANT SELECT ON TABLE bot_invitaciones TO service_role;
-GRANT INSERT (token_hash, nota, creada_por, expira_at)
-    ON bot_invitaciones TO service_role;
-GRANT UPDATE (canjeada_at, canjeada_por, revocada_at)
-    ON bot_invitaciones TO service_role;
-"""
+#: token_hash de las dos filas LEGACY. La 016 CANÓNICA lo exige `^[0-9a-f]{64}$`
+#: por CHECK; la copia estrecha que había antes NO lo tenía (ni el CHECK de
+#: caducidad ≤ 7 días), y EN CAMBIO imponía `nota NOT NULL` donde la 016 real la
+#: deja NULLable — divergía en AMBOS sentidos. Es justo lo que S-M3 cazó: la 020
+#: se probaba contra una 016 de ficción. Ahora el fixture aplica la 016 real (ver
+#: abajo), así que estos hashes tienen que ser hex de 64.
+TH_ANULADA = "a" * 64
+TH_VIVA = "b" * 64
 
 CONSTANTES = dict(libres=auth.FALLOS_LIBRES, base_s=auth.BLOQUEO_BASE_S,
                   max_s=auth.BLOQUEO_MAX_S,
@@ -90,14 +74,25 @@ def panel(base):  # noqa: F811
         cur.execute("DROP FUNCTION IF EXISTS public.panel_retencion_pasada(TEXT);")
         cur.execute("DROP FUNCTION IF EXISTS public.panel_puerta"
                     "(text[], int, numeric, numeric, numeric, int);")
-        cur.execute(ESQUEMA_INVITACIONES)
+        # La 016 CANÓNICA, no una copia estrecha (ronda sello-final, S-M3): así
+        # la 020 se prueba contra la MISMA DDL/ACL/CHECK que producción. Se
+        # dropean las dos tablas de la 016 (la crea con IF NOT EXISTS) para que
+        # el fixture sea idempotente entre tests. El bootstrap de la 016 lee
+        # user_consent del `base` — cuyos INSERT NO ponen display_name (columna
+        # NULLable): no revienta porque la 016 hace COALESCE(display_name, '(sin
+        # nombre)') (016:258, lo señaló el 2º frontera en la adjudicación). Solo
+        # puebla bot_allowlist, que ningún test del panel mide.
+        cur.execute("DROP TABLE IF EXISTS bot_allowlist, bot_invitaciones CASCADE;")
+        cur.execute(M016.read_text("utf-8"))
         # Dos filas LEGACY: una anulada sin firma (el mundo pre-020) y una viva
-        # — el backfill y el default volátil por fila tienen que cubrirlas.
+        # — el backfill y el default volátil por fila tienen que cubrirlas. El
+        # token_hash es hex de 64 porque la 016 real lo exige por CHECK.
         cur.execute(
             "INSERT INTO bot_invitaciones (token_hash, nota, creada_por, "
             "expira_at, revocada_at) VALUES "
-            "('h1', 'legacy anulada', 'cli:x', now() + interval '1 day', now()),"
-            "('h2', 'legacy viva', 'cli:x', now() + interval '1 day', NULL);")
+            "(%s, 'legacy anulada', 'cli:x', now() + interval '1 day', now()),"
+            "(%s, 'legacy viva', 'cli:x', now() + interval '1 day', NULL);",
+            (TH_ANULADA, TH_VIVA))
         cur.execute(M019.read_text("utf-8"))
         cur.execute(M020.read_text("utf-8"))
     conexion.autocommit = False
@@ -254,6 +249,113 @@ def test_el_upsert_recrea_la_fila_que_acierto_borro(panel):
     panel.rollback()
 
 
+def test_acierto_concurrente_no_deja_admisiones_sin_contar(panel):
+    """Ronda sello-final, S-M2: v9 §4(c) (líneas 908-910) pide EJERCITAR con hilos
+    el DELETE concurrente `acierto`↔`admitir`. Un hilo martillea `admitir` sobre
+    una clave mientras otro corre `acierto` (DELETE) sobre la MISMA.
+
+    QUÉ PRUEBA Y QUÉ NO (ronda seguimiento, Sol): la discriminación DETERMINISTA de
+    «upsert, no UPDATE» vive en `test_el_upsert_recrea_la_fila_que_acierto_borro`
+    (secuencial): borra la fila y afirma que el siguiente `admitir` la RECREA con
+    fallos=1. ESTE test AÑADE cobertura de ESTRÉS bajo concurrencia real; es
+    PROBABILÍSTICO, NO determinista: no se puede pausar la función compilada entre
+    su check y su upsert desde fuera, así que NO se FUERZA la ventana
+    check→DELETE→upsert —una corrida podría no tocarla (el borrador cayendo entre
+    RPC ya cerradas)—. No afirma «ventana ejercida» ni sella el contrato de
+    concurrencia por sí solo; martillea `N` veces para hacerla PROBABLE.
+
+    Lo que sí verifica (en LOCAL; no hay recibo de CI adjunto) es una LEY DE
+    CONSERVACIÓN que un `admitir` correcto cumple y uno UPDATE-en-vez-de-upsert
+    rompe SI el DELETE cae en la ventana: cada `admitir` que ADMITE (0) suma 1;
+    cada bloqueado (>0) no suma; cada `acierto` retira los `fallos` que borra. Con
+    una fila SEMBRADA (`fallos=1`) y un borrador do-while (corre ≥1 vez), el DELETE
+    retira SIEMPRE al menos esa fila viva → liveness determinista, sin rojo
+    espurio:
+
+        sembrado(1) + admitidos == fallos_finales + retirados"""
+    panel.rollback()
+    SEMBRADO = 1
+    with _como_service_role(panel) as cur:               # una fila viva de arranque
+        cur.execute("INSERT INTO panel_intentos (clave, fallos, ultimo) "
+                    "VALUES ('u:carrera', %s, now())", (SEMBRADO,))
+    panel.commit()                                       # visible a las conexiones de los hilos
+    N = 300
+    fin = threading.Event()
+    admitidos = []            # un 0.0 por cada admisión
+    retirados = [0]           # suma de `fallos` que los aciertos retiraron
+    hechas = [0]              # admisiones que el martillo COMPLETÓ (debe llegar a N)
+    errores = []              # excepción de CUALQUIER hilo → el test NO pasa en vacío
+    barrera = threading.Barrier(2)
+
+    def martillo_admitir():
+        conexion = _conectar()
+        try:
+            with conexion.cursor() as cur:
+                cur.execute("SET ROLE service_role;")
+                barrera.wait(timeout=30)
+                for _ in range(N):
+                    cur.execute(
+                        "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
+                        (["u:carrera"], CONSTANTES["libres"], CONSTANTES["base_s"],
+                         CONSTANTES["max_s"], CONSTANTES["retencion_s"],
+                         CONSTANTES["cap"]))
+                    if float(cur.fetchone()[0]) == 0.0:
+                        admitidos.append(0.0)
+                    conexion.commit()
+                    hechas[0] += 1
+        except Exception as exc:                     # noqa: BLE001 — ningún fallo del hilo pasa por verde
+            errores.append(("admitir", repr(exc)))
+        finally:
+            fin.set()
+            conexion.close()
+
+    def martillo_acierto():
+        conexion = _conectar()
+        try:
+            with conexion.cursor() as cur:
+                cur.execute("SET ROLE service_role;")
+                barrera.wait(timeout=30)
+                while True:                          # do-while: corre al menos UNA vez
+                    cur.execute("DELETE FROM panel_intentos "
+                                "WHERE clave='u:carrera' RETURNING fallos")
+                    fila = cur.fetchone()
+                    if fila is not None:
+                        retirados[0] += fila[0]
+                    conexion.commit()
+                    if fin.is_set():
+                        break
+        except Exception as exc:                     # noqa: BLE001
+            errores.append(("acierto", repr(exc)))
+        finally:
+            conexion.close()
+
+    hilos = [threading.Thread(target=martillo_admitir),
+             threading.Thread(target=martillo_acierto)]
+    for h in hilos:
+        h.start()
+    for h in hilos:
+        h.join(timeout=90)
+
+    # Los hilos TERMINARON de verdad (un `join` con timeout no lo garantiza) y
+    # ninguno murió por dentro: sin estas tres guardas una ejecución parcial o un
+    # hilo caído podría satisfacer la ley de conservación en vacío (ronda
+    # seguimiento, Sol sobre el rigor de S-M2).
+    assert not errores, errores
+    assert all(not h.is_alive() for h in hilos), "un hilo no terminó en 90s"
+    assert hechas[0] == N, hechas[0]                      # el martillo hizo las N admisiones
+
+    with panel.cursor() as cur:
+        cur.execute("SELECT COALESCE(SUM(fallos), 0) FROM panel_intentos "
+                    "WHERE clave='u:carrera'")
+        finales = cur.fetchone()[0]
+    panel.rollback()
+
+    assert len(admitidos) >= 1                            # hubo admisiones
+    assert retirados[0] >= SEMBRADO                       # el borrador retiró al menos la fila sembrada
+    assert SEMBRADO + len(admitidos) == finales + retirados[0], (
+        SEMBRADO, len(admitidos), finales, retirados[0])  # ninguna admisión sin contar
+
+
 def test_el_cap_es_un_techo_con_la_aritmetica_exacta(panel):
     """Ronda S2-M3: count + nuevas <= cap — no «si está al cap»."""
     with _como_service_role(panel) as cur:
@@ -266,6 +368,59 @@ def test_el_cap_es_un_techo_con_la_aritmetica_exacta(panel):
         assert cur.fetchone()[0] <= 5            # sacrificó lo más viejo
         cur.execute("SELECT 1 FROM panel_intentos WHERE clave = 'u:nueva-b'")
         assert cur.fetchone()                    # y la siembra nueva cupo
+    panel.rollback()
+
+
+def test_el_cap_no_sacrifica_una_clave_de_la_propia_admision(panel):
+    """Ronda sello-final, S-M1: el caso que el test de arriba NO cubría —dos
+    claves totalmente nuevas—. Con la tabla llena y una admisión `[u:existente,
+    u:nueva]` donde la existente es la MÁS ANTIGUA, el DELETE del cap no puede
+    sacrificarla: el upsert la recrearía y la tabla acabaría en `cap+1`. Con la
+    exclusión `clave <> ALL(claves)` el techo es EXACTO. Timestamps sembrados a
+    mano para que el orden por `ultimo` sea determinista (no depende del reloj)."""
+    with _como_service_role(panel) as cur:
+        cur.execute(
+            "INSERT INTO panel_intentos (clave, fallos, ultimo) VALUES "
+            "('u:viejo', 1, now() - interval '50 min'),"
+            "('u:v1', 1, now() - interval '40 min'),"
+            "('u:v2', 1, now() - interval '30 min'),"
+            "('u:v3', 1, now() - interval '20 min'),"
+            "('u:v4', 1, now() - interval '10 min')")   # tabla llena (5), u:viejo el más antiguo
+        _puerta(cur, ["u:viejo", "u:nueva"], cap=5)      # existente-antigua + nueva
+        cur.execute("SELECT count(*) FROM panel_intentos")
+        assert cur.fetchone()[0] == 5                    # EXACTO en cap — sin la fuga de +1
+        cur.execute("SELECT clave FROM panel_intentos ORDER BY clave")
+        vivas = [f[0] for f in cur.fetchall()]
+        assert "u:viejo" in vivas                        # NO se sacrificó la clave de la admisión
+        assert "u:nueva" in vivas                        # la nueva cupo
+        assert "u:v1" not in vivas                        # se sacrificó la más vieja que SÍ podía irse
+    panel.rollback()
+
+
+@pytest.mark.parametrize("claves,cap", [
+    (["u:a", "u:b", "u:c"], 2),   # cardinality(3) > cap(2)
+    (["u:a"], None),              # cap NULL (ronda 3 de Sol)
+    (None, 5),                    # claves NULL (ronda 4 de Sol)
+])
+def test_el_guard_del_techo_rechaza_entradas_invalidas(panel, claves, cap):
+    """Ronda seguimiento, Sol: el guard (0) de `panel_puerta` rechaza las TRES vías
+    que romperían el techo —cardinality>cap y los dos NULL (`cap`, `claves`)— con
+    CheckViolation y sin tocar la tabla. Es el CONTROL NEGATIVO de cada rama del
+    `IF`: quitar cualquiera de las tres condiciones deja su caso rojo, reabriendo
+    la fuga NULL/desbordamiento que declaramos cerrada. Inalcanzable en prod (≤2
+    claves no-NULL, cap=miles); si pasara, >=400 → CerrojoNoDisponible → 503."""
+    import psycopg2
+    with _como_service_role(panel) as cur:
+        with pytest.raises(psycopg2.errors.CheckViolation):
+            _puerta(cur, claves, cap=cap)
+    panel.rollback()
+    # El discriminante es el `raises` por rama (quitar una condición del IF deja
+    # su caso sin excepción). El count de abajo NO prueba el ORDEN del guard —un
+    # RAISE aborta la sentencia entera atómicamente esté donde esté (lo señaló
+    # el 2º frontera)—: solo documenta el estado final limpio.
+    with _como_service_role(panel) as cur:
+        cur.execute("SELECT count(*) FROM panel_intentos")
+        assert cur.fetchone()[0] == 0
     panel.rollback()
 
 
@@ -422,7 +577,7 @@ def test_op_backfilleado_unico_y_obligatorio(panel):
         total, distintos = cur.fetchone()
         assert total == 2 and distintos == 2     # el default volátil, por fila
         cur.execute("SELECT revocada_por FROM bot_invitaciones "
-                    "WHERE token_hash = 'h1'")
+                    "WHERE token_hash = %s", (TH_ANULADA,))
         assert cur.fetchone()[0] == "(anterior a la 020)"
     panel.rollback()
 
@@ -430,13 +585,17 @@ def test_op_backfilleado_unico_y_obligatorio(panel):
 def test_el_mismo_op_choca_con_unique_como_service_role(panel):
     import psycopg2
     with _como_service_role(panel) as cur:
+        # Dos token_hash DISTINTOS (hex de 64, como exige la 016 real) con el
+        # MISMO op: el segundo INSERT choca por el UNIQUE de `op`, no por el hash.
         cur.execute("INSERT INTO bot_invitaciones (token_hash, nota, "
                     "creada_por, expira_at, op) VALUES "
-                    "('h3', 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')")
+                    "(%s, 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')",
+                    ("c" * 64,))
         with pytest.raises(psycopg2.errors.UniqueViolation):
             cur.execute("INSERT INTO bot_invitaciones (token_hash, nota, "
                         "creada_por, expira_at, op) VALUES "
-                        "('h4', 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')")
+                        "(%s, 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')",
+                        ("d" * 64,))
     panel.rollback()
 
 
@@ -445,13 +604,14 @@ def test_anular_sin_firma_es_imposible_y_con_firma_funciona(panel):
     with _como_service_role(panel) as cur:
         with pytest.raises(psycopg2.errors.CheckViolation):
             cur.execute("UPDATE bot_invitaciones SET revocada_at = now() "
-                        "WHERE token_hash = 'h2'")
+                        "WHERE token_hash = %s", (TH_VIVA,))
     panel.rollback()
     with _como_service_role(panel) as cur:
         cur.execute("UPDATE bot_invitaciones SET revocada_at = now(), "
-                    "revocada_por = 'panel:alberto' WHERE token_hash = 'h2'")
+                    "revocada_por = 'panel:alberto' WHERE token_hash = %s",
+                    (TH_VIVA,))
         cur.execute("SELECT revocada_por FROM bot_invitaciones "
-                    "WHERE token_hash = 'h2'")
+                    "WHERE token_hash = %s", (TH_VIVA,))
         assert cur.fetchone()[0] == "panel:alberto"
     panel.rollback()
 

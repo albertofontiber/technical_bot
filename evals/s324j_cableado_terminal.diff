@@ -1,0 +1,3768 @@
+diff --git a/.github/workflows/s324j-panel-pg.yml b/.github/workflows/s324j-panel-pg.yml
+new file mode 100644
+index 0000000..b0e5aaf
+--- /dev/null
++++ b/.github/workflows/s324j-panel-pg.yml
+@@ -0,0 +1,67 @@
++name: S324J panel contra Postgres real
++
++# La puerta 4 del panel (evals/s324i_panel_vercel_propuesta_v9.md): el resto de
++# tests del panel usan dobles — prueban que se emiten las sentencias correctas,
++# no que la base haga lo que afirmamos. Y lo afirmado es fuerte: panel_puerta
++# acota el rebano concurrente (12 hilos → 5 admitidos), el cap es un techo, la
++# ventana de retencion es un invariante del MOTOR (politica, no SQL), y la
++# frontera ACL de las tablas nuevas es efectiva. Verificar el EFECTO y no el
++# codigo — leccion #60; mismo patron de contenedor desechable que s295/s133.
++#
++# Gap declarado: el contenedor es Postgres, no Supabase — PostgREST y su cache
++# solo se prueban en el smoke post-deploy del runbook.
++
++on:
++  push:
++    paths:
++      - "migrations/019_panel_usuarios_cerrojo.sql"
++      - "migrations/020_invitaciones_op.sql"
++      - "dashboard/**"
++      - "tests/test_s324j_panel_pg.py"
++      # SÍ se lista test_s295 (ronda de verificación, S2-M3): este gate IMPORTA
++      # su fixture `base`, que aplica la cola s295→s299 entera. Un cambio en
++      # ese arnés puede romper el gate del panel — así que este workflow debe
++      # re-correr cuando cambie, aunque su propio workflow (s295) también corra.
++      # Es una dependencia de IMPORT, no un trigger espurio.
++      - "tests/test_s295_rgpd_integracion_pg.py"
++      - ".github/workflows/s324j-panel-pg.yml"
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++jobs:
++  panel-pg:
++    runs-on: ubuntu-latest
++    timeout-minutes: 15
++    services:
++      postgres:
++        image: postgres:17
++        env:
++          POSTGRES_USER: postgres
++          POSTGRES_PASSWORD: postgres
++          POSTGRES_DB: s324j_panel
++        ports:
++          - 55434:5432
++        options: >-
++          --health-cmd "pg_isready -U postgres -d s324j_panel"
++          --health-interval 5s
++          --health-timeout 5s
++          --health-retries 12
++
++    env:
++      # Base DESECHABLE. Nunca apuntar a produccion: el test CREA y DESTRUYE objetos.
++      RGPD_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:55434/s324j_panel
++
++    steps:
++      - uses: actions/checkout@v4
++
++      - uses: actions/setup-python@v5
++        with:
++          python-version: "3.12"
++
++      - name: Instalar lo minimo
++        run: python -m pip install --upgrade pip psycopg2-binary pytest python-dotenv httpx
++
++      - name: Ejercer las migraciones del panel contra Postgres
++        run: python -m pytest tests/test_s324j_panel_pg.py -v --no-header
+diff --git a/api/index.py b/api/index.py
+index 1b5dfad..ab74a03 100644
+--- a/api/index.py
++++ b/api/index.py
+@@ -31,4 +31,16 @@ invocación puede caer en una instancia distinta, así que el cerrojo protege mu
+ menos de lo que su código promete. Hasta que se mueva a la base, la defensa real
+ es `scrypt` (~170 ms por intento) más una contraseña larga.
+ """
++# EL PUNTO DE ARRANQUE ELIGE (s324j, v9 §9): el panel no sabe que está en
++# Vercel — quien lo arranca, sí. Aquí se enchufan los backends de Supabase:
++#   · usuarios en `panel_usuarios` (revocación efectiva en la SIGUIENTE
++#     petición — el motivo de (a2), DEC-237/DEC-239);
++#   · cerrojo distribuido en `panel_intentos` (el de memoria no protege en
++#     serverless: cada intento puede caer en una instancia distinta).
++# `python -m dashboard` (local) NO pasa por aquí y conserva `BackendEntorno` +
++# cerrojo en memoria: dobles, tests y modo local intactos. Sin variable mágica.
++from dashboard import auth, cerrojo
+ from dashboard.app import app  # noqa: F401  (Vercel lo descubre por nombre)
++
++auth.usar_backend(auth.BackendSupabase())
++cerrojo.usar_cerrojo(cerrojo.CerrojoSupabase())
+diff --git a/dashboard/app.py b/dashboard/app.py
+index 5c7f37a..8a48652 100644
+--- a/dashboard/app.py
++++ b/dashboard/app.py
+@@ -39,6 +39,7 @@ credenciales, y no dice nada de nadie).
+ """
+ from __future__ import annotations
+ 
++import hmac
+ import secrets
+ import time
+ import urllib.parse
+@@ -47,7 +48,7 @@ from datetime import datetime, timezone
+ 
+ from src.bot import access
+ 
+-from . import auth, datos, errores, gestion, render, sesion
++from . import auth, cerrojo, datos, errores, gestion, render, sesion
+ from .render import Seguro, esc
+ 
+ #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
+@@ -56,7 +57,11 @@ CUERPO_MAX_BYTES = 64 * 1024
+ 
+ RUTAS_PUBLICAS = frozenset({("GET", "/entrar"), ("POST", "/entrar")})
+ 
+-_cerrojo = auth.Cerrojo()
++#: El único texto del 503 de identidad/cerrojo: un estado del SERVICIO, igual
++#: para todo el mundo — sin señal por-usuario y sin mentir «credenciales
++#: incorrectas» cuando la verdad es «no puedo comprobarlo» (s324j, v9 §1.3).
++_TEXTO_503 = ("El panel no puede comprobar identidades ahora mismo. No es tu "
++              "contraseña: vuelve a intentarlo en unos minutos.")
+ 
+ 
+ # --------------------------------------------------------- petición/respuesta
+@@ -280,9 +285,18 @@ def accion_entrar(peticion: Peticion) -> Respuesta:
+     usuario = peticion.campo("usuario").strip()
+     contrasena = peticion.campo("contrasena")
+     claves = auth.claves_de(usuario, peticion.ip)
+-    ahora = time.monotonic()
+ 
+-    espera = _cerrojo.bloqueado(claves, ahora)
++    # CONTAR AL ADMITIR, no al fallar (s324j, v9 §3.2): si `admitir` devuelve
++    # 0.0, el intento YA está contado — así N peticiones concurrentes no pasan
++    # todas la comprobación antes de que ninguna registre. `acierto` es la
++    # devolución del provisional. El +1 fantasma de un proceso que muera entre
++    # medias decae solo (precio declarado).
++    try:
++        espera = cerrojo.activo().admitir(claves, time.monotonic())
++    except cerrojo.CerrojoNoDisponible:
++        # Configuración rota (función sin migrar, ACL…): un panel que no puede
++        # contar intentos no debe estar atendiendo logins (v9 §3.5).
++        return _error(503, _TEXTO_503, peticion.nonce)
+     if espera > 0:
+         return pagina_entrar(
+             peticion,
+@@ -291,17 +305,27 @@ def accion_entrar(peticion: Peticion) -> Respuesta:
+             estado=429,
+         )
+ 
+-    identidad = auth.autenticar(usuario, contrasena)
++    try:
++        identidad = auth.autenticar(usuario, contrasena)
++    except auth.IdentidadNoDisponible:
++        # «No puedo comprobarlo» ≠ «credencial mala»: 503 de estado, igual para
++        # todo el mundo (v9 §1.3). El +1 de `admitir` queda como fantasma en el
++        # fallo PARCIAL (cerrojo vivo, lectura de usuarios caída) — declarado.
++        return _error(503, _TEXTO_503, peticion.nonce)
+     if identidad is None:
+-        _cerrojo.fallo(claves, ahora)
+-        # UN SOLO mensaje para las dos causas: decir «ese usuario no existe»
+-        # regala la mitad de la credencial a quien esté probando.
++        # El fallo ya está contado (en `admitir`). UN SOLO mensaje para las dos
++        # causas: decir «ese usuario no existe» regala la mitad de la
++        # credencial a quien esté probando.
+         return pagina_entrar(peticion,
+                              mensaje="Usuario o contraseña incorrectos.",
+                              estado=401)
+ 
+-    _cerrojo.acierto(claves)
++    cerrojo.activo().acierto(claves)
+     payload = sesion.nueva(identidad.nombre)
++    # `h` lo añade LA PUERTA, no `sesion.nueva` (v9 §2, F5-m1): el payload es
++    # un dict y `firmar` firma lo que le den; `sesion.py` documenta el campo
++    # con este dueño escrito.
++    payload["h"] = identidad.sello
+     cookie = sesion.firmar(payload, sesion.secreto())
+     return _redirigir("/", extra=[
+         ("set-cookie", sesion.cabecera_cookie(
+@@ -383,18 +407,20 @@ def _formatear(valor: object, formato: str) -> str:
+ 
+ 
+ def _tabla_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
+-    """Columnas declaradas primero; las que la vista traiga de más van al final
+-    con su nombre crudo. Ni una columna nueva se pierde ni una que falte
+-    rompe la página."""
++    """SOLO columnas declaradas — nada se pinta sin que alguien lo haya
++    declarado (s324j, v9 §7). El razonamiento anterior («las de más van al
++    final con su nombre crudo») era correcto para un panel interno y se
++    invirtió al exponerlo a internet: una columna nueva de una vista NO aparece
++    hasta que alguien la declare en `datos.VISTAS`. La dirección contraria —una
++    declarada que la vista ya no trae— la detecta el `select` explícito de
++    `datos.leer_vista` (la vista responde 42703 y la tarjeta lo dice); si aun
++    así llegara una fila sin la columna, aquí simplemente no se pinta y la
++    página no rompe."""
+     presentes = {c for fila in resultado.filas for c in fila}
+     declaradas = [c for c in vista.columnas if c.nombre in presentes]
+-    extra = [c for c in sorted(presentes)
+-             if c not in {col.nombre for col in vista.columnas}]
+-    cabeceras = [c.etiqueta for c in declaradas] + [c.replace("_", " ")
+-                                                    for c in extra]
++    cabeceras = [c.etiqueta for c in declaradas]
+     filas = [
+         [_formatear(fila.get(c.nombre), c.formato) for c in declaradas]
+-        + [esc(fila.get(c)) for c in extra]
+         for fila in resultado.filas
+     ]
+     return render.tabla(cabeceras, filas)
+@@ -668,6 +694,12 @@ def pagina_acceso(peticion: Peticion, *, resultado: gestion.Accion | None = None
+         render.formulario(
+             "/acceso/invitar", csrf,
+             Seguro(
++                # `op` identifica LA OPERACIÓN, no su contenido (s324j, v9
++                # §4.2): nace al PINTAR el formulario, viaja oculto, y el
++                # UNIQUE de la base convierte el F5 (mismo op) en «ya emitiste»
++                # sin crear una segunda credencial. Dos pestañas = dos op = dos
++                # invitaciones — correcto, porque son dos operaciones.
++                f'<input type="hidden" name="op" value="{esc(secrets.token_urlsafe(16))}">'
+                 '<label>Para quién es (nombre y cargo)'
+                 '<input name="nota" maxlength="200" required '
+                 'placeholder="Juan Pérez, DG de Acme"></label>'
+@@ -726,12 +758,15 @@ def accion_invitar(peticion: Peticion) -> Respuesta:
+         nota=peticion.campo("nota"),
+         dias=peticion.campo("dias", str(access.DIAS_CADUCIDAD_DEFECTO)),
+         por=peticion.usuario,
++        op=peticion.campo("op"),
+     )
+     # Se RENDERIZA en vez de redirigir, y es deliberado: el enlace se enseña una
+     # sola vez y no puede viajar en la URL de una redirección (quedaría en el
+-    # historial del navegador y en los logs de cualquier proxy). Precio
+-    # declarado: recargar con F5 vuelve a enviar el formulario y emite una
+-    # invitación de más — visible en la lista y anulable en un click.
++    # historial del navegador y en los logs de cualquier proxy). El F5 que ese
++    # render deja abierto NO emite una credencial de más: reenvía el MISMO `op`,
++    # que choca con el UNIQUE de la base y produce el aviso «ya emitiste esta
++    # invitación» sin crear nada (s324j, v9 §4.2 — la idempotencia por
++    # operación es lo que sustituye al PRG que aquí no se puede usar).
+     return pagina_acceso(peticion, resultado=resultado)
+ 
+ 
+@@ -791,7 +826,12 @@ def _error(estado: int, texto: str, nonce: str) -> Respuesta:
+ 
+ 
+ def despachar(peticion: Peticion) -> Respuesta:
+-    """La puerta. Nada de aquí abajo se salta ningún paso de arriba."""
++    """La puerta. Nada de aquí abajo se salta ningún paso de arriba — con UNA
++    excepción declarada y acotada: `POST /salir` verifica firma y CSRF pero NO
++    revalida el sello contra el backend (s324j, v9 §2, ronda S4-m1) — borrar tu
++    propia cookie no puede depender de que Supabase responda, y el logout no
++    lee ni escribe nada de nadie, así que saltarse la revalidación no abre
++    ninguna puerta."""
+     clave = (peticion.metodo, peticion.ruta)
+     manejador = RUTAS.get(clave)
+     if manejador is None:
+@@ -808,6 +848,12 @@ def despachar(peticion: Peticion) -> Respuesta:
+             return _redirigir("/entrar")
+         peticion.sesion = payload
+ 
++    # Origen y CSRF van ANTES de la revalidación de sello (ronda del dúo sobre
++    # el cableado, F-m1): son comprobaciones LOCALES (gratis), la del sello es
++    # un RTT a Supabase. Un POST malformado o cross-site con sesión válida no
++    # debe gastar una llamada de red antes de un rechazo que se computa gratis.
++    # El resultado aceptar/rechazar es idéntico — solo cambia cuál rechazo gana
++    # y se quita la amplificación.
+     if peticion.metodo == "POST":
+         if not _mismo_origen(peticion):
+             return _error(403, "Petición rechazada: viene de otro sitio.",
+@@ -817,6 +863,34 @@ def despachar(peticion: Peticion) -> Respuesta:
+             return _error(403, "Formulario caducado. Vuelve a cargar la página.",
+                           peticion.nonce)
+ 
++    if clave not in RUTAS_PUBLICAS and clave != ("POST", "/salir"):
++        # LA REVALIDACIÓN POR PETICIÓN (v9 §2): el sello de la cookie contra el
++        # sello VIGENTE del backend. Es lo que hace efectivos en la SIGUIENTE
++        # petición la revocación y el cambio de contraseña — la promesa por la
++        # que Alberto eligió (a2). La regla completa:
++        #   · `h` ausente o no-cadena → fuera (cookies de antes del despliegue;
++        #     `compare_digest` no llega a ver un None);
++        #   · `sello(u)` devuelve None (revocado/cambiada) → fuera;
++        #   · sellos distintos → fuera;
++        #   · el backend NO PUDO comprobar → 503 sin servir nada y SIN matar la
++        #     cookie (un timeout no es un cierre de sesión falso; el revocado
++        #     durante la caída ve el mismo 503 que todos).
++        # «Fuera» es siempre el mismo camino: 303 a /entrar borrando la cookie.
++        # `/salir` es la excepción declarada: borrar tu propia cookie no puede
++        # depender de que Supabase responda.
++        payload = peticion.sesion or {}
++        h = payload.get("h")
++        if not isinstance(h, str) or not h:
++            return _redirigir("/entrar", extra=[
++                ("set-cookie", sesion.cabecera_borrado())])
++        try:
++            vigente = auth.backend_activo().sello(payload["u"])
++        except auth.IdentidadNoDisponible:
++            return _error(503, _TEXTO_503, peticion.nonce)
++        if vigente is None or not hmac.compare_digest(vigente, h):
++            return _redirigir("/entrar", extra=[
++                ("set-cookie", sesion.cabecera_borrado())])
++
+     return manejador(peticion)
+ 
+ 
+@@ -919,9 +993,23 @@ def comprobar_arranque() -> None:
+     """Lo que TIENE que estar bien antes de aceptar la primera petición.
+ 
+     Se ejecuta en el `lifespan` de ASGI, así que un fallo aquí impide que
+-    uvicorn empiece a servir: Railway conserva el despliegue anterior y el
+-    motivo queda escrito en los logs. Mismo criterio que
+-    `access.validar_configuracion` en el bot.
++    uvicorn empiece a servir: el despliegue anterior se conserva y el motivo
++    queda escrito en los logs. Mismo criterio que `access.validar_configuracion`
++    en el bot.
++
++    Con los backends de Supabase enchufados (v9 §9/§3.5) comprueba TAMBIÉN lo
++    suyo: credenciales presentes, y la sonda del cerrojo (`panel_puerta` con
++    claves vacías — extremo a extremo real, sin tocar contadores). LÍMITE
++    declarado: en el runtime de Vercel el `lifespan` no está garantizado; allí
++    el control compensatorio es el smoke del runbook, y en runtime los estados
++    de configuración fail-CIERRAN igualmente (503).
+     """
+     sesion.secreto()
+     auth.validar_configuracion()
++    if isinstance(auth.backend_activo(), auth.BackendSupabase):
++        if not datos.hay_credenciales():
++            raise RuntimeError(
++                "El backend de usuarios es Supabase y faltan SUPABASE_URL / "
++                "SUPABASE_SERVICE_KEY: el panel no podría autenticar a nadie."
++            )
++    cerrojo.sonda()
+diff --git a/dashboard/auth.py b/dashboard/auth.py
+index 7be3e50..3969ff3 100644
+--- a/dashboard/auth.py
++++ b/dashboard/auth.py
+@@ -46,7 +46,9 @@ import base64
+ import hashlib
+ import hmac
+ import os
++import re
+ import secrets
++import time
+ from dataclasses import dataclass
+ from typing import Protocol
+ 
+@@ -76,6 +78,19 @@ class RegistroInvalido(ValueError):
+     """El texto no es un registro de contraseña legible (formato o cotas)."""
+ 
+ 
++class IdentidadNoDisponible(RuntimeError):
++    """El backend NO pudo comprobar la identidad — y eso no es «credencial mala».
++
++    La lanza SOLO el transporte (Supabase caído, tabla ausente, credenciales
++    del panel sin configurar, cualquier respuesta HTTP >= 400 de la lectura de
++    usuarios), nunca una contraseña equivocada. Aplanar los dos casos en `None`
++    haría que un usuario legítimo viera «Usuario o contraseña incorrectos»
++    durante una caída — una mentira (s324j, v9 §1.3). La capa de rutas la
++    convierte en un 503 uniforme, igual para todo el mundo: no hay señal
++    por-usuario que un atacante pueda leer. `BackendEntorno` no la lanza nunca.
++    """
++
++
+ # ---------------------------------------------------------------------- base64
+ # Sin relleno a propósito: el registro viaja dentro de una variable de entorno
+ # junto a otros campos, y un `=` suelto invita a que alguien lo confunda con un
+@@ -169,6 +184,40 @@ def verificar(contrasena: str, registro: str) -> bool:
+     return hmac.compare_digest(obtenido, esperado)
+ 
+ 
++def validar_registro_estricto(registro: str) -> None:
++    """Lanza `RegistroInvalido` si el registro no es EXACTAMENTE lo que
++    `hash_contrasena` emite. Es la puerta del script de alta de usuarios del
++    panel (s324j, v9 §1.1 — rondas S3-M3/S4-M2): `_partir` tolera una sal o un
++    hash de UN byte, y `verificar` deriva siempre `LONGITUD_CLAVE_BYTES` — un
++    registro así es legible y NO PUEDE verificar jamás: un usuario inalcanzable
++    que ningún login rescata. Aquí se exige la forma canónica completa: sal de
++    16, clave de 32, y solo los parámetros `n,r,p` (sin extras que `_partir`
++    ignoraría en silencio).
++
++    Lo que esto garantiza es que el registro es ESTRUCTURALMENTE verificable —
++    no que case con una contraseña concreta (un hash aleatorio de 32 bytes pasa
++    la forma): ese par lo comprueba el challenge del script, que re-pide la
++    contraseña y corre `verificar` antes de emitir el INSERT."""
++    n, r, p, sal, clave = _partir(registro)                      # cotas incluidas
++    params = dict(
++        trozo.split("=", 1)
++        for trozo in registro.split("$")[1].split(",") if trozo
++    )
++    if set(params) != {"n", "r", "p"}:
++        raise RegistroInvalido(
++            f"parámetros extra o ausentes: {sorted(params)} (canónico: n,r,p)"
++        )
++    if len(sal) != LONGITUD_SAL_BYTES:
++        raise RegistroInvalido(
++            f"sal de {len(sal)} bytes (canónica: {LONGITUD_SAL_BYTES})"
++        )
++    if len(clave) != LONGITUD_CLAVE_BYTES:
++        raise RegistroInvalido(
++            f"hash de {len(clave)} bytes (canónico: {LONGITUD_CLAVE_BYTES}) — "
++            f"un hash de otra longitud es LEGIBLE pero jamás verificará"
++        )
++
++
+ # ------------------------------------------------------------------- usuario
+ 
+ 
+@@ -176,19 +225,36 @@ def verificar(contrasena: str, registro: str) -> bool:
+ class Usuario:
+     """Quién ha entrado. Lo MÍNIMO que el panel necesita: un nombre para
+     enseñar arriba a la derecha y para firmar las altas y las revocaciones
+-    («quién dio de alta a quién» es la mitad del requisito de auditoría). Sin
+-    correo, sin rol y sin perfil: v1 no distingue permisos — quien entra,
+-    administra."""
++    («quién dio de alta a quién» es la mitad del requisito de auditoría), y el
++    `sello` de su credencial, que viaja en la cookie como `h` y hace efectivas
++    la revocación y el cambio de contraseña en la SIGUIENTE petición (s324j,
++    v9 §2). Sin correo, sin rol y sin perfil: v1 no distingue permisos — quien
++    entra, administra.
++
++    `sello` NO tiene default a propósito (v9, ronda S4-M4): un default `""`
++    dejaría construir dobles que compilan y luego expulsan al usuario en la
++    segunda petición — una rotura conductual escondida detrás de una de
++    construcción. Sin default, el constructor que falte se rompe EN EL TEST."""
+ 
+     nombre: str
++    sello: str
+ 
+ 
+ class Backend(Protocol):
+-    """La interfaz que sustituirá el login del war room."""
++    """La interfaz que sustituirá el login del war room.
++
++    Dos métodos y una excepción: `autenticar` comprueba una credencial (y
++    devuelve el usuario CON su sello); `sello` revalida en cada petición que el
++    usuario sigue activo y con la misma credencial (`None` = fuera). Cualquier
++    imposibilidad de COMPROBAR — no de acertar — se señala lanzando
++    `IdentidadNoDisponible`, nunca devolviendo `None`."""
+ 
+     def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
+         ...
+ 
++    def sello(self, nombre: str) -> str | None:
++        ...
++
+ 
+ # ------------------------------------------------- backend v1: por entorno
+ 
+@@ -206,6 +272,39 @@ def _normalizar_usuario(nombre: str) -> str:
+     return (nombre or "").strip().lower()
+ 
+ 
++#: El charset de un nombre de usuario del panel — EL MISMO que impone el CHECK
++#: de `panel_usuarios` en la 019 (la puerta 6-bis los ata con una tabla de
++#: casos compartida). Existe por dos motivos que no son estética: un nombre que
++#: la tabla no puede contener no debe ni consultarse, y los caracteres que la
++#: sintaxis de filtros de PostgREST trata como estructura (`,`, `(`, `)`…) no
++#: pueden llegar a un `usuario=eq.X` construido con entrada del formulario
++#: (s324j, v9 §5).
++USUARIO_RE = re.compile(r"^[a-z0-9._@-]{1,64}$")
++
++
++def usuario_admisible(nombre: str) -> bool:
++    """¿Este nombre (YA normalizado) puede existir en `panel_usuarios`?"""
++    return bool(USUARIO_RE.fullmatch(nombre))
++
++
++def _b64url_sin_relleno(crudo: bytes) -> str:
++    return base64.urlsafe_b64encode(crudo).decode("ascii").rstrip("=")
++
++
++def sello_de_registro(registro: str) -> str:
++    """El sello de una credencial: cambia exactamente cuando cambia el registro.
++
++    `b64url_sin_relleno(sha256(registro)[:16])` — 16 bytes y base64url, el MISMO
++    contrato de truncado que las claves del cerrojo (v9 §2/§3.1, un solo
++    contrato en todo el diseño). Puede viajar en una cookie firmada y no
++    cifrada: es un truncado de SHA-256 sobre un registro que contiene una sal
++    aleatoria de 16 bytes — no es invertible, no permite diccionario (la sal no
++    se conoce) y no sirve para entrar. Lo único que revela es «la credencial
++    cambió», que es su función."""
++    crudo = hashlib.sha256(registro.encode("utf-8")).digest()[:16]
++    return _b64url_sin_relleno(crudo)
++
++
+ def parsear_usuarios(crudo: str) -> dict[str, str]:
+     """`'ana:scrypt$...;luis:scrypt$...'` → `{'ana': 'scrypt$...'}`.
+ 
+@@ -233,7 +332,11 @@ def parsear_usuarios(crudo: str) -> dict[str, str]:
+ class BackendEntorno:
+     """Usuarios y hashes en `DASHBOARD_USUARIOS`. Se lee en CADA intento (no se
+     cachea al importar) para que cambiar la variable en Railway surta efecto al
+-    reiniciar el servicio y no dependa de cuándo se importó el módulo."""
++    reiniciar el servicio y no dependa de cuándo se importó el módulo.
++
++    Implementa `sello` igual que el backend de Supabase (digest del registro de
++    la variable): la paridad hace que el modo local y los dobles ejerzan la
++    MISMA revalidación por petición que producción, no una excepción."""
+ 
+     def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
+         usuarios = parsear_usuarios(os.getenv(VARIABLE_USUARIOS, ""))
+@@ -244,7 +347,92 @@ class BackendEntorno:
+             return None
+         if not verificar(contrasena, registro):
+             return None
+-        return Usuario(nombre=clave)
++        return Usuario(nombre=clave, sello=sello_de_registro(registro))
++
++    def sello(self, nombre: str) -> str | None:
++        registro = parsear_usuarios(os.getenv(VARIABLE_USUARIOS, "")).get(
++            _normalizar_usuario(nombre)
++        )
++        return None if registro is None else sello_de_registro(registro)
++
++
++class BackendSupabase:
++    """Los usuarios del panel en `panel_usuarios` (migración 019) — la primera
++    implementación real de la interfaz enchufable de DEC-231 §3, y el motivo de
++    (a2): revocar es un `UPDATE` efectivo en la SIGUIENTE petición, no un
++    redespliegue (DEC-237/DEC-239; diseño: evals/s324i_panel_vercel_propuesta_v9.md).
++
++    LA DISCIPLINA DEL SEÑUELO SE HEREDA, no solo la interfaz (v9 §5):
++      · la entrada se acota ANTES de viajar en un filtro (`usuario_admisible`);
++        un nombre que no pasa el charset se trata como inexistente — señuelo y
++        `None`, SIN consulta;
++      · una sola consulta por PK con `activo` EN el filtro: ausente e inactivo
++        son la misma respuesta vacía y el código no puede distinguirlos ni por
++        accidente;
++      · respuesta VACÍA → señuelo scrypt y `None` (el coste ~100 ms se paga
++        exista o no el usuario);
++      · CUALQUIER otro resultado del transporte — conexión imposible,
++        `tabla_ausente`, `sin_credenciales`, toda respuesta HTTP >= 400 — es
++        «no puedo comprobarlo»: `IdentidadNoDisponible`, sin señuelo (una caída
++        falla igual para todos, antes de tocar credencial alguna; no necesita
++        tiempo constante — necesita no mentir). Es la regla simétrica a la del
++        cerrojo (v9, ronda S4-M1/S6-M4).
++
++    El transporte se INYECTA (un callable con la firma de `datos.leer`) para
++    que la suite corra sin red — la lección de s324h (v9, puerta 10)."""
++
++    _SELECT = "usuario,registro"
++
++    def __init__(self, leer=None) -> None:
++        if leer is None:
++            from . import datos                  # perezoso: no cargar config en tests
++            leer = datos.leer
++        self._leer = leer
++
++    def _registro_activo(self, nombre: str) -> str | None:
++        """El registro del usuario ACTIVO `nombre`, `None` si no existe/inactivo.
++        Lanza `IdentidadNoDisponible` si el transporte no pudo responder OK."""
++        from . import datos
++        resultado = self._leer("panel_usuarios", {
++            "select": self._SELECT,
++            "usuario": f"eq.{nombre}",
++            "activo": "is.true",
++            "limit": "1",
++        })
++        if resultado.estado == datos.VACIO:
++            return None
++        if resultado.estado != datos.OK or not resultado.filas:
++            raise IdentidadNoDisponible(
++                f"panel_usuarios ilegible ({resultado.estado}: "
++                f"{resultado.detalle or 'sin detalle'})"
++            )
++        registro = resultado.filas[0].get("registro")
++        if not isinstance(registro, str) or not registro:
++            raise IdentidadNoDisponible("panel_usuarios devolvió una fila sin registro")
++        return registro
++
++    def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
++        clave = _normalizar_usuario(usuario)
++        if not usuario_admisible(clave):
++            verificar(contrasena, _SENUELO)      # inadmisible ≡ inexistente
++            return None
++        registro = self._registro_activo(clave)
++        if registro is None:
++            verificar(contrasena, _SENUELO)      # tiempo constante, ver _SENUELO
++            return None
++        if not verificar(contrasena, registro):
++            return None
++        return Usuario(nombre=clave, sello=sello_de_registro(registro))
++
++    def sello(self, nombre: str) -> str | None:
++        # Sin señuelo: aquí solo llegan nombres que ya pasaron una firma HMAC
++        # válida (la cookie), no entrada del atacante (v9 §2). El guard del
++        # charset se aplica igual — barato, y la consulta imposible no se hace.
++        clave = _normalizar_usuario(nombre)
++        if not usuario_admisible(clave):
++            return None
++        registro = self._registro_activo(clave)
++        return None if registro is None else sello_de_registro(registro)
+ 
+ 
+ _backend: Backend = BackendEntorno()
+@@ -293,6 +481,13 @@ BLOQUEO_MAX_S = 900.0
+ #: `access.CACHE_MAX_ENTRADAS`: es una estructura alimentada DESDE FUERA por
+ #: quien quiera, en el componente que atiende precisamente a los no autorizados.
+ CERROJO_MAX_ENTRADAS = 10_000
++#: Retención de una fila de intentos en el cerrojo DISTRIBUIDO (s324j, v9
++#: §3.4/§6): la poda de `panel_puerta` borra lo más viejo que esto en cada
++#: escritura, y es también el plazo RGPD de `panel_intentos` — con la salvedad
++#: de que LA FUENTE del plazo es la POLICY de la 019 (doctrina s299: «si
++#: divergieran, manda la política»); el test de integración pg valida esta
++#: constante por IGUALDAD contra el predicado real en `pg_policies`.
++CERROJO_RETENCION_S = 24 * 3600
+ 
+ 
+ @dataclass
+@@ -335,6 +530,46 @@ class Cerrojo:
+                 entrada.fallos += 1
+                 entrada.ultimo = ahora
+ 
++    def admitir(self, claves: tuple[str, ...], ahora: float | None = None) -> float:
++        """CONTAR LA ADMISIÓN, no el fallo (s324j, v9 §3.2). Devuelve los
++        segundos de espera (`0.0` = adelante — y el intento YA está contado);
++        `acierto` es la devolución del provisional.
++
++        Por qué así: con «comprobar → scrypt → registrar el fallo», N
++        peticiones concurrentes pasan la comprobación antes de que ninguna
++        registre y el umbral no bloquea nada (el rebaño). Contando AL admitir,
++        la petición K ve los K−1 incrementos anteriores y con
++        `FALLOS_LIBRES = 4` entran ~5, no N. La SECUENCIA no cambia: el intento
++        k ve `fallos = k−1`, igual que con el par `bloqueado`+`fallo` de antes
++        (el sexto intento de una tanda fallida se bloquea en ambos). Precio
++        declarado: si el proceso muere entre `admitir` y `acierto`, queda un
++        +1 fantasma que decae solo (solo pesa por encima de `FALLOS_LIBRES`).
++
++        Lo que este doble fija y `panel_puerta` reproduce EXACTAMENTE es la
++        FÓRMULA DE BLOQUEO Y BACKOFF para una clave presente (el intento k ve
++        `fallos=k−1`, mismo umbral, mismo castigo); la tabla de casos de la
++        puerta 4 ata esa parte. Lo que NO comparten son las POLÍTICAS DE PODA,
++        y difieren en criterio Y en momento (rondas S3-M2/S4-M2), no solo «tras
++        24 h»:
++          · este `_podar` solo actúa cuando la tabla llega al cap, y entonces
++            purga PRIMERO todo lo de espera≤0 —incluidas filas recientes con
++            ≤`FALLOS_LIBRES` fallos— y luego el ~10% más antiguo;
++          · el SQL poda >`CERROJO_RETENCION_S` (24 h) SIEMPRE (requisito RGPD de
++            `panel_intentos`, dato personal seudonimizado), y solo si aún supera
++            el cap sacrifica las más antiguas necesarias.
++        Así que qué claves sobreviven —y por tanto los conteos y el backoff
++        FUTURO de una clave repoblada— puede diferir entre las dos bajo presión
++        de cap o de retención. Es una divergencia deliberada (el cerrojo
++        distribuido tiene un requisito RGPD que el dict no), declarada aquí para
++        no venderla como paridad total."""
++        if ahora is None:
++            ahora = time.monotonic()
++        espera = self.bloqueado(claves, ahora)
++        if espera > 0:
++            return espera                        # bloqueado: sin incrementar
++        self.fallo(claves, ahora)                # la admisión, contada YA
++        return 0.0
++
+     def acierto(self, claves: tuple[str, ...]) -> None:
+         """Un login bueno limpia el historial de esas claves."""
+         for clave in claves:
+diff --git a/dashboard/cerrojo.py b/dashboard/cerrojo.py
+new file mode 100644
+index 0000000..6b26caa
+--- /dev/null
++++ b/dashboard/cerrojo.py
+@@ -0,0 +1,261 @@
++# -*- coding: utf-8 -*-
++"""El cerrojo anti-fuerza-bruta DISTRIBUIDO del panel (s324j; diseño:
++`evals/s324i_panel_vercel_propuesta_v9.md` §3, validado en seis rondas del dúo).
++
++POR QUÉ EXISTE. `auth.Cerrojo` cuenta en memoria del proceso, y en serverless
++cada intento puede caer en una instancia distinta: la espera creciente casi no
++llega a aplicarse (`docs/DASHBOARD_DESPLIEGUE.md`). Aquí el contador vive en
++`panel_intentos` (migración 019) y la ADMISIÓN entera es UNA función en la base
++(`panel_puerta`): comprobación de bloqueo → poda → cap → conteo en una sola
++transacción (el check va PRIMERO, sin sembrar ni podar — el orden del doble en
++memoria, fijado por la ronda de verificación del cableado). Contar AL admitir
++es lo que acota el rebaño concurrente que «comprobar → scrypt → registrar»
++dejaba pasar (v9 §3.2, con el addendum de supersesión).
++
++LAS CLAVES SALEN SEUDONIMIZADAS, la estructura no (v9 §3.1): se conservan los
++DOS espacios de nombres de `auth.claves_de` (`u:` / `ip:`, contados por
++separado, cierra el peor) y se sustituye el identificador por
++`b64url_sin_relleno(HMAC-SHA256(K, identificador)[:16])`, con
++`K = HMAC-SHA256(DASHBOARD_SECRET, "panel_intentos:v1")` — clave DERIVADA con
++etiqueta de propósito, no el secreto de firma a pelo. Un volcado de la tabla no
++enseña ni usuarios ni IPs (minimización; sigue siendo dato personal
++SEUDONIMIZADO y así está declarado en la matriz de retención — v9 §6). Precio
++declarado: rotar `DASHBOARD_SECRET` rota `K` y resetea los contadores — 5
++intentos de margen por clave sobre el suelo scrypt, en un evento raro y manual.
++
++LA CLAVE `ip:` ESTÁ APAGADA hasta que la regla de confianza de
++`X-Forwarded-For` en Vercel esté MEDIDA y fijada (v9 §3.1/§8, ronda F5-M1): con
++una IP mal calibrada todos los usuarios compartirían UNA clave `ip:` (la del
++proxy, o `'?'`), y como el bloqueo es el MAX de las claves, 5 fallos de un
++atacante serían un 429 GLOBAL del panel — denegación de servicio con la
++protección en verde. Hasta la medición, este cerrojo cuenta y bloquea SOLO por
++`u:`; encender la mitad `ip:` es voltear `INCLUIR_CLAVE_IP`, gateado por esa
++medición (el gate está en el runbook).
++
++LA FRONTERA DEL FAIL-OPEN ES «¿SE PUDO HABLAR?» (v9 §3.5, rondas F2-M2/S3-M1/
++S4-M1): un fallo de CONEXIÓN (timeout, DNS, red — PostgREST no llegó a
++responder) permite el intento con un log a nivel ERROR: un fallo de telemetría
++no deja fuera al legítimo, pero tampoco es invisible. CUALQUIER RESPUESTA HTTP
++>= 400 es otra cosa: PostgREST habló y algo está mal de forma REPRODUCIBLE
++(función sin migrar, firma, permisos, SQL) — eso es configuración, y se lanza
++`CerrojoNoDisponible` para que la entrada responda el MISMO 503 que
++`IdentidadNoDisponible`. Un panel que no puede contar intentos por estar mal
++desplegado no debe estar atendiendo logins.
++
++NOTA DE AUDITORÍA (la invariante de `gestion.py`, ampliada — v9 §3.2): las
++peticiones no-GET del panel viven en DOS ficheros enumerables: las tres de
++gestión en `gestion.py`, y aquí la RPC de `admitir` y el DELETE de `acierto`.
++"""
++from __future__ import annotations
++
++import hashlib
++import hmac
++import logging
++from typing import Protocol
++
++import httpx
++
++from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
++
++from . import auth, sesion
++
++logger = logging.getLogger(__name__)
++
++TIMEOUT_S = 15.0
++
++#: v9 §3.1 / ronda F5-M1: la mitad `ip:` NI CUENTA NI BLOQUEA hasta que la
++#: medición de XFF fije la regla de confianza en Vercel. NO voltear sin la
++#: medición hecha y escrita (runbook, `docs/DASHBOARD_DESPLIEGUE.md`).
++INCLUIR_CLAVE_IP = False
++
++
++class CerrojoNoDisponible(RuntimeError):
++    """El cerrojo distribuido NO pudo operar por CONFIGURACIÓN, no por red.
++
++    La produce cualquier respuesta HTTP >= 400 de la RPC (función sin migrar,
++    ACL, firma, SQL) o la ausencia de credenciales del panel. La capa de rutas
++    la convierte en el mismo 503 que `auth.IdentidadNoDisponible` — fail-closed
++    para estados persistentes (v9 §3.5)."""
++
++
++class Cerrojo(Protocol):
++    """El contrato que comparten el cerrojo en memoria y el distribuido."""
++
++    def admitir(self, claves: tuple[str, ...], ahora: float | None = None) -> float:
++        ...
++
++    def acierto(self, claves: tuple[str, ...]) -> None:
++        ...
++
++
++# ------------------------------------------------------- las claves, seudónimas
++
++
++def _clave_derivada() -> bytes:
++    """`K`: derivada del secreto de firma con etiqueta de propósito, para no
++    reutilizar el mismo secreto en dos roles (v9 §3.1)."""
++    return hmac.new(sesion.secreto(), b"panel_intentos:v1", hashlib.sha256).digest()
++
++
++def _seudonimo(clave_plana: str, k: bytes) -> str:
++    """`u:alberto` → `u:<b64url(HMAC(K, "alberto")[:16])>`. El espacio de
++    nombres queda a la vista (audita y separa las dos mitades del cerrojo); el
++    identificador, nunca."""
++    ns, _, identificador = clave_plana.partition(":")
++    mac = hmac.new(k, identificador.encode("utf-8"), hashlib.sha256).digest()[:16]
++    return f"{ns}:{auth._b64url_sin_relleno(mac)}"
++
++
++def claves_seudonimas(claves: tuple[str, ...]) -> tuple[str, ...]:
++    """Las claves de `auth.claves_de`, seudonimizadas — y con la mitad `ip:`
++    APAGADA mientras `INCLUIR_CLAVE_IP` sea False (ronda F5-M1)."""
++    k = _clave_derivada()
++    return tuple(
++        _seudonimo(clave, k)
++        for clave in claves
++        if INCLUIR_CLAVE_IP or not clave.startswith("ip:")
++    )
++
++
++# ------------------------------------------------------ el cerrojo distribuido
++
++
++def _transporte_rpc(payload: dict) -> httpx.Response:
++    """POST /rest/v1/rpc/panel_puerta. La clave de servicio no sale de aquí."""
++    with httpx.Client(timeout=TIMEOUT_S) as cliente:
++        return cliente.post(
++            f"{SUPABASE_URL}/rest/v1/rpc/panel_puerta",
++            headers={
++                "apikey": SUPABASE_SERVICE_KEY,
++                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
++                "Content-Type": "application/json",
++            },
++            json=payload,
++        )
++
++
++def _transporte_delete(params: dict) -> httpx.Response:
++    with httpx.Client(timeout=TIMEOUT_S) as cliente:
++        return cliente.delete(
++            f"{SUPABASE_URL}/rest/v1/panel_intentos",
++            headers={
++                "apikey": SUPABASE_SERVICE_KEY,
++                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
++            },
++            params=params,
++        )
++
++
++class CerrojoSupabase:
++    """`admitir` = la RPC `panel_puerta` (una transacción: comprobación de
++    bloqueo → poda → cap → conteo; el orden lo fijó la ronda de verificación
++    del cableado — el check va PRIMERO, sin sembrar ni podar, igual que el
++    doble en memoria); `acierto` = un DELETE por PostgREST.
++
++    Los transportes se INYECTAN para que la suite corra sin red (puerta 10)."""
++
++    def __init__(self, rpc=None, delete=None) -> None:
++        self._rpc = rpc or _transporte_rpc
++        self._delete = delete or _transporte_delete
++
++    def admitir(self, claves: tuple[str, ...], ahora: float | None = None,
++                *, _sonda: bool = False) -> float:
++        # `ahora` se ignora a propósito: el reloj lo pone la base con
++        # `clock_timestamp()` DESPUÉS del advisory lock — coherente entre
++        # instancias serverless que nacen y mueren.
++        if not (SUPABASE_URL and SUPABASE_SERVICE_KEY):
++            raise CerrojoNoDisponible(
++                "el panel no tiene credenciales de Supabase (SUPABASE_URL / "
++                "SUPABASE_SERVICE_KEY): configuración, no red"
++            )
++        payload = {
++            "claves": list(claves_seudonimas(claves)),
++            "libres": auth.FALLOS_LIBRES,
++            "base_s": auth.BLOQUEO_BASE_S,
++            "max_s": auth.BLOQUEO_MAX_S,
++            "retencion_s": auth.CERROJO_RETENCION_S,
++            "cap": auth.CERROJO_MAX_ENTRADAS,
++        }
++        try:
++            resp = self._rpc(payload)
++        except httpx.HTTPError as exc:
++            # No se pudo HABLAR. La respuesta depende de CUÁNDO (ronda del dúo
++            # sobre el cableado, S-M1): el fail-open es política de RUNTIME (un
++            # fallo de telemetría no deja fuera al legítimo), NO de ARRANQUE. En
++            # la sonda, no poder hablar con Supabase ES un despliegue roto y
++            # debe fail-CERRAR — si no, `sonda()` imprimiría «cerrojo OK» sin
++            # haber contactado la base.
++            if _sonda:
++                raise CerrojoNoDisponible(
++                    f"la sonda no pudo hablar con Supabase ({type(exc).__name__})"
++                ) from exc
++            logger.error(
++                "cerrojo: fail-open, no se pudo hablar con Supabase (%s)",
++                type(exc).__name__,
++            )
++            return 0.0
++        if resp.status_code >= 400:
++            # PostgREST HABLÓ y rechazó: reproducible ⇒ configuración ⇒ 503.
++            raise CerrojoNoDisponible(
++                f"panel_puerta respondió {resp.status_code}: ¿falta aplicar "
++                f"migrations/019_panel_usuarios_cerrojo.sql, o sus GRANT?"
++            )
++        try:
++            espera = float(resp.json())
++        except Exception:                                        # noqa: BLE001
++            raise CerrojoNoDisponible(
++                "panel_puerta devolvió un cuerpo ilegible"
++            ) from None
++        return max(0.0, espera)
++
++    def acierto(self, claves: tuple[str, ...]) -> None:
++        # La devolución del provisional. Si falla, NO se bloquea el login bueno:
++        # el +1 fantasma decae solo (precio declarado en v9 §3.2) — pero se deja
++        # log, que un acierto que nunca limpia también es una señal.
++        seudonimas = claves_seudonimas(claves)
++        if not seudonimas:
++            return
++        try:
++            resp = self._delete({"clave": f"in.({','.join(seudonimas)})"})
++        except httpx.HTTPError as exc:
++            logger.error("cerrojo: acierto sin limpiar (%s)", type(exc).__name__)
++            return
++        if resp.status_code >= 400:
++            logger.error("cerrojo: acierto rechazado (%s)", resp.status_code)
++
++
++# --------------------------------------------------------------- el enchufe
++
++_activo: Cerrojo = auth.Cerrojo()
++
++
++def usar_cerrojo(cerrojo: Cerrojo) -> Cerrojo:
++    """Sustituye el cerrojo activo y devuelve el anterior — el mismo punto de
++    extensión que `auth.usar_backend`: quien arranca elige (v9 §9). En local y
++    en tests queda el de memoria; `api/index.py` enchufa `CerrojoSupabase`."""
++    global _activo
++    anterior, _activo = _activo, cerrojo
++    return anterior
++
++
++def activo() -> Cerrojo:
++    return _activo
++
++
++def sonda() -> None:
++    """La sonda de arranque (v9 §3.5): con `CerrojoSupabase` enchufado, llama a
++    `panel_puerta` con la lista de claves VACÍA — una prueba real de extremo a
++    extremo (función migrada, GRANT concedidos, caché de PostgREST recargada)
++    sin efecto sobre NINGÚN contador (sí ejecuta la poda de caducados y toma el
++    lock un instante — efectos benignos, dichos). Si falla, el arranque aborta
++    con el motivo escrito — el criterio de `auth.validar_configuracion`. Con el
++    cerrojo de memoria no hay nada que sondear."""
++    if not isinstance(_activo, CerrojoSupabase):
++        return
++    try:
++        _activo.admitir((), _sonda=True)     # fail-CERRAR también ante httpx
++    except CerrojoNoDisponible as exc:
++        raise RuntimeError(
++            f"El cerrojo distribuido no está operativo: {exc}. El panel NO "
++            f"arranca sin él (fail-closed para configuración, v9 §3.5)."
++        ) from exc
+diff --git a/dashboard/datos.py b/dashboard/datos.py
+index 5d7595a..21cdbca 100644
+--- a/dashboard/datos.py
++++ b/dashboard/datos.py
+@@ -47,6 +47,11 @@ TIMEOUT_S = 10.0
+ #: que `logging_db._tabla_ausente` y que el CLI: en este repo «la migración aún
+ #: no está aplicada» es un estado ESPERADO, no una anomalía.
+ _CODIGOS_AUSENTE = ("PGRST205", "PGRST106", "42P01")
++#: Y el código con que Postgres dice «esa COLUMNA no existe» — el que produce
++#: el `select` explícito de las vistas cuando una columna DECLARADA desaparece
++#: o se renombra (s324j, v9 §7): se traduce a un detalle legible en vez de a un
++#: «Supabase respondió 400» mudo, y la tarjeta lo dice.
++_CODIGO_COLUMNA_AUSENTE = "42703"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -96,6 +101,10 @@ def leer(recurso: str, params: dict) -> Resultado:
+             codigo = ""
+         if codigo in _CODIGOS_AUSENTE or resp.status_code == 404:
+             return Resultado(TABLA_AUSENTE, detalle=recurso)
++        if codigo == _CODIGO_COLUMNA_AUSENTE:
++            return Resultado(ERROR, detalle=(
++                f"{recurso} ya no tiene una columna declarada (¿renombrada o "
++                f"retirada en una migración? — revisa datos.VISTAS)"))
+     if resp.status_code >= 400:
+         return Resultado(ERROR, detalle=f"Supabase respondió {resp.status_code}")
+     try:
+@@ -268,12 +277,19 @@ VISTAS_POR_CLAVE = {v.clave: v for v in VISTAS}
+ 
+ 
+ def leer_vista(vista: Vista) -> Resultado:
+-    """`select=*` a propósito: si la vista gana una columna, el panel la enseña
+-    (al final de la tabla, con su nombre crudo) en vez de esconderla en
+-    silencio. Y si PIERDE una, la columna declarada simplemente no se pinta:
+-    ninguno de los dos casos tumba la página."""
++    """`select` EXPLÍCITO desde las columnas declaradas — la decisión INVERSA a
++    la original, invertida a conciencia al exponer el panel a internet (s324j,
++    v9 §7). El `select=*` de antes existía para que una columna nueva se
++    enseñara en vez de esconderse — correcto para un panel interno; con DGs y
++    datos de personas detrás, la regla pasa a ser que NADA se pinta sin que
++    alguien lo haya declarado en `VISTAS`. Los dos sentidos quedan cubiertos:
++    una columna nueva de la vista NO aparece hasta declararla aquí; una
++    declarada que la vista pierde produce un 42703 que `leer` traduce a un
++    detalle legible y la tarjeta lo dice — ninguno de los dos casos tumba la
++    página."""
+     return leer(vista.clave, {
+-        "select": "*", "order": vista.orden, "limit": str(vista.limite),
++        "select": ",".join(c.nombre for c in vista.columnas),
++        "order": vista.orden, "limit": str(vista.limite),
+     })
+ 
+ 
+diff --git a/dashboard/gestion.py b/dashboard/gestion.py
+index be9c215..d4a2373 100644
+--- a/dashboard/gestion.py
++++ b/dashboard/gestion.py
+@@ -1,11 +1,13 @@
+ # -*- coding: utf-8 -*-
+-"""Gestión de acceso desde el panel — la ÚNICA parte que escribe.
++"""Gestión de acceso desde el panel — la parte de GESTIÓN que escribe.
+ 
+ QUÉ ESCRIBE, exhaustivo: una fila nueva en `bot_invitaciones` (emitir), y dos
+-`UPDATE` que ponen una marca de tiempo (anular una invitación, revocar un
++`UPDATE` que ponen marca de tiempo y firma (anular una invitación, revocar un
+ acceso). Nada más. No toca corpus, ni catálogo, ni golds, ni `query_logs`, ni
+-`user_consent` — DEC-231 §4, y aquí es literal: en este fichero están TODAS las
+-peticiones no-GET del panel, y son tres.
++`user_consent` — DEC-231 §4. La invariante de auditoría, AMPLIADA en s324j
++(v9 §3.2): las peticiones no-GET del panel viven en DOS ficheros enumerables —
++las tres de gestión AQUÍ, y en `cerrojo.py` la RPC de `admitir` y el DELETE de
++`acierto` del cerrojo distribuido. Ningún otro módulo escribe.
+ 
+ QUÉ NO IMPLEMENTA: el CANJE. Cuando el invitado pulsa el enlace, quien lo canjea
+ es el bot (`logging_db.canjear_invitacion`, un solo `UPDATE` condicional que
+@@ -17,20 +19,26 @@ LA REGLA DEL TOKEN, heredada tal cual de `src.bot.access` y NO reescrita aquí:
+ se genera con un CSPRNG, en la base se guarda su SHA-256, y el enlace se enseña
+ UNA vez. El panel no puede volver a mostrarlo porque nadie puede: lo que hay
+ guardado es una huella. Si se pierde, se anula y se emite otro.
+-  Consecuencia de interfaz que hay que cuidar: el enlace aparece en la respuesta
+-del POST que lo crea y en ninguna otra. Nunca en un parámetro de URL (quedaría
+-en el historial del navegador y en los logs del proxy) — de ahí el
+-POST-redirect-GET con el enlace guardado en la propia respuesta y no en la
+-redirección.
+-
+-LA FIRMA DE CADA ACCIÓN. `alta_por` / `revocado_por` se rellenan con
+-`panel:<usuario>`, no con el nombre a secas: al mirar la tabla dentro de seis
+-meses hay que poder distinguir lo que hizo alguien desde el CLI de lo que hizo
+-alguien desde la web. Es la mitad barata de la auditoría.
++  Consecuencia de interfaz que hay que cuidar: el enlace aparece en la
++respuesta del POST que lo crea y en ninguna otra — NO hay redirección (nunca
++hubo un POST-redirect-GET aquí, y la prosa que lo afirmaba era falsa — s324j,
++ronda F-m1): `app.accion_invitar` RENDERIZA la respuesta a propósito, porque
++tras un 303 no habría de dónde reconstruir un token que no se guarda. El precio
++(el F5 reenvía el formulario) lo paga la idempotencia por `op`, no un PRG.
++
++LA FIRMA DE CADA ACCIÓN. `alta_por` / `revocado_por` / `revocada_por` se
++rellenan con `panel:<usuario>`, no con el nombre a secas: al mirar la tabla
++dentro de seis meses hay que poder distinguir lo que hizo alguien desde el CLI
++de lo que hizo alguien desde la web. Es la mitad barata de la auditoría.
++(s324j: la anulación firma en `revocada_por` — columna de la migración 020 —
++y NO en la nota: la firma-en-nota de r41 mezclaba auditoría con texto humano y
++además estaba ROTA contra Supabase real, porque la 016 nunca concedió
++`UPDATE (nota)`; hallazgo S-C1 del dúo, DEC-239.)
+ """
+ from __future__ import annotations
+ 
+ import os
++import re
+ import uuid
+ from dataclasses import dataclass
+ from datetime import datetime, timedelta, timezone
+@@ -79,11 +87,21 @@ def _iso(momento: datetime) -> str:
+     return momento.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+ 
+ 
++#: Estado de escritura PROPIO de este módulo (s324j, v9 §4.2, ronda F3-M1): una
++#: violación de unicidad (código PostgreSQL `23505`) no es «Supabase respondió
++#: 409» — es «esta operación YA se hizo», y el único camino que lo consume (la
++#: emisión con `op`) tiene que poder decirlo. Para el resto de escrituras un
++#: duplicado sigue siendo el error que es.
++DUPLICADO = "duplicado"
++_CODIGO_UNICIDAD = "23505"
++
++
+ def _escribir(metodo: str, tabla: str, *, params: dict | None = None,
+               json: dict | None = None) -> tuple[str, list[dict], str]:
+-    """(estado, filas, detalle). Mismo vocabulario de estados que `datos.leer` y
+-    la misma promesa: no lanza. Una escritura que falla tiene que producir un
+-    mensaje en pantalla, nunca un 500 con traza."""
++    """(estado, filas, detalle). Mismo vocabulario de estados que `datos.leer`
++    —más `DUPLICADO`, solo de escritura— y la misma promesa: no lanza. Una
++    escritura que falla tiene que producir un mensaje en pantalla, nunca un 500
++    con traza."""
+     if not datos.hay_credenciales():
+         return datos.SIN_CREDENCIALES, [], "el panel no tiene credenciales"
+     try:
+@@ -94,11 +112,13 @@ def _escribir(metodo: str, tabla: str, *, params: dict | None = None,
+             )
+     except httpx.HTTPError as exc:
+         return datos.ERROR, [], f"no se pudo hablar con Supabase ({type(exc).__name__})"
+-    if resp.status_code in (400, 404):
++    if resp.status_code in (400, 404, 409):
+         try:
+             codigo = str((resp.json() or {}).get("code") or "")
+         except Exception:                                        # noqa: BLE001
+             codigo = ""
++        if codigo == _CODIGO_UNICIDAD:
++            return DUPLICADO, [], tabla
+         if codigo in datos._CODIGOS_AUSENTE or resp.status_code == 404:
+             return datos.TABLA_AUSENTE, [], tabla
+     if resp.status_code >= 400:
+@@ -160,8 +180,20 @@ def _nombre_del_bot() -> str | None:
+     return (os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
+ 
+ 
+-def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
+-    """Emite una invitación de un solo uso y devuelve el enlace UNA vez."""
++#: La forma admisible del token de operación `op` (v9 §4.2): lo genera el panel
++#: con `secrets.token_urlsafe(16)` al pintar el formulario, así que cualquier
++#: otra cosa es un formulario manipulado — y el CHECK de la 020 lo rechazaría
++#: en la base con un error críptico; mejor cortarlo aquí con un mensaje claro.
++_OP_RE = re.compile(r"^[A-Za-z0-9_-]{8,64}$")
++
++
++def generar_invitacion(*, nota: str, dias: int, por: str, op: str) -> Accion:
++    """Emite una invitación de un solo uso y devuelve el enlace UNA vez.
++
++    `op` identifica LA OPERACIÓN (el formulario pintado), no su contenido: el
++    F5 reenvía el mismo `op` y el UNIQUE de la base lo convierte en `DUPLICADO`
++    — no se crea una segunda credencial y no se finge poder re-enseñar el
++    enlace (v9 §4.2)."""
+     nota = (nota or "").strip()
+     if not nota:
+         # Obligatoria por el mismo motivo que en el CLI: sin «para quién es», el
+@@ -185,6 +217,9 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
+             f"queda olvidado en un chat.",
+             tono="error",
+         )
++    if not _OP_RE.fullmatch(op or ""):
++        return Accion(False, "El formulario llegó incompleto. Recarga la "
++                             "página y vuelve a intentarlo.", tono="error")
+ 
+     token = access.token_nuevo()
+     estado, filas, detalle = _escribir(
+@@ -194,8 +229,20 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
+             "nota": nota,
+             "creada_por": f"panel:{por}",
+             "expira_at": _iso(_ahora() + timedelta(days=dias)),
++            "op": op,
+         },
+     )
++    if estado == DUPLICADO:
++        # El mismo `op` ya insertó: es el F5 del formulario que acaba de
++        # emitir. No se crea nada y no se miente sobre el enlace, que solo se
++        # enseñó al crearla — nadie puede volver a verlo (es una huella).
++        return Accion(
++            False,
++            "Ya emitiste esta invitación: está en la lista de abajo. El "
++            "enlace solo se enseñó al crearla; si lo perdiste, anúlala y "
++            "emite otra.",
++            tono="aviso",
++        )
+     if estado != datos.OK or not filas:
+         return Accion(False, _texto_de_fallo(estado, detalle,
+                                              "emitir la invitación"),
+@@ -216,20 +263,6 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
+     )
+ 
+ 
+-def _nota_con_firma(nota: object, por: str) -> str:
+-    """Añade quién actuó al final de la nota, sin perder lo que hubiera.
+-
+-    (s324f, dúo r41) La tabla no tiene columna `revocada_por` y añadirla exige
+-    migración; la nota es el rastro humano que ya existe y donde el listado la
+-    enseña. Se acota para no crecer sin límite con anulaciones repetidas.
+-    """
+-    base = (str(nota) if nota else "").strip()
+-    firma = f"[anulada por {str(por or '?').strip()[:40]}]"
+-    if firma in base:
+-        return base[:500]
+-    return (f"{base} {firma}".strip())[:500]
+-
+-
+ def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
+     try:
+         identificador = str(uuid.UUID(str(invitacion_id).strip()))
+@@ -265,12 +298,14 @@ def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
+         "PATCH", "bot_invitaciones",
+         params={"id": f"eq.{identificador}", "revocada_at": "is.null",
+                 "canjeada_at": "is.null"},
+-        # (dúo r41) `por` se recibía y se tiraba: la anulación quedaba sin
+-        # firmar y la auditoría no podía decir QUIÉN la anuló, pese a que la
+-        # propuesta afirmaba que cada acción queda firmada. Se persiste en la
+-        # nota, que es la columna que ya existe para el rastro humano.
++        # La anulación se FIRMA en `revocada_por` (migración 020) — la columna
++        # que r41 no tenía y suplió firmando en la nota. Aquello mezclaba
++        # auditoría con texto humano Y estaba roto contra Supabase real: la 016
++        # nunca concedió `UPDATE (nota)` y el PATCH entero moría con 42501
++        # (hallazgo S-C1 del dúo, s324j/DEC-239). El CHECK
++        # `bot_invitaciones_revocacion_completa` exige fecha y firma JUNTAS.
+         json={"revocada_at": _iso(_ahora()),
+-              "nota": _nota_con_firma(fila.get("nota"), por)},
++              "revocada_por": f"panel:{por}"},
+     )
+     if estado != datos.OK:
+         return Accion(False, _texto_de_fallo(estado, detalle,
+diff --git a/dashboard/sesion.py b/dashboard/sesion.py
+index 817ff58..1822af3 100644
+--- a/dashboard/sesion.py
++++ b/dashboard/sesion.py
+@@ -5,7 +5,12 @@ QUÉ HAY DENTRO DE LA COOKIE, y por qué eso y no un identificador opaco:
+ 
+     base64url(json) . base64url(hmac_sha256(json, secreto))
+ 
+-El payload lleva `{u, iat, exp, csrf}`. La alternativa clásica —un id aleatorio
++El payload lleva `{u, iat, exp, csrf, h}`. Los cuatro primeros los construye
++`nueva()`; **`h` — el sello de la credencial — lo añade LA PUERTA al entrar**
++(`app.accion_entrar` hace `payload["h"] = identidad.sello` antes de `firmar`):
++este módulo lo firma y lo devuelve, no lo escribe (s324j, v9 §2). Con `h`, la
++revalidación por petición expulsa al revocado y al que cambió de contraseña en
++la SIGUIENTE petición. La alternativa clásica —un id aleatorio
+ contra una tabla de sesiones— compra una cosa real (poder matar UNA sesión desde
+ el servidor) a cambio de una tabla, una migración, un job de limpieza y una
+ dependencia de Supabase en el camino de CADA petición del panel. Para dos
+diff --git a/migrations/019_panel_usuarios_cerrojo.sql b/migrations/019_panel_usuarios_cerrojo.sql
+new file mode 100644
+index 0000000..82275c2
+--- /dev/null
++++ b/migrations/019_panel_usuarios_cerrojo.sql
+@@ -0,0 +1,532 @@
++-- ============================================================================
++-- 019 — `panel_usuarios` + `panel_intentos` + `panel_puerta` +
++--       `panel_retencion_pasada`: los usuarios del panel a Supabase (a2) y el
++--       cerrojo anti-fuerza-bruta distribuido. s324j; diseño completo y sus
++--       seis rondas de dúo: `evals/s324i_panel_vercel_propuesta_v9.md`
++--       (DEC-237 → DEC-239).
++--
++-- ⚠️ CONTRATO DE APLICACIÓN (v9 §13, lección de la 016 tras DOS fallos reales
++--    en producción): este fichero se aplica ENTERO con un aplicador
++--    transaccional — el SQL Editor de Supabase (ejecuta el script completo en
++--    UNA transacción) o `psql --single-transaction`. NUNCA sentencia a
++--    sentencia: entre el CREATE TABLE y su REVOKE los defaults de Supabase
++--    dejarían la tabla de credenciales expuesta. Y NO lleva BEGIN/COMMIT
++--    propios A PROPÓSITO: dentro del SQL Editor un BEGIN interno no abre nada
++--    y un ROLLBACK interno desharía las tablas (los dos intentos fallidos de
++--    la 016 son exactamente eso).
++--
++-- ⚠️ ORDEN DE LA COLA: exige s295 → s299 aplicadas (el rol `rgpd_retencion` y
++--    la tabla `rgpd_recibos` nacen en `supabase/migration_proposals/`); el
++--    preflight de abajo lo comprueba y aborta con el motivo escrito.
++--
++-- REVERSIBILIDAD: nada de esta migración toca datos existentes. El rollback
++-- es `DROP FUNCTION public.panel_retencion_pasada(text); DROP FUNCTION
++-- public.panel_puerta(text[], int, numeric, numeric, numeric, int);
++-- DROP TABLE public.panel_intentos; DROP TABLE public.panel_usuarios;` más
++-- `SELECT cron.unschedule('panel-retencion-diaria');` si el reloj se llegó a
++-- programar.
++-- ============================================================================
++
++-- ----------------------------------------------------------------------------
++-- FASE 0 — PREFLIGHT: la cola s295→s299, presente (v9 §13, ronda F4-M2; el
++-- patrón literal del preflight de la s299)
++-- ----------------------------------------------------------------------------
++DO $s324j_preflight$
++BEGIN
++    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'rgpd_retencion') THEN
++        RAISE EXCEPTION '019: aplica ANTES la cola s295→s299 (falta el rol '
++                        'rgpd_retencion — 20260803140000_s295_rgpd_rol_retencion_v2.sql)';
++    END IF;
++    IF to_regclass('public.rgpd_recibos') IS NULL THEN
++        RAISE EXCEPTION '019: aplica ANTES la cola s295→s299 (falta rgpd_recibos '
++                        '— 20260805150000_s299_job_programado_v1.sql)';
++    END IF;
++END
++$s324j_preflight$;
++
++-- ----------------------------------------------------------------------------
++-- FASE A — LAS TABLAS
++-- ----------------------------------------------------------------------------
++
++-- Los usuarios del panel. Los CHECK no son adorno (v9 §1.1):
++--   · el de `usuario` impone EL MISMO charset y longitud que el backend exige
++--     al autenticar (`auth.USUARIO_RE`; la puerta 6-bis ata los dos lados con
++--     una tabla de casos compartida) — una fila que el panel jamás podría
++--     encontrar no puede ni existir;
++--   · el de `registro` corta EN LA BASE el error que `validar_configuracion`
++--     caza en el arranque: pegar la contraseña en claro donde iba el hash;
++--   · `revocacion_coherente` hace imposibles los estados de auditoría
++--     contradictorios que los GRANT por columnas permitirían crear por
++--     separado (ronda S2-M5) — reactivar obliga a limpiar fecha y firma en el
++--     mismo UPDATE. Estricto desde el día uno: la tabla nace ahora, sin
++--     legacy que tolerar.
++CREATE TABLE public.panel_usuarios (
++    usuario      TEXT PRIMARY KEY
++                 CHECK (usuario ~ '^[a-z0-9._@-]{1,64}$'),
++    registro     TEXT NOT NULL CHECK (registro LIKE 'scrypt$%'),
++    activo       BOOLEAN NOT NULL DEFAULT TRUE,
++    alta_por     TEXT NOT NULL,
++    creado_en    TIMESTAMPTZ NOT NULL DEFAULT now(),
++    revocado_en  TIMESTAMPTZ,
++    revocado_por TEXT,
++    CONSTRAINT panel_usuarios_revocacion_coherente CHECK (
++        (activo AND revocado_en IS NULL AND revocado_por IS NULL)
++        OR (NOT activo AND revocado_en IS NOT NULL AND revocado_por IS NOT NULL)
++    )
++);
++
++COMMENT ON TABLE public.panel_usuarios IS
++    'Usuarios del panel web (s324j/DEC-239). Baja LÓGICA (activo=false), sin '
++    'DELETE: conservar quién dio el alta y quién revocó es la mitad barata de '
++    'la auditoría. La supresión a petición (RGPD) la ejecuta el operador '
++    'aparte. Dato personal EN CLARO: fila propia en la matriz de retención '
++    '(docs/RGPD_RETENCION.md); plazo de las filas revocadas [DECIDIR: Alberto].';
++
++-- El cerrojo distribuido. Las claves llegan SEUDONIMIZADAS desde
++-- `dashboard/cerrojo.py` (`u:`/`ip:` + HMAC truncado, v9 §3.1): un volcado de
++-- esta tabla no enseña ni usuarios ni IPs. Sigue siendo dato personal
++-- SEUDONIMIZADO (con la clave K se puede recomprobar un identificador): fila
++-- propia en la matriz, plazo 24 h operativas / ≤48 h con la red diaria de
++-- abajo, evidenciada por recibo.
++CREATE TABLE public.panel_intentos (
++    clave  TEXT PRIMARY KEY,
++    fallos INTEGER NOT NULL DEFAULT 0 CHECK (fallos >= 0),
++    ultimo TIMESTAMPTZ NOT NULL DEFAULT now()
++);
++CREATE INDEX idx_panel_intentos_ultimo ON public.panel_intentos (ultimo);
++
++COMMENT ON TABLE public.panel_intentos IS
++    'Contador de intentos de login del panel (s324j/DEC-239). Claves '
++    'seudonimizadas (HMAC); la ventana de retención de 24 h la impone la '
++    'POLICY rgpd_retencion_ventana — si la constante Python y la política '
++    'divergieran, MANDA LA POLÍTICA (doctrina s299).';
++
++-- ----------------------------------------------------------------------------
++-- FASE B — LA FRONTERA (el patrón de la 016, tabla por tabla; v9 §1.2)
++-- Supabase concede TODO por defecto a anon/authenticated sobre las tablas
++-- nuevas de `public`: el REVOKE es la migración, no un adorno.
++-- ----------------------------------------------------------------------------
++
++ALTER TABLE public.panel_usuarios ENABLE ROW LEVEL SECURITY;
++ALTER TABLE public.panel_usuarios FORCE ROW LEVEL SECURITY;
++REVOKE ALL PRIVILEGES ON TABLE public.panel_usuarios
++    FROM PUBLIC, anon, authenticated, service_role;
++-- El camino de autenticación solo puede LEER lo que usa; las columnas de
++-- auditoría (alta_por, creado_en, revocado_*) no viajan a PostgREST y no son
++-- reescribibles por REST — la traza de quién dio el alta no se edita con la
++-- credencial del panel. INSERT/UPDATE existen para el script de operación
++-- (`scripts/s324j_panel_usuario.py`); el código del panel NO escribe aquí.
++-- LÍMITE declarado, el mismo de la 016: panel y script comparten
++-- SUPABASE_SERVICE_KEY — los privilegios no separan «panel» de «operador»
++-- (eso lo separa el código); sí impiden lo que ninguno debe poder hacer.
++GRANT SELECT (usuario, registro, activo) ON public.panel_usuarios TO service_role;
++GRANT INSERT (usuario, registro, activo, alta_por)
++    ON public.panel_usuarios TO service_role;
++GRANT UPDATE (registro, activo, revocado_en, revocado_por)
++    ON public.panel_usuarios TO service_role;
++-- Sin DELETE: la baja es lógica; la supresión a petición va aparte, a la vista.
++
++ALTER TABLE public.panel_intentos ENABLE ROW LEVEL SECURITY;
++ALTER TABLE public.panel_intentos FORCE ROW LEVEL SECURITY;
++REVOKE ALL PRIVILEGES ON TABLE public.panel_intentos
++    FROM PUBLIC, anon, authenticated, service_role;
++-- Los CUATRO GRANT del cerrojo, ENUMERADOS (v9 §1.2, ronda F2-M1: la RPC es
++-- SECURITY INVOKER y ejerce exactamente estos privilegios — una sentencia de
++-- su cuerpo sin GRANT sería el 42501 de S-C1, reproducido dentro de la
++-- función; la puerta 9-bis cruza el cuerpo con esta lista):
++GRANT SELECT ON public.panel_intentos TO service_role;             -- FOR UPDATE de admitir
++GRANT INSERT (clave, fallos, ultimo) ON public.panel_intentos TO service_role;  -- siembra+upsert
++GRANT UPDATE (fallos, ultimo) ON public.panel_intentos TO service_role;         -- incremento
++GRANT DELETE ON public.panel_intentos TO service_role;             -- poda, cap y acierto
++-- DELETE aquí y no en las otras tablas, con motivo: borrar ES el contrato de
++-- esta tabla (poda, cap, acierto) y no hay nada que conservar.
++
++-- La retención necesita SU acceso (v9 §1.2, ronda S2-M1): la pasada corre como
++-- `rgpd_retencion`, no como `service_role`, y su ventana la impone la POLICY —
++-- el rol no puede tocar una fila dentro de plazo AUNQUE el SQL de la pasada
++-- tuviera un bug. `service_role` tiene rolbypassrls: el camino del cerrojo no
++-- se entera (mismo comentario que deja escrito la s295).
++GRANT SELECT (clave, ultimo) ON public.panel_intentos TO rgpd_retencion;
++GRANT DELETE ON public.panel_intentos TO rgpd_retencion;
++CREATE POLICY rgpd_retencion_ventana ON public.panel_intentos
++    TO rgpd_retencion
++    USING (ultimo < now() - interval '24 hours');
++
++-- ----------------------------------------------------------------------------
++-- FASE C — `panel_puerta`: la ADMISIÓN entera en una transacción (v9 §3.2-3.4)
++-- ----------------------------------------------------------------------------
++-- Por qué una RPC, cuando este repo ya rechazó una con motivo (el canje,
++-- logging_db): PostgREST no puede expresar `fallos = fallos + 1`, y la
++-- admisión exige leer-decidir-contar SIN ventana entre medias. Se construye
++-- con el patrón endurecido de s277 (`document_local_snapshot_v2`): SECURITY
++-- INVOKER (no presta privilegios — corre como service_role, que ya tiene los
++-- suyos arriba) + search_path vacío + REVOKE nominal del EXECUTE (las
++-- funciones nacen ejecutables por PUBLIC; ese default ES el agujero de s296).
++--
++-- LA TABLA DE CASOS (puerta 4; la misma que ejercita el doble en memoria
++-- `auth.Cerrojo.admitir` — con libres=4, base=60, max=900):
++--   fallos previos 0..4  → espera 0 (admitido; queda fallos+1)
++--   fallos previos 5     → espera hasta ultimo+60s
++--   fallos previos 6     → espera hasta ultimo+120s
++--   fallos previos 9     → espera hasta ultimo+900s (techo)
++--   bloqueado            → SIN incrementar (hoy un intento bloqueado tampoco suma)
++CREATE OR REPLACE FUNCTION public.panel_puerta(
++    claves text[], libres int, base_s numeric, max_s numeric,
++    retencion_s numeric, cap int
++) RETURNS numeric
++LANGUAGE plpgsql
++SECURITY INVOKER
++SET search_path = ''
++AS $panel_puerta$
++DECLARE
++    v_ahora   timestamptz;   -- se fija DESPUÉS del lock (ver abajo)
++    v_clave   text;
++    v_fallos  int;
++    v_ultimo  timestamptz;
++    v_espera  numeric;
++    v_max     numeric := 0;
++    v_count   int;
++    v_nuevas  int;
++BEGIN
++    -- (ronda F6-m2) La contención tiene que producir una RESPUESTA de error
++    -- (≥400 → el transporte la trata como configuración → 503 fail-closed),
++    -- no un timeout del cliente httpx (→ fail-open justo bajo ataque). El
++    -- lock_timeout se consulta al empezar CADA espera de lock, así que acota
++    -- la cola del advisory lock de abajo. `statement_timeout` NO se fija aquí
++    -- a propósito: dentro de una función solo aplicaría a sentencias
++    -- top-level futuras, no a la llamada en curso — sería decorativo, y un
++    -- control decorativo es peor que su ausencia declarada.
++    PERFORM set_config('lock_timeout', '2s', true);
++
++    -- (ronda S2-M2, F3-m2) El cap exige serializar llamadas con claves
++    -- DISJUNTAS. Semántica REAL, sin eufemismo: un advisory lock DE
++    -- TRANSACCIÓN se retiene hasta el COMMIT, así que cada `admitir` se
++    -- serializa ENTERO contra los demás — a esta escala es gratis y es el
++    -- invariante exacto del cerrojo en memoria. Es este lock el que hace que
++    -- el upsert final baste como siembra (la ráfaga contra una clave fresca no
++    -- puede ver «ausente» N veces: entra de una en una), y el que sostiene el
++    -- techo del cap frente a claves disjuntas.
++    PERFORM pg_advisory_xact_lock(hashtext('panel_intentos'));
++
++    -- El reloj se lee DESPUÉS del lock, y con clock_timestamp() — NO now()
++    -- (ronda del dúo sobre el cableado, S-m1): `now()` es el instante de
++    -- INICIO de la transacción, constante durante toda ella; dos `admitir`
++    -- encoladas en el lock (T2 empezó antes que T1 pero espera su turno)
++    -- escribirían `ultimo` con instantes en desorden, haciéndolo RETROCEDER.
++    -- `clock_timestamp()` leído aquí es el tiempo real en el momento en que
++    -- esta llamada YA tiene el lock. LÍMITE declarado: es reloj de PARED, no
++    -- monotónico como el `time.monotonic()` del doble en memoria — un ajuste
++    -- del reloj del sistema podría hacerlo retroceder. En la práctica es raro,
++    -- afecta a todo por igual, y el techo del castigo (`max_s`) acota el daño.
++    v_ahora := clock_timestamp();
++
++    -- (1) EL CHECK DE BLOQUEO VA PRIMERO — sobre las claves que YA EXISTEN, y
++    -- SIN sembrar ni podar (ronda de verificación del cableado, S2-M1). Es el
++    -- orden del doble en memoria (`auth.Cerrojo.admitir`: `bloqueado()` —que
++    -- solo LEE— antes de `fallo()` —que siembra e incrementa—). Sembrar antes
++    -- de comprobar dejaba que un atacante YA bloqueado por su clave `ip:`
++    -- siguiera creando una fila `u:` fresca por cada intento, inflando la
++    -- tabla hasta expulsar el bloqueo de un objetivo — y encima más barato,
++    -- porque el 429 corta antes del scrypt. Con el check delante, un intento
++    -- bloqueado NO toca la tabla: ni siembra la clave nueva ni poda.
++    FOR v_clave IN SELECT t.c FROM unnest(claves) AS t(c) ORDER BY t.c LOOP
++        SELECT p.fallos, p.ultimo INTO v_fallos, v_ultimo
++          FROM public.panel_intentos p WHERE p.clave = v_clave;
++        IF FOUND AND v_fallos > libres THEN
++            v_espera := GREATEST(
++                0,
++                extract(epoch FROM (v_ultimo - v_ahora))
++                + LEAST(base_s * power(2, v_fallos - libres - 1), max_s)
++            );
++            v_max := GREATEST(v_max, v_espera);
++        END IF;
++    END LOOP;
++    IF v_max > 0 THEN
++        RETURN v_max;   -- bloqueado: SIN sembrar, podar ni incrementar
++    END IF;
++
++    -- (2) No bloqueado → poda: la retención ejecutada en cada escritura. La
++    -- constante viaja como argumento (una sola fuente en Python); la ventana
++    -- RGPD canónica la impone la POLICY de arriba — si divergieran, manda la
++    -- política.
++    DELETE FROM public.panel_intentos
++     WHERE ultimo < v_ahora - make_interval(secs => retencion_s);
++
++    -- (3) El techo DURO, con la aritmética exacta (ronda S2-M3): si el
++    -- recuento MÁS las claves que esta llamada va a sembrar supera el cap, se
++    -- sacrifica lo más antiguo hasta que la siembra quepa. Perder un bloqueo
++    -- vivo regala una tanda de intentos; quedarse sin techo regala la tabla.
++    SELECT count(*) INTO v_count FROM public.panel_intentos;
++    SELECT count(*) INTO v_nuevas
++      FROM unnest(claves) AS t(c)
++     WHERE NOT EXISTS (SELECT 1 FROM public.panel_intentos p WHERE p.clave = t.c);
++    IF v_count + v_nuevas > cap THEN
++        DELETE FROM public.panel_intentos
++         WHERE clave IN (SELECT clave FROM public.panel_intentos
++                          ORDER BY ultimo ASC
++                          LIMIT (v_count + v_nuevas - cap));
++    END IF;
++
++    -- (4) Admitido: CONTAR YA (contar-al-admitir es lo que acota el rebaño;
++    -- `acierto` — un DELETE por REST — es la devolución del provisional). El
++    -- incremento es SIEMPRE upsert, que además SIEMBRA la clave fresca: ya no
++    -- hace falta una siembra-antes-del-FOR-UPDATE aparte (la de S-C3), porque
++    -- el advisory lock global serializa las llamadas — la ráfaga contra una
++    -- clave nueva no puede ver «ausente» N veces, entra de una en una. Y sigue
++    -- cubriendo S6-M2: un `acierto` concurrente (DELETE fuera del lock) que
++    -- borre la fila entre el check y aquí no deja la admisión sin contar — el
++    -- upsert la recrea con fallos=1, que es la verdad (ese fallo es POSTERIOR
++    -- al acierto que limpió).
++    INSERT INTO public.panel_intentos (clave, fallos, ultimo)
++        SELECT t.c, 1, v_ahora FROM unnest(claves) AS t(c) ORDER BY t.c
++        ON CONFLICT (clave) DO UPDATE
++            SET fallos = public.panel_intentos.fallos + 1,
++                ultimo = EXCLUDED.ultimo;
++    RETURN 0;
++END
++$panel_puerta$;
++
++-- El EXECUTE, nominal (el patrón s277/s299: revocar solo PUBLIC deja puestos
++-- los defaults de Supabase sobre anon/authenticated).
++REVOKE ALL ON FUNCTION public.panel_puerta(text[], int, numeric, numeric, numeric, int)
++    FROM PUBLIC, anon, authenticated;
++GRANT EXECUTE ON FUNCTION public.panel_puerta(text[], int, numeric, numeric, numeric, int)
++    TO service_role;
++
++-- ----------------------------------------------------------------------------
++-- FASE D — `panel_retencion_pasada`: el patrón s299, INSTANCIADO (v9 §6)
++-- ----------------------------------------------------------------------------
++-- No se AMPLÍA `rgpd_retencion_pasada` (su autocontrol afirma EXACTAMENTE 4
++-- tablas, una política por tabla y el predicado de 24 meses; su recibo lleva
++-- UN corte — es un contrato vivo endurecido por su propio dúo): se instancia
++-- el patrón en una hermana pequeña con SU ventana y SU recibo. Mismas tres
++-- piezas: corre como `rgpd_retencion` con el cinturón de current_user, aserta
++-- SU mecanismo antes de tocar nada, y deja recibo en `rgpd_recibos` en la
++-- misma transacción.
++CREATE OR REPLACE FUNCTION public.panel_retencion_pasada(p_origen TEXT)
++RETURNS JSONB
++LANGUAGE plpgsql
++SET role = rgpd_retencion
++SET search_path = public, pg_temp
++AS $panel_pasada$
++DECLARE
++    -- INFORMATIVO (va al recibo). La ventana REAL la impone la política; esta
++    -- expresión es la MISMA para que el recibo no mienta — si divergieran,
++    -- manda la política (doctrina s299).
++    v_corte  TIMESTAMPTZ := now() - interval '24 hours';
++    v_conteo INTEGER;
++BEGIN
++    -- El cinturón del tirante: si el SET role del encabezado desapareciera,
++    -- esto corta ANTES de tocar nada.
++    IF current_user <> 'rgpd_retencion' THEN
++        RAISE EXCEPTION 'panel_retencion: la pasada debe correr como '
++                        'rgpd_retencion y corre como %. Abortado sin tocar nada.',
++                        current_user;
++    END IF;
++
++    -- La ventana, ARMADA (el autocontrol del patrón s299, para ESTA tabla):
++    -- RLS forzada + exactamente UNA política alcanza al rol + su predicado
++    -- nombra `ultimo` y contiene la forma canónica '24:00:00'. ALCANCE HONESTO
++    -- (ronda de verificación, S3-M3): es un tirante anti-sabotaje BEST-EFFORT
++    -- —caza el DISABLE de RLS, la política ausente, y una segunda política
++    -- permisiva— NO una verificación SEMÁNTICA exacta de la ventana: una
++    -- política reescrita a mano a `now() - (interval '24 hours' + interval
++    -- '1 hour')` contendría '24:00:00' y pasaría. Verificar el intervalo
++    -- exacto desde el texto de `pg_qual` sería más frágil que lo que compra;
++    -- la defensa REAL es que el DELETE no lleva WHERE y la ventana la impone
++    -- la política, con este tirante cazando las alteraciones groseras.
++    IF NOT EXISTS (
++           SELECT 1 FROM pg_class c
++            WHERE c.oid = to_regclass('public.panel_intentos')
++              AND c.relrowsecurity AND c.relforcerowsecurity
++       )
++       OR (SELECT count(*) FROM pg_policies p
++            WHERE p.schemaname = 'public' AND p.tablename = 'panel_intentos'
++              AND ('rgpd_retencion' = ANY(p.roles) OR 'public' = ANY(p.roles))) <> 1
++       OR NOT EXISTS (
++           SELECT 1 FROM pg_policies p
++            WHERE p.schemaname = 'public' AND p.tablename = 'panel_intentos'
++              AND p.policyname = 'rgpd_retencion_ventana'
++              AND 'rgpd_retencion' = ANY(p.roles)
++              AND p.qual LIKE '%ultimo%'
++              -- '24:00:00' es la forma CANÓNICA con la que Postgres almacena el
++              -- `interval '24 hours'` que crea ESTA migración (verificado en el
++              -- gate pg). El tirante se ancla a esa forma exacta a propósito
++              -- (ronda de verificación, S2-M2): aceptar también '1 day' —como
++              -- probó F-m2— era LAXO ('1 day' matchea '1 day 01:00:00', que NO
++              -- es equivalente), y `interval '24 hours'` nunca se almacena como
++              -- '1 day'. Que una política reescrita a mano con otra forma
++              -- aborte la pasada es CORRECTO: es justo la alteración no
++              -- autorizada que este autocontrol existe para cazar.
++              AND p.qual LIKE '%24:00:00%'
++       ) THEN
++        RAISE EXCEPTION 'panel_retencion: la ventana NO esta armada en '
++                        'panel_intentos (RLS deshabilitada, politica ausente o '
++                        'alterada, o una politica EXTRA alcanza al rol). '
++                        'Pasada abortada sin tocar nada.';
++    END IF;
++
++    -- El DELETE no lleva `ultimo < corte` A PROPÓSITO (doctrina s299): la
++    -- ventana la impone la POLICY del rol — una sola fuente. Una fila dentro
++    -- de plazo es intocable para este rol aunque este SQL tuviera un bug.
++    DELETE FROM public.panel_intentos;
++    GET DIAGNOSTICS v_conteo = ROW_COUNT;
++
++    -- El recibo, en la MISMA transacción: toda fila persistida = pasada
++    -- confirmada. Distinguible por su `resultado` (una sola clave,
++    -- panel_intentos) — no toca el CHECK ni el contrato de la de 24 meses.
++    INSERT INTO public.rgpd_recibos (origen, corte, resultado)
++    VALUES (p_origen, v_corte,
++            jsonb_build_object('panel_intentos',
++                               jsonb_build_object('modo', 'purga_ventana_24h',
++                                                  'tocadas', v_conteo)));
++
++    RETURN jsonb_build_object('corte', to_jsonb(v_corte), 'origen', p_origen,
++                              'panel_intentos', v_conteo);
++END
++$panel_pasada$;
++
++-- REVOKE NOMINAL (ronda S4-M3/F4-M1 — la clase que s296→s299 sufrió VIVA en
++-- producción: los defaults de Supabase conceden EXECUTE sobre toda función
++-- nueva de `public`, y revocar solo PUBLIC los deja puestos). Solo el
++-- operador (y el reloj, cuyo username puede asumir el rol) la ejecutan.
++REVOKE ALL ON FUNCTION public.panel_retencion_pasada(TEXT)
++    FROM PUBLIC, anon, authenticated, service_role;
++
++-- ----------------------------------------------------------------------------
++-- FASE E — EL RELOJ: diario (v9 §6, ronda S5-M1 — con red mensual una fila
++-- escrita tras la pasada vivía ~31 días y «24 h» sobre-prometía). Condicional:
++-- pg_cron no existe en el contenedor de CI (mismo gap declarado que la s299).
++-- `cron.schedule` con el mismo jobname ACTUALIZA, no duplica.
++-- ----------------------------------------------------------------------------
++DO $s324j_reloj$
++BEGIN
++    IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
++        PERFORM cron.schedule(
++            'panel-retencion-diaria',
++            '45 4 * * *',
++            $$SELECT public.panel_retencion_pasada('cron');$$
++        );
++    ELSE
++        RAISE WARNING '019: pg_cron no disponible — el reloj diario NO queda '
++                      'programado (esperado en CI; en Supabase debe quedar).';
++    END IF;
++END
++$s324j_reloj$;
++
++-- ----------------------------------------------------------------------------
++-- FASE F — POSTCONDICIONES (si alguna falla, el aplicador transaccional
++-- revierte el fichero ENTERO — ese es el contrato de aplicación)
++-- ----------------------------------------------------------------------------
++DO $s324j_post$
++DECLARE
++    v_malo TEXT;
++BEGIN
++    -- F.1 RLS + FORCE en las dos tablas.
++    SELECT string_agg(t.tabla, ', ') INTO v_malo
++      FROM unnest(ARRAY['panel_usuarios', 'panel_intentos']) AS t(tabla)
++     WHERE NOT EXISTS (
++               SELECT 1 FROM pg_class c
++                WHERE c.oid = to_regclass(format('public.%I', t.tabla))
++                  AND c.relrowsecurity AND c.relforcerowsecurity
++           );
++    IF v_malo IS NOT NULL THEN
++        RAISE EXCEPTION '019: RLS/FORCE ausente en: %', v_malo;
++    END IF;
++
++    -- F.2 anon/authenticated sin NINGÚN privilegio sobre las tablas nuevas.
++    IF EXISTS (
++        SELECT 1 FROM information_schema.role_table_grants g
++         WHERE g.table_schema = 'public'
++           AND g.table_name IN ('panel_usuarios', 'panel_intentos')
++           AND g.grantee IN ('anon', 'authenticated')
++    ) OR EXISTS (
++        SELECT 1 FROM information_schema.column_privileges c
++         WHERE c.table_schema = 'public'
++           AND c.table_name IN ('panel_usuarios', 'panel_intentos')
++           AND c.grantee IN ('anon', 'authenticated')
++    ) THEN
++        RAISE EXCEPTION '019: anon/authenticated conservan privilegios sobre '
++                        'las tablas del panel — el REVOKE no surtió efecto';
++    END IF;
++
++    -- F.3 service_role NO puede ejecutar la pasada de retención, y anon/
++    -- authenticated no pueden ejecutar NINGUNA de las dos funciones.
++    IF has_function_privilege('service_role',
++           'public.panel_retencion_pasada(text)', 'EXECUTE')
++       OR has_function_privilege('anon',
++           'public.panel_retencion_pasada(text)', 'EXECUTE')
++       OR has_function_privilege('authenticated',
++           'public.panel_retencion_pasada(text)', 'EXECUTE')
++       OR has_function_privilege('anon',
++           'public.panel_puerta(text[], int, numeric, numeric, numeric, int)',
++           'EXECUTE')
++       OR has_function_privilege('authenticated',
++           'public.panel_puerta(text[], int, numeric, numeric, numeric, int)',
++           'EXECUTE') THEN
++        RAISE EXCEPTION '019: el EXECUTE de las funciones del panel quedó '
++                        'abierto a un rol que no debe tenerlo (defaults de '
++                        'Supabase — el agujero de s296)';
++    END IF;
++    IF NOT has_function_privilege('service_role',
++           'public.panel_puerta(text[], int, numeric, numeric, numeric, int)',
++           'EXECUTE') THEN
++        RAISE EXCEPTION '019: service_role NO puede ejecutar panel_puerta — '
++                        'el cerrojo distribuido quedaría muerto';
++    END IF;
++
++    -- F.4 La ventana de retención, armada (misma aserción que ejecuta la
++    -- pasada — verificada también aquí para que la migración no quede en
++    -- verde con la política torcida).
++    IF (SELECT count(*) FROM pg_policies p
++         WHERE p.schemaname = 'public' AND p.tablename = 'panel_intentos') <> 1
++       OR NOT EXISTS (
++           SELECT 1 FROM pg_policies p
++            WHERE p.schemaname = 'public' AND p.tablename = 'panel_intentos'
++              AND p.policyname = 'rgpd_retencion_ventana'
++              AND 'rgpd_retencion' = ANY(p.roles)
++              AND p.qual LIKE '%ultimo%'
++              AND p.qual LIKE '%24:00:00%'   -- forma canónica exacta (S2-M2)
++       ) THEN
++        RAISE EXCEPTION '019: la POLICY de ventana de panel_intentos no quedó '
++                        'como se declaró';
++    END IF;
++
++    -- F.5 El reloj: si pg_cron está disponible, el job DEBE existir ACTIVO,
++    -- con comando y horario exactos y un username que PUEDE asumir el rol
++    -- (el patrón 4.4 de la s299 — imposible el «migración en verde sin
++    -- programar nada» y el «job programado que fallará cada día»).
++    IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
++        IF NOT EXISTS (
++            SELECT 1 FROM cron.job j
++             WHERE j.jobname = 'panel-retencion-diaria'
++               AND j.command LIKE '%panel_retencion_pasada%'
++               AND j.schedule = '45 4 * * *'
++               AND j.active
++               AND (
++                   EXISTS (SELECT 1 FROM pg_roles r
++                            WHERE r.rolname = j.username AND r.rolsuper)
++                   OR EXISTS (
++                       SELECT 1 FROM pg_auth_members m
++                         JOIN pg_roles objetivo ON objetivo.oid = m.roleid
++                         JOIN pg_roles miembro  ON miembro.oid  = m.member
++                        WHERE objetivo.rolname = 'rgpd_retencion'
++                          AND miembro.rolname = j.username
++                          AND m.set_option
++                   )
++               )
++        ) THEN
++            RAISE EXCEPTION '019: el reloj diario no existe, esta inactivo, '
++                            'cambio de horario/comando, o su username no puede '
++                            'asumir rgpd_retencion';
++        END IF;
++    END IF;
++END
++$s324j_post$;
++
++-- ----------------------------------------------------------------------------
++-- FASE G — EXPONER EN LA API (la FASE D de la 016, que nació de DOS incidentes
++-- reales: las tablas existían y PostgREST devolvía 404 desde su caché — y aquí
++-- además hay funciones nuevas que el caché tiene que redescubrir). Idempotente.
++-- ----------------------------------------------------------------------------
++NOTIFY pgrst, 'reload schema';
+diff --git a/migrations/020_invitaciones_op.sql b/migrations/020_invitaciones_op.sql
+new file mode 100644
+index 0000000..151d6c5
+--- /dev/null
++++ b/migrations/020_invitaciones_op.sql
+@@ -0,0 +1,120 @@
++-- ============================================================================
++-- 020 — `bot_invitaciones.op` (idempotencia por OPERACIÓN) + `revocada_por`
++--       (la firma de la anulación, de raíz). s324j; diseño:
++--       `evals/s324i_panel_vercel_propuesta_v9.md` §4.2-§4.3 (DEC-239).
++--
++-- ⚠️ CONTRATO DE APLICACIÓN (v9 §13, lección de la 016): este fichero se
++--    aplica ENTERO con un aplicador transaccional — el SQL Editor de Supabase
++--    o `psql --single-transaction` — nunca sentencia a sentencia. NO lleva
++--    BEGIN/COMMIT propios a propósito (los dos fallos reales de la 016).
++--
++-- POR QUÉ EXISTE CADA PIEZA:
++--   · `op`: el F5 sobre «Generar enlace» reenviaba el formulario y emitía una
++--     credencial de más. La clave identifica LA OPERACIÓN (el formulario
++--     pintado), no su contenido — un reintento choca con el UNIQUE y no crea
++--     nada; una segunda emisión intencional trae un op nuevo y sí.
++--   · `revocada_por`: anular una invitación estaba ROTA contra Supabase real
++--     (hallazgo S-C1 del dúo, DEC-239): r41 firmaba la anulación en `nota` y
++--     la 016 nunca concedió `UPDATE (nota)` — el PATCH entero moría con 42501,
++--     invisible para los tests sin red. El cierre NO es conceder la nota (el
++--     parche perpetuado): es la columna que faltaba, con el CHECK del patrón
++--     `bot_allowlist_revocacion_completa` y el backfill que lo hace posible.
++--
++-- REVERSIBILIDAD: `ALTER TABLE public.bot_invitaciones DROP CONSTRAINT
++-- bot_invitaciones_revocacion_completa, DROP COLUMN op, DROP COLUMN
++-- revocada_por;` (los GRANT por columna caen con las columnas).
++-- ============================================================================
++
++-- ----------------------------------------------------------------------------
++-- FASE A — `op`: NOT NULL también para las filas nuevas (v9 §4.2, ronda S2-M6:
++-- un UNIQUE nullable admite infinitos NULL y no obliga a nadie). El DEFAULT es
++-- lo que permite el NOT NULL sin romper a NADIE: un default VOLÁTIL se evalúa
++-- POR FILA en el ADD COLUMN — cada fila histórica recibe un valor distinto y
++-- el UNIQUE no choca; y el CLI, que no envía `op`, queda cubierto con la
++-- semántica correcta (cada invocación del CLI ES una operación distinta).
++-- ----------------------------------------------------------------------------
++ALTER TABLE public.bot_invitaciones
++    ADD COLUMN op TEXT NOT NULL UNIQUE DEFAULT gen_random_uuid()::text
++    CHECK (char_length(op) BETWEEN 8 AND 64);
++
++COMMENT ON COLUMN public.bot_invitaciones.op IS
++    'Token de OPERACIÓN (s324j/DEC-239): identifica el formulario pintado, no '
++    'el contenido. El F5 reenvía el mismo op → UNIQUE → «ya emitiste», sin '
++    'segunda credencial. Ruido aleatorio, sin dato personal.';
++
++-- ----------------------------------------------------------------------------
++-- FASE B — `revocada_por`: columna + backfill + CHECK estricto
++-- ----------------------------------------------------------------------------
++ALTER TABLE public.bot_invitaciones ADD COLUMN revocada_por TEXT;
++
++-- El backfill hace posible el CHECK estricto sobre las filas YA anuladas: no
++-- se inventa un autor (sería falsificar la historia), se declara que es
++-- anterior a la columna.
++UPDATE public.bot_invitaciones
++   SET revocada_por = '(anterior a la 020)'
++ WHERE revocada_at IS NOT NULL;
++
++-- El patrón LITERAL de `bot_allowlist_revocacion_completa` (016): fecha y
++-- firma van JUNTAS o no van — una anulación sin autor no puede existir.
++ALTER TABLE public.bot_invitaciones
++    ADD CONSTRAINT bot_invitaciones_revocacion_completa CHECK (
++        (revocada_at IS NULL AND revocada_por IS NULL)
++        OR (revocada_at IS NOT NULL AND revocada_por IS NOT NULL)
++    );
++
++COMMENT ON COLUMN public.bot_invitaciones.revocada_por IS
++    'Quién anuló (s324j/DEC-239): panel:<usuario> o cli:<quien>. La columna '
++    'que r41 supló firmando en la nota — aquello mezclaba auditoría con texto '
++    'humano y estaba roto (la 016 no concedía UPDATE(nota) → 42501).';
++
++-- Lo que NO se añade, con motivo (v9 §4.3): un CHECK que prohíba canjeada_at
++-- y revocada_at simultáneos. Con los DOS escritores condicionales (panel y
++-- CLI patchean con revocada_at=is.null&canjeada_at=is.null) ese estado ya no
++-- es producible, y el CHECK exigiría reescribir la historia si alguna fila
++-- legada lo tiene — los CHECK nuevos afirman lo que los escritores garantizan
++-- de aquí en adelante, no falsifican lo que pasó.
++
++-- ----------------------------------------------------------------------------
++-- FASE C — GRANT por columnas, ADITIVOS a los de la 016
++-- ----------------------------------------------------------------------------
++GRANT INSERT (op) ON public.bot_invitaciones TO service_role;
++GRANT UPDATE (revocada_por) ON public.bot_invitaciones TO service_role;
++
++-- ----------------------------------------------------------------------------
++-- FASE D — POSTCONDICIONES (falla ⇒ el aplicador transaccional revierte todo)
++-- ----------------------------------------------------------------------------
++DO $s324j_020_post$
++BEGIN
++    -- D.1 Ninguna fila sin op, ninguna duplicada (el default volátil por fila).
++    IF EXISTS (SELECT 1 FROM public.bot_invitaciones WHERE op IS NULL)
++       OR EXISTS (SELECT op FROM public.bot_invitaciones
++                   GROUP BY op HAVING count(*) > 1) THEN
++        RAISE EXCEPTION '020: el backfill de op dejo NULLs o duplicados';
++    END IF;
++    -- D.2 Coherencia de la revocación en TODAS las filas (el CHECK ya la
++    -- impone; esto verifica que el backfill no dejó ninguna fuera antes del
++    -- ADD CONSTRAINT — cinturón sobre tirantes, gratis).
++    IF EXISTS (
++        SELECT 1 FROM public.bot_invitaciones
++         WHERE (revocada_at IS NULL) <> (revocada_por IS NULL)
++    ) THEN
++        RAISE EXCEPTION '020: filas con revocada_at/revocada_por incoherentes';
++    END IF;
++    -- D.3 anon/authenticated siguen sin privilegios sobre la tabla (los GRANT
++    -- aditivos no pueden haberles abierto nada).
++    IF EXISTS (
++        SELECT 1 FROM information_schema.column_privileges c
++         WHERE c.table_schema = 'public' AND c.table_name = 'bot_invitaciones'
++           AND c.grantee IN ('anon', 'authenticated')
++    ) THEN
++        RAISE EXCEPTION '020: anon/authenticated tienen privilegios de columna '
++                        'sobre bot_invitaciones';
++    END IF;
++END
++$s324j_020_post$;
++
++-- ----------------------------------------------------------------------------
++-- FASE E — EXPONER EN LA API (la lección de la FASE D de la 016: PostgREST
++-- cachea el esquema y las columnas nuevas devolverían error hasta el reload).
++-- ----------------------------------------------------------------------------
++NOTIFY pgrst, 'reload schema';
+diff --git a/scripts/s324e_invitaciones.py b/scripts/s324e_invitaciones.py
+index 34f4e5d..60b11a7 100644
+--- a/scripts/s324e_invitaciones.py
++++ b/scripts/s324e_invitaciones.py
+@@ -374,11 +374,26 @@ def cmd_revocar_invitacion(args) -> int:
+         print("Para quitarlo: `revocar-acceso <telegram_user_id>` "
+               "(el id sale en `listar --todas`).")
+         return 2
+-    _pedir("PATCH", "bot_invitaciones",
+-           params={"id": f"eq.{invitacion['id']}"},
+-           json={"revocada_at": _iso(_ahora())})
++    # (s324j, hallazgo S3-M2 del duo) El PATCH es CONDICIONAL, como el del
++    # panel: la comprobacion de arriba es cortesia de mensaje, no el control —
++    # entre la lectura y la escritura alguien puede canjear, y un PATCH a secas
++    # marcaria revocada una invitacion YA canjeada e imprimiria «anulada»
++    # mintiendo (el acceso quedo concedido). Con las condiciones EN el PATCH,
++    # 0 filas afectadas = lo perdiste, y se dice. La anulacion ademas se FIRMA
++    # en `revocada_por` (migracion 020; el CHECK exige fecha y firma juntas).
++    filas = _pedir("PATCH", "bot_invitaciones",
++                   params={"id": f"eq.{invitacion['id']}",
++                           "revocada_at": "is.null",
++                           "canjeada_at": "is.null"},
++                   json={"revocada_at": _iso(_ahora()),
++                         "revocada_por": f"cli:{_operador(args.por)}"})
++    if not filas:
++        print("NO se ha anulado: alguien la canjeo o la anulo mientras "
++              "mirabas. Vuelve a listar antes de actuar.")
++        return 2
+     print(f"Invitacion anulada: {invitacion['id']} "
+-          f"- {invitacion.get('nota') or '(sin nota)'}")
++          f"- {invitacion.get('nota') or '(sin nota)'} "
++          f"(por cli:{_operador(args.por)})")
+     return 0
+ 
+ 
+@@ -486,6 +501,7 @@ def construir_parser() -> argparse.ArgumentParser:
+     rev_inv = sub.add_parser("revocar-invitacion",
+                              help="anula una invitacion pendiente")
+     rev_inv.add_argument("id", help="id o prefijo del id (el de `listar`)")
++    rev_inv.add_argument("--por", default=None, help="quien la anula")
+     rev_inv.set_defaults(funcion=cmd_revocar_invitacion)
+ 
+     rev_acc = sub.add_parser("revocar-acceso", help="quita el acceso a alguien")
+diff --git a/scripts/s324j_panel_usuario.py b/scripts/s324j_panel_usuario.py
+new file mode 100644
+index 0000000..c4a4314
+--- /dev/null
++++ b/scripts/s324j_panel_usuario.py
+@@ -0,0 +1,188 @@
++# -*- coding: utf-8 -*-
++"""s324j — Alta y revocacion de usuarios del PANEL (`panel_usuarios`, 019).
++
++    python -m scripts.s324j_panel_usuario alta alberto
++    python -m scripts.s324j_panel_usuario alta alberto --registro 'scrypt$...'
++    python -m scripts.s324j_panel_usuario revocar alberto --por alberto
++
++El panel LEE usuarios y no los gestiona (alcance v1 del diseño, v9 §1.1): el
++alta y la revocacion son operaciones de operador, con la service key, desde
++este script — el mismo patron que el CLI de invitaciones. Diseño completo:
++`evals/s324i_panel_vercel_propuesta_v9.md` (DEC-239).
++
++LO QUE ESTE SCRIPT GARANTIZA antes de escribir una fila (v9 §1.1, puerta 11):
++
++1. El nombre pasa el charset de `panel_usuarios` (`auth.usuario_admisible`) —
++   un nombre que la tabla no puede contener no llega a la base.
++2. El registro es ESTRICTAMENTE canonico (`auth.validar_registro_estricto`):
++   sal de 16, hash de 32, solo `n,r,p`. `_partir` a secas tolera sal/hash de
++   1 byte, y ese registro seria LEGIBLE y jamas verificaria — un usuario
++   inalcanzable (hallazgos S3-M3/S4-M2 del duo).
++3. El par registro↔contraseña VERIFICA (challenge): se pide la contraseña y se
++   corre `auth.verificar` ANTES del INSERT. En el camino normal (el script
++   deriva el registro de la contraseña tecleada) es cierto por construccion;
++   en el camino `--registro` (pegado) es el control que falta — un hash de 32
++   bytes ajeno a la contraseña pasa la forma y no verificaria nunca.
++
++La contraseña en claro no se escribe en ningun sitio (ni argumento, ni
++fichero): se pide por `getpass`, como en `s324f_dashboard_password`.
++
++TRANSPORTE: `Prefer: return=minimal` SIEMPRE (v9 §13, hallazgo S6-M3): el
++`return=representation` por defecto del CLI exigiria SELECT sobre columnas de
++auditoria que la 019 no concede, y el INSERT valido moriria en el RETURNING.
++"""
++from __future__ import annotations
++
++import argparse
++import getpass
++import sys
++from datetime import datetime, timezone
++from pathlib import Path
++
++import httpx
++
++sys.path.insert(0, str(Path(__file__).parent.parent))
++
++from dashboard import auth                                       # noqa: E402
++from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL        # noqa: E402
++
++_TIMEOUT = 15.0
++
++
++def _cabeceras(representar: bool) -> dict:
++    # `return=minimal` por defecto (v9, S6-M3): la 019 concede SELECT solo
++    # sobre (usuario, registro, activo) y un RETURNING de columnas de
++    # auditoria tumbaria la escritura valida. Cuando hace falta contar filas
++    # tocadas se pide representation de UNA columna concedida via `select=`.
++    return {
++        "apikey": SUPABASE_SERVICE_KEY,
++        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
++        "Content-Type": "application/json",
++        "Prefer": "return=representation" if representar else "return=minimal",
++    }
++
++
++def _pedir(metodo: str, *, params: dict | None = None,
++           json: dict | None = None, representar: bool = False) -> httpx.Response:
++    if not (SUPABASE_URL and SUPABASE_SERVICE_KEY):
++        raise SystemExit("Faltan SUPABASE_URL / SUPABASE_SERVICE_KEY en el entorno.")
++    with httpx.Client(timeout=_TIMEOUT) as cliente:
++        return cliente.request(
++            metodo, f"{SUPABASE_URL}/rest/v1/panel_usuarios",
++            headers=_cabeceras(representar), params=params, json=json,
++        )
++
++
++def _operador(explicito: str | None) -> str:
++    if explicito and explicito.strip():
++        return explicito.strip()
++    return getpass.getuser() or "operador"
++
++
++def cmd_alta(args) -> int:
++    usuario = (args.usuario or "").strip().lower()
++    if not auth.usuario_admisible(usuario):
++        print(f"El usuario {args.usuario!r} no pasa el charset del panel "
++              f"(minusculas, digitos y ._@-, maximo 64). La tabla lo "
++              f"rechazaria igual: su CHECK es el mismo regex.")
++        return 2
++
++    if args.registro:
++        registro = args.registro.strip()
++        contrasena = getpass.getpass(
++            "Contraseña de ese registro (challenge, no se guarda): ")
++    else:
++        contrasena = getpass.getpass(f"Contraseña para {usuario!r}: ")
++        repetida = getpass.getpass("Otra vez: ")
++        if contrasena != repetida:
++            print("No coinciden. Nada escrito.")
++            return 2
++        if len(contrasena) < 12:
++            print("Demasiado corta (minimo 12; tres palabras al azar valen).")
++            return 2
++        registro = auth.hash_contrasena(contrasena)
++
++    # Puerta 11: estricto, no solo legible.
++    try:
++        auth.validar_registro_estricto(registro)
++    except auth.RegistroInvalido as exc:
++        print(f"Registro RECHAZADO ({exc}). Nada escrito.")
++        return 2
++    # Challenge (v9 §1.1): el par registro↔contraseña VERIFICA antes del alta.
++    if not auth.verificar(contrasena, registro):
++        print("La contraseña NO verifica contra ese registro. Nada escrito: "
++              "un alta asi seria un usuario que jamas podria entrar.")
++        return 2
++
++    resp = _pedir("POST", json={
++        "usuario": usuario,
++        "registro": registro,
++        "activo": True,
++        "alta_por": _operador(args.por),
++    })
++    if resp.status_code >= 400:
++        print(f"Supabase respondio {resp.status_code}: {resp.text[:300]}")
++        print("¿Falta aplicar migrations/019_panel_usuarios_cerrojo.sql, o el "
++              "usuario ya existe?")
++        return 1
++    print(f"Alta de {usuario!r} hecha (por {_operador(args.por)}). "
++          f"Puede entrar en el panel desde YA.")
++    return 0
++
++
++def cmd_revocar(args) -> int:
++    usuario = (args.usuario or "").strip().lower()
++    ahora = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
++    # El CHECK `panel_usuarios_revocacion_coherente` exige los TRES campos
++    # juntos: desactivar sin autor/fecha no puede existir (v9 §1.1, S2-M5).
++    # El PATCH es condicional (`activo=is.true`): revocar dos veces no inventa
++    # un exito. Para saber cuantas filas toco se pide representation de UNA
++    # columna CONCEDIDA (`usuario` esta en el GRANT SELECT de la 019) — la
++    # regla de S6-M3 al derecho: representation implica lectura de lo devuelto,
++    # asi que se devuelve solo lo legible.
++    resp = _pedir("PATCH",
++                  params={"usuario": f"eq.{usuario}", "activo": "is.true",
++                          "select": "usuario"},
++                  json={"activo": False,
++                        "revocado_en": ahora,
++                        "revocado_por": _operador(args.por)},
++                  representar=True)
++    if resp.status_code >= 400:
++        print(f"Supabase respondio {resp.status_code}: {resp.text[:300]}")
++        return 1
++    filas = resp.json() if resp.content else []
++    if not filas:
++        print(f"{usuario!r} no estaba activo (no existe o ya revocado). "
++              f"Nada que hacer.")
++        return 2
++    print(f"{usuario!r} revocado (por {_operador(args.por)}). Su siguiente "
++          f"peticion al panel lo expulsa — el sello deja de casar.")
++    return 0
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser(
++        prog="python -m scripts.s324j_panel_usuario",
++        description="Alta y revocacion de usuarios del panel (panel_usuarios).",
++    )
++    sub = parser.add_subparsers(dest="orden", required=True)
++
++    alta = sub.add_parser("alta", help="da de alta un usuario del panel")
++    alta.add_argument("usuario", help="nombre de entrada (charset del panel)")
++    alta.add_argument("--registro", default=None,
++                      help="registro scrypt YA generado (p. ej. por "
++                           "s324f_dashboard_password); se exige el challenge")
++    alta.add_argument("--por", default=None, help="quien da el alta")
++    alta.set_defaults(funcion=cmd_alta)
++
++    rev = sub.add_parser("revocar", help="revoca un usuario del panel")
++    rev.add_argument("usuario")
++    rev.add_argument("--por", default=None, help="quien revoca")
++    rev.set_defaults(funcion=cmd_revocar)
++
++    args = parser.parse_args(argv)
++    return args.funcion(args)
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/tests/test_s324f_dashboard_auth.py b/tests/test_s324f_dashboard_auth.py
+index 0e5a23a..b2d7fe9 100644
+--- a/tests/test_s324f_dashboard_auth.py
++++ b/tests/test_s324f_dashboard_auth.py
+@@ -110,19 +110,31 @@ def test_backend_de_entorno(monkeypatch):
+     registro = auth.hash_contrasena("la buena", **BARATO)
+     monkeypatch.setenv(auth.VARIABLE_USUARIOS, f"alberto:{registro}")
+     backend = auth.BackendEntorno()
+-    assert backend.autenticar("alberto", "la buena") == auth.Usuario("alberto")
+-    assert backend.autenticar("ALBERTO", "la buena") == auth.Usuario("alberto")
++    # (s324j) `Usuario` lleva ahora el sello de su credencial — derivado del
++    # registro, así que se conoce de antemano y la igualdad sigue siendo exacta.
++    esperado = auth.Usuario("alberto", sello=auth.sello_de_registro(registro))
++    assert backend.autenticar("alberto", "la buena") == esperado
++    assert backend.autenticar("ALBERTO", "la buena") == esperado
+     assert backend.autenticar("alberto", "la mala") is None
+     assert backend.autenticar("nadie", "la buena") is None
++    # Y la revalidación por petición, con la misma fuente:
++    assert backend.sello("alberto") == esperado.sello
++    assert backend.sello("nadie") is None
+ 
+ 
+ def test_el_backend_se_puede_sustituir():
+     """DEC-231 §3: el día que sepamos qué es el login del war room, se cambia
+-    esto y no se toca ni una ruta."""
++    esto y no se toca ni una ruta. (s324j: el contrato pide también `sello` —
++    un backend sin revalidación por petición ya no es un backend del panel.)"""
+ 
+     class Guerra:
+         def autenticar(self, usuario, contrasena):
+-            return auth.Usuario("del-war-room") if contrasena == "sso" else None
++            if contrasena == "sso":
++                return auth.Usuario("del-war-room", sello="sello-sso")
++            return None
++
++        def sello(self, nombre):
++            return "sello-sso" if nombre == "del-war-room" else None
+ 
+     anterior = auth.usar_backend(Guerra())
+     try:
+diff --git a/tests/test_s324f_dashboard_rutas.py b/tests/test_s324f_dashboard_rutas.py
+index 01ac2ef..7d886ac 100644
+--- a/tests/test_s324f_dashboard_rutas.py
++++ b/tests/test_s324f_dashboard_rutas.py
+@@ -26,12 +26,30 @@ from dataclasses import dataclass
+ import pytest
+ 
+ from dashboard import app as panel
+-from dashboard import auth, datos, gestion, sesion
++from dashboard import auth, cerrojo, datos, gestion, sesion
+ 
+ SECRETO = "secreto-de-pruebas-con-longitud-mas-que-suficiente"
+ CLAVE_SERVICIO = "CLAVE-DE-SERVICIO-QUE-NO-DEBE-SALIR-JAMAS"
+ ANFITRION = "panel.pruebas"
+ 
++#: (s324j) Los sellos del backend doble: la puerta revalida `h` contra
++#: `backend.sello(u)` en CADA petición protegida (v9 §2), así que toda sesión
++#: de estos tests necesita un backend que responda por su usuario.
++SELLOS = {"alberto": "sello-alberto-v1", "otro": "sello-otro-v1"}
++
++
++class BackendDoble:
++    """La interfaz enchufable completa (autenticar + sello), de mentira."""
++
++    def autenticar(self, usuario, contrasena):
++        clave = usuario.strip().lower()
++        if clave == "alberto" and contrasena == "correcta":
++            return auth.Usuario(nombre="alberto", sello=SELLOS["alberto"])
++        return None
++
++    def sello(self, nombre):
++        return SELLOS.get((nombre or "").strip().lower())
++
+ 
+ # --------------------------------------------------------------- cliente ASGI
+ 
+@@ -197,8 +215,10 @@ def _leer_doble(recurso, params):
+ 
+ @pytest.fixture(autouse=True)
+ def entorno(monkeypatch):
+-    """Todo el mundo con el mismo suelo: secreto puesto, Supabase fingido, y la
+-    clave de servicio con un valor CENTINELA que ninguna respuesta puede tener."""
++    """Todo el mundo con el mismo suelo: secreto puesto, Supabase fingido, la
++    clave de servicio con un valor CENTINELA que ninguna respuesta puede tener,
++    y (s324j) el backend DOBLE enchufado — la revalidación por sello corre en
++    cada petición protegida y necesita quien responda."""
+     monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
+     monkeypatch.setenv("TELEGRAM_BOT_USERNAME", "PCI_Soporte_tecnico_bot")
+     monkeypatch.setattr(datos, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)
+@@ -206,34 +226,29 @@ def entorno(monkeypatch):
+     monkeypatch.setattr(gestion, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)
+     monkeypatch.setattr(gestion, "SUPABASE_URL", "https://proyecto.supabase.co")
+     monkeypatch.setattr(datos, "leer", _leer_doble)
+-    panel._cerrojo.reiniciar()
++    backend_anterior = auth.usar_backend(BackendDoble())
++    cerrojo.activo().reiniciar()
+     yield
+-    panel._cerrojo.reiniciar()
++    auth.usar_backend(backend_anterior)
++    cerrojo.activo().reiniciar()
+ 
+ 
+ @pytest.fixture
+-def usuario(monkeypatch):
+-    """Un backend de autenticación de mentira: la interfaz enchufable de
+-    DEC-231 §3 usada para lo que existe — sustituir el backend sin tocar rutas."""
+-
+-    class Doble:
+-        def autenticar(self, usuario, contrasena):
+-            if usuario.strip().lower() == "alberto" and contrasena == "correcta":
+-                return auth.Usuario(nombre="alberto")
+-            return None
+-
+-    anterior = auth.usar_backend(Doble())
++def usuario():
++    """El backend doble ya viene enchufado por `entorno`; este fixture queda
++    como MARCA legible de los tests que ejercitan el login con credenciales."""
+     yield
+-    auth.usar_backend(anterior)
+ 
+ 
+ def _sesion_valida(nombre="alberto", **kwargs) -> str:
+     payload = sesion.nueva(nombre, **kwargs)
++    payload["h"] = SELLOS.get(nombre, "sello-desconocido")
+     return sesion.firmar(payload, SECRETO.encode("utf-8"))
+ 
+ 
+ def _con_sesion(nombre="alberto") -> tuple[Cliente, str]:
+     payload = sesion.nueva(nombre)
++    payload["h"] = SELLOS.get(nombre, "sello-desconocido")
+     cookie = sesion.firmar(payload, SECRETO.encode("utf-8"))
+     return Cliente(cookie), payload["csrf"]
+ 
+@@ -420,16 +435,18 @@ def test_invitar_muestra_el_enlace_una_vez_y_nunca_en_la_url(monkeypatch):
+     cliente, csrf = _con_sesion()
+     respuesta = cliente.post("/acceso/invitar",
+                              {"csrf": csrf, "nota": "Ana, DG de Beta",
+-                              "dias": "2"})
++                              "dias": "2", "op": "op-de-prueba-123"})
+     assert respuesta.estado == 200
+     assert "https://t.me/PCI_Soporte_tecnico_bot?start=" in respuesta.texto
+     # El enlace no viaja en una redirección: no hay Location que pueda acabar en
+     # el historial del navegador o en el log de un proxy.
+     assert respuesta.cabecera("location") is None
+-    # Y a la base va la HUELLA, nunca el token.
++    # Y a la base va la HUELLA, nunca el token — más el `op` de la operación
++    # (s324j, v9 §4.2), que es lo que hace al F5 inofensivo.
+     _, tabla, enviado = creada[0]
+     assert tabla == "bot_invitaciones"
+     assert len(enviado["token_hash"]) == 64
++    assert enviado["op"] == "op-de-prueba-123"
+     assert "start=" not in str(enviado)
+ 
+ 
+diff --git a/tests/test_s324j_cerrojo.py b/tests/test_s324j_cerrojo.py
+new file mode 100644
+index 0000000..5a3a36c
+--- /dev/null
++++ b/tests/test_s324j_cerrojo.py
+@@ -0,0 +1,267 @@
++# -*- coding: utf-8 -*-
++"""s324j — El cerrojo contar-al-admitir: el doble en memoria fija la semántica
++y el distribuido se prueba con transportes inyectados, sin red (puertas 4 y 5
++de `evals/s324i_panel_vercel_propuesta_v9.md`; la concurrencia REAL de
++Postgres la ejercita `test_s324j_panel_pg.py` en su contenedor).
++"""
++from __future__ import annotations
++
++import re
++
++import httpx
++import pytest
++
++from dashboard import auth, cerrojo, sesion
++
++SECRETO = "secreto-de-pruebas-con-longitud-mas-que-suficiente"
++
++
++# ------------------------------------------------- admitir, el doble en memoria
++
++
++def test_admitir_reproduce_la_tabla_secuencial_del_cerrojo_de_hoy():
++    """La tabla de casos de la puerta 4 — la MISMA que va como comentario-
++    contrato en el SQL de `panel_puerta`: para intentos uno detrás de otro,
++    contar-al-admitir produce exactamente los mismos bloqueos que el par
++    `bloqueado`+`fallo` de siempre (el intento k ve fallos=k−1)."""
++    c = auth.Cerrojo()
++    claves = ("u:alberto", "ip:1.2.3.4")
++    # Los primeros FALLOS_LIBRES+1 intentos entran (fallos previos 0..4):
++    for _ in range(auth.FALLOS_LIBRES + 1):
++        assert c.admitir(claves, ahora=100.0) == 0.0
++    # El sexto se bloquea, con el primer castigo (base) contado desde `ultimo`:
++    espera = c.admitir(claves, ahora=100.0)
++    assert espera == pytest.approx(auth.BLOQUEO_BASE_S)
++    # ...bloqueado NO incrementa: la espera no crece por reintentar.
++    assert c.admitir(claves, ahora=100.0) == pytest.approx(espera)
++    # Y decae sola:
++    assert c.admitir(claves, ahora=100.0 + auth.BLOQUEO_BASE_S + 1) == 0.0
++
++
++def test_admitir_acota_el_rebanyo_n_llamadas_admiten_como_mucho_libres_mas_uno():
++    """(a) de la puerta 4: N llamadas «concurrentes» (mismo instante, sin
++    acierto entre medias) admiten ≤ FALLOS_LIBRES+1 — la semántica que el
++    umbral prometía y que «comprobar→scrypt→registrar» no daba."""
++    c = auth.Cerrojo()
++    claves = ("u:alberto",)
++    admitidas = sum(1 for _ in range(50) if c.admitir(claves, ahora=5.0) == 0.0)
++    assert admitidas == auth.FALLOS_LIBRES + 1
++
++
++def test_el_acierto_limpia_con_los_fallos_del_atacante_dentro_y_es_heredado():
++    """(c) de la puerta 4 (ronda S-M1): la semántica DOCUMENTADA, afirmada para
++    que nadie la «arregle» sin decidirlo — el login bueno del legítimo limpia
++    la clave `u:` CON los fallos del atacante dentro (auth.py `acierto`, de
++    siempre), y la clave `ip:` del atacante, que es suya, sobrevive."""
++    c = auth.Cerrojo()
++    atacante = ("u:alberto", "ip:6.6.6.6")
++    legitimo = ("u:alberto", "ip:9.9.9.9")
++    for _ in range(3):
++        assert c.admitir(atacante, ahora=10.0) == 0.0
++    assert c.admitir(legitimo, ahora=10.0) == 0.0     # el legítimo entra...
++    c.acierto(legitimo)                               # ...y limpia SUS claves
++    # La clave compartida u: quedó limpia (heredado, documentado):
++    assert c.espera("u:alberto", 10.0) == 0.0
++    # La ip: del atacante conserva sus fallos:
++    assert c._tabla["ip:6.6.6.6"].fallos == 3
++
++
++# --------------------------------------------- las claves que salen a la tabla
++
++
++@pytest.fixture
++def con_secreto(monkeypatch):
++    monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
++
++
++def test_puerta_5_ni_el_usuario_ni_la_ip_salen_en_claro(con_secreto):
++    claves = auth.claves_de("alberto", "203.0.113.9")
++    seudonimas = cerrojo.claves_seudonimas(claves)
++    for clave in seudonimas:
++        assert re.fullmatch(r"^(u|ip):[A-Za-z0-9_-]+$", clave)
++        assert "alberto" not in clave
++        assert "203.0.113.9" not in clave
++
++
++def test_la_mitad_ip_esta_apagada_hasta_medir_xff(con_secreto):
++    """Ronda F5-M1: con la IP compartida del proxy (o '?') y el MAX sobre
++    claves, 5 fallos de un atacante serían un 429 GLOBAL. Hasta fijar la regla
++    de XFF, la clave ip: NI CUENTA NI BLOQUEA."""
++    assert cerrojo.INCLUIR_CLAVE_IP is False
++    seudonimas = cerrojo.claves_seudonimas(auth.claves_de("alberto", "1.2.3.4"))
++    assert len(seudonimas) == 1
++    assert seudonimas[0].startswith("u:")
++
++
++def test_el_seudonimo_es_estable_y_distinto_por_identificador(con_secreto):
++    a1 = cerrojo.claves_seudonimas(("u:alberto",))
++    a2 = cerrojo.claves_seudonimas(("u:alberto",))
++    b = cerrojo.claves_seudonimas(("u:beatriz",))
++    assert a1 == a2
++    assert a1 != b
++
++
++def test_rotar_el_secreto_rota_las_claves(monkeypatch):
++    """El precio del acoplamiento, declarado (ronda F-m3): rotar el secreto de
++    firma huérfana las filas — contadores frescos. Aquí solo se afirma el
++    MECANISMO (K deriva del secreto)."""
++    monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
++    antes = cerrojo.claves_seudonimas(("u:alberto",))
++    monkeypatch.setenv(sesion.VARIABLE_SECRETO, "otro-secreto-largo-largo-largo-x")
++    despues = cerrojo.claves_seudonimas(("u:alberto",))
++    assert antes != despues
++
++
++# ------------------------------------------------- CerrojoSupabase, sin red
++
++
++class _Resp:
++    def __init__(self, status_code, cuerpo="0"):
++        self.status_code = status_code
++        self._cuerpo = cuerpo
++        self.content = cuerpo.encode()
++
++    def json(self):
++        import json
++        return json.loads(self._cuerpo)
++
++
++@pytest.fixture
++def credenciales(monkeypatch):
++    monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
++    monkeypatch.setattr(cerrojo, "SUPABASE_URL", "https://proyecto.supabase.co")
++    monkeypatch.setattr(cerrojo, "SUPABASE_SERVICE_KEY", "clave-servicio")
++
++
++def test_admitir_llama_a_la_rpc_con_las_constantes_de_auth(credenciales):
++    visto = {}
++
++    def rpc(payload):
++        visto.update(payload)
++        return _Resp(200, "0")
++
++    c = cerrojo.CerrojoSupabase(rpc=rpc, delete=lambda p: _Resp(204, ""))
++    assert c.admitir(auth.claves_de("alberto", "1.2.3.4")) == 0.0
++    assert visto["libres"] == auth.FALLOS_LIBRES
++    assert visto["base_s"] == auth.BLOQUEO_BASE_S
++    assert visto["max_s"] == auth.BLOQUEO_MAX_S
++    assert visto["retencion_s"] == auth.CERROJO_RETENCION_S
++    assert visto["cap"] == auth.CERROJO_MAX_ENTRADAS
++    assert all(k.startswith("u:") for k in visto["claves"])      # ip: apagada
++
++
++def test_una_espera_devuelta_jamas_se_ignora(credenciales):
++    c = cerrojo.CerrojoSupabase(rpc=lambda p: _Resp(200, "87.5"),
++                                delete=lambda p: _Resp(204, ""))
++    assert c.admitir(("u:x",)) == 87.5
++
++
++def test_fallo_de_conexion_es_fail_open_con_log(credenciales, caplog):
++    """La frontera «¿se pudo HABLAR?» (rondas S4-M1/F2-M2): PostgREST no llegó
++    a responder → el intento se permite (scrypt sigue siendo el suelo) y cada
++    ocurrencia deja log a nivel ERROR — no invisible."""
++    def rpc(payload):
++        raise httpx.ConnectError("boom")
++
++    c = cerrojo.CerrojoSupabase(rpc=rpc, delete=lambda p: _Resp(204, ""))
++    import logging
++    with caplog.at_level(logging.ERROR, logger="dashboard.cerrojo"):
++        assert c.admitir(("u:x",)) == 0.0
++    assert any("fail-open" in r.message for r in caplog.records)
++
++
++@pytest.mark.parametrize("status", [400, 401, 403, 404, 500])
++def test_cualquier_respuesta_4xx_5xx_es_configuracion_y_cierra(credenciales, status):
++    """PostgREST HABLÓ y algo está mal de forma reproducible (función sin
++    migrar, firma, ACL, SQL): CerrojoNoDisponible → 503, nunca fail-open
++    silencioso e indefinido (el hallazgo F2-M2/S3-M1)."""
++    c = cerrojo.CerrojoSupabase(rpc=lambda p: _Resp(status, "{}"),
++                                delete=lambda p: _Resp(204, ""))
++    with pytest.raises(cerrojo.CerrojoNoDisponible):
++        c.admitir(("u:x",))
++
++
++def test_sin_credenciales_tambien_cierra(monkeypatch):
++    monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
++    monkeypatch.setattr(cerrojo, "SUPABASE_URL", "")
++    monkeypatch.setattr(cerrojo, "SUPABASE_SERVICE_KEY", "")
++    c = cerrojo.CerrojoSupabase(rpc=lambda p: _Resp(200, "0"),
++                                delete=lambda p: _Resp(204, ""))
++    with pytest.raises(cerrojo.CerrojoNoDisponible):
++        c.admitir(("u:x",))
++
++
++def test_acierto_borra_por_las_claves_seudonimas_y_no_revienta(credenciales, caplog):
++    borrado = {}
++
++    def delete(params):
++        borrado.update(params)
++        return _Resp(204, "")
++
++    c = cerrojo.CerrojoSupabase(rpc=lambda p: _Resp(200, "0"), delete=delete)
++    claves = auth.claves_de("alberto", "1.2.3.4")
++    c.acierto(claves)
++    assert borrado["clave"].startswith("in.(u:")
++    assert "alberto" not in borrado["clave"]
++    # Y si el DELETE falla, el login bueno NO se bloquea — log y a seguir:
++    def delete_roto(params):
++        raise httpx.ConnectError("boom")
++    c2 = cerrojo.CerrojoSupabase(rpc=lambda p: _Resp(200, "0"), delete=delete_roto)
++    import logging
++    with caplog.at_level(logging.ERROR, logger="dashboard.cerrojo"):
++        c2.acierto(claves)                       # no lanza
++    assert any("acierto" in r.message for r in caplog.records)
++
++
++def test_la_sonda_prueba_extremo_a_extremo_sin_tocar_contadores(credenciales):
++    """v9 §3.5: `panel_puerta` con claves VACÍAS — si la función no está
++    migrada (≥400), el arranque aborta con el motivo escrito."""
++    llamadas = []
++
++    def rpc(payload):
++        llamadas.append(payload)
++        return _Resp(200, "0")
++
++    anterior = cerrojo.usar_cerrojo(cerrojo.CerrojoSupabase(
++        rpc=rpc, delete=lambda p: _Resp(204, "")))
++    try:
++        cerrojo.sonda()
++        assert llamadas[0]["claves"] == []
++    finally:
++        cerrojo.usar_cerrojo(anterior)
++
++    anterior = cerrojo.usar_cerrojo(cerrojo.CerrojoSupabase(
++        rpc=lambda p: _Resp(404, "{}"), delete=lambda p: _Resp(204, "")))
++    try:
++        with pytest.raises(RuntimeError, match="019"):
++            cerrojo.sonda()
++    finally:
++        cerrojo.usar_cerrojo(anterior)
++
++
++def test_la_sonda_fail_cierra_tambien_ante_un_fallo_de_conexion(credenciales):
++    """Ronda del dúo sobre el cableado, S-M1: en RUNTIME un httpx.HTTPError es
++    fail-OPEN (no dejar fuera al legítimo por telemetría), pero en el ARRANQUE
++    no poder hablar con Supabase ES un despliegue roto y la sonda debe
++    fail-CERRAR — si no, imprimiría «cerrojo OK» sin haber contactado la base."""
++    def rpc_caido(payload):
++        raise httpx.ConnectError("dns down")
++
++    # En runtime, el mismo fallo es fail-open:
++    c = cerrojo.CerrojoSupabase(rpc=rpc_caido, delete=lambda p: _Resp(204, ""))
++    assert c.admitir(("u:x",)) == 0.0
++    # ...pero la sonda de arranque, no:
++    anterior = cerrojo.usar_cerrojo(c)
++    try:
++        with pytest.raises(RuntimeError, match="sonda"):
++            cerrojo.sonda()
++    finally:
++        cerrojo.usar_cerrojo(anterior)
++
++
++def test_con_el_cerrojo_de_memoria_la_sonda_no_hace_nada():
++    anterior = cerrojo.usar_cerrojo(auth.Cerrojo())
++    try:
++        cerrojo.sonda()                          # no lanza, no necesita red
++    finally:
++        cerrojo.usar_cerrojo(anterior)
+diff --git a/tests/test_s324j_gestion_op.py b/tests/test_s324j_gestion_op.py
+new file mode 100644
+index 0000000..301f61c
+--- /dev/null
++++ b/tests/test_s324j_gestion_op.py
+@@ -0,0 +1,105 @@
++# -*- coding: utf-8 -*-
++"""s324j — Idempotencia por operación y la firma de la anulación (puertas 7 y
++el lado-código de 9-bis; `evals/s324i_panel_vercel_propuesta_v9.md` §4.2-§4.3).
++"""
++from __future__ import annotations
++
++import pytest
++
++from dashboard import datos, gestion
++
++
++def _escribir_doble(respuestas):
++    """Un `_escribir` de mentira que consume respuestas por orden y registra
++    cada llamada. `respuestas` = lista de (estado, filas, detalle)."""
++    def escribir(metodo, tabla, *, params=None, json=None):
++        escribir.llamadas.append((metodo, tabla, params, json))
++        return respuestas.pop(0)
++    escribir.llamadas = []
++    return escribir
++
++
++# ------------------------------------------------------------------- puerta 7
++
++
++def test_mismo_op_dos_veces_una_invitacion_y_el_mensaje_sin_enlace(monkeypatch):
++    """El F5: el segundo POST con el MISMO op choca con el UNIQUE (DUPLICADO)
++    → no se crea nada, no se finge poder re-enseñar el enlace."""
++    fila = {"id": "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee"}
++    doble = _escribir_doble([
++        (datos.OK, [fila], ""),
++        (gestion.DUPLICADO, [], "bot_invitaciones"),
++    ])
++    monkeypatch.setattr(gestion, "_escribir", doble)
++
++    primera = gestion.generar_invitacion(nota="Ana, DG", dias=2,
++                                         por="alberto", op="op-repetida-123")
++    assert primera.ok and primera.enlace
++
++    segunda = gestion.generar_invitacion(nota="Ana, DG", dias=2,
++                                         por="alberto", op="op-repetida-123")
++    assert not segunda.ok
++    assert segunda.enlace is None
++    assert "Ya emitiste" in segunda.mensaje
++    assert segunda.tono == "aviso"               # reintento, no error del panel
++    assert len(doble.llamadas) == 2              # y solo DOS intentos de escritura
++
++
++def test_op_distinto_son_dos_invitaciones(monkeypatch):
++    doble = _escribir_doble([
++        (datos.OK, [{"id": "a" * 8}], ""),
++        (datos.OK, [{"id": "b" * 8}], ""),
++    ])
++    monkeypatch.setattr(gestion, "_escribir", doble)
++    r1 = gestion.generar_invitacion(nota="x", dias=2, por="a", op="op-uno-1234")
++    r2 = gestion.generar_invitacion(nota="x", dias=2, por="a", op="op-dos-1234")
++    assert r1.ok and r2.ok
++    assert doble.llamadas[0][3]["op"] == "op-uno-1234"
++    assert doble.llamadas[1][3]["op"] == "op-dos-1234"
++
++
++@pytest.mark.parametrize("op_malo", ["", "corto", "x" * 65, "con espacio!", None])
++def test_un_op_manipulado_no_llega_a_la_base(monkeypatch, op_malo):
++    def prohibido(*a, **k):
++        raise AssertionError("no se escribe con un op inadmisible")
++    monkeypatch.setattr(gestion, "_escribir", prohibido)
++    resultado = gestion.generar_invitacion(nota="x", dias=2, por="a", op=op_malo)
++    assert not resultado.ok
++    assert "Recarga" in resultado.mensaje
++
++
++def test_el_409_de_otros_caminos_sigue_siendo_error(monkeypatch):
++    """`DUPLICADO` lo consume SOLO la emisión: para el resto de escrituras un
++    duplicado es el error que es (v9 §4.2)."""
++    doble = _escribir_doble([
++        (datos.OK, [{"id": "3f2a1b4c-5d6e-4f70-8192-a3b4c5d6e7f8",
++                     "nota": "x", "canjeada_at": None, "revocada_at": None}], ""),
++        (gestion.DUPLICADO, [], "bot_invitaciones"),
++    ])
++    monkeypatch.setattr(gestion, "_escribir", doble)
++    resultado = gestion.revocar_invitacion(
++        invitacion_id="3f2a1b4c-5d6e-4f70-8192-a3b4c5d6e7f8", por="alberto")
++    assert not resultado.ok                      # no se disfraza de éxito
++
++
++# ------------------------------------------------- la firma de la anulación
++
++
++def test_anular_firma_en_revocada_por_y_es_condicional(monkeypatch):
++    doble = _escribir_doble([
++        (datos.OK, [{"id": "3f2a1b4c-5d6e-4f70-8192-a3b4c5d6e7f8",
++                     "nota": "Ana, DG", "canjeada_at": None,
++                     "revocada_at": None}], ""),
++        (datos.OK, [{"id": "3f2a1b4c-5d6e-4f70-8192-a3b4c5d6e7f8"}], ""),
++    ])
++    monkeypatch.setattr(gestion, "_escribir", doble)
++    resultado = gestion.revocar_invitacion(
++        invitacion_id="3f2a1b4c-5d6e-4f70-8192-a3b4c5d6e7f8", por="alberto")
++    assert resultado.ok
++    metodo, tabla, params, json = doble.llamadas[1]
++    assert (metodo, tabla) == ("PATCH", "bot_invitaciones")
++    # Condicional (la carrera con el canje) + firma en LA COLUMNA, no en la nota:
++    assert params["revocada_at"] == "is.null"
++    assert params["canjeada_at"] == "is.null"
++    assert json["revocada_por"] == "panel:alberto"
++    assert "nota" not in json                    # r41 retirado: 42501 imposible
+diff --git a/tests/test_s324j_metricas_columnas.py b/tests/test_s324j_metricas_columnas.py
+new file mode 100644
+index 0000000..79ff9c9
+--- /dev/null
++++ b/tests/test_s324j_metricas_columnas.py
+@@ -0,0 +1,64 @@
++# -*- coding: utf-8 -*-
++"""s324j — Las métricas: columnas declaradas en los DOS sentidos (puerta 8 de
++`evals/s324i_panel_vercel_propuesta_v9.md` §7). Esto INVIERTE una decisión
++escrita (`select=*` para que lo nuevo se enseñara): expuesto a internet, nada
++se pinta sin que alguien lo haya declarado.
++"""
++from __future__ import annotations
++
++from dashboard import app as panel
++from dashboard import datos
++
++
++def test_leer_vista_pide_solo_las_columnas_declaradas(monkeypatch):
++    capturado = {}
++
++    def leer(recurso, params):
++        capturado["recurso"] = recurso
++        capturado["params"] = dict(params)
++        return datos.Resultado(datos.VACIO, [])
++
++    monkeypatch.setattr(datos, "leer", leer)
++    vista = datos.VISTAS_POR_CLAVE["bot_health_daily"]
++    datos.leer_vista(vista)
++    assert capturado["params"]["select"] == ",".join(
++        c.nombre for c in vista.columnas)
++    assert "*" not in capturado["params"]["select"]
++
++
++def test_sentido_1_una_columna_no_declarada_no_se_pinta():
++    """Aunque el transporte trajera una columna de más (una vista redeployada
++    antes que el panel), el render NO la enseña: doble cierre con el select."""
++    vista = datos.VISTAS_POR_CLAVE["bot_motivos_negativos"]
++    resultado = datos.Resultado(datos.OK, [{
++        "semana": "2026-08-10", "motivo": "info", "votos": 2,
++        "telegram_user_id_filtrado": 111222333,      # la intrusa
++    }])
++    html = str(panel._tabla_de_vista(vista, resultado))
++    assert "111222333" not in html
++    assert "telegram_user_id_filtrado" not in html
++    assert "info" in html                            # y lo declarado sí
++
++
++def test_sentido_2_una_declarada_que_desaparece_se_detecta_y_se_dice(monkeypatch):
++    """Con el select explícito, la columna declarada que la vista pierde
++    produce un 42703 que `datos.leer` traduce a un detalle LEGIBLE — la
++    tarjeta lo dice en vez de romper la página o murmurar «Supabase respondió
++    400»."""
++    class _Resp:
++        status_code = 400
++        def json(self):
++            return {"code": "42703", "message": "column x does not exist"}
++
++    class _Cliente:
++        def __init__(self, *a, **k): ...
++        def __enter__(self): return self
++        def __exit__(self, *a): return False
++        def get(self, *a, **k): return _Resp()
++
++    monkeypatch.setattr(datos, "hay_credenciales", lambda: True)
++    monkeypatch.setattr(datos.httpx, "Client", _Cliente)
++    resultado = datos.leer("bot_health_daily", {"select": "no_existe"})
++    assert resultado.estado == datos.ERROR
++    assert "columna declarada" in resultado.detalle
++    assert "datos.VISTAS" in resultado.detalle
+diff --git a/tests/test_s324j_migraciones_acl.py b/tests/test_s324j_migraciones_acl.py
+new file mode 100644
+index 0000000..8e3b155
+--- /dev/null
++++ b/tests/test_s324j_migraciones_acl.py
+@@ -0,0 +1,243 @@
++# -*- coding: utf-8 -*-
++"""s324j — El gate ACL de las migraciones del panel (puertas 9, 9-bis y 6-bis
++de `evals/s324i_panel_vercel_propuesta_v9.md`).
++
++Mismo estilo que `test_s277_p1_document_local_snapshot_v2_acl.py`: se fija el
++TEXTO de las migraciones, no una intención. El texto es lo que Alberto aplica
++en el SQL Editor; si alguien lo relaja —o añade una tabla al panel sin su
++frontera— la suite se pone roja ANTES del despliegue. (El EFECTO — lo que la
++base HACE — lo afirma `test_s324j_panel_pg.py` contra un Postgres real: puerta
++4. Los dos gates son capas, no redundancia.)
++
++La puerta 9-bis existe por un agujero REAL: r41 (s324f) firmó la anulación en
++`nota` sin que la 016 concediera `UPDATE (nota)` — el PATCH moría con 42501 en
++producción y NINGÚN test sin red podía verlo (hallazgo S-C1 del dúo, DEC-239).
++Aquí se cruza cada columna que el panel, el CLI y el cuerpo de `panel_puerta`
++escriben con los GRANT de las migraciones, para que esa clase no vuelva a
++entrar en silencio.
++"""
++from __future__ import annotations
++
++import re
++from pathlib import Path
++
++from dashboard import auth
++
++RAIZ = Path(__file__).resolve().parent.parent
++M016 = (RAIZ / "migrations" / "016_allowlist_invitaciones.sql").read_text("utf-8")
++M019 = (RAIZ / "migrations" / "019_panel_usuarios_cerrojo.sql").read_text("utf-8")
++M020 = (RAIZ / "migrations" / "020_invitaciones_op.sql").read_text("utf-8")
++
++
++def _compacta(texto: str) -> str:
++    """Espacios normalizados, para afirmar sentencias multilínea."""
++    return re.sub(r"\s+", " ", texto)
++
++
++C019 = _compacta(M019)
++C020 = _compacta(M020)
++
++
++# ------------------------------------------------------------------- puerta 9
++
++
++def test_las_dos_tablas_nuevas_llevan_rls_force_y_revoke():
++    for tabla in ("panel_usuarios", "panel_intentos"):
++        assert f"ALTER TABLE public.{tabla} ENABLE ROW LEVEL SECURITY" in C019
++        assert f"ALTER TABLE public.{tabla} FORCE ROW LEVEL SECURITY" in C019
++        assert (f"REVOKE ALL PRIVILEGES ON TABLE public.{tabla} "
++                f"FROM PUBLIC, anon, authenticated, service_role") in C019
++
++
++def test_panel_usuarios_solo_concede_lo_enumerado():
++    assert ("GRANT SELECT (usuario, registro, activo) "
++            "ON public.panel_usuarios TO service_role") in C019
++    assert ("GRANT INSERT (usuario, registro, activo, alta_por) "
++            "ON public.panel_usuarios TO service_role") in C019
++    assert ("GRANT UPDATE (registro, activo, revocado_en, revocado_por) "
++            "ON public.panel_usuarios TO service_role") in C019
++    # Sin DELETE (baja lógica) y sin GRANT de escritura sobre la auditoría:
++    assert "GRANT DELETE ON public.panel_usuarios" not in C019
++    assert not re.search(r"GRANT UPDATE \([^)]*\balta_por\b", C019)
++    assert not re.search(r"GRANT (UPDATE|INSERT) \([^)]*\bcreado_en\b", C019)
++
++
++def test_panel_intentos_los_cuatro_grant_y_los_del_rol_de_retencion():
++    assert "GRANT SELECT ON public.panel_intentos TO service_role" in C019
++    assert ("GRANT INSERT (clave, fallos, ultimo) "
++            "ON public.panel_intentos TO service_role") in C019
++    assert ("GRANT UPDATE (fallos, ultimo) "
++            "ON public.panel_intentos TO service_role") in C019
++    assert "GRANT DELETE ON public.panel_intentos TO service_role" in C019
++    assert ("GRANT SELECT (clave, ultimo) "
++            "ON public.panel_intentos TO rgpd_retencion") in C019
++    assert "GRANT DELETE ON public.panel_intentos TO rgpd_retencion" in C019
++    assert ("CREATE POLICY rgpd_retencion_ventana ON public.panel_intentos "
++            "TO rgpd_retencion USING (ultimo < now() - interval '24 hours')") in C019
++
++
++def test_las_funciones_llevan_su_revoke_y_su_grant_exacto():
++    firma = "public.panel_puerta(text[], int, numeric, numeric, numeric, int)"
++    assert f"REVOKE ALL ON FUNCTION {firma} FROM PUBLIC, anon, authenticated" in C019
++    assert f"GRANT EXECUTE ON FUNCTION {firma} TO service_role" in C019
++    # La hermana: REVOKE NOMINAL, service_role incluido — nadie la ejecuta por
++    # la API (rondas S4-M3/F4-M1: la clase s296 exacta).
++    assert ("REVOKE ALL ON FUNCTION public.panel_retencion_pasada(TEXT) "
++            "FROM PUBLIC, anon, authenticated, service_role") in C019
++    assert "GRANT EXECUTE ON FUNCTION public.panel_retencion_pasada" not in C019
++
++
++def test_panel_puerta_es_invoker_con_search_path_vacio_y_lock_timeout():
++    assert "SECURITY INVOKER" in M019
++    assert "SET search_path = ''" in M019
++    assert "lock_timeout" in M019
++    assert "pg_advisory_xact_lock(hashtext('panel_intentos'))" in M019
++    # SIEMPRE upsert, nunca UPDATE a secas (ronda S6-M2):
++    assert "ON CONFLICT (clave) DO UPDATE" in C019
++    assert "SET fallos = public.panel_intentos.fallos + 1" in C019
++
++
++def test_la_hermana_corre_como_el_rol_con_cinturon_y_ventana_asertada():
++    assert "SET role = rgpd_retencion" in M019
++    assert "current_user <> 'rgpd_retencion'" in M019
++    assert "rgpd_retencion_ventana" in M019
++    assert "'panel-retencion-diaria'" in M019
++    assert "'45 4 * * *'" in M019          # DIARIO (ronda S5-M1), no mensual
++
++
++def test_la_020_lleva_op_revocada_por_check_y_sus_grant():
++    assert ("ADD COLUMN op TEXT NOT NULL UNIQUE "
++            "DEFAULT gen_random_uuid()::text") in C020
++    assert "CHECK (char_length(op) BETWEEN 8 AND 64)" in C020
++    assert "ADD COLUMN revocada_por TEXT" in C020
++    assert "SET revocada_por = '(anterior a la 020)'" in C020
++    assert "bot_invitaciones_revocacion_completa" in C020
++    assert "GRANT INSERT (op) ON public.bot_invitaciones TO service_role" in C020
++    assert ("GRANT UPDATE (revocada_por) "
++            "ON public.bot_invitaciones TO service_role") in C020
++    # El cierre estructural NO es conceder la nota (ronda S2-M4):
++    assert "GRANT UPDATE (nota)" not in C020
++
++
++def test_ambas_llevan_notify_pgrst_y_el_contrato_de_aplicacion():
++    for texto in (M019, M020):
++        assert "NOTIFY pgrst, 'reload schema';" in texto
++        # El contrato de aplicación (ronda S5-C1 / lección 016): fichero entero
++        # con aplicador transaccional, y SIN BEGIN/COMMIT propios.
++        assert "CONTRATO DE APLICACIÓN" in texto
++        assert "--single-transaction" in texto
++        assert not re.search(r"^\s*BEGIN\s*;", texto, re.MULTILINE)
++        assert not re.search(r"^\s*COMMIT\s*;", texto, re.MULTILINE)
++
++
++def test_el_preflight_exige_la_cola_s295_s299():
++    assert "rgpd_retencion" in M019.split("FASE A")[0]
++    assert "rgpd_recibos" in M019.split("FASE A")[0]
++
++
++# --------------------------------------------------------------- puerta 9-bis
++#
++# Toda columna que se ESCRIBE tiene su GRANT. Los payloads se enumeran aquí, al
++# lado de los greps — si `gestion.py` o el CLI ganan una columna nueva, este
++# test obliga a tocar la migración (o a mirar por qué no).
++
++
++def _columnas_update_concedidas(texto_migraciones: str, tabla: str) -> set:
++    columnas: set = set()
++    for m in re.finditer(
++            rf"GRANT UPDATE \(([^)]+)\) ON public\.{tabla} TO service_role",
++            texto_migraciones):
++        columnas |= {c.strip() for c in m.group(1).split(",")}
++    return columnas
++
++
++def _columnas_insert_concedidas(texto_migraciones: str, tabla: str) -> set:
++    columnas: set = set()
++    for m in re.finditer(
++            rf"GRANT INSERT \(([^)]+)\) ON (?:TABLE )?public\.{tabla} TO service_role",
++            texto_migraciones):
++        columnas |= {c.strip() for c in m.group(1).split(",")}
++    return columnas
++
++
++TODO_EL_SQL = _compacta(M016) + " " + C019 + " " + C020
++
++#: Lo que el PANEL escribe (gestion.py) — copiado de sus payloads, no inferido.
++PAYLOAD_INSERT_INVITACION = {"token_hash", "nota", "creada_por", "expira_at", "op"}
++PAYLOAD_PATCH_ANULAR = {"revocada_at", "revocada_por"}
++PAYLOAD_PATCH_REVOCAR_ACCESO = {"revocado_at", "revocado_por", "motivo_revocacion"}
++#: Lo que el CLI escribe de más (s324e_invitaciones.py cmd_revocar_invitacion).
++PAYLOAD_CLI_ANULAR = {"revocada_at", "revocada_por"}
++#: Lo que el cuerpo de `panel_puerta` escribe (INVOKER ⇒ ejerce estos GRANT).
++PAYLOAD_RPC_PANEL_INTENTOS = {"clave", "fallos", "ultimo"}
++#: Lo que el script de usuarios escribe.
++PAYLOAD_SCRIPT_ALTA = {"usuario", "registro", "activo", "alta_por"}
++PAYLOAD_SCRIPT_REVOCAR = {"activo", "revocado_en", "revocado_por"}
++
++
++def test_toda_columna_escrita_tiene_su_grant():
++    assert PAYLOAD_INSERT_INVITACION <= _columnas_insert_concedidas(
++        TODO_EL_SQL, "bot_invitaciones"), "INSERT de invitar sin GRANT completo"
++    assert PAYLOAD_PATCH_ANULAR <= _columnas_update_concedidas(
++        TODO_EL_SQL, "bot_invitaciones"), (
++        "el PATCH de anular escribe columnas sin GRANT — la clase S-C1")
++    assert PAYLOAD_CLI_ANULAR <= _columnas_update_concedidas(
++        TODO_EL_SQL, "bot_invitaciones")
++    assert PAYLOAD_PATCH_REVOCAR_ACCESO <= _columnas_update_concedidas(
++        TODO_EL_SQL, "bot_allowlist")
++    assert PAYLOAD_RPC_PANEL_INTENTOS <= _columnas_insert_concedidas(
++        TODO_EL_SQL, "panel_intentos")
++    assert {"fallos", "ultimo"} <= _columnas_update_concedidas(
++        TODO_EL_SQL, "panel_intentos")
++    assert PAYLOAD_SCRIPT_ALTA <= _columnas_insert_concedidas(
++        TODO_EL_SQL, "panel_usuarios")
++    assert PAYLOAD_SCRIPT_REVOCAR <= _columnas_update_concedidas(
++        TODO_EL_SQL, "panel_usuarios")
++
++
++def test_los_payloads_enumerados_no_han_derivado_del_codigo():
++    """El espejo de la 9-bis: si el código cambia sus payloads y nadie toca la
++    enumeración de arriba, esto lo dice. Greps sobre el fuente, frágiles a
++    propósito — un payload nuevo DEBE pasar por aquí."""
++    gestion_src = (RAIZ / "dashboard" / "gestion.py").read_text("utf-8")
++    for columna in PAYLOAD_INSERT_INVITACION:
++        assert f'"{columna}"' in gestion_src
++    assert '"revocada_por": f"panel:{por}"' in gestion_src
++    assert "_nota_con_firma" not in gestion_src, (
++        "la firma-en-nota de r41 volvió — estaba rota (42501) y la 020 la "
++        "sustituyó por revocada_por")
++    cli_src = (RAIZ / "scripts" / "s324e_invitaciones.py").read_text("utf-8")
++    assert '"revocada_at": "is.null"' in cli_src
++    assert '"canjeada_at": "is.null"' in cli_src
++    script_src = (RAIZ / "scripts" / "s324j_panel_usuario.py").read_text("utf-8")
++    assert "return=minimal" in script_src        # S6-M3
++    assert "validar_registro_estricto" in script_src
++
++
++# --------------------------------------------------------------- puerta 6-bis
++#
++# El charset vive duplicado por necesidad (regex SQL en el CHECK, regex Python
++# en auth): esta puerta impide que diverjan, con una tabla de casos compartida.
++
++CASOS_CHARSET = [
++    ("alberto", True),
++    ("ana.perez@fontiber.com", True),
++    ("dg-acme_2", True),
++    ("a" * 64, True),
++    ("", False),
++    ("a" * 65, False),
++    ("Alberto", False),                  # mayúsculas: la normalización va antes
++    ("con espacio", False),
++    ("come,coma", False),                # estructura de filtros PostgREST
++    ("paren(tesis)", False),
++    ("emoji😀", False),
++]
++
++
++def test_el_check_sql_y_el_guard_python_aceptan_y_rechazan_igual():
++    m = re.search(r"usuario ~ '([^']+)'", M019)
++    assert m, "el CHECK de charset de panel_usuarios no está en la 019"
++    regex_sql = re.compile(m.group(1))
++    for nombre, esperado in CASOS_CHARSET:
++        assert bool(regex_sql.fullmatch(nombre)) is esperado, (nombre, "SQL")
++        assert auth.usuario_admisible(nombre) is esperado, (nombre, "Python")
+diff --git a/tests/test_s324j_panel_auth.py b/tests/test_s324j_panel_auth.py
+new file mode 100644
+index 0000000..d5ceb1e
+--- /dev/null
++++ b/tests/test_s324j_panel_auth.py
+@@ -0,0 +1,176 @@
++# -*- coding: utf-8 -*-
++"""s324j — `BackendSupabase`, el sello y el validador estricto (puertas 6,
++6-bis-lado-python y 11 de `evals/s324i_panel_vercel_propuesta_v9.md`).
++
++El transporte es un doble con la firma de `datos.leer`: la suite corre sin red
++(puerta 10) y cada rama del contrato se afirma por ESTRUCTURA (cuántas veces
++corre el señuelo), no con un cronómetro — lo único estable en CI.
++"""
++from __future__ import annotations
++
++import pytest
++
++from dashboard import auth, datos
++
++BARATO = dict(n=2 ** 10, r=2, p=1)
++
++
++def _leer_con(filas=None, estado=None, detalle=""):
++    """Un transporte de mentira que devuelve siempre el mismo Resultado."""
++    if estado is None:
++        estado = datos.OK if filas else datos.VACIO
++    resultado = datos.Resultado(estado, list(filas or []), detalle)
++
++    def leer(recurso, params):
++        leer.llamadas.append((recurso, dict(params)))
++        return resultado
++
++    leer.llamadas = []
++    return leer
++
++
++@pytest.fixture
++def contando_senuelo(monkeypatch):
++    """Cuenta las verificaciones contra el SEÑUELO sin tocar las reales."""
++    conteo = {"senuelo": 0}
++    original = auth.verificar
++
++    def espia(contrasena, registro):
++        if registro == auth._SENUELO:
++            conteo["senuelo"] += 1
++        return original(contrasena, registro)
++
++    monkeypatch.setattr(auth, "verificar", espia)
++    return conteo
++
++
++REGISTRO = auth.hash_contrasena("la buena", **BARATO)
++
++
++# ------------------------------------------------------------------- puerta 6
++
++
++def test_existe_y_acierta_sin_senuelo_y_con_sello(contando_senuelo):
++    backend = auth.BackendSupabase(leer=_leer_con(
++        [{"usuario": "alberto", "registro": REGISTRO}]))
++    usuario = backend.autenticar("Alberto", "la buena")
++    assert usuario == auth.Usuario("alberto", sello=auth.sello_de_registro(REGISTRO))
++    assert contando_senuelo["senuelo"] == 0
++
++
++def test_existe_y_falla_sin_senuelo(contando_senuelo):
++    backend = auth.BackendSupabase(leer=_leer_con(
++        [{"usuario": "alberto", "registro": REGISTRO}]))
++    assert backend.autenticar("alberto", "la mala") is None
++    assert contando_senuelo["senuelo"] == 0
++
++
++def test_no_existe_o_inactivo_corre_el_senuelo_exactamente_una_vez(contando_senuelo):
++    """Ausente e inactivo son LA MISMA respuesta vacía (el filtro `activo` va
++    EN la consulta): el código no puede distinguirlos ni por accidente, y el
++    coste scrypt se paga igual — sin oráculo de enumeración."""
++    backend = auth.BackendSupabase(leer=_leer_con([]))
++    assert backend.autenticar("nadie", "lo que sea") is None
++    assert contando_senuelo["senuelo"] == 1
++
++
++def test_nombre_fuera_del_charset_es_inexistente_sin_consulta(contando_senuelo):
++    """v9 §5: la entrada se acota ANTES de viajar en un filtro — los caracteres
++    que PostgREST trata como estructura no llegan a `usuario=eq.X`."""
++    leer = _leer_con([])
++    backend = auth.BackendSupabase(leer=leer)
++    assert backend.autenticar("come,coma)", "x") is None
++    assert leer.llamadas == []                   # sin consulta
++    assert contando_senuelo["senuelo"] == 1      # y con señuelo igualmente
++
++
++@pytest.mark.parametrize("estado,detalle", [
++    (datos.ERROR, "no se pudo hablar con Supabase (ConnectError)"),
++    (datos.ERROR, "Supabase respondió 401"),
++    (datos.ERROR, "Supabase respondió 500"),
++    (datos.TABLA_AUSENTE, "panel_usuarios"),
++    (datos.SIN_CREDENCIALES, "faltan claves"),
++])
++def test_cualquier_no_ok_del_transporte_es_identidad_no_disponible(
++        contando_senuelo, estado, detalle):
++    """La regla simétrica a la del cerrojo (rondas S4-M1/S6-M4): conexión
++    imposible, tabla ausente, credenciales ausentes y toda respuesta >= 400
++    son LA MISMA cosa — «no puedo comprobarlo» — y NUNCA «credencial mala».
++    Sin señuelo: una caída falla igual para todos, antes de tocar credencial
++    alguna; no necesita tiempo constante — necesita no mentir."""
++    backend = auth.BackendSupabase(leer=_leer_con(estado=estado, detalle=detalle))
++    with pytest.raises(auth.IdentidadNoDisponible):
++        backend.autenticar("alberto", "la buena")
++    assert contando_senuelo["senuelo"] == 0
++
++
++def test_la_consulta_lleva_el_filtro_activo_y_el_select_minimo():
++    leer = _leer_con([{"usuario": "alberto", "registro": REGISTRO}])
++    auth.BackendSupabase(leer=leer).autenticar("alberto", "la buena")
++    _, params = leer.llamadas[0]
++    assert params["activo"] == "is.true"
++    assert params["select"] == "usuario,registro"
++    assert params["usuario"] == "eq.alberto"
++    assert params["limit"] == "1"
++
++
++# ------------------------------------------------------------------ el sello
++
++
++def test_sello_vigente_none_y_no_disponible():
++    con_fila = auth.BackendSupabase(leer=_leer_con(
++        [{"usuario": "alberto", "registro": REGISTRO}]))
++    assert con_fila.sello("alberto") == auth.sello_de_registro(REGISTRO)
++
++    vacio = auth.BackendSupabase(leer=_leer_con([]))
++    assert vacio.sello("alberto") is None        # revocado/ausente → fuera
++
++    caido = auth.BackendSupabase(leer=_leer_con(estado=datos.ERROR))
++    with pytest.raises(auth.IdentidadNoDisponible):
++        caido.sello("alberto")                   # 503, sin matar la cookie
++
++
++def test_el_sello_cambia_exactamente_con_el_registro():
++    otro = auth.hash_contrasena("otra contraseña", **BARATO)
++    assert auth.sello_de_registro(REGISTRO) != auth.sello_de_registro(otro)
++    assert auth.sello_de_registro(REGISTRO) == auth.sello_de_registro(REGISTRO)
++
++
++def test_el_sello_es_b64url_de_16_bytes_sin_relleno():
++    """Un solo contrato de truncado en todo el diseño (rondas F4-m2/F6-m4):
++    16 bytes → 22 caracteres base64url, sin `=` y sin `+`/`/`."""
++    sello = auth.sello_de_registro(REGISTRO)
++    assert len(sello) == 22
++    assert "=" not in sello and "+" not in sello and "/" not in sello
++
++
++# ----------------------------------------------------------------- puerta 11
++
++
++def test_el_registro_canonico_pasa_el_estricto():
++    auth.validar_registro_estricto(REGISTRO)     # no lanza
++
++
++@pytest.mark.parametrize("romper", [
++    # sal de 1 byte: LEGIBLE por _partir y jamás verificaría — el usuario
++    # inalcanzable de S3-M3.
++    lambda r: _con_sal_y_clave(r, sal_b=b"x", clave_b=None),
++    # hash de 8 bytes:
++    lambda r: _con_sal_y_clave(r, sal_b=None, clave_b=b"12345678"),
++    # parámetro extra que _partir ignoraría en silencio:
++    lambda r: r.replace("$n=", "$extra=9,n="),
++    # contraseña en claro (ni siquiera es un registro):
++    lambda r: "mi-contraseña-en-claro",
++])
++def test_lo_legible_pero_no_canonico_se_rechaza(romper):
++    with pytest.raises(auth.RegistroInvalido):
++        auth.validar_registro_estricto(romper(REGISTRO))
++
++
++def _con_sal_y_clave(registro, *, sal_b, clave_b):
++    alg, params, sal, clave = registro.split("$")
++    if sal_b is not None:
++        sal = auth._b64(sal_b)
++    if clave_b is not None:
++        clave = auth._b64(clave_b)
++    return "$".join([alg, params, sal, clave])
+diff --git a/tests/test_s324j_panel_pg.py b/tests/test_s324j_panel_pg.py
+new file mode 100644
+index 0000000..b43d9ed
+--- /dev/null
++++ b/tests/test_s324j_panel_pg.py
+@@ -0,0 +1,471 @@
++# -*- coding: utf-8 -*-
++"""s324j — El panel contra un PostgreSQL REAL: la puerta 4 de
++`evals/s324i_panel_vercel_propuesta_v9.md`.
++
++Por qué existe: el resto de puertas del panel usan dobles, así que prueban que
++se emiten las sentencias correctas — no que la base haga lo que decimos. Y lo
++dicho es fuerte: que `panel_puerta` acota el rebaño concurrente, que el cap es
++un techo, que la ventana de retención es un invariante del MOTOR (política,
++no SQL de la pasada), y que la frontera ACL de las tablas nuevas es efectiva.
++Verificar el EFECTO y no el código — la lección #60 (mismo patrón que
++`test_s295_rgpd_integracion_pg.py`, cuyo arnés se REUTILIZA: la 019 exige la
++cola s295→s299 aplicada, y ese arnés la aplica ENTERA y en orden, ronda S5-M2).
++
++Se salta sin `RGPD_TEST_DATABASE_URL`; en CI lo provee un contenedor
++desechable (`.github/workflows/s324j-panel-pg.yml`). NUNCA producción.
++
++GAP DECLARADO (v9 §12): el contenedor es Postgres, no Supabase — PostgREST y
++su caché solo se prueban en el smoke post-deploy del runbook.
++"""
++from __future__ import annotations
++
++import os
++import threading
++from pathlib import Path
++
++import pytest
++
++from dashboard import auth
++
++# El arnés canónico: esquema mínimo + roles del trío de la API (service_role
++# CON BYPASSRLS, como en Supabase — sin él, panel_puerta bajo FORCE RLS vería
++# cero filas y este test probaría un mundo que no existe) + default privileges
++# de Supabase reproducidos + la cola s295→s299 aplicada EN ORDEN.
++from tests.test_s295_rgpd_integracion_pg import base  # noqa: F401
++
++REPO = Path(__file__).parent.parent
++M019 = REPO / "migrations" / "019_panel_usuarios_cerrojo.sql"
++M020 = REPO / "migrations" / "020_invitaciones_op.sql"
++
++DSN = os.environ.get("RGPD_TEST_DATABASE_URL")
++pytestmark = pytest.mark.skipif(
++    not DSN,
++    reason="requiere RGPD_TEST_DATABASE_URL (Postgres desechable); en CI lo da el workflow",
++)
++
++#: `bot_invitaciones` mínima con la forma de la 016 (la 020 la altera). No se
++#: copia la 016 entera: se copia lo que las migraciones nuevas tocan.
++ESQUEMA_INVITACIONES = """
++DROP TABLE IF EXISTS bot_invitaciones CASCADE;
++CREATE TABLE bot_invitaciones (
++    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
++    token_hash TEXT NOT NULL UNIQUE,
++    nota TEXT NOT NULL,
++    creada_por TEXT NOT NULL,
++    creada_at TIMESTAMPTZ NOT NULL DEFAULT now(),
++    expira_at TIMESTAMPTZ NOT NULL,
++    canjeada_at TIMESTAMPTZ,
++    canjeada_por BIGINT,
++    revocada_at TIMESTAMPTZ
++);
++ALTER TABLE bot_invitaciones ENABLE ROW LEVEL SECURITY;
++ALTER TABLE bot_invitaciones FORCE ROW LEVEL SECURITY;
++REVOKE ALL PRIVILEGES ON TABLE bot_invitaciones
++    FROM PUBLIC, anon, authenticated, service_role;
++GRANT SELECT ON TABLE bot_invitaciones TO service_role;
++GRANT INSERT (token_hash, nota, creada_por, expira_at)
++    ON bot_invitaciones TO service_role;
++GRANT UPDATE (canjeada_at, canjeada_por, revocada_at)
++    ON bot_invitaciones TO service_role;
++"""
++
++CONSTANTES = dict(libres=auth.FALLOS_LIBRES, base_s=auth.BLOQUEO_BASE_S,
++                  max_s=auth.BLOQUEO_MAX_S,
++                  retencion_s=auth.CERROJO_RETENCION_S,
++                  cap=auth.CERROJO_MAX_ENTRADAS)
++
++
++def _conectar():
++    import psycopg2
++    return psycopg2.connect(DSN, connect_timeout=15)
++
++
++@pytest.fixture()
++def panel(base):  # noqa: F811
++    """El arnés s295→s299 + invitaciones legacy + las 019/020 aplicadas."""
++    conexion, _, _ = base
++    conexion.autocommit = True
++    with conexion.cursor() as cur:
++        cur.execute("DROP TABLE IF EXISTS panel_intentos, panel_usuarios CASCADE;")
++        cur.execute("DROP FUNCTION IF EXISTS public.panel_retencion_pasada(TEXT);")
++        cur.execute("DROP FUNCTION IF EXISTS public.panel_puerta"
++                    "(text[], int, numeric, numeric, numeric, int);")
++        cur.execute(ESQUEMA_INVITACIONES)
++        # Dos filas LEGACY: una anulada sin firma (el mundo pre-020) y una viva
++        # — el backfill y el default volátil por fila tienen que cubrirlas.
++        cur.execute(
++            "INSERT INTO bot_invitaciones (token_hash, nota, creada_por, "
++            "expira_at, revocada_at) VALUES "
++            "('h1', 'legacy anulada', 'cli:x', now() + interval '1 day', now()),"
++            "('h2', 'legacy viva', 'cli:x', now() + interval '1 day', NULL);")
++        cur.execute(M019.read_text("utf-8"))
++        cur.execute(M020.read_text("utf-8"))
++    conexion.autocommit = False
++    yield conexion
++    conexion.close()
++
++
++def _puerta(cur, claves, **cambios):
++    args = {**CONSTANTES, **cambios}
++    cur.execute(
++        "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
++        (claves, args["libres"], args["base_s"], args["max_s"],
++         args["retencion_s"], args["cap"]))
++    return float(cur.fetchone()[0])
++
++
++def _como_service_role(conexion):
++    cur = conexion.cursor()
++    cur.execute("SET LOCAL ROLE service_role;")
++    return cur
++
++
++# ----------------------------------------------------- aplicación y frontera
++
++
++def test_las_migraciones_aplican_con_sus_postcondiciones(panel):
++    """El fixture ya lo prueba (una postcondición rota revienta el `execute`
++    del fichero entero); aquí se afirma el resultado visible."""
++    with panel.cursor() as cur:
++        cur.execute("SELECT to_regclass('public.panel_usuarios'), "
++                    "to_regclass('public.panel_intentos')")
++        assert all(cur.fetchone())
++    panel.rollback()
++
++
++def test_privilegios_EFECTIVOS_por_rol(panel):
++    """Ronda S5-M3: la puerta 9 fija lo que las migraciones DICEN; esto, lo que
++    la base HACE — has_table_privilege/has_column_privilege por cada rol."""
++    with panel.cursor() as cur:
++        for rol in ("anon", "authenticated"):
++            for tabla in ("panel_usuarios", "panel_intentos"):
++                cur.execute(
++                    "SELECT has_table_privilege(%s, %s, "
++                    "'SELECT, INSERT, UPDATE, DELETE')", (rol, tabla))
++                assert cur.fetchone()[0] is False, (rol, tabla)
++        # service_role: EXACTAMENTE lo enumerado.
++        cur.execute("SELECT has_column_privilege('service_role', "
++                    "'panel_usuarios', 'registro', 'SELECT')")
++        assert cur.fetchone()[0] is True
++        cur.execute("SELECT has_column_privilege('service_role', "
++                    "'panel_usuarios', 'alta_por', 'SELECT')")
++        assert cur.fetchone()[0] is False        # la auditoría no viaja a REST
++        cur.execute("SELECT has_column_privilege('service_role', "
++                    "'panel_usuarios', 'alta_por', 'UPDATE')")
++        assert cur.fetchone()[0] is False        # ...ni se reescribe
++        cur.execute("SELECT has_table_privilege('service_role', "
++                    "'panel_usuarios', 'DELETE')")
++        assert cur.fetchone()[0] is False        # baja lógica, sin DELETE
++        cur.execute("SELECT has_table_privilege('service_role', "
++                    "'panel_intentos', 'DELETE')")
++        assert cur.fetchone()[0] is True         # el contrato del cerrojo
++        # rgpd_retencion: solo lo suyo.
++        cur.execute("SELECT has_column_privilege('rgpd_retencion', "
++                    "'panel_intentos', 'clave', 'SELECT')")
++        assert cur.fetchone()[0] is True
++        cur.execute("SELECT has_table_privilege('rgpd_retencion', "
++                    "'panel_usuarios', 'SELECT')")
++        assert cur.fetchone()[0] is False
++    panel.rollback()
++
++
++def test_un_rol_de_la_api_no_puede_ejecutar_las_funciones(panel):
++    with panel.cursor() as cur:
++        for rol in ("anon", "authenticated"):
++            cur.execute(
++                "SELECT has_function_privilege(%s, 'public.panel_puerta("
++                "text[], int, numeric, numeric, numeric, int)', 'EXECUTE')",
++                (rol,))
++            assert cur.fetchone()[0] is False, rol
++            cur.execute(
++                "SELECT has_function_privilege(%s, "
++                "'public.panel_retencion_pasada(text)', 'EXECUTE')", (rol,))
++            assert cur.fetchone()[0] is False, rol
++        cur.execute("SELECT has_function_privilege('service_role', "
++                    "'public.panel_retencion_pasada(text)', 'EXECUTE')")
++        assert cur.fetchone()[0] is False        # ni la API ejecuta la pasada
++    panel.rollback()
++
++
++# ------------------------------------------------------- la semántica, REAL
++
++
++def test_la_tabla_de_casos_secuencial(panel):
++    """La misma tabla que el doble en memoria (puerta 4b): 5 admitidos, el
++    sexto bloqueado con el primer castigo, sin incremento al estar bloqueado."""
++    with _como_service_role(panel) as cur:
++        for _ in range(auth.FALLOS_LIBRES + 1):
++            assert _puerta(cur, ["u:caso"]) == 0.0
++        espera = _puerta(cur, ["u:caso"])
++        assert 0 < espera <= auth.BLOQUEO_BASE_S
++        cur.execute("SELECT fallos FROM panel_intentos WHERE clave='u:caso'")
++        assert cur.fetchone()[0] == auth.FALLOS_LIBRES + 1   # bloqueado no suma
++    panel.rollback()
++
++
++def test_la_rafaga_concurrente_sobre_clave_fresca_admite_libres_mas_uno(panel):
++    """EL rebaño (rondas M1/S-C3): N hilos, N conexiones, la MISMA clave
++    fresca. Sin siembra-antes-del-lock y sin contar-al-admitir entrarían N."""
++    panel.rollback()
++    resultados = []
++    barrera = threading.Barrier(12)
++
++    def intento():
++        conexion = _conectar()
++        try:
++            with conexion.cursor() as cur:
++                cur.execute("SET ROLE service_role;")
++                barrera.wait(timeout=30)
++                cur.execute(
++                    "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
++                    (["u:rafaga"], CONSTANTES["libres"], CONSTANTES["base_s"],
++                     CONSTANTES["max_s"], CONSTANTES["retencion_s"],
++                     CONSTANTES["cap"]))
++                resultados.append(float(cur.fetchone()[0]))
++            conexion.commit()
++        finally:
++            conexion.close()
++
++    hilos = [threading.Thread(target=intento) for _ in range(12)]
++    for h in hilos:
++        h.start()
++    for h in hilos:
++        h.join(timeout=60)
++    admitidos = sum(1 for r in resultados if r == 0.0)
++    assert len(resultados) == 12
++    assert admitidos == auth.FALLOS_LIBRES + 1, resultados
++
++
++def test_el_upsert_recrea_la_fila_que_acierto_borro(panel):
++    """Ronda S6-M2: el DELETE de `acierto` corre FUERA del advisory lock y
++    puede borrar la fila. Este test modela el EFECTO de ese entrelazado con un
++    DELETE secuencial (no reproduce la carrera — honestidad de test, ronda de
++    verificación S3-m1): el upsert-siempre recrea la fila con fallos=1, así que
++    la admisión que sigue nunca queda sin contar. Que el upsert sea correcto
++    BAJO la carrera lo sostiene READ COMMITTED + el advisory lock, no este
++    test."""
++    with _como_service_role(panel) as cur:
++        for _ in range(3):
++            assert _puerta(cur, ["u:leg"]) == 0.0
++        cur.execute("DELETE FROM panel_intentos WHERE clave = 'u:leg'")  # acierto
++        assert _puerta(cur, ["u:leg"]) == 0.0
++        cur.execute("SELECT fallos FROM panel_intentos WHERE clave='u:leg'")
++        assert cur.fetchone()[0] == 1            # renació contada
++    panel.rollback()
++
++
++def test_el_cap_es_un_techo_con_la_aritmetica_exacta(panel):
++    """Ronda S2-M3: count + nuevas <= cap — no «si está al cap»."""
++    with _como_service_role(panel) as cur:
++        for i in range(5):
++            _puerta(cur, [f"u:v{i}"], cap=5)
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        assert cur.fetchone()[0] == 5
++        _puerta(cur, ["u:nueva-a", "u:nueva-b"], cap=5)
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        assert cur.fetchone()[0] <= 5            # sacrificó lo más viejo
++        cur.execute("SELECT 1 FROM panel_intentos WHERE clave = 'u:nueva-b'")
++        assert cur.fetchone()                    # y la siembra nueva cupo
++    panel.rollback()
++
++
++def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
++    """Ronda de verificación del cableado, S2-M1: el check de bloqueo va ANTES
++    de sembrar/podar — un atacante ya bloqueado por una clave (aquí `ip:`) no
++    puede seguir creando filas `u:` frescas para inflar la tabla. Es el orden
++    del doble en memoria; sembrar antes dejaba vivo el bypass del cap."""
++    with _como_service_role(panel) as cur:
++        # Bloquear la clave ip: del atacante (6 intentos = FALLOS_LIBRES+2):
++        for _ in range(auth.FALLOS_LIBRES + 2):
++            _puerta(cur, ["u:objetivo", "ip:atacante"])
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        antes = cur.fetchone()[0]
++        # Ahora el atacante, YA bloqueado por ip:, intenta con un usuario
++        # inventado NUEVO — que sin el fix sembraría una fila más:
++        espera = _puerta(cur, ["u:inventado-nuevo", "ip:atacante"])
++        assert espera > 0                        # bloqueado por ip:
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        assert cur.fetchone()[0] == antes        # NO sembró la clave nueva
++        cur.execute("SELECT 1 FROM panel_intentos WHERE clave='u:inventado-nuevo'")
++        assert cur.fetchone() is None
++    panel.rollback()
++
++
++def test_ultimo_es_del_presente_no_del_inicio_de_transaccion(panel):
++    """Ronda de verificación, S2-m1 / honestidad S3-M5, S4-M4: lo que este test
++    PRUEBA es que `ultimo` queda en el PRESENTE tras una ráfaga serializada —
++    no retrasado al inicio de una transacción encolada. NO prueba monotonía
++    fuerte (cada escritura ≥ la anterior): solo observa el valor final.
++    Y la monotonía fuerte tampoco está GARANTIZADA por construcción: leer
++    `clock_timestamp()` bajo el lock la hace robusta al desorden de tiempos de
++    inicio de transacción —el bug que motivó el fix—, pero es reloj de PARED y
++    un ajuste del sistema puede hacerlo retroceder (límite declarado en el SQL).
++    El motivo del cambio `now()`→`clock_timestamp()` sigue siendo válido —quita
++    el retroceso SISTEMÁTICO por tiempo de inicio de tx—; lo que no se puede
++    afirmar es no-retroceso ABSOLUTO."""
++    panel.rollback()
++    barrera = threading.Barrier(8)
++
++    def intento():
++        conexion = _conectar()
++        try:
++            with conexion.cursor() as cur:
++                cur.execute("SET ROLE service_role;")
++                barrera.wait(timeout=30)
++                cur.execute(
++                    "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
++                    (["u:mono"], CONSTANTES["libres"], CONSTANTES["base_s"],
++                     CONSTANTES["max_s"], CONSTANTES["retencion_s"],
++                     CONSTANTES["cap"]))
++            conexion.commit()
++        finally:
++            conexion.close()
++
++    hilos = [threading.Thread(target=intento) for _ in range(8)]
++    for h in hilos:
++        h.start()
++    for h in hilos:
++        h.join(timeout=60)
++    # De las 8 serializadas, admiten FALLOS_LIBRES+1 (=5) y las demás se
++    # bloquean sin incrementar — igual que el doble en memoria. Lo que este
++    # test añade sobre `test_la_rafaga...` es la MONOTONÍA de `ultimo`: con
++    # clock_timestamp() bajo el lock, la última escritura es del presente y no
++    # quedó ninguna en un instante anterior (con `now()` de inicio-de-tx, una
++    # llamada encolada habría escrito un `ultimo` retrasado).
++    with panel.cursor() as cur:
++        cur.execute("SELECT fallos, ultimo, ultimo <= clock_timestamp() "
++                    "FROM panel_intentos WHERE clave='u:mono'")
++        fallos, ultimo, coherente = cur.fetchone()
++        assert fallos == auth.FALLOS_LIBRES + 1
++        assert coherente
++        cur.execute("SELECT clock_timestamp() - %s < interval '5 seconds'",
++                    (ultimo,))
++        assert cur.fetchone()[0], "ultimo quedó en el pasado — ¿now() en vez de clock?"
++    panel.rollback()
++
++
++def test_la_sonda_con_claves_vacias_no_toca_contadores(panel):
++    with _como_service_role(panel) as cur:
++        _puerta(cur, ["u:previa"])
++        cur.execute("SELECT fallos FROM panel_intentos WHERE clave='u:previa'")
++        antes = cur.fetchone()[0]
++        assert _puerta(cur, []) == 0.0           # la sonda del arranque
++        cur.execute("SELECT fallos FROM panel_intentos WHERE clave='u:previa'")
++        assert cur.fetchone()[0] == antes
++    panel.rollback()
++
++
++# --------------------------------------------- la retención como INVARIANTE
++
++
++def test_la_politica_impone_la_ventana_aunque_el_sql_no_la_lleve(panel):
++    """La ventana vive en la POLICY (doctrina s299): el rol de retención borra
++    TODO lo que puede — y solo puede lo vencido."""
++    with _como_service_role(panel) as cur:
++        cur.execute("INSERT INTO panel_intentos (clave, fallos, ultimo) VALUES "
++                    "('u:vieja', 3, now() - interval '30 hours'), "
++                    "('u:fresca', 3, now())")
++    panel.commit()
++    with panel.cursor() as cur:
++        cur.execute("SET LOCAL ROLE rgpd_retencion;")
++        cur.execute("DELETE FROM panel_intentos")        # sin WHERE, a posta
++        cur.execute("RESET ROLE;")
++        cur.execute("SELECT clave FROM panel_intentos")
++        vivas = {fila[0] for fila in cur.fetchall()}
++    panel.rollback()
++    assert vivas == {"u:fresca"}
++
++
++def test_la_pasada_hermana_borra_lo_vencido_y_deja_recibo(panel):
++    with _como_service_role(panel) as cur:
++        cur.execute("INSERT INTO panel_intentos (clave, fallos, ultimo) VALUES "
++                    "('u:vencida', 2, now() - interval '25 hours'), "
++                    "('u:reciente', 2, now())")
++    panel.commit()
++    with panel.cursor() as cur:
++        cur.execute("SELECT public.panel_retencion_pasada('manual')")
++        resultado = cur.fetchone()[0]
++        assert resultado["panel_intentos"] == 1
++        cur.execute("SELECT clave FROM panel_intentos")
++        assert {f[0] for f in cur.fetchall()} == {"u:reciente"}
++        cur.execute("SELECT origen, resultado FROM rgpd_recibos "
++                    "ORDER BY ejecutado_at DESC LIMIT 1")
++        origen, recibo = cur.fetchone()
++        assert origen == "manual"
++        assert recibo["panel_intentos"]["tocadas"] == 1
++    panel.rollback()
++
++
++def test_la_constante_python_y_la_politica_no_pueden_divergir(panel):
++    """Ronda F5-M2: la ventana tiene UNA fuente (la POLICY); la constante
++    `auth.CERROJO_RETENCION_S` se valida por IGUALDAD contra el predicado real
++    en pg_policies — cambiar una sin la otra pone esto rojo."""
++    with panel.cursor() as cur:
++        cur.execute("SELECT qual FROM pg_policies WHERE schemaname='public' "
++                    "AND tablename='panel_intentos' "
++                    "AND policyname='rgpd_retencion_ventana'")
++        qual = cur.fetchone()[0]
++    panel.rollback()
++    horas = auth.CERROJO_RETENCION_S // 3600
++    assert auth.CERROJO_RETENCION_S % 3600 == 0
++    assert f"{horas:02d}:00:00" in qual, (
++        f"la POLICY dice {qual!r} y la constante {horas} h — una fuente, no dos")
++
++
++# --------------------------------------------------------------- la 020, real
++
++
++def test_op_backfilleado_unico_y_obligatorio(panel):
++    with panel.cursor() as cur:
++        cur.execute("SELECT count(*), count(DISTINCT op) FROM bot_invitaciones "
++                    "WHERE op IS NOT NULL")
++        total, distintos = cur.fetchone()
++        assert total == 2 and distintos == 2     # el default volátil, por fila
++        cur.execute("SELECT revocada_por FROM bot_invitaciones "
++                    "WHERE token_hash = 'h1'")
++        assert cur.fetchone()[0] == "(anterior a la 020)"
++    panel.rollback()
++
++
++def test_el_mismo_op_choca_con_unique_como_service_role(panel):
++    import psycopg2
++    with _como_service_role(panel) as cur:
++        cur.execute("INSERT INTO bot_invitaciones (token_hash, nota, "
++                    "creada_por, expira_at, op) VALUES "
++                    "('h3', 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')")
++        with pytest.raises(psycopg2.errors.UniqueViolation):
++            cur.execute("INSERT INTO bot_invitaciones (token_hash, nota, "
++                        "creada_por, expira_at, op) VALUES "
++                        "('h4', 'x', 'panel:a', now() + interval '1 day', 'op-f5-123')")
++    panel.rollback()
++
++
++def test_anular_sin_firma_es_imposible_y_con_firma_funciona(panel):
++    import psycopg2
++    with _como_service_role(panel) as cur:
++        with pytest.raises(psycopg2.errors.CheckViolation):
++            cur.execute("UPDATE bot_invitaciones SET revocada_at = now() "
++                        "WHERE token_hash = 'h2'")
++    panel.rollback()
++    with _como_service_role(panel) as cur:
++        cur.execute("UPDATE bot_invitaciones SET revocada_at = now(), "
++                    "revocada_por = 'panel:alberto' WHERE token_hash = 'h2'")
++        cur.execute("SELECT revocada_por FROM bot_invitaciones "
++                    "WHERE token_hash = 'h2'")
++        assert cur.fetchone()[0] == "panel:alberto"
++    panel.rollback()
++
++
++def test_panel_usuarios_rechaza_lo_incoherente(panel):
++    import psycopg2
++    with panel.cursor() as cur:
++        with pytest.raises(psycopg2.errors.CheckViolation):
++            cur.execute("INSERT INTO panel_usuarios (usuario, registro, "
++                        "alta_por) VALUES ('Mayuscula', 'scrypt$x', 'op')")
++    panel.rollback()
++    with panel.cursor() as cur:
++        with pytest.raises(psycopg2.errors.CheckViolation):
++            cur.execute("INSERT INTO panel_usuarios (usuario, registro, "
++                        "alta_por, activo) VALUES "
++                        "('coherente', 'scrypt$x', 'op', FALSE)")
++    panel.rollback()
+diff --git a/tests/test_s324j_panel_sello_rutas.py b/tests/test_s324j_panel_sello_rutas.py
+new file mode 100644
+index 0000000..92e2fe9
+--- /dev/null
++++ b/tests/test_s324j_panel_sello_rutas.py
+@@ -0,0 +1,158 @@
++# -*- coding: utf-8 -*-
++"""s324j — La revalidación por sello, ejercida por las RUTAS (puertas 1, 2 y 3
++de `evals/s324i_panel_vercel_propuesta_v9.md`): revocar y cambiar la
++contraseña expulsan en la SIGUIENTE petición — la promesa por la que Alberto
++eligió (a2) — y una caída del backend es un 503 que no miente ni mata cookies.
++
++Reutiliza el cliente ASGI y el suelo de `test_s324f_dashboard_rutas` (sin red,
++sin claves): mismo panel entero, backend enchufado distinto por test.
++"""
++from __future__ import annotations
++
++import pytest
++
++from dashboard import auth, sesion
++
++from tests.test_s324f_dashboard_rutas import (  # noqa: F401  (fixtures)
++    SECRETO, Cliente, entorno,
++)
++
++
++class BackendMutable:
++    """Un backend cuyo estado se puede cambiar A MITAD de sesión — que es
++    exactamente lo que el sello existe para detectar."""
++
++    def __init__(self):
++        self.registros = {"alberto": "scrypt$n=1024,r=2,p=1$c2Fs$aGFzaA"}
++        self.caido = False
++
++    def autenticar(self, usuario, contrasena):
++        registro = self.registros.get(usuario.strip().lower())
++        if registro is None or contrasena != "correcta":
++            return None
++        return auth.Usuario(usuario.strip().lower(),
++                            sello=auth.sello_de_registro(registro))
++
++    def sello(self, nombre):
++        if self.caido:
++            raise auth.IdentidadNoDisponible("supabase caído")
++        registro = self.registros.get((nombre or "").strip().lower())
++        return None if registro is None else auth.sello_de_registro(registro)
++
++
++@pytest.fixture
++def backend():
++    b = BackendMutable()
++    anterior = auth.usar_backend(b)
++    yield b
++    auth.usar_backend(anterior)
++
++
++def _cookie_para(backend, nombre="alberto"):
++    payload = sesion.nueva(nombre)
++    payload["h"] = backend.sello(nombre)
++    return sesion.firmar(payload, SECRETO.encode("utf-8")), payload["csrf"]
++
++
++# ------------------------------------------------------------------- puerta 1
++
++
++def test_revocar_expulsa_en_la_siguiente_peticion_borrando_la_cookie(backend):
++    cookie, _ = _cookie_para(backend)
++    assert Cliente(cookie).get("/").estado == 200        # dentro
++    del backend.registros["alberto"]                     # revocado (activo=false)
++    respuesta = Cliente(cookie).get("/")
++    assert respuesta.estado == 303                       # fuera, YA
++    assert respuesta.cabecera("location") == "/entrar"
++    assert "Max-Age=0" in respuesta.cabecera("set-cookie")
++
++
++def test_control_el_activo_no_es_expulsado(backend):
++    cookie, _ = _cookie_para(backend)
++    for _ in range(3):
++        assert Cliente(cookie).get("/").estado == 200
++
++
++# ------------------------------------------------------------------- puerta 2
++
++
++def test_cambiar_la_contrasena_expulsa_en_la_siguiente_peticion(backend):
++    cookie, _ = _cookie_para(backend)
++    assert Cliente(cookie).get("/").estado == 200
++    backend.registros["alberto"] = "scrypt$n=1024,r=2,p=1$b3RyYQ$b3Ryb2hhc2g"
++    respuesta = Cliente(cookie).get("/")
++    assert respuesta.estado == 303
++    assert "Max-Age=0" in respuesta.cabecera("set-cookie")
++
++
++def test_cookie_firmada_valida_pero_sin_h_sale_por_el_camino_normal(backend):
++    """El caso legado (ronda F2-m1): cookies de antes del despliegue no llevan
++    `h` → fuera SIN excepción (compare_digest no llega a ver un None)."""
++    payload = sesion.nueva("alberto")                    # sin h
++    cookie = sesion.firmar(payload, SECRETO.encode("utf-8"))
++    respuesta = Cliente(cookie).get("/")
++    assert respuesta.estado == 303
++    assert "Max-Age=0" in respuesta.cabecera("set-cookie")
++
++
++# ------------------------------------------------------------------- puerta 3
++
++
++def test_backend_caido_es_503_de_estado_sin_matar_la_cookie(backend):
++    """Fail-closed SIN mentir: no se sirve NINGÚN dato, la cookie sigue viva
++    (un timeout no es un cierre de sesión falso), y al volver la base el
++    revocado es expulsado en su primera petición."""
++    cookie, _ = _cookie_para(backend)
++    backend.caido = True
++    respuesta = Cliente(cookie).get("/acceso")
++    assert respuesta.estado == 503
++    assert "no puede comprobar identidades" in respuesta.texto.lower() or \
++           "no puede comprobar" in respuesta.texto
++    assert respuesta.cabecera("set-cookie") is None      # sin matar la cookie
++    assert "Juan" not in respuesta.texto                 # y sin servir datos
++    # La base vuelve — y el revocado durante la caída sale a la primera:
++    backend.caido = False
++    del backend.registros["alberto"]
++    assert Cliente(cookie).get("/").estado == 303
++
++
++def test_login_con_backend_caido_es_503_no_credenciales_incorrectas(backend):
++    backend.caido = True
++
++    def autenticar_caido(usuario, contrasena):
++        raise auth.IdentidadNoDisponible("supabase caído")
++
++    backend.autenticar = autenticar_caido
++    respuesta = Cliente().post("/entrar", {"usuario": "alberto",
++                                           "contrasena": "correcta"})
++    assert respuesta.estado == 503
++    assert "Usuario o contraseña incorrectos" not in respuesta.texto
++
++
++# --------------------------------------------------------- /salir es LOCAL
++
++
++def test_salir_funciona_con_el_backend_caido(backend):
++    """Ronda S4-m1: borrar tu propia cookie no puede depender de Supabase — con
++    la base caída, el /salir revalidado daría 503 y dejaría VIVA la cookie que
++    intentabas destruir."""
++    cookie, csrf = _cookie_para(backend)
++    backend.caido = True
++    respuesta = Cliente(cookie).post("/salir", {"csrf": csrf})
++    assert respuesta.estado == 303
++    assert "Max-Age=0" in respuesta.cabecera("set-cookie")
++
++
++def test_un_post_sin_csrf_no_gasta_una_llamada_al_backend(backend):
++    """Ronda del dúo sobre el cableado, F-m1: origen y CSRF (locales, gratis)
++    van ANTES de la revalidación de sello (un RTT a Supabase). Un POST con
++    sesión válida pero sin CSRF muere en el 403 sin haber tocado el backend —
++    sin amplificación."""
++    cookie, _ = _cookie_para(backend)            # construir la cookie usa sello
++    llamadas = []
++    original = backend.sello
++    backend.sello = lambda nombre: (llamadas.append(nombre) or original(nombre))
++    respuesta = Cliente(cookie).post("/acceso/revocar",
++                                     {"telegram_user_id": "1"})  # sin csrf
++    assert respuesta.estado == 403
++    assert llamadas == [], "el sello se revalidó antes de rechazar por CSRF"

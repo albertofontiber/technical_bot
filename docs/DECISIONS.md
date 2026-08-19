@@ -8073,3 +8073,71 @@ prometía y habrá que decidir si se revierte.
 - **Traza**: tallies `2026-08-19T10:45:38` · `11:10:01` · `11:34:33` · `11:51:49` en
   `evals/adversarial_review_log.jsonl` (con `verdict_notes` de regla C); recibos Sol en
   `evals/adversarial_reviews/`; el addendum de supersesión de §3.2 al final del eval v9.
+
+## DEC-241 (s324j, 19 ago 2026) — Seguimiento post-merge del panel: S-M1/S-M2/S-M3 cerrados con dúo COMPLETO sobre el delta; el gap 2º-frontera del cableado entero queda declarado
+
+- **Contexto**: la PR #296 (el cableado de DEC-240) se mergeó a `main` con el dúo del sello final
+  aún abierto — Sol había completado su pasada (ts `12:25:33`: 0 críticos, 3 medios + 1 menor,
+  todos confirmados) y el 2º frontera acababa de morir en `max_tokens` leyendo el
+  `terminal.diff` de 3768 líneas entero (la clase DEC-236, recurrente). Con el merge, los tres
+  medios de Sol viajaban en `main`. Trabajo en rama REINICIADA desde `main` (PR nueva; una PR
+  mergeada no se reabre).
+- **Qué se decidió y cableó** (todo verificado contra PostgreSQL 17 real):
+  1. **S-M1 — el cap era techo con fuga de +1**: el DELETE del cap de `panel_puerta` no excluía
+     las claves de la PROPIA admisión; con la tabla llena y `[u:existente-más-antigua, ip:nueva]`
+     borraba la existente y el upsert la recreaba → `cap+1` (latente con `ip:` apagada; alcanzable
+     al encenderla tras XFF). Cierre: `WHERE clave <> ALL(claves)` + **guard (0) de tres ramas**
+     (`cap IS NULL OR claves IS NULL OR cardinality(claves) > cap` → RAISE con ERRCODE
+     check_violation; >=400 → `CerrojoNoDisponible` → 503 fail-CERRAR) que las rondas 2-4 de Sol
+     fueron exigiendo (cap NULL y claves NULL burlaban por caminos distintos la cota). La
+     garantía queda declarada como es: **cota INDUCTIVA** (`<= cap` para toda secuencia de la RPC
+     partiendo de `<= cap`; una llamada bloqueada no poda; escrituras externas fuera de contrato).
+     Tests: `test_el_cap_no_sacrifica_una_clave_de_la_propia_admision` (control negativo REAL:
+     sin la exclusión falla `assert 6 == 5`; el test viejo de dos-claves-nuevas NO lo detectaba)
+     + guard parametrizado ×3 (una rama, un caso rojo).
+  2. **S-M2 — la carrera `acierto`↔`admitir`, ejercida con alcance honesto**: v9 §4(c) exigía
+     hilos, no secuencia. Test nuevo de ESTRÉS con ley de conservación
+     `sembrado(1) + admitidos == fallos_finales + retirados` (fila sembrada + borrador do-while →
+     liveness determinista, sin rojo espurio; guardas anti-verde-en-vacío: excepciones de hilos
+     capturadas, `is_alive()` comprobado, `hechas == N`). **Declarado probabilístico**: la prueba
+     DETERMINISTA de upsert-no-UPDATE es el test secuencial existente; el cierre del contrato es
+     por tres patas (secuencial + razonamiento READ COMMITTED/advisory-lock + estrés).
+  3. **S-M3 — el gate pg congelado de verdad**: el trigger del workflow añade la cola
+     `supabase/migration_proposals/*s295..s299*.sql`, la `016`, `conftest.py` y `pytest.ini`
+     (dependencias reales del fixture/colección que no re-disparaban el gate); y el fixture aplica
+     la **016 CANÓNICA** en vez de una copia estrecha que divergía en ambos sentidos (sin los
+     CHECK de `token_hash`/caducidad; con un `nota NOT NULL` inventado) — la 020 se probaba
+     contra una 016 de ficción. Tokens legacy ahora hex-64 (el CHECK real los exige).
+- **El dúo del seguimiento** (Protocolo 3; el pin del 2º frontera es Fable por s316d): **cinco
+  rondas de Sol xhigh** (ts `13:08:13`→`14:00:56`, convergentes: crítico procedimental → medios
+  de código → bordes NULL → nits de redacción) y **el 2º frontera Fable COMPLETÓ emparejado** con
+  la ronda final (mismo snapshot, `review_id 14:08:12`): **veredicto SÓLIDO** con 3 menores de
+  framing, confirmados y aplicados (el comentario del fixture atribuía el bootstrap a un
+  `display_name` que el `base` no inserta — es el `COALESCE` de la 016; el «abortó sin sembrar»
+  era vacuo respecto al orden del guard; el catálogo del comentario del cap estaba incompleto).
+  **0 falsos positivos en las dos patas.** Remedio DEC-236 que FUNCIONÓ para Fable: briefing
+  compacto acotado al delta (~380 líneas de diff, prohibido el terminal.diff) +
+  `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000` (dos intentos previos cayeron por el preflight con el
+  default de 300k).
+- **Los dos críticos procedimentales de Sol, aceptados** (rondas 1-2): pretender que el dúo del
+  delta «cerrara» el `pending_fable` de DEC-240 era **heredar cobertura inexistente** — el canon
+  liga la pareja por SHA del mismo snapshot, y el snapshot del cableado ya no existe intacto.
+  **Resolución**: el delta del seguimiento queda SELLADO con dúo completo; `panel_puerta` +
+  `Cerrojo.admitir` (el núcleo de seguridad) los vio el 2º frontera al verificar S-M1/S-M2;
+  **el resto del cableado (rutas/sello/sesión/gestión) sigue sin pasada 2º-frontera** — gap
+  declarado, no dispensado. Si se quiere pagar: revisión por trozos con briefings compactos
+  (~3-4 tandas), decisión de Alberto.
+- **Verificación** (Protocolo 1): gate pg **22/22** contra PostgreSQL 17.11 real (con control
+  negativo del discriminante ejecutado); suite sin red **4517 passed, 67 skipped, 2 xfailed**
+  (62 canónicos + 5 pg nuevos sin DSN) tras aplicar los nits de adjudicación. NO se afirma CI
+  verde remoto (no ejecutado desde aquí).
+- **Alternativas descartadas**: re-emparejar a Fable con la entrada Sol `12:25:33` (snapshot
+  roto por el merge — imposible por canon); reintentar Fable con el terminal.diff entero (dos
+  muertes por presupuesto lo desaconsejan; DEC-236); validar `len(claves)<=cap` solo como
+  precondición documentada sin guard (dejaba el techo dependiente de la disciplina del caller);
+  declarar «carrera observada» con el test de estrés (sobre-afirmación — el cierre es por tres
+  patas).
+- **Traza**: tallies `12:25:33` (superada por el seguimiento) y `13:08:13`·`13:23:51`·`13:42:18`·
+  `13:52:45`·`14:00:56` (la final `duo_status=complete`) en `evals/adversarial_review_log.jsonl`;
+  recibos en `evals/adversarial_reviews/`; sujeto: `evals/s324j_seguimiento_briefing_v3.md` (con
+  addendum post-sello de cifras) + `evals/s324j_seguimiento.diff`.
