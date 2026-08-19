@@ -101,23 +101,28 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
 **Lo que FALTA para USARLO, en orden**:
 1. ~~Mergear las PRs~~ HECHO (#301 tandas, #302 requirements — mergeadas por Alberto).
 2. ~~El GO de despliegue~~ DADO por los hechos (Alberto creó el proyecto y ordenó aplicar las migraciones).
-3. **El ALTA de usuarios** (Alberto, en su máquina): `python -m scripts.s324j_panel_usuario alta alberto`
-   con las credenciales de producción; luego login real + smoke del cerrojo (runbook paso 4).
-4. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+3. ~~El ALTA de usuarios~~ HECHA (19-ago noche): Alberto se dio de alta y **ENTRÓ** — el login
+   real ejercitó la cadena entera (scrypt, sello, cookie firmada, cerrojo `panel_puerta` vía
+   PostgREST). El panel está OPERATIVO de punta a punta.
+4. **EN CURSO (s326): las MÉTRICAS del panel — lista recibida, propuesta v1 ADJUDICADA ENTERA,
+   cableando** (PR #305, rama `claude/technical-bot-dashboard-metrics-jpbrns`). La lista de
+   Alberto (19-ago): tipología · fabricantes · modelos · feedback por pregunta (sub-feedback +
+   motivo en texto) · por-usuario. Propuesta: `evals/s326_panel_metricas_uso_propuesta_v1.md` —
+   `query_clasificacion` derivada + job batch determinista-primero (Haiku solo en filas `rag`;
+   taxonomía versionada con «otros» re-taxonomizable) + vistas semanales + Explorador con
+   filtros. La captura de feedback ya existía entera (s294). **Adjudicaciones de Alberto
+   (19-ago, en el hilo): drill-down con prosa = OPCIÓN (a) completa · taxonomía v1 OK ·
+   por-usuario con ALIAS de allowlist OK · coste OK.** Al cablear: dúo sobre el diff (Protocolo
+   3); `_tabla_de_vista` solo pinta columnas DECLARADAS (v9 §7); toda vista nueva sale de vistas
+   SQL (las métricas, AGREGADAS; el Explorador, fila-a-fila — es la adjudicación (a), el
+   «fuera de v1» de DEC-231 que Alberto reabre a conciencia). **Gate de EXPONER nuevo que nace
+   aquí: addendum del Explorador (prosa de preguntas/comentarios) al paquete del abogado.**
+5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
    NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
-5. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
+6. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
    el runbook). Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
-
-**PROPUESTO s326 (19-ago, pendiente de adjudicación de Alberto)** — métricas de USO/CALIDAD en el
-panel (petición suya): tipología de pregunta (clasificador batch Haiku + taxonomía versionada con
-«otros» re-taxonomizable) · fabricantes/modelos (derivados del catálogo + `product_models`, 70 %
-fill medido) · feedback POR PREGUNTA (la captura ya existe entera desde s294: verdict +
-`reason_class` + «te lo explico»→`comment`; falta exponerla) · preguntas por usuario. Propuesta:
-`evals/s326_panel_metricas_uso_propuesta_v1.md` (rama `claude/technical-bot-dashboard-metrics-jpbrns`).
-Sus 4 gates: alcance RGPD del drill-down con prosa (el «fuera de v1» LITERAL de DEC-231) ·
-taxonomía v1 · identidad en pantalla del por-usuario · coste. Cero cambios en el bot; dúo al cablear.
 
 **Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
 contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);

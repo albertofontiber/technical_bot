@@ -5927,6 +5927,11 @@ servidas. https://technical-bot-lake.vercel.app — «-lake» porque el nombre
 pelado ya era de otro. Queda el alta (contraseña de Alberto, no mía) y los dos
 gates de exponer con dueño.
 
+**Cierre (19-ago noche):** Alberto se dio de alta y ENTRÓ — la cadena entera
+(scrypt, sello, cookie, cerrojo vía PostgREST) verificada con el login real.
+Sesión cerrada con todo mergeado y sin pendientes; lo siguiente que pidió:
+las métricas que quiere añadir al panel (feedback suyo, sesión próxima).
+
 ## s326 (19-ago-2026) — Métricas de uso/calidad para el panel: la mitad ya estaba capturada; propuesta v1 sin cablear
 
 Alberto pidió cinco métricas de usabilidad para el panel (tipología de pregunta, fabricantes,
@@ -5943,4 +5948,6 @@ re-corre global — céntimos) + vistas semanales nuevas y página Explorador co
 bonus `bot_marcas_sin_corpus` (demanda no cubierta = señal M&A, el `query_gaps` de TECH_DEBT #8).
 Quedan las 4 adjudicaciones de Alberto (drill-down con prosa —el «fuera de v1» de DEC-231—,
 taxonomía, identidad del por-usuario, coste) y el dúo al cablear. El bot no se toca en ninguna
-pieza.
+pieza. **Adjudicado en el hilo (19-ago tarde)**: taxonomía v1 OK · por-usuario con ALIAS de
+allowlist OK · coste OK; el drill-down con prosa quedó explicado con opciones (a/b/c) y
+pendiente de Alberto.
