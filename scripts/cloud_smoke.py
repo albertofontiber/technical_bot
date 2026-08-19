@@ -230,62 +230,102 @@ def check_modulos():
 
 
 def check_deps_cache():
-    """s325g: ¿la caché del environment trajo las deps pre-instaladas?
+    """s325g/s325h: ¿este arranque pagó la instalación de dependencias, o ya estaban?
 
-    El setup script deja un marcador en site-packages (install-deps.sh); sin esta
-    línea en el recibo, un setup que NUNCA funciona sería invisible — el hook lo
-    taparía instalando en silencio cada VM (hallazgo del revisor adversarial,
-    s325g). La EDAD del marcador es la señal: días = vino del snapshot; minutos =
-    lo acaba de estampar el hook en este arranque, la caché no lo trajo.
-    Informativo a propósito: su ausencia o edad no rompe nada (el hook cubre).
+    Sin esta línea en el recibo, un setup script que NUNCA funciona sería invisible:
+    el hook lo taparía instalando en silencio en cada VM.
+
+    s325h — se REEMPLAZA la inferencia por el HECHO. La versión anterior deducía el
+    origen comparando el mtime del marcador contra `time.time() - /proc/uptime`, y un
+    reinicio del contenedor a mitad de sesión resetea ese uptime: un marcador nacido
+    en la propia VM pasaba por heredado y el recibo declaraba «vino del snapshot»
+    siendo falso (medido en s325h). Ahora `install-deps.sh` APENDIZA lo que hace en
+    cada corrida —«acción huella boot_id uptime fecha»— y aquí solo se leen las líneas cuyo
+    `boot_id` es el de ESTE arranque. Lo que se responde es lo que de verdad importa
+    (¿se pagó la instalación ahora?) y nunca se afirma un origen que no se pueda
+    probar: sin registro de este arranque, se dice eso y no se adivina.
     """
     if os.getenv("CLAUDE_CODE_REMOTE", "") != "true":
         return [_res("deps_cache", SKIP, "solo aplica a sesiones cloud", critico=False)]
     try:
         import hashlib
         import sysconfig
-        import time
 
         # MISMA receta que install-deps.sh (requirements + requirements-dev + el
-        # PROPIO script — la huella cambió en s325g-r2 para que un cambio del
-        # script invalide el marcador). Si esto y el shell divergen, esta línea
-        # reportará «sin marcador para la huella actual» con el marcador presente
-        # — esa asimetría ES el detector de la divergencia.
+        # PROPIO script). Si esto y el shell divergen, aquí se verá «sin marcador
+        # para la huella actual» con el marcador presente — esa asimetría ES el
+        # detector de la divergencia.
         huella = hashlib.sha1(
             (ROOT / "requirements.txt").read_bytes()
             + (ROOT / "requirements-dev.txt").read_bytes()
             + (ROOT / ".claude" / "hooks" / "install-deps.sh").read_bytes()
         ).hexdigest()
-        purelib = Path(sysconfig.get_paths()["purelib"])
-        marca = purelib / f".technical_bot_deps_{huella}"
-        if marca.exists():
-            # Atribución por el ARRANQUE de la VM, no por umbral de edad (Fable r2):
-            # mtime anterior al boot solo puede venir del snapshot restaurado. Asume
-            # /proc/uptime de la VM (medido cierto en s325g) y restore previo al
-            # instante medido de boot — ambos declarados en DEC-238, no garantizados.
-            mtime = marca.stat().st_mtime
-            arranque_vm = time.time() - float(Path("/proc/uptime").read_text().split()[0])
-            edad_min = (time.time() - mtime) / 60
-            origen = (
-                f"anterior a esta VM (edad {edad_min / 1440:.1f} días) — vino del snapshot"
-                if mtime < arranque_vm
-                else f"estampado en esta VM hace {edad_min:.0f} min — build del snapshot o "
-                "fallback del hook (la caché no lo traía)"
-            )
-            return [_res("deps_cache", OK, f"marcador {huella[:8]} · {origen}", critico=False)]
-        otras = len(list(purelib.glob(".technical_bot_deps_*")))
+        marca = Path(sysconfig.get_paths()["purelib"]) / f".technical_bot_deps_{huella}"
+
+        try:
+            boot_id = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+            uptime = float(Path("/proc/uptime").read_text().split()[0])
+        except OSError:
+            # El shell degrada a boot_id «desconocido»; aquí se dice, en vez de
+            # dejar escapar una excepción con mensaje opaco (hallazgo Fable r2).
+            return [
+                _res("deps_cache", AVISO,
+                     "sin /proc legible: no se puede saber si este arranque instaló",
+                     critico=False)
+            ]
+
+        registro = Path(os.getenv("TB_REGISTRO", "/tmp/.technical_bot_deps_registro"))
+        acciones = []
+        if registro.exists():
+            for linea in registro.read_text(encoding="utf-8").splitlines():
+                campos = linea.split()  # acción huella boot_id uptime fecha
+                if len(campos) < 4 or campos[2] != boot_id:
+                    continue
+                # Vocabulario cerrado (Fable r2): contar una acción desconocida haría
+                # que «solo saltada ×N — las trajo hechas» afirmara algo no leído.
+                if campos[0] not in ("instalada", "saltada"):
+                    continue
+                # Filtrar por HUELLA (Fable r2): si el script o los requirements
+                # cambian a mitad de sesión —pasó en s325h, 663fae88→e28aecda—, las
+                # líneas de la receta VIEJA describen otra instalación y contarlas
+                # haría hablar al recibo de algo que no es lo que mide.
+                if campos[1] != huella[:8]:
+                    continue
+                # Segundo sello: el uptime solo crece dentro de un arranque, así que
+                # una línea con uptime mayor que el actual es de OTRO arranque aunque
+                # el boot_id coincida (runtime que lo reutilice).
+                try:
+                    if float(campos[3]) > uptime + 1:
+                        continue
+                except ValueError:
+                    continue
+                acciones.append(campos[0])
+
+        # El marcador se nombra solo si EXISTE: afirmar uno ausente sería la misma
+        # clase de mentira que este arreglo viene a quitar.
+        sello = f"marcador {huella[:8]}" if marca.exists() else f"SIN marcador ({huella[:8]})"
+
+        if not acciones:
+            return [
+                _res("deps_cache", AVISO,
+                     f"{sello} · sin registro de este arranque para esta huella — el hook "
+                     "no corrió aquí (¿sesión sin repo?) o el registro se perdió",
+                     critico=False)
+            ]
+
+        # El HECHO: si en este arranque alguien instaló, el coste se pagó ahora.
+        if "instalada" in acciones:
+            return [
+                _res("deps_cache", OK,
+                     f"{sello} · INSTALADAS en este arranque ({'+'.join(acciones)}) — "
+                     "la caché del environment no las traía",
+                     critico=False)
+            ]
         return [
-            _res(
-                "deps_cache",
-                OK,
-                f"sin marcador para la huella actual ({huella[:8]})"
-                + (
-                    f"; hay {otras} de otra huella — los requirements cambiaron tras el snapshot"
-                    if otras
-                    else " — caché fría o setup script sin configurar (el hook instala)"
-                ),
-                critico=False,
-            )
+            _res("deps_cache", OK,
+                 f"{sello} · ya estaban al arrancar (solo «saltada» ×{len(acciones)}) — "
+                 "la caché del environment las trajo hechas",
+                 critico=False)
         ]
     except Exception as exc:
         return [_res("deps_cache", AVISO, f"{type(exc).__name__}: {exc}"[:200], critico=False)]

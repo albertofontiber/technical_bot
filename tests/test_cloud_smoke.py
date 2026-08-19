@@ -11,6 +11,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "scripts" / "cloud_smoke.py"
 
@@ -160,3 +162,203 @@ def test_aviso_de_telegram_solo_en_sesiones_cloud(tmp_path) -> None:
     assert "PRESENTE y no debería" in cloud.stdout
     datos = json.loads((tmp_path / "cloud.json").read_text(encoding="utf-8"))
     assert datos["superficie"] == "cloud"
+
+
+# ---------------------------------------------------------------- s325h ------
+# El check `deps_cache` dejó de INFERIR el origen por mtime-vs-/proc/uptime (un
+# reinicio del contenedor reseteaba el uptime y un marcador nacido en la propia VM
+# se declaraba «vino del snapshot» — falso, medido en s325h) y pasó a LEER el
+# registro que install-deps.sh apendiza en cada corrida, sellado con el boot_id.
+# /proc solo existe en Linux, y este fichero declara Windows como superficie de
+# desarrollo (ver el comentario de PYTHONIOENCODING arriba). Sin esta guarda, los
+# tests del registro fallarían allí por el entorno, no por el contrato (Fable r2).
+sin_proc = pytest.mark.skipif(
+    not Path("/proc/sys/kernel/random/boot_id").exists(),
+    reason="el registro por arranque se sella con /proc (solo Linux)",
+)
+
+
+def _boot_uptime():
+    return (
+        Path("/proc/sys/kernel/random/boot_id").read_text().strip(),
+        float(Path("/proc/uptime").read_text().split()[0]),
+    )
+
+
+def _huella_actual_completa():
+    import hashlib
+
+    from scripts import cloud_smoke
+
+    raiz = cloud_smoke.ROOT
+    return hashlib.sha1(
+        (raiz / "requirements.txt").read_bytes()
+        + (raiz / "requirements-dev.txt").read_bytes()
+        + (raiz / ".claude" / "hooks" / "install-deps.sh").read_bytes()
+    ).hexdigest()
+
+
+def _huella_actual():
+    import hashlib
+
+    from scripts import cloud_smoke
+
+    raiz = cloud_smoke.ROOT
+    return hashlib.sha1(
+        (raiz / "requirements.txt").read_bytes()
+        + (raiz / "requirements-dev.txt").read_bytes()
+        + (raiz / ".claude" / "hooks" / "install-deps.sh").read_bytes()
+    ).hexdigest()[:8]
+
+
+def _deps_cache(tmp_path, lineas_registro, con_marcador=True, monkeypatch=None):
+    """Corre check_deps_cache con un registro y un marcador CONTROLADOS.
+
+    `con_marcador` redirige purelib a un directorio propio: sin esto el test
+    dependía del marcador real de la máquina (y el parámetro estaba muerto —
+    hallazgo Fable r2: el contrato de «SIN marcador» no lo fijaba ningún test).
+    """
+    import sysconfig
+
+    from scripts import cloud_smoke
+
+    registro = tmp_path / "registro"
+    if lineas_registro is not None:
+        registro.write_text("\n".join(lineas_registro) + "\n", encoding="utf-8")
+
+    purelib = tmp_path / "purelib"
+    purelib.mkdir(exist_ok=True)
+    monkeypatch.setattr(sysconfig, "get_paths", lambda *a, **k: {"purelib": str(purelib)})
+
+    huella = _huella_actual_completa()
+    if con_marcador:
+        (purelib / f".technical_bot_deps_{huella}").touch()
+    monkeypatch.setenv("CLAUDE_CODE_REMOTE", "true")
+    monkeypatch.setenv("TB_REGISTRO", str(registro))
+    return cloud_smoke.check_deps_cache()[0], con_marcador, huella
+
+
+@sin_proc
+def test_deps_cache_dice_la_verdad_cuando_se_instalo_en_este_arranque(tmp_path, monkeypatch):
+    """El caso que la versión vieja disfrazaba de «vino del snapshot»."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"instalada {h} {boot} {up - 60:.2f} 2026-08-19T14:14:12Z",
+         f"saltada {h} {boot} {up - 30:.2f} 2026-08-19T14:14:20Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "INSTALADAS en este arranque" in res["detalle"]
+    assert "no las traía" in res["detalle"]
+    assert res["critico"] is False
+
+
+@sin_proc
+def test_deps_cache_reconoce_el_ahorro_solo_si_nadie_instalo(tmp_path, monkeypatch):
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path, [f"saltada {h} {boot} {up - 10:.2f} 2026-08-19T15:00:00Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "ya estaban al arrancar" in res["detalle"]
+    assert "las trajo hechas" in res["detalle"]
+
+
+@sin_proc
+def test_deps_cache_ignora_lineas_de_OTRO_arranque(tmp_path, monkeypatch):
+    """El corazón del arreglo: un registro heredado (otro boot_id) no cuenta —
+    antes, tras un reinicio, esas líneas se atribuían a esta VM."""
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"instalada {h} 00000000-1111-2222-3333-444444444444 5.0 2026-08-19T13:48:56Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "sin registro de este arranque" in res["detalle"]
+    assert res["estado"] == "AVISO", "sin evidencia no se afirma un origen"
+
+
+@sin_proc
+def test_deps_cache_ignora_lineas_de_OTRA_huella(tmp_path, monkeypatch):
+    """Fable r2: si el instalador cambia a mitad de sesión (663fae88→e28aecda),
+    las líneas de la receta vieja describen OTRA instalación."""
+    boot, up = _boot_uptime()
+    res, _, _ = _deps_cache(
+        tmp_path, [f"instalada 663fae88 {boot} {up - 5:.2f} 2026-08-19T13:48:56Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert "sin registro de este arranque" in res["detalle"]
+    assert res["estado"] == "AVISO"
+
+
+@sin_proc
+def test_deps_cache_descarta_uptime_imposible(tmp_path, monkeypatch):
+    """Segundo sello: dentro de un arranque el uptime solo crece, así que una
+    línea con uptime mayor que el actual viene de otro (boot_id reutilizado)."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path, [f"instalada {h} {boot} {up + 9999:.2f} 2026-08-19T13:00:00Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert res["estado"] == "AVISO"
+
+
+@sin_proc
+def test_deps_cache_no_inventa_origen_sin_registro(tmp_path, monkeypatch):
+    res, _, _ = _deps_cache(tmp_path, None, monkeypatch=monkeypatch)
+    assert "snapshot" not in res["detalle"].lower(), "no se afirma lo que no se puede probar"
+    assert res["estado"] == "AVISO"
+
+
+def test_deps_cache_solo_aplica_a_cloud(tmp_path, monkeypatch):
+    from scripts import cloud_smoke
+
+    monkeypatch.delenv("CLAUDE_CODE_REMOTE", raising=False)
+    assert cloud_smoke.check_deps_cache()[0]["estado"] == "SKIP"
+
+
+@sin_proc
+def test_deps_cache_no_afirma_un_marcador_que_no_existe(tmp_path, monkeypatch):
+    """Fable r2: el check nació para dejar de afirmar lo no probado, y nombraba
+    el marcador sin comprobarlo. Sin marcador debe decirlo."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"saltada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        con_marcador=False,
+        monkeypatch=monkeypatch,
+    )
+    assert res["detalle"].startswith("SIN marcador")
+    assert "ya estaban al arrancar" in res["detalle"]
+
+
+@sin_proc
+def test_deps_cache_afirma_el_marcador_solo_cuando_existe(tmp_path, monkeypatch):
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"saltada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        con_marcador=True,
+        monkeypatch=monkeypatch,
+    )
+    assert res["detalle"].startswith(f"marcador {h}")
+
+
+@sin_proc
+def test_deps_cache_ignora_acciones_desconocidas(tmp_path, monkeypatch):
+    """Vocabulario cerrado: contar una acción que no escribe el instalador haría
+    que «solo saltada ×N — las trajo hechas» afirmara algo no leído."""
+    boot, up = _boot_uptime()
+    h = _huella_actual()
+    res, _, _ = _deps_cache(
+        tmp_path,
+        [f"reinstalada {h} {boot} {up - 5:.2f} 2026-08-19T15:00:00Z"],
+        monkeypatch=monkeypatch,
+    )
+    assert res["estado"] == "AVISO"
+    assert "sin registro de este arranque" in res["detalle"]
