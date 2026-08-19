@@ -7720,7 +7720,7 @@ fichero de propuesta; ambas revisiones están archivadas en `evals/adversarial_r
 Ref ronda 2: Sol ts=2026-08-18T21:44:56 · Fable
 `2026-08-18T21-54-44_claude-fable-5_a4a0aa0222c0.md` ·
 propuesta `evals/s325b_cableado_revision_v2.md`.
-## DEC-232 (s324h, 18 ago 2026) — La voz pasa por el plan: el default que mentía estaba SEIS veces (Fase 1 APLICADA, PR #284 mergeada)
+## DEC-235 (s324h, 18 ago 2026) — La voz pasa por el plan: el default que mentía estaba SEIS veces (Fase 1 APLICADA, PR #284 mergeada)
 
 **Síntoma** (piloto vivo, Alberto): «¿Qué centrales de Detnov tienes?» **por voz**, con la
 transcripción YA correcta → «no he encontrado información relevante»; **tecleada** → el listado
@@ -7774,7 +7774,7 @@ credenciales. **El entorno limpio es un revisor que ningún modelo sustituye.**
 Suite: 4426 verde. Ref: `evals/s324h_voz_al_plan_propuesta_v5.md` + `s324h_v5_addendum_r48.md`,
 tally en `evals/adversarial_review_log.jsonl` (r42–r49).
 
-## DEC-233 (s324h, 18 ago 2026) — El runner de Fable ahogaba a su propio revisor (#86, diagnóstico MEDIDO)
+## DEC-236 (s324h, 18 ago 2026) — El runner de Fable ahogaba a su propio revisor (#86, diagnóstico MEDIDO)
 
 En r43/r44 el runner marcó `tools_reales=0` y detectó **transcripción FABRICADA**. Dos hipótesis
 mías murieron con sonda: NO era `tool_choice` (Fable llama a la herramienta sin él) y NO era
@@ -7799,3 +7799,50 @@ gate ciego con ≥30 audios reales estratificados** (`evals/voice_asr_model_sele
 DECISIONS ~2256). El Protocolo 4 obliga a grep en DECISIONS antes de opinar sobre un lever, y no
 lo hice. El cambio funciona y es reversible por variable de entorno; **el listón declarado sigue
 sin cumplirse** y queda a decisión de Alberto recoger los 30 audios.
+
+## DEC-237 (s324i, 18-19 ago 2026) — El panel a Vercel: (a2) adjudicado, diseño NO cableado tras DOS rondas NO SÓLIDO
+
+**Adjudicado por Alberto**: subdominio `techassistant.fontiber.com`, y **(a2)** — la lista de
+usuarios sale de las variables de entorno y pasa a Supabase. Eligió (a2) al conocer un dato que yo
+le había vendido al revés: *«revocación en la siguiente petición»* era **falso**, porque
+`DASHBOARD_USUARIOS` es variable de entorno y su cambio exige reinicio (`auth.py:233-236`) — en
+Vercel, un redespliegue. **Mientras la lista viva en el entorno, revocar no puede ser más rápido
+que un despliegue.**
+
+**DECISIÓN: no se cabló.** Dos rondas del dúo, dos NO SÓLIDO. La v1 cayó con un crítico que
+**cambió la decisión de Alberto** (la idempotencia que propuse era imposible: `gestion.py:16-24`
+guarda sólo el SHA-256 y el enlace se enseña una vez). La v2 cayó con **tres**, dos de ellos
+fallos de seguridad míos y verificados contra el código:
+
+1. **Tabla de credenciales sin RLS/FORCE/REVOKE** — y el patrón YA estaba escrito en
+   `migrations/016_allowlist_invitaciones.sql:266-292`. En `public`, PostgREST expondría usuarios
+   y verificadores scrypt.
+2. **`HMAC(usuario|ip)` fusiona dos claves que el cerrojo cuenta por SEPARADO** (`auth.py:363`
+   devuelve `("u:…", "ip:…")`). Rotar IP → intentos ilimitados contra un usuario; rotar usuario →
+   esquiva el límite por IP. Mi «sirve igual para contar» **debilitaba** el cerrojo mientras yo
+   creía mejorar la privacidad.
+3. **El contrato del digest `h` es irrealizable**: `vigente()` recibe un nombre y devuelve
+   `Usuario(nombre)`, así que no puede crear ni comparar el digest sin volver a rodear `Backend`.
+
+Más siete medios, entre ellos que un HMAC con clave conservada es **seudonimización** y
+`docs/RGPD_RETENCION.md:67-75` ya rechaza ese framing; que incremento atómico ≠ admisión atómica;
+y que PostgREST no puede expresar `fallos = fallos + 1` (haría falta una RPC).
+
+**Motivo de no cablear**: el patrón de los tres críticos es «no vi un contrato que ya estaba
+escrito en el repo», y esa clase de fallo empeora con contexto acumulado — no con más rondas en
+la misma sesión. Es autenticación: el precio de equivocarse es una tabla de credenciales expuesta.
+
+**Alternativas descartadas**: (a1) revalidar contra la variable de entorno → revocación «tras
+redesplegar», no inmediata; leer el entorno desde `app.py` → rodea la interfaz enchufable de
+DEC-231 e invalida el futuro backend del war room; fallback a la variable si Supabase cae →
+reabre el agujero, quien tire la base recupera al usuario revocado; que el panel gestione usuarios
+→ superficie nueva, el alta sigue siendo script + `INSERT`.
+
+**Punto de partida de la sesión siguiente**: `evals/s324i_panel_vercel_propuesta_v2.md` (diseño
+con la estructura correcta) + los diez defectos enumerados arriba. Traza:
+`evals/adversarial_review_log.jsonl` (ts `2026-08-18T23:39:54` y `2026-08-18T23:50:06`).
+
+**Nota de higiene**: al escribir esto se descubrió que `DECISIONS.md` tenía **11 números DEC
+duplicados**. Los dos míos (s324h) se renumeraron a **DEC-235** (la voz al plan) y **DEC-236** (el
+runner de Fable), con sus tres referencias actualizadas. Los **9 históricos** quedan declarados en
+`TECH_DEBT`, sin renumerar: tocan referencias cruzadas antiguas y no es trabajo de esta sesión.
