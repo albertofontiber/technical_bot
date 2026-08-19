@@ -7930,3 +7930,91 @@ documentado; clonar siempre es determinista).
 desde una sesión: se confirman en la primera VM nueva tras pegar el campo (esperado:
 ~77 s → ~30 s). Hasta que `install-deps.sh` esté en `main`, pegar el campo es inocuo pero
 no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g, 3 rondas: NO SÓLIDO → NO SÓLIDO → **SÓLIDO**).
+
+## DEC-239 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
+
+- **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto a internet).
+  **Estado**: diseño CERRADO (`evals/s324i_panel_vercel_propuesta_v9.md`); **nada cableado ni
+  desplegado** — ese era el mandato de DEC-237 y se cumplió.
+- **Qué se hizo**: la v3 cerró los diez defectos de DEC-237 (verificados primero contra el código,
+  no de memoria) y el dúo corrió SEIS rondas completas en la sesión (v3→v9; Sol xhigh agéntico +
+  Fable emparejado con semilla mínima — lección DEC-236 — y presupuesto 600k tras morir un intento
+  al default de 300k). **64 hallazgos, cada uno pasado por la regla C contra código/docs antes de
+  actuar; 0 falsos positivos en las seis rondas.** Trayectoria: r1 = 3 críticos (el peor: mi
+  contradicción interna §5↔§1.3, cazada por LOS DOS revisores) → desde r2, cero defectos de
+  mecanismo → r6 = Fable **«SÓLIDO»** explícito (~30 anclas, cero desajustes) y Sol 5 medios, todos
+  contrato-de-integración sobre código aún inexistente, cerrados en la v9.
+- **Decisión 1 — cerrar las rondas de diseño** (regla F: decido yo y soy responsable): el
+  guardarraíl anti-ritual manda no iterar por iterar; lo que Sol ataca desde r4 exige el DIFF real
+  para ser verificable. El dúo VUELVE a correr al cablear, sobre el diff (Protocolo 3, ALTO,
+  innegociable).
+- **Decisión 2 — el diseño es SÓLIDO-para-cablear, y un SÓLIDO no es un GO** (DEC-173): cablear
+  exige el GO explícito de Alberto. Gates previos a EXPONER, en la v9 §13: plazo
+  `[DECIDIR: Alberto]` de `panel_usuarios` · panel dentro del paquete del abogado (DEC-231),
+  nombrando el pendiente canónico de la purga 24m de `bot_invitaciones`/allowlist (adjudicada
+  s324e, sin mecanismo) · medición XFF antes de encender la mitad `ip:` del cerrojo (hasta
+  entonces esa clave NI CUENTA NI BLOQUEA — con IP compartida del proxy, 5 fallos = 429 global;
+  r5/F5-M1).
+- **Hallazgo LATENTE de hoy, fuera del panel** (r1/S-C1, verificado): anular una invitación está
+  ROTA contra Supabase real — `gestion.py:271-273` firma en `nota` (dúo r41 de s324f) y la 016
+  solo concede `UPDATE (canjeada_at, canjeada_por, revocada_at)` (016:321-322) → 42501. Un dúo
+  arreglando un hallazgo (r41: «la anulación queda sin firmar») abrió otro que ningún test sin red
+  puede ver. La 020 lo cierra de raíz (`revocada_por` + CHECK del patrón
+  `bot_allowlist_revocacion_completa` + backfill) y nace la puerta 9-bis (toda columna escrita
+  tiene su GRANT, cruzada estáticamente).
+- **Alternativas descartadas** (las nuevas de la sesión; cada una con su porqué en la v9 §10):
+  BEGIN/COMMIT dentro de las migraciones (la 016 lo prohíbe tras dos fallos reales — el cierre es
+  el contrato de aplicación) · ampliar `rgpd_retencion_pasada` (su autocontrol afirma EXACTAMENTE
+  4 tablas: se instancia el patrón en una función hermana diaria) · pepper dedicado para `K` ·
+  cache del sello con TTL · PRG con canal flash · devolver el +1 en fallo parcial.
+- **Método, para la traza**: la mecánica «un fichero de propuesta por versión + tabla
+  defecto→cierre por ronda» mantuvo las seis rondas auditables; el coste total del dúo fue del
+  orden de $15-25. El primer intento de Fable r3 murió por presupuesto (preflight tras 12 tools):
+  `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000` + 16 tools lo resolvió — DEC-236 sigue teniendo pendiente
+  el arreglo de raíz en el runner (no pegar código como semilla).
+- **Traza**: tallies `2026-08-19T07:50:18` · `08:06:55` · `08:19:51` · `08:34:58` · `08:48:06` ·
+  `09:02:03` en `evals/adversarial_review_log.jsonl`, con `verdict_notes` de regla C punto por
+  punto y los recibos apareados en `evals/adversarial_reviews/`.
+
+
+## DEC-240 (s324j, 19 ago 2026) — El panel a Vercel: la v9 CABLEADA y verificada, con el dúo del diff INCOMPLETO por crédito agotado (no mergear aún)
+
+- **Fecha**: 19 ago 2026. **Impacto**: ALTO (autenticación de un servicio expuesto). **Estado**:
+  código cableado y verificado; **NO desplegado, NO mergeado** — el dúo formal en ALTO no está
+  cerrado (ver abajo).
+- **Qué se hizo**: se cableó el diseño de DEC-239 (`evals/s324i_panel_vercel_propuesta_v9.md`)
+  pieza a pieza: migraciones `019` (tablas `panel_usuarios`/`panel_intentos` + ACL enumerada +
+  RPC `panel_puerta` + hermana de retención diaria + postcondiciones + NOTIFY) y `020`
+  (`op` + `revocada_por` + backfill + CHECK), `dashboard/cerrojo.py` (nuevo), sello +
+  `IdentidadNoDisponible` + `BackendSupabase` + `validar_registro_estricto` en `auth.py`, la
+  puerta con sello + 503 + `/salir` local en `app.py`, `DUPLICADO`/`op`/`revocada_por` en
+  `gestion.py`, `scripts/s324j_panel_usuario.py`, el enchufe en `api/index.py`, y ~90 puertas de
+  test nuevas + un gate de integración pg + su workflow.
+- **Verificación (Protocolo 1)**: suite completa **4517 passed / 62 skipped / 2 xfailed**; el gate
+  de integración `test_s324j_panel_pg.py` ejecutado contra un **PostgreSQL 17 REAL** (17/17,
+  incluye la ráfaga concurrente de 12 hilos que admite exactamente `FALLOS_LIBRES+1`, el bypass
+  del cap cerrado, la política-como-ventana, la 020 con backfill); s295 pg intacto (42/42).
+- **El dúo del diff** (Protocolo 3, ALTO): el cross-model **Sol (GPT-5.6 xhigh) corrió CUATRO
+  rondas** sobre el cableado y sus fixes, y cazó **un fallo de SEGURIDAD real** que ni el otro
+  revisor ni yo habíamos visto en el cableado: `panel_puerta` sembraba una fila `u:` ANTES de
+  comprobar el bloqueo, así que un atacante ya bloqueado por su clave `ip:` seguía inflando el cap
+  (divergencia con el doble en memoria, que comprueba antes de sembrar). Se corrigió reordenando
+  la RPC (check → poda → cap → conteo). Las demás rondas afinaron precisión de claims. **Dos de
+  mis fixes fueron sobre-correcciones que Sol revirtió** (aceptar `'1 day'` en el autocontrol;
+  quitar el trigger de `test_s295`).
+- **Por qué NO se declara SÓLIDO ni se mergea** (crítico procedimental de Sol, verificado contra
+  el canon): a partir de la 2ª ronda del diff, el **2º revisor frontera Anthropic** (Fable, y su
+  fallback Opus) cae por **crédito agotado** de la cuenta (`400 credit balance too low`, verificado
+  con sonda mínima). `docs/ADVERSARIAL_REVIEWER.md:80-92` es LITERAL: una credencial ausente deja
+  `pending_fable` y **«no completa ni dispensa el dúo»**; y DEC-236 documenta el *ahogo por
+  contexto* del runner, NO una dispensa por crédito — citarlo como precedente de dispensa fue un
+  error mío que el adversarial cazó. En impacto ALTO el dúo es innegociable, así que **el cableado
+  queda pendiente del 2º revisor** y no se mergea hasta cerrarlo.
+- **Qué desbloquea el cierre**: recargar el crédito de Anthropic (acción de Alberto) y correr
+  `scripts/adversarial_review_fable.py` sobre el diff del cableado, emparejado con las entradas Sol
+  ya registradas. Si el 2º revisor vuelve limpio, el cableado queda listo para el GO de despliegue
+  (que sigue siendo de Alberto, con los tres gates de exponer de la v9 §13: plazo de
+  `panel_usuarios`, paquete del abogado, medición XFF antes de encender `ip:`).
+- **Traza**: tallies `2026-08-19T10:45:38` · `11:10:01` · `11:34:33` · `11:51:49` en
+  `evals/adversarial_review_log.jsonl` (con `verdict_notes` de regla C); recibos Sol en
+  `evals/adversarial_reviews/`; el addendum de supersesión de §3.2 al final del eval v9.

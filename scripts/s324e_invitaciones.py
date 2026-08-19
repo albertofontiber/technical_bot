@@ -374,11 +374,26 @@ def cmd_revocar_invitacion(args) -> int:
         print("Para quitarlo: `revocar-acceso <telegram_user_id>` "
               "(el id sale en `listar --todas`).")
         return 2
-    _pedir("PATCH", "bot_invitaciones",
-           params={"id": f"eq.{invitacion['id']}"},
-           json={"revocada_at": _iso(_ahora())})
+    # (s324j, hallazgo S3-M2 del duo) El PATCH es CONDICIONAL, como el del
+    # panel: la comprobacion de arriba es cortesia de mensaje, no el control —
+    # entre la lectura y la escritura alguien puede canjear, y un PATCH a secas
+    # marcaria revocada una invitacion YA canjeada e imprimiria «anulada»
+    # mintiendo (el acceso quedo concedido). Con las condiciones EN el PATCH,
+    # 0 filas afectadas = lo perdiste, y se dice. La anulacion ademas se FIRMA
+    # en `revocada_por` (migracion 020; el CHECK exige fecha y firma juntas).
+    filas = _pedir("PATCH", "bot_invitaciones",
+                   params={"id": f"eq.{invitacion['id']}",
+                           "revocada_at": "is.null",
+                           "canjeada_at": "is.null"},
+                   json={"revocada_at": _iso(_ahora()),
+                         "revocada_por": f"cli:{_operador(args.por)}"})
+    if not filas:
+        print("NO se ha anulado: alguien la canjeo o la anulo mientras "
+              "mirabas. Vuelve a listar antes de actuar.")
+        return 2
     print(f"Invitacion anulada: {invitacion['id']} "
-          f"- {invitacion.get('nota') or '(sin nota)'}")
+          f"- {invitacion.get('nota') or '(sin nota)'} "
+          f"(por cli:{_operador(args.por)})")
     return 0
 
 
@@ -486,6 +501,7 @@ def construir_parser() -> argparse.ArgumentParser:
     rev_inv = sub.add_parser("revocar-invitacion",
                              help="anula una invitacion pendiente")
     rev_inv.add_argument("id", help="id o prefijo del id (el de `listar`)")
+    rev_inv.add_argument("--por", default=None, help="quien la anula")
     rev_inv.set_defaults(funcion=cmd_revocar_invitacion)
 
     rev_acc = sub.add_parser("revocar-acceso", help="quita el acceso a alguien")

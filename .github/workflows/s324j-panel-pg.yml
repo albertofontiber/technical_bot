@@ -1,0 +1,67 @@
+name: S324J panel contra Postgres real
+
+# La puerta 4 del panel (evals/s324i_panel_vercel_propuesta_v9.md): el resto de
+# tests del panel usan dobles — prueban que se emiten las sentencias correctas,
+# no que la base haga lo que afirmamos. Y lo afirmado es fuerte: panel_puerta
+# acota el rebano concurrente (12 hilos → 5 admitidos), el cap es un techo, la
+# ventana de retencion es un invariante del MOTOR (politica, no SQL), y la
+# frontera ACL de las tablas nuevas es efectiva. Verificar el EFECTO y no el
+# codigo — leccion #60; mismo patron de contenedor desechable que s295/s133.
+#
+# Gap declarado: el contenedor es Postgres, no Supabase — PostgREST y su cache
+# solo se prueban en el smoke post-deploy del runbook.
+
+on:
+  push:
+    paths:
+      - "migrations/019_panel_usuarios_cerrojo.sql"
+      - "migrations/020_invitaciones_op.sql"
+      - "dashboard/**"
+      - "tests/test_s324j_panel_pg.py"
+      # SÍ se lista test_s295 (ronda de verificación, S2-M3): este gate IMPORTA
+      # su fixture `base`, que aplica la cola s295→s299 entera. Un cambio en
+      # ese arnés puede romper el gate del panel — así que este workflow debe
+      # re-correr cuando cambie, aunque su propio workflow (s295) también corra.
+      # Es una dependencia de IMPORT, no un trigger espurio.
+      - "tests/test_s295_rgpd_integracion_pg.py"
+      - ".github/workflows/s324j-panel-pg.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  panel-pg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: s324j_panel
+        ports:
+          - 55434:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d s324j_panel"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      # Base DESECHABLE. Nunca apuntar a produccion: el test CREA y DESTRUYE objetos.
+      RGPD_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:55434/s324j_panel
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar lo minimo
+        run: python -m pip install --upgrade pip psycopg2-binary pytest python-dotenv httpx
+
+      - name: Ejercer las migraciones del panel contra Postgres
+        run: python -m pytest tests/test_s324j_panel_pg.py -v --no-header

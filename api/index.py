@@ -31,4 +31,16 @@ invocación puede caer en una instancia distinta, así que el cerrojo protege mu
 menos de lo que su código promete. Hasta que se mueva a la base, la defensa real
 es `scrypt` (~170 ms por intento) más una contraseña larga.
 """
+# EL PUNTO DE ARRANQUE ELIGE (s324j, v9 §9): el panel no sabe que está en
+# Vercel — quien lo arranca, sí. Aquí se enchufan los backends de Supabase:
+#   · usuarios en `panel_usuarios` (revocación efectiva en la SIGUIENTE
+#     petición — el motivo de (a2), DEC-237/DEC-239);
+#   · cerrojo distribuido en `panel_intentos` (el de memoria no protege en
+#     serverless: cada intento puede caer en una instancia distinta).
+# `python -m dashboard` (local) NO pasa por aquí y conserva `BackendEntorno` +
+# cerrojo en memoria: dobles, tests y modo local intactos. Sin variable mágica.
+from dashboard import auth, cerrojo
 from dashboard.app import app  # noqa: F401  (Vercel lo descubre por nombre)
+
+auth.usar_backend(auth.BackendSupabase())
+cerrojo.usar_cerrojo(cerrojo.CerrojoSupabase())

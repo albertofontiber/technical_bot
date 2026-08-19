@@ -46,7 +46,9 @@ import base64
 import hashlib
 import hmac
 import os
+import re
 import secrets
+import time
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -74,6 +76,19 @@ LONGITUD_CLAVE_BYTES = 32
 
 class RegistroInvalido(ValueError):
     """El texto no es un registro de contraseña legible (formato o cotas)."""
+
+
+class IdentidadNoDisponible(RuntimeError):
+    """El backend NO pudo comprobar la identidad — y eso no es «credencial mala».
+
+    La lanza SOLO el transporte (Supabase caído, tabla ausente, credenciales
+    del panel sin configurar, cualquier respuesta HTTP >= 400 de la lectura de
+    usuarios), nunca una contraseña equivocada. Aplanar los dos casos en `None`
+    haría que un usuario legítimo viera «Usuario o contraseña incorrectos»
+    durante una caída — una mentira (s324j, v9 §1.3). La capa de rutas la
+    convierte en un 503 uniforme, igual para todo el mundo: no hay señal
+    por-usuario que un atacante pueda leer. `BackendEntorno` no la lanza nunca.
+    """
 
 
 # ---------------------------------------------------------------------- base64
@@ -169,6 +184,40 @@ def verificar(contrasena: str, registro: str) -> bool:
     return hmac.compare_digest(obtenido, esperado)
 
 
+def validar_registro_estricto(registro: str) -> None:
+    """Lanza `RegistroInvalido` si el registro no es EXACTAMENTE lo que
+    `hash_contrasena` emite. Es la puerta del script de alta de usuarios del
+    panel (s324j, v9 §1.1 — rondas S3-M3/S4-M2): `_partir` tolera una sal o un
+    hash de UN byte, y `verificar` deriva siempre `LONGITUD_CLAVE_BYTES` — un
+    registro así es legible y NO PUEDE verificar jamás: un usuario inalcanzable
+    que ningún login rescata. Aquí se exige la forma canónica completa: sal de
+    16, clave de 32, y solo los parámetros `n,r,p` (sin extras que `_partir`
+    ignoraría en silencio).
+
+    Lo que esto garantiza es que el registro es ESTRUCTURALMENTE verificable —
+    no que case con una contraseña concreta (un hash aleatorio de 32 bytes pasa
+    la forma): ese par lo comprueba el challenge del script, que re-pide la
+    contraseña y corre `verificar` antes de emitir el INSERT."""
+    n, r, p, sal, clave = _partir(registro)                      # cotas incluidas
+    params = dict(
+        trozo.split("=", 1)
+        for trozo in registro.split("$")[1].split(",") if trozo
+    )
+    if set(params) != {"n", "r", "p"}:
+        raise RegistroInvalido(
+            f"parámetros extra o ausentes: {sorted(params)} (canónico: n,r,p)"
+        )
+    if len(sal) != LONGITUD_SAL_BYTES:
+        raise RegistroInvalido(
+            f"sal de {len(sal)} bytes (canónica: {LONGITUD_SAL_BYTES})"
+        )
+    if len(clave) != LONGITUD_CLAVE_BYTES:
+        raise RegistroInvalido(
+            f"hash de {len(clave)} bytes (canónico: {LONGITUD_CLAVE_BYTES}) — "
+            f"un hash de otra longitud es LEGIBLE pero jamás verificará"
+        )
+
+
 # ------------------------------------------------------------------- usuario
 
 
@@ -176,17 +225,34 @@ def verificar(contrasena: str, registro: str) -> bool:
 class Usuario:
     """Quién ha entrado. Lo MÍNIMO que el panel necesita: un nombre para
     enseñar arriba a la derecha y para firmar las altas y las revocaciones
-    («quién dio de alta a quién» es la mitad del requisito de auditoría). Sin
-    correo, sin rol y sin perfil: v1 no distingue permisos — quien entra,
-    administra."""
+    («quién dio de alta a quién» es la mitad del requisito de auditoría), y el
+    `sello` de su credencial, que viaja en la cookie como `h` y hace efectivas
+    la revocación y el cambio de contraseña en la SIGUIENTE petición (s324j,
+    v9 §2). Sin correo, sin rol y sin perfil: v1 no distingue permisos — quien
+    entra, administra.
+
+    `sello` NO tiene default a propósito (v9, ronda S4-M4): un default `""`
+    dejaría construir dobles que compilan y luego expulsan al usuario en la
+    segunda petición — una rotura conductual escondida detrás de una de
+    construcción. Sin default, el constructor que falte se rompe EN EL TEST."""
 
     nombre: str
+    sello: str
 
 
 class Backend(Protocol):
-    """La interfaz que sustituirá el login del war room."""
+    """La interfaz que sustituirá el login del war room.
+
+    Dos métodos y una excepción: `autenticar` comprueba una credencial (y
+    devuelve el usuario CON su sello); `sello` revalida en cada petición que el
+    usuario sigue activo y con la misma credencial (`None` = fuera). Cualquier
+    imposibilidad de COMPROBAR — no de acertar — se señala lanzando
+    `IdentidadNoDisponible`, nunca devolviendo `None`."""
 
     def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
+        ...
+
+    def sello(self, nombre: str) -> str | None:
         ...
 
 
@@ -204,6 +270,39 @@ _SENUELO = hash_contrasena(secrets.token_urlsafe(16), n=N_DEFECTO)
 
 def _normalizar_usuario(nombre: str) -> str:
     return (nombre or "").strip().lower()
+
+
+#: El charset de un nombre de usuario del panel — EL MISMO que impone el CHECK
+#: de `panel_usuarios` en la 019 (la puerta 6-bis los ata con una tabla de
+#: casos compartida). Existe por dos motivos que no son estética: un nombre que
+#: la tabla no puede contener no debe ni consultarse, y los caracteres que la
+#: sintaxis de filtros de PostgREST trata como estructura (`,`, `(`, `)`…) no
+#: pueden llegar a un `usuario=eq.X` construido con entrada del formulario
+#: (s324j, v9 §5).
+USUARIO_RE = re.compile(r"^[a-z0-9._@-]{1,64}$")
+
+
+def usuario_admisible(nombre: str) -> bool:
+    """¿Este nombre (YA normalizado) puede existir en `panel_usuarios`?"""
+    return bool(USUARIO_RE.fullmatch(nombre))
+
+
+def _b64url_sin_relleno(crudo: bytes) -> str:
+    return base64.urlsafe_b64encode(crudo).decode("ascii").rstrip("=")
+
+
+def sello_de_registro(registro: str) -> str:
+    """El sello de una credencial: cambia exactamente cuando cambia el registro.
+
+    `b64url_sin_relleno(sha256(registro)[:16])` — 16 bytes y base64url, el MISMO
+    contrato de truncado que las claves del cerrojo (v9 §2/§3.1, un solo
+    contrato en todo el diseño). Puede viajar en una cookie firmada y no
+    cifrada: es un truncado de SHA-256 sobre un registro que contiene una sal
+    aleatoria de 16 bytes — no es invertible, no permite diccionario (la sal no
+    se conoce) y no sirve para entrar. Lo único que revela es «la credencial
+    cambió», que es su función."""
+    crudo = hashlib.sha256(registro.encode("utf-8")).digest()[:16]
+    return _b64url_sin_relleno(crudo)
 
 
 def parsear_usuarios(crudo: str) -> dict[str, str]:
@@ -233,7 +332,11 @@ def parsear_usuarios(crudo: str) -> dict[str, str]:
 class BackendEntorno:
     """Usuarios y hashes en `DASHBOARD_USUARIOS`. Se lee en CADA intento (no se
     cachea al importar) para que cambiar la variable en Railway surta efecto al
-    reiniciar el servicio y no dependa de cuándo se importó el módulo."""
+    reiniciar el servicio y no dependa de cuándo se importó el módulo.
+
+    Implementa `sello` igual que el backend de Supabase (digest del registro de
+    la variable): la paridad hace que el modo local y los dobles ejerzan la
+    MISMA revalidación por petición que producción, no una excepción."""
 
     def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
         usuarios = parsear_usuarios(os.getenv(VARIABLE_USUARIOS, ""))
@@ -244,7 +347,92 @@ class BackendEntorno:
             return None
         if not verificar(contrasena, registro):
             return None
-        return Usuario(nombre=clave)
+        return Usuario(nombre=clave, sello=sello_de_registro(registro))
+
+    def sello(self, nombre: str) -> str | None:
+        registro = parsear_usuarios(os.getenv(VARIABLE_USUARIOS, "")).get(
+            _normalizar_usuario(nombre)
+        )
+        return None if registro is None else sello_de_registro(registro)
+
+
+class BackendSupabase:
+    """Los usuarios del panel en `panel_usuarios` (migración 019) — la primera
+    implementación real de la interfaz enchufable de DEC-231 §3, y el motivo de
+    (a2): revocar es un `UPDATE` efectivo en la SIGUIENTE petición, no un
+    redespliegue (DEC-237/DEC-239; diseño: evals/s324i_panel_vercel_propuesta_v9.md).
+
+    LA DISCIPLINA DEL SEÑUELO SE HEREDA, no solo la interfaz (v9 §5):
+      · la entrada se acota ANTES de viajar en un filtro (`usuario_admisible`);
+        un nombre que no pasa el charset se trata como inexistente — señuelo y
+        `None`, SIN consulta;
+      · una sola consulta por PK con `activo` EN el filtro: ausente e inactivo
+        son la misma respuesta vacía y el código no puede distinguirlos ni por
+        accidente;
+      · respuesta VACÍA → señuelo scrypt y `None` (el coste ~100 ms se paga
+        exista o no el usuario);
+      · CUALQUIER otro resultado del transporte — conexión imposible,
+        `tabla_ausente`, `sin_credenciales`, toda respuesta HTTP >= 400 — es
+        «no puedo comprobarlo»: `IdentidadNoDisponible`, sin señuelo (una caída
+        falla igual para todos, antes de tocar credencial alguna; no necesita
+        tiempo constante — necesita no mentir). Es la regla simétrica a la del
+        cerrojo (v9, ronda S4-M1/S6-M4).
+
+    El transporte se INYECTA (un callable con la firma de `datos.leer`) para
+    que la suite corra sin red — la lección de s324h (v9, puerta 10)."""
+
+    _SELECT = "usuario,registro"
+
+    def __init__(self, leer=None) -> None:
+        if leer is None:
+            from . import datos                  # perezoso: no cargar config en tests
+            leer = datos.leer
+        self._leer = leer
+
+    def _registro_activo(self, nombre: str) -> str | None:
+        """El registro del usuario ACTIVO `nombre`, `None` si no existe/inactivo.
+        Lanza `IdentidadNoDisponible` si el transporte no pudo responder OK."""
+        from . import datos
+        resultado = self._leer("panel_usuarios", {
+            "select": self._SELECT,
+            "usuario": f"eq.{nombre}",
+            "activo": "is.true",
+            "limit": "1",
+        })
+        if resultado.estado == datos.VACIO:
+            return None
+        if resultado.estado != datos.OK or not resultado.filas:
+            raise IdentidadNoDisponible(
+                f"panel_usuarios ilegible ({resultado.estado}: "
+                f"{resultado.detalle or 'sin detalle'})"
+            )
+        registro = resultado.filas[0].get("registro")
+        if not isinstance(registro, str) or not registro:
+            raise IdentidadNoDisponible("panel_usuarios devolvió una fila sin registro")
+        return registro
+
+    def autenticar(self, usuario: str, contrasena: str) -> Usuario | None:
+        clave = _normalizar_usuario(usuario)
+        if not usuario_admisible(clave):
+            verificar(contrasena, _SENUELO)      # inadmisible ≡ inexistente
+            return None
+        registro = self._registro_activo(clave)
+        if registro is None:
+            verificar(contrasena, _SENUELO)      # tiempo constante, ver _SENUELO
+            return None
+        if not verificar(contrasena, registro):
+            return None
+        return Usuario(nombre=clave, sello=sello_de_registro(registro))
+
+    def sello(self, nombre: str) -> str | None:
+        # Sin señuelo: aquí solo llegan nombres que ya pasaron una firma HMAC
+        # válida (la cookie), no entrada del atacante (v9 §2). El guard del
+        # charset se aplica igual — barato, y la consulta imposible no se hace.
+        clave = _normalizar_usuario(nombre)
+        if not usuario_admisible(clave):
+            return None
+        registro = self._registro_activo(clave)
+        return None if registro is None else sello_de_registro(registro)
 
 
 _backend: Backend = BackendEntorno()
@@ -293,6 +481,13 @@ BLOQUEO_MAX_S = 900.0
 #: `access.CACHE_MAX_ENTRADAS`: es una estructura alimentada DESDE FUERA por
 #: quien quiera, en el componente que atiende precisamente a los no autorizados.
 CERROJO_MAX_ENTRADAS = 10_000
+#: Retención de una fila de intentos en el cerrojo DISTRIBUIDO (s324j, v9
+#: §3.4/§6): la poda de `panel_puerta` borra lo más viejo que esto en cada
+#: escritura, y es también el plazo RGPD de `panel_intentos` — con la salvedad
+#: de que LA FUENTE del plazo es la POLICY de la 019 (doctrina s299: «si
+#: divergieran, manda la política»); el test de integración pg valida esta
+#: constante por IGUALDAD contra el predicado real en `pg_policies`.
+CERROJO_RETENCION_S = 24 * 3600
 
 
 @dataclass
@@ -334,6 +529,46 @@ class Cerrojo:
             else:
                 entrada.fallos += 1
                 entrada.ultimo = ahora
+
+    def admitir(self, claves: tuple[str, ...], ahora: float | None = None) -> float:
+        """CONTAR LA ADMISIÓN, no el fallo (s324j, v9 §3.2). Devuelve los
+        segundos de espera (`0.0` = adelante — y el intento YA está contado);
+        `acierto` es la devolución del provisional.
+
+        Por qué así: con «comprobar → scrypt → registrar el fallo», N
+        peticiones concurrentes pasan la comprobación antes de que ninguna
+        registre y el umbral no bloquea nada (el rebaño). Contando AL admitir,
+        la petición K ve los K−1 incrementos anteriores y con
+        `FALLOS_LIBRES = 4` entran ~5, no N. La SECUENCIA no cambia: el intento
+        k ve `fallos = k−1`, igual que con el par `bloqueado`+`fallo` de antes
+        (el sexto intento de una tanda fallida se bloquea en ambos). Precio
+        declarado: si el proceso muere entre `admitir` y `acierto`, queda un
+        +1 fantasma que decae solo (solo pesa por encima de `FALLOS_LIBRES`).
+
+        Lo que este doble fija y `panel_puerta` reproduce EXACTAMENTE es la
+        FÓRMULA DE BLOQUEO Y BACKOFF para una clave presente (el intento k ve
+        `fallos=k−1`, mismo umbral, mismo castigo); la tabla de casos de la
+        puerta 4 ata esa parte. Lo que NO comparten son las POLÍTICAS DE PODA,
+        y difieren en criterio Y en momento (rondas S3-M2/S4-M2), no solo «tras
+        24 h»:
+          · este `_podar` solo actúa cuando la tabla llega al cap, y entonces
+            purga PRIMERO todo lo de espera≤0 —incluidas filas recientes con
+            ≤`FALLOS_LIBRES` fallos— y luego el ~10% más antiguo;
+          · el SQL poda >`CERROJO_RETENCION_S` (24 h) SIEMPRE (requisito RGPD de
+            `panel_intentos`, dato personal seudonimizado), y solo si aún supera
+            el cap sacrifica las más antiguas necesarias.
+        Así que qué claves sobreviven —y por tanto los conteos y el backoff
+        FUTURO de una clave repoblada— puede diferir entre las dos bajo presión
+        de cap o de retención. Es una divergencia deliberada (el cerrojo
+        distribuido tiene un requisito RGPD que el dict no), declarada aquí para
+        no venderla como paridad total."""
+        if ahora is None:
+            ahora = time.monotonic()
+        espera = self.bloqueado(claves, ahora)
+        if espera > 0:
+            return espera                        # bloqueado: sin incrementar
+        self.fallo(claves, ahora)                # la admisión, contada YA
+        return 0.0
 
     def acierto(self, claves: tuple[str, ...]) -> None:
         """Un login bueno limpia el historial de esas claves."""

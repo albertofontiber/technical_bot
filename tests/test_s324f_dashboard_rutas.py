@@ -26,11 +26,29 @@ from dataclasses import dataclass
 import pytest
 
 from dashboard import app as panel
-from dashboard import auth, datos, gestion, sesion
+from dashboard import auth, cerrojo, datos, gestion, sesion
 
 SECRETO = "secreto-de-pruebas-con-longitud-mas-que-suficiente"
 CLAVE_SERVICIO = "CLAVE-DE-SERVICIO-QUE-NO-DEBE-SALIR-JAMAS"
 ANFITRION = "panel.pruebas"
+
+#: (s324j) Los sellos del backend doble: la puerta revalida `h` contra
+#: `backend.sello(u)` en CADA petición protegida (v9 §2), así que toda sesión
+#: de estos tests necesita un backend que responda por su usuario.
+SELLOS = {"alberto": "sello-alberto-v1", "otro": "sello-otro-v1"}
+
+
+class BackendDoble:
+    """La interfaz enchufable completa (autenticar + sello), de mentira."""
+
+    def autenticar(self, usuario, contrasena):
+        clave = usuario.strip().lower()
+        if clave == "alberto" and contrasena == "correcta":
+            return auth.Usuario(nombre="alberto", sello=SELLOS["alberto"])
+        return None
+
+    def sello(self, nombre):
+        return SELLOS.get((nombre or "").strip().lower())
 
 
 # --------------------------------------------------------------- cliente ASGI
@@ -197,8 +215,10 @@ def _leer_doble(recurso, params):
 
 @pytest.fixture(autouse=True)
 def entorno(monkeypatch):
-    """Todo el mundo con el mismo suelo: secreto puesto, Supabase fingido, y la
-    clave de servicio con un valor CENTINELA que ninguna respuesta puede tener."""
+    """Todo el mundo con el mismo suelo: secreto puesto, Supabase fingido, la
+    clave de servicio con un valor CENTINELA que ninguna respuesta puede tener,
+    y (s324j) el backend DOBLE enchufado — la revalidación por sello corre en
+    cada petición protegida y necesita quien responda."""
     monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
     monkeypatch.setenv("TELEGRAM_BOT_USERNAME", "PCI_Soporte_tecnico_bot")
     monkeypatch.setattr(datos, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)
@@ -206,34 +226,29 @@ def entorno(monkeypatch):
     monkeypatch.setattr(gestion, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)
     monkeypatch.setattr(gestion, "SUPABASE_URL", "https://proyecto.supabase.co")
     monkeypatch.setattr(datos, "leer", _leer_doble)
-    panel._cerrojo.reiniciar()
+    backend_anterior = auth.usar_backend(BackendDoble())
+    cerrojo.activo().reiniciar()
     yield
-    panel._cerrojo.reiniciar()
+    auth.usar_backend(backend_anterior)
+    cerrojo.activo().reiniciar()
 
 
 @pytest.fixture
-def usuario(monkeypatch):
-    """Un backend de autenticación de mentira: la interfaz enchufable de
-    DEC-231 §3 usada para lo que existe — sustituir el backend sin tocar rutas."""
-
-    class Doble:
-        def autenticar(self, usuario, contrasena):
-            if usuario.strip().lower() == "alberto" and contrasena == "correcta":
-                return auth.Usuario(nombre="alberto")
-            return None
-
-    anterior = auth.usar_backend(Doble())
+def usuario():
+    """El backend doble ya viene enchufado por `entorno`; este fixture queda
+    como MARCA legible de los tests que ejercitan el login con credenciales."""
     yield
-    auth.usar_backend(anterior)
 
 
 def _sesion_valida(nombre="alberto", **kwargs) -> str:
     payload = sesion.nueva(nombre, **kwargs)
+    payload["h"] = SELLOS.get(nombre, "sello-desconocido")
     return sesion.firmar(payload, SECRETO.encode("utf-8"))
 
 
 def _con_sesion(nombre="alberto") -> tuple[Cliente, str]:
     payload = sesion.nueva(nombre)
+    payload["h"] = SELLOS.get(nombre, "sello-desconocido")
     cookie = sesion.firmar(payload, SECRETO.encode("utf-8"))
     return Cliente(cookie), payload["csrf"]
 
@@ -420,16 +435,18 @@ def test_invitar_muestra_el_enlace_una_vez_y_nunca_en_la_url(monkeypatch):
     cliente, csrf = _con_sesion()
     respuesta = cliente.post("/acceso/invitar",
                              {"csrf": csrf, "nota": "Ana, DG de Beta",
-                              "dias": "2"})
+                              "dias": "2", "op": "op-de-prueba-123"})
     assert respuesta.estado == 200
     assert "https://t.me/PCI_Soporte_tecnico_bot?start=" in respuesta.texto
     # El enlace no viaja en una redirección: no hay Location que pueda acabar en
     # el historial del navegador o en el log de un proxy.
     assert respuesta.cabecera("location") is None
-    # Y a la base va la HUELLA, nunca el token.
+    # Y a la base va la HUELLA, nunca el token — más el `op` de la operación
+    # (s324j, v9 §4.2), que es lo que hace al F5 inofensivo.
     _, tabla, enviado = creada[0]
     assert tabla == "bot_invitaciones"
     assert len(enviado["token_hash"]) == 64
+    assert enviado["op"] == "op-de-prueba-123"
     assert "start=" not in str(enviado)
 
 

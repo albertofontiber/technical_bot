@@ -47,6 +47,11 @@ TIMEOUT_S = 10.0
 #: que `logging_db._tabla_ausente` y que el CLI: en este repo «la migración aún
 #: no está aplicada» es un estado ESPERADO, no una anomalía.
 _CODIGOS_AUSENTE = ("PGRST205", "PGRST106", "42P01")
+#: Y el código con que Postgres dice «esa COLUMNA no existe» — el que produce
+#: el `select` explícito de las vistas cuando una columna DECLARADA desaparece
+#: o se renombra (s324j, v9 §7): se traduce a un detalle legible en vez de a un
+#: «Supabase respondió 400» mudo, y la tarjeta lo dice.
+_CODIGO_COLUMNA_AUSENTE = "42703"
 
 
 @dataclass(frozen=True)
@@ -96,6 +101,10 @@ def leer(recurso: str, params: dict) -> Resultado:
             codigo = ""
         if codigo in _CODIGOS_AUSENTE or resp.status_code == 404:
             return Resultado(TABLA_AUSENTE, detalle=recurso)
+        if codigo == _CODIGO_COLUMNA_AUSENTE:
+            return Resultado(ERROR, detalle=(
+                f"{recurso} ya no tiene una columna declarada (¿renombrada o "
+                f"retirada en una migración? — revisa datos.VISTAS)"))
     if resp.status_code >= 400:
         return Resultado(ERROR, detalle=f"Supabase respondió {resp.status_code}")
     try:
@@ -268,12 +277,19 @@ VISTAS_POR_CLAVE = {v.clave: v for v in VISTAS}
 
 
 def leer_vista(vista: Vista) -> Resultado:
-    """`select=*` a propósito: si la vista gana una columna, el panel la enseña
-    (al final de la tabla, con su nombre crudo) en vez de esconderla en
-    silencio. Y si PIERDE una, la columna declarada simplemente no se pinta:
-    ninguno de los dos casos tumba la página."""
+    """`select` EXPLÍCITO desde las columnas declaradas — la decisión INVERSA a
+    la original, invertida a conciencia al exponer el panel a internet (s324j,
+    v9 §7). El `select=*` de antes existía para que una columna nueva se
+    enseñara en vez de esconderse — correcto para un panel interno; con DGs y
+    datos de personas detrás, la regla pasa a ser que NADA se pinta sin que
+    alguien lo haya declarado en `VISTAS`. Los dos sentidos quedan cubiertos:
+    una columna nueva de la vista NO aparece hasta declararla aquí; una
+    declarada que la vista pierde produce un 42703 que `leer` traduce a un
+    detalle legible y la tarjeta lo dice — ninguno de los dos casos tumba la
+    página."""
     return leer(vista.clave, {
-        "select": "*", "order": vista.orden, "limit": str(vista.limite),
+        "select": ",".join(c.nombre for c in vista.columnas),
+        "order": vista.orden, "limit": str(vista.limite),
     })
 
 
