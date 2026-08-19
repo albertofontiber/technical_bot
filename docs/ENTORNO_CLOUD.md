@@ -51,6 +51,10 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
   centinela = huella sha1 de los requirements + import real; **vive en
   site-packages** (s325g), no en `/tmp`, para que marcador y paquetes viajen JUNTOS
   en el snapshot del filesystem.
+  El check `deps_cache` del smoke NO adivina el origen: `install-deps.sh` apendiza
+  lo que hace en cada corrida (`acción huella boot_id`) y el smoke solo lee las
+  líneas de ESTE arranque — así un reinicio del contenedor ya no puede disfrazar de
+  «snapshot» una instalación hecha en la propia VM (s325h).
 - **`scripts/cloud_smoke.py`** — verificador del entorno con recibo. Es el
   instrumento del Protocolo 1 aquí: sin él, «el cloud funciona» es una declaración
   sin comprobar. Contrato fijado en `tests/test_cloud_smoke.py`: **nunca vuelca el
@@ -124,21 +128,19 @@ exit 0
 
   Semántica contrastada con la doc oficial (cloud-environments). **AVISO s325h-c: la
   medición en la primera VM nueva CONTRADICE el párrafo que sigue** — el snapshot no
-  trajo nada y el ahorro no existe hoy (§4, DEC-241). Se conserva como lo que la doc
+  trajo nada y el ahorro no existe hoy (§4, DEC-242). Se conserva como lo que la doc
   oficial promete, no como lo que este environment hace. Según esa doc: corre **solo al
   construir la caché** (primera sesión, cambio del setup script o de la política de
   red, o caducidad ~7 días), tiene que acabar en **<5 min** (hoy: ~50 s) y con
   **exit 0** siempre; después Anthropic hace **snapshot del filesystem** y las
   sesiones siguientes arrancan con las deps y el centinela ya en disco — el ahorro
   es de la sesión 2.ª en adelante de cada ventana (la que dispara el build paga el
-  clone+install además de su propio arranque). El recibo del smoke lo hace VISIBLE:
-  el check informativo `deps_cache` reporta el marcador y compara su mtime contra el
-  **arranque de la VM** (`ahora − /proc/uptime`), no contra un umbral de edad —
-  anterior al boot = vino del snapshot; posterior = se estampó en este arranque y la
-  caché no lo trajo. Desde s325h-c, además, `install-deps.sh` declara al reinstalar
-  **cuál de las tres causas** se dio (sin marcador / huella caduca / huella vigente con
-  sondeo roto), que es lo que separa «el snapshot no persiste» de «persiste pero la
-  huella cambió». Clona
+  clone+install además de su propio arranque). El recibo del smoke lo hace VISIBLE con
+  DOS instrumentos complementarios: `deps_cache` dice **QUÉ pasó** —lee el registro
+  `acción huella boot_id` y responde si se pagó la instalación en ESTE arranque, sin
+  pronunciarse sobre el origen (s325h)—, y desde s325h-c `install-deps.sh` declara al
+  reinstalar **POR QUÉ** —sin marcador / huella caduca / huella vigente con sondeo
+  roto—, que es la causa que el registro no captura. Se leen juntos. Clona
   `main`: si una rama cambia los requirements, su huella difiere y el hook
   reinstala en esa sesión — consistente por construcción. OJO: el bloque solo
   funciona con `install-deps.sh` ya mergeado en `main`.
@@ -291,7 +293,7 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
 - **`gh` no viene preinstalado** y `GH_TOKEN` vale `proxy-injected`: las herramientas
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
-- **Las deps NO están en disco al arrancar la VM (medido s325h-c, DEC-241; la lectura más
+- **Las deps NO están en disco al arrancar la VM (medido s325h-c, DEC-242; la lectura más
   probable es que la caché no persista `site-packages`, pero eso no está probado)**:
   en la primera VM nueva tras pegar el campo, **163 de 164** entradas de
   `/usr/local/lib/python3.11/dist-packages` se escribieron DESPUÉS del boot (única
@@ -302,7 +304,7 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
   antes, en esa misma VM. Causa raíz ABIERTA (¿el snapshot no cubre `/usr/local`? ¿el
   build falla?); el discriminador es PARCIAL: la traza nueva de
   `install-deps.sh` en la próxima VM separa «el snapshot persistió» de «no había nada», pero la
-  pieza que cierra el caso es el dashboard del environment (DEC-241, gap iv). Lo de abajo es la semántica documentada — lo esperado, no lo medido.
+  pieza que cierra el caso es el dashboard del environment (DEC-242, gap iv). Lo de abajo es la semántica documentada — lo esperado, no lo medido.
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
   en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
   setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar

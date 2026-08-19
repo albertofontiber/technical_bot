@@ -7931,22 +7931,72 @@ desde una sesión: se confirman en la primera VM nueva tras pegar el campo (espe
 ~77 s → ~30 s). Hasta que `install-deps.sh` esté en `main`, pegar el campo es inocuo pero
 no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone, s325g, 3 rondas: NO SÓLIDO → NO SÓLIDO → **SÓLIDO**).
 
-> **→ PREMISA CENTRAL FALSADA por DEC-241 (s325h-c, 19-ago).** Alcance exacto de lo medido: en
-> las VMs observadas **las deps no estaban en disco al arrancar**; «la caché no persiste purelib»
-> es la lectura más probable, no una propiedad probada del environment. El gap declarado justo arriba
-> («el snapshot real no es verificable desde una sesión: se confirma en la primera VM nueva
-> tras pegar el campo; esperado ~77 s → ~30 s») se midió, y salió que NO. En la primera VM
-> nueva: **163 de 164** entradas de `/usr/local/lib/python3.11/dist-packages` escritas DESPUÉS
-> del boot —única excepción `uno.pth`, del 31-mar, de la imagen base— y el marcador estampado
-> 99 s tras el boot, con 56 s de pip real. **No viajó ni un paquete.** El ahorro de ~50 s/VM que
-> motiva esta decisión no se está materializando: de boot a deps listas van 99 s, no ~30 s.
-> Nota de método: el mtime del marcador por sí solo NO bastaba (habría que descartar que el
-> script lo re-estampe cuando la caché sirve — verificado que no: `exit 0` sin tocarlo); la
-> medida que cierra el caso es la de los PAQUETES, que el centinela no toca.
-> Simétricamente, los dos residuos que esta decisión declaró y ACEPTÓ (corrupción pinneada y
-> drift de versiones congelado ~7 días) tampoco se materializan, por la misma razón: nada
-> persiste. De facto el sistema se comporta como pre-s325g, con el hook instalando en cada VM.
-> El bloque se conserva como traza del razonamiento vigente entonces, no como decisión viva.
+### DEC-238 addendum (s325h, 19-ago) — el instrumento mentía: `deps_cache` pasa de INFERIR a LEER un registro
+
+**Lo que se rompió, medido.** La atribución por `mtime` vs `/proc/uptime` daba un FALSO
+«vino del snapshot»: en una sesión de verificación el contenedor **se reinició** a mitad
+(~14:02:53Z), el uptime se reseteó, y un marcador estampado en la propia VM (13:48:56Z) pasó
+por heredado. El gap estaba declarado arriba («asume /proc/uptime de la VM … no
+garantizados»), pero el dúo de s325g previó el *host longevo*, no el *reinicio*. El delator
+fue la edad impresa: «0.0 días» para 17 minutos.
+
+**El arreglo (adjudicado por Alberto).** `install-deps.sh` **apendiza** en cada corrida
+`acción huella boot_id uptime fecha` (`$TB_REGISTRO`, por defecto `/tmp/.technical_bot_deps_registro`);
+`boot_id` viene de `/proc/sys/kernel/random/boot_id` y **cambia en un reinicio**. El smoke solo
+lee las líneas de ESTE arranque y responde lo que importa —¿se pagó la instalación ahora?—
+sin pronunciarse sobre el origen: `instalada` → «la caché no las traía»; solo `saltada` → «la
+caché las trajo hechas»; sin líneas → **AVISO**, y nunca se nombra el snapshot. Se apendiza y
+no se sobrescribe porque en un mismo arranque corren DOS llamadores (setup y hook): si el
+segundo pisara al primero, «el setup instaló» se perdería y el ahorro parecería real.
+
+**Principio que deja.** Un verificador puede decir «no lo sé»; lo que no puede es afirmar en
+la dirección optimista lo que no ha medido. Cinco tests fijan el contrato, incluido el del
+reinicio (líneas con otro `boot_id` no cuentan).
+
+**Ronda 2 del revisor (4 hallazgos, los 4 aplicados).** (1) El check no filtraba por
+HUELLA: si el instalador cambia a mitad de sesión —pasó aquí mismo, `663fae88`→`e28aecda`—
+las líneas de la receta vieja contaban y el recibo hablaba de otra instalación; ahora se
+descartan. (2) Nombraba el marcador sin comprobar que existe: ahora dice «SIN marcador
+(huella)» cuando no está. (3) Los tests leían `/proc` sin guarda y habrían fallado en
+Windows, superficie declarada en ese mismo fichero: van con `skipif`. (4) El gap decía que
+la ausencia de `boot_id` degradaba a «desconocido», y eso solo pasaba en el shell; en Python
+lanzaba excepción — ahora responde «sin /proc legible».
+
+**Supuesto declarado NO medido** (Fable r2, honesto): que `boot_id` sea por-VM y cambie en un
+reinicio. En un contenedor sin kernel propio sería del host, y en un restore con memoria
+podría repetirse. Como segundo sello se anota el **uptime**, que solo crece dentro de un
+arranque: una línea con uptime mayor que el actual se descarta aunque el `boot_id` coincida.
+El reset de uptime observado en el incidente sugiere kernel por-VM, pero eso es inferencia,
+no medición — y por eso se escribe aquí en vez de darse por bueno.
+
+**Dirección residual del sello (Fable r2, honesto):** el descarte por uptime es
+UNIDIRECCIONAL. Caza la línea heredada con uptime MAYOR que el actual (restore con memoria),
+pero NO la de uptime menor — que es justo la forma típica que tendría una línea del snapshot
+si el `boot_id` se reutilizara: instalada temprano en la VM que construyó la caché y leída
+más tarde. En ese escenario el recibo diría «INSTALADAS en este arranque» siendo herencia.
+Exige encadenar tres condiciones (boot_id reutilizado + `/tmp` viajando en el snapshot +
+misma huella), por eso no se blinda más aquí; pero queda escrito para no confundir «segundo
+sello» con «cobertura completa».
+
+**Lo que este addendum NO resuelve, y sigue abierto:** si la caché del environment ahorra de
+verdad. Las tres sesiones de prueba de s325h (creadas por API) **volvieron a construir la
+caché en cada VM** — el Setup script se ejecuta y funciona (instaló y estampó en 104 s con el
+repo sin clonar, luego el hook saltó), pero ninguna arrancó sobre un snapshot pre-horneado. Se
+mide con una sesión abierta desde la UI: si el arranque baja a ~30 s y `deps_cache` dice «ya
+estaban al arrancar», el mecanismo paga; si vuelve a instalar, DEC-238 no compra lo que
+prometía y habrá que decidir si se revierte.
+
+> **→ La pregunta que este addendum deja abierta («si la caché ahorra de verdad… se mide con una
+> sesión abierta desde la UI»), RESPONDIDA: NO (s325h-c, 19-ago · DEC-242).** Esta sesión se abrió
+> desde la UI y **volvió a instalar**. La medida es independiente del registro Y del marcador —va
+> sobre los PAQUETES, que ningún centinela toca—: **163 de 164** entradas de
+> `/usr/local/lib/python3.11/dist-packages` escritas DESPUÉS del arranque (única excepción
+> `uno.pth`, 31-mar, de la imagen base), en una ventana de 56,3 s; marcador estampado a boot+99 s.
+> **No viajó ni un paquete.** Con el control de reinicio que este addendum exige: uptime leído TRES
+> veces (119,39 → 174,81 → 2667,88 s), monótono creciente, sin reset. ⇒ **DEC-238 no compra lo que
+> prometía**: de boot a deps listas van 99 s, no ~30 s. Simétricamente, sus dos residuos aceptados
+> (corrupción pinneada, drift de versiones congelado ~7 días) tampoco se materializan: nada
+> persiste, de facto el sistema se comporta como pre-s325g. Qué se hace con ello, en DEC-242.
 > Recibo: `evals/s325h_setup_script_verificacion_v2.json`.
 
 ## DEC-239 (s324j, 19 ago 2026) — El diseño del panel a Vercel queda CERRADO en la v9 tras seis rondas del dúo; SÓLIDO-para-cablear, el GO es de Alberto
@@ -8037,64 +8087,135 @@ no hace nada útil. Ref: `evals/adversarial_review_log.jsonl` (Fable standalone,
   `evals/adversarial_review_log.jsonl` (con `verdict_notes` de regla C); recibos Sol en
   `evals/adversarial_reviews/`; el addendum de supersesión de §3.2 al final del eval v9.
 
-## DEC-241 (s325h-c, 19 ago 2026) — Las deps no estaban en disco al arrancar la VM: se para la inversión a ciegas en la caché, se instrumenta la causa y DEC-238 queda degradada a redundancia inocua
+## DEC-241 (s324j, 19 ago 2026) — Seguimiento post-merge del panel: S-M1/S-M2/S-M3 cerrados con dúo COMPLETO sobre el delta; el gap 2º-frontera del cableado entero queda declarado
 
-- **Fecha**: 19 ago 2026. **Impacto**: MEDIO (tooling de arranque; no toca retrieval, corpus ni
-  producción). **Estado**: medido y cableado el instrumento; la causa raíz sigue ABIERTA.
-- **La medida** (recibo `evals/s325h_setup_script_verificacion_v2.json`, PR de s325h-c). En la
-  primera VM nueva tras pegar el campo del environment: boot derivado 14:12:33Z
-  (`ahora − /proc/uptime`, contrastado dos veces contra el reloj — +55,4 s vs +55 s, monótono, sin
-  reinicio a mitad de sesión), `.git` nacido 6 s tras el boot, marcador estampado a los 99 s, y
-  **163/164** entradas de purelib escritas post-boot en una ventana de 56,3 s. El hook imprimió
-  «deps: ya instaladas (663fae88) — se salta la instalación», que es CIERTO y no prueba nada:
-  solo dice que el setup script había dejado el marcador ~90 s antes, **en esta misma VM**.
-- **Decisión 1 — no seguir depurando la caché a ciegas.** Dos sesiones (s325h, s325h-c) gastadas
-  en probar persistencia; la variable que falta (¿la caché figura construida, o su build falla?)
-  vive en el dashboard del environment, fuera del contenedor. Se para hasta tener ese dato.
-- **Decisión 2 — instrumentar en vez de adivinar.** `install-deps.sh` imprime, ANTES de instalar
-  y antes del `rm -f` de huérfanos que borraba justo esa evidencia, cuál de las tres causas se
-  dio: (a) la VM no traía marcador — el snapshot no persiste purelib **o** el build no corrió/falló;
-  (b) traía uno de huella CADUCA — persiste, pero algo entró en la huella; (c) traía la huella
-  VIGENTE y falló el sondeo de imports — persiste y hay corrupción. **CINCO** ramas verificadas en
-  dry-run hermético (`TB_MARCA_DIR`/`TB_PIP_CMD`): las tres causas, el control que NO imprime traza
-  cuando la caché sirve, y `MARCA_DIR` ilegible → `exit=0` (la traza va en subshell `|| true`: es
-  diagnóstico y bajo `set -e` no puede tumbar el arranque — hallazgo Fable r1).
-  **Efecto lateral buscado**: el propio cambio mueve la huella (`663fae88` → `cf08cbda`, porque el
-  script entra en la suya por DEC-238 r2), lo que convierte a la PRÓXIMA VM en discriminador — si
-  su traza dice «marcador previo 663fae88 — huella caduca», el snapshot SÍ persiste y la causa era
-  (b). **Cuidado con el converso** (hallazgo Fable): «no traía NINGÚN marcador» NO aísla (a) — es
-  **(a) ∨ (c)**, porque un build de caché que nunca corrió o que falló tampoco deja marcador.
-  Separar esas dos exige el dashboard, y por eso el gap (iv) sigue siendo el que decide.
-  **Condición temporal, declarada** (hallazgo Fable r2): esto discrimina solo si el snapshot que se
-  restaure se construyó ANTES de este merge. Si el build se re-dispara después y sí persiste, la
-  próxima VM heredaría el marcador `cf08cbda` ya vigente → salta por el control, en silencio y sin
-  traza. Ese hueco lo cubre el otro instrumento: `deps_cache` vería un mtime ANTERIOR al boot y lo
-  reportaría como «vino del snapshot» (`cloud_smoke.py`). Los dos se leen juntos, no por separado.
-- **Decisión 3 — DEC-238 se degrada, no se revierte.** Su premisa central queda marcada como
-  falsada in-place (traza, no borrado). El setup script se queda: hoy es redundancia inocua
-  —el sistema se comporta como pre-s325g— y si la caché llega a funcionar el beneficio vuelve
-  gratis. Quitarlo sería trabajo por limpieza estética.
+- **Contexto**: la PR #296 (el cableado de DEC-240) se mergeó a `main` con el dúo del sello final
+  aún abierto — Sol había completado su pasada (ts `12:25:33`: 0 críticos, 3 medios + 1 menor,
+  todos confirmados) y el 2º frontera acababa de morir en `max_tokens` leyendo el
+  `terminal.diff` de 3768 líneas entero (la clase DEC-236, recurrente). Con el merge, los tres
+  medios de Sol viajaban en `main`. Trabajo en rama REINICIADA desde `main` (PR nueva; una PR
+  mergeada no se reabre).
+- **Qué se decidió y cableó** (todo verificado contra PostgreSQL 17 real):
+  1. **S-M1 — el cap era techo con fuga de +1**: el DELETE del cap de `panel_puerta` no excluía
+     las claves de la PROPIA admisión; con la tabla llena y `[u:existente-más-antigua, ip:nueva]`
+     borraba la existente y el upsert la recreaba → `cap+1` (latente con `ip:` apagada; alcanzable
+     al encenderla tras XFF). Cierre: `WHERE clave <> ALL(claves)` + **guard (0) de tres ramas**
+     (`cap IS NULL OR claves IS NULL OR cardinality(claves) > cap` → RAISE con ERRCODE
+     check_violation; >=400 → `CerrojoNoDisponible` → 503 fail-CERRAR) que las rondas 2-4 de Sol
+     fueron exigiendo (cap NULL y claves NULL burlaban por caminos distintos la cota). La
+     garantía queda declarada como es: **cota INDUCTIVA** (`<= cap` para toda secuencia de la RPC
+     partiendo de `<= cap`; una llamada bloqueada no poda; escrituras externas fuera de contrato).
+     Tests: `test_el_cap_no_sacrifica_una_clave_de_la_propia_admision` (control negativo REAL:
+     sin la exclusión falla `assert 6 == 5`; el test viejo de dos-claves-nuevas NO lo detectaba)
+     + guard parametrizado ×3 (una rama, un caso rojo).
+  2. **S-M2 — la carrera `acierto`↔`admitir`, ejercida con alcance honesto**: v9 §4(c) exigía
+     hilos, no secuencia. Test nuevo de ESTRÉS con ley de conservación
+     `sembrado(1) + admitidos == fallos_finales + retirados` (fila sembrada + borrador do-while →
+     liveness determinista, sin rojo espurio; guardas anti-verde-en-vacío: excepciones de hilos
+     capturadas, `is_alive()` comprobado, `hechas == N`). **Declarado probabilístico**: la prueba
+     DETERMINISTA de upsert-no-UPDATE es el test secuencial existente; el cierre del contrato es
+     por tres patas (secuencial + razonamiento READ COMMITTED/advisory-lock + estrés).
+  3. **S-M3 — el gate pg congelado de verdad**: el trigger del workflow añade la cola
+     `supabase/migration_proposals/*s295..s299*.sql`, la `016`, `conftest.py` y `pytest.ini`
+     (dependencias reales del fixture/colección que no re-disparaban el gate); y el fixture aplica
+     la **016 CANÓNICA** en vez de una copia estrecha que divergía en ambos sentidos (sin los
+     CHECK de `token_hash`/caducidad; con un `nota NOT NULL` inventado) — la 020 se probaba
+     contra una 016 de ficción. Tokens legacy ahora hex-64 (el CHECK real los exige).
+- **El dúo del seguimiento** (Protocolo 3; el pin del 2º frontera es Fable por s316d): **cinco
+  rondas de Sol xhigh** (ts `13:08:13`→`14:00:56`, convergentes: crítico procedimental → medios
+  de código → bordes NULL → nits de redacción) y **el 2º frontera Fable COMPLETÓ emparejado** con
+  la ronda final (mismo snapshot, `review_id 14:08:12`): **veredicto SÓLIDO** con 3 menores de
+  framing, confirmados y aplicados (el comentario del fixture atribuía el bootstrap a un
+  `display_name` que el `base` no inserta — es el `COALESCE` de la 016; el «abortó sin sembrar»
+  era vacuo respecto al orden del guard; el catálogo del comentario del cap estaba incompleto).
+  **0 falsos positivos en las dos patas.** Remedio DEC-236 que FUNCIONÓ para Fable: briefing
+  compacto acotado al delta (~380 líneas de diff, prohibido el terminal.diff) +
+  `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000` (dos intentos previos cayeron por el preflight con el
+  default de 300k).
+- **Los dos críticos procedimentales de Sol, aceptados** (rondas 1-2): pretender que el dúo del
+  delta «cerrara» el `pending_fable` de DEC-240 era **heredar cobertura inexistente** — el canon
+  liga la pareja por SHA del mismo snapshot, y el snapshot del cableado ya no existe intacto.
+  **Resolución**: el delta del seguimiento queda SELLADO con dúo completo; `panel_puerta` +
+  `Cerrojo.admitir` (el núcleo de seguridad) los vio el 2º frontera al verificar S-M1/S-M2;
+  **el resto del cableado (rutas/sello/sesión/gestión) sigue sin pasada 2º-frontera** — gap
+  declarado, no dispensado. Si se quiere pagar: revisión por trozos con briefings compactos
+  (~3-4 tandas), decisión de Alberto.
+- **Verificación** (Protocolo 1): gate pg **22/22** contra PostgreSQL 17.11 real (con control
+  negativo del discriminante ejecutado); suite sin red **4517 passed, 67 skipped, 2 xfailed**
+  (62 canónicos + 5 pg nuevos sin DSN) tras aplicar los nits de adjudicación. NO se afirma CI
+  verde remoto (no ejecutado desde aquí).
+- **Alternativas descartadas**: re-emparejar a Fable con la entrada Sol `12:25:33` (snapshot
+  roto por el merge — imposible por canon); reintentar Fable con el terminal.diff entero (dos
+  muertes por presupuesto lo desaconsejan; DEC-236); validar `len(claves)<=cap` solo como
+  precondición documentada sin guard (dejaba el techo dependiente de la disciplina del caller);
+  declarar «carrera observada» con el test de estrés (sobre-afirmación — el cierre es por tres
+  patas).
+- **Traza**: tallies `12:25:33` (superada por el seguimiento) y `13:08:13`·`13:23:51`·`13:42:18`·
+  `13:52:45`·`14:00:56` (la final `duo_status=complete`) en `evals/adversarial_review_log.jsonl`;
+  recibos en `evals/adversarial_reviews/`; sujeto: `evals/s324j_seguimiento_briefing_v3.md` (con
+  addendum post-sello de cifras) + `evals/s324j_seguimiento.diff`.
+
+## DEC-242 (s325h-c, 19 ago 2026) — La caché del environment NO ahorra: la medición que s325h dejó pendiente sale NO; se para la inversión a ciegas, se instrumenta la CAUSA y DEC-238 se degrada (no se revierte)
+
+- **Fecha**: 19 ago 2026. **Impacto**: MEDIO (tooling de arranque; no toca retrieval, corpus,
+  esquema ni producción). **Estado**: medido; el instrumento de causa, cableado; la causa raíz,
+  ABIERTA. Cierra la pregunta que el addendum s325h de DEC-238 dejó explícitamente abierta.
+- **La medida** (recibo `evals/s325h_setup_script_verificacion_v2.json`). s325h escribió: «se mide
+  con una sesión abierta desde la UI: si vuelve a instalar, DEC-238 no compra lo que prometía».
+  Esta sesión se abrió desde la UI y **volvió a instalar**. Boot derivado 14:12:33Z, `.git` nacido
+  6 s después, marcador estampado a los 99 s, y **163/164** entradas de purelib escritas post-boot
+  en una ventana de 56,3 s. El hook imprimió «deps: ya instaladas (663fae88) — se salta la
+  instalación», que es CIERTO y no prueba nada: dice que el setup script dejó el marcador ~90 s
+  antes, **en esta misma VM**.
+- **Por qué esta medida resiste el fallo que s325h descubrió** (el falso «vino del snapshot» por
+  reinicio): no depende del marcador ni del registro, sino del mtime de los PAQUETES, que ningún
+  centinela toca. Control de reinicio: uptime leído TRES veces (119,39 → 174,81 → 2667,88 s),
+  monótono creciente. Y aunque hubiera habido un reinicio ANTES de la primera lectura, la
+  conclusión aguanta: `pip` no reescribe lo ya satisfecho (solo `PyJWT`/`cryptography` llevan
+  `--ignore-installed`), así que 163 entradas reescritas implican que no estaban.
+- **Decisión 1 — no seguir depurando la caché a ciegas.** Tres sesiones (s325h ×3 por API, s325h-c
+  por UI) han probado persistencia sin conseguirla. La variable que falta —¿la caché figura
+  construida, o su build falla?— vive en el dashboard del environment, fuera del contenedor.
+- **Decisión 2 — instrumentar la CAUSA, que es lo que faltaba.** El registro de s325h anota QUÉ se
+  hizo (`saltada`/`instalada`, con `boot_id`); no anota POR QUÉ se reinstaló. `install-deps.sh`
+  declara ahora, ANTES de instalar y antes del `rm -f` de huérfanos que borraba justo esa
+  evidencia, cuál de tres casos se dio: sin marcador (el snapshot no persiste purelib **o** el
+  build no corrió/falló — no distingue: eso es del dashboard); huella CADUCA; huella VIGENTE con
+  sondeo de imports fallido. Los dos instrumentos son complementarios y se leen juntos. CINCO
+  ramas verificadas en dry-run hermético (`TB_MARCA_DIR`/`TB_PIP_CMD`): los tres casos, el control
+  que NO imprime traza cuando la caché sirve, y `MARCA_DIR` ilegible → `exit=0` (va en subshell
+  `|| true`: es diagnóstico y bajo `set -e` no puede tumbar el arranque — hallazgo Fable r1).
+- **Decisión 3 — DEC-238 se degrada, no se revierte** (s325h dejó la disyuntiva planteada; ésta es
+  la adjudicación). Su premisa central queda marcada como falsada in-place, como traza, sin borrar.
+  El setup script se queda: hoy es redundancia inocua —el sistema se comporta como pre-s325g— y si
+  la caché llegara a funcionar el beneficio vuelve gratis. Quitarlo sería limpieza estética.
 - **Alternativas descartadas.** *Revertir DEC-238 y borrar el setup script*: no hace daño activo y
-  tirarlo cuesta trabajo sin cambiar ninguna métrica. *Wheelhouse versionado en el repo*: mete
-  cientos de MB binarios en git, no escala a 30+ fabricantes de corpus y rompe el determinismo de
-  `requirements`; además el problema es de infra del environment, no del repo. *Mover la
-  instalación a un venv bajo un prefijo que sí viaje*: es la salida natural SI la causa resulta ser
-  (a), pero diseñarla ahora sería construir sobre una causa no probada (bias #20). *No tocar el
-  registro y aceptar los ~90 s*: dejar una premisa no verificada escrita como hecho en DECISIONS.md
-  es precisamente el fallo que este proyecto persigue.
+  tirarlo no cambia ninguna métrica. *Wheelhouse versionado en el repo*: cientos de MB binarios en
+  git, no escala a 30+ fabricantes y rompe el determinismo de `requirements`; además el problema es
+  de infra del environment, no del repo. *Mover la instalación a un venv bajo un prefijo que sí
+  viaje*: es la salida natural SI la causa resulta ser que el snapshot no cubre `/usr/local`, pero
+  diseñarla ahora es construir sobre una causa no probada (bias #20). *No tocar el registro*: dejar
+  una premisa no verificada escrita como hecho en DECISIONS.md es el fallo que este proyecto
+  persigue.
 - **Pregunta cero, declarada.** Lo que está en juego son ~90 s por sesión cloud; no es el cuello de
-  botella del proyecto (que es retrieval/corpus). El valor real de esta sesión no es el ahorro:
-  es corregir el registro y dejar el instrumento que hace que la próxima VM se explique sola sin
-  gastar otra sesión.
+  botella del proyecto (que es retrieval/corpus). El valor de esta sesión no es el ahorro: es
+  cerrar la pregunta de s325h con un número y dejar el instrumento que evita la siguiente sesión
+  de adivinar.
 - **Valor del instrumento, rebajado de entrada** (hallazgo Fable, especulativo pero sano): los
-  mtimes ya hacen (b) poco probable — si el snapshot hubiera traído purelib, `pip` sobre
-  requirements ya satisfechos no reescribiría 163/164 entradas en 56 s (solo `PyJWT` y
-  `cryptography` llevan `--ignore-installed`). El instrumento sigue pagando porque distingue (b)
-  de (a)∨(c) con coste cero en la ruta feliz, pero NO es la pieza que cierra el caso: eso es el
-  dashboard.
+  mtimes ya hacen improbable el caso «huella caduca» — si el snapshot hubiera traído purelib, `pip`
+  sobre requirements satisfechos no reescribiría 163/164 entradas en 56 s. La traza sigue pagando
+  porque cuesta cero en la ruta feliz, pero NO es la pieza que cierra el caso: eso es el dashboard.
 - **Gaps declarados.** (i) La causa raíz NO está determinada; «el snapshot no cubre `/usr/local`»
-  es hipótesis principal, no hallazgo. (ii) El `rm -f` de esta VM ya borró la evidencia que habría
-  distinguido (a) de (b) — la instrumentación llega para la siguiente, no recupera esta. (iii) La
-  atribución por `/proc/uptime` asume procfs namespaced (verificado en s325g y re-contrastado hoy
-  con doble lectura). (iv) Pendiente de Alberto, 30 s: mirar en el dashboard si la caché figura
-  construida o su build da error — es el único dato que decide si existe palanca.
+  es hipótesis, no hallazgo. (ii) El `rm -f` de esta VM ya borró la evidencia que separaría los dos
+  primeros casos — la instrumentación sirve para la siguiente, no recupera ésta. (iii) El
+  discriminador depende del calendario de rebuilds: si el build se re-dispara tras este merge y sí
+  persiste, la próxima VM heredaría la huella ya vigente y saltaría por el control, en silencio;
+  ese hueco lo cubre `deps_cache` leyendo el registro de s325h. (iv) **Pendiente de Alberto, 30 s**:
+  mirar en el dashboard si la caché figura construida o su build da error — el único dato que
+  decide si existe palanca.
+- **Traza**: revisor adversarial Fable standalone, 3 rondas con agente fresco —
+  **NO SÓLIDO → NO SÓLIDO → SÓLIDO**—, 11 hallazgos pasados por la regla C contra el código; dos
+  eran errores míos reales (colisión de ID con el `DEC-240` de s324j, y mi adjudicación falsa de
+  «ya es auditable» cuando el runner deniega `.claude/`, resuelta con snapshot autorizado del
+  diff). Tallies en `evals/adversarial_review_log.jsonl`; sujeto:
+  `evals/s325h_c_propuesta_instrumentacion.md`.

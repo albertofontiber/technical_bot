@@ -38,7 +38,7 @@ y del bloque «Estado actual» del PLAN.
 - **Estructural**: el `rm -f` destruía la evidencia justo antes de estamparla. Se informa antes de
   tocar nada, y también si `pip` revienta después.
 - **Discriminador parcial, declarado como tal**: el cambio mueve la huella (`663fae88` →
-  `cf08cbda`, porque el script entra en la suya por DEC-238 r2). Si la próxima VM dice «marcador
+  `1ead8d63`, porque el script entra en la suya por DEC-238 r2). Si la próxima VM dice «marcador
   previo 663fae88 — huella caduca», el snapshot SÍ persiste (causa b). El converso NO aísla: «no
   traía NINGÚN marcador» ⇒ **(a) ∨ (c)** — un build que nunca corrió tampoco deja marcador.
 - **Coste cero en la ruta feliz**: verificado que el control no imprime traza cuando la caché sirve.
@@ -86,7 +86,7 @@ y del bloque «Estado actual» del PLAN.
 |---|---|---|
 | 1 | **[medio]** el artefacto central sigue INAUDITABLE: el runner deniega `.claude/`; §6.1 afirmaba lo contrario | **ACEPTADO**: §6.1 corregido y el diff va adjunto abajo como snapshot autorizado |
 | 2 | **[menor]** DEC-241 decía «cuatro ramas», el recibo y §3 dicen CINCO | **ACEPTADO, verificado**: DEC-241 corregido a cinco |
-| 3 | **[menor, especulativo]** el discriminador depende del calendario de rebuilds: si el build se re-dispara post-merge y persiste, el marcador heredado sería `cf08cbda` vigente → control silencioso | **ACEPTADO**: declarado en DEC-241 y en el recibo, con el hueco cubierto por `deps_cache` (mtime pre-boot) |
+| 3 | **[menor, especulativo]** el discriminador depende del calendario de rebuilds: si el build se re-dispara post-merge y persiste, el marcador heredado sería `1ead8d63` vigente → control silencioso | **ACEPTADO**: declarado en DEC-241 y en el recibo, con el hueco cubierto por `deps_cache` (mtime pre-boot) |
 
 Nota de r2 sobre lo verificado: «aritmética coherente; alcance ejemplarmente calibrado; colisión
 DEC-240 real y resuelta; converso (a)∨(c) correctamente declarado; ENTORNO_CLOUD reconciliado;
@@ -150,4 +150,4 @@ PLAN y ENTORNO_CLOUD reconciliados, converso (a)∨(c) consistente en los tres d
 | 2 | **[menor]** `ENTORNO_CLOUD.md:303` decía «el discriminador es la traza» sin cualificar, mientras DEC-241 y §5.3 lo llaman PARCIAL | **ACEPTADO**: cualificado in-place; la pieza que cierra el caso es el dashboard |
 | 3 | **[menor]** residual inherente: no puede verificar byte a byte que el snapshot coincida con el fichero commiteado, ni la cifra de la suite | **SIN ACCIÓN POSIBLE** desde ese runner; queda declarado. Sí verificó el diff en sí: guard `[ -e ]` para glob sin match, `${_m##*_}` extrae bien la huella, subshell `|| true` neutraliza `set -e` |
 
-Tras aplicar 1 y 2 la huella pasa a `cf08cbda` y las cinco ramas se re-verificaron verdes.
+Tras aplicar 1 y 2 la huella pasa a `1ead8d63` y las cinco ramas se re-verificaron verdes.

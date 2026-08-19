@@ -208,6 +208,35 @@ BEGIN
     -- techo del cap frente a claves disjuntas.
     PERFORM pg_advisory_xact_lock(hashtext('panel_intentos'));
 
+    -- (0) PRECONDICIÓN DEL TECHO, enforcada (ronda seguimiento, Sol): el cap solo
+    -- puede ser techo si `cap` y `claves` NO son NULL y `cardinality(claves) <=
+    -- cap`. Los tres NULL/edge rompen la cota por caminos distintos y hay que
+    -- cerrarlos TODOS para que el techo sea de verdad incondicional (no dependa de
+    -- la disciplina del caller):
+    --   · `cap` NULL → toda comparación `> cap` es NULL/falsa → el upsert (4)
+    --     siembra sin cota;
+    --   · `claves` NULL → `cardinality(claves)` es NULL (guard no dispara) y
+    --     `clave <> ALL(claves)` nunca selecciona candidatos → con la tabla ya por
+    --     encima del cap, el DELETE del cap no borra nada y no se restaura `<= cap`;
+    --   · `cardinality(claves) > cap` → más claves nuevas que huecos.
+    -- El caller manda ≤2 claves (`u:`/`ip:`, nunca NULL) y `cap`=CERROJO_MAX_ENTRADAS
+    -- (miles, nunca NULL), así que esto JAMÁS dispara en producción; se enforça
+    -- igualmente. ALCANCE EXACTO de la garantía (ronda seguimiento): con el guard,
+    -- la cota `<= cap` es INDUCTIVA — vale para toda secuencia de llamadas de esta
+    -- RPC partiendo de una tabla `<= cap`. NO repara un estado inicial ya por
+    -- encima (una llamada BLOQUEADA retorna antes del bloque del cap y no poda), y
+    -- las escrituras EXTERNAS a la RPC quedan fuera del contrato. Si el guard
+    -- disparara, el RPC responde >=400 → `CerrojoNoDisponible` → la entrada
+    -- devuelve 503: fail-CERRAR (nadie entra), verificado en `cerrojo.py:197` /
+    -- `app.py:296`. La sonda con `claves` vacías (cardinality 0, NO NULL) pasa el
+    -- guard sin sembrar ni incrementar; la poda de retención de (2) sí corre en
+    -- CUALQUIER llamada, también en la sonda (no es un no-op puro).
+    IF cap IS NULL OR claves IS NULL OR cardinality(claves) > cap THEN
+        RAISE EXCEPTION 'panel_puerta: cap=% / claves inválidos (cardinality=%)',
+            cap, cardinality(claves)
+            USING ERRCODE = 'check_violation';
+    END IF;
+
     -- El reloj se lee DESPUÉS del lock, y con clock_timestamp() — NO now()
     -- (ronda del dúo sobre el cableado, S-m1): `now()` es el instante de
     -- INICIO de la transacción, constante durante toda ella; dos `admitir`
@@ -260,9 +289,27 @@ BEGIN
     SELECT count(*) INTO v_nuevas
       FROM unnest(claves) AS t(c)
      WHERE NOT EXISTS (SELECT 1 FROM public.panel_intentos p WHERE p.clave = t.c);
+    -- (con la precondición ya enforcada en (0), aquí `cardinality(claves) <= cap`
+    -- está garantizado: partiendo de `<= cap`, este bloque restaura la cota — la
+    -- garantía inductiva declarada arriba).
     IF v_count + v_nuevas > cap THEN
+        -- Los candidatos a sacrificio EXCLUYEN las claves de ESTA admisión
+        -- (ronda sello-final, S-M1): el upsert de (4) las va a (re)crear, así
+        -- que borrar aquí una clave de `claves` —p. ej. la `u:` existente y más
+        -- antigua cuando entra `[u:existente, ip:nueva]`— no libera hueco:
+        -- renace en (4) y la tabla acaba en `cap+1`. Sin la exclusión el
+        -- «techo» tenía fuga de 1 (latente hoy con `ip:` apagada; alcanzable al
+        -- encenderla tras XFF). Excluidas, solo se sacrifican filas que NO vuelven
+        -- y el TECHO (`<= cap`) se mantiene. La igualdad EXACTA a `cap` vale además
+        -- en ausencia de `acierto` concurrente sobre filas AJENAS: si uno borra
+        -- una fila ajena entre el conteo y este DELETE, `v_count` queda algo alto
+        -- y se sacrifica una de más → termina POR DEBAJO de `cap` (nunca por
+        -- encima). Un `acierto` sobre una fila PROPIA de la admisión no altera la
+        -- igualdad: el upsert (4) la recrea y el resultado sigue siendo `cap`.
+        -- Perder un bloqueo de más es aceptable; rebasar el techo, no.
         DELETE FROM public.panel_intentos
          WHERE clave IN (SELECT clave FROM public.panel_intentos
+                          WHERE clave <> ALL(claves)
                           ORDER BY ultimo ASC
                           LIMIT (v_count + v_nuevas - cap));
     END IF;
