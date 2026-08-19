@@ -55,11 +55,16 @@ de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el
 también en los datos que ya estaban escritos.
 
 **Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
-~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. La
+~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. Las
 deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
-y la causa raíz sigue abierta (DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
-**Pendiente de Alberto, 30 s**: mirar en el dashboard del environment si la caché figura
-construida o su build da error — es el único dato que decide si hay palanca.
+(DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
+**La sospecha se desplaza fuera del repo, sin cerrarse** (s325h-d, contrastado con la doc
+oficial): la caché conserva lo que el setup script escribe sin exclusión de rutas documentada, y
+el script «solo corre cuando NO existe caché». Alberto declara no haber tocado script ni dominios
+desde que lo pegó ⇒ ninguna causa de rebuild documentada aplica. Se retira la vía «venv bajo un
+prefijo que viaje». **Pendiente ANTES de concluir nada**: abrir una sesión nueva y correr
+`python scripts/cloud_smoke.py` → leer `deps_cache` (la 1.ª línea del hook NO basta: dos de los
+tres desenlaces son idénticos a simple vista — DEC-242 addendum).
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se

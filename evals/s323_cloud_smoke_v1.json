@@ -1,5 +1,5 @@
 {
-  "generado_utc": "2026-08-18T21:52:59+00:00",
+  "generado_utc": "2026-08-19T20:07:56+00:00",
   "veredicto": "LISTO",
   "superficie": "cloud",
   "dotenv_cargado": false,
@@ -14,7 +14,7 @@
     {
       "check": "sesion_url",
       "estado": "OK",
-      "detalle": "https://claude.ai/code/session_016h1HTBCJRXNTbfY4zUCUGk",
+      "detalle": "https://claude.ai/code/session_015EpxQcZ3pLGazkvAUzf1jk",
       "critico": false
     },
     {
@@ -32,7 +32,7 @@
     {
       "check": "git_head",
       "estado": "OK",
-      "detalle": "claude/smoke-test-cloud-env-rbiprp @ a49d47d",
+      "detalle": "claude/cloud-smoke-deps-cache-3iksuy @ e9f1f16",
       "critico": false
     },
     {
@@ -132,6 +132,12 @@
       "critico": false
     },
     {
+      "check": "deps_cache",
+      "estado": "OK",
+      "detalle": "marcador 1ead8d63 · INSTALADAS en este arranque (instalada) — la caché del environment no las traía",
+      "critico": false
+    },
+    {
       "check": "key:SUPABASE_URL",
       "estado": "OK",
       "detalle": "presente (40 chars) — scripts contra la DB (harness, sondas, loaders)",
@@ -218,7 +224,7 @@
     {
       "check": "red:postgres",
       "estado": "FALLO",
-      "detalle": "OperationalError: connection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (13.60.102.132), port 5432 failed: timeout expired\nconnection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (51.2 — ESPERADO en cloud: el proxy no permite TCP al 5432; para DDL usa el conector MCP de Supabase",
+      "detalle": "OperationalError: connection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (51.21.189.77), port 5432 failed: timeout expired\nconnection to server at \"aws-1-eu-north-1.pooler.supabase.com\" (13.60 — ESPERADO en cloud: el proxy no permite TCP al 5432; para DDL usa el conector MCP de Supabase",
       "critico": false
     },
     {
