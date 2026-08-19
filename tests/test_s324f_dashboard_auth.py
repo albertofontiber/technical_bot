@@ -110,19 +110,31 @@ def test_backend_de_entorno(monkeypatch):
     registro = auth.hash_contrasena("la buena", **BARATO)
     monkeypatch.setenv(auth.VARIABLE_USUARIOS, f"alberto:{registro}")
     backend = auth.BackendEntorno()
-    assert backend.autenticar("alberto", "la buena") == auth.Usuario("alberto")
-    assert backend.autenticar("ALBERTO", "la buena") == auth.Usuario("alberto")
+    # (s324j) `Usuario` lleva ahora el sello de su credencial — derivado del
+    # registro, así que se conoce de antemano y la igualdad sigue siendo exacta.
+    esperado = auth.Usuario("alberto", sello=auth.sello_de_registro(registro))
+    assert backend.autenticar("alberto", "la buena") == esperado
+    assert backend.autenticar("ALBERTO", "la buena") == esperado
     assert backend.autenticar("alberto", "la mala") is None
     assert backend.autenticar("nadie", "la buena") is None
+    # Y la revalidación por petición, con la misma fuente:
+    assert backend.sello("alberto") == esperado.sello
+    assert backend.sello("nadie") is None
 
 
 def test_el_backend_se_puede_sustituir():
     """DEC-231 §3: el día que sepamos qué es el login del war room, se cambia
-    esto y no se toca ni una ruta."""
+    esto y no se toca ni una ruta. (s324j: el contrato pide también `sello` —
+    un backend sin revalidación por petición ya no es un backend del panel.)"""
 
     class Guerra:
         def autenticar(self, usuario, contrasena):
-            return auth.Usuario("del-war-room") if contrasena == "sso" else None
+            if contrasena == "sso":
+                return auth.Usuario("del-war-room", sello="sello-sso")
+            return None
+
+        def sello(self, nombre):
+            return "sello-sso" if nombre == "del-war-room" else None
 
     anterior = auth.usar_backend(Guerra())
     try:

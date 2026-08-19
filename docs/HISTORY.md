@@ -5735,6 +5735,80 @@ seudonimización, y `docs/RGPD_RETENCION.md:67-75` ya rechaza ese framing.
 el repo», y eso empeora con contexto acumulado. Va a sesión fresca, con la v2 y sus diez
 defectos enumerados como punto de partida.
 
+## s324j (19 ago 2026) — El diseño del panel sobrevive a seis rondas del dúo, y el dúo me caza mintiendo tres veces por sesión de camino
+
+Sesión cloud (web), arrancada con la PR #294 recién mergeada y un solo encargo del handoff de
+s324i: escribir la v3 del panel a Vercel que cerrara los diez defectos de DEC-237, y pasarla por
+el dúo ANTES de tocar código. Se hizo eso — y el dúo convirtió «una v3 y una ronda» en v3→v9 y
+seis rondas completas, todas en la misma sesión.
+
+**El arranque fue el protocolo, no la memoria**: los diez defectos salieron del log del dúo (no
+del resumen del PLAN), y cada ancla se verificó contra el código antes de diseñar — auth.py
+entero, la 016, el precedente RPC endurecido de s277, y el rechazo histórico de RPC de s296→s299
+que vive en el docstring del canje. El auto-pushback de la v3 añadió tres cierres que nadie había
+pedido (IdentidadNoDisponible para que una caída no mienta «credenciales incorrectas», charset
+cerrado antes del filtro PostgREST, auditoría no reescribible por REST). No bastó: r1 la tumbó
+con 3 críticos, y el peor era MÍO y de esa misma tarde — §5 y §1.3 prescribían conductas OPUESTAS
+para el transporte caído, y lo cazaron LOS DOS revisores por separado.
+
+**Lo que dejó la maratón** (64 hallazgos, 0 falsos positivos, regla C en todos): el sello de
+credencial realizable donde vigente() era imposible; el cerrojo contar-al-admitir con siembra
+antes del lock (FOR UPDATE no bloquea filas que no existen), upsert siempre (el DELETE de acierto
+no deja admisiones sin contar) y advisory lock con su semántica dicha sin eufemismo; la clave ip:
+APAGADA hasta medir XFF (el hallazgo de r5: con la IP compartida del proxy, 5 fallos de un
+atacante eran un 429 GLOBAL — el gate decía «inefectivo» donde había denegación de servicio); la
+retención por función hermana diaria con recibo (ampliar la pasada de 24 meses tocaba un contrato
+vivo que afirma EXACTAMENTE 4 tablas); y la lección meta: tres veces en seis rondas el defecto
+fue «mi prosa afirmaba más que el diseño» (el 503 «sin contar», el «formato completo», las «≤48h
+garantizadas» que el canon desmiente porque un reloj roto aborta en silencio).
+
+**El regalo colateral de r1**: anular una invitación está ROTA HOY contra Supabase real — r41
+(s324f) arregló «la anulación queda sin firmar» escribiendo la firma en `nota`, y la 016 nunca
+concedió UPDATE sobre esa columna. Un dúo cerrando un hallazgo abrió otro que ningún test sin red
+ve. De ahí la puerta 9-bis: toda columna escrita tiene su GRANT, cruzado estáticamente.
+
+**Cierre**: r6 terminó con Fable en «SÓLIDO» explícito y Sol sin un solo defecto de mecanismo
+desde r2. Adjudiqué el cierre de las rondas de diseño (el guardarraíl anti-ritual existe para
+esto) — la v9 es SÓLIDO-para-cablear, el GO es de Alberto, y la sesión de cableado corre SU dúo
+sobre el diff. DEC-239 (renumerada de 238 en la propia sesión: la PR #295 viva de s325g ya había tomado DEC-238 — la lección de DEC-237 aplicada ANTES del merge, no después). Operativa: el primer Fable de r3 murió por presupuesto (el default de
+300k; DEC-236 sigue pendiente de raíz) y corrió con 600k/16 tools el resto de la sesión, con
+tool_use reales y ~20-30 anclas verificadas por ronda. Nota de higiene cloud: el digest de levers
+no apareció inyectado en el contexto (el hook está cableado y el script funciona — verificado
+ejecutándolo); esta sesión no opinaba sobre ningún lever, no bloqueó. La memoria indexada
+(MEMORY.md) no está versionada en el repo y no se toca desde cloud; la traza canónica queda en
+DECISIONS/PLAN/HISTORY.
+
+## s324j — continuación (19 ago 2026): el panel, cableado; y el adversarial impidiéndome cerrar con medio dúo
+
+Con el diseño v9 ya cerrado (seis rondas del dúo, DEC-239), la continuación fue CABLEARLO. Se leyó
+la v9 entera y se implementó pieza a pieza contra su contrato: el sello de credencial en la cookie,
+el backend de Supabase con la disciplina del señuelo heredada, el cerrojo distribuido
+`panel_puerta`, la idempotencia por `op`, la firma `revocada_por` (que además cierra el 42501
+LATENTE de hoy en la anulación), las dos migraciones con su ACL enumerada y sus postcondiciones, y
+~90 puertas de test. Detalle que vale la pena: los tests PREDIJERON sus propias roturas — los dos
+dobles de backend sin `sello` se rompieron EN el test con traza, que es exactamente donde S4-M4 del
+diseño dijo que debían romperse. Para correr el gate de integración de verdad hizo falta instalar
+Postgres 17 local (PG16 no basta: la propuesta s295 usa el privilegio `MAINTAIN`, 17+); 17/17
+contra base real, incluida la ráfaga concurrente y el escenario adversarial del cap.
+
+El dúo sobre el DIFF (Protocolo 3) fue lo más instructivo. El cross-model Sol corrió cuatro rondas
+y cazó un fallo de SEGURIDAD real que ni el 2º revisor ni yo vimos en el cableado: `panel_puerta`
+sembraba una fila `u:` antes de comprobar el bloqueo, así que un atacante ya cerrado por su `ip:`
+seguía inflando el cap — una divergencia con el doble en memoria, que comprueba antes de sembrar.
+Se corrigió reordenando la RPC. Y dos de MIS fixes de esa ronda fueron sobre-correcciones que Sol
+revirtió (aceptar `'1 day'` en un autocontrol; quitar un trigger de CI que era una dependencia
+real). La ronda de verificación no fue ritual.
+
+El final es el mejor ejemplo de `feedback_my_bias` de la sesión. Estaba a punto de declarar el
+cableado «sólido» con un «sello final» que corría SOLO el cross-model Sol, porque el 2º revisor
+frontera Anthropic (Fable, y su fallback Opus) cayó por **crédito agotado** de la cuenta a mitad
+del diff. Sol emitió un crítico PROCEDIMENTAL, y la regla C lo confirmó contra el canon:
+`ADVERSARIAL_REVIEWER.md` dice literal que una credencial ausente deja `pending_fable` y «no
+completa ni dispensa el dúo», y yo había citado DEC-236 (que es sobre el ahogo por CONTEXTO, no por
+crédito) como si dispensara. No dispensa. Así que el cableado NO se declara sólido ni se mergea:
+queda cableado + verificado + cross-model completo, con el 2º revisor PENDIENTE hasta que Alberto
+recargue crédito. El adversarial existe justo para esto — para que no llame «hecho» a medio
+control. La PR se queda en draft.
 ## s325g (19 ago 2026) — Los 50 segundos se van a la caché: el setup script entra en juego sin sacar la lógica del repo
 
 Alberto adjudicó lo que s325d dejó medido y aparcado: mover la instalación de dependencias

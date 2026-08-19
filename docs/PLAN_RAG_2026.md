@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 ago 2026 (s324d — poda: los estados anteriores a s323 se archivaron en HISTORY; el estado
+> 19 ago 2026 (s324j — el diseño del panel a Vercel CERRADO tras seis rondas del dúo; el estado
 > vigente es el bloque «Estado actual» de abajo).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
@@ -25,7 +25,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324h — 18 ago 2026; piloto DG vivo)
+## Estado actual (s324j — 19 ago 2026; panel CABLEADO, dúo pendiente de crédito)
 
 **La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
@@ -65,28 +65,33 @@ generan las de los modelos, no coleccionar confusiones) · el gate de ASR con �
 (DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
-### QUÉ SIGUE — el panel del dashboard a Vercel (s324i, DEC-237)
+### QUÉ SIGUE — el panel a Vercel: CABLEADO y verificado, dúo pendiente de crédito (DEC-240)
 
-**Adjudicado**: `techassistant.fontiber.com` + **(a2)**, los usuarios salen de las variables de
-entorno y pasan a Supabase. Motivo: mientras la lista viva en el entorno, **revocar no puede ser
-más rápido que un despliegue** (`auth.py:233-236`).
+**El panel está CABLEADO, no solo diseñado** (s324j, 19-ago; diseño validado en
+`evals/s324i_panel_vercel_propuesta_v9.md`, DEC-239). Migraciones `019`/`020`, `dashboard/cerrojo.py`,
+sello + `IdentidadNoDisponible` + `BackendSupabase`, cerrojo distribuido `panel_puerta`, `op`,
+`revocada_por`, script de alta, enchufe en `api/index.py`, ~90 puertas + gate de integración pg.
+**Verificado**: suite **4517 passed**; el gate pg contra un **Postgres 17 REAL** 17/17 (ráfaga
+concurrente, bypass del cap cerrado, política-como-ventana). No desplegado.
 
-**Estado: diseñado, NO cableado.** Dos rondas del dúo, **dos NO SÓLIDO**. La v2 tiene la
-estructura correcta y **diez defectos enumerados**, tres críticos:
+**Lo que FALTA para cerrar, en orden**:
+1. **Recargar el crédito de Anthropic** (acción de Alberto): el 2º revisor frontera del dúo
+   (Fable/Opus) cae por `400 credit balance too low` desde la 2ª ronda del diff. El canon dice que
+   eso NO dispensa el dúo en ALTO (`ADVERSARIAL_REVIEWER.md:80-92`), así que **el cableado queda
+   PENDIENTE de ese 2º revisor** — corrió solo el cross-model Sol (4 rondas; cazó un fallo de
+   seguridad real: la siembra antes del check de bloqueo). Con crédito, correr
+   `scripts/adversarial_review_fable.py` sobre el diff.
+2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173).
+3. **Los tres gates de EXPONER** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+   panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
+   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False).
+4. **Aplicar** 019 antes que 020, cada una ENTERA con aplicador transaccional (SQL Editor o
+   `psql --single-transaction`); alta de usuarios con `scripts/s324j_panel_usuario.py`; sonda del
+   cerrojo; smoke. Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
 
-1. tabla de credenciales **sin RLS/FORCE/REVOKE** — patrón ya escrito en `migrations/016:266-292`;
-   en `public`, PostgREST expondría usuarios y hashes scrypt;
-2. `HMAC(usuario|ip)` **fusiona** dos claves que el cerrojo cuenta por separado (`auth.py:363`) y
-   **debilita** el cerrojo: rotar IP da intentos ilimitados contra un usuario;
-3. el digest `h` es **irrealizable** con la firma de `vigente()`.
-
-**Arranque de la sesión**: leer `evals/s324i_panel_vercel_propuesta_v2.md` + DEC-237, escribir la
-**v3** que cierre los diez, y pasarla por el dúo ANTES de cablear. Es autenticación: el precio de
-equivocarse es una tabla de credenciales expuesta. **No desplegar hasta que la v3 sea SÓLIDO.**
-
-Bloqueante aparte, sin resolver: `X-Forwarded-For` en Vercel no está medido (`_ip_cliente` está
-calibrado para EXACTAMENTE un proxy). Hasta fijar la regla de confianza, **el cerrojo por IP no
-cuenta como efectivo**.
+**Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
+contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);
+la 020 lo cierra de raíz con `revocada_por`.
 
 ---
 

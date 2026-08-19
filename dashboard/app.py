@@ -39,6 +39,7 @@ credenciales, y no dice nada de nadie).
 """
 from __future__ import annotations
 
+import hmac
 import secrets
 import time
 import urllib.parse
@@ -47,7 +48,7 @@ from datetime import datetime, timezone
 
 from src.bot import access
 
-from . import auth, datos, errores, gestion, render, sesion
+from . import auth, cerrojo, datos, errores, gestion, render, sesion
 from .render import Seguro, esc
 
 #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
@@ -56,7 +57,11 @@ CUERPO_MAX_BYTES = 64 * 1024
 
 RUTAS_PUBLICAS = frozenset({("GET", "/entrar"), ("POST", "/entrar")})
 
-_cerrojo = auth.Cerrojo()
+#: El único texto del 503 de identidad/cerrojo: un estado del SERVICIO, igual
+#: para todo el mundo — sin señal por-usuario y sin mentir «credenciales
+#: incorrectas» cuando la verdad es «no puedo comprobarlo» (s324j, v9 §1.3).
+_TEXTO_503 = ("El panel no puede comprobar identidades ahora mismo. No es tu "
+              "contraseña: vuelve a intentarlo en unos minutos.")
 
 
 # --------------------------------------------------------- petición/respuesta
@@ -280,9 +285,18 @@ def accion_entrar(peticion: Peticion) -> Respuesta:
     usuario = peticion.campo("usuario").strip()
     contrasena = peticion.campo("contrasena")
     claves = auth.claves_de(usuario, peticion.ip)
-    ahora = time.monotonic()
 
-    espera = _cerrojo.bloqueado(claves, ahora)
+    # CONTAR AL ADMITIR, no al fallar (s324j, v9 §3.2): si `admitir` devuelve
+    # 0.0, el intento YA está contado — así N peticiones concurrentes no pasan
+    # todas la comprobación antes de que ninguna registre. `acierto` es la
+    # devolución del provisional. El +1 fantasma de un proceso que muera entre
+    # medias decae solo (precio declarado).
+    try:
+        espera = cerrojo.activo().admitir(claves, time.monotonic())
+    except cerrojo.CerrojoNoDisponible:
+        # Configuración rota (función sin migrar, ACL…): un panel que no puede
+        # contar intentos no debe estar atendiendo logins (v9 §3.5).
+        return _error(503, _TEXTO_503, peticion.nonce)
     if espera > 0:
         return pagina_entrar(
             peticion,
@@ -291,17 +305,27 @@ def accion_entrar(peticion: Peticion) -> Respuesta:
             estado=429,
         )
 
-    identidad = auth.autenticar(usuario, contrasena)
+    try:
+        identidad = auth.autenticar(usuario, contrasena)
+    except auth.IdentidadNoDisponible:
+        # «No puedo comprobarlo» ≠ «credencial mala»: 503 de estado, igual para
+        # todo el mundo (v9 §1.3). El +1 de `admitir` queda como fantasma en el
+        # fallo PARCIAL (cerrojo vivo, lectura de usuarios caída) — declarado.
+        return _error(503, _TEXTO_503, peticion.nonce)
     if identidad is None:
-        _cerrojo.fallo(claves, ahora)
-        # UN SOLO mensaje para las dos causas: decir «ese usuario no existe»
-        # regala la mitad de la credencial a quien esté probando.
+        # El fallo ya está contado (en `admitir`). UN SOLO mensaje para las dos
+        # causas: decir «ese usuario no existe» regala la mitad de la
+        # credencial a quien esté probando.
         return pagina_entrar(peticion,
                              mensaje="Usuario o contraseña incorrectos.",
                              estado=401)
 
-    _cerrojo.acierto(claves)
+    cerrojo.activo().acierto(claves)
     payload = sesion.nueva(identidad.nombre)
+    # `h` lo añade LA PUERTA, no `sesion.nueva` (v9 §2, F5-m1): el payload es
+    # un dict y `firmar` firma lo que le den; `sesion.py` documenta el campo
+    # con este dueño escrito.
+    payload["h"] = identidad.sello
     cookie = sesion.firmar(payload, sesion.secreto())
     return _redirigir("/", extra=[
         ("set-cookie", sesion.cabecera_cookie(
@@ -383,18 +407,20 @@ def _formatear(valor: object, formato: str) -> str:
 
 
 def _tabla_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
-    """Columnas declaradas primero; las que la vista traiga de más van al final
-    con su nombre crudo. Ni una columna nueva se pierde ni una que falte
-    rompe la página."""
+    """SOLO columnas declaradas — nada se pinta sin que alguien lo haya
+    declarado (s324j, v9 §7). El razonamiento anterior («las de más van al
+    final con su nombre crudo») era correcto para un panel interno y se
+    invirtió al exponerlo a internet: una columna nueva de una vista NO aparece
+    hasta que alguien la declare en `datos.VISTAS`. La dirección contraria —una
+    declarada que la vista ya no trae— la detecta el `select` explícito de
+    `datos.leer_vista` (la vista responde 42703 y la tarjeta lo dice); si aun
+    así llegara una fila sin la columna, aquí simplemente no se pinta y la
+    página no rompe."""
     presentes = {c for fila in resultado.filas for c in fila}
     declaradas = [c for c in vista.columnas if c.nombre in presentes]
-    extra = [c for c in sorted(presentes)
-             if c not in {col.nombre for col in vista.columnas}]
-    cabeceras = [c.etiqueta for c in declaradas] + [c.replace("_", " ")
-                                                    for c in extra]
+    cabeceras = [c.etiqueta for c in declaradas]
     filas = [
         [_formatear(fila.get(c.nombre), c.formato) for c in declaradas]
-        + [esc(fila.get(c)) for c in extra]
         for fila in resultado.filas
     ]
     return render.tabla(cabeceras, filas)
@@ -668,6 +694,12 @@ def pagina_acceso(peticion: Peticion, *, resultado: gestion.Accion | None = None
         render.formulario(
             "/acceso/invitar", csrf,
             Seguro(
+                # `op` identifica LA OPERACIÓN, no su contenido (s324j, v9
+                # §4.2): nace al PINTAR el formulario, viaja oculto, y el
+                # UNIQUE de la base convierte el F5 (mismo op) en «ya emitiste»
+                # sin crear una segunda credencial. Dos pestañas = dos op = dos
+                # invitaciones — correcto, porque son dos operaciones.
+                f'<input type="hidden" name="op" value="{esc(secrets.token_urlsafe(16))}">'
                 '<label>Para quién es (nombre y cargo)'
                 '<input name="nota" maxlength="200" required '
                 'placeholder="Juan Pérez, DG de Acme"></label>'
@@ -726,12 +758,15 @@ def accion_invitar(peticion: Peticion) -> Respuesta:
         nota=peticion.campo("nota"),
         dias=peticion.campo("dias", str(access.DIAS_CADUCIDAD_DEFECTO)),
         por=peticion.usuario,
+        op=peticion.campo("op"),
     )
     # Se RENDERIZA en vez de redirigir, y es deliberado: el enlace se enseña una
     # sola vez y no puede viajar en la URL de una redirección (quedaría en el
-    # historial del navegador y en los logs de cualquier proxy). Precio
-    # declarado: recargar con F5 vuelve a enviar el formulario y emite una
-    # invitación de más — visible en la lista y anulable en un click.
+    # historial del navegador y en los logs de cualquier proxy). El F5 que ese
+    # render deja abierto NO emite una credencial de más: reenvía el MISMO `op`,
+    # que choca con el UNIQUE de la base y produce el aviso «ya emitiste esta
+    # invitación» sin crear nada (s324j, v9 §4.2 — la idempotencia por
+    # operación es lo que sustituye al PRG que aquí no se puede usar).
     return pagina_acceso(peticion, resultado=resultado)
 
 
@@ -791,7 +826,12 @@ def _error(estado: int, texto: str, nonce: str) -> Respuesta:
 
 
 def despachar(peticion: Peticion) -> Respuesta:
-    """La puerta. Nada de aquí abajo se salta ningún paso de arriba."""
+    """La puerta. Nada de aquí abajo se salta ningún paso de arriba — con UNA
+    excepción declarada y acotada: `POST /salir` verifica firma y CSRF pero NO
+    revalida el sello contra el backend (s324j, v9 §2, ronda S4-m1) — borrar tu
+    propia cookie no puede depender de que Supabase responda, y el logout no
+    lee ni escribe nada de nadie, así que saltarse la revalidación no abre
+    ninguna puerta."""
     clave = (peticion.metodo, peticion.ruta)
     manejador = RUTAS.get(clave)
     if manejador is None:
@@ -808,6 +848,12 @@ def despachar(peticion: Peticion) -> Respuesta:
             return _redirigir("/entrar")
         peticion.sesion = payload
 
+    # Origen y CSRF van ANTES de la revalidación de sello (ronda del dúo sobre
+    # el cableado, F-m1): son comprobaciones LOCALES (gratis), la del sello es
+    # un RTT a Supabase. Un POST malformado o cross-site con sesión válida no
+    # debe gastar una llamada de red antes de un rechazo que se computa gratis.
+    # El resultado aceptar/rechazar es idéntico — solo cambia cuál rechazo gana
+    # y se quita la amplificación.
     if peticion.metodo == "POST":
         if not _mismo_origen(peticion):
             return _error(403, "Petición rechazada: viene de otro sitio.",
@@ -816,6 +862,34 @@ def despachar(peticion: Peticion) -> Respuesta:
                 peticion.sesion or {}, peticion.campo("csrf")):
             return _error(403, "Formulario caducado. Vuelve a cargar la página.",
                           peticion.nonce)
+
+    if clave not in RUTAS_PUBLICAS and clave != ("POST", "/salir"):
+        # LA REVALIDACIÓN POR PETICIÓN (v9 §2): el sello de la cookie contra el
+        # sello VIGENTE del backend. Es lo que hace efectivos en la SIGUIENTE
+        # petición la revocación y el cambio de contraseña — la promesa por la
+        # que Alberto eligió (a2). La regla completa:
+        #   · `h` ausente o no-cadena → fuera (cookies de antes del despliegue;
+        #     `compare_digest` no llega a ver un None);
+        #   · `sello(u)` devuelve None (revocado/cambiada) → fuera;
+        #   · sellos distintos → fuera;
+        #   · el backend NO PUDO comprobar → 503 sin servir nada y SIN matar la
+        #     cookie (un timeout no es un cierre de sesión falso; el revocado
+        #     durante la caída ve el mismo 503 que todos).
+        # «Fuera» es siempre el mismo camino: 303 a /entrar borrando la cookie.
+        # `/salir` es la excepción declarada: borrar tu propia cookie no puede
+        # depender de que Supabase responda.
+        payload = peticion.sesion or {}
+        h = payload.get("h")
+        if not isinstance(h, str) or not h:
+            return _redirigir("/entrar", extra=[
+                ("set-cookie", sesion.cabecera_borrado())])
+        try:
+            vigente = auth.backend_activo().sello(payload["u"])
+        except auth.IdentidadNoDisponible:
+            return _error(503, _TEXTO_503, peticion.nonce)
+        if vigente is None or not hmac.compare_digest(vigente, h):
+            return _redirigir("/entrar", extra=[
+                ("set-cookie", sesion.cabecera_borrado())])
 
     return manejador(peticion)
 
@@ -919,9 +993,23 @@ def comprobar_arranque() -> None:
     """Lo que TIENE que estar bien antes de aceptar la primera petición.
 
     Se ejecuta en el `lifespan` de ASGI, así que un fallo aquí impide que
-    uvicorn empiece a servir: Railway conserva el despliegue anterior y el
-    motivo queda escrito en los logs. Mismo criterio que
-    `access.validar_configuracion` en el bot.
+    uvicorn empiece a servir: el despliegue anterior se conserva y el motivo
+    queda escrito en los logs. Mismo criterio que `access.validar_configuracion`
+    en el bot.
+
+    Con los backends de Supabase enchufados (v9 §9/§3.5) comprueba TAMBIÉN lo
+    suyo: credenciales presentes, y la sonda del cerrojo (`panel_puerta` con
+    claves vacías — extremo a extremo real, sin tocar contadores). LÍMITE
+    declarado: en el runtime de Vercel el `lifespan` no está garantizado; allí
+    el control compensatorio es el smoke del runbook, y en runtime los estados
+    de configuración fail-CIERRAN igualmente (503).
     """
     sesion.secreto()
     auth.validar_configuracion()
+    if isinstance(auth.backend_activo(), auth.BackendSupabase):
+        if not datos.hay_credenciales():
+            raise RuntimeError(
+                "El backend de usuarios es Supabase y faltan SUPABASE_URL / "
+                "SUPABASE_SERVICE_KEY: el panel no podría autenticar a nadie."
+            )
+    cerrojo.sonda()

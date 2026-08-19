@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Gestión de acceso desde el panel — la ÚNICA parte que escribe.
+"""Gestión de acceso desde el panel — la parte de GESTIÓN que escribe.
 
 QUÉ ESCRIBE, exhaustivo: una fila nueva en `bot_invitaciones` (emitir), y dos
-`UPDATE` que ponen una marca de tiempo (anular una invitación, revocar un
+`UPDATE` que ponen marca de tiempo y firma (anular una invitación, revocar un
 acceso). Nada más. No toca corpus, ni catálogo, ni golds, ni `query_logs`, ni
-`user_consent` — DEC-231 §4, y aquí es literal: en este fichero están TODAS las
-peticiones no-GET del panel, y son tres.
+`user_consent` — DEC-231 §4. La invariante de auditoría, AMPLIADA en s324j
+(v9 §3.2): las peticiones no-GET del panel viven en DOS ficheros enumerables —
+las tres de gestión AQUÍ, y en `cerrojo.py` la RPC de `admitir` y el DELETE de
+`acierto` del cerrojo distribuido. Ningún otro módulo escribe.
 
 QUÉ NO IMPLEMENTA: el CANJE. Cuando el invitado pulsa el enlace, quien lo canjea
 es el bot (`logging_db.canjear_invitacion`, un solo `UPDATE` condicional que
@@ -17,20 +19,26 @@ LA REGLA DEL TOKEN, heredada tal cual de `src.bot.access` y NO reescrita aquí:
 se genera con un CSPRNG, en la base se guarda su SHA-256, y el enlace se enseña
 UNA vez. El panel no puede volver a mostrarlo porque nadie puede: lo que hay
 guardado es una huella. Si se pierde, se anula y se emite otro.
-  Consecuencia de interfaz que hay que cuidar: el enlace aparece en la respuesta
-del POST que lo crea y en ninguna otra. Nunca en un parámetro de URL (quedaría
-en el historial del navegador y en los logs del proxy) — de ahí el
-POST-redirect-GET con el enlace guardado en la propia respuesta y no en la
-redirección.
+  Consecuencia de interfaz que hay que cuidar: el enlace aparece en la
+respuesta del POST que lo crea y en ninguna otra — NO hay redirección (nunca
+hubo un POST-redirect-GET aquí, y la prosa que lo afirmaba era falsa — s324j,
+ronda F-m1): `app.accion_invitar` RENDERIZA la respuesta a propósito, porque
+tras un 303 no habría de dónde reconstruir un token que no se guarda. El precio
+(el F5 reenvía el formulario) lo paga la idempotencia por `op`, no un PRG.
 
-LA FIRMA DE CADA ACCIÓN. `alta_por` / `revocado_por` se rellenan con
-`panel:<usuario>`, no con el nombre a secas: al mirar la tabla dentro de seis
-meses hay que poder distinguir lo que hizo alguien desde el CLI de lo que hizo
-alguien desde la web. Es la mitad barata de la auditoría.
+LA FIRMA DE CADA ACCIÓN. `alta_por` / `revocado_por` / `revocada_por` se
+rellenan con `panel:<usuario>`, no con el nombre a secas: al mirar la tabla
+dentro de seis meses hay que poder distinguir lo que hizo alguien desde el CLI
+de lo que hizo alguien desde la web. Es la mitad barata de la auditoría.
+(s324j: la anulación firma en `revocada_por` — columna de la migración 020 —
+y NO en la nota: la firma-en-nota de r41 mezclaba auditoría con texto humano y
+además estaba ROTA contra Supabase real, porque la 016 nunca concedió
+`UPDATE (nota)`; hallazgo S-C1 del dúo, DEC-239.)
 """
 from __future__ import annotations
 
 import os
+import re
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -79,11 +87,21 @@ def _iso(momento: datetime) -> str:
     return momento.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+#: Estado de escritura PROPIO de este módulo (s324j, v9 §4.2, ronda F3-M1): una
+#: violación de unicidad (código PostgreSQL `23505`) no es «Supabase respondió
+#: 409» — es «esta operación YA se hizo», y el único camino que lo consume (la
+#: emisión con `op`) tiene que poder decirlo. Para el resto de escrituras un
+#: duplicado sigue siendo el error que es.
+DUPLICADO = "duplicado"
+_CODIGO_UNICIDAD = "23505"
+
+
 def _escribir(metodo: str, tabla: str, *, params: dict | None = None,
               json: dict | None = None) -> tuple[str, list[dict], str]:
-    """(estado, filas, detalle). Mismo vocabulario de estados que `datos.leer` y
-    la misma promesa: no lanza. Una escritura que falla tiene que producir un
-    mensaje en pantalla, nunca un 500 con traza."""
+    """(estado, filas, detalle). Mismo vocabulario de estados que `datos.leer`
+    —más `DUPLICADO`, solo de escritura— y la misma promesa: no lanza. Una
+    escritura que falla tiene que producir un mensaje en pantalla, nunca un 500
+    con traza."""
     if not datos.hay_credenciales():
         return datos.SIN_CREDENCIALES, [], "el panel no tiene credenciales"
     try:
@@ -94,11 +112,13 @@ def _escribir(metodo: str, tabla: str, *, params: dict | None = None,
             )
     except httpx.HTTPError as exc:
         return datos.ERROR, [], f"no se pudo hablar con Supabase ({type(exc).__name__})"
-    if resp.status_code in (400, 404):
+    if resp.status_code in (400, 404, 409):
         try:
             codigo = str((resp.json() or {}).get("code") or "")
         except Exception:                                        # noqa: BLE001
             codigo = ""
+        if codigo == _CODIGO_UNICIDAD:
+            return DUPLICADO, [], tabla
         if codigo in datos._CODIGOS_AUSENTE or resp.status_code == 404:
             return datos.TABLA_AUSENTE, [], tabla
     if resp.status_code >= 400:
@@ -160,8 +180,20 @@ def _nombre_del_bot() -> str | None:
     return (os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
 
 
-def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
-    """Emite una invitación de un solo uso y devuelve el enlace UNA vez."""
+#: La forma admisible del token de operación `op` (v9 §4.2): lo genera el panel
+#: con `secrets.token_urlsafe(16)` al pintar el formulario, así que cualquier
+#: otra cosa es un formulario manipulado — y el CHECK de la 020 lo rechazaría
+#: en la base con un error críptico; mejor cortarlo aquí con un mensaje claro.
+_OP_RE = re.compile(r"^[A-Za-z0-9_-]{8,64}$")
+
+
+def generar_invitacion(*, nota: str, dias: int, por: str, op: str) -> Accion:
+    """Emite una invitación de un solo uso y devuelve el enlace UNA vez.
+
+    `op` identifica LA OPERACIÓN (el formulario pintado), no su contenido: el
+    F5 reenvía el mismo `op` y el UNIQUE de la base lo convierte en `DUPLICADO`
+    — no se crea una segunda credencial y no se finge poder re-enseñar el
+    enlace (v9 §4.2)."""
     nota = (nota or "").strip()
     if not nota:
         # Obligatoria por el mismo motivo que en el CLI: sin «para quién es», el
@@ -185,6 +217,9 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
             f"queda olvidado en un chat.",
             tono="error",
         )
+    if not _OP_RE.fullmatch(op or ""):
+        return Accion(False, "El formulario llegó incompleto. Recarga la "
+                             "página y vuelve a intentarlo.", tono="error")
 
     token = access.token_nuevo()
     estado, filas, detalle = _escribir(
@@ -194,8 +229,20 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
             "nota": nota,
             "creada_por": f"panel:{por}",
             "expira_at": _iso(_ahora() + timedelta(days=dias)),
+            "op": op,
         },
     )
+    if estado == DUPLICADO:
+        # El mismo `op` ya insertó: es el F5 del formulario que acaba de
+        # emitir. No se crea nada y no se miente sobre el enlace, que solo se
+        # enseñó al crearla — nadie puede volver a verlo (es una huella).
+        return Accion(
+            False,
+            "Ya emitiste esta invitación: está en la lista de abajo. El "
+            "enlace solo se enseñó al crearla; si lo perdiste, anúlala y "
+            "emite otra.",
+            tono="aviso",
+        )
     if estado != datos.OK or not filas:
         return Accion(False, _texto_de_fallo(estado, detalle,
                                              "emitir la invitación"),
@@ -214,20 +261,6 @@ def generar_invitacion(*, nota: str, dias: int, por: str) -> Accion:
         f"Este enlace NO se puede volver a ver: cópialo ahora." + aviso,
         enlace=enlace,
     )
-
-
-def _nota_con_firma(nota: object, por: str) -> str:
-    """Añade quién actuó al final de la nota, sin perder lo que hubiera.
-
-    (s324f, dúo r41) La tabla no tiene columna `revocada_por` y añadirla exige
-    migración; la nota es el rastro humano que ya existe y donde el listado la
-    enseña. Se acota para no crecer sin límite con anulaciones repetidas.
-    """
-    base = (str(nota) if nota else "").strip()
-    firma = f"[anulada por {str(por or '?').strip()[:40]}]"
-    if firma in base:
-        return base[:500]
-    return (f"{base} {firma}".strip())[:500]
 
 
 def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
@@ -265,12 +298,14 @@ def revocar_invitacion(*, invitacion_id: str, por: str) -> Accion:
         "PATCH", "bot_invitaciones",
         params={"id": f"eq.{identificador}", "revocada_at": "is.null",
                 "canjeada_at": "is.null"},
-        # (dúo r41) `por` se recibía y se tiraba: la anulación quedaba sin
-        # firmar y la auditoría no podía decir QUIÉN la anuló, pese a que la
-        # propuesta afirmaba que cada acción queda firmada. Se persiste en la
-        # nota, que es la columna que ya existe para el rastro humano.
+        # La anulación se FIRMA en `revocada_por` (migración 020) — la columna
+        # que r41 no tenía y suplió firmando en la nota. Aquello mezclaba
+        # auditoría con texto humano Y estaba roto contra Supabase real: la 016
+        # nunca concedió `UPDATE (nota)` y el PATCH entero moría con 42501
+        # (hallazgo S-C1 del dúo, s324j/DEC-239). El CHECK
+        # `bot_invitaciones_revocacion_completa` exige fecha y firma JUNTAS.
         json={"revocada_at": _iso(_ahora()),
-              "nota": _nota_con_firma(fila.get("nota"), por)},
+              "revocada_por": f"panel:{por}"},
     )
     if estado != datos.OK:
         return Accion(False, _texto_de_fallo(estado, detalle,

@@ -1,0 +1,298 @@
+diff --git a/.github/workflows/s324j-panel-pg.yml b/.github/workflows/s324j-panel-pg.yml
+index dc99959..b0e5aaf 100644
+--- a/.github/workflows/s324j-panel-pg.yml
++++ b/.github/workflows/s324j-panel-pg.yml
+@@ -18,10 +18,12 @@ on:
+       - "migrations/020_invitaciones_op.sql"
+       - "dashboard/**"
+       - "tests/test_s324j_panel_pg.py"
+-      # NO se lista test_s295_*.py aquí (ronda del dúo sobre el cableado,
+-      # S-m3): este workflow corre SOLO el gate del panel; s295 tiene el suyo
+-      # (s295-rgpd-retencion-pg.yml). El fixture `base` de s295 se importa,
+-      # pero su regresión la mantiene su propio workflow — no éste.
++      # SÍ se lista test_s295 (ronda de verificación, S2-M3): este gate IMPORTA
++      # su fixture `base`, que aplica la cola s295→s299 entera. Un cambio en
++      # ese arnés puede romper el gate del panel — así que este workflow debe
++      # re-correr cuando cambie, aunque su propio workflow (s295) también corra.
++      # Es una dependencia de IMPORT, no un trigger espurio.
++      - "tests/test_s295_rgpd_integracion_pg.py"
+       - ".github/workflows/s324j-panel-pg.yml"
+   workflow_dispatch:
+ 
+diff --git a/docs/DASHBOARD_DESPLIEGUE.md b/docs/DASHBOARD_DESPLIEGUE.md
+index 711c64f..826681b 100644
+--- a/docs/DASHBOARD_DESPLIEGUE.md
++++ b/docs/DASHBOARD_DESPLIEGUE.md
+@@ -44,20 +44,26 @@
+   «inefectiva»: con la IP compartida del proxy y el MAX sobre claves, 5 fallos de un atacante
+   serían un 429 GLOBAL. Encenderla = medir primero, voltear la constante después.
+ 
+-## Riesgo declarado del cerrojo: el desalojo del cap es forzable (dúo del cableado, F-M1)
+-
+-`panel_puerta` siembra una fila `u:<hmac>` por cada intento de login ANTES de comprobar
+-credenciales, y la poda del cap (`CERROJO_MAX_ENTRADAS = 10.000`) borra las filas más antiguas.
+-Consecuencia, heredada del cerrojo en memoria y ahora declarada: un atacante que mande ~10.000
+-logins con usuarios inventados **distintos** llena la tabla y expulsa la fila de bloqueo de un
+-usuario concreto, cuyo backoff se resetea (renace con `fallos = 0`). No es gratis para el
+-servidor —cada intento paga el señuelo scrypt (~100 ms), así que 10.000 son también un coste de
+-CPU—, pero sí barato para el atacante. Dos cosas lo acotan, y por eso van aquí y no como bug:
+-(1) el suelo scrypt sigue haciendo inviable la fuerza bruta de una contraseña larga aunque el
+-backoff se resetee; (2) **encender la mitad `ip:` tras la medición de XFF lo mitiga de raíz** —
+-con la clave por IP contando, el atacante acumula su propio bloqueo mientras infla las `u:`. Es
+-un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara en producción, la
+-respuesta es subir el cap o adelantar la medición de XFF, no un parche.
++## Riesgo declarado del cerrojo: el desalojo del cap con `ip:` apagada
++
++Con la clave `ip:` apagada (estado actual, hasta medir XFF), un atacante que mande muchos logins
++con usuarios inventados **distintos** crea una fila `u:<hmac>` fresca por intento; cuando la tabla
++llega al cap (`CERROJO_MAX_ENTRADAS = 10.000`) la poda expulsa las más antiguas, y puede empujar
++fuera la fila de bloqueo de un usuario concreto, cuyo backoff se resetea. No es gratis para el
++servidor —mientras el atacante no esté bloqueado, cada intento paga el señuelo scrypt (~100 ms)—,
++pero sí barato para él. Dos cosas lo acotan, y por eso va declarado y no como bug pendiente:
++
++1. El suelo scrypt hace inviable la fuerza bruta de una contraseña larga aunque el backoff se
++   resetee.
++2. **Encender la mitad `ip:` tras la medición de XFF lo cierra**, y esto SÍ es cierto desde la
++   ronda de verificación del cableado (S2-M1): `panel_puerta` comprueba el bloqueo ANTES de podar
++   o sembrar, así que un intento cuya clave `ip:` ya está cerrada **no toca la tabla** — ni crea
++   la fila `u:` nueva ni dispara la poda. Con `ip:` contando, el atacante se bloquea a sí mismo y
++   deja de poder inflar. (Antes del reorden la siembra iba primero y este bypass sobrevivía a
++   `ip:` — se corrigió realineando la RPC con el doble en memoria.)
++
++Es un refuerzo más de que el gate de XFF no es opcional. Si el patrón se observara con `ip:` aún
++apagada, la respuesta es subir el cap o adelantar la medición de XFF, no un parche.
+ 
+ ## Por qué Vercel
+ 
+diff --git a/migrations/019_panel_usuarios_cerrojo.sql b/migrations/019_panel_usuarios_cerrojo.sql
+index f5ee2f2..0d82e55 100644
+--- a/migrations/019_panel_usuarios_cerrojo.sql
++++ b/migrations/019_panel_usuarios_cerrojo.sql
+@@ -202,9 +202,10 @@ BEGIN
+     -- DISJUNTAS. Semántica REAL, sin eufemismo: un advisory lock DE
+     -- TRANSACCIÓN se retiene hasta el COMMIT, así que cada `admitir` se
+     -- serializa ENTERO contra los demás — a esta escala es gratis y es el
+-    -- invariante exacto del cerrojo en memoria. La siembra + FOR UPDATE de
+-    -- abajo queda como SEGUNDA capa: hoy redundante bajo este lock, y lo que
+-    -- sostiene la corrección si algún día alguien lo estrecha.
++    -- invariante exacto del cerrojo en memoria. Es este lock el que hace que
++    -- el upsert final baste como siembra (la ráfaga contra una clave fresca no
++    -- puede ver «ausente» N veces: entra de una en una), y el que sostiene el
++    -- techo del cap frente a claves disjuntas.
+     PERFORM pg_advisory_xact_lock(hashtext('panel_intentos'));
+ 
+     -- El reloj se lee DESPUÉS del lock, y con clock_timestamp() — NO now()
+@@ -213,18 +214,45 @@ BEGIN
+     -- encoladas en el lock (T2 empezó antes que T1 pero espera su turno)
+     -- escribirían `ultimo` con instantes en desorden, haciéndolo RETROCEDER.
+     -- `clock_timestamp()` leído aquí es el tiempo real en el momento en que
+-    -- esta llamada YA tiene el lock: monotónico entre las transacciones que el
+-    -- lock serializa, que es justo lo que el reloj monotónico del doble en
+-    -- memoria garantiza.
++    -- esta llamada YA tiene el lock. LÍMITE declarado: es reloj de PARED, no
++    -- monotónico como el `time.monotonic()` del doble en memoria — un ajuste
++    -- del reloj del sistema podría hacerlo retroceder. En la práctica es raro,
++    -- afecta a todo por igual, y el techo del castigo (`max_s`) acota el daño.
+     v_ahora := clock_timestamp();
+ 
+-    -- (1) Poda: la retención ejecutada en cada escritura. La constante viaja
+-    -- como argumento (una sola fuente en Python); la ventana RGPD canónica la
+-    -- impone la POLICY de arriba — si divergieran, manda la política.
++    -- (1) EL CHECK DE BLOQUEO VA PRIMERO — sobre las claves que YA EXISTEN, y
++    -- SIN sembrar ni podar (ronda de verificación del cableado, S2-M1). Es el
++    -- orden del doble en memoria (`auth.Cerrojo.admitir`: `bloqueado()` —que
++    -- solo LEE— antes de `fallo()` —que siembra e incrementa—). Sembrar antes
++    -- de comprobar dejaba que un atacante YA bloqueado por su clave `ip:`
++    -- siguiera creando una fila `u:` fresca por cada intento, inflando la
++    -- tabla hasta expulsar el bloqueo de un objetivo — y encima más barato,
++    -- porque el 429 corta antes del scrypt. Con el check delante, un intento
++    -- bloqueado NO toca la tabla: ni siembra la clave nueva ni poda.
++    FOR v_clave IN SELECT t.c FROM unnest(claves) AS t(c) ORDER BY t.c LOOP
++        SELECT p.fallos, p.ultimo INTO v_fallos, v_ultimo
++          FROM public.panel_intentos p WHERE p.clave = v_clave;
++        IF FOUND AND v_fallos > libres THEN
++            v_espera := GREATEST(
++                0,
++                extract(epoch FROM (v_ultimo - v_ahora))
++                + LEAST(base_s * power(2, v_fallos - libres - 1), max_s)
++            );
++            v_max := GREATEST(v_max, v_espera);
++        END IF;
++    END LOOP;
++    IF v_max > 0 THEN
++        RETURN v_max;   -- bloqueado: SIN sembrar, podar ni incrementar
++    END IF;
++
++    -- (2) No bloqueado → poda: la retención ejecutada en cada escritura. La
++    -- constante viaja como argumento (una sola fuente en Python); la ventana
++    -- RGPD canónica la impone la POLICY de arriba — si divergieran, manda la
++    -- política.
+     DELETE FROM public.panel_intentos
+      WHERE ultimo < v_ahora - make_interval(secs => retencion_s);
+ 
+-    -- (2) El techo DURO, con la aritmética exacta (ronda S2-M3): si el
++    -- (3) El techo DURO, con la aritmética exacta (ronda S2-M3): si el
+     -- recuento MÁS las claves que esta llamada va a sembrar supera el cap, se
+     -- sacrifica lo más antiguo hasta que la siembra quepa. Perder un bloqueo
+     -- vivo regala una tanda de intentos; quedarse sin techo regala la tabla.
+@@ -239,42 +267,16 @@ BEGIN
+                           LIMIT (v_count + v_nuevas - cap));
+     END IF;
+ 
+-    -- (3) SIEMBRA antes del lock de fila (ronda S-C3): FOR UPDATE no puede
+-    -- bloquear una fila que no existe — sin esto, la primera ráfaga contra
+-    -- una clave fresca vería «ausente» N veces y entraría entera. En orden
+-    -- estable de claves (sin interbloqueo entre llamadas).
+-    INSERT INTO public.panel_intentos (clave, fallos, ultimo)
+-        SELECT t.c, 0, v_ahora FROM unnest(claves) AS t(c) ORDER BY t.c
+-        ON CONFLICT (clave) DO NOTHING;
+-
+-    -- (4) La espera, con la fórmula del cerrojo de hoy (auth.py:
+-    -- min(base·2^(fallos−libres−1), max) desde `ultimo`). FOR UPDATE en el
+-    -- mismo orden estable: la llamada que espera relee la versión confirmada
+-    -- (EvalPlanQual bajo READ COMMITTED — el mismo mecanismo con el que el
+-    -- canje gana a dos pulsadores simultáneos).
+-    FOR v_clave IN SELECT t.c FROM unnest(claves) AS t(c) ORDER BY t.c LOOP
+-        SELECT p.fallos, p.ultimo INTO v_fallos, v_ultimo
+-          FROM public.panel_intentos p WHERE p.clave = v_clave FOR UPDATE;
+-        IF FOUND AND v_fallos > libres THEN
+-            v_espera := GREATEST(
+-                0,
+-                extract(epoch FROM (v_ultimo - v_ahora))
+-                + LEAST(base_s * power(2, v_fallos - libres - 1), max_s)
+-            );
+-            v_max := GREATEST(v_max, v_espera);
+-        END IF;
+-    END LOOP;
+-    IF v_max > 0 THEN
+-        RETURN v_max;   -- bloqueado: SIN incrementar (basta una clave cerrada)
+-    END IF;
+-
+-    -- (5) Admitido: CONTAR YA (contar-al-admitir es lo que acota el rebaño;
++    -- (4) Admitido: CONTAR YA (contar-al-admitir es lo que acota el rebaño;
+     -- `acierto` — un DELETE por REST — es la devolución del provisional). El
+-    -- incremento es SIEMPRE upsert, nunca UPDATE a secas (ronda S6-M2): un
+-    -- `acierto` concurrente, que corre FUERA del advisory lock, puede borrar
+-    -- la fila sembrada entre (3) y aquí — con el upsert renace con fallos=1,
+-    -- que además es la verdad: ese fallo es POSTERIOR al acierto que limpió.
+-    -- La admisión nunca queda sin contar.
++    -- incremento es SIEMPRE upsert, que además SIEMBRA la clave fresca: ya no
++    -- hace falta una siembra-antes-del-FOR-UPDATE aparte (la de S-C3), porque
++    -- el advisory lock global serializa las llamadas — la ráfaga contra una
++    -- clave nueva no puede ver «ausente» N veces, entra de una en una. Y sigue
++    -- cubriendo S6-M2: un `acierto` concurrente (DELETE fuera del lock) que
++    -- borre la fila entre el check y aquí no deja la admisión sin contar — el
++    -- upsert la recrea con fallos=1, que es la verdad (ese fallo es POSTERIOR
++    -- al acierto que limpió).
+     INSERT INTO public.panel_intentos (clave, fallos, ultimo)
+         SELECT t.c, 1, v_ahora FROM unnest(claves) AS t(c) ORDER BY t.c
+         ON CONFLICT (clave) DO UPDATE
+@@ -340,11 +342,16 @@ BEGIN
+               AND p.policyname = 'rgpd_retencion_ventana'
+               AND 'rgpd_retencion' = ANY(p.roles)
+               AND p.qual LIKE '%ultimo%'
+-              -- Acepta las dos representaciones equivalentes de '24 hours' que
+-              -- normaliza Postgres (ronda del dúo sobre el cableado, F-m2):
+-              -- '24:00:00' hoy, '1 day' si alguien reescribe la política con
+-              -- esa forma idéntica. Tirante por SEMÁNTICA, no por texto.
+-              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
++              -- '24:00:00' es la forma CANÓNICA con la que Postgres almacena el
++              -- `interval '24 hours'` que crea ESTA migración (verificado en el
++              -- gate pg). El tirante se ancla a esa forma exacta a propósito
++              -- (ronda de verificación, S2-M2): aceptar también '1 day' —como
++              -- probó F-m2— era LAXO ('1 day' matchea '1 day 01:00:00', que NO
++              -- es equivalente), y `interval '24 hours'` nunca se almacena como
++              -- '1 day'. Que una política reescrita a mano con otra forma
++              -- aborte la pasada es CORRECTO: es justo la alteración no
++              -- autorizada que este autocontrol existe para cazar.
++              AND p.qual LIKE '%24:00:00%'
+        ) THEN
+         RAISE EXCEPTION 'panel_retencion: la ventana NO esta armada en '
+                         'panel_intentos (RLS deshabilitada, politica ausente o '
+@@ -472,7 +479,7 @@ BEGIN
+               AND p.policyname = 'rgpd_retencion_ventana'
+               AND 'rgpd_retencion' = ANY(p.roles)
+               AND p.qual LIKE '%ultimo%'
+-              AND (p.qual LIKE '%24:00:00%' OR p.qual LIKE '%1 day%')
++              AND p.qual LIKE '%24:00:00%'   -- forma canónica exacta (S2-M2)
+        ) THEN
+         RAISE EXCEPTION '019: la POLICY de ventana de panel_intentos no quedó '
+                         'como se declaró';
+diff --git a/tests/test_s324j_panel_pg.py b/tests/test_s324j_panel_pg.py
+index 41f33ee..3b2b4f7 100644
+--- a/tests/test_s324j_panel_pg.py
++++ b/tests/test_s324j_panel_pg.py
+@@ -265,6 +265,73 @@ def test_el_cap_es_un_techo_con_la_aritmetica_exacta(panel):
+     panel.rollback()
+ 
+ 
++def test_un_intento_bloqueado_no_siembra_ni_poda(panel):
++    """Ronda de verificación del cableado, S2-M1: el check de bloqueo va ANTES
++    de sembrar/podar — un atacante ya bloqueado por una clave (aquí `ip:`) no
++    puede seguir creando filas `u:` frescas para inflar la tabla. Es el orden
++    del doble en memoria; sembrar antes dejaba vivo el bypass del cap."""
++    with _como_service_role(panel) as cur:
++        # Bloquear la clave ip: del atacante (6 intentos = FALLOS_LIBRES+2):
++        for _ in range(auth.FALLOS_LIBRES + 2):
++            _puerta(cur, ["u:objetivo", "ip:atacante"])
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        antes = cur.fetchone()[0]
++        # Ahora el atacante, YA bloqueado por ip:, intenta con un usuario
++        # inventado NUEVO — que sin el fix sembraría una fila más:
++        espera = _puerta(cur, ["u:inventado-nuevo", "ip:atacante"])
++        assert espera > 0                        # bloqueado por ip:
++        cur.execute("SELECT count(*) FROM panel_intentos")
++        assert cur.fetchone()[0] == antes        # NO sembró la clave nueva
++        cur.execute("SELECT 1 FROM panel_intentos WHERE clave='u:inventado-nuevo'")
++        assert cur.fetchone() is None
++    panel.rollback()
++
++
++def test_ultimo_no_retrocede_bajo_concurrencia(panel):
++    """Ronda de verificación, S2-m1: con `clock_timestamp()` leído DESPUÉS del
++    advisory lock (no `now()` de inicio de tx), llamadas serializadas escriben
++    `ultimo` monótonamente creciente — no hacia atrás."""
++    panel.rollback()
++    barrera = threading.Barrier(8)
++
++    def intento():
++        conexion = _conectar()
++        try:
++            with conexion.cursor() as cur:
++                cur.execute("SET ROLE service_role;")
++                barrera.wait(timeout=30)
++                cur.execute(
++                    "SELECT public.panel_puerta(%s::text[], %s, %s, %s, %s, %s)",
++                    (["u:mono"], CONSTANTES["libres"], CONSTANTES["base_s"],
++                     CONSTANTES["max_s"], CONSTANTES["retencion_s"],
++                     CONSTANTES["cap"]))
++            conexion.commit()
++        finally:
++            conexion.close()
++
++    hilos = [threading.Thread(target=intento) for _ in range(8)]
++    for h in hilos:
++        h.start()
++    for h in hilos:
++        h.join(timeout=60)
++    # De las 8 serializadas, admiten FALLOS_LIBRES+1 (=5) y las demás se
++    # bloquean sin incrementar — igual que el doble en memoria. Lo que este
++    # test añade sobre `test_la_rafaga...` es la MONOTONÍA de `ultimo`: con
++    # clock_timestamp() bajo el lock, la última escritura es del presente y no
++    # quedó ninguna en un instante anterior (con `now()` de inicio-de-tx, una
++    # llamada encolada habría escrito un `ultimo` retrasado).
++    with panel.cursor() as cur:
++        cur.execute("SELECT fallos, ultimo, ultimo <= clock_timestamp() "
++                    "FROM panel_intentos WHERE clave='u:mono'")
++        fallos, ultimo, coherente = cur.fetchone()
++        assert fallos == auth.FALLOS_LIBRES + 1
++        assert coherente
++        cur.execute("SELECT clock_timestamp() - %s < interval '5 seconds'",
++                    (ultimo,))
++        assert cur.fetchone()[0], "ultimo quedó en el pasado — ¿now() en vez de clock?"
++    panel.rollback()
++
++
+ def test_la_sonda_con_claves_vacias_no_toca_contadores(panel):
+     with _como_service_role(panel) as cur:
+         _puerta(cur, ["u:previa"])
