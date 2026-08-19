@@ -282,7 +282,9 @@ def check_deps_cache():
                 if len(campos) < 4 or campos[2] != boot_id:
                     continue
                 # Vocabulario cerrado (Fable r2): contar una acción desconocida haría
-                # que «solo saltada ×N — las trajo hechas» afirmara algo no leído.
+                # que «solo saltada ×N» afirmara algo no leído. s325h-e: NINGUNA rama
+                # afirma ya el ORIGEN — ni «la caché las trajo» ni «la caché no las
+                # traía». Se reporta el COSTE, que es lo único que el registro sabe.
                 if campos[0] not in ("instalada", "saltada"):
                     continue
                 # Filtrar por HUELLA (Fable r2): si el script o los requirements
@@ -313,18 +315,24 @@ def check_deps_cache():
                      critico=False)
             ]
 
-        # El HECHO: si en este arranque alguien instaló, el coste se pagó ahora.
+        # El HECHO: si en este arranque alguien instaló, el coste se pagó ahora. Lo que
+        # NO se puede deducir de ahí es qué traía la caché (s325h-e): con la huella
+        # movida —tocar `install-deps.sh` la mueve, a propósito— el snapshot puede haber
+        # traído las deps de la receta ANTERIOR y el hook reinstalar igualmente. Decir
+        # «la caché no las traía» ahí es falso, y es el mensaje que indujo el error de
+        # DEC-242. Se reporta el coste pagado; el origen lo dice la traza del instalador.
         if "instalada" in acciones:
             return [
                 _res("deps_cache", OK,
-                     f"{sello} · INSTALADAS en este arranque ({'+'.join(acciones)}) — "
-                     "la caché del environment no las traía",
+                     f"{sello} · se PAGÓ la instalación en este arranque "
+                     f"({'+'.join(acciones)}) — no dice qué traía la caché: si la huella "
+                     "cambió, pudo traer la receta anterior (lo dice la traza «marcador previo»)",
                      critico=False)
             ]
         return [
             _res("deps_cache", OK,
                  f"{sello} · ya estaban al arrancar (solo «saltada» ×{len(acciones)}) — "
-                 "la caché del environment las trajo hechas",
+                 "no se pagó instalación aquí; el origen no se afirma",
                  critico=False)
         ]
     except Exception as exc:

@@ -44,7 +44,8 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
   sus tres workarounds de s315 (langdetect, PyJWT/cryptography de deb,
   requirements-dev arrastrando el base), extraída a un fichero ÚNICO con dos
   llamadores: el **setup script del environment** (§3.1), que *pretende* dejarla
-  cacheada en el snapshot ~7 días —**MEDIDO s325h-c: hoy NO lo consigue**, ver §4—, y
+  cacheada en el snapshot ~7 días —s325h-c concluyó que NO lo conseguía y **esa conclusión está
+  retirada** (s325h-e); que el mecanismo AHORRE sigue sin medirse, ver §4—, y
   el hook, que la corre en cada arranque como **fallback autosanador** — con la caché caliente es un no-op de ~3 s (medido); si la caché caducó, el
   setup no corrió o los requirements cambiaron tras el snapshot, instala como
   siempre (el peor caso = el comportamiento pre-s325g). **Idempotente** (s323):
@@ -298,26 +299,16 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
 - **`gh` no viene preinstalado** y `GH_TOKEN` vale `proxy-injected`: las herramientas
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
-- **Las deps NO están en disco al arrancar la VM (medido s325h-c, DEC-242; la lectura más
-  probable es que la caché no persista `site-packages`, pero eso no está probado)**:
-  en la primera VM nueva tras pegar el campo, **163 de 164** entradas de
-  `/usr/local/lib/python3.11/dist-packages` se escribieron DESPUÉS del boot (única
-  excepción `uno.pth`, de la imagen base) y el marcador se estampó a los 99 s. No viajó
-  ni un paquete: **de facto el sistema se comporta como pre-s325g**, con el hook
-  instalando en cada VM. La línea del hook «deps: ya instaladas — se salta la
-  instalación» NO desmiente esto: solo dice que el setup script dejó el marcador ~90 s
-  antes, en esa misma VM. Causa raíz ABIERTA (¿el snapshot no cubre `/usr/local`? ¿el
-  build falla?); el discriminador es PARCIAL: la traza nueva de
-  `install-deps.sh` en la próxima VM separa «el snapshot persistió» de «no había nada», pero la
-  pieza que cierra el caso NO era el dashboard (no existe tal página). **s325h-d, contra la doc
-  oficial**: la caché «keeps what the setup script writes to disk … all carry over» —sin exclusión
-  de rutas, luego cae la hipótesis de purelib— y el script «runs … only when no cached environment
-  exists», de donde se INFIERE (no se observa) que esa VM no tenía caché — el hook se saltó la
-  instalación y es el único invocador en sesión, pero no hay log del setup script. Con el script y
-  los dominios sin tocar desde que se pegó, **ninguna causa documentada de rebuild aplica**, lo que
-  desplaza la sospecha fuera del repo sin cerrarla: falta correr el smoke en una VM nueva y leer
-  `deps_cache` (DEC-242 addendum). Lo de abajo es la semántica documentada — lo esperado,
-  no lo medido.
+- **¿Persiste la caché? SIN CERRAR — pero «no persiste» está RETIRADO (s325h-e, DEC-245)**: una VM
+  de las ~20:05 arrancó con el marcador `663fae88` de **mtime 14:09:35Z**, seis horas antes. Eso es
+  incompatible con la conclusión de s325h-c, cuya medición (163/164 entradas post-boot) era correcta
+  **para su VM** pero se generalizó al mecanismo. **Falta el cross-check**: no se registró el uptime
+  de esa VM de las 20:05, así que no está excluido que fuera la misma VM viva 6 h — el modo de fallo
+  que este mismo doc documenta. Y **ahorro real medido: ninguno**. Lo que sí hay que
+  recordar: **tocar `install-deps.sh` mueve su huella a propósito** (entra en ella, DEC-238 r2), así
+  que en cualquier sesión posterior a un cambio del instalador el hook reinstala aunque la caché
+  haya viajado — eso NO es un fallo de la caché. Y el check `deps_cache` ya no deduce de ahí que «la
+  caché no las traía» (era falso y costó un diagnóstico invertido).
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
   en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
   setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar

@@ -54,17 +54,15 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
-**Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
-~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. Las
-deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
-(DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
-**La sospecha se desplaza fuera del repo, sin cerrarse** (s325h-d, contrastado con la doc
-oficial): la caché conserva lo que el setup script escribe sin exclusión de rutas documentada, y
-el script «solo corre cuando NO existe caché». Alberto declara no haber tocado script ni dominios
-desde que lo pegó ⇒ ninguna causa de rebuild documentada aplica. Se retira la vía «venv bajo un
-prefijo que viaje». **Pendiente ANTES de concluir nada**: abrir una sesión nueva y correr
-`python scripts/cloud_smoke.py` → leer `deps_cache` (la 1.ª línea del hook NO basta: dos de los
-tres desenlaces son idénticos a simple vista — DEC-242 addendum).
+**s325h-e — la conclusión de s325h-c («la caché no persiste») queda RETIRADA, y la contraria NO
+está probada.** Una VM de las 20:05 mostró el marcador `663fae88` con **mtime 14:09:35Z**, seis
+horas anterior: incompatible con lo que concluyó s325h-c, cuya medida era correcta para SU VM y se
+generalizó mal. **Pero falta el cross-check** (no se registró el uptime de esa VM: no está excluido
+que fuera la misma viva 6 h) y **no hay ni un arranque con ahorro medido** — los cuatro de hoy
+tienen la huella movida porque tocamos el instalador tres veces. Arreglado el mensaje del check
+`deps_cache`, que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error; ahora
+ninguna rama afirma origen, con el contrato fijado por clase de afirmación (DEC-245).
+**Pendiente**: el uptime de esa sesión de las 20:05.
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
