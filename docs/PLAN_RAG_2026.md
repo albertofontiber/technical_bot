@@ -25,7 +25,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324j — 19 ago 2026; panel CABLEADO, dúo pendiente de crédito)
+## Estado actual (s324j — 19 ago 2026; panel MERGEADO + seguimiento del dúo SELLADO)
 
 **La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
 `handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
@@ -65,23 +65,31 @@ generan las de los modelos, no coleccionar confusiones) · el gate de ASR con �
 (DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
 adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
 
-### QUÉ SIGUE — el panel a Vercel: CABLEADO y verificado, dúo pendiente de crédito (DEC-240)
+### QUÉ SIGUE — el panel a Vercel: MERGEADO (#296) + seguimiento SELLADO (DEC-241); falta el GO y aplicar
 
-**El panel está CABLEADO, no solo diseñado** (s324j, 19-ago; diseño validado en
-`evals/s324i_panel_vercel_propuesta_v9.md`, DEC-239). Migraciones `019`/`020`, `dashboard/cerrojo.py`,
-sello + `IdentidadNoDisponible` + `BackendSupabase`, cerrojo distribuido `panel_puerta`, `op`,
-`revocada_por`, script de alta, enchufe en `api/index.py`, ~90 puertas + gate de integración pg.
-**Verificado**: suite **4517 passed**; el gate pg contra un **Postgres 17 REAL** 17/17 (ráfaga
-concurrente, bypass del cap cerrado, política-como-ventana). No desplegado.
+**El cableado está en `main`** (PR #296, mergeada por Alberto 19-ago; diseño DEC-239, cableado
+DEC-240) **y el seguimiento post-merge está listo en PR aparte** (DEC-241): la PR #296 se mergeó
+con el sello final del dúo abierto, y ese sello (Sol) cazó 3 medios que ahora están cerrados —
+**S-M1** el cap tenía fuga de +1 (el DELETE no excluía las claves de la propia admisión; cierre:
+`<> ALL(claves)` + guard de tres ramas NULL-safe; cota declarada INDUCTIVA), **S-M2** la carrera
+`acierto`↔`admitir` con hilos (ley de conservación con siembra; cierre por tres patas), **S-M3**
+el gate pg congela sus dependencias reales y prueba la 020 contra la **016 canónica** (la copia
+estrecha era una 016 de ficción). **El dúo del seguimiento está COMPLETO**: 5 rondas Sol xhigh +
+**Fable emparejado en la final — SÓLIDO** (3 menores de framing, aplicados; 0 falsos positivos).
+Remedio DEC-236 que funcionó: briefing compacto + `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000`.
+**Verificado**: gate pg **22/22** contra Postgres 17 real (control negativo del discriminante
+ejecutado); suite **4517 passed, 67 skipped**.
+
+**Gap DECLARADO, no dispensado** (críticos procedimentales de Sol, DEC-241): el 2º frontera solo
+vio `panel_puerta`+`Cerrojo.admitir` (al verificar S-M1/S-M2) — **el resto del cableado
+(rutas/sello/sesión/gestión) sigue sin pasada 2º-frontera** (el snapshot de #296 ya no existe
+intacto; no se hereda cobertura). Pagarlo = revisión por trozos con briefings compactos (~3-4
+tandas). Decisión de Alberto.
 
 **Lo que FALTA para cerrar, en orden**:
-1. **Recargar el crédito de Anthropic** (acción de Alberto): el 2º revisor frontera del dúo
-   (Fable/Opus) cae por `400 credit balance too low` desde la 2ª ronda del diff. El canon dice que
-   eso NO dispensa el dúo en ALTO (`ADVERSARIAL_REVIEWER.md:80-92`), así que **el cableado queda
-   PENDIENTE de ese 2º revisor** — corrió solo el cross-model Sol (4 rondas; cazó un fallo de
-   seguridad real: la siembra antes del check de bloqueo). Con crédito, correr
-   `scripts/adversarial_review_fable.py` sobre el diff.
-2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173).
+1. **Mergear la PR del seguimiento** (lleva el fix real del cap que hoy viaja en `main`).
+2. **El GO de despliegue de Alberto** (un cableado verificado no es un GO, DEC-173) — y decidir
+   si se paga la revisión por trozos del gap 2º-frontera antes o después del deploy.
 3. **Los tres gates de EXPONER** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
    panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
    medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False).

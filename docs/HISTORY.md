@@ -5846,3 +5846,38 @@ La sesión venía de cerrar el ciclo del PR #289 (el recibo NO LISTO quedó supe
 recibo LISTO de la re-corrida y se cerró sin merge), y corrió con la key de Anthropic
 derivada del alias `ANTHROPIC_API_KEY_SCRIPTS` que s325f cableó — primera sesión que usa
 esa vía para el revisor del Protocolo 3.
+
+## s324j-bis (19 ago 2026) — El seguimiento post-merge del panel: los 3 medios de Sol cerrados y el dúo, POR FIN, completo
+
+La PR #296 (el cableado del panel, DEC-240) se mergeó con el sello final del dúo aún
+abierto: Sol acababa de cazar 3 medios reales (el cap con fuga de +1, la carrera
+`acierto`↔`admitir` sin ejercitar con hilos, el gate pg con cobertura parcial) y el 2º
+revisor frontera acababa de morir por segunda vez ahogado en el diff de 3768 líneas (la
+clase DEC-236). Alberto recargó el crédito de Anthropic a media sesión — «para que
+sigas» — y el seguimiento se hizo en rama reiniciada desde `main` (PR nueva; una PR
+mergeada no se reabre).
+
+Lo memorable de la sesión no son los tres fixes (están en DEC-241) sino el pulso con el
+control: **cinco rondas de Sol convergiendo de crítico a nit** — dos críticos
+PROCEDIMENTALES seguidos cazándome el mismo intento con dos disfraces («cerrar el
+pending_fable con el delta» y luego «supersederlo»): heredar cobertura que no existe.
+La resolución honesta quedó escrita: el delta SELLADO con dúo completo, y el resto del
+cableado declarado como gap abierto de 2º frontera, a decisión de Alberto. Y el guard
+del techo creció de una condición a tres (cardinality>cap, cap NULL, claves NULL) porque
+cada ronda encontró el NULL que faltaba — con test parametrizado que deja rojo quitar
+cualquiera de las tres.
+
+El 2º frontera (Fable, pin s316d) completó A LA PRIMERA con el remedio DEC-236 aplicado
+de verdad: briefing compacto acotado al delta + presupuesto del runner subido a 600k
+(dos intentos previos murieron en el preflight con el default de 300k). Veredicto
+SÓLIDO con 3 menores de framing — uno de ellos el sesgo conocido del autor cazado en
+vivo: el comentario del fixture atribuía el bootstrap a un `display_name` que el arnés
+jamás inserta (sobrevive por el COALESCE de la 016). Cero falsos positivos en las dos
+patas, seis tallies completados con regla C, y las cifras del cierre citadas de
+ejecución real: gate pg 22/22 contra Postgres 17.11, suite 4517/67/2.
+
+A media sesión Alberto pidió trabajar en español, avisó del merge de la PR #297 (solo
+TECH_DEBT, sin roce) y cambió el modelo de la sesión a Fable 5 «porque Opus 4.8 estaba
+dando demasiadas vueltas» — el aviso llegó justo cuando las rondas convergían a nits, y
+la respuesta correcta fue la que pedía: cerrar la adjudicación de una vez en lugar de
+otra vuelta de dúo.
