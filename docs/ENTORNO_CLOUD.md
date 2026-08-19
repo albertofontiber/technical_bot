@@ -36,13 +36,21 @@ quieres cerrar el portátil? → Cloud. Doc oficial:
 
 ## 2. Qué es automático (versionado en el repo, no en la web)
 
-- **`.claude/hooks/session-start.sh`** — deja el contenedor listo: dependencias con
-  sus tres workarounds (langdetect, PyJWT/cryptography de deb, requirements-dev
-  arrastrando el base), **historial git COMPLETO** (los tests de contratos congelados
-  leen blobs viejos; sin `unshallow` fallan ~180) y `PYTHONPATH=.`. Corre solo si
-  `CLAUDE_CODE_REMOTE=true`, que es la variable canónica documentada.
-  **s323: idempotente** — un `resume` ya no reinstala (centinela = huella sha1 de los
-  requirements + import real; si cambian los requirements o la VM es nueva, reinstala).
+- **`.claude/hooks/session-start.sh`** — deja el contenedor listo: dependencias,
+  **historial git COMPLETO** (los tests de contratos congelados leen blobs viejos;
+  sin `unshallow` fallan ~180), `PYTHONPATH=.` y la key de Anthropic desde su alias
+  (§3.6). Corre solo si `CLAUDE_CODE_REMOTE=true`, que es la variable canónica.
+- **`.claude/hooks/install-deps.sh`** (s325g) — la instalación de dependencias con
+  sus tres workarounds de s315 (langdetect, PyJWT/cryptography de deb,
+  requirements-dev arrastrando el base), extraída a un fichero ÚNICO con dos
+  llamadores: el **setup script del environment** (§3.1) la deja cacheada en el
+  snapshot ~7 días, y el hook la corre en cada arranque como **fallback
+  autosanador** — con la caché caliente es un no-op de ~3 s (medido); si la caché caducó, el
+  setup no corrió o los requirements cambiaron tras el snapshot, instala como
+  siempre (el peor caso = el comportamiento pre-s325g). **Idempotente** (s323):
+  centinela = huella sha1 de los requirements + import real; **vive en
+  site-packages** (s325g), no en `/tmp`, para que marcador y paquetes viajen JUNTOS
+  en el snapshot del filesystem.
 - **`scripts/cloud_smoke.py`** — verificador del entorno con recibo. Es el
   instrumento del Protocolo 1 aquí: sin él, «el cloud funciona» es una declaración
   sin comprobar. Contrato fijado en `tests/test_cloud_smoke.py`: **nunca vuelca el
@@ -95,6 +103,39 @@ Selector de nube → **Add cloud environment** (o el engranaje del existente).
 **NO añadir `TELEGRAM_BOT_TOKEN`**: el bot vive en Railway y un script haciendo
 polling en una sesión cloud competiría con producción, robándole updates a los
 técnicos. `cloud_smoke.py` avisa si aparece.
+
+- **Setup script** (s325g — adjudicación de Alberto; sustituye al «se deja en el
+  hook» de s325d). Pegar esto en el campo **Setup script** del environment:
+
+```bash
+#!/bin/bash
+# technical_bot (s325g): precalienta la caché del environment (~7 días) con las
+# deps del repo. La LÓGICA vive versionada en .claude/hooks/install-deps.sh — aquí
+# solo se obtiene el repo y se invoca. Clona él mismo (la doc oficial no garantiza
+# que el clon de la sesión exista aún cuando esto corre) y NUNCA rompe el arranque
+# (exit != 0 tumbaría la sesión): si algo falla, el hook de SessionStart instala.
+D="$(mktemp -d)"
+( git clone --depth 1 https://github.com/albertofontiber/technical_bot "$D" \
+    && bash "$D/.claude/hooks/install-deps.sh" ) \
+  || echo "setup: instalación no completada — el hook de SessionStart la cubrirá"
+rm -rf "$D"
+exit 0
+```
+
+  Semántica contrastada con la doc oficial (cloud-environments; la medición real
+  llega con la primera VM nueva — gap declarado en DEC-238): corre **solo al
+  construir la caché** (primera sesión, cambio del setup script o de la política de
+  red, o caducidad ~7 días), tiene que acabar en **<5 min** (hoy: ~50 s) y con
+  **exit 0** siempre; después Anthropic hace **snapshot del filesystem** y las
+  sesiones siguientes arrancan con las deps y el centinela ya en disco — el ahorro
+  es de la sesión 2.ª en adelante de cada ventana (la que dispara el build paga el
+  clone+install además de su propio arranque). El recibo del smoke lo hace VISIBLE:
+  el check informativo `deps_cache` reporta el marcador y su edad (edad de días =
+  vino del snapshot; de minutos = lo instaló el hook en este arranque → la caché no
+  lo trajo). Clona
+  `main`: si una rama cambia los requirements, su huella difiere y el hook
+  reinstala en esa sesión — consistente por construcción. OJO: el bloque solo
+  funciona con `install-deps.sh` ya mergeado en `main`.
 
 **Riesgo aceptado (DEC-220):** los environments **no tienen secret store** — la
 doc oficial desaconseja meter credenciales, porque son legibles por cualquiera que
@@ -224,9 +265,12 @@ imports. Y tres cosas que conviene saber antes de montar otro environment:
   `ANTHROPIC_API_KEY` a partir de ella. Sin eso, una sesión cloud NO puede correr el
   dúo ni el harness.
 - **Arranque en frío: ~77 s**, de los cuales ~50 s son la instalación de dependencias
-  (VM nueva, sin centinela previo). Se deja en el hook a propósito: mover eso al setup
-  script lo cachearía ~7 días, pero 50 s una vez por VM no justifica duplicar la
-  lógica fuera del repo. Si algún día duele, el movimiento está descrito en §4.
+  (VM nueva, sin centinela previo). En s325d se dejó en el hook para no duplicar
+  lógica fuera del repo; **en s325g Alberto adjudicó moverla al setup script** y la
+  objeción se resolvió extrayendo la lógica a `install-deps.sh` (el campo del
+  environment solo la invoca — §3.1). Con la caché caliente, el arranque queda en
+  ~30 s (unshallow + no-op del instalador, medidos) en las VMs que arrancan sobre caché
+  ya construida; el hook sigue cubriendo caché fría.
 - **Sin TCP al 5432** (ver §3.4): DDL desde cloud va por el conector MCP.
 
 ## 4. Trampas conocidas (medidas, no supuestas)
@@ -238,9 +282,10 @@ imports. Y tres cosas que conviene saber antes de montar otro environment:
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
 - **Caché del environment**: el setup script se cachea ~7 días; el hook, no — corre
-  en cada arranque (por eso ahora es idempotente). Si el arranque en frío duele, se
-  puede mover la instalación a un setup script; medir primero con
-  `echo $CLAUDE_PROJECT_DIR` para conocer la ruta real del clon.
+  en cada arranque (por eso es idempotente). Desde s325g la instalación va en el
+  setup script (§3.1) con el hook de fallback. La caché se reconstruye al cambiar
+  el setup script o la política de red, o al caducar; **cambiar solo una variable
+  de entorno NO reconstruye la caché** (las variables se inyectan por sesión).
 - **Recursos del VM**: 30 GB de disco y memoria acotada — un `full` de un assessment
   grande puede no caber; esa clase de trabajo va por Remote Control.
 - **Lo que no está pusheado no existe para una sesión cloud**: el VM clona el
