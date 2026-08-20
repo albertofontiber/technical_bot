@@ -47,12 +47,19 @@ VENTANA_DEFECTO = 30
 FEEDBACK = ("todos", "up", "down", "comentados")
 FEEDBACK_DEFECTO = "todos"
 
+#: Filtro del eje `es_pregunta` (s327). El defecto es `preguntas`: el Explorador
+#: existe para leer lo que los técnicos PREGUNTAN, y las no-preguntas —acuses de
+#: recibo, continuaciones del hilo, quejas— se miran a propósito, eligiéndolas.
+TIPOS = ("preguntas", "no_preguntas", "todos")
+TIPO_DEFECTO = "preguntas"
+
 #: El panel busca lectura y patrones, no es un export: por encima de esto, la
 #: respuesta correcta es SQL en Supabase, no una página más larga.
 TOPE_FILAS = 500
 
 _SELECT = ("id,created_at,canal,ruta,categoria,taxonomia_version,marcas,"
-           "modelos,pregunta,response_length,quien,verdict,reason_class,comment")
+           "modelos,pregunta,response_length,quien,verdict,reason_class,"
+           "comment,es_pregunta")
 
 
 @dataclass(frozen=True)
@@ -61,6 +68,7 @@ class Filtros:
     categoria: str | None
     marca: str | None
     feedback: str
+    tipo: str = TIPO_DEFECTO
 
 
 @lru_cache(maxsize=1)
@@ -108,11 +116,13 @@ def normalizar(consulta: dict, *, categorias: tuple[str, ...],
     categoria = _uno("categoria")
     marca = _uno("marca")
     feedback = _uno("feedback")
+    tipo = _uno("tipo")
     return Filtros(
         dias=dias,
         categoria=categoria if categoria in categorias else None,
         marca=marca if marca in marcas else None,
         feedback=feedback if feedback in FEEDBACK else FEEDBACK_DEFECTO,
+        tipo=tipo if tipo in TIPOS else TIPO_DEFECTO,
     )
 
 
@@ -136,6 +146,10 @@ def parametros(filtros: Filtros) -> dict:
         # fabricante mal ingestado no puede romper la sintaxis del filtro.
         marca = filtros.marca.replace("\\", "\\\\").replace('"', '\\"')
         params["marcas"] = 'cs.{"%s"}' % marca
+    if filtros.tipo == "preguntas":
+        params["es_pregunta"] = "is.true"
+    elif filtros.tipo == "no_preguntas":
+        params["es_pregunta"] = "is.false"
     if filtros.feedback in ("up", "down"):
         params["verdict"] = f"eq.{filtros.feedback}"
     elif filtros.feedback == "comentados":

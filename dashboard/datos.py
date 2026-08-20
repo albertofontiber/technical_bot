@@ -40,6 +40,10 @@ VACIO = "vacio"
 TABLA_AUSENTE = "tabla_ausente"
 SIN_CREDENCIALES = "sin_credenciales"
 ERROR = "error"
+#: (s327, hallazgo Sol) La página se quedó sin PRESUPUESTO de tiempo antes de
+#: pedir esta lectura. No es un fallo de Supabase y no se puede pintar como si
+#: lo fuera: es «no dio tiempo», y la diferencia importa para el que mira.
+SIN_TIEMPO = "sin_tiempo"
 
 TIMEOUT_S = 10.0
 
@@ -77,13 +81,45 @@ def hay_credenciales() -> bool:
     return bool(SUPABASE_URL and SUPABASE_SERVICE_KEY)
 
 
-def leer(recurso: str, params: dict) -> Resultado:
+class Presupuesto:
+    """El tiempo TOTAL que una página puede gastar leyendo (s327, hallazgo Sol).
+
+    El problema medido: la portada encadena ~16 lecturas secuenciales con 10 s
+    de timeout cada una, y la función de Vercel muere a los 30 s
+    (`vercel.json`). Con Supabase lento, la página no llegaba a pintar sus
+    tarjetas «cada una con su estado»: moría entera con un 504, que es
+    exactamente lo que el diseño del panel dice que no puede pasar.
+
+    Con presupuesto, cada lectura pide como mucho lo que queda, y cuando se
+    acaba las restantes ni se intentan: devuelven `SIN_TIEMPO` y la página sale
+    igual, diciendo la verdad sobre lo que no pudo cargar.
+    """
+
+    def __init__(self, segundos: float):
+        self.fin = time.monotonic() + segundos
+
+    def restante(self) -> float:
+        return max(0.0, self.fin - time.monotonic())
+
+    def agotado(self) -> bool:
+        # Medio segundo es el suelo: por debajo, una petición nace muerta y
+        # gastar el viaje solo retrasa el resto de la página.
+        return self.restante() <= 0.5
+
+
+def leer(recurso: str, params: dict,
+         presupuesto: "Presupuesto | None" = None) -> Resultado:
     """Una lectura de PostgREST, con todos los fallos traducidos a estado."""
     if not hay_credenciales():
         return Resultado(SIN_CREDENCIALES,
                          detalle="faltan SUPABASE_URL / SUPABASE_SERVICE_KEY")
+    tope = TIMEOUT_S
+    if presupuesto is not None:
+        if presupuesto.agotado():
+            return Resultado(SIN_TIEMPO, detalle=recurso)
+        tope = min(TIMEOUT_S, presupuesto.restante())
     try:
-        with httpx.Client(timeout=TIMEOUT_S) as cliente:
+        with httpx.Client(timeout=tope) as cliente:
             resp = cliente.get(
                 f"{SUPABASE_URL}/rest/v1/{recurso}",
                 headers=_cabeceras(),
@@ -137,6 +173,10 @@ class Vista:
     columnas: tuple[Columna, ...]
     #: (columna de etiqueta, columna de valor, unidad) para el gráfico, o None.
     grafico: tuple[str, str, str] | None = None
+    #: Qué mide el gráfico, en una línea: unidad, ventana y si suma semanas.
+    #: Se pinta DEBAJO de las barras (s327, pedido de Alberto: «que estas
+    #: gráficas tengan título y leyenda»). El título de la gráfica es `titulo`.
+    leyenda: str = ""
     #: (s326, hallazgo Sol r1) True = el gráfico SUMA el valor por etiqueta
     #: sobre todas las filas cargadas antes de pintar. Para vistas
     #: DIMENSIONALES (semana × categoría/marca/...): sin esto, «14 filas» son
@@ -166,6 +206,7 @@ VISTAS: tuple[Vista, ...] = (
             Columna("bot_version", "Versión", "texto"),
         ),
         grafico=("dia", "consultas_rag", "consultas"),
+        leyenda="Consultas RAG por día · últimos 14 días con datos",
     ),
     Vista(
         clave="bot_health_semanal",
@@ -184,6 +225,7 @@ VISTAS: tuple[Vista, ...] = (
             Columna("filas_error", "Errores", "numero"),
         ),
         grafico=("semana", "consultas_rag", "consultas"),
+        leyenda="Consultas RAG por semana · últimas 14 semanas",
     ),
     Vista(
         clave="bot_uso_por_canal",
@@ -226,6 +268,8 @@ VISTAS: tuple[Vista, ...] = (
             Columna("votos", "Votos", "numero"),
         ),
         grafico=("motivo", "votos", "votos"),
+        grafico_agregado=True,
+        leyenda="Votos 👎 por motivo · suma de las semanas cargadas",
     ),
     # ---- s326: uso y calidad (migración 021; adjudicación de Alberto 19-ago) --
     Vista(
@@ -245,6 +289,7 @@ VISTAS: tuple[Vista, ...] = (
         ),
         grafico=("categoria", "consultas", "consultas"),
         grafico_agregado=True,
+        leyenda="Preguntas por categoría · suma de las semanas cargadas · solo mensajes que PIDEN algo",
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
@@ -263,6 +308,7 @@ VISTAS: tuple[Vista, ...] = (
             Columna("sin_clasificar", "Sin clasificar", "numero"),
             Columna("taxonomia_min", "Tax. mín", "numero"),
             Columna("taxonomia_max", "Tax. máx", "numero"),
+            Columna("no_preguntas", "No son preguntas", "numero"),
         ),
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
@@ -282,6 +328,7 @@ VISTAS: tuple[Vista, ...] = (
         ),
         grafico=("marca", "consultas", "consultas"),
         grafico_agregado=True,
+        leyenda="Preguntas por fabricante · suma de las semanas cargadas · marcas resueltas contra el catálogo",
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
@@ -299,6 +346,7 @@ VISTAS: tuple[Vista, ...] = (
         ),
         grafico=("modelo", "consultas", "consultas"),
         grafico_agregado=True,
+        leyenda="Preguntas por modelo · suma de las semanas cargadas",
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
@@ -328,12 +376,14 @@ VISTAS: tuple[Vista, ...] = (
         columnas=(
             Columna("semana", "Semana", "dia"),
             Columna("quien", "Quién", "texto"),
-            Columna("consultas", "Consultas", "numero"),
+            Columna("consultas", "Preguntas", "numero"),
             Columna("votos_up", "👍", "numero"),
             Columna("votos_down", "👎", "numero"),
+            Columna("otros_mensajes", "Otros mensajes", "numero"),
         ),
         grafico=("quien", "consultas", "consultas"),
         grafico_agregado=True,
+        leyenda="Preguntas por persona · suma de las semanas cargadas · el alias sale de la lista de acceso",
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
@@ -351,6 +401,7 @@ VISTAS: tuple[Vista, ...] = (
         ),
         grafico=("marca_libre", "menciones", "menciones"),
         grafico_agregado=True,
+        leyenda="Menciones de marcas que NO están en el corpus · suma de las semanas cargadas",
         si_falta="falta aplicar migrations/021_query_clasificacion.sql",
     ),
     Vista(
@@ -372,6 +423,7 @@ VISTAS: tuple[Vista, ...] = (
             Columna("fallos_hyq_hydrate", "HyQ hidratación", "numero"),
         ),
         grafico=("dia", "turnos_degradados", "turnos"),
+        leyenda="Turnos servidos con el pool degradado, por día · últimos 14 días",
     ),
     Vista(
         clave="salud_latencia_etapas_v1",
@@ -408,7 +460,7 @@ VISTAS: tuple[Vista, ...] = (
 VISTAS_POR_CLAVE = {v.clave: v for v in VISTAS}
 
 
-def leer_vista(vista: Vista) -> Resultado:
+def leer_vista(vista: Vista, presupuesto: "Presupuesto | None" = None) -> Resultado:
     """`select` EXPLÍCITO desde las columnas declaradas — la decisión INVERSA a
     la original, invertida a conciencia al exponer el panel a internet (s324j,
     v9 §7). El `select=*` de antes existía para que una columna nueva se
@@ -422,7 +474,7 @@ def leer_vista(vista: Vista) -> Resultado:
     return leer(vista.clave, {
         "select": ",".join(c.nombre for c in vista.columnas),
         "order": vista.orden, "limit": str(vista.limite),
-    })
+    }, presupuesto)
 
 
 # --------------------------------------------------------- salud del panel

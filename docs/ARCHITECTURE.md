@@ -17,15 +17,34 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s326 (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (falta aplicar la 021).**
+> **Estado s327 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y `es_pregunta` ES UN EJE.**
+> Migraciones **021→024 APLICADAS** en producción; histórico clasificado **109/109 con taxonomía
+> v8**. Lo que se separó: **tema** y **«¿esto pide algo?»** son dimensiones ortogonales, así que
+> `no_es_pregunta` dejó de ser categoría y pasó a columna (`query_clasificacion.es_pregunta`,
+> adjudicación de Alberto). Las 8 vistas de análisis excluyen las no-preguntas —**votos incluidos**,
+> que faltaban (024)— y las que parten de `query_logs` usan `COALESCE(es_pregunta, TRUE)`: sin
+> clasificar cuenta como pregunta. La regla dura («**termina** en “?” ⇒ pregunta») la decide el
+> CÓDIGO, sin LLM y sin coste, y se aplica DESPUÉS del modelo porque manda sobre él. **Medido**
+> (censo completo, no muestra): 93/109 los resuelve la regla; **≤ 1/109 falsos negativos**.
+> El panel gana —**cableado en rama, aún sin desplegar**; lo que SÍ está en producción son las
+> migraciones— **portada de métricas** (9 gráficas con título y leyenda) + `/metricas/<clave>`
+> —primera ruta con parámetro: se normaliza ANTES de la puerta y el sufijo va contra lista cerrada
+> o 404— con presupuesto de tiempo de 18 s (`maxDuration: 30` de Vercel). **Móvil medido con
+> navegador real**: 0 px de scroll horizontal en 390/768/1440, CSP `default-src 'none'` intacta,
+> sin JavaScript (`docs/PANEL_RESPONSIVE.md`). Gate pg de las migraciones: 11/11 contra PostgreSQL
+> 17 real (TECH_DEBT #91 pagada). Qué falta para el primer DG: `docs/PILOTO_DG_ESTADO.md` — el
+> único bloqueante es el paquete del abogado. DEC-247.
+>
+> **Estado s326/s326b (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (021/022 aplicadas).**
 > Adjudicación completa de Alberto (prosa opción (a) · taxonomía v1 · alias · coste):
 > tabla derivada `query_clasificacion` + clasificador batch determinista-primero (regla $0,
 > Haiku en el residuo; taxonomía versionada con «otros» re-taxonomizable) + 7 vistas nuevas
 > en Métricas + pestaña **Explorador** (pregunta a pregunta CON texto y comentario — el
 > «fuera de v1» de DEC-231, reabierto; RGPD_RETENCION §s326). La CONDUCTA del bot no cambia
 > (`CLASIFICADOR_PREGUNTAS` default off; el clasificador jamás corre en la ruta de
-> respuesta). Para usarlo: aplicar `migrations/021` → backfill con gate de acuerdo ≥85 % →
-> (opcional) flag on. Detalle y orden en el PLAN §«qué sigue».
+> respuesta). **Aplicada y backfilleada**; el gate de acuerdo v1 FALLÓ (~80 % < 85 %) y disparó el
+> ciclo del «otros»: Alberto adjudicó 7 cambios → taxonomía v2 + migración 022 → histórico
+> re-clasificado por céntimos (DEC-246). Pendiente: el gate de acuerdo de la taxonomía vigente.
 >
 > **Estado s324j (19 ago 2026) — EL PANEL WEB ESTÁ VIVO Y VERIFICADO.** Desplegado en
 > **https://technical-bot-lake.vercel.app** (proyecto Vercel propio, DEC-244), con las

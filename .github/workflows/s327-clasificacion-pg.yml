@@ -1,0 +1,73 @@
+name: S327 clasificacion contra Postgres real
+
+# Cierra TECH_DEBT #91. Las migraciones 021-024 se probaban con regex sobre su
+# TEXTO; esto ejerce su EFECTO contra un Postgres 17 desechable: el trinquete de
+# la ACL (que service_role NO pueda tocar la PK — ese permiso ya mordio una vez),
+# el CASCADE de la supresion RGPD, el CHECK vigente contra la taxonomia del YAML
+# y que las vistas de analisis excluyan de verdad las no-preguntas (votos
+# incluidos). Mismo patron desechable que s295/s133/s324j.
+#
+# Gap declarado, el mismo que el gate del panel: el contenedor es Postgres, no
+# Supabase — PostgREST y su cache solo se prueban en el smoke post-deploy.
+
+on:
+  push:
+    paths:
+      - "migrations/021_query_clasificacion.sql"
+      - "migrations/022_taxonomia_v2.sql"
+      - "migrations/023_es_pregunta.sql"
+      - "migrations/024_votos_solo_de_preguntas.sql"
+      - "migrations/016_allowlist_invitaciones.sql"
+      - "config/taxonomia_preguntas.yaml"
+      - "src/clasificacion.py"
+      - "tests/test_s327_clasificacion_pg.py"
+      # El arnes que este gate IMPORTA (fixture `base`) y las SQL que aplica:
+      # un cambio ahi puede romper este gate sin tocar sus propios ficheros.
+      - "tests/test_s295_rgpd_integracion_pg.py"
+      - "supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql"
+      - "supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql"
+      - "supabase/migration_proposals/20260805120000_s297_ledger_consentimiento_v1.sql"
+      - "supabase/migration_proposals/20260805150000_s299_job_programado_v1.sql"
+      - "conftest.py"
+      - "pytest.ini"
+      - ".github/workflows/s327-clasificacion-pg.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  clasificacion-pg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: s327_clasificacion
+        ports:
+          - 55435:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d s327_clasificacion"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      # Base DESECHABLE. Nunca apuntar a produccion: el test CREA y DESTRUYE objetos.
+      RGPD_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:55435/s327_clasificacion
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar lo minimo
+        run: python -m pip install --upgrade pip psycopg2-binary pytest python-dotenv httpx PyYAML
+
+      - name: Ejercer la cola 021-024 contra Postgres
+        run: python -m pytest tests/test_s327_clasificacion_pg.py -v --no-header
