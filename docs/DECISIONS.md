@@ -9385,3 +9385,65 @@ REVOKE y la postcondición 6.1.b lo verifica.
   la matriz.
 - El gate de CI no ejercita la rama de programación (el contenedor no trae pg_cron): límite heredado
   de s299, no nuevo.
+
+## DEC-257 (s331, 20 ago 2026) — Variantes-en-hilo (caso real Kidde): diseño CERRADO en 6 rondas de dúo y BUILD M1→M3c flag-off; el corte anti-parálisis lo adjudicó Alberto
+
+- **Fecha**: 20 ago 2026 (sesión s331, arrancada como «synthesis miss» y re-dirigida por el 👎 real
+  del 18-ago). **Impacto**: ALTO en zona de dolor (retrieval/identidad/conversación/generación).
+  **Producción sin cambios** (flags default-off = byte-idéntico; ship = lote Railway pendiente de gates).
+- **El caso**: T2 «Sobre la 2X-AF1-FBS.» → T3 «Programación principalmente.» → el bot re-preguntó
+  «¿qué variante exacta del 2X-AF1 tienes instalada?» (query_logs `e046836f`/`4fbca15f`, 👎 con texto).
+  Diagnóstico mecánico (sondas $0, verificado por 6 revisores): la variante se destruye al LEER
+  (alias de familia `_base_aliases`, `src/rag/catalog.py:75-84`) y al ARRASTRAR (hint solo bindeados,
+  `conversation_policy_impl.py:442-451`), mientras el resolver GOBERNADO la detecta hasta en grafía ASR
+  (`catalog_resolver.detect → '2x-af1-fbs'`) pero solo corre en retrieval; y la re-pregunta amnésica
+  existe TAMBIÉN como plantilla sin LLM (`generator.py`). **TECH_DEBT #49 trigger (c) disparado.**
+- **Decide (1) — diseño por dúo iterativo, CERRADO en r-v6**: propuestas v1→v6
+  (`evals/s331_variantes_hilo_propuesta_v*.md`; traza íntegra en v6 §10, checklist de build §11).
+  6 rondas: 4 dúos EMPAREJADOS limpios (r-v2…r-v6), una incidencia de emparejado (r-v1, commits
+  míos entre Sol y Fable — regla re-aprendida: CERO git durante la ronda) y un `failed_attempt`
+  por 500 del proveedor. Hallazgos-eje que re-dirigieron el diseño: seam de COMPOSICIÓN (no
+  `detect_turn_signals`, no `telegram_bot:1933`), canal ESTRUCTURADO `turn_identity` (jamás parsear
+  el texto), plantillas deterministas también gobernadas, stale⇒sin-drops, mención jamás persistida
+  al trace (allowlist cerrada), corte-de-ruta = extensión-de-término-gobernado + veto multi-fabricante,
+  polaridad de cláusula en la gramática. **Corte anti-parálisis adjudicado por Alberto** («ojo no
+  entres en paralysis by analysis»): r-v6 fue la última ronda; sus hallazgos = ítems de build B1-B11.
+- **Decide (2) — build por milestones con suite verde citada, esquema advisor/executor** (adjudicación
+  Alberto: Fable orquesta/revisa, Opus 5 ejecuta specs cerradas): **M1** `resolve_for_turn` en la seam de
+  composición (`F1_RESOLVE_GOVERNED`+interlock; `_presence_peek` sin red; canonicalize-only para la rama
+  del plan) · **M2** (executor) detector de mención 2-puertas + léxicos gobernados (unidades/normas) +
+  multimap del veto + cohorte G0-b'; bloqueante real cazado: el contrato de imports prohíbe
+  rag→orchestrator → espejo `_NON_PRODUCT_CODES_ESPEJO` con test de deriva (re-hogar = deuda #96) ·
+  **M3a** `TurnIdentity` con provenance POR COMPONENTE + `pending_mention` en `WorkingState` ·
+  **M3b** gramática con POLARIDAD de cláusula («No, no es la X» no bindea; «No, es la Y» sí) +
+  corte-de-ruta (clase medida: mención elegible con extracción VACÍA — cuando la extracción pesca el
+  prefijo, la rama A ya evita el carry del viejo) + lifecycle pending espejado MT-1b; DESVIACIÓN
+  declarada: regla 2 sin re-intento de binding (el rebind parcial era un binding falso) ·
+  **M3c-threading** (executor) canal end-to-end con verificación por MUTACIÓN ·
+  **M3c-conducta** `GENERATOR_NO_REASK` en prompt Y plantillas. Suites completas citadas por hito
+  (última: 4726 passed / 0 failed pre-conducta; conducta con dirigidos 10+53 y suite en curso al cierre).
+- **Decide (3) — flake-fix adjudicado por Alberto**: el test de recovery del fence IPC
+  (`test_lost_terminal_response_is_recovered_exactly_without_second_end`) falló 2× SOLO en CI con
+  params distintos (0/60 local): el cliente recupera por journal ANTES del append del monkeypatch —
+  espera acotada test-side (5 s), 30/30 + 41/41 tras el fix. No cambia lo que el test protege.
+- **Incidencias de proceso DECLARADAS**: (a) commit c83c0bff afirmó «suite verde» con 1 fallo real —
+  el exit 0 era del `tail` sin pipefail; corregido en 6e349d7e y regla nueva: exit real + `pipefail`
+  SIEMPRE; (b) dos erratas de conteo en mensajes de commit (117→126, 4692→4713) — regla: ningún número
+  no visto antes en un resultado. El fallo (a) lo cazó la puerta del inventario env-reads (P1) — las
+  puertas del repo funcionando.
+- **Alternativas descartadas**: 11+ medidas/ancladas en v6 §5 (historia completa al generador ·
+  prompt-only · resolver dentro de extract_product_models · seam telegram_bot:1933 [INVALIDADA POR
+  LECTURA r-v1] · mención en el hint de texto · fetch síncrono · corte por forma-sola y por
+  prefijo-textual · quitar `_base_aliases` · Whisper-prompt [DEC-233] · re-ingesta por variante ·
+  esperar al piloto).
+- **PENDIENTE (próxima sesión)**: observabilidad (sección `turn_identity` tri-estado en el trace +
+  shape `direct/1` ACOPLADO a route∈{clarify,decline} + attach en el log s301) · boot (interlock
+  al arranque + warm/refresher single-flight de presencia) · gates M4 (G1-pre/a/b/c + G2 + G3 e2e +
+  G4 censo Railway) · ship por lote (3 flags) + verificación en prod re-lanzando la conversación real
+  (DEC-099) · B residual de Alberto: paraguas «2X-A» diferido. La cuota-por-defecto de gates NO se
+  paga sin los brazos pre-registrados de v6 §4.
+- **Recibos**: PRs #322 (mergeada por Alberto con v1+Sol-r1) y #323 (draft, todo el ciclo);
+  `evals/adversarial_reviews/2026-08-20T{18-54-58,18-57-37,19-05-09,19-07-20,19-16-54,19-19-15,19-24-54,19-27-10,19-33-13,19-36-45,19-43-59,19-46-12}_*` + tally con `complete_pending_adjudication` ×4;
+  commits eb07aa35→31a5cff6.
+- **Relacionado**: DEC-074 (BP entity-linking — esto ejecuta su mitad turno-side) · DEC-091b (fix
+  aparcado retomado) · DEC-154 (vara MT propia) · DEC-233 · #49 · #96 (nuevo).

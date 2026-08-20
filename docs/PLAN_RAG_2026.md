@@ -26,7 +26,22 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s330 — 20 ago 2026; el panel mide CALIDAD de uso, y la retención alcanza ya a todo)
+## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
+
+**s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
+entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
+ARRASTRAR —hint solo bindeados—, con la re-pregunta amnésica también en PLANTILLA sin LLM),
+diseño CERRADO en 6 rondas de dúo (v6 = spec vinculante, §11 = checklist B1-B11; corte
+anti-parálisis adjudicado por Alberto), y **build COMPLETO flag-off** bajo el esquema
+advisor/executor (Fable orquesta, Opus 5 ejecuta specs cerradas): resolución gobernada en la
+seam de COMPOSICIÓN de F1 + detector de mención 2-puertas con veto multi-fabricante + gramática
+de confirmación con POLARIDAD + canal estructurado `turn_identity` end-to-end + conducta
+anti-re-pregunta en prompt Y plantillas. 3 flags default-off = producción byte-idéntica. Suites
+completas citadas por hito. Colaterales: flake del fence IPC arreglado (adjudicado), 2 erratas
+de conteo en commits declaradas, deuda #96 (espejo NON_PRODUCT_CODES). PRs #322 (mergeada) y
+#323 (draft con todo el ciclo).
+
+## Estado anterior (s330 — 20 ago 2026; el panel mide CALIDAD de uso, y la retención alcanza ya a todo)
 
 **Qué es el sistema hoy.** El bot responde en Telegram desde manuales de ~30 fabricantes, con la
 puerta de acceso viva (allowlist + invitación de un solo uso) y el **panel web en
@@ -83,6 +98,14 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
+0b. **s331 variantes-en-hilo — lo que queda para encender** (DEC-257; NO bloquea el piloto):
+   observabilidad (sección `turn_identity` tri-estado en el trace + shape `direct/1` ACOPLADO a
+   `route∈{clarify,decline}` + attach en el log s301) · boot (interlock de flags al arranque +
+   warm/refresher single-flight de presencia) · **gates M4 pre-registrados en v6 §4**
+   (G1-pre/a/b/c por-brazo + G2 sweep-39 con centinelas hp009 + G3 conducta 24-gens + G4 censo
+   Railway) · ship = lote Railway (3 flags) + verificación en prod re-lanzando la conversación
+   real (patrón DEC-099) · **packet Alberto**: paraguas «2X-A» diferido. Los flags NO se
+   encienden sin los brazos de v6 §4.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
    cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la

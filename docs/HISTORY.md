@@ -6570,3 +6570,26 @@ Nada de esto está aplicado en producción: eso es de Alberto, y el propio docum
 además al visto bueno del abogado. Tampoco corre riesgo: el censo dice 2, 2 y 1 filas, cero vencidas,
 y la más antigua es del 17 de agosto — lo primero que este código podría borrar es de agosto de 2028.
 DEC-256.
+
+## s331 (20-ago-2026, sesión web nocturna) — El 👎 de la Kidde se convierte en el ataque entero: 6 dúos, build flag-off M1→M3c, y dos reglas de proceso pagadas en carne propia
+
+Arrancó como «¿ataco los synthesis miss?» y el arranque canónico dijo NO con la métrica en la
+mano (Etapa 3 = NO-GO serving, población 1). El pantallazo de Alberto (T2 «Sobre la 2X-AF1-FBS»
+→ T3 re-pregunta amnésica, 👎 con texto) la re-dirigió: TECH_DEBT #49 trigger (c) disparado por
+un técnico real. Diagnóstico con sondas $0: la variante muere DOS veces (alias de familia al
+leer; hint-solo-bindeados al arrastrar) mientras el resolver gobernado la detecta hasta en
+grafía ASR — y la re-pregunta vive también como PLANTILLA sin LLM. Seis rondas de dúo (v1→v6;
+4 emparejados limpios) tumbaron dos seams equivocadas, un event-loop-block de ~3 s, una
+violación de la frontera de privacidad del trace, un invariante de test que era mentira y la
+polaridad de la gramática — Alberto cortó en r-v6 («paralysis by analysis») y los restos pasaron
+a checklist de build B1-B11. Build por hitos con suite verde CITADA, esquema advisor/executor
+(Fable orquesta; Opus 5 ejecutó M2 y M3c-threading con specs cerradas — y cazó él solo el
+bloqueante del contrato de imports): M1 seam de composición · M2 detector 2-puertas + léxicos
+gobernados · M3a TurnIdentity/pending · M3b gramática+corte+lifecycle espejado · M3c threading
+(verificado por MUTACIÓN) + conducta en prompt y plantillas. 3 flags off = byte-idéntico; gates
+M4 y ship quedan pre-registrados (v6 §4), sin encender nada. Dos cicatrices de proceso, ambas
+declaradas en el repo: los commits intermedios que rompieron el emparejado de Fable r-v1 (regla:
+cero git durante una ronda), y el «suite VERDE» falso de c83c0bff (el exit 0 era del tail — la
+puerta del inventario P1 lo cazó; regla: pipefail + ningún número no visto en un resultado).
+De propina: el flake real del fence IPC (2× en CI, 0/60 local) arreglado con espera acotada,
+adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-257.
