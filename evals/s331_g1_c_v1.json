@@ -1,0 +1,196 @@
+{
+  "manifest": {
+    "arm": "c",
+    "ts": "2026-08-20T22:58:08+00:00",
+    "git_sha": "a90263353e4faf759b18618bdfef0d28b49164e2",
+    "catalog_commit": "c6522ff3",
+    "corpus_fingerprint": [
+      "26216",
+      "2026-08-17T09:36:29.408577+00:00"
+    ],
+    "llm_model": "claude-sonnet-4-6",
+    "presence_precondicion": "vigente",
+    "flags": {
+      "IDENTITY_RESOLVE": "on",
+      "IDENTITY_RESOLVE_POLICY": "replace",
+      "F1_RESOLVE_GOVERNED": "",
+      "F1_MENTION_PRECEDENCE": "on",
+      "GENERATOR_NO_REASK": "on",
+      "CHUNKS_TABLE": "chunks_v2",
+      "GENERATOR_PROMPT_VARIANT": "",
+      "RERANK_TOP_K": ""
+    }
+  },
+  "g1c": {
+    "turns": [
+      {
+        "label": "C1",
+        "query": "La EMA1224B4RW-XQ me da fallo de tierra.",
+        "route": "standalone",
+        "rationale": "standalone_no_product",
+        "query_for_retrieval": "La EMA1224B4RW-XQ me da fallo de tierra.",
+        "target_models": [],
+        "turn_identity": null,
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [],
+          "pending_mention": null
+        },
+        "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación específica de ese equipo en mi base.\n\n¿Puedes indicarme el fabricante y la familia de producto a la que pertenece? Con esa información podré orientarte mejor con el procedimiento de localización de fallo de tierra.",
+        "served": [
+          {
+            "source_file": "MIDT180",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT190",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Como-solucionar-una-deriva-a-tierra",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Como-solucionar-una-deriva-a-tierra",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIE-MP-530rv001",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MADT155_01",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT156",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT155",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIEMI120rev05",
+            "chunk_index": 13
+          },
+          {
+            "source_file": "PSU User Manual_MLT LNG",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 16841,
+          "rerank_ms": 2633,
+          "coverage_ms": 4,
+          "generate_ms": 3879
+        },
+        "channel_failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "elapsed_ms": 23382
+      },
+      {
+        "label": "C2",
+        "query": "Sí.",
+        "route": "standalone",
+        "rationale": "standalone_no_product",
+        "query_for_retrieval": "Sí.",
+        "target_models": [],
+        "turn_identity": null,
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [],
+          "pending_mention": null
+        },
+        "answer": "No he encontrado información relevante en los manuales disponibles para responder a tu pregunta. ¿Puedes reformularla o especificar el modelo de equipo?",
+        "served": [
+          {
+            "source_file": "MPDT280",
+            "chunk_index": 26
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Instruction Manual SG100-IS ENG",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MPDT280",
+            "chunk_index": 115
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Instruction Manual SGFI200-S",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Instruction Manual SGCWE100",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MI_KIDDE_2X_AT_F2_FB_07d4",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Instruction Manual SG200-IS ENG",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 7268,
+          "rerank_ms": 1805,
+          "coverage_ms": 4,
+          "generate_ms": 0
+        },
+        "channel_failures": [],
+        "elapsed_ms": 9078
+      }
+    ],
+    "checks": [
+      {
+        "check": "c1_clarify_dirigido",
+        "ok": false,
+        "detail": "route=standalone rationale=standalone_no_product"
+      },
+      {
+        "check": "c1_reconoce_la_mencion_VISIBLE",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "check": "c1_pending_set",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "check": "c2_familia_pending_derived",
+        "ok": false,
+        "detail": "rationale=standalone_no_product models=[]"
+      },
+      {
+        "check": "c2_responde_la_pregunta_guardada",
+        "ok": false,
+        "detail": "Sí."
+      },
+      {
+        "check": "c2_pending_consumido",
+        "ok": true,
+        "detail": ""
+      }
+    ]
+  }
+}

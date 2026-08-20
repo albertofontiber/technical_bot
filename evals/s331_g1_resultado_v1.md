@@ -59,7 +59,21 @@ brazo** (c = corte-de-ruta; acf = contrato compuesto), no defecto del mecanismo.
   clase amnésica.
 - Latencia af/acf T3 ~27s con retrieve inflado por los timeouts transitorios (~18s
   retrieve incl. retries; rerank 2,4s; generate 6,3s) — re-medir en ventana sana (G2).
-- Brazo `c` (route-cut real) y G2/G3/G4 pendientes.
+
+## CIERRE G1 (misma noche, v2)
+
+- **acf v2: 7/7 PASS** (kidde 3/3 + contrato compuesto 4/4; respuesta C1 leída:
+  «Reconozco que mencionas el código EMA1224B4RW-XQ — el sufijo -XQ no aparece…» y AUN
+  ASÍ responde el fallo de tierra). Recibo `s331_g1_acf_v2.json`.
+- **Brazo c: 6/6 PASS** (`s331_g1_c_v2.json`) — la 1ª pasada falló por el HARNESS (el
+  flujo G1c arrancaba con estado vacío ⇒ `in_window=False` ⇒ el corte, que POR DISEÑO
+  protege el carry equivocado, no aplicaba); sembrado el estado in-window: clarify
+  dirigido con familia, pending SET, «Sí.» ⇒ `pending_confirmed_family` respondiendo la
+  PREGUNTA GUARDADA con contexto de familia, pending consumido.
+- **Centinela hp009-local: PASS** en off↔af y off↔acf — la datasheet hermana sigue
+  servida (0 docs desplazados; fetch solo AÑADE).
+- Pendientes M4: G2 (sweep-39 composición + centinelas + MT + latencia en ventana
+  sana) · G3 (A/B conducta 24-gens) · G4 (censo Railway).
 
 ## Qué significa para el ship
 

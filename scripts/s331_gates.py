@@ -60,6 +60,9 @@ ARM_FLAGS: dict[str, dict[str, str]] = {
            "GENERATOR_NO_REASK": "on"},
     "acf": {"F1_RESOLVE_GOVERNED": "on", "F1_MENTION_PRECEDENCE": "on",
             "GENERATOR_NO_REASK": "on", "IDENTITY_FETCH": "on"},
+    # C-solo de verdad (G1c-diseño): SIN resolución gobernada — la mención con
+    # prefijo gobernado NO resuelve por A y el corte-de-ruta debe disparar.
+    "c": {"F1_MENTION_PRECEDENCE": "on", "GENERATOR_NO_REASK": "on"},
 }
 
 
@@ -134,12 +137,12 @@ def _run_turn_real(resolution):
             "elapsed_ms": elapsed_ms}
 
 
-def _drive(flow, checks_fn):
+def _drive(flow, checks_fn, ws0=None):
     from src.orchestrator.conversation_policy import PolicyRoute, WorkingState
     from src.orchestrator.conversation_policy_impl import (
         resolve_conversational_turn,
     )
-    ws = WorkingState()
+    ws = ws0 if ws0 is not None else WorkingState()
     turns = []
     for label, query in flow:
         now = datetime.now(timezone.utc)
@@ -204,28 +207,52 @@ def _checks_kidde(arm):
     return fn
 
 
-def _checks_g1c(turns):
-    c1, c2 = turns[0], turns[1]
-    out = [
-        _check("c1_clarify_dirigido", c1["route"] == "clarify"
-               and c1["rationale"] == "mention_route_cut_clarify",
-               f"route={c1['route']} rationale={c1['rationale']}"),
-        _check("c1_reconoce_la_mencion_VISIBLE",
-               "EMA1224B4RW-XQ" in (c1.get("clarify_question") or ""),
-               c1.get("clarify_question") or ""),
-        _check("c1_pending_set",
-               c1["state_after"]["pending_mention"] == "EMA1224B4RW-XQ", ""),
-        _check("c2_familia_pending_derived",
-               c2["rationale"] == "pending_confirmed_family"
-               and c2["target_models"] == ["EMA1224B4R/W"],
-               f"rationale={c2['rationale']} models={c2['target_models']}"),
-        _check("c2_responde_la_pregunta_guardada",
-               "fallo de tierra" in c2["query_for_retrieval"],
-               c2["query_for_retrieval"]),
-        _check("c2_pending_consumido",
-               c2["state_after"]["pending_mention"] is None, ""),
-    ]
-    return out
+def _checks_g1c(arm):
+    """Expectativas POR BRAZO (semántica medida 20-ago): con A encendido el
+    prefijo gobernado de la mención RESUELVE (detect separator-insensitive) ⇒
+    contrato COMPUESTO (standalone familia + estado MIXTO + reconocimiento en la
+    RESPUESTA); el corte-de-ruta es la clase C-sola (brazo `c`)."""
+    def fn(turns):
+        c1, c2 = turns[0], turns[1]
+        if arm == "c":
+            return [
+                _check("c1_clarify_dirigido", c1["route"] == "clarify"
+                       and c1["rationale"] == "mention_route_cut_clarify",
+                       f"route={c1['route']} rationale={c1['rationale']}"),
+                _check("c1_reconoce_la_mencion_VISIBLE",
+                       "EMA1224B4RW-XQ" in (c1.get("clarify_question") or ""),
+                       c1.get("clarify_question") or ""),
+                _check("c1_pending_set",
+                       c1["state_after"]["pending_mention"] == "EMA1224B4RW-XQ",
+                       ""),
+                _check("c2_familia_pending_derived",
+                       c2["rationale"] == "pending_confirmed_family"
+                       and c2["target_models"] == ["EMA1224B4R/W"],
+                       f"rationale={c2['rationale']} models={c2['target_models']}"),
+                _check("c2_responde_la_pregunta_guardada",
+                       "fallo de tierra" in c2["query_for_retrieval"],
+                       c2["query_for_retrieval"]),
+                _check("c2_pending_consumido",
+                       c2["state_after"]["pending_mention"] is None, ""),
+            ]
+        ti = c1.get("turn_identity") or {}
+        return [
+            _check("c1_resuelve_familia_por_A",
+                   c1["route"] == "standalone"
+                   and "EMA1224B4R/W" in c1["target_models"],
+                   f"route={c1['route']} models={c1['target_models']}"),
+            _check("c1_estado_MIXTO_declarado",
+                   ti.get("models_provenance") == "resolved_this_turn"
+                   and ti.get("mention_provenance") == "this_turn",
+                   str(ti)),
+            _check("c1_reconoce_la_mencion_EN_RESPUESTA",
+                   "EMA1224B4RW-XQ" in (c1.get("answer") or ""),
+                   (c1.get("answer") or "")[:110]),
+            _check("c2_carry_de_familia",
+                   "EMA1224B4R/W" in c2["target_models"],
+                   f"rationale={c2['rationale']} models={c2['target_models']}"),
+        ]
+    return fn
 
 
 def run_arm(arm: str, out_path: Path) -> int:
@@ -241,10 +268,22 @@ def run_arm(arm: str, out_path: Path) -> int:
     presence = CR.presence_estado()
     print(f"[{arm}] presencia pre-condicionada: refresh={estado} estado={presence}")
 
-    receipt = {"manifest": _manifest(arm, presence),
-               "kidde": _drive(THREAD, _checks_kidde(arm))}
-    if arm in ("ac", "acf"):
-        receipt["g1c"] = _drive(G1C_THREAD, lambda t: _checks_g1c(t))
+    receipt = {"manifest": _manifest(arm, presence)}
+    if arm != "c":
+        receipt["kidde"] = _drive(THREAD, _checks_kidde(arm))
+    if arm in ("ac", "acf", "c"):
+        # El corte-de-ruta protege el CARRY EQUIVOCADO (gate in_window por
+        # diseño, v6 §3.C.1): el flujo G1c arranca con estado in-window — la
+        # clase protegida es «estado viejo + mención nueva», no primer turno.
+        from datetime import timedelta
+
+        from src.orchestrator.conversation_policy import WorkingState
+        ws0 = WorkingState(
+            last_target_models=("CAD-150",),
+            last_query="¿Cuántas zonas tiene la CAD-150?",
+            last_turn_at=datetime.now(timezone.utc) - timedelta(minutes=5),
+        )
+        receipt["g1c"] = _drive(G1C_THREAD, _checks_g1c(arm), ws0=ws0)
 
     out_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2),
                         encoding="utf-8")
