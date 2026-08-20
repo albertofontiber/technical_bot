@@ -702,6 +702,16 @@ def resolve_conversational_turn(
         turn_models, available = [resolved_model], None
     else:
         turn_models, available = detect_turn_signals(query)
+    # (s331 §3.A) Seam de COMPOSICIÓN: la resolución gobernada corre DESPUÉS de ambas
+    # ramas — cubre también resolved_model (Fable-1 r-v5: esa rama bypasea la detección)
+    # y deja detect_turn_signals intacta. Flag off ⇒ passthrough byte-idéntico. En la
+    # rama del plan es canonicalize_only: jamás re-escanea la query (autoridad del plan
+    # preservada, B2 §11). El RuntimeError del interlock NO se silencia: es un error de
+    # despliegue que el chequeo de boot debe haber parado antes.
+    from ..rag.catalog_resolver import resolve_for_turn
+    turn_models, _turn_resolve_info = resolve_for_turn(
+        query, list(turn_models), canonicalize_only=bool(resolved_model)
+    )
     policy = DeterministicConversationPolicy()
     resolution = policy.resolve(
         query=query,

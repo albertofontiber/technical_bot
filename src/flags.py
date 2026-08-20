@@ -202,6 +202,14 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/rag/post_rerank_coverage.py',),
     },
+    "F1_RESOLVE_GOVERNED": {
+        # (s331 §3.A) Resolución gobernada en la seam de composición de F1. Default off
+        # = byte-idéntico; on exige IDENTITY_RESOLVE=on (interlock fail-fast en
+        # turn_resolve_enabled + chequeo de boot).
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/rag/catalog_resolver.py',),
+    },
     "GENERATOR_DIRECT_FIRST": {
         "default_fuente": '"off"',
         "via": ['getenv'],

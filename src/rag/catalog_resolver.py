@@ -554,19 +554,46 @@ def _token_core_absent_in_corpus(token: str) -> bool:
     return core not in elements
 
 
+# (s331 §3.A) Centinela «sin argumento»: distingue el path de RETRIEVAL (consulta la
+# presencia con red/lock, conducta histórica) del path de TURNO (presencia explícita,
+# jamás red — None ⇒ conservar). No usar None como default: None es un VALOR válido.
+_PRESENCE_UNSET = object()
+
+
+def _presence_peek(now: float):
+    """(s331 §3.A) Vista SIN RED y SIN LOCK de la caché de presencia:
+    ``(elements | None, estado)`` con estado ∈ {'vigente','stale','cold'}.
+    A diferencia de ``_presence_lookup``, aquí NO se re-chequea el fingerprint (eso
+    es un GET) ni se dispara ningún scan: el path de TURNO corre síncrono en el event
+    loop del bot y no puede tocar red (Sol-4 r-v2 / Sol-5 r-v4). ``stale`` y ``cold``
+    devuelven ``None`` ⇒ el llamante DESACTIVA la regla monótona corpus-aware y
+    conserva los tokens (Sol-1 r-v5: un set vencido haría parecer AUSENTE una etiqueta
+    recién añadida al corpus y provocaría un drop incorrecto)."""
+    entry = _presence
+    if entry is None or entry.get("elements") is None:
+        return None, "cold"
+    if time.monotonic() - entry["at"] >= _PRESENCE_TTL_S:
+        return None, "stale"
+    return entry["elements"], "vigente"
+
+
 def _replace_policy() -> bool:
     """El brazo del seam 1 (IDENTITY_RESOLVE_POLICY): 'add' (default) | 'replace'."""
     return (os.getenv("IDENTITY_RESOLVE_POLICY", "") or "add").strip().lower() == "replace"
 
 
-def _drop_gates_pass(tok: str, via: str | None, resolved: dict) -> bool:
+def _drop_gates_pass(tok: str, via: str | None, resolved: dict,
+                     presence_elements=_PRESENCE_UNSET) -> bool:
     """¿Puede el token REEMPLAZARSE (entrar en `drop_tokens`)? Puertas, en orden:
     1. solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original (exact ya ES el
        canonical — reemplazarlo sería un no-op);
     2. (s278 §1a GUARD-IMPL) la expansión no filtró miembros (`all_members_consumable`);
     3. (s278 §1a) la unidad no está en la quarantine de pendientes-de-adjudicación;
     4. (s287 P1) el PROPIO core del token NO tiene presencia exact-tag en el corpus.
-    Las cuatro fail-open-a-add (el token se conserva y la expansión se añade igual)."""
+    Las cuatro fail-open-a-add (el token se conserva y la expansión se añade igual).
+    (s331) `presence_elements`: el path de TURNO pasa la presencia EXPLÍCITA de
+    `_presence_peek` (None = stale/cold ⇒ CONSERVAR, sin tocar red); sin argumento,
+    conducta histórica del path de retrieval (consulta con red/lock)."""
     if via not in ("paraguas", "alias", "homonimo"):
         return False
     if not resolved.get("all_members_consumable"):
@@ -582,15 +609,22 @@ def _drop_gates_pass(tok: str, via: str | None, resolved: dict) -> bool:
         # brazo add: `drop_tokens` es inerte (apply_to_models lo ignora) → no se paga la
         # consulta de corpus y el campo conserva su semántica histórica.
         return True
+    if presence_elements is not _PRESENCE_UNSET:
+        if presence_elements is None:
+            return False
+        core = _series.normalize_model(tok or "")
+        return bool(core) and core not in presence_elements
     return _token_core_absent_in_corpus(tok)
 
 
-def resolve_query(query: str) -> dict:
+def resolve_query(query: str, presence_elements=_PRESENCE_UNSET) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
      allowed_sources, resolved_documents[{document_id, source_file}]}.
     expand=False (clarify/candidate/unknown) NO aporta expansión, allowed_sources ni
-    documentos — el contrato `expand` del resolve() se respeta literalmente."""
+    documentos — el contrato `expand` del resolve() se respeta literalmente.
+    (s331) `presence_elements`: ver `_drop_gates_pass` — el path de TURNO la pasa
+    explícita para que las puertas del drop no toquen red."""
     _ensure()
     detected = detect(query)
     records, add_models, drop_tokens, source_groups = [], [], [], []
@@ -632,7 +666,7 @@ def resolve_query(query: str) -> dict:
             # el drop del token original (brazo replace) pasa por las 4 puertas de
             # `_drop_gates_pass` (via-elegible · guard candidate-member s278 · quarantine
             # s278 · regla monótona-segura corpus-aware s287 P1); todas fail-open-a-add.
-            if _drop_gates_pass(tok, rec["via"], r):
+            if _drop_gates_pass(tok, rec["via"], r, presence_elements):
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
             "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
@@ -756,6 +790,83 @@ def fetch_enabled() -> bool:
     if f and mode() != "on":
         raise RuntimeError("IDENTITY_FETCH=on/llm requiere IDENTITY_RESOLVE=on (fail-fast)")
     return f
+
+
+# ---------------------------------------------------------------------------
+# (s331 §3.A) Resolución gobernada de la SEAM DE COMPOSICIÓN de F1
+# ---------------------------------------------------------------------------
+def turn_resolve_enabled() -> bool:
+    """Flag propio de la seam F1 (`F1_RESOLVE_GOVERNED`, default off = byte-idéntico).
+    Requiere IDENTITY_RESOLVE=on: flag-on con el resolver apagado es un error de
+    DESPLIEGUE y revienta (mismo patrón fail-fast que `fetch_enabled`; el chequeo de
+    BOOT del worker aborta el arranque ANTES de servir turnos — este guard runtime es
+    el cinturón que no debe disparar jamás, Fable-3 r-v5)."""
+    raw = (os.getenv("F1_RESOLVE_GOVERNED", "") or "").strip().lower()
+    if raw not in ("", "0", "false", "no", "off", "1", "true", "yes", "on"):
+        raise RuntimeError(f"F1_RESOLVE_GOVERNED={raw!r} no reconocido (on|off) — fail-fast")
+    on = raw in ("1", "true", "yes", "on")
+    if on and mode() != "on":
+        raise RuntimeError(
+            "F1_RESOLVE_GOVERNED=on requiere IDENTITY_RESOLVE=on (interlock s331 — "
+            "corrige el lote de flags)")
+    return on
+
+
+def resolve_for_turn(query: str, base_models: list[str], *,
+                     canonicalize_only: bool = False) -> tuple[list[str], dict | None]:
+    """(s331 §3.A) Punto de entrada del path CONVERSACIONAL (seam de composición de
+    `resolve_conversational_turn` — cubre la rama `detect_turn_signals` Y la rama
+    `resolved_model` del plan). Misma resolución del seam 1 que
+    `resolve_for_retrieval`, con TRES diferencias de contrato:
+
+    1. **SIN RED en el hot-path** (corre síncrono en el event loop del bot): la
+       presencia se lee con `_presence_peek`; en `stale`/`cold` la regla monótona
+       corpus-aware queda DESACTIVADA (None ⇒ conservar, Sol-1 r-v5) y el estado se
+       devuelve en `info["presence"]` para el trace. El fingerprint NO se re-chequea.
+    2. **SIN efectos seam-2**: ni `allowed_sources`, ni fetch, ni shadow-log.
+    3. **`canonicalize_only`** (rama `resolved_model`, ítem B2 §11 v6): se escanean
+       SOLO los strings de `base_models` — jamás la query — así la autoridad del plan
+       se preserva (nunca se añaden modelos de la query por esta rama).
+
+    off (flag o resolver) → passthrough EXACTO (mismo objeto de lista, None).
+    Devuelve `(models, info|None)` con
+    `info = {"presence": estado, "detected": [...], "changed": bool}`."""
+    if not turn_resolve_enabled():
+        return base_models, None
+    _ensure()
+    if _cat is None or _pattern is None:
+        return base_models, None
+    elements, estado = _presence_peek(time.monotonic())
+    scan_text = " ".join(base_models) if canonicalize_only else query
+    if not scan_text.strip():
+        return base_models, {"presence": estado, "detected": [], "changed": False}
+    res = resolve_query(scan_text, presence_elements=elements)
+    if not res["detected"]:
+        return base_models, {"presence": estado, "detected": [], "changed": False}
+    if canonicalize_only:
+        # Sustitución de grafía IN-PLACE (no añadir): apply_to_models dedupe por
+        # normkey y descartaría el canónico como «duplicado» del string del plan.
+        # Solo exact/alias con id ÚNICO canonicalizan; un paraguas dado por el plan
+        # se conserva tal cual (canonicalizarlo a UN miembro sería elegir por él).
+        nt = catalog_store.norm_token
+        canon: dict[str, str] = {}
+        for rec in res["records"]:
+            ids = rec.get("ids") or []
+            if rec.get("via") in ("exact", "alias") and len(ids) == 1:
+                p = _cat.products.get(ids[0])
+                if p and p.get("canonical_model"):
+                    canon[nt(rec["token"])] = p["canonical_model"]
+        out, seen = [], set()
+        for m in base_models:
+            repl = canon.get(nt(m), m)
+            rk = nt(repl)
+            if rk not in seen:
+                seen.add(rk)
+                out.append(repl)
+    else:
+        out = apply_to_models(list(base_models), res)
+    return out, {"presence": estado, "detected": list(res["detected"]),
+                 "changed": out != list(base_models)}
 
 
 # F6 dúo s93: stopwords mínimas — sin ellas 'para'/'como'/'que' puntúan y queman el cap
