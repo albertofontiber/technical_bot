@@ -98,14 +98,15 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
-0b. **s331 variantes-en-hilo — lo que queda para encender** (DEC-257; NO bloquea el piloto):
-   observabilidad (sección `turn_identity` tri-estado en el trace + shape `direct/1` ACOPLADO a
-   `route∈{clarify,decline}` + attach en el log s301) · boot (interlock de flags al arranque +
-   warm/refresher single-flight de presencia) · **gates M4 pre-registrados en v6 §4**
-   (G1-pre/a/b/c por-brazo + G2 sweep-39 con centinelas hp009 + G3 conducta 24-gens + G4 censo
-   Railway) · ship = lote Railway (3 flags) + verificación en prod re-lanzando la conversación
-   real (patrón DEC-099) · **packet Alberto**: paraguas «2X-A» diferido. Los flags NO se
-   encienden sin los brazos de v6 §4.
+0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-257/258; NO bloquea el
+   piloto): observabilidad + boot CABLEADOS y gates M4 COMPLETOS (G1 PASS todos los brazos con 2
+   bugs cazados y arreglados EN el gate · G2 0 regresiones reales adjudicadas leyendo, ventana
+   sucia declarada · MT 52/52 · G3 ON 6/6+6/6 · G4 prod byte-idéntica verificada). **Lote Railway
+   worker = 4 vars**: `F1_RESOLVE_GOVERNED=on` + `F1_MENTION_PRECEDENCE=on` +
+   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-258).
+   **Tras el flip: verificación DEC-099 = re-lanzar la conversación Kidde real en Telegram.**
+   Rollback = quitar las 4. Residuales post-flip en `evals/s331_m4_gates_resultado_v1.md`;
+   **packet Alberto**: paraguas «2X-A» diferido.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
    cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la

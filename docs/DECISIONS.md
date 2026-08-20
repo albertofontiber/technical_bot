@@ -9447,3 +9447,49 @@ REVOKE y la postcondición 6.1.b lo verifica.
   commits eb07aa35→31a5cff6.
 - **Relacionado**: DEC-074 (BP entity-linking — esto ejecuta su mitad turno-side) · DEC-091b (fix
   aparcado retomado) · DEC-154 (vara MT propia) · DEC-233 · #49 · #96 (nuevo).
+
+## DEC-258 (s331b, 20-21 ago 2026) — Gates M4 COMPLETOS con dos bugs cazados POR el gate; IDENTITY_FETCH entra al lote de ship como 4º flag (re-apertura con métrica propia); ship listo para el lote Railway de Alberto
+
+- **Fecha**: 20-21 ago 2026 (misma sesión que DEC-257, tras el GO de Alberto «solucionado = replay
+  en prod»). **Impacto**: ALTO (cierra la medición pre-ship de s331). Producción sin cambios.
+- **Decide (1) — G1 por brazos, PASS con dos hallazgos que el gate existía para cazar**:
+  (a) **pool-entry loss bajo A-solo** (brazo a): binding/hint perfectos + `allowed_sources` con los
+  7 docs de familia, y aun así T3 sirve SOLO la datasheet hermana (pool=5) — ni vector (query débil)
+  ni keyword (tags `product_model` compuestos `2X-A/...`) meten la familia en el top-50; la clase
+  DEC-084 exacta. **Fix = `IDENTITY_FETCH`** (seam existente s93): su NO-OP fue en famtie-39; la
+  métrica de HOY (este hilo servido) es otra → re-apertura conforme a settled-con-métrica, medida
+  af/acf: los 3 manuales de familia SERVIDOS. (b) **`turn_identity=None` en el flujo principal**:
+  M3b pobló la identidad solo en los paths de mención (anotado «para M3c») y M3c-conducta consumió
+  el canal sin cerrar la población — rama A y carry no construían identidad y `GENERATOR_NO_REASK`
+  jamás disparaba; 95 unit tests verdes por ambos lados NO lo veían, el replay sí. Fix
+  `_build_turn_identity` (A: resolved_this_turn + mixto con mención puerta-1; carry: carried).
+  acf v2 7/7 · brazo c 6/6 (la 1ª pasada del c falló por el harness: estado inicial vacío ⇒
+  in_window=False ⇒ el corte, que POR DISEÑO protege el carry equivocado, no aplica) · centinela
+  hp009-local PASS (la datasheet hermana sigue servida; fetch solo AÑADE).
+- **Decide (2) — G2 composición sweep-39: 0 regresiones reales**, con la adjudicación visible:
+  señal-por-SETS (el comparador por listas contaba churn de ORDEN de rerank como diff — DEC-096) =
+  cat013/cat017 expansión ADITIVA de familia (entra un manual más, nada sale) + hp018 A/B de
+  generación LEÍDO (ON igual-o-mejor: cuantifica 2-vs-4 salidas supervisadas; el doc salido era el
+  comunicador, sin ese contenido). Centinelas hp009/hp001 DENTRO del ruido (23/39 con **ventana
+  sucia declarada**: fallos de canal Supabase en 10-11/39 golds esa noche) → no atribuibles;
+  **confirmación en ventana sana recomendada** (barata, composición). **MT flows 52/52 con los 4
+  flags.** Latencia p50 off≈on (ventana sucia; re-medir post-flip).
+- **Decide (3) — G3 conducta (patrón DEC-162e), 6 reps/brazo**: ON **6/6 sin-amnesia** (kidde_t3)
+  y **6/6 reconocimiento visible** (mixto_c1). Matiz de instrumento DECLARADO: el check
+  determinista no caza variantes de fraseo del OFF («¿qué modelo concreto del 2X-AF1 tienes
+  instalado?», rep0 OFF leído) → el contraste OFF↔ON lo establecen las LECTURAS (G1+G3); el gate
+  pre-registrado era el lado ON. **G4**: sonda dirigida a la API de Railway — worker con
+  `IDENTITY_RESOLVE=on` + `POLICY=replace` (asunción C1/s281 verificada de primera mano) y ninguna
+  flag s331 presente (byte-idéntico en prod confirmado).
+- **SHIP LISTO (decisión de Alberto)**: lote Railway worker = `F1_RESOLVE_GOVERNED=on` +
+  `F1_MENTION_PRECEDENCE=on` + `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on`; verificación en
+  producción patrón DEC-099 = re-lanzar la conversación Kidde real; rollback = quitar las 4.
+  Residuales post-flip (T2 alcance-vs-confirmación con evidencia de hermana; T3 pregunta el
+  aspecto; regex G3; ventana G2) en `evals/s331_m4_gates_resultado_v1.md` — ninguno bloquea.
+- **Proceso**: el pipe-trap del exit reapareció 2× en runners de gates (tail) — la regla queda
+  extendida: TODO runner de gate imprime y se lee su exit REAL; los recibos mandan.
+- **Recibos**: `s331_g1_*` (6) · `s331_g2_v1.json` + `s331_g2_hp018_{off,on}.txt` ·
+  `s331_g3_v1.json` · censo + sonda Railway · `s331_m4_gates_resultado_v1.md` · commits
+  49b76757→(este).
+- **Relacionado**: DEC-257 · DEC-084/069 (la clase pool-entry y su seam) · DEC-092b (leer antes de
+  declarar) · DEC-096 (ruido de rerank) · DEC-099 (verificación en prod) · DEC-126 (re-apertura).
