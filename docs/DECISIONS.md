@@ -9599,3 +9599,59 @@ señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` 
 - **Lo que esto valida del método**: el dúo r40 (Sol, medio) frenó el alta precisamente por no acuñar
   un id inmutable con la identidad sin cerrar. Esperar a un dato de una línea evitó un id equivocado
   que habría exigido un merge. **Relacionado**: DEC-259.
+
+## DEC-260 (s331, 20 ago 2026) — Qué le hizo el feedback de Alberto a las reglas R1-R7: una regla nueva (R8), un hueco tapado en R3 y R5 cerrada por uso
+
+- **Fecha**: 20 ago 2026 (s331, cierre). **Impacto**: MEDIO (gobierna cómo se adjudica el residuo).
+  **Origen**: Alberto pidió repasar las reglas a la luz de su feedback («¿deberíamos ajustarlas?»).
+- **El balance del feedback, medido** (30 anotaciones en su copia del packet): **11 confirmaciones**
+  que cerraron filas sin más · **2 correcciones de fondo** · **5 preguntas** que destaparon problemas
+  que yo no había visto · **3 notas incorrectas** que el procedimiento absorbió sin daño porque
+  se verifican antes de aplicar. Lo que produjo:
+  - «MNDT600/MNDT701: ¿por qué unknown?» → destapó que **la serie 20/20 SharpEye entera faltaba del
+    catálogo** (9 altas, DEC-258).
+  - Una nota suya **mal ubicada** → destapó **6 atestaciones equivocadas** en la FAQ de la DXc y, con
+    ellas, un **hueco del gate** que bloqueaba toda limpieza de contaminación (DEC-259).
+  - Un enlace de una línea (`avotec.it/series-doa`) → **evitó acuñar un id inmutable equivocado**
+    (DEC-259b).
+  - «Son los modelos de System Sensor, se ve en la foto» → destapó que **5 documentos FAAST están
+    atribuidos a Xtralis**, que es el competidor.
+  La conclusión operativa: su feedback es más valioso **cuando pregunta que cuando afirma** — sus 5
+  preguntas produjeron más hallazgos que sus 11 confirmaciones, y sus 3 notas erróneas no costaron
+  nada porque ninguna se aplicó sin verificar. **Eso es el sistema funcionando como debe.**
+
+### Los ajustes
+
+- **R3 (OEM) — HUECO TAPADO.** R3 gobierna el `vendido_bajo` del **producto** y su guarda dice que
+  «si la fila está mal, se corrige la fila, no el mapa». Pero **no dice nada del `manufacturer` del
+  DOCUMENTO**, que es una autoridad distinta y hoy no está gobernada por ninguna regla: de ahí que 5
+  documentos FAAST cuelguen de Xtralis sin que ningún gate se queje. **Extensión adjudicada**: la
+  marca de un documento de producto OEM se decide por **bajo qué marca se distribuye ESE documento**
+  (portada/copyright), no por quién fabrica el aparato ni por el token del modelo; y cuando el
+  documento es del fabricante (© System Sensor), la marca es el fabricante. **Sin gate todavía** —
+  el arreglo de raíz es `TECH_DEBT #95` (que la ingesta lea la fuente gobernada).
+- **R5 — CERRADA POR USO.** Llevaba desde el 16-ago con «alberto: pidió ejemplos — pendiente». Ya
+  tiene sus dos ejemplos vividos: `HLSI-TI-007_VSN-4REL` (ficha coherente, contenido que no nombra al
+  sujeto → atestado tras la re-ingesta) y `MNDT730P` (ficha coherente pero fragmento PT → **baja**,
+  no atestación). **Matiz que añaden**: antes de atestar por ficha hay que comprobar si el documento
+  es un **fragmento con hermano completo**; si lo es, la respuesta es la baja, no la atestación.
+- **R8 (NUEVA) — la grafía canónica es la del FABRICANTE, no la del documento.** Nace de DOA: el
+  documento imprime «DOA FJ/CPD» y el fabricante publica «DOA FJ» (el `/CPD` es el sufijo del
+  certificado). Como **los ids son INMUTABLES**, cuando el fabricante tiene ficha pública accesible
+  se acuña su grafía y la del corpus entra como **alias**. Ya se había aplicado de facto en DEC-258
+  (`S20/20MI` canónico / `20/20MI` alias); ahora es regla. **Corolario operativo**: ante un nombre
+  con barra o sufijo, la pregunta correcta antes de acuñar es «¿qué publica el fabricante?», y esa
+  pregunta se le hace a Alberto **antes** del alta, no después.
+- **R1' — VALIDADA dos veces más**, sin cambios: los documentos `MI_KIDDE_2X_AT_*` y `MU_KIDDE_2X_AT_*`
+  van sobre los **no táctiles** (0 tokens `2X-AT` frente a 183 y 65 de la serie `2X-A`), tal como él
+  leyó en las páginas 7-9. El nombre del fichero engaña y **manda el contenido**.
+- **R1, R2, R4, R6, R7 — sin cambios**: su feedback las ejercitó y ninguna falló.
+
+### Lo que NO es una regla, sino el instrumento
+
+Dos de los errores no vinieron de las reglas sino de **cómo el packet presenta las filas**, y ambos
+están corregidos en el **v3** (`evals/s320_e1_packet_adjudicacion_v3.md`): los **homónimos** van
+marcados con ⚠️ y un discriminador (fue lo que hizo que una nota cayera en el documento equivocado),
+y la línea del juez se imprime como **«PROPUESTO (NO es lo aplicado)»** (fue lo que le hizo criticar
+ids que nunca se aplicaron). El v3 además pre-clasifica las 67 filas vivas por los patrones que él
+ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (suyas, una a una).

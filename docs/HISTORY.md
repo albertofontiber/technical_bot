@@ -6651,3 +6651,31 @@ scope gobernado. Fable añadió que mi lista de gaps nombraba la fila equivocada
 Y de la pregunta final de Alberto —dónde seguir asignando modelos— salió el dato que faltaba: la
 cola real no vive en ningún packet. Son **85 documentos activos sin doc_map**, que tras este lote
 quedan en 77, y se obtienen cruzando `documents` contra el catálogo.
+
+
+## s331c (20 ago 2026, noche) — el packet devuelve el favor: el feedback humano encuentra lo que el gate no miraba
+
+El cierre de la sesión lo marcó una pregunta de Alberto que parecía menor: «¿me puedes recordar las
+reglas R1, R2…? ¿Deberíamos ajustarlas? ¿Mi feedback ha sido útil?».
+
+Al hacer el balance salió un patrón que merece quedar escrito: de sus 30 anotaciones, **las 5
+preguntas produjeron más hallazgos que las 11 confirmaciones**, y las 3 notas que estaban
+equivocadas no costaron nada porque ninguna se aplicó sin verificar. Su «¿por qué unknown?» destapó
+que faltaba una serie entera del catálogo. Una nota suya *mal ubicada* —cayó en el documento
+homónimo— destapó seis atestaciones equivocadas y, con ellas, un hueco del gate que llevaba
+bloqueando por diseño cualquier limpieza de contaminación. Un enlace de una línea evitó acuñar un id
+inmutable equivocado. Y su «son los modelos de System Sensor, se ve en la foto» destapó que **cinco
+documentos de FAAST están atribuidos a Xtralis, que es el competidor**.
+
+Las reglas salieron tocadas en tres sitios. **R3** tenía un hueco que nadie había visto: gobierna el
+`vendido_bajo` del producto y no decía nada del `manufacturer` del documento, que es otra autoridad
+—y es justo la que está mal en los cinco FAAST—. **R5** llevaba cinco días esperando ejemplos y ya
+los tenía vividos, con un matiz nuevo: antes de atestar por ficha hay que mirar si el documento es un
+fragmento con hermano completo, porque entonces la respuesta es la baja. Y nació **R8**: la grafía
+canónica es la del fabricante, no la del documento, porque los ids son inmutables. Eso ya se había
+hecho de facto con `S20/20MI`; DOA lo convirtió en regla.
+
+Dos de los errores, sin embargo, no eran de las reglas sino del instrumento. El packet presentaba los
+documentos homónimos sin distinguirlos y imprimía la propuesta del juez al lado de lo aplicado. Los
+dos defectos costaron tiempo real —uno de ellos, seis atestaciones equivocadas— y los dos están
+corregidos en el **v3**, que además solo arrastra lo vivo: 67 filas en vez de 192.

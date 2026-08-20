@@ -112,7 +112,11 @@ causa de que una VM no la recibiera sigue abierta.
 6. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    —la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin tocar
    el instalador— y la causa de que una VM NO la recibiera sigue abierta.
-7. **Del packet E1 (s331/DEC-257 + DEC-258) — lo que sigue siendo de Alberto, y es POCO**: el residuo del
+7. **Del packet E1 — trabajar sobre el `v3`, NO sobre el v2** (s331/DEC-257→260). El packet va por
+   **125 de 192 filas resueltas**; las **67 vivas** están en `evals/s320_e1_packet_adjudicacion_v3.md`,
+   pre-clasificadas por los patrones que Alberto ya firmó (**15 P1** «seguir al juez», **9 P3**
+   «retirar artefactos», **8 P4** suyas una a una). Lo que espera su decisión está reunido en
+   **`docs/DECISIONES_PENDIENTES_ALBERTO.md`**. Lo que sigue siendo de Alberto del residuo del
    `s320_e1_packet_adjudicacion_v2.md` quedó cerrado salvo (a) **una frase sobre el paraguas «2X-A»**
    —con táctiles (38) o sin ellos (27)—, ya con la medida hecha (0 gold perdidas, +2 golds ganan 12
    fuentes cada una, 0 disparos en 111 consultas reales; solo salta la sonda sintética «2 x a»:
