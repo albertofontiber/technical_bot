@@ -144,69 +144,71 @@ def tabla(cabeceras, filas, *, vacio: str = "Sin datos todavía.",
     )
 
 
-#: Sistema de coordenadas INTERNO del gráfico: unidades del `viewBox`, no
-#: píxeles de pantalla. El ancho total tiene que ser una CONSTANTE porque el CSS
-#: la necesita para topar la escala (`max-width`) — la constante y la regla son
-#: el MISMO número y `test_s328_grafico_una_sola_escala` los cruza, así que no
-#: pueden divergir. Por eso `barras` ya no acepta un `ancho`: un llamador que lo
-#: cambiara movería el `viewBox` sin mover el tope, que es justo el desajuste
-#: que esto viene a cerrar.
-_ROTULO_ANCHO, _BARRA_ANCHO, _VALOR_ANCHO = 116, 320, 96
-ANCHO_GRAFICO = _ROTULO_ANCHO + _BARRA_ANCHO + _VALOR_ANCHO
-_FILA_ALTO, _FILA_HUECO = 22, 6
-#: A 13 px de fuente entran ~16 caracteres en el canalón del rótulo. El texto
-#: completo NO se pierde: va en el `<title>` de la fila (tooltip del navegador).
-_ROTULO_MAX = 16
+#: Alturas posibles de una columna, en porcentaje de la pista. Se emiten UNA vez
+#: en la hoja de estilo (101 reglas, ~2 KB) y cada barra elige la suya por clase.
+#: Es el rodeo que impone la CSP: un atributo `style` con la altura sería un
+#: «inline style» y obligaría a abrir `unsafe-inline`. Una clase por punto
+#: porcentual no crece con el número de gráficas ni de barras — es tabla fija.
+_PASOS_ALTURA = 101
+
+#: Ancho mínimo de una columna. Por debajo, el rótulo no se lee y el objetivo
+#: táctil desaparece; cuando no caben, el gráfico hace scroll DENTRO de su caja
+#: (nunca la página, que es lo que mide el gate de geometría).
+_COLUMNA_MIN_PX = 44
+
+#: A 12 px de rótulo VERTICAL entran 12 caracteres en los 88 px de la banda.
+#: La cifra NO es a ojo: con 14 el gate de geometría midió 11 px de texto
+#: cortado en escritorio y 23 en móvil, con los ids largos de la taxonomía
+#: (`catalogo_especificaciones`) puestos a propósito en el arnés de medida.
+#: El texto completo no se pierde: va en el `title` de la columna.
+_ROTULO_MAX = 12
 
 
-def barras(pares, *, unidad: str = "", leyenda: str = "") -> Seguro:
-    """Un gráfico de barras horizontal en SVG, sin una línea de JavaScript.
+def columnas(pares, *, unidad: str = "", leyenda: str = "") -> Seguro:
+    """Un gráfico de COLUMNAS, en HTML y CSS. Sin JavaScript y sin SVG.
 
-    `pares` = [(etiqueta, valor)]. Se dibuja con el máximo como escala; si todos
-    los valores son 0 se enseña igualmente (barras a cero), porque «hoy no hubo
-    tráfico» es un dato y no un fallo.
+    `pares` = [(etiqueta, valor)], y se pintan de IZQUIERDA A DERECHA en el orden
+    en que llegan — que es lo que Alberto pidió y lo que una serie temporal
+    necesita: el tiempo avanza hacia la derecha. La altura codifica el valor,
+    escalada al máximo de la serie; si todos son 0 se enseñan igual (columnas a
+    cero), porque «hoy no hubo tráfico» es un dato y no un fallo.
 
-    UNA SOLA ESCALA (s328). Hasta s327 esto eran DOS sistemas de coordenadas que
-    tenían que coincidir a mano: los rótulos iban en `<div>`s de 28 px fijos y
-    las barras en un SVG fluido. Coincidían solo cuando el SVG se pintaba a
-    1 unidad = 1 px; en una tarjeta ancha de escritorio el SVG escalaba ~3× y las
-    filas se separaban de sus rótulos (lo que Alberto vio como «zoom»). Ahora el
-    rótulo vive DENTRO del SVG: hay una escala, no dos, y la alineación es
-    correcta por construcción a cualquier anchura. El CSS la deja crecer hasta su
-    tamaño natural y ahí la topa — fluida hacia abajo, nunca ampliada.
+    POR QUÉ NO ES UN SVG (s328b). Lo era, y el SVG obligaba a elegir entre dos
+    males: con medidas fijas se salía del móvil, y fluido escalaba TODO —incluida
+    la letra—, así que en una tarjeta estrecha los rótulos caían a ~8 px,
+    ilegibles y descuadrados con el resto de la página. No hay ajuste que lo
+    arregle: una escala uniforme mueve el texto por definición. En HTML el texto
+    es texto —12 px son 12 px a cualquier anchura— y la barra es lo único que
+    estira, con su altura en porcentaje. De paso desaparece la clase de fallo
+    entera de s328: no hay dos sistemas de coordenadas que puedan desalinearse,
+    porque rótulo y columna son el MISMO elemento de la rejilla.
 
     `leyenda` explica QUÉ se está midiendo (unidad, ventana, si suma semanas).
-    Va debajo del gráfico y es parte del contrato de «una gráfica se lee sola».
     """
     pares = [(e, v) for e, v in pares if isinstance(v, (int, float))]
     if not pares:
         return Seguro("")
     tope = max((v for _, v in pares), default=0) or 1
-    alto = len(pares) * (_FILA_ALTO + _FILA_HUECO)
-    filas = []
-    for indice, (etiqueta, valor) in enumerate(pares):
-        y = indice * (_FILA_ALTO + _FILA_HUECO)
-        largo = max(1, int(_BARRA_ANCHO * (valor / tope)))
-        texto = f"{numero(valor)}{(' ' + unidad) if unidad else ''}"
+    celdas = []
+    for etiqueta, valor in pares:
+        # Redondeo al entero: es el paso de la tabla de clases. Una barra con
+        # valor > 0 nunca baja de 1 % para que «poco» no se lea como «nada».
+        altura = int(round(_PASOS_ALTURA - 1) * (valor / tope)) if tope else 0
+        altura = max(1, altura) if valor > 0 else 0
         rotulo = str(etiqueta)
         corto = (rotulo if len(rotulo) <= _ROTULO_MAX
                  else rotulo[:_ROTULO_MAX - 1] + "…")
-        # Cada fila en su `<g>` CON su `<title>`: sueltos como hermanos del
-        # `<svg>` solo valía el primero como nombre accesible del gráfico entero
-        # y ninguno funcionaba de tooltip por fila (defecto de s326, visible al
-        # recortar el rótulo — ahora el texto completo hay que poder verlo).
-        filas.append(
-            f'<g><title>{esc(rotulo)}: {esc(texto)}</title>'
-            f'<text x="0" y="{y + 15}" class="rotulo">{esc(corto)}</text>'
-            f'<rect x="{_ROTULO_ANCHO}" y="{y}" width="{largo}" '
-            f'height="{_FILA_ALTO}" rx="3" class="barra"></rect>'
-            f'<text x="{_ROTULO_ANCHO + largo + 8}" y="{y + 15}" '
-            f'class="valor">{esc(texto)}</text></g>'
+        texto = f"{numero(valor)}{(' ' + unidad) if unidad else ''}"
+        celdas.append(
+            f'<li title="{esc(rotulo)}: {esc(texto)}">'
+            f'<span class="dato">{esc(numero(valor))}</span>'
+            f'<span class="pista"><span class="col h{altura}"></span></span>'
+            f'<span class="rotulo">{esc(corto)}</span></li>'
         )
     pie = (f'<p class="leyenda">{esc(leyenda)}</p>') if leyenda else ""
     return Seguro(
-        f'<svg class="grafico" role="img" preserveAspectRatio="xMinYMin meet" '
-        f'viewBox="0 0 {ANCHO_GRAFICO} {alto}">{"".join(filas)}</svg>{pie}'
+        f'<div class="grafico"><ol class="columnas">{"".join(celdas)}</ol></div>'
+        f"{pie}"
     )
 
 
@@ -352,15 +354,44 @@ td.ancho, th.ancho { white-space:normal; min-width:260px; }
 .cifra .valor { font-size:22px; font-weight:600; }
 .cifra .rotulo { color:var(--suave); font-size:12px; }
 .cifra .detalle { color:var(--suave); font-size:12px; margin-top:4px; }
-/* El tope es el ANCHO NATURAL del viewBox (render.ANCHO_GRAFICO): por debajo
-   el gráfico es fluido y encoge entero —rótulos incluidos, que por eso van
-   dentro del SVG—; por encima NO se amplía. Sin el tope, una tarjeta ancha lo
-   escalaba ~3× y parecía un zoom. El número está cruzado con el módulo en
-   test_s328_grafico_una_sola_escala. */
-svg.grafico { display:block; width:100%; max-width:532px; height:auto; }
-svg.grafico .rotulo { fill:var(--suave); font-size:13px; }
-svg.grafico .barra { fill:var(--barra); }
-svg.grafico .valor { fill:var(--suave); font-size:12px; }
+/* GRÁFICO DE COLUMNAS (s328b, adjudicación de Alberto: «que salgan de izquierda
+   a derecha, no de arriba a abajo»). HTML y CSS, sin SVG y sin JavaScript.
+
+   La clave de por qué esto es mejor que el SVG que había: aquí **el texto no
+   escala**. 12 px son 12 px a cualquier anchura de tarjeta, así que la letra del
+   gráfico es la misma que la del resto de la página —lo que Alberto pidió— y no
+   hay forma de que el rótulo se descuadre de su columna, porque son el MISMO
+   elemento de la rejilla. La clase de fallo de s328 (dos sistemas de
+   coordenadas) deja de existir, no se vigila.
+
+   Lo único que estira es la barra, con la altura en porcentaje de su pista. Y
+   como un atributo `style` con la altura sería «inline style» y la CSP dice
+   `default-src 'none'`, la altura viaja en una CLASE de una tabla fija
+   (`.h0`…`.h100`, generada abajo): no crece con las gráficas ni con las barras.
+   (Este párrafo llevaba el atributo escrito literal y lo cazó
+   `test_sin_atributos_style_en_el_html`, que busca la cadena en el HTML servido
+   y no distingue un comentario de un atributo. No se ablanda el gate por un
+   comentario: se reescribe el comentario.) */
+.grafico { overflow-x:auto; padding-bottom:2px; }
+ol.columnas { display:flex; align-items:stretch; gap:8px; list-style:none;
+  margin:0; padding:0; min-width:100%; width:max-content; }
+ol.columnas li { flex:1 1 0; min-width:44px; max-width:72px; display:flex;
+  flex-direction:column; align-items:center; gap:4px; }
+/* `.dato`, NO `.cifra`: esa clase ya es de las tarjetas de KPI (min-width:150px)
+   y reusarla forzaba columnas de 150 px — solo cabían dos por tarjeta. */
+.columnas .dato { font-size:12px; color:var(--suave); line-height:1.2;
+  white-space:nowrap; }
+.columnas .pista { display:flex; align-items:flex-end; justify-content:center;
+  width:100%; height:120px; }
+.columnas .col { display:block; width:100%; background:var(--barra);
+  border-radius:3px 3px 0 0; min-height:0; }
+/* El rótulo va VERTICAL: bajo una columna de 44 px no cabe una fecha en
+   horizontal, y `writing-mode` —a diferencia de `transform:rotate`— SÍ ocupa
+   sitio en el layout, así que la banda reserva su alto sola y el recorte con
+   puntos suspensivos sigue funcionando. */
+.columnas .rotulo { writing-mode:vertical-rl; transform:rotate(180deg);
+  font-size:12px; color:var(--suave); line-height:1; max-height:88px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .leyenda { margin:8px 0 0; font-size:12px; color:var(--suave); }
 .banda { border-radius:var(--radio); padding:10px 12px; margin:0 0 12px; font-size:14px; }
 .banda.error { background:var(--malo-fondo); color:var(--malo); }
@@ -503,6 +534,10 @@ footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
   form label { width:100%; }
   input, select { min-width:0; width:100%; }
   .tarjeta { padding:14px; }
+  /* La pista baja de 120 a 96 px: en un móvil la tarjeta ya es alta y con nueve
+     gráficas cada centímetro cuenta. La LETRA no baja — es lo que pidió Alberto
+     («el mismo tamaño de letra») y es justo lo que el SVG no podía darle. */
+  .columnas .pista { height:96px; }
   .cifra .valor { font-size:22px; }
   table { font-size:13px; }
   td, th { padding:8px 6px; }
@@ -531,7 +566,8 @@ footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
 ::-webkit-scrollbar-track { background:var(--fondo); }
 ::-webkit-scrollbar-thumb { background:var(--linea); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:#4a5568; }
-"""
+""" + "".join(
+    f".columnas .col.h{i} {{ height:{i}%; }}\n" for i in range(_PASOS_ALTURA))
 
 
 def pagina(titulo: str, cuerpo, *, nonce: str, usuario: str | None = None,

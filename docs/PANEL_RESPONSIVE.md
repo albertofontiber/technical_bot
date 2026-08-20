@@ -22,15 +22,21 @@
 1. **Una sola regla de rejilla, sin media queries**: `repeat(auto-fit, minmax(280px, 1fr))`.
    La portada pasa de 1 a 2 a 3 columnas según lo que quepa. No hay breakpoint que recordar
    ni que mantener sincronizado con nada.
-2. **SVG fluido HACIA ABAJO, topado hacia arriba, y con UNA sola escala** (corregido en s328).
-   Los gráficos llevan `viewBox` y ninguna medida en píxeles —con las medidas fijas de antes
-   (410 px) se salían de la pantalla—, pero «fluido» a secas resultó estar mal a medias:
-   sin tope, en una tarjeta ancha de escritorio el SVG se pintaba a **×2,29** y parecía un zoom.
-   Y como los rótulos iban en `<div>`s de 28 px FIJOS al lado del SVG, eran **dos sistemas de
-   coordenadas** que solo coincidían cuando el SVG salía a 1 unidad = 1 px: fuera de ahí las filas
-   se despegaban de sus rótulos (264 px a 1440, **81 px a 390** — en móvil también, sobre un
-   layout dado por verificado). Ahora el rótulo va DENTRO del SVG (una escala, no dos) y el CSS
-   topa el ancho en el del `viewBox` (`render.ANCHO_GRAFICO`, cruzado con el CSS en un test).
+2. **El gráfico es HTML, no SVG — y por eso la letra no escala** (s328b). Fue SVG dos veces y las
+   dos salió mal: con medidas fijas se salía del móvil; fluido, escalaba **todo**, así que en una
+   tarjeta estrecha los rótulos caían a ~8 px y en una ancha el gráfico se pintaba a ×2,29 (lo que
+   Alberto llamó «zoom»). No hay ajuste que lo arregle: **una escala uniforme mueve el texto por
+   definición**. En HTML el texto es texto —12 px son 12 px a cualquier anchura— y lo único que
+   estira es la barra, con la altura en porcentaje. De paso desaparece la clase de fallo entera de
+   s328: no hay dos sistemas de coordenadas que puedan desalinearse, porque el rótulo y su columna
+   son hijos del **mismo** `<li>`.
+   · **Columnas, no barras horizontales** (adjudicación de Alberto): «que salgan de izquierda a
+   derecha, no de arriba a abajo». Para una serie temporal es además lo correcto — el tiempo avanza
+   hacia la derecha, y las vistas temporales ya venían invertidas para eso.
+   · **La altura viaja en una CLASE** (`.h0`…`.h100`, tabla fija de 101 reglas en la hoja): un
+   atributo de estilo sería «inline style» y obligaría a abrir la CSP con `unsafe-inline`.
+   · **El rótulo va vertical** (`writing-mode`, que a diferencia de `transform:rotate` sí ocupa
+   sitio en el layout): bajo una columna de 44 px no cabe una fecha en horizontal.
 3. **La navegación envuelve, no se esconde**: cinco pestañas en dos líneas. Un scroll horizontal
    de tabs oculta pestañas y nadie las busca.
 4. **El header reordena con `flex:1 0 100%`, no con `width:100%`** — el `nav` hereda
@@ -53,12 +59,20 @@ layout, no los datos— y la recorre con Chromium en **390 / 768 / 1440** afirma
 | Invariante | Cómo se mide | Por qué |
 |---|---|---|
 | No desborda | `scrollWidth == clientWidth` | el scroll lateral esconde columnas sin decirlo |
-| No se **amplía** | `ancho pintado / viewBox ≤ 1` | la regresión de s327; encoger sí, ampliar no |
-| Rótulo a la altura de su barra | centros verticales a < 3 px | la consecuencia visible de tener dos escalas |
+| **La letra no escala** | todo el texto del gráfico y la leyenda, al mismo tamaño computado | lo que pidió Alberto, y lo que ningún SVG escalado puede dar |
+| Rótulo centrado bajo su columna | centros horizontales a < 3 px | heredero del invariante de s328 |
+| Ningún rótulo **cortado** | `scrollHeight == clientHeight` del rótulo | el recorte lo hace Python con «…»; si además el CSS corta, el gráfico miente |
+| Ningún SVG se amplía | `ancho pintado / viewBox ≤ 1` | hoy no hay SVG; la sonda se conserva armada |
 
-La tercera sonda busca el rótulo dentro del SVG **y también** en una columna HTML hermana: si
-alguien vuelve a partir el gráfico en dos sistemas de coordenadas, el gate lo ve igual.
-**Control negativo ejecutado**: con el render de s327, 13 rojos; con el arreglo, 39 verdes.
+**Controles VERSIONADOS, en las dos direcciones** — el gate incluye páginas sintéticas con el fallo
+(un SVG que se amplía; unas columnas descentradas y con otra letra) y exige que la sonda las marque,
+más una con el render vigente y la hoja de estilo real que exige que **no** la marque. Sin la
+segunda mitad, una sonda que dijera «roto» siempre pasaría la primera.
+
+Y el arnés (`scripts/s328_panel_servidor_de_medida.py`) siembra **los rótulos reales más hostiles**
+(`catalogo_especificaciones`) y respeta el ORDEN de cada vista: con etiquetas cortas el gate del
+recorte pasaba en vacío, y con fechas ascendentes el gráfico salía del revés y parecía un fallo del
+código. Un doble perezoso no verifica, tranquiliza.
 
 **Gaps declarados**: mide **Chromium** (Safari/iOS no entra, y el técnico en obra puede llevar un
 iPhone) y mide **geometría, no estética** — que nada desborde ni se amplíe no dice que se vea bien.

@@ -14,6 +14,8 @@ el CSS lleva la regla anti-zoom de iOS que documenta el war room.
 """
 from __future__ import annotations
 
+import re
+
 import pytest
 
 from dashboard import app as panel
@@ -88,8 +90,8 @@ def test_toda_grafica_declarada_tiene_leyenda():
 
 
 def test_la_leyenda_se_pinta_bajo_las_barras():
-    html = str(render.barras([("Detnov", 4)], unidad="consultas",
-                             leyenda="Suma de las semanas cargadas"))
+    html = str(render.columnas([("Detnov", 4)], unidad="consultas",
+                               leyenda="Suma de las semanas cargadas"))
     assert 'class="leyenda"' in html and "Suma de las semanas cargadas" in html
 
 
@@ -139,52 +141,56 @@ def test_una_ruta_bajo_metricas_que_no_existe_no_abre_nada():
 # -------------------------------------------------------------------- móvil
 
 
-def test_el_svg_es_fluido_y_no_lleva_medidas_fijas():
-    """Con `width="410"` el gráfico se sale de un iPhone. El tamaño lo pone el
-    CSS; el SVG solo lleva su sistema de coordenadas."""
-    html = str(render.barras([("Detnov", 4), ("Notifier", 2)]))
-    cabecera = html[html.index("<svg"):html.index(">", html.index("<svg"))]
-    assert "viewBox=" in cabecera
-    assert "width=" not in cabecera and "height=" not in cabecera
-    assert "svg.grafico { display:block; width:100%;" in render._ESTILO
+def test_s328b_el_rotulo_y_su_columna_son_EL_MISMO_elemento():
+    """La clase de fallo de s328, ELIMINADA en vez de vigilada.
 
-
-def test_s328_grafico_una_sola_escala():
-    """LA regresión de s327, convertida en gate.
-
-    Fluido SIN tope y con los rótulos FUERA del SVG eran dos sistemas de
-    coordenadas que solo coincidían cuando el SVG se pintaba a 1 unidad = 1 px.
-    En una tarjeta ancha escalaba ~3× y las filas se despegaban de sus rótulos.
-    Las dos mitades del arreglo, cerradas aquí:
-
-      1. los rótulos van DENTRO del SVG (una escala, no dos);
-      2. el `max-width` del CSS es EXACTAMENTE el ancho del `viewBox` — si
-         alguien mueve una de las dos cifras sin la otra, vuelve el desajuste.
+    Aquella era «dos sistemas de coordenadas que tienen que coincidir»: el SVG
+    escalaba y los rótulos, en HTML aparte, no. Con columnas HTML el rótulo y su
+    barra son hijos del MISMO `<li>` de la rejilla, así que no hay dos cosas que
+    puedan desalinearse — no queda nada que medir, queda que comprobar que la
+    estructura es esa.
     """
-    html = str(render.barras([("2026-08-08", 2), ("2026-08-09", 5)]))
-    svg = html[html.index("<svg"):html.index("</svg>")]
-
-    # (1) el rótulo está dentro del SVG, y NO queda ninguna columna HTML aparte
-    assert "2026-08-08" in svg
-    assert 'class="etiquetas"' not in html and 'class="etiqueta"' not in html
-    assert html.lstrip().startswith("<svg")
-
-    # (2) viewBox y tope del CSS son el mismo número
-    cabecera = html[html.index("<svg"):html.index(">", html.index("<svg"))]
-    assert f'viewBox="0 0 {render.ANCHO_GRAFICO} ' in cabecera
-    assert f"max-width:{render.ANCHO_GRAFICO}px" in render._ESTILO
+    html = str(render.columnas([("2026-08-17", 3), ("2026-08-18", 9)]))
+    celdas = re.findall(r"<li .*?</li>", html)
+    assert len(celdas) == 2
+    for celda in celdas:
+        assert 'class="pista"' in celda and 'class="rotulo"' in celda
+    assert "<svg" not in html          # ya no hay SVG que pueda escalar
 
 
-def test_s328_cada_fila_lleva_su_propio_title():
-    """El rótulo se recorta a 16 caracteres, así que el texto completo TIENE que
-    seguir alcanzable. Sueltos como hermanos del `<svg>` los `<title>` no eran
-    tooltips de fila —solo contaba el primero, como nombre del gráfico—; ahora
-    cada fila es un `<g>` con el suyo."""
-    largo = "Morley-IAS Serie 5000 ampliada"
-    html = str(render.barras([(largo, 3), ("Detnov", 1)], unidad="consultas"))
-    assert html.count("<g><title>") == 2
-    assert f"<title>{largo}: 3 consultas</title>" in html      # completo
-    assert ">Morley-IAS Seri…<" in html                        # recortado
+def test_s328b_la_altura_viaja_en_CLASE_y_no_en_un_atributo():
+    """La CSP dice `default-src 'none'`: la geometría de la barra no puede ir en
+    un atributo de estilo. Va en una clase de una tabla fija que la hoja de
+    estilo trae entera, y por eso el gate de `style=` sigue verde."""
+    html = str(render.columnas([("a", 1), ("b", 4)]))
+    assert "style=" not in html
+    clases = re.findall(r'class="col h(\d+)"', html)
+    assert clases == ["25", "100"]                    # 1/4 y 4/4
+    for altura in clases:
+        assert f".columnas .col.h{altura} {{ height:{altura}%; }}" in render._ESTILO
+
+
+def test_s328b_la_tabla_de_alturas_esta_ENTERA_en_la_hoja():
+    """Una barra con una altura sin regla se pintaría a cero, en silencio."""
+    reglas = re.findall(r"\.columnas \.col\.h(\d+) \{", render._ESTILO)
+    assert sorted(int(x) for x in reglas) == list(range(render._PASOS_ALTURA))
+
+
+def test_s328b_un_valor_pequeno_no_se_lee_como_cero():
+    """1 de 1000 es «poco», no «nada»: la barra baja hasta 1 %, no hasta 0. El
+    0 de verdad SÍ es 0 — «hoy no hubo tráfico» es un dato."""
+    html = str(render.columnas([("mucho", 1000), ("poco", 1), ("nada", 0)]))
+    assert re.findall(r'class="col h(\d+)"', html) == ["100", "1", "0"]
+
+
+def test_s328b_el_rotulo_largo_se_recorta_pero_no_se_pierde():
+    """Bajo una columna de 44 px no cabe `catalogo_especificaciones`. Se recorta
+    en pantalla y el texto completo queda en el `title` de la columna."""
+    largo = "catalogo_especificaciones"
+    html = str(render.columnas([(largo, 3)], unidad="consultas"))
+    assert f'title="{largo}: 3 consultas"' in html
+    assert ">catalogo_es…<" in html       # 12 caracteres, `_ROTULO_MAX`
+    assert f">{largo}<" not in html
 
 
 def test_el_css_lleva_las_reglas_de_movil_del_war_room():
@@ -293,5 +299,5 @@ def test_la_portada_acota_las_barras_para_que_quepa(doble):
     portada = str(panel._grafico_de_vista(vista, muchas,
                                           tope=panel.BARRAS_EN_PORTADA))
     detalle = str(panel._grafico_de_vista(vista, muchas))
-    assert portada.count("<rect") == 5
-    assert detalle.count("<rect") == 12
+    assert portada.count("<li ") == 5
+    assert detalle.count("<li ") == 12

@@ -9,14 +9,18 @@ también, 81 px, sobre un layout que yo había dado por verificado. La causa de
 que no se viera es estructural: los demás tests llaman a `render.*` y miran el
 HTML, y **la geometría no está en el HTML, la calcula el navegador**.
 
-LOS TRES INVARIANTES, todos medidos sobre pantalla:
+LOS INVARIANTES, todos medidos sobre pantalla:
   1. **no desborda** — `scrollWidth == clientWidth` (el de s327, conservado);
-  2. **no se AMPLÍA** — ningún SVG se pinta a más de 1 unidad de `viewBox` por
-     píxel; hacia abajo sí encoge, que es lo que lo hace fluido;
-  3. **el rótulo está a la altura de su barra** — centros verticales a menos de
-     3 px. La sonda busca el rótulo dentro del SVG *y también* en una columna
-     HTML hermana, para no quedarse ciega si alguien vuelve a partir el
-     gráfico en dos sistemas de coordenadas: ese era el defecto.
+  2. **la letra del gráfico NO escala** — todo el texto de las gráficas se pinta
+     al MISMO tamaño, y ese tamaño es el del resto de la página. Es lo que pidió
+     Alberto («el mismo tamaño de letra») y lo que ningún SVG escalado puede
+     dar: una escala uniforme mueve el texto por definición. Con columnas HTML
+     12 px son 12 px a cualquier anchura, y este invariante lo afirma;
+  3. **el rótulo está centrado bajo su columna** — centros horizontales a menos
+     de 3 px;
+  4. **ningún SVG se amplía**, si alguna vez vuelve a haber uno. Hoy el panel no
+     pinta SVG; la sonda se conserva porque es la que caza la clase de fallo de
+     s327 y cuesta cero mantenerla.
 
 Se SALTA si no hay Playwright o Chromium. No es opcional por comodidad: el
 workflow `s328-panel-geometria.yml` lo corre con navegador siempre, y aquí se
@@ -120,44 +124,49 @@ def panel_servido():
 #: llame. Y un SVG sin `viewBox` ya no se salta: no se le puede medir la escala,
 #: pero la ALINEACIÓN sí, y saltarlo hacía que el test 3 pasara en vacío.
 _SONDA = """() => {
-    const centro = e => { const r = e.getBoundingClientRect();
-                          return (r.top + r.bottom) / 2; };
-    const anchoNatural = svg => {
-        if (svg.viewBox && svg.viewBox.baseVal.width) return svg.viewBox.baseVal.width;
-        const attr = parseFloat(svg.getAttribute('width'));
-        return Number.isFinite(attr) && attr > 0 ? attr : null;
-    };
-    const rotulosDe = svg => {
-        const dentro = [...svg.querySelectorAll('text')];
-        if (dentro.length) return dentro.filter(e => !e.closest('title'));
-        const padre = svg.parentElement;
-        if (!padre) return [];
-        return [...padre.querySelectorAll('*')].filter(e =>
-            !svg.contains(e) && e !== svg && e.children.length === 0 &&
-            (e.textContent || '').trim().length > 0);
-    };
+    const centroX = e => { const r = e.getBoundingClientRect();
+                           return (r.left + r.right) / 2; };
+    const px = e => parseFloat(getComputedStyle(e).fontSize);
     const raiz = document.documentElement;
-    let escala = null, desalineo = 0, svgs = 0;
-    for (const svg of document.querySelectorAll('svg')) {
-        svgs++;
-        const natural = anchoNatural(svg);
-        if (natural) {
-            const s = svg.getBoundingClientRect().width / natural;
-            escala = escala === null ? s : Math.max(escala, s);
-        }
-        const barras = [...svg.querySelectorAll('rect')];
-        const rotulos = rotulosDe(svg);
-        // Se emparejan por ORDEN: la fila i-ésima con el rótulo i-ésimo. Si el
-        // SVG mete dos textos por fila (rótulo + valor), se toma el primero de
-        // cada pareja quedándose con los que empiezan la fila.
-        const porFila = rotulos.length >= barras.length * 2
-            ? rotulos.filter((_, i) => i % 2 === 0) : rotulos;
-        for (let i = 0; i < Math.min(barras.length, porFila.length); i++)
-            desalineo = Math.max(desalineo,
-                Math.abs(centro(barras[i]) - centro(porFila[i])));
+
+    // (2) tamaños de letra REALES de todo el texto de las gráficas + el de la
+    // leyenda, que es el texto pequeño de referencia del resto de la página.
+    const tamanos = [];
+    for (const e of document.querySelectorAll(
+            '.columnas .rotulo, .columnas .dato, .leyenda'))
+        tamanos.push(px(e));
+
+    // (3) cada rótulo, centrado bajo SU columna
+    let descentrado = 0, celdas = 0;
+    for (const li of document.querySelectorAll('ol.columnas > li')) {
+        const barra = li.querySelector('.pista'), rot = li.querySelector('.rotulo');
+        if (!barra || !rot) continue;
+        celdas++;
+        descentrado = Math.max(descentrado, Math.abs(centroX(barra) - centroX(rot)));
     }
+
+    // (4) ningún rótulo CORTADO por el CSS. El recorte a `_ROTULO_MAX` lo hace
+    // Python y acaba en «…»; si además la banda se queda corta, el texto se
+    // parte sin avisar y el gráfico miente sobre qué está midiendo.
+    let recortado = 0;
+    for (const rot of document.querySelectorAll('.columnas .rotulo'))
+        recortado = Math.max(recortado, rot.scrollHeight - rot.clientHeight);
+
+    // (5) si algún día vuelve a haber SVG, que no se amplíe
+    let escala = null;
+    for (const svg of document.querySelectorAll('svg')) {
+        const vb = svg.viewBox && svg.viewBox.baseVal.width;
+        const attr = parseFloat(svg.getAttribute('width'));
+        const natural = vb || (Number.isFinite(attr) && attr > 0 ? attr : null);
+        if (!natural) continue;
+        const s = svg.getBoundingClientRect().width / natural;
+        escala = escala === null ? s : Math.max(escala, s);
+    }
+
     return {desborde: raiz.scrollWidth - raiz.clientWidth,
-            escala: escala, desalineo: desalineo, svgs: svgs};
+            tamanos: tamanos, descentrado: descentrado, celdas: celdas,
+            recortado: recortado, escala: escala,
+            svgs: document.querySelectorAll('svg').length};
 }"""
 
 
@@ -196,74 +205,74 @@ def medidas(panel_servido):
 @pytest.mark.parametrize("ancho", ANCHOS)
 @pytest.mark.parametrize("ruta", RUTAS)
 def test_ninguna_pagina_desborda_a_lo_ancho(medidas, ancho, ruta):
-    """El scroll horizontal en un móvil esconde columnas sin decirlo."""
+    """El scroll horizontal en un móvil esconde columnas sin decirlo. Que una
+    gráfica con muchas columnas scrollee DENTRO de su caja es correcto; que
+    scrollee la PÁGINA, no."""
     assert medidas[(ancho, ruta)]["desborde"] == 0, json.dumps(
         medidas[(ancho, ruta)])
 
 
 @pytest.mark.parametrize("ancho", ANCHOS)
 @pytest.mark.parametrize("ruta", RUTAS)
-def test_ningun_grafico_se_amplia_por_encima_de_su_tamano_natural(
-        medidas, ancho, ruta):
-    """LA regresión de s327: sin tope, en una tarjeta ancha el SVG se pintaba
-    a ×2,3 y parecía un zoom. Encoger sí; ampliar no."""
-    escala = medidas[(ancho, ruta)]["escala"]
-    if escala is None:
-        assert medidas[(ancho, ruta)]["svgs"] == 0, \
-            "hay SVG y no se le pudo medir el ancho natural: la sonda estaría ciega"
+def test_la_letra_del_grafico_no_escala_y_es_la_de_la_pagina(medidas, ancho, ruta):
+    """LA petición de Alberto, convertida en invariante: «el mismo tamaño de
+    letra». Todo el texto de las gráficas —rótulos y cifras— se pinta al mismo
+    tamaño, y ese tamaño es el de la leyenda, que es el texto pequeño del resto
+    de la página. Un SVG escalado NO puede cumplir esto: la escala mueve el
+    texto. Por eso el gráfico dejó de ser un SVG."""
+    tamanos = medidas[(ancho, ruta)]["tamanos"]
+    if not tamanos:
         pytest.skip("esta página no pinta gráficas")
-    assert escala <= ESCALA_MAX, f"{ruta}@{ancho}: ampliado ×{escala:.2f}"
+    assert len(set(round(x, 2) for x in tamanos)) == 1, (
+        f"{ruta}@{ancho}: la letra del gráfico no es uniforme: {sorted(set(tamanos))}")
 
 
 @pytest.mark.parametrize("ancho", ANCHOS)
 @pytest.mark.parametrize("ruta", RUTAS)
-def test_cada_rotulo_esta_a_la_altura_de_su_barra(medidas, ancho, ruta):
-    """La consecuencia visible de tener DOS escalas: las filas se despegan de
-    sus rótulos. Medido en s327 antes del arreglo: 264 px a 1440 y 81 px a 390."""
-    desalineo = medidas[(ancho, ruta)]["desalineo"]
-    assert desalineo <= DESALINEO_MAX_PX, \
-        f"{ruta}@{ancho}: rótulo a {desalineo:.1f} px de su barra"
+def test_cada_rotulo_esta_centrado_bajo_su_columna(medidas, ancho, ruta):
+    """El heredero del invariante de s328. Entonces medía «el rótulo a la altura
+    de su barra» porque eran dos sistemas de coordenadas; ahora rótulo y columna
+    son el mismo `<li>`, así que esto debería ser imposible de romper — se mide
+    igual, porque «debería ser imposible» es exactamente lo que se decía del
+    layout anterior."""
+    medida = medidas[(ancho, ruta)]
+    if not medida["celdas"]:
+        pytest.skip("esta página no pinta gráficas")
+    assert medida["descentrado"] <= DESALINEO_MAX_PX, \
+        f"{ruta}@{ancho}: rótulo a {medida['descentrado']:.1f} px del centro"
 
 
-# ------------------------------------------------- el control negativo, VERSIONADO
-
-#: Reconstrucción MÍNIMA del render de s327: SVG fluido SIN tope + los rótulos
-#: FUERA, en filas HTML de 28 px fijos. Las dos mitades solo cuadran cuando el
-#: SVG se pinta a 1 unidad = 1 px; en un contenedor ancho el SVG escala y los
-#: rótulos no. Es exactamente el bug que Alberto vio.
-_PAGINA_ROTA = """<!doctype html><html><head><style>
-  body { margin:0; width:1200px; }
-  .grafico { display:flex; gap:12px; align-items:flex-start; }
-  .grafico svg { width:100%; height:auto; flex:1; }   /* fluido y SIN max-width */
-  .etiquetas { flex:0 0 auto; padding-top:3px; }
-  .etiqueta { height:22px; margin-bottom:6px; line-height:22px; font-size:13px; }
-</style></head><body><div class="grafico">
-  <div class="etiquetas">
-    <div class="etiqueta">2026-08-08</div><div class="etiqueta">2026-08-09</div>
-    <div class="etiqueta">2026-08-10</div><div class="etiqueta">2026-08-11</div>
-  </div>
-  <svg viewBox="0 0 410 112" preserveAspectRatio="xMinYMin meet">
-    <rect x="0" y="0"  width="200" height="22" rx="3"></rect>
-    <rect x="0" y="28" width="300" height="22" rx="3"></rect>
-    <rect x="0" y="56" width="120" height="22" rx="3"></rect>
-    <rect x="0" y="84" width="410" height="22" rx="3"></rect>
-  </svg></div></body></html>"""
+@pytest.mark.parametrize("ancho", ANCHOS)
+@pytest.mark.parametrize("ruta", RUTAS)
+def test_ningun_rotulo_se_corta_por_el_css(medidas, ancho, ruta):
+    """El rótulo largo lo recorta PYTHON, con puntos suspensivos y el texto
+    completo en el `title`. Si además la banda del CSS se queda corta, el texto
+    se parte en silencio y la gráfica miente sobre qué está midiendo."""
+    medida = medidas[(ancho, ruta)]
+    if not medida["celdas"]:
+        pytest.skip("esta página no pinta gráficas")
+    assert medida["recortado"] == 0, \
+        f"{ruta}@{ancho}: rótulo cortado {medida['recortado']} px por el CSS"
 
 
-def test_la_sonda_DISCRIMINA_el_render_roto_de_s327():
-    """EL CONTROL NEGATIVO, dentro del repo y no en prosa.
+@pytest.mark.parametrize("ancho", ANCHOS)
+@pytest.mark.parametrize("ruta", RUTAS)
+def test_ningun_svg_se_amplia(medidas, ancho, ruta):
+    """Hoy el panel no pinta SVG. Se conserva porque es la sonda que caza la
+    clase de fallo de s327 y no cuesta nada tenerla armada."""
+    medida = medidas[(ancho, ruta)]
+    if medida["escala"] is None:
+        assert medida["svgs"] == 0, "hay SVG sin ancho natural medible"
+        pytest.skip("esta página no pinta SVG")
+    assert medida["escala"] <= ESCALA_MAX, \
+        f"{ruta}@{ancho}: SVG ampliado ×{medida['escala']:.2f}"
 
-    Fable (s328) señaló que «13 rojos con el render de s327» era una afirmación
-    mía no reproducible: ese render ya no existe en el árbol, así que la única
-    evidencia de que el gate discrimina vivía en un comentario. Aquí el patrón
-    roto se reconstruye en una página sintética y se le exige a la sonda que lo
-    marque — si alguien ablanda la sonda, este test se pone rojo antes de que el
-    gate empiece a mentir en verde.
 
-    Lo que se afirma sobre la página rota, con la MISMA sonda del gate:
-      · se AMPLÍA (el SVG se pinta a más de 1 unidad de `viewBox` por píxel);
-      · el rótulo NO está a la altura de su barra.
-    """
+# ------------------------------------------------- los controles, VERSIONADOS
+
+
+def _medir(html: str, ancho: int = 1200) -> dict:
+    """Pasa la MISMA sonda del gate por una página cualquiera."""
     from playwright.sync_api import Error as ErrorPlaywright, sync_playwright
 
     with sync_playwright() as pw:
@@ -275,52 +284,82 @@ def test_la_sonda_DISCRIMINA_el_render_roto_de_s327():
         except ErrorPlaywright as exc:                       # noqa: BLE001
             _sin_navegador(f"sin Chromium utilizable: {exc}")
         try:
-            pagina = navegador.new_page(viewport={"width": 1200, "height": 600})
-            pagina.set_content(_PAGINA_ROTA)
-            medida = pagina.evaluate(_SONDA)
+            pagina = navegador.new_page(viewport={"width": ancho, "height": 600})
+            pagina.set_content(html)
+            return pagina.evaluate(_SONDA)
         finally:
             navegador.close()
 
+
+#: Reconstrucción MÍNIMA del render de s327: SVG fluido SIN tope. Es el bug que
+#: Alberto vio como «zoom». El gráfico ya no es un SVG, pero la sonda que lo
+#: cazaba sigue armada y este control demuestra que sigue viva.
+_PAGINA_SVG_QUE_SE_AMPLIA = """<!doctype html><html><head><style>
+  body { margin:0; width:1200px; }
+  svg { width:100%; height:auto; }        /* fluido y SIN max-width */
+</style></head><body>
+  <svg viewBox="0 0 410 56"><rect x="0" y="0" width="200" height="22"></rect></svg>
+</body></html>"""
+
+
+#: El fallo que le toca vigilar a la estructura NUEVA: el rótulo deja de estar
+#: bajo su columna, y la letra del gráfico deja de ser la de la página.
+_PAGINA_COLUMNAS_ROTA = """<!doctype html><html><head><style>
+  body { margin:0; width:1200px; }
+  ol.columnas { display:flex; gap:8px; list-style:none; margin:0; padding:0; }
+  ol.columnas li { flex:1 1 0; display:flex; flex-direction:column; }
+  .columnas .pista { height:120px; display:flex; align-items:flex-end; }
+  .columnas .col { width:100%; height:60%; background:#66f; }
+  .columnas .dato { font-size:12px; }
+  .columnas .rotulo { font-size:19px; margin-left:60px; }  /* ni centrado ni 12px */
+  .leyenda { font-size:12px; }
+</style></head><body><ol class="columnas">
+  <li><span class="dato">3</span><span class="pista"><span class="col"></span></span>
+      <span class="rotulo">2026-08-17</span></li>
+  <li><span class="dato">9</span><span class="pista"><span class="col"></span></span>
+      <span class="rotulo">2026-08-18</span></li>
+</ol><p class="leyenda">consultas por día</p></body></html>"""
+
+
+def test_la_sonda_DISCRIMINA_un_svg_que_se_amplia():
+    """El control negativo de s328, conservado. Era prosa («13 rojos con el
+    render de s327») hasta que Fable señaló que nadie podía reproducirlo; desde
+    entonces el patrón roto vive aquí. El gráfico ya no es un SVG, pero la sonda
+    sigue armada y esto prueba que no se ha quedado ciega por el camino."""
+    medida = _medir(_PAGINA_SVG_QUE_SE_AMPLIA)
     assert medida["svgs"] == 1, medida
     assert medida["escala"] > ESCALA_MAX, (
-        f"la sonda NO ve la ampliación del render roto: {json.dumps(medida)}")
-    assert medida["desalineo"] > DESALINEO_MAX_PX, (
-        f"la sonda NO ve el desalineo del render roto: {json.dumps(medida)}")
+        f"la sonda NO ve la ampliación: {json.dumps(medida)}")
+
+
+def test_la_sonda_DISCRIMINA_columnas_descentradas_y_con_otra_letra():
+    """El control del fallo que le toca vigilar a la estructura NUEVA.
+
+    Sin esto, los dos invariantes de columnas serían afirmaciones sin probar:
+    un gate que nunca ha visto su fallo no se sabe si lo vería."""
+    medida = _medir(_PAGINA_COLUMNAS_ROTA)
+    assert medida["celdas"] == 2, medida
+    assert medida["descentrado"] > DESALINEO_MAX_PX, (
+        f"la sonda NO ve el descentrado: {json.dumps(medida)}")
+    assert len(set(round(x, 2) for x in medida["tamanos"])) > 1, (
+        f"la sonda NO ve la letra desigual: {json.dumps(medida)}")
 
 
 def test_la_sonda_da_verde_al_render_VIGENTE():
     """La otra mitad del control: la sonda no marca lo que está bien.
 
-    Sin esto, una sonda que dijera «roto» siempre pasaría el test de arriba.
-    Se le da el SVG que `render.barras` produce HOY, con el tope del CSS puesto.
-    """
-    from playwright.sync_api import Error as ErrorPlaywright, sync_playwright
-
+    Sin esto, una sonda que dijera «roto» siempre pasaría los dos de arriba. Se
+    le da lo que `render.columnas` produce HOY con la hoja de estilo REAL."""
     from dashboard import render
 
-    grafico = str(render.barras([("2026-08-08", 2), ("2026-08-09", 5),
-                                 ("2026-08-10", 1)], unidad="consultas"))
-    pagina_sana = (
+    grafico = str(render.columnas(
+        [("2026-08-17", 2), ("2026-08-18", 5), ("2026-08-19", 1)],
+        unidad="consultas", leyenda="Consultas RAG por día"))
+    medida = _medir(
         "<!doctype html><html><head><style>body{margin:0;width:1200px;}"
-        f"svg.grafico{{display:block;width:100%;height:auto;"
-        f"max-width:{render.ANCHO_GRAFICO}px;}}"
-        "svg.grafico .rotulo{font-size:13px;}</style></head><body>"
-        f"{grafico}</body></html>")
+        f"{render._ESTILO}</style></head><body>{grafico}</body></html>")
 
-    with sync_playwright() as pw:
-        try:
-            navegador = (pw.chromium.launch(
-                             executable_path=str(CHROMIUM_DEL_ENTORNO))
-                         if CHROMIUM_DEL_ENTORNO.exists()
-                         else pw.chromium.launch())
-        except ErrorPlaywright as exc:                       # noqa: BLE001
-            _sin_navegador(f"sin Chromium utilizable: {exc}")
-        try:
-            pagina = navegador.new_page(viewport={"width": 1200, "height": 600})
-            pagina.set_content(pagina_sana)
-            medida = pagina.evaluate(_SONDA)
-        finally:
-            navegador.close()
-
-    assert medida["escala"] <= ESCALA_MAX, json.dumps(medida)
-    assert medida["desalineo"] <= DESALINEO_MAX_PX, json.dumps(medida)
+    assert medida["celdas"] == 3, medida
+    assert medida["descentrado"] <= DESALINEO_MAX_PX, json.dumps(medida)
+    assert len(set(round(x, 2) for x in medida["tamanos"])) == 1, json.dumps(medida)
+    assert medida["svgs"] == 0, json.dumps(medida)
