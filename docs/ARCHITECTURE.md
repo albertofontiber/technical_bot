@@ -17,9 +17,16 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s327–s329 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y CUATRO PROMESAS SON PUERTAS.**
+> **Estado s327–s330 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y LA RETENCIÓN ALCANZA A TODO.**
 > Un solo bloque para todo el día: seis sub-sesiones encadenadas, cuya narración vive en
-> `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-255.
+> `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-256.
+>
+> **La retención, completa.** El job mensual `rgpd_retencion_pasada` (pg_cron, ventana de 24 meses
+> como invariante RLS, recibo en la base) pasa de 4 a **7 tablas**: entran `bot_invitaciones`,
+> `bot_allowlist` y `panel_usuarios`, cerrando el «PENDIENTE MATERIAL (art. 5.1.e)». **Escrito y
+> probado (53/53 contra PostgreSQL 17 real), pendiente de APLICAR.** Por el camino: la sentencia
+> del runbook para el **derecho de supresión** la base la rechazaba —mal en cuatro sitios— y queda
+> arreglada; el tercer estado `disociada_at` es lo que lo hace posible (DEC-256).
 >
 > **Lo estructural.** `es_pregunta` deja de ser categoría y pasa a **eje** (columna, migración 023):
 > tema y «¿esto pide algo?» son ortogonales, y mezclarlos perdía siempre una de las dos. Las 8

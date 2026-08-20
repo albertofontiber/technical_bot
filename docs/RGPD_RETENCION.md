@@ -219,9 +219,9 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Diagnóstico de un error del bot** (clase, tipo de excepción, `modulo.py:línea`, severidad, si el técnico recibió aviso, y `mensaje_corto` = `str(exc)` REDACTADO a 200 chars) | `bot_errors` (s324e — **migración 015 NO aplicada**) | Saber qué falla y dónde, para arreglarlo | Sigue a su consulta cuando la hay | CASCADE vía `query_log_id`. ⚠️ Es dato **ENLAZABLE**, no «sin dato personal» (r37): la FK permite llegar a la pregunta y al autor. Las filas SIN consulta (fallo sin texto, o autor sin consentimiento) quedan sueltas y ya no identifican a nadie | Se conserva: la tabla no lleva `telegram_user_id` ni texto propio, así que el job no tiene nada que disociar aquí y no necesita una quinta política |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
 | **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | ⚠️ Son datos **seudonimizados** mientras viva la correspondencia (uuid → fila → seudónimo → persona): solo lectura del operador; su plazo entra en el mismo **[DECIDIR]** que `user_consent` | Las filas referidas se borran por cascada; los uuid del recibo quedan apuntando a nada (inofensivo, declarado) | Nada |
-| **Quién puede usar el bot** (`telegram_user_id` = identificador DIRECTO; `nota` = nombre/cargo en texto libre; `alta_por`/`revocado_por` = etiqueta del OPERADOR que decidió) | `bot_allowlist` (s324e — **016 aplicada el 17-ago-2026**) | Control de acceso del piloto por invitación: gasto, confidencialidad del corpus y no registrar consultas de quien no fue invitado | ⚠️ **SIN PLAZO — gap material abierto** (ver «PENDIENTE MATERIAL» arriba: propuesta de 12 meses, decide Alberto + abogado). Es ESTADO OPERATIVO y **no se puede disociar** (una lista de acceso con seudónimos no autoriza a nadie), así que el job mensual no la toca ni necesita una política nueva | `DELETE FROM bot_allowlist WHERE telegram_user_id = X`. ⚠️ **NO cascadea desde `query_logs`**: un borrado que solo toque `query_logs` deja a la persona en la lista. Revisar además la `nota`, que lleva su nombre escrito dentro | Nada — no hay identificador que disociar sin destruir la función de la tabla |
+| **Quién puede usar el bot** (`telegram_user_id` = identificador DIRECTO; `nota` = nombre/cargo en texto libre; `alta_por`/`revocado_por` = etiqueta del OPERADOR que decidió) | `bot_allowlist` (s324e — **016 aplicada el 17-ago-2026**) | Control de acceso del piloto por invitación: gasto, confidencialidad del corpus y no registrar consultas de quien no fue invitado | **24 meses desde `revocado_at`** (Alberto, 17-ago). Es ESTADO OPERATIVO y **no se puede disociar** (una lista de acceso con seudónimos no autoriza a nadie), así que a los 24 meses se **BORRA**: es la única excepción al principio rector, y la traza «hubo un alta y la emitió X» sobrevive en la invitación. Implementado en **s330**, pendiente de aplicar | `DELETE FROM bot_allowlist WHERE telegram_user_id = X`. ⚠️ **NO cascadea desde `query_logs`**: un borrado que solo toque `query_logs` deja a la persona en la lista. Revisar además la `nota`, que lleva su nombre escrito dentro | `rgpd_retencion_pasada` (mensual) desde s330 — borra la fila entera al vencer |
 | **Invitaciones al piloto** (`nota` = para quién se emitió, existe aunque nunca se canjee; `canjeada_por` = identificador DIRECTO de quien abrió el enlace, que puede NO ser el destinatario si se reenvió; `token_hash` = SHA-256, **no** es dato personal y **no** es el token) | `bot_invitaciones` (s324e — **016 aplicada el 17-ago-2026**) | Emitir, auditar y anular accesos; ver si un enlace lo usó la persona prevista | **24 meses** (Alberto, 17-ago — la misma ventana que el resto de la matriz). Implementado en s330, **pendiente de aplicar** | `UPDATE bot_invitaciones SET canjeada_por = NULL, disociada_at = now() WHERE canjeada_por = X` — la marca es obligatoria (s330: sin ella el CHECK del canje rechaza la sentencia); se conserva la traza del canje sin el identificador de quien lo hizo; y revisar la `nota` | `rgpd_retencion_pasada` (mensual) |
-| **Cuentas del panel web** (`usuario` = nombre de acceso, normalmente el correo o un alias — es la CLAVE de la tabla; `registro` = hash scrypt de la contraseña; `alta_por` / `revocado_por` = etiqueta del operador) | `panel_usuarios` (s324j — **019 aplicada el 19-ago-2026**) | Autenticar al administrador del panel; conservar quién dio el alta y quién revocó | **24 meses desde la revocación** — decidido por Alberto el 20-ago-2026, por CONSISTENCIA con el resto del sistema: un plazo único es más simple de cumplir y de explicar que tres. Mientras la cuenta esté ACTIVA se conserva | `DELETE` de la fila entera. ⚠️ Misma excepción que `bot_allowlist`: aquí el identificador **es la clave primaria**, así que no se puede disociar sin destruir la fila — por eso se borra en lugar de seudonimizar. Hoy la baja es LÓGICA (`activo=false`); el borrado a los 24 meses **está decidido y SIN MECANISMO** — no hay job que lo ejecute, y así se declara | Nada — no hay identificador que disociar sin destruir la función de la tabla |
+| **Cuentas del panel web** (`usuario` = nombre de acceso, normalmente el correo o un alias — es la CLAVE de la tabla; `registro` = hash scrypt de la contraseña; `alta_por` / `revocado_por` = etiqueta del operador) | `panel_usuarios` (s324j — **019 aplicada el 19-ago-2026**) | Autenticar al administrador del panel; conservar quién dio el alta y quién revocó | **24 meses desde la revocación** — decidido por Alberto el 20-ago-2026, por CONSISTENCIA con el resto del sistema: un plazo único es más simple de cumplir y de explicar que tres. Mientras la cuenta esté ACTIVA se conserva | `DELETE` de la fila entera. ⚠️ Misma excepción que `bot_allowlist`: aquí el identificador **es la clave primaria**, así que no se puede disociar sin destruir la fila — por eso se borra en lugar de seudonimizar. Hoy la baja es LÓGICA (`activo=false`); el borrado a los 24 meses lo ejecuta la pasada mensual desde **s330** (implementada, **pendiente de aplicar**) | `rgpd_retencion_pasada` (mensual) desde s330 — borra la fila entera al vencer |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
 ### Nota sobre el votante: la supresión a petición NO le alcanza del todo
@@ -296,7 +296,15 @@ razón por la que s295 sacó de ahí el texto de la consulta). Ahora se registra
 invitación** —un uuid, que no identifica a nadie por sí solo— y quién canjeó vive únicamente
 donde está gobernado: `bot_invitaciones.canjeada_por` y el aviso de arriba.
 
-### PENDIENTE MATERIAL — plazo y purga de las dos tablas (art. 5.1.e) ⚠️
+### ~~PENDIENTE MATERIAL~~ → **RESUELTO EN CÓDIGO (s330, 20-ago-2026), pendiente de APLICAR**
+
+> **Estado hoy**: el plazo estaba decidido y faltaban dos cosas — (1) escribir la política, y (2) la
+> validación del abogado. **(1) está hecho**: `supabase/migration_proposals/20260820160000_s330_rgpd_control_acceso_v1.sql`
+> amplía `rgpd_retencion_pasada` de 4 a 7 tablas, con gate contra PostgreSQL 17 real (53/53) y
+> control negativo ejecutado. **(2) sigue siendo de Alberto**, y aplicar la migración también.
+> Lo que sigue es el análisis original, que explica POR QUÉ el hueco existía.
+
+#### El hueco original (s324e) — plazo y purga de las dos tablas (art. 5.1.e)
 
 **El hueco, sin adornos** (2º revisor, s324e): estas dos tablas **no tienen plazo**. La 016
 declara que `rgpd_retencion_pasada` no las alcanza y eso se presentó como una virtud del diseño
@@ -347,6 +355,19 @@ Tres decisiones de diseño con efecto en protección de datos, declaradas:
 3. **La baja es LÓGICA** (`revocado_at`), no un `DELETE`: borrar la fila destruiría la
    única prueba de quién dio acceso a quién y cuándo se le quitó. El `DELETE` queda
    reservado a la supresión a petición, donde el objetivo ES que no quede rastro.
+
+#### GAP NUEVO, abierto por s330 (hallazgo del dúo) — el dato del ADMINISTRADOR ⚠️
+
+La purga de `bot_invitaciones` retira `nota` y `canjeada_por`, que son datos del **técnico**. Pero
+`creada_por` y `revocada_por` guardan `panel:<usuario>` (`dashboard/gestion.py`), y
+`panel_usuarios.usuario` admite un correo: es **dato personal de OTRO interesado —el
+administrador— conservado sin plazo**. Lo mismo aplica a `alta_por`/`revocado_por` de
+`bot_allowlist`.
+
+No se resuelve aquí porque no es una decisión técnica: o se le pone plazo, o se justifica su
+conservación como interés legítimo de auditoría (que es lo que esas columnas existen para dar).
+**Va al asesor con el resto del paquete.** Se declara en vez de esconderse, que es lo que este
+documento hace con todo lo demás.
 
 A juicio del asistente esto **no es finalidad nueva** —control de acceso a una herramienta
 de trabajo, coherente con la base de interés legítimo ya decidida por Alberto el 5-ago—,

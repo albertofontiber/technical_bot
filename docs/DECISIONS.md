@@ -9286,3 +9286,102 @@ cabecera y **enviarlo**. Es lo único que bloquea el piloto.
   No hay oráculo offline posible — comprobarlo exigiría llamar a Telegram desde los tests.
 - **Invitaciones ya emitidas** con placeholder siguen válidas: se completan a mano o se anulan y se
   re-emiten.
+
+---
+
+## DEC-256 (s330, 20 ago 2026) — La retención alcanza al control de acceso: se AMPLÍA el job que ya existía, y por el camino aparece que el derecho de supresión estaba roto
+
+- **Fecha**: 20 ago 2026. **Impacto**: ALTO (borrado irreversible de datos personales + cambio de
+  esquema en tabla de producción). **Encargo de Alberto**: «job de purga».
+- **La premisa de partida era FALSA, y verificarla fue la mitad del valor.** El PLAN decía «plazo
+  decidido y no hay job que lo ejecute». `public.rgpd_retencion_pasada(TEXT)` **existe y está en
+  producción desde el 5-ago** (cola s295→s296→s297→s299): pg_cron la corre el día 1 de cada mes a
+  las 04:30 UTC asumiendo el rol `rgpd_retencion`, con la ventana de 24 meses como **invariante
+  RLS** y recibo en `rgpd_recibos`. Construir un job nuevo habría sido **el drift que s299 eliminó
+  a propósito** — dos implementaciones de una operación irreversible. Gatillo del Protocolo 4
+  («tocar una premisa → verificar el código PRIMERO») cumplido, y era exactamente su caso de uso.
+
+### La decisión: ampliar de 4 a 7 tablas, no crear un mecanismo paralelo
+
+`supabase/migration_proposals/20260820160000_s330_rgpd_control_acceso_v1.sql` — **NO aplicada**;
+la aplica Alberto en el SQL Editor, como el resto de esta cola, y el propio doc lo condiciona
+además a la validación del abogado. Reglas (matriz adjudicada 17-ago + DEC-252):
+
+| Tabla | Ancla | Acción |
+|---|---|---|
+| `bot_invitaciones` nunca canjeada | `creada_at` + 24m | `nota = NULL` |
+| `bot_invitaciones` canjeada | sin alta viva ni revocada-hace-poco, con suelo `canjeada_at` + 24m | `nota = NULL`, `canjeada_por = NULL`, marca `disociada_at` |
+| `bot_allowlist` revocada | `revocado_at` + 24m | **`DELETE`** (el id es la PK) |
+| `panel_usuarios` revocado | `revocado_en` + 24m | **`DELETE`** (el usuario es la PK) |
+
+### Los cuatro hallazgos que cambiaron el diseño (dúo: Sol 7/7 + Fable 3/3, **0 falsos positivos**)
+
+1. **La regla canónica no era ejecutable** (Sol, crítico). La matriz manda `canjeada_por = NULL`
+   conservando `canjeada_at`, y eso viola `bot_invitaciones_canje_completo` ⇒ `23514` ⇒ **la pasada
+   mensual ENTERA se revierte**, dejando sin disociar también `query_logs`, `feedback`,
+   `answer_feedback` y el vínculo, con el error visible solo en `cron.job_run_details`. Daño
+   diferido a 2028 y silencioso. **Adjudicado por Alberto: TERCER ESTADO EXPLÍCITO** (`disociada_at`),
+   que conserva la traza del canje y mantiene vivo el invariante «un canje sin marca tiene que ser
+   atribuible». Alternativas descartadas: nulificar también `canjeada_at` (la fila pasaría a parecer
+   nunca canjeada: falsea la auditoría), centinela `canjeada_por = 0` (mentira estructural), y
+   borrar la invitación entera (destruye «quién la emitió», que es lo que la tabla existe para dar).
+2. **Y el mismo CHECK rompía la SUPRESIÓN A PETICIÓN — eso es HOY, no 2028** (Fable). La sentencia
+   `UPDATE bot_invitaciones SET canjeada_por = NULL` estaba prescrita en **cuatro sitios**
+   (`migrations/016:101`, `docs/DG_DEPLOYMENT.md:152`, `RGPD_RETENCION.md:223` y `:531`) y la base
+   la **rechaza**. El derecho del art. 17 fallaba en producción, y lo encontramos arreglando otra
+   cosa. Los cuatro, corregidos con `disociada_at = now()`.
+3. **La aserción de mecanismo habría abortado cada mes** (Sol, crítico). s299 no comprueba «hay
+   política»: exige que el `qual` contenga literalmente `created_at` **y** el intervalo. Las anclas
+   nuevas son `revocado_at`, `revocado_en` y una función ⇒ ampliar el array de 4 a 7 nombres —lo que
+   decía la v1— habría dejado la pasada abortando siempre. **Rediseñada a pares (tabla, ancla)** +
+   para la política que delega en función, se exige que el `prosrc` de ESA función lleve el
+   intervalo: se verifica la única fuente, no se crea una segunda.
+4. **Re-ejecutar s299 revertiría s330 en silencio** (Sol; Fable rechazó el cierre documental). Su
+   `CREATE OR REPLACE` reinstala la versión de 4 tablas ⇒ verde-parcial. Un banner es «el control
+   que ya falló una vez» (el comentario de 016): **s299 gana una precondición FAIL-CLOSED** que
+   aborta si detecta la política de s330 sobre `bot_allowlist`.
+
+### Por qué una función SECURITY DEFINER y no un predicado directo
+
+La regla de la invitación canjeada ancla en `bot_allowlist.revocado_at` —**otra tabla**— y una
+subconsulta dentro de la política se evalúa bajo las políticas del propio rol, que solo ve filas
+vencidas: con el alta **viva** la leería como huérfana y **disociaría un acceso ACTIVO** (fallo #2 de
+s296); con el alta **ya borrada**, la invitación guardaría el nombre **para siempre** (fallo #1).
+`rgpd_invitacion_vencida(UUID)` responde solo esa pregunta con visibilidad completa, y **nace
+blindada** (REVOKE nominal + postcondición), que es la lección que s299 pagó cuando su oráculo quedó
+ejecutable por `anon`.
+
+### Lo que solo apareció EJECUTANDO (ningún revisor lo vio, yo tampoco)
+
+`CREATE OR REPLACE` sobre `rgpd_retencion_pasada` falla con **`42501 permission denied`**, por su
+propio encabezado: al reemplazar una función con `SET role = rgpd_retencion`, el chequeo del objeto
+previo ocurre **ya con ese rol asumido**, al que s299 revocó todo. Al **crearla** no había objeto
+previo ⇒ el fallo aparece **solo al ampliarla**. Aislado por eliminación (nueva-con-`SET role`:
+pasa · reemplazo-sin-`SET role`: pasa · reemplazo-con-`SET role`: deniega). Arreglo: `DROP` explícito
+antes del `CREATE`. Y eso arrastraba lo que había que cerrar en el acto: **la función nace de nuevo
+bajo los default privileges de Supabase**, que le conceden EXECUTE a la API entera — ampliar la
+retención estuvo a un paso de **reabrir el agujero que s299 ya había pagado**. Se re-declaran los
+REVOKE y la postcondición 6.1.b lo verifica.
+
+### Verificación (Protocolo 1) — ejecutada
+
+- **53/53 contra PostgreSQL 17 real**: los 41 tests previos de la cola siguen verdes y los 12 nuevos
+  pasan. El contenedor solo traía pg16 (que ni conoce el privilegio `MAINTAIN` que la cola usa), así
+  que se instaló el 17 desde PGDG para medir contra la versión que importa.
+- **Control negativo ejecutado**: con la política de `bot_allowlist` saboteada a `USING (true)`, la
+  migración **no aplica**. El gate no pasa en verde con la ventana abierta.
+- Suite completa post-merge: **4.645 passed**. CI de `main`: success. Gate `retencion-pg` en CI:
+  success **y verificado que MIDIÓ** (los controles negativos aparecen disparando en el log del
+  servidor — 39 s parecían pocos, y «gate que pasa sin medir» es el fallo que s328 documentó).
+- **Censo de producción versionado** (`evals/s330_censo_produccion_v1.json`): 2+2+1 filas, **0
+  vencidas**; lo primero que esto borraría sería en **agosto de 2028**. Riesgo destructivo hoy = 0.
+
+### Gaps declarados
+
+- **Aplicar es de Alberto**, y la validación del abogado sigue pendiente (va en el paquete).
+- **GAP NUEVO**: `creada_por`/`revocada_por` (y `alta_por`/`revocado_por`) guardan `panel:<usuario>`,
+  que puede ser el correo del administrador: **dato personal de otro interesado sin plazo**. O se le
+  pone plazo o se justifica como interés legítimo de auditoría — decisión del asesor, declarada en
+  la matriz.
+- El gate de CI no ejercita la rama de programación (el contenedor no trae pg_cron): límite heredado
+  de s299, no nuevo.
