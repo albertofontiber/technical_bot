@@ -140,7 +140,7 @@ def main() -> int:
 >    desbloquea la atestación de MNDT701).
 > 3. **VSN2-PLUS / «Plus2»**: no bloquea; se adjudica dentro de la sentada E1b.
 >
-> **Deuda declarada nueva**: `TECH_DEBT #94` — los retags de `product_model` NO sobreviven a una
+> **Deuda declarada nueva**: `TECH_DEBT #95` — los retags de `product_model` NO sobreviven a una
 > re-ingesta (el pipeline re-deriva el pm del filename). Hoy no afecta al serving; el arreglo BP es que
 > `detect_document_metadata` consulte el doc_map antes de derivar.
 >

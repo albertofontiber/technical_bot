@@ -26,7 +26,7 @@ emparejar: `evals/adversarial_reviews/2026-08-20T19-51-45_claude-fable-5_a2d62a0
 2. **[Sol medio] Los retags DB NO son persistentes**: la re-ingesta re-deriva pm
    (`detect_document_metadata`, filename-first — por eso TI-007 recayó a `TI-007` aunque su
    filename contiene VSN-4REL) y `apply_metadata` lo estampa en los chunks. → Se registra deuda
-   nueva **TECH_DEBT #94** (autoridad de pm gobernada consumida en B5); los retags de hoy arreglan
+   nueva **TECH_DEBT #95** (autoridad de pm gobernada consumida en B5); los retags de hoy arreglan
    el serving VIGENTE y quedan protegidos por la deuda declarada, no por fe.
 3. **[Sol medio + Fable medio] El censo GD2 era circular** (solo docs con pm SMART*). Re-hecho
    **corpus-wide** (1.054 activos — paginado: la 1ª pasada truncaba a 1.000, otro hallazgo del
@@ -73,6 +73,8 @@ emparejar: `evals/adversarial_reviews/2026-08-20T19-51-45_claude-fable-5_a2d62a0
 
 - D1 sin cita en el contenido propio (evidencia documental; par atómico, sin fallback).
 - `unknown` en D2/D3 renuncia al vínculo de producto HOY (diferido con mecanismo nombrado).
-- Los 4 retags decaen si esos docs se re-ingestan (deuda #94; el recibo lo declara).
+- Los 4 retags decaen si esos docs se re-ingestan (deuda **#95**; el recibo lo declara — el recibo
+  aplicado la nombra «#94», el número con el que nació antes de la renumeración: se deja intacto
+  porque un recibo es traza de lo ejecutado, no un documento que se edite).
 - Radio de explosión esperado en el detector: 0 términos entran/salen; si el dry-run muestra otra
   cosa → STOP.

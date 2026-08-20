@@ -3607,7 +3607,13 @@ el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta q
 el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
 tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
 
-## #94 — Los retags de `product_model` NO son persistentes: una re-ingesta los deshace en silencio — s331
+## #95 — Los retags de `product_model` NO son persistentes: una re-ingesta los deshace en silencio — s331
+
+> **Nota de numeración (s331)**: esta deuda nació como «#94» y se renumeró en el acto: el **#94 ya se había
+> usado en s328** (el gate de geometría del CSS del panel, DEC-249/250) y, al cerrarse, su bloque se borró de
+> este fichero — así que el número parecía libre. Es la clase de fallo de `#92` (números duplicados por
+> reutilización) aplicada a TECH_DEBT: **el siguiente número no se deduce del fichero, se busca también en
+> `docs/DECISIONS.md`**.
 
 **Estado: DECLARADA (dúo r38, Sol xhigh, severidad medio, confirmada contra el código).** Todo
 retag de `product_model` que se aplica por DB (los de s324, s324b/c y los 4 de s331) es una

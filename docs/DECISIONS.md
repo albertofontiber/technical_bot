@@ -9430,7 +9430,8 @@ REVOKE y la postcondición 6.1.b lo verifica.
 - **Medida (dry-run + censo posterior, ambos PASS)**: detector **1744→1744 (+0/−0 términos)**, 0 gold
   perdidas, 0 disparos en negativos sintéticos, 0 detecciones nuevas en 111 consultas reales,
   findability 4/4, doc_map +2 filas (`notifier:nfs-2-8` 3→4 fuentes, `notifier:vsn-4rel` 7→8).
-- **Deuda nueva `TECH_DEBT #94`** (Sol, medio): los retags de `product_model` **no sobreviven a una
+- **Deuda nueva `TECH_DEBT #95`** (Sol, medio; nació como «#94» y se renumeró — ese número ya era del gate
+  de CSS de s328, cerrado y borrado del fichero): los retags de `product_model` **no sobreviven a una
   re-ingesta** — `detect_document_metadata` deriva del filename y `apply_metadata` lo estampa en los
   chunks; TI-007 es la recaída demostrada (s324d lo devolvió a `TI-007`). Arreglo BP: que la
   detección consulte la entry primaria del doc_map antes de derivar.
@@ -9451,5 +9452,5 @@ REVOKE y la postcondición 6.1.b lo verifica.
   otro hallazgo de Sol).
 - **Relacionado**: packet `evals/s320_e1_packet_adjudicacion_v2.md` (§0.D/§1.A marcados) ·
   propuesta post-dúo `evals/s331_residuo_e1_propuesta_v2.md` · TECH_DEBT #87 (cerrada por la vía de
-  la atestación) · #94 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
+  la atestación) · #95 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
   `evals/adversarial_review_log.jsonl`.
