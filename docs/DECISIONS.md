@@ -9185,3 +9185,104 @@ cabecera y **enviarlo**. Es lo único que bloquea el piloto.
   que la huella cambia con una descripción y no cambia sola, que una regresión **aborta sin llamar a
   `correr_pendientes`**, que al pasar se apunta y la siguiente corrida no vuelve a gastar en el LLM,
   y que el escape deja huella.
+
+---
+
+## DEC-254 (s329, 20 ago 2026) — El hook del digest viajaba sin bit de ejecución: versionar el control no bastaba, y el arranque deja de depender de un permiso
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO — el arreglo es mecánico, pero el HALLAZGO no lo es: un
+  control del Protocolo 4 llevaba caído en cloud **desde s316** (13 sesiones atrás) sin que nada lo
+  dijera. Cuántas de esas sesiones fueron cloud NO está medido; lo verificado es que **todo checkout
+  cloud** desde ese commit arrancaba sin el digest.
+- **El fallo, reproducido**: `bash -c '$CLAUDE_PROJECT_DIR/.claude/hooks/inject_lever_digest.sh'` →
+  **exit 126, Permission denied**. El script se commiteó en `100644`; sus hermanos
+  (`session-start.sh`, `install-deps.sh`) van en `100755`.
+- **Por qué nadie lo vio**: el hook es **fail-open a propósito** (rc=0 si el digest falta), así que
+  su muerte no rompía la sesión; y en local git **no toca el bit** de un working tree ya existente,
+  de modo que en la máquina de Alberto seguía corriendo. El fallo era exclusivo de los checkouts
+  nuevos — es decir, de cloud, que es justo para lo que se versionó en s316.
+- **La lección, que es la parte que vale**: DEC-072 dejó el hook gitignored y declaró el riesgo;
+  s316 lo versionó para cerrarlo. **Versionar el fichero no versionaba su ejecutabilidad**, y el
+  control quedó a medio camino sin señal de que lo estaba.
+
+### La decisión: eliminar la dependencia, no vigilarla (patrón DEC-250)
+
+- Bit restaurado **en git** (`100644 → 100755`), paridad con los otros dos hooks; **y**
+  `settings.json` invoca ambos vía `bash <script>` — el idioma que `session-start.sh` ya usaba para
+  `install-deps.sh`. Con el prefijo, **el bit deja de ser condición**: aunque vuelva a caerse (zip,
+  filesystem sin permisos, checkout raro), el hook corre.
+- **Alternativas descartadas**: (a) solo `chmod` — deja la clase viva, es exactamente el estado del
+  que venimos; (b) un test que afirme el modo del fichero — vigila el síntoma y falla *después* de
+  que el control se haya perdido, cuando la invocación robusta lo hace imposible.
+- **Verificado en el mismo turno** (Protocolo 1): exec directo → exit 0 con el digest impreso;
+  `bash` sobre una **copia sin bit** → exit 0 e idéntico. Confirmado en vivo: el `resume` siguiente
+  de esa misma sesión ya trajo el digest inyectado.
+- **Gap declarado**: no hay test que proteja el cableado de `settings.json` (ningún test lee hoy esa
+  config). El control real es que el arranque de cada sesión cloud lo ejercita y su ausencia se ve
+  en contexto — que es la señal que faltó 13 sesiones y ahora sí está.
+
+---
+
+## DEC-255 (s329, 20 ago 2026) — El @username del bot es identidad PÚBLICA y va en código: el enlace de invitación deja de necesitar que alguien lo complete
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (toca la emisión de credenciales de acceso al piloto).
+  **Pedido de Alberto**, con pantallazo del panel: «quiero que el link para compartir ya sea de
+  copiar y pegar, no de tener que añadir/sustituir yo nada».
+- **El síntoma**: el panel emitía `https://t.me/<NOMBRE_DEL_BOT>?start=<token>` más un aviso
+  pidiendo sustituir el nombre a mano. El aviso culpaba a `TELEGRAM_BOT_USERNAME` ausente «en el
+  entorno del panel».
+- **Lo que la medición corrigió del síntoma**: censo por API de Railway → la variable **no existía
+  en NINGÚN entorno desplegado**, tampoco en el worker. En el repo solo la conocían los tests y la
+  ayuda del CLI. No era un despiste de configuración de Vercel: era **el estado por defecto en todas
+  partes**, y por eso el placeholder salía siempre.
+
+### La decisión
+
+- `src/bot/access.py` gana `BOT_USERNAME_DEFECTO = "PCI_Soporte_tecnico_bot"` y
+  `bot_username_publico(explicito=None)`, que resuelve **explícito > `TELEGRAM_BOT_USERNAME` >
+  default** y **nunca devuelve vacío** (una variable puesta-pero-inútil daría `t.me/?start=…`: un
+  enlace roto con cara de éxito). Panel y CLI comparten la resolución; las ramas placeholder/«OJO»
+  quedan inalcanzables y **se eliminan** — sin rama, no hay placeholder.
+- **El valor NO se copió de los tests**: verificado contra `getMe` de Telegram con el token vivo del
+  worker (`@PCI_Soporte_tecnico_bot`, «Soporte tecnico PCI IA», id 8710961901). Un default leído del
+  propio repo podría estar tan desfasado como lo que arregla.
+- **Por qué en código y no en configuración**: un @username no es un secreto ni un tunable — es la
+  **identidad pública del producto**, viaja en cada enlace que ya se comparte y cambia casi nunca.
+  La variable sobrevive como override para apuntar a un bot de pruebas (censada en `src/flags.py`,
+  96 → 97 flags).
+
+### Alternativas descartadas
+
+- **(a) Poner la variable en Vercel**: tapa el síntoma en UN entorno y deja viva la clase en cada
+  preview y cada entorno nuevo; además es la acción manual que Alberto pidió evitar.
+- **(b) `getMe` en runtime desde el panel**: exigiría llevar `TELEGRAM_BOT_TOKEN` al entorno del
+  panel — ampliar la superficie de secreto expuesta a internet contra el diseño del panel (CSP
+  `default-src 'none'`, sin JS, secreto mínimo) para resolver una constante.
+- **(c) El worker estampa su username en una tabla y el panel lo lee**: migración, lectura extra y
+  pieza móvil nueva para un valor que cambia ~nunca.
+
+### Protocolo 3 — el dúo, y los dos hallazgos que sí dolían
+
+- Revisor **Fable standalone** (MEDIO fuera de zona-de-dolor) → **`SÓLIDO`** con 3 menores; los dos
+  verificables, **CONFIRMADOS contra el código y arreglados en el mismo commit** (regla C):
+  1. `DG_DEPLOYMENT.md` seguía recetando `--bot PCI_Soporte_tecnico_bot` explícito. Como el
+     explícito gana al default, tras un renombrado esa línea estamparía el nombre **viejo** aunque
+     el default estuviera corregido: **mi propia mitigación, incompleta**.
+  2. El test end-to-end que pinta el enlace tenía `TELEGRAM_BOT_USERNAME` pineada en su fixture
+     autouse ⇒ **la ruta real de Vercel no se ejercitaba**. Ahora el fixture la **borra**, que es el
+     entorno de producción exacto.
+  El tercero (las verificaciones citadas —censo y `getMe`— eran evidencia de sesión, no auditable
+  desde el repo) se paga commiteando propuesta, diff-semilla y recibos en `evals/`.
+- **Recibos**: `evals/s329_propuesta_username_bot.md` · `evals/adversarial_reviews/2026-08-20T09-01-50_claude-fable-5_*`.
+
+### Verificación y gaps
+
+- Suite completa: **4.644 passed**, con un único FAIL que fue **el sistema funcionando**: el registro
+  de flags de s311 cazó el `getenv` nuevo sin censar. Censado → 220 passed en las suites afectadas.
+- **En producción**: PR #318 mergeada (`820810e5`) y el deployment `production` de Vercel es
+  exactamente ese commit, estado `READY`.
+- **Gap declarado**: si el @username cambia en BotFather, el default queda obsoleto y el enlace
+  apuntaría a un usuario liberado. Mitigación: checklist de `DG_DEPLOYMENT.md` §4.3 + el override.
+  No hay oráculo offline posible — comprobarlo exigiría llamar a Telegram desde los tests.
+- **Invitaciones ya emitidas** con placeholder siguen válidas: se completan a mano o se anulan y se
+  re-emiten.

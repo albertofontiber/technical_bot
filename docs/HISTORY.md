@@ -6456,3 +6456,57 @@ como silencio aprobado, y que una regresión aborta **sin llegar a llamar** al c
 medición contra el modelo de verdad vive aparte, con su recibo. Separar esas dos cosas —lo que un
 test puede garantizar y lo que solo una medición puede— es lo que hace honesto al conjunto.
 DEC-253.
+
+---
+
+## s329 (20-ago-2026) — Dos cosas que nadie había configurado: un bit y un nombre
+
+La sesión empezó con «¿retomamos?» y el arranque canónico destapó, antes de tocar nada, que **el
+digest de levers no venía inyectado**. La ironía es exacta: `inject_lever_digest.sh` se versionó en
+s316 *precisamente* para que el control de DEC-072 viajara con el repo a las sesiones cloud, y viajó
+—pero commiteado en modo `100644`, sin bit de ejecución, mientras sus dos hermanos van en `100755`.
+El harness lo ejecutaba y moría con **exit 126, Permission denied**, en cada checkout cloud desde
+s316 — trece sesiones atrás. En silencio, porque el script es fail-open a propósito. En local nunca se notó: git no toca el
+bit de un working tree que ya existe, así que en la máquina de Alberto el hook seguía corriendo.
+
+La lección no es el bit. Es que **versionar el control no bastaba: había que versionar también su
+permiso de ejecución**, y nada lo comprobaba. Por eso el arreglo no se quedó en `chmod`: los dos
+hooks se invocan ahora vía `bash <script>` desde `settings.json` —el idioma que `session-start.sh`
+ya usaba para llamar a `install-deps.sh`— y con eso el arranque deja de depender de un bit que un
+checkout, un zip o un filesystem pueden perder. Verificado en el mismo turno por las dos vías, y
+confirmado en vivo poco después: el `resume` de esa misma sesión ya inyectó el digest.
+
+Lo segundo lo trajo Alberto con un pantallazo del panel: había emitido la invitación de un DG y el
+enlace salía `https://t.me/<NOMBRE_DEL_BOT>?start=...`, con un aviso pidiéndole sustituir el nombre
+a mano. «Quiero que el link para compartir ya sea de copiar y pegar.»
+
+El aviso decía que faltaba `TELEGRAM_BOT_USERNAME` en el entorno del panel, y era verdad, pero la
+verdad completa resultó ser peor y más simple: **la variable no existía en NINGÚN entorno
+desplegado**. El censo por la API de Railway lo dejó claro —tampoco en el worker—, y en el repo solo
+la conocían los tests y la ayuda del CLI. Es decir: el placeholder no era un despiste de
+configuración de Vercel, era el estado por defecto del sistema en todas partes.
+
+Con eso, poner la variable en Vercel dejaba de ser el arreglo: habría tapado el síntoma en un
+entorno y dejado viva la clase en cada preview y cada entorno nuevo. La decisión fue mover el dato a
+donde le corresponde. El **@username de un bot no es un secreto ni un tunable: es la identidad
+pública del producto**, viaja en cada enlace que ya se comparte y cambia prácticamente nunca. Así
+que vive en código —`access.BOT_USERNAME_DEFECTO`— y la variable queda como override para apuntar a
+un bot de pruebas. No lo copié de los tests: lo verifiqué contra `getMe` de Telegram con el token
+vivo del worker, que es la única fuente que no puede estar desfasada.
+
+El dúo (Fable, standalone) devolvió `SÓLIDO` con tres menores, y **dos de ellos eran de los que
+duelen porque tienen razón**. El primero: la receta de invitar en `DG_DEPLOYMENT.md` seguía pasando
+`--bot PCI_Soporte_tecnico_bot` explícito, y como el explícito gana al default, un operador que
+copiara esa línea tras un renombrado estamparía el nombre viejo *aunque el default estuviera
+corregido* — mi propia mitigación, incompleta. El segundo: yo había escrito «test de integración del
+panel sin la variable», pero el test end-to-end que de verdad pinta el enlace seguía con la variable
+pineada en su fixture, así que **la ruta real —la que corre en Vercel hoy— no se ejercitaba**.
+Bastaba borrar esa línea. Los dos arreglados en el mismo commit.
+
+Y la suite completa dejó el último detalle, que es el sistema funcionando como debe: el único fallo
+de 4.645 tests fue el **registro de flags de s311 cazando el `getenv` nuevo sin censar**. Un
+invariante que se pone rojo cuando alguien añade una lectura del entorno y no la declara. Censada la
+flag (96 → 97, con la nota de que el default real vive en código, no ahí), verde.
+
+Cierre: PR #318 mergeada por Alberto, y el deployment de producción de Vercel es exactamente ese
+merge. La próxima invitación sale de copiar y pegar. DEC-254 y DEC-255.

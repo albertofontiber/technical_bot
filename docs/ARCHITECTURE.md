@@ -17,9 +17,9 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s327–s328e (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y TRES PROMESAS SON PUERTAS.**
-> Un solo bloque para todo el día: cinco sub-sesiones encadenadas, cuya narración vive en
-> `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-253.
+> **Estado s327–s329 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y CUATRO PROMESAS SON PUERTAS.**
+> Un solo bloque para todo el día: seis sub-sesiones encadenadas, cuya narración vive en
+> `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-255.
 >
 > **Lo estructural.** `es_pregunta` deja de ser categoría y pasa a **eje** (columna, migración 023):
 > tema y «¿esto pide algo?» son ortogonales, y mezclarlos perdía siempre una de las dos. Las 8
@@ -38,12 +38,21 @@
 > Playfair **auto-hospedada** (14 glifos, 1.988 bytes, en el código; `font-src data:` solo en
 > `/entrar`), replicando lo que el Data Room logra con `next/font/google`.
 >
-> **Y lo que más vale: tres promesas pasaron a ser puertas**, y las tres tenían un agujero que solo
+> **El acceso al piloto.** El enlace de invitación sale **completo, de copiar y pegar**: el
+> `@username` del bot es identidad PÚBLICA (verificada contra `getMe`) y vive en código —
+> `access.BOT_USERNAME_DEFECTO`—, con `TELEGRAM_BOT_USERNAME` degradada a override. Antes dependía
+> de una variable que **no estaba puesta en ningún entorno desplegado** (censo Railway), así que el
+> panel emitía un placeholder para completar a mano (DEC-255).
+>
+> **Y lo que más vale: cuatro promesas pasaron a ser puertas**, y todas tenían un agujero que solo
 > apareció al ejecutar el control negativo — (1) el CSS no tenía red de seguridad y ahora **Chromium
 > lo mide en CI** (no desborda · la letra no escala · rótulo centrado · nada cortado), cerrando
 > `TECH_DEBT #94`; (2) el anexo del paquete del abogado era una **copia** que llevaba el v8 con el
 > v9 en producción, y ahora **se genera del código**; (3) la sonda del eje tenía el gatillo en un
-> docstring y ahora es **pre-vuelo del job**, que aborta si el eje regresa.
+> docstring y ahora es **pre-vuelo del job**, que aborta si el eje regresa; (4) el hook que inyecta
+> el digest de levers se versionó en s316 para viajar a cloud y **viajó sin bit de ejecución** —
+> `exit 126` en silencio en todo checkout cloud desde entonces—: ahora se invoca vía `bash <script>`
+> y el bit deja de ser condición (DEC-254).
 
 > **Estado s326/s326b (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (021/022 aplicadas).**
 > Adjudicación completa de Alberto (prosa opción (a) · taxonomía v1 · alias · coste):

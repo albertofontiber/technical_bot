@@ -3575,3 +3575,34 @@ recorte pasaba en vacío.
 **Gap que queda**: mide **Chromium**. Safari/iOS no entra, y el móvil del técnico en obra puede ser
 un iPhone — para esa mitad sigue haciendo falta que alguien lo abra. Y mide **geometría**, no
 estética: que nada desborde ni se amplíe no dice que se vea bien.
+
+---
+
+## 95. El `@username` del bot vive en código y ningún test puede detectar que se ha renombrado (s329)
+
+**El defecto**: desde DEC-255 el enlace de invitación se construye con
+`access.BOT_USERNAME_DEFECTO = "PCI_Soporte_tecnico_bot"`, una constante del repo. Si algún día se
+renombra el bot en @BotFather, el default queda obsoleto **en silencio** y el panel emitiría enlaces
+a un @username liberado — que cualquiera puede reclamar. El enlace seguiría teniendo cara de válido.
+
+**Por qué se aceptó igualmente**: la alternativa que sí detectaría el rename es preguntar a
+`getMe` en runtime, y eso exige llevar `TELEGRAM_BOT_TOKEN` al entorno del panel — ampliar la
+superficie de secreto expuesta a internet (el panel es CSP `default-src 'none'`, sin JS y con el
+mínimo de credenciales) para vigilar un valor que cambia prácticamente nunca. El estado ANTERIOR era
+peor y no hipotético: la variable no estaba puesta en ningún entorno desplegado y el enlace salía
+con un placeholder que había que completar a mano.
+
+**Por qué no hay test**: un test necesitaría llamar a la API de Telegram (red + token en CI) para
+comparar el default con la realidad. No existe oráculo offline: el repo no puede saber cómo se llama
+el bot fuera de él. Lo que sí se verificó, una vez, es que el valor es correcto HOY —contra `getMe`
+con el token vivo del worker: `@PCI_Soporte_tecnico_bot`, id 8710961901—.
+
+**Mitigación vigente**: el checklist de `docs/DG_DEPLOYMENT.md` §4.3 (branding en BotFather) lleva
+la nota de actualizar `BOT_USERNAME_DEFECTO` al renombrar, y `TELEGRAM_BOT_USERNAME` sigue
+funcionando como override sin desplegar código.
+
+**Trigger**: cualquiera de estos tres — (1) se toca el branding del bot en BotFather; (2) llega un
+segundo bot (staging, otro fabricante, marca blanca) y el default deja de ser único, que es cuando
+el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta que el enlace no abre
+el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
+tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
