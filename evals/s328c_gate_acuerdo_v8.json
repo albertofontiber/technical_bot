@@ -1,0 +1,443 @@
+{
+  "gate": "acuerdo del clasificador de preguntas",
+  "umbral": "≥85 % de acuerdo (con 29 ítems: como mucho 4 desacuerdos)",
+  "taxonomia_version": 8,
+  "sustituye_a": "evals/s326b_gate_acuerdo_paquete.json (v6, CADUCO: su muestra incluye `no_es_pregunta`, que dejó de ser una categoría en la v7)",
+  "generado": "2026-08-20",
+  "taxonomia_ids": [
+    "catalogo_especificaciones",
+    "instalacion_configuracion",
+    "averias_diagnostico",
+    "mantenimiento_pruebas",
+    "compatibilidad_sustitucion",
+    "normativa",
+    "otros"
+  ],
+  "poblacion": 109,
+  "distribucion_vigente": {
+    "catalogo_especificaciones|pregunta": 76,
+    "instalacion_configuracion|pregunta": 18,
+    "otros|NO-pregunta": 6,
+    "averias_diagnostico|pregunta": 6,
+    "compatibilidad_sustitucion|pregunta": 1,
+    "catalogo_especificaciones|NO-pregunta": 1,
+    "otros|pregunta": 1
+  },
+  "sin_ninguna_fila": [
+    "mantenimiento_pruebas",
+    "normativa"
+  ],
+  "dos_ejes": "Desde la v7 hay DOS decisiones por mensaje y son ORTOGONALES: `es_pregunta` (¿pide algo?) y `categoria` (¿de qué trata?). Se revisan por separado porque un error en cada eje cuesta cosas distintas: equivocarse en el eje SACA el mensaje del análisis entero; equivocarse en la categoría solo lo pone en la barra de al lado.",
+  "como_se_eligio": "Las 7 no-preguntas van ENTERAS —son pocas y son las decisiones caras—. Las preguntas van estratificadas por categoría en proporción a la población, con mínimo 1 por categoría presente, tomando posiciones equiespaciadas dentro de cada estrato ordenado por `id`: determinista y reproducible sin semilla.",
+  "sql_que_lo_genero": "WITH base AS (SELECT l.id, l.query, l.route, c.categoria, c.es_pregunta, c.marcas, c.modelos, ROW_NUMBER() OVER (PARTITION BY c.categoria, c.es_pregunta ORDER BY l.id) AS pos, COUNT(*) OVER (PARTITION BY c.categoria, c.es_pregunta) AS total FROM query_logs l JOIN query_clasificacion c ON c.query_log_id = l.id), cuota AS (SELECT *, CASE WHEN NOT es_pregunta THEN total ELSE GREATEST(1, ROUND(total * 20.0 / 102)::int) END AS cupo FROM base) SELECT id, query, route, categoria, es_pregunta, marcas, modelos, total FROM cuota WHERE MOD(pos - 1, GREATEST(1, total / GREATEST(1, cupo))) = 0 AND pos <= cupo * GREATEST(1, total / GREATEST(1, cupo)) ORDER BY es_pregunta, categoria, id;",
+  "que_significa_un_PASS": "Que la taxonomía v8 está ACORDADA, no solo que es razonable. Un FALLO no es un fallo del clasificador: dispara el ciclo del «otros» —Alberto adjudica, sube la versión del YAML y el histórico se re-clasifica por céntimos—, que es exactamente lo que pasó con la v1 (~80 %) y produjo la v2.",
+  "residuales_conocidos": [
+    "El clasificador NO ve el hilo (TECH_DEBT #92): «Programación principalmente.» o «Sobre la 2X-AF1-FBS.» son continuaciones de algo que el bot preguntó, y aisladas son indistinguibles de un mensaje sin petición.",
+    "«ZX1e» (ítem 2) es el ÚNICO falso negativo posible del censo de s327: si fue la respuesta a una clarify, era parte de una petición.",
+    "`catalogo_especificaciones` se lleva el 70 % de las preguntas — es la categoría dominante por la fusión que adjudicó Alberto en s326b. Si el gate pasa, conviene decidir aparte si esa categoría hay que volver a partirla.",
+    "`mantenimiento_pruebas` y `normativa` no tienen NI UNA fila en la v8. O el tráfico pre-piloto no las toca, o el prompt no las alcanza; con 109 mensajes de 2 personas no hay con qué distinguirlo."
+  ],
+  "muestra": [
+    {
+      "n": 1,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "esto parece incluir muchos más productos que \"centrales de incendios\"",
+      "ruta": "rag",
+      "marcas": [
+        "Kidde"
+      ],
+      "modelos": [
+        "NC-PF2"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 2,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "ZX1e",
+      "ruta": null,
+      "marcas": [],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 3,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "ok, entendido",
+      "ruta": "rag",
+      "marcas": [
+        "Kidde"
+      ],
+      "modelos": [
+        "NC-PF2"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 4,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "Programación principalmente.",
+      "ruta": "rag",
+      "marcas": [
+        "Aritech"
+      ],
+      "modelos": [
+        "2X-AF1"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 5,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "sonda-018",
+      "ruta": null,
+      "marcas": [],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 6,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "Sobre la 2X-AF1-FBS.",
+      "ruta": "rag",
+      "marcas": [
+        "Aritech"
+      ],
+      "modelos": [
+        "2X-AF1"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 7,
+      "eje_asignado": "no_pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "estoy trabajando con la ZX1e",
+      "ruta": null,
+      "marcas": [
+        "Morley"
+      ],
+      "modelos": [
+        "ZXE"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 8,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "averias_diagnostico",
+      "pregunta": "¿Cómo se resuelve un fallo de tierra en la central AFP-400?",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "AFP-400"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 9,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿Qué centrales Detnov tienes?",
+      "ruta": "catalog_shortcut",
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 10,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4?",
+      "ruta": null,
+      "marcas": [
+        "Fidegas",
+        "Morley"
+      ],
+      "modelos": [
+        "ZXE"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 11,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿qué fabricantes tienes?",
+      "ruta": "catalog_shortcut",
+      "marcas": [],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 12,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "Especificaciones del detector DGD-600",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [
+        "DGD-600"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 13,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿Qué centrales de cuatro lazos analógica de Detnov tienes?",
+      "ruta": "catalog_shortcut",
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 14,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿qué productos Detnov tienes?",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 15,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "Características de la AFP-200E",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "AFP-200E"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 16,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿Qué fabricantes tienes?",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "NFS2-3030"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 17,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "Volvamos al principio. Que productos de Detnov tienes?",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [
+        "CAD-250"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 18,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "Especificaciones técnicas de la central NFS2-3030",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "NFS2-3030"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 19,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "Qué centrales de Detnov tienes?",
+      "ruta": "catalog_shortcut",
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 20,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿Y no tienes el manual de instalación o programación del NC-PF2?",
+      "ruta": "rag",
+      "marcas": [
+        "Kidde"
+      ],
+      "modelos": [
+        "NC-PF2"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 21,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿cuántos lazos tiene?",
+      "ruta": null,
+      "marcas": [
+        "Morley"
+      ],
+      "modelos": [
+        "ZXE"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 22,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿qué productos Detnov tienes?",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 23,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "catalogo_especificaciones",
+      "pregunta": "¿En qué manuales puedo encontrar información sobre el menú de configuración avanzada de la CAD-250?",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [
+        "CAD-250"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 24,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "compatibilidad_sustitucion",
+      "pregunta": "¿qué sensores se humo son compatibles?",
+      "ruta": "rag",
+      "marcas": [
+        "Securiton"
+      ],
+      "modelos": [
+        "ASD535"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 25,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "instalacion_configuracion",
+      "pregunta": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "ID3000"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 26,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "instalacion_configuracion",
+      "pregunta": "En la CCD-103, ¿cómo desactivo un detector individual?",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [
+        "CCD-103"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 27,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "instalacion_configuracion",
+      "pregunta": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "ruta": null,
+      "marcas": [
+        "Notifier"
+      ],
+      "modelos": [
+        "PEARL"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 28,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "instalacion_configuracion",
+      "pregunta": "esquema de conexión del CAD-250",
+      "ruta": null,
+      "marcas": [
+        "Detnov"
+      ],
+      "modelos": [
+        "CAD-250"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    },
+    {
+      "n": 29,
+      "eje_asignado": "pregunta",
+      "categoria_asignada": "otros",
+      "pregunta": "¿me las puedes resumir?",
+      "ruta": "rag",
+      "marcas": [
+        "Kidde"
+      ],
+      "modelos": [
+        "NC-PF2"
+      ],
+      "veredicto_alberto": "de_acuerdo"
+    }
+  ],
+  "resultado": {
+    "fecha": "2026-08-20",
+    "veredicto": "PASS",
+    "acuerdo": "29/29 = 100 %",
+    "umbral": "≥85 %",
+    "adjudicado_por": "Alberto, en el hilo",
+    "literal_eje": "«las primeras 7 no son preguntas»",
+    "literal_categoria": "«sobre las preguntas, estoy alineado»",
+    "que_significa": "La taxonomía v8 queda ACORDADA, no solo razonable. Es la primera vez que este gate pasa: la v1 sacó ~80 % y disparó el ciclo del «otros» (DEC-246). El clasificador deja de ser una propuesta mía y pasa a ser criterio compartido — las gráficas de tipología del panel se pueden leer como verdad, con los residuales de abajo declarados.",
+    "punto_abierto_de_alberto": {
+      "literal": "«si alguien pregunta \"qué productos Detnov tienes\", sin los signos de interrogación, también debería considerarse pregunta»",
+      "estado": "MEDIDO, sin cambio de código",
+      "medicion": "evals/s328c_sonda_sin_signos_v1.md — 8/8 reconocidas, 4/4 controles limpios",
+      "por_que_no_se_amplio_la_regla": "La conducta ya está, pero la sostiene el PROMPT, no una regla. Ampliar la regla determinista a aperturas interrogativas no añadiría precisión hoy (8/8) y taparía la señal si un cambio de prompt la rompiera. Queda como sonda con trigger: re-correr al subir `version` o cambiar de modelo."
+    }
+  }
+}

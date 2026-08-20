@@ -27,6 +27,8 @@ from __future__ import annotations
 import html
 from datetime import datetime, timezone
 
+from .fuente_marca import PLAYFAIR_PUERTA_B64
+
 
 class Seguro(str):
     """HTML ya escapado. El único tipo que `_pintar` deja pasar tal cual."""
@@ -458,7 +460,7 @@ body.entrada footer { display:none; }   /* el aviso va dentro, ver `.pie-puerta`
    `body.entrada`, sin excepción. */
 body.entrada .entrar { max-width:none; margin:0; }
 body.entrada .marca-puerta { text-align:center; margin:0 0 32px; }
-body.entrada .marca-puerta h1 { font-family:Georgia,"Times New Roman",serif;
+body.entrada .marca-puerta h1 { font-family:"Playfair Display",Georgia,"Times New Roman",serif;
   font-weight:400; font-size:30px; line-height:1.2; letter-spacing:-.02em;
   color:#fff; margin:0; white-space:nowrap; }
 body.entrada .marca-puerta h1 span { color:var(--cobre); }
@@ -570,6 +572,20 @@ footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
     f".columnas .col.h{i} {{ height:{i}%; }}\n" for i in range(_PASOS_ALTURA))
 
 
+#: CSS que viaja SOLO con la puerta. La fuente de marca son 3 KB y una apertura
+#: de la CSP (`font-src data:`), y ninguna de las dos cosas tiene por qué pagarla
+#: una página que no pinta el logotipo. `font-display:swap` para que el titular
+#: se vea desde el primer píxel aunque la fuente tardara: la puerta es lo primero
+#: que alguien ve del sistema.
+_ESTILO_PUERTA = f"""
+@font-face {{
+  font-family:"Playfair Display";
+  font-style:normal; font-weight:400; font-display:swap;
+  src:url(data:font/woff2;base64,{PLAYFAIR_PUERTA_B64}) format("woff2");
+}}
+"""
+
+
 def pagina(titulo: str, cuerpo, *, nonce: str, usuario: str | None = None,
            ruta: str = "", csrf: str = "", clase_cuerpo: str = "") -> str:
     """El documento entero. `nonce` es por RESPUESTA: la CSP sólo autoriza el
@@ -596,12 +612,13 @@ def pagina(titulo: str, cuerpo, *, nonce: str, usuario: str | None = None,
     else:
         cabecera = ""
     cuerpo_abre = f' class="{esc(clase_cuerpo)}"' if clase_cuerpo else ""
+    extra_css = _ESTILO_PUERTA if clase_cuerpo == "entrada" else ""
     return (
         "<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<meta name="robots" content="noindex,nofollow">'
         f"<title>{esc(titulo)}</title>"
-        f'<style nonce="{esc(nonce)}">{_ESTILO}</style></head>'
+        f'<style nonce="{esc(nonce)}">{_ESTILO}{extra_css}</style></head>'
         f"<body{cuerpo_abre}>"
         f"{cabecera}<main>{_pintar(cuerpo)}</main>"
         "<footer>Panel interno · datos de personas: mira sólo lo que "

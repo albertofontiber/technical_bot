@@ -122,9 +122,11 @@ PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 si
    adjudicación (a)) y el **panel** en sí, que nombra la purga 24m pendiente de `bot_invitaciones`.
    Nada más bloquea invitar al primer DG: allowlist, invitaciones, retención y supresión están en
    verde y verificadas contra la BD (`docs/PILOTO_DG_ESTADO.md`).
-2. **El gate de acuerdo de la taxonomía, esperando a Alberto**: `evals/s326b_gate_acuerdo_paquete.json`
-   (25 ítems). Sin él, la taxonomía v8 es razonable pero no está **acordada**; con él se sabe si el
-   ciclo del «otros» hay que volver a girar.
+2. ~~El gate de acuerdo de la taxonomía~~ **PASADO (20-ago, 29/29 = 100 %)**. La v8 queda
+   **ACORDADA**, no solo razonable — primera vez que este gate pasa (la v1 sacó ~80 % y disparó el
+   ciclo del «otros»). El paquete que había pendiente era de la **v6** y estaba caduco: incluía
+   `no_es_pregunta`, categoría retirada en la v7. Regenerado y adjudicado:
+   `evals/s328c_gate_acuerdo_v8.json`. DEC-251.
 3. **Opcional, cuando el tráfico lo pida**: `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida
    automática cada 6 h. Hoy la corrida es manual y con recibo — que para 109 filas es lo correcto.
 4. **Re-medir el eje con datos del piloto** (~200 mensajes): el censo de hoy es PRE-piloto, casi sin
@@ -132,10 +134,10 @@ PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 si
 5. **Gates de EXPONER que siguen abiertos** (aviso v9 §13): plazo `[DECIDIR: Alberto]` de
    `panel_usuarios` · medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP`
    sigue en False; **no** bloquea nada — el cerrojo por usuario funciona desde el día 1).
-6. **Decidir la fuente de la puerta**: el logotipo usa la pila serif del sistema, no la Playfair
-   Display del Data Room. Cargarla de Google Fonts obligaría a abrir la CSP a dos dominios en un
-   panel que hoy no pide nada de fuera; la vía que no la toca es incrustarla en base64. Es de
-   Alberto: se decide, no se cuela.
+6. ~~Decidir la fuente de la puerta~~ **HECHO**: Playfair Display **auto-hospedada**, igual que en
+   el Data Room (que usa `next/font/google` y sirve desde su propio origen — CSP `font-src 'self'`,
+   sin dominios de Google). Aquí los 14 glifos del logotipo viajan **en el código** (1.988 bytes) y
+   `font-src data:` se abre **solo** en la respuesta de `/entrar`. DEC-251.
 7. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    — la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin
    tocar el instalador. Y la causa de que una VM NO recibiera la caché sigue abierta.

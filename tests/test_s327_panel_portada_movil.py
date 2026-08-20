@@ -301,3 +301,60 @@ def test_la_portada_acota_las_barras_para_que_quepa(doble):
     detalle = str(panel._grafico_de_vista(vista, muchas))
     assert portada.count("<li ") == 5
     assert detalle.count("<li ") == 12
+
+
+# ---------------------------------------------- la fuente de marca de la puerta
+
+
+def test_s328c_la_fuente_cubre_TODO_el_logotipo():
+    """Un glifo que falte cae a la serif del sistema y el titular sale con DOS
+    tipografías, que es peor que no poner fuente de marca. El subconjunto se
+    recortó al texto del logotipo: si alguien cambia el texto sin regenerar
+    (`python -m scripts.s328c_recortar_fuente_marca`), esto se pone rojo."""
+    from dashboard import fuente_marca
+
+    peticion = panel.Peticion(
+        metodo="GET", ruta="/entrar", consulta={}, cabeceras={}, cuerpo=b"",
+        ip="1.2.3.4", nonce="n", sesion=None)
+    html = panel.pagina_entrar(peticion).cuerpo.decode("utf-8")
+    logotipo = re.search(r"<h1>(.*?)</h1>", html, re.S).group(1)
+    letras = set(re.sub(r"<[^>]+>", "", logotipo).replace("&nbsp;", " "))
+    faltan = letras - set(fuente_marca.GLIFOS)
+    assert not faltan, f"el logotipo usa glifos que la fuente no trae: {faltan}"
+
+
+def test_s328c_la_fuente_solo_viaja_en_la_puerta():
+    """3 KB y una apertura de la CSP no los paga una página que no pinta el
+    logotipo. El `@font-face` se inyecta por `clase_cuerpo`, no está en la hoja
+    común."""
+    from dashboard import fuente_marca
+
+    marca = fuente_marca.PLAYFAIR_PUERTA_B64[:40]
+    assert marca not in render._ESTILO                    # no en la hoja común
+    puerta = render.pagina("x", render.nota("y"), nonce="n",
+                           clase_cuerpo="entrada")
+    otra = render.pagina("x", render.nota("y"), nonce="n")
+    assert "@font-face" in puerta and marca in puerta
+    assert "@font-face" not in otra and marca not in otra
+
+
+def test_s328c_la_csp_abre_font_src_SOLO_en_la_puerta():
+    """`font-src data:` es una apertura real de una CSP que hoy es
+    `default-src 'none'`. Vive en la respuesta de `/entrar` y en ninguna otra."""
+    puerta = dict(panel._cabeceras_seguridad("n", fuente=True))
+    resto = dict(panel._cabeceras_seguridad("n"))
+    assert "font-src data:" in puerta["content-security-policy"]
+    assert "font-src" not in resto["content-security-policy"]
+    # y NINGUNA de las dos deja entrar a un tercero
+    for cabecera in (puerta, resto):
+        assert "googleapis" not in cabecera["content-security-policy"]
+        assert "gstatic" not in cabecera["content-security-policy"]
+
+
+def test_s328c_la_puerta_declara_que_incrusta_la_fuente():
+    """El flag de la respuesta es lo que abre la CSP: si `pagina_entrar` deja de
+    ponerlo, la fuente se incrusta y el navegador la bloquea, en silencio."""
+    peticion = panel.Peticion(
+        metodo="GET", ruta="/entrar", consulta={}, cabeceras={}, cuerpo=b"",
+        ip="1.2.3.4", nonce="n", sesion=None)
+    assert panel.pagina_entrar(peticion).fuente_incrustada is True

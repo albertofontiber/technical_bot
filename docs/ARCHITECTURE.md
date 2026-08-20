@@ -17,7 +17,20 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s328b (20 ago 2026) — LAS GRÁFICAS SON COLUMNAS EN HTML, NO SVG.**
+> **Estado s328c (20 ago 2026) — LA TAXONOMÍA v8 QUEDA ACORDADA (gate 29/29).**
+> Primera vez que el gate de acuerdo pasa: la v1 sacó ~80 % y disparó el ciclo del «otros»
+> (DEC-246). El paquete pendiente estaba CADUCO —era de la v6, con `no_es_pregunta`, categoría
+> retirada en la v7— y se regeneró contra producción. El clasificador deja de ser una propuesta y
+> pasa a ser criterio compartido: las gráficas de tipología se leen como verdad, con sus residuales
+> declarados (`catalogo_especificaciones` = 70 % por la fusión adjudicada; `mantenimiento_pruebas` y
+> `normativa` sin ni una fila). Medido aparte y SIN tocar código: una pregunta **sin signos de
+> interrogación** («qué productos Detnov tienes») se reconoce 8/8 — la sostiene el prompt, no una
+> regla, y por eso queda como sonda con trigger en vez de como regla que taparía la señal. Y la
+> puerta lleva **Playfair Display auto-hospedada** (14 glifos, 1.988 bytes, en el código; `font-src
+> data:` solo en `/entrar`), replicando lo que el Data Room consigue con `next/font/google`.
+> DEC-251.
+>
+> > **Estado s328b (20 ago 2026) — LAS GRÁFICAS SON COLUMNAS EN HTML, NO SVG.**
 > Adjudicación de Alberto: «que salgan de izquierda a derecha, no de arriba a abajo», «el mismo
 > tamaño de letra». Lo segundo destapó la causa común de los dos intentos anteriores: **una escala
 > uniforme mueve el texto por definición** — el SVG de s327 se ampliaba ×2,29 en escritorio y el de
