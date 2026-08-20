@@ -1168,6 +1168,39 @@ def mention_route_cut_eligible(mention: str) -> bool:
     return False
 
 
+def mention_governed_base(mention: str) -> str | None:
+    """(s331 M3b, regla 2 de la gramática + texto del CLARIFY dirigido) El modelo
+    CANÓNICO del término gobernado que la mención extiende — el «término ganador» de
+    `mention_route_cut_eligible`, con las MISMAS puertas (longest-term-wins + veto
+    multi-fabricante + cola 1-6 alnum). None si la mención no corta ruta. Es la base
+    de la FAMILIA con la que se procede cuando el usuario confirma sin que la cadena
+    binde (`models_provenance='pending_derived'`). Sin red."""
+    if not (mention or "").strip() or not _mention_intrinsic_ok(mention):
+        return None
+    _ensure()
+    if _cat is None:
+        return None
+    nk = catalog_store.norm_token(mention)
+    terms = _governed_term_keys()
+    fabricantes_por_termino = _governed_term_manufacturers()
+    for tail_len in range(1, _MENTION_TAIL_MAX + 1):
+        if tail_len >= len(nk):
+            break
+        prefijo, cola = nk[:-tail_len], nk[-tail_len:]
+        if not cola.isalnum() or prefijo not in terms:
+            continue
+        if len(fabricantes_por_termino.get(prefijo, frozenset())) != 1:
+            return None                      # mismo corte que la puerta 2: sin fallback
+        r = _cat.resolve(prefijo)
+        ids = (r or {}).get("ids") or []
+        if len(ids) == 1:
+            p = _cat.products.get(ids[0])
+            if p and p.get("canonical_model"):
+                return p["canonical_model"]
+        return None                          # término ambiguo/paraguas: no elegir por él
+    return None
+
+
 # F6 dúo s93: stopwords mínimas — sin ellas 'para'/'como'/'que' puntúan y queman el cap
 _QSTOP = {"para", "como", "que", "qué", "con", "una", "uno", "por", "sobre", "tiene",
           "hay", "los", "las", "del", "esta", "este", "cual", "cuál", "cuando", "donde",

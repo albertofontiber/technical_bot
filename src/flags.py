@@ -202,6 +202,14 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/rag/post_rerank_coverage.py',),
     },
+    "F1_MENTION_PRECEDENCE": {
+        # (s331 §3.C.1) Precedencia de mención no-resuelta + gramática de confirmación
+        # en la política F1. Default off = byte-idéntico; no exige F1_RESOLVE_GOVERNED
+        # (G1c mide C-solo).
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/orchestrator/conversation_policy_impl.py',),
+    },
     "F1_RESOLVE_GOVERNED": {
         # (s331 §3.A) Resolución gobernada en la seam de composición de F1. Default off
         # = byte-idéntico; on exige IDENTITY_RESOLVE=on (interlock fail-fast en

@@ -285,6 +285,7 @@ class ConversationPolicy(Protocol):
         now: datetime,
         rewrite: RewriteFn | None = None,
         intent: "IntentFn | None" = None,
+        unresolved_mention: str | None = None,
     ) -> TurnResolution:
         """Resolve one turn into a route + retrieval inputs.
 
@@ -293,6 +294,9 @@ class ConversationPolicy(Protocol):
         (for CLARIFY), or None. ``rewrite`` is the economical rewriter, supplied
         only in ``--e2e``; when None the policy must NOT fabricate a rewrite — it
         returns ``route=REWRITE`` with ``rewritten_query=None`` and defers.
+        ``unresolved_mention`` (s331 §3.C.1) is the model-shaped mention the
+        governed detection could NOT bind, computed at the COMPOSITION seam
+        (never inside the policy); None = today's behaviour, byte-identical.
         """
         ...
 
@@ -315,6 +319,7 @@ class StubConversationPolicy:
         now: datetime,
         rewrite: RewriteFn | None = None,
         intent: "IntentFn | None" = None,
+        unresolved_mention: str | None = None,
     ) -> TurnResolution:
         raise PolicyNotImplemented(
             "ConversationPolicy is not implemented yet (MT-1a). MT-1b ships the "

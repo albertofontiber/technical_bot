@@ -55,7 +55,7 @@ import logging
 import os
 import re
 from collections.abc import Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime
 from pathlib import Path
 
@@ -65,11 +65,86 @@ from .conversation_policy import (
     NON_PRODUCT_CODES,
     PolicyRoute,
     RewriteFn,
+    TurnIdentity,
     TurnResolution,
     WorkingState,
 )
 
 WINDOW_SECONDS = 3600  # carry-forward-1h (telegram_bot SESSION_TIMEOUT); design §8
+
+
+# ---------------------------------------------------------------------------
+# (s331 §3.C.1) F1_MENTION_PRECEDENCE — precedencia de mención + gramática
+# ---------------------------------------------------------------------------
+def mention_precedence_enabled() -> bool:
+    """Flag propio de la rama de precedencia de mención (default off = byte-idéntico).
+    Su único call-site vive en la composición F1, así que no necesita interlock con
+    la política (si F1 no corre, la rama no existe); y NO exige F1_RESOLVE_GOVERNED
+    — G1c mide C-solo con A apagado (atribución por brazo, v6 §4)."""
+    raw = (os.getenv("F1_MENTION_PRECEDENCE", "") or "").strip().lower()
+    if raw not in ("", "0", "false", "no", "off", "1", "true", "yes", "on"):
+        raise RuntimeError(
+            f"F1_MENTION_PRECEDENCE={raw!r} no reconocido (on|off) — fail-fast")
+    return raw in ("1", "true", "yes", "on")
+
+
+_CONFIRMATION_LEXICON_PATH = (
+    Path(__file__).resolve().parents[2] / "config" / "confirmation_lexicon_v1.yaml"
+)
+_confirmation_cache: "tuple[tuple[str, ...], tuple[str, ...]] | None" = None
+
+
+def _confirmation_lists() -> "tuple[tuple[str, ...], tuple[str, ...]]":
+    """(afirmaciones, negaciones) del léxico gobernado, minúsculas, cacheadas a nivel
+    de módulo. Fail-open a listas vacías con warning (la gramática degrada a la regla
+    4 «cambio de tema» — jamás rompe el turno), igual que los léxicos del detector."""
+    global _confirmation_cache
+    if _confirmation_cache is not None:
+        return _confirmation_cache
+    try:
+        import yaml
+
+        data = yaml.safe_load(_CONFIRMATION_LEXICON_PATH.read_text(encoding="utf-8")) or {}
+        af = tuple(str(x).strip().lower() for x in (data.get("afirmacion") or []) if str(x).strip())
+        ng = tuple(str(x).strip().lower() for x in (data.get("negacion") or []) if str(x).strip())
+        _confirmation_cache = (af, ng)
+    except Exception:  # pragma: no cover - IO/formato
+        logger.warning("confirmation_lexicon_v1.yaml no legible — gramática degradada a "
+                       "cambio-de-tema (fail-open declarado s331)")
+        _confirmation_cache = ((), ())
+    return _confirmation_cache
+
+
+def _match_phrase(ql: str, phrases: "tuple[str, ...]") -> bool:
+    """Frase completa por token-boundary sobre la query en minúscula."""
+    for p in phrases:
+        if re.search(rf"(?<![a-záéíóúüñ0-9]){re.escape(p)}(?![a-záéíóúüñ0-9])", ql):
+            return True
+    return False
+
+
+_CLAUSE_CUTS = ",.;:¿?¡!"
+_NEGATION_CUES = frozenset({"no", "not", "nope"})
+
+
+def _token_negated(query: str, token: str) -> bool:
+    """(B1 §11 v6, Sol-1 r-v6) ¿Está el token NEGADO en su cláusula? Un cue de
+    negación a ≤4 palabras por delante SIN puntuación entre medias niega el token:
+    «No es la 2X-AF1-S» ⇒ negado; «No, es la CAD-150» ⇒ la coma corta el alcance y
+    CAD-150 NO está negado (la corrección común bindea). Con varias ocurrencias, el
+    token cuenta como negado solo si TODAS lo están (dirección segura)."""
+    ql, tl = query.lower(), token.lower()
+    i = ql.find(tl)
+    if i == -1:
+        return False
+    while i != -1:
+        prev = ql[:i]
+        cut = max((prev.rfind(c) for c in _CLAUSE_CUTS), default=-1)
+        clause_words = re.findall(r"[a-záéíóúüñ0-9-]+", prev[cut + 1:])
+        if not any(w in _NEGATION_CUES for w in clause_words[-4:]):
+            return False  # esta ocurrencia NO está negada ⇒ el token vive
+        i = ql.find(tl, i + 1)
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -461,6 +536,7 @@ class DeterministicConversationPolicy:
         now: datetime,
         rewrite: RewriteFn | None = None,
         intent=None,
+        unresolved_mention: str | None = None,
     ) -> TurnResolution:
         ql = query.lower()
         # A-filter: drop bus/protocol (NON_PRODUCT_CODES) AND normative/standards
@@ -477,6 +553,75 @@ class DeterministicConversationPolicy:
             now, self.window_seconds
         )
 
+        # (s331 §3.C.1) GRAMÁTICA de confirmación — solo con mención PENDIENTE viva
+        # (el turno siguiente a un CLARIFY-de-mención). POLARIDAD delante (B1 §11 v6):
+        # un token resoluble NEGADO en su cláusula JAMÁS bindea. El CLEAR/CONSUME del
+        # pending es ESTRUCTURAL en advance_working_state (toda ruta lo limpia salvo
+        # el SET) — «ciclo máximo 1» por construcción.
+        pending_live = (
+            mention_precedence_enabled()
+            and working_state.pending_within_window(now, self.window_seconds)
+        )
+
+        def _label_request() -> TurnResolution:
+            return TurnResolution(
+                route=PolicyRoute.CLARIFY,
+                query_for_retrieval=query,
+                clarify_question=(
+                    "Entendido, ese no es. ¿Puedes escribirme el modelo exacto tal "
+                    "como aparece en la etiqueta del panel?"),
+                available_models=avail,
+                rationale="pending_negated_label_request",
+            )
+
+        if pending_live and real:
+            vivos = tuple(m for m in real if not _token_negated(query, m))
+            if not vivos:
+                return _label_request()    # regla 1b: todos negados ⇒ UNA etiqueta
+            real = vivos                   # regla 1: bindean SOLO los no-negados
+        elif pending_live and not real:
+            af, ng = _confirmation_lists()
+            pending_str = working_state.pending_mention or ""
+            if _match_phrase(ql, af):
+                # regla 2: afirmación sin token ⇒ FAMILIA gobernada del término
+                # extendido (`pending_derived`) — sin re-preguntar. DESVIACIÓN
+                # DECLARADA de v6 (que pedía «re-intento de binding» primero): el
+                # SET exigió puerta 2 = NO-resoluble, el catálogo no muta a mitad
+                # de hilo, y el re-intento vía resolve_query aceptaba un match
+                # PARCIAL del prefijo como binding falso (medido en G0-g). Si el
+                # catálogo mutara, el siguiente turno con el código resuelve por A.
+                # La pregunta a responder es la del turno de la mención (guardada
+                # en last_query por el SET); la ruta es STANDALONE reconstruida —
+                # el invariante byte-verbatim del CARRY es HARD (lo pinea el eval)
+                # y aquí la query es solo «sí».
+                from ..rag.catalog_resolver import mention_governed_base
+                models: tuple[str, ...] = ()
+                prov = "pending_derived"
+                base = mention_governed_base(pending_str)
+                if base is not None:
+                    models = (base,)
+                if models:
+                    pregunta = working_state.last_query or query
+                    hint = ", ".join(models)
+                    return TurnResolution(
+                        route=PolicyRoute.STANDALONE,
+                        query_for_retrieval=f"{pregunta} (contexto: {hint})",
+                        target_models=models,
+                        available_models=avail,
+                        turn_identity=TurnIdentity(
+                            resolved_models=models,
+                            models_provenance=prov,
+                            mention=pending_str,
+                            mention_provenance="pending_carried",
+                        ),
+                        rationale="pending_confirmed_family",
+                    )
+                # pendiente roto (el SET exigió puerta 2; degradación declarada):
+                # cae a la cascada y el pending se limpia estructuralmente.
+            elif _match_phrase(ql, ng):
+                return _label_request()    # regla 3: negación sin token ⇒ UNA etiqueta
+            # regla 4: cambio de tema ⇒ cascada normal (pending se limpia).
+
         # A. Explicit product in THIS turn wins over history.
         if real:
             return TurnResolution(
@@ -486,6 +631,44 @@ class DeterministicConversationPolicy:
                 available_models=avail,
                 rationale="explicit_product",
             )
+
+        # (s331 §3.C.1) PRECEDENCIA DE MENCIÓN (puerta 2) — una mención con forma de
+        # variante de FAMILIA GOBERNADA, nueva en ESTE turno y distinta del estado,
+        # corta el carry-forward ANTES de la rama de marca: sin esto, F1 respondería
+        # del producto VIEJO callando la mención nueva (Sol-3 r-v2), o la marca
+        # co-presente arrastraría el estado. Gate: in_window (la clase protegida es
+        # el carry equivocado; sin estado, la conducta de hoy queda intacta).
+        if (
+            unresolved_mention
+            and mention_precedence_enabled()
+            and in_window
+        ):
+            from src.rag import catalog_store as _cstore
+            from ..rag.catalog_resolver import (
+                mention_governed_base,
+                mention_route_cut_eligible,
+            )
+            _nk = _cstore.norm_token(unresolved_mention)
+            _state_nks = {
+                _cstore.norm_token(m) for m in working_state.last_target_models
+            }
+            if _nk not in _state_nks and mention_route_cut_eligible(unresolved_mention):
+                base = mention_governed_base(unresolved_mention)
+                familia = f" ¿Es de la familia {base}?" if base else ""
+                return TurnResolution(
+                    route=PolicyRoute.CLARIFY,
+                    query_for_retrieval=query,
+                    clarify_question=(
+                        f"No encuentro «{unresolved_mention}» en mi documentación."
+                        f"{familia} Confírmame el modelo exacto de la etiqueta y sigo."),
+                    available_models=avail,
+                    turn_identity=TurnIdentity(
+                        mention=unresolved_mention,
+                        mention_provenance="this_turn",
+                        route_cut=True,
+                    ),
+                    rationale="mention_route_cut_clarify",
+                )
 
         # B. Brand gate (deterministic split — S99 / fable-F3 + sol-S7).
         matched_brands = self._matched_brands(ql)
@@ -712,6 +895,14 @@ def resolve_conversational_turn(
     turn_models, _turn_resolve_info = resolve_for_turn(
         query, list(turn_models), canonicalize_only=bool(resolved_model)
     )
+    # (s331 §3.C.1, B4 §11) La MENCIÓN no-resuelta se detecta EN COMPOSICIÓN —
+    # detect_turn_signals queda intacta (contrato 2-tupla) y la política la recibe
+    # como argumento (Sol-2 r-v3). Flag off ⇒ None ⇒ byte-idéntico.
+    unresolved_mention: str | None = None
+    if mention_precedence_enabled():
+        from ..rag.catalog_resolver import detect_unresolved_mentions
+        _mentions = detect_unresolved_mentions(query, list(turn_models))
+        unresolved_mention = _mentions[0] if _mentions else None
     policy = DeterministicConversationPolicy()
     resolution = policy.resolve(
         query=query,
@@ -721,6 +912,7 @@ def resolve_conversational_turn(
         now=now,
         rewrite=rewrite,
         intent=intent,
+        unresolved_mention=unresolved_mention,
     )
     new_state = advance_working_state(
         working_state, resolution, query, None, now, available
@@ -745,15 +937,36 @@ def advance_working_state(
     the MT-1b harness ``update_working_state`` so production and eval stay in
     lock-step."""
     if resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
+        ti = resolution.turn_identity
+        if ti is not None and ti.route_cut and ti.mention:
+            # (s331 B3/Fable-2 r-v4, punto de mutación 1) SET del pending: copia del
+            # estado prior con SOLO pending_mention/pending_at/last_query — modelos y
+            # last_turn_at INTACTOS (el invariante anti-resurrección S99 se preserva:
+            # la ventana del carry no se renueva). last_query SÍ se actualiza: guarda
+            # la PREGUNTA del turno de la mención, que la regla 2 de la gramática
+            # necesita para responder tras la confirmación («sí» no contiene la
+            # pregunta). Es descriptivo — no gobierna ninguna ventana.
+            return replace(ws, pending_mention=ti.mention, pending_at=now,
+                           last_query=query)
+        if ws.pending_mention is not None:
+            # (s331 B3, Sol-3 r-v6) CLEAR EXPLÍCITO también en las rutas CLARIFY/
+            # DECLINE no-mención (negación→etiqueta, cambio-de-tema→decline…): sin
+            # esto el pending sobreviviría y «ciclo máximo 1» sería falso. El resto
+            # del estado sigue INTACTO (semántica histórica).
+            return replace(ws, pending_mention=None, pending_at=None)
         return ws
     avail_tuple = tuple(available) if available else None
     models = tuple(resolution.target_models or ())
+    # (s331 B3, punto de mutación 2) Las rutas de RESPUESTA reconstruyen el estado:
+    # el CONSUME/CLEAR del pending es transición EXPLÍCITA, no omisión implícita.
     return WorkingState(
         last_target_models=models,
         last_query=query,
         last_answer_excerpt=(answer_excerpt or "")[:500] or None,
         last_turn_at=now,
         available_models=avail_tuple,
+        pending_mention=None,
+        pending_at=None,
     )
 
 
