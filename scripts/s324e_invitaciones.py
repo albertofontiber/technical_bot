@@ -191,12 +191,6 @@ def _dias_validos(bruto: str) -> int:
     return dias
 
 
-def _nombre_del_bot(explicito: str | None) -> str | None:
-    import os
-
-    return (explicito or os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
-
-
 # ---------------------------------------------------------------- acciones
 
 
@@ -216,9 +210,8 @@ def cmd_generar(args) -> int:
         print("No se pudo crear la invitacion (la base no devolvio la fila).")
         return 2
     invitacion = filas[0]
-    bot = _nombre_del_bot(args.bot)
-    enlace = (access.enlace_invitacion(bot, token) if bot
-              else f"https://t.me/<NOMBRE_DEL_BOT>?start={token}")
+    enlace = access.enlace_invitacion(access.bot_username_publico(args.bot),
+                                      token)
 
     print()
     print("  INVITACION CREADA")
@@ -231,10 +224,6 @@ def cmd_generar(args) -> int:
     print("  Enlace (mandaselo a esa persona):")
     print(f"    {enlace}")
     print()
-    if not bot:
-        print("  OJO: sustituye <NOMBRE_DEL_BOT> por el usuario del bot, o pasa")
-        print("       --bot PCI_Soporte_tecnico_bot (o TELEGRAM_BOT_USERNAME).")
-        print()
     print("  Este enlace NO se puede volver a mostrar: en la base solo esta su")
     print("  huella. Si lo pierdes, anula la invitacion y emite otra.")
     print("  Es de UN SOLO USO: quien lo pulse primero se queda el acceso.")
@@ -477,8 +466,9 @@ def construir_parser() -> argparse.ArgumentParser:
                               f"{access.DIAS_CADUCIDAD_DEFECTO}, maximo "
                               f"{access.DIAS_CADUCIDAD_MAX})")
     generar.add_argument("--bot", default=None,
-                         help="usuario del bot para el enlace "
-                              "(o TELEGRAM_BOT_USERNAME)")
+                         help="usuario del bot para el enlace (por defecto "
+                              f"{access.BOT_USERNAME_DEFECTO}; tambien manda "
+                              "TELEGRAM_BOT_USERNAME)")
     generar.add_argument("--por", default=None, help="quien la emite")
     generar.set_defaults(funcion=cmd_generar)
 

@@ -705,6 +705,30 @@ def es_payload_plausible(payload: object) -> bool:
     return all(caracter in _ALFABETO_PAYLOAD for caracter in payload)
 
 
+#: Identidad PÚBLICA del bot de producción — verificada contra `getMe` con el
+#: token vivo del worker (s329): @PCI_Soporte_tecnico_bot, «Soporte tecnico
+#: PCI IA». Es un default de CÓDIGO a conciencia: no es un secreto ni un
+#: tunable, es el nombre del producto (aparece en cada enlace t.me que ya se
+#: comparte), y así el enlace de invitación sale completo en TODOS los
+#: entornos sin depender de configurar una variable en cada uno. Si el bot se
+#: renombra en BotFather, se actualiza AQUÍ (checklist en DG_DEPLOYMENT.md);
+#: `TELEGRAM_BOT_USERNAME` queda como override para un swap o un bot de pruebas.
+BOT_USERNAME_DEFECTO = "PCI_Soporte_tecnico_bot"
+
+
+def bot_username_publico(explicito: str | None = None) -> str:
+    """Resuelve el username del bot: explícito > `TELEGRAM_BOT_USERNAME` > default.
+
+    Nunca devuelve vacío — el default es la identidad pública del bot de
+    producción, así que quien pinta un enlace de invitación puede contar con
+    que es de copiar y pegar."""
+    for candidato in (explicito, os.getenv("TELEGRAM_BOT_USERNAME")):
+        limpio = (candidato or "").strip().lstrip("@")
+        if limpio:
+            return limpio
+    return BOT_USERNAME_DEFECTO
+
+
 def enlace_invitacion(bot_username: str, token: str) -> str:
     """`https://t.me/<bot>?start=<token>` — la forma que Telegram convierte en
     `context.args` del handler de `/start`."""

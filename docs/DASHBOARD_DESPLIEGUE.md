@@ -134,6 +134,7 @@ Variables de entorno en Vercel:
 | ~~`DASHBOARD_USUARIOS`~~ | **NO va en Vercel (s324j, a2/DEC-239)**: la lista vive en `panel_usuarios` y revocar es un UPDATE, no un redespliegue. La variable queda SOLO para el modo local (`python -m dashboard`, `BackendEntorno`): `usuario:registro` separados por `;` o salto de línea — no por coma (dúo r41) | Local: `python scripts/s324f_dashboard_password.py`. Producción: `python -m scripts.s324j_panel_usuario alta <usuario>` |
 | `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` | La base del **bot** (no la del war room) | Las mismas que usa Railway |
 | `DASHBOARD_SESION_HORAS` | Opcional. Duración de la sesión; por defecto 8 h | — |
+| `TELEGRAM_BOT_USERNAME` | Opcional. Override del usuario del bot para el enlace de invitación; **por defecto va en código** (`access.BOT_USERNAME_DEFECTO`, s329), así el enlace es de copiar y pegar sin configurar nada | Solo si se apunta a un bot distinto del de producción |
 
 **Mismas credenciales que el war room, dos logins.** El war room identifica al admin con
 `ADMIN_EMAIL_n` + `ADMIN_PASS_HASH_n` (bcrypt) en variables de Vercel. El panel del bot usa el
