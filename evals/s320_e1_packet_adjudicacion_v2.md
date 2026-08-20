@@ -21,7 +21,7 @@
 <!-- s324-estado:fin -->
 
 <!-- s331-estado:inicio -->
-> ## 🟢 ESTADO s331 (2026-08-20 22:44Z) — el residuo de este fichero, CERRADO salvo una frase tuya
+> ## 🟢 ESTADO s331 (2026-08-20 22:54Z) — el residuo de este fichero, CERRADO salvo una frase tuya
 > Encargo tuyo de hoy: «las 3 preguntas son para ti» + atacar los no-bloqueantes + ¿queda algo en §1.A?
 >
 > **Hecho y aplicado** (dúo r38 Sol+Fable ANTES de escribir; dry-run PASS: detector +0/−0 términos,
@@ -727,7 +727,7 @@ hay que adjudicar.
 **ambiguedad:termino-multi-modelo** — 23
 
 - [ ] `avotec:doa-fj-cpd` (DOA FJ/CPD)
-      ↳ **s331:** ⏳ PENDIENTE DE TI — **una pregunta**: el alta no se hizo porque los ids son INMUTABLES y tu nota («marca DOA, producto FJ/CPD») no cuadra con el documento: es «® AVOTEC» dos veces, «MADE IN ITALY», copyright «AVOTEC Srl», y **«DOA» no aparece suelta ni una vez en todo el corpus** — sus 2 únicas menciones son «DOA FJ/CPD», una dentro de «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384» (número de certificado CE, donde `/CPD` = *Construction Products Directive*). ¿DOA es una línea comercial de Avotec, o es la designación de tipo del certificado? Con tu respuesta lo doy de alta bien a la primera
+      ↳ **s331:** ✅ ALTA APLICADA (s331) → **`avotec:doa-fj` = «DOA FJ»**, tras tu enlace a la ficha del fabricante (avotec.it/en/products/series-doa-78). Lo que resolvió: **DOA es la SERIE** de Avotec (paneles de señalización de alarma), y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A ⇒ el modelo de este documento es **DOA FJ**, y el «/CPD» es el sufijo de la **certificación** (Construction Products Directive), como confirma la otra mención del doc: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Por eso el canónico es el del fabricante y «DOA FJ/CPD» —única grafía del corpus— queda como **alias**, igual que hicimos con S20/20MI. NO se crea paraguas «DOA»: de los 4 modelos solo uno está atestado · recibo `s331_alta_doa_aplicar_20260820T225428Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «**DOA FJ/CPD** – Fire alarm sounding device for fire signalling conform to regulatio…»
       doc `Manual Rotulo REXD-103_EN` · estrictas doc 2 / global 2 en 1 doc

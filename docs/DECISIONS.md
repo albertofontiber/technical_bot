@@ -9571,3 +9571,31 @@ REVOKE y la postcondición 6.1.b lo verifica.
   end-to-end**: el único efecto de serving es el buscado, quitar una fuente equivocada; (3) siguen sin
   decisión `morley:efs-em-8` («pending.») y `notifier:nx2-r-r-y-nx5-r-r` (anotación vacía).
 - **Relacionado**: DEC-257/DEC-258 · `evals/s331_lote_1AB_propuesta_v1.md` · packet E1 · tally r40.
+
+### DEC-259b (s331, 20 ago 2026) — addendum: «DOA» era una SERIE, no una marca — y el modelo es `DOA FJ`
+
+El único punto que DEC-259 dejó abierto («¿DOA es una línea comercial de Avotec o la designación de
+tipo del certificado?») lo cerró Alberto con la **ficha del fabricante**
+(`https://www.avotec.it/en/products/series-doa-78/`): **DOA es la SERIE** de Avotec —paneles de
+señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` y `DOA FJ/WP/A`.
+
+- **Ninguna de las dos lecturas que estaban sobre la mesa era del todo correcta**: ni «marca DOA +
+  producto FJ/CPD» (su nota original) ni `DOA FJ/CPD` como canónico (mi propuesta). El modelo real es
+  **`DOA FJ`**, y el `/CPD` es el sufijo de la **certificación** — lo confirma la segunda mención del
+  propio documento: «CERTIFICATION DOA FJ/CPD **12 0051-CPD-0384**», un número de certificado CE.
+- **Aplicado** (recibo `s331_alta_doa_aplicar_20260820T225428Z.json`, dry-run PASS + censo posterior
+  PASS): alta `avotec:doa-fj` (canónico **DOA FJ**, `familia: DOA`, `vendido_bajo: [Avotec]`), alias
+  **`DOA FJ/CPD`** y su fila de doc_map. Detector 1757→1759 (+2/−0), 0 gold perdidas, 0 disparos en
+  negativos sintéticos y **0 detecciones nuevas en 111 consultas reales**.
+- **Por qué el canónico es el del fabricante y no la grafía del corpus**: los ids son INMUTABLES, así
+  que se acuña el nombre que el fabricante publica y la grafía atestada entra como alias. Es el mismo
+  patrón que `S20/20MI` (canónico) / `20/20MI` (alias) en DEC-258.
+- **NO se crea el paraguas «DOA»**: de los 4 modelos de la serie solo **uno** está atestado en el
+  corpus, y el término «DOA» suelto no aparece nunca. Un paraguas de un miembro no aporta.
+- **Gaps**: el canónico `DOA FJ` **no aparece verbatim** en el corpus —su única grafía atestada es
+  `DOA FJ/CPD`, 2 menciones en 1 documento—, la cita más floja de la sesión; y el término hereda los
+  avisos `sin_digitos` + `acronimo_corto` del gate, que midió **0 disparos** en sintéticos y en
+  tráfico real.
+- **Lo que esto valida del método**: el dúo r40 (Sol, medio) frenó el alta precisamente por no acuñar
+  un id inmutable con la identidad sin cerrar. Esperar a un dato de una línea evitó un id equivocado
+  que habría exigido un merge. **Relacionado**: DEC-259.

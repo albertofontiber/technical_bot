@@ -121,12 +121,14 @@ def main() -> int:
             "sería otro parche que la re-ingesta deshace → **`TECH_DEBT #95` ampliado a `manufacturer`**, que es donde "
             "vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota"),
         "avotec:doa-fj-cpd": (
-            "⏳ PENDIENTE DE TI — **una pregunta**: el alta no se hizo porque los ids son INMUTABLES y tu nota («marca "
-            "DOA, producto FJ/CPD») no cuadra con el documento: es «® AVOTEC» dos veces, «MADE IN ITALY», copyright "
-            "«AVOTEC Srl», y **«DOA» no aparece suelta ni una vez en todo el corpus** — sus 2 únicas menciones son "
-            "«DOA FJ/CPD», una dentro de «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384» (número de certificado CE, donde "
-            "`/CPD` = *Construction Products Directive*). ¿DOA es una línea comercial de Avotec, o es la designación "
-            "de tipo del certificado? Con tu respuesta lo doy de alta bien a la primera"),
+            "✅ ALTA APLICADA (s331) → **`avotec:doa-fj` = «DOA FJ»**, tras tu enlace a la ficha del fabricante "
+            "(avotec.it/en/products/series-doa-78). Lo que resolvió: **DOA es la SERIE** de Avotec (paneles de "
+            "señalización de alarma), y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A ⇒ el modelo de "
+            "este documento es **DOA FJ**, y el «/CPD» es el sufijo de la **certificación** (Construction Products "
+            "Directive), como confirma la otra mención del doc: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Por eso "
+            "el canónico es el del fabricante y «DOA FJ/CPD» —única grafía del corpus— queda como **alias**, igual "
+            "que hicimos con S20/20MI. NO se crea paraguas «DOA»: de los 4 modelos solo uno está atestado · recibo "
+            "`s331_alta_doa_aplicar_20260820T225428Z.json`"),
         "notifier:conv232-485": (
             "✅ ALTA APLICADA (s331, tu nota) → `notifier:conv232-485` = **CONV232/485**, cita «Convertidor RS232 a "
             "RS485/422 para TG a centrales ID3000 - punto a punto. **Ref.: CONV232/485**». Tu matiz aplicado: RS232 y "

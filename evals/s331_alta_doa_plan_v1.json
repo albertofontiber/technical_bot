@@ -1,0 +1,65 @@
+{
+ "que_es": "s331 — alta de DOA FJ (Avotec) tras la respuesta de Alberto con la ficha del fabricante.",
+ "utc": "20260820T000000Z",
+ "firma": "Alberto, 20-ago-2026: enlace a avotec.it/en/products/series-doa-78/ como respuesta a mi pregunta",
+ "products_altas": [
+  {
+   "row": {
+    "id": "avotec:doa-fj",
+    "canonical_model": "DOA FJ",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Avotec"
+    ],
+    "added_by": "s331",
+    "familia": "DOA",
+    "provenance": "s331 §1.B — alta adjudicada por Alberto (20-ago-2026) con FUENTE DEL FABRICANTE: https://www.avotec.it/en/products/series-doa-78/ — «DOA» es la SERIE de Avotec (paneles de señalización de alarma) y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A. El modelo de este documento es DOA FJ; el «/CPD» de la grafía del corpus es el sufijo de la CERTIFICACIÓN (Construction Products Directive), como confirma la otra mención: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Canonical = el del fabricante; la grafía del documento entra como alias. Esto resuelve el punto que el dúo r40 dejó abierto (Sol, medio: no acuñar un id inmutable con la identidad sin cerrar); cita verificada full-text en Manual Rotulo REXD-103_EN (2 chunks con el token «DOA FJ/CPD»)"
+   },
+   "doc": "Manual Rotulo REXD-103_EN",
+   "document_id": "cbac8a25-5331-4032-95ed-b0de608aab6f",
+   "cita": "LATION MANUAL | ® AVOTEC | |-----------|---------------------|----------| | | **DOA FJ/CPD** – Fire alarm sounding device for fire signalling conform to regulation EN54-3 | | # 1- LAYOUT AND",
+   "n_token": 2,
+   "regla": "alta con cita propia + ficha del fabricante (adjudicación de Alberto)"
+  }
+ ],
+ "aliases_altas": [
+  {
+   "alias": "DOA FJ/CPD",
+   "id": "avotec:doa-fj",
+   "tipo": "codigo-comercial",
+   "added_by": "s331",
+   "provenance": "s331 §1.B — alta adjudicada por Alberto (20-ago-2026) con FUENTE DEL FABRICANTE: https://www.avotec.it/en/products/series-doa-78/ — «DOA» es la SERIE de Avotec (paneles de señalización de alarma) y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A. El modelo de este documento es DOA FJ; el «/CPD» de la grafía del corpus es el sufijo de la CERTIFICACIÓN (Construction Products Directive), como confirma la otra mención: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Canonical = el del fabricante; la grafía del documento entra como alias. Esto resuelve el punto que el dúo r40 dejó abierto (Sol, medio: no acuñar un id inmutable con la identidad sin cerrar) — grafía CON el sufijo de certificación, que es la ÚNICA que aparece en el corpus (2 menciones)"
+  }
+ ],
+ "products_confirmar": [],
+ "products_retirar": [],
+ "aliases_quitar": [],
+ "umbrellas_altas": [],
+ "doc_map_altas": [
+  {
+   "document_id": "cbac8a25-5331-4032-95ed-b0de608aab6f",
+   "source_file": "Manual Rotulo REXD-103_EN",
+   "entries": [
+    {
+     "id": "avotec:doa-fj",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.B — alta adjudicada por Alberto (20-ago-2026) con FUENTE DEL FABRICANTE: https://www.avotec.it/en/products/series-doa-78/ — «DOA» es la SERIE de Avotec (paneles de señalización de alarma) y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A. El modelo de este documento es DOA FJ; el «/CPD» de la grafía del corpus es el sufijo de la CERTIFICACIÓN (Construction Products Directive), como confirma la otra mención: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Canonical = el del fabricante; la grafía del documento entra como alias. Esto resuelve el punto que el dúo r40 dejó abierto (Sol, medio: no acuñar un id inmutable con la identidad sin cerrar) — manual de instalación del propio producto"
+    }
+   ]
+  }
+ ],
+ "doc_map_modificaciones": [],
+ "retags_db": [],
+ "no_aplicar": [
+  {
+   "tema": "paraguas de serie «DOA»",
+   "estado": "NO se crea: de los 4 modelos del fabricante (DOA FJ, FJ/A, FJ/WP, FJ/WP/A) solo UNO está atestado en el corpus; un paraguas de 1 miembro no aporta y el término «DOA» suelto no aparece nunca en el corpus"
+  }
+ ],
+ "gaps": [
+  "El canonical «DOA FJ» NO aparece verbatim en el corpus: su única grafía atestada es «DOA FJ/CPD» (2 menciones, 1 documento) — la cita más floja de la sesión. Se elige el nombre del FABRICANTE como canonical porque los ids son inmutables, y la grafía del corpus queda como alias (mismo patrón que S20/20MI/20/20MI en DEC-258)",
+  "Sin dúo nuevo: el lever conceptual ya lo revisó r40 y su objeción era la falta de este dato; la estructura resultante (canonical del fabricante) responde a esa objeción. El control operativo es el gate"
+ ]
+}
