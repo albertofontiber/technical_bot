@@ -47,7 +47,7 @@ cambios, nació la v2 (fusiones catálogo+specs e instalación+config, compatibi
 «¿funciona X con Y?» entre marcas) y el histórico se re-clasificó cuatro veces por **~$0,49 y ~6
 minutos**, 109/109 y cero fallos. «Re-taxonomizar cuesta céntimos» dejó de ser una promesa.
 
-**s327 → `es_pregunta` es un EJE, no una categoría** (DEC-247). Adjudicación de Alberto: «separar lo
+**s327 → `es_pregunta` es un EJE, no una categoría** (DEC-248). Adjudicación de Alberto: «separar lo
 que es pregunta de lo que no, para que las no-preguntas no entren en el análisis». Tenía razón de
 fondo: tema y «¿esto pide algo?» son **ortogonales**, y mezclarlos perdía siempre una de las dos.
 Ahora es columna propia (023), las 8 vistas de análisis excluyen las no-preguntas —**votos
@@ -68,6 +68,20 @@ métricas** — las 9 gráficas de un vistazo, con título y leyenda, cada una e
 `/metricas/<clave>` (primera ruta con parámetro del panel: se normaliza ANTES de la puerta y el
 sufijo se resuelve contra lista cerrada o 404 — nunca viaja a PostgREST), con presupuesto de tiempo
 de 18 s contra el `maxDuration: 30` de Vercel.
+
+**Frente paralelo, de la otra rama (s325h-e, 19-ago)** — **la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
+REFUTADA.** El
+registro de una VM la sella con **uptime 40,89 s** en el momento de instalar, y esa VM traía el
+marcador `663fae88` de **mtime 14:09:35Z**: en 41 s de vida no pudo escribirlo, luego viajó en el
+snapshot. Lo medido en s325h-c era correcto para SU VM y se generalizó mal — **pero ojo con el
+error simétrico**: esa misma VM NO recibió la caché, así que lo observado es «al menos a veces»,
+no una propiedad uniforme, y la causa de ese hueco sigue sin cerrar. **Sigue sin medirse el
+AHORRO** (cero arranques que se salten la instalación: los de ese día llevan la huella movida por
+haber tocado el instalador tres veces; se medirá solo en cuanto pase un día sin tocarlo). Dos hechos
+nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (confirma s325g), y
+**cada `resume` re-provisiona el contenedor y resetea el uptime** (4 boots en una sesión), lo que
+invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
+que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
 
 **Dúo (Protocolo 3) en las tres sesiones**: 7+5, 8+4 y 7+5 hallazgos — **todos confirmados, 0 falsos
 positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de
@@ -95,7 +109,9 @@ trigger** (gate pg, 11/11 contra PostgreSQL 17 real + control negativo); **#93 y
    sigue en False; **no** bloquea nada — el cerrojo por usuario funciona desde el día 1).
 6. **Deuda con trigger caliente**: **#94** — el CSS del panel no tiene red de seguridad; el primer
    cambio de estructura de tabla POSTERIOR a s327 debería traer el gate Playwright en CI.
-
+7. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
+   — la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin
+   tocar el instalador. Y la causa de que una VM NO recibiera la caché sigue abierta.
 ---
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)

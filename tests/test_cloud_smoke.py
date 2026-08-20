@@ -249,8 +249,16 @@ def test_deps_cache_dice_la_verdad_cuando_se_instalo_en_este_arranque(tmp_path, 
          f"saltada {h} {boot} {up - 30:.2f} 2026-08-19T14:14:20Z"],
         monkeypatch=monkeypatch,
     )
-    assert "INSTALADAS en este arranque" in res["detalle"]
-    assert "no las traía" in res["detalle"]
+    assert "se PAGÓ la instalación en este arranque" in res["detalle"]
+    # s325h-e: el mensaje NO puede afirmar QUÉ TRAÍA la caché. Con la huella movida
+    # (tocar `install-deps.sh` la mueve a propósito), el snapshot pudo traer la receta
+    # anterior y el hook reinstalar igual — pasó el 19-ago y costó un diagnóstico
+    # invertido (DEC-245). El check reporta el COSTE; el origen lo dice la traza.
+    # El assert es sobre la CLASE de afirmación, no sobre una frase concreta (Fable r1):
+    # se exige la cláusula de no-afirmación y se prohíbe cualquier veredicto de origen.
+    assert "no dice qué traía la caché" in res["detalle"]
+    for prohibida in ("no las traía", "venía vacío", "vacía", "las trajo hechas"):
+        assert prohibida not in res["detalle"], prohibida
     assert res["critico"] is False
 
 
@@ -263,7 +271,7 @@ def test_deps_cache_reconoce_el_ahorro_solo_si_nadie_instalo(tmp_path, monkeypat
         monkeypatch=monkeypatch,
     )
     assert "ya estaban al arrancar" in res["detalle"]
-    assert "las trajo hechas" in res["detalle"]
+    assert "el origen no se afirma" in res["detalle"]
 
 
 @sin_proc

@@ -33,7 +33,7 @@
 > navegador real**: 0 px de scroll horizontal en 390/768/1440, CSP `default-src 'none'` intacta,
 > sin JavaScript (`docs/PANEL_RESPONSIVE.md`). Gate pg de las migraciones: 11/11 contra PostgreSQL
 > 17 real (TECH_DEBT #91 pagada). Qué falta para el primer DG: `docs/PILOTO_DG_ESTADO.md` — el
-> único bloqueante es el paquete del abogado. DEC-247.
+> único bloqueante es el paquete del abogado. DEC-248.
 >
 > **Estado s326/s326b (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (021/022 aplicadas).**
 > Adjudicación completa de Alberto (prosa opción (a) · taxonomía v1 · alias · coste):

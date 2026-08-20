@@ -6038,6 +6038,13 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
+> **⚠️ El párrafo que sigue quedó REFUTADO el mismo día, por s325h-e/DEC-247**: la caché del
+> environment SÍ puede persistir `site-packages` (al menos a veces — no es una propiedad
+> uniforme, y el hueco sigue sin explicar). Se conserva tal cual porque este bloque es un
+> **recibo** de lo que el PLAN decía al retirarlo, no un estado: la traza de un diagnóstico
+> invertido vale más que un archivo limpio (mismo criterio que DEC-247 aplicó a DEC-242).
+> El estado vigente de este frente vive en el «Estado actual» del PLAN.
+
 **Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
 ~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. Las
 deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
@@ -6204,4 +6211,4 @@ Quedan dos deudas nuevas y las dos son sobre no poder comprobar cosas. La #93: n
 **secuencial** a propósito —Fable audita los cierres de Sol, que es donde estuvo su valor hoy— pero
 el tally exige que ambos vean los mismos bytes, así que el enganche nunca cuadra y el recibo se
 pierde; salió tres veces en dos días. La #94: el CSS del panel no tiene red de seguridad, y el móvil
-es el dispositivo del técnico en obra. DEC-247.
+es el dispositivo del técnico en obra. DEC-248.
