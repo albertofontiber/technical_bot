@@ -1,9 +1,9 @@
 {
  "que_es": "Censo vivo de Railway (worker): retiradas ausentes, las que mandan presentes, último deployment. Valores solo de flags no secretos.",
- "utc": "20260817T220144Z",
+ "utc": "20260820T230339Z",
  "servicios": {
   "worker": {
-   "n_vars": 42,
+   "n_vars": 43,
    "retiradas_ausentes": {
     "GENERATOR_PROMPT_VARIANT": true,
     "RERANK_TOP_K": true,
@@ -81,12 +81,13 @@
     "STRUCTURAL_NEIGHBOR_SHADOW",
     "TELEGRAM_FEEDBACK",
     "TELEGRAM_FEEDBACK_REASON",
-    "VISUAL_ASSETS_REGISTRY"
+    "VISUAL_ASSETS_REGISTRY",
+    "VOICE_TRANSCRIPTION_MODEL"
    ],
    "n_con_nombre_sensible": 11,
    "ultimo_deployment": {
     "status": "SUCCESS",
-    "createdAt": "2026-08-17T21:59:58.109Z"
+    "createdAt": "2026-08-20T19:08:28.266Z"
    }
   }
  },
