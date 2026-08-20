@@ -3,7 +3,11 @@
 -- catálogo: job mensual ACTIVO a nombre de postgres, oráculo cerrado para los 3 roles de
 -- la API, recibos blindados, y dry-run del driver con exit 0). IDEMPOTENTE: re-ejecutarla
 -- es seguro y no-opea/re-afirma (el `cron.schedule` con el mismo nombre ACTUALIZA el job,
--- no lo duplica). Orden de la cola: s295 → s296 → s297 → s299. En un entorno nuevo se
+-- no lo duplica) — CON UNA EXCEPCIÓN desde s330: si s330 está aplicada, esta migración
+-- ABORTA en su precondición, porque reinstalaría la pasada de 4 tablas y sacaría las 3
+-- de control de acceso de la retención sin dar un solo error. Para re-afirmar el
+-- contrato entero, aplica s330: es idempotente y contiene todo lo de aquí.
+-- Orden de la cola: s295 → s296 → s297 → s299 → **s330**. En un entorno nuevo se
 -- aplica tras el bootstrap.
 -- ============================================================================
 -- s299 — decisión de Alberto (5-ago): PROGRAMAR la retención. Dos piezas que van juntas:
@@ -88,6 +92,23 @@ BEGIN
     END IF;
     IF to_regclass('public.consent_events') IS NULL THEN
         RAISE EXCEPTION 's299: aplica ANTES 20260805120000_s297_ledger_consentimiento_v1.sql';
+    END IF;
+
+    -- s330 (20-ago-2026) — FAIL-CLOSED CONTRA EL DRIFT, y no un aviso que alguien lea.
+    -- Esta migracion redefine `rgpd_retencion_pasada` con las 4 tablas originales. Si
+    -- s330 ya esta aplicada, re-ejecutar esto REINSTALARIA la version de 4 tablas y
+    -- dejaria las 3 de control de acceso fuera de la pasada mensual: verde-parcial, con
+    -- recibo de aspecto normal y sin un solo error. El comentario de 016 demostro que
+    -- un aviso escrito no es un control; esto si lo es.
+    IF EXISTS (
+        SELECT 1 FROM pg_policies
+         WHERE schemaname = 'public' AND tablename = 'bot_allowlist'
+           AND policyname = 'rgpd_retencion_ventana'
+    ) THEN
+        RAISE EXCEPTION 's299: s330 esta aplicada y esta migracion la revertiria en '
+                        'silencio (reinstala la pasada de 4 tablas). Aplica s330 '
+                        '(20260820160000_s330_rgpd_control_acceso_v1.sql), que es '
+                        'idempotente y ya contiene todo lo de s299.';
     END IF;
 END
 $s299_preflight$;

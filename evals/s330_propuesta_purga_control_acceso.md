@@ -218,3 +218,107 @@ cubre las 7 tablas.
 1. **C-1**: ¿opción (b) —columna `disociada_at` + CHECK ampliado— u otra?
 2. **M-4**: ¿se aceptan los dos criterios nuevos (huérfanos y suelo `canjeada_at + 24m`)?
 3. **M-3**: queda declarado para el asesor; no bloquea el resto.
+
+---
+
+## ADJUDICADO por Alberto (20-ago, tras la ronda de Sol)
+
+1. **C-1 → opción (b)**: tercer estado explícito. Columna `disociada_at TIMESTAMPTZ` + CHECK
+   ampliado que admite `canjeada_at IS NOT NULL AND canjeada_por IS NULL` **solo si**
+   `disociada_at IS NOT NULL`. La traza del canje sobrevive; el invariante «un canje se puede
+   atribuir» sigue vivo para todo lo que no haya pasado por la retención; y la columna es el recibo
+   por fila.
+2. **M-4 → los dos criterios nuevos, ACEPTADOS**: (i) la invitación canjeada cuya alta ya no existe
+   también vence; (ii) suelo `canjeada_at + 24m`. Dejan de ser propuesta y pasan a ser canon —
+   con esta adjudicación como referencia, no la matriz del 17-ago, que no los contemplaba.
+3. **M-3** sigue como gap con dueño (asesor): `creada_por`/`revocada_por` conservan
+   `panel:<usuario>` sin plazo.
+
+---
+
+# v3 — qué cambió tras la ronda de Fable (NO SÓLIDO: 2 medios + 1 menor)
+
+## F-1 (medio, CONFIRMADO y AMPLIADO) — el CHECK rompe también la SUPRESIÓN A PETICIÓN, y eso es HOY
+
+Fable: «C-1 tiene más alcance del declarado y el framing *daño diferido a 2028* es incompleto».
+Verificado, y el alcance es aún mayor que el que señala. La sentencia
+`UPDATE bot_invitaciones SET canjeada_por = NULL WHERE canjeada_por = X` —que viola el mismo CHECK—
+está prescrita en **cuatro sitios**:
+
+| Sitio | Qué es |
+|---|---|
+| `migrations/016:101` | El comentario-runbook de la propia migración |
+| `docs/DG_DEPLOYMENT.md:152` | **El runbook operativo del piloto** («si el DG pide borrado RGPD…») |
+| `docs/RGPD_RETENCION.md:223` | La columna «supresión a petición» de la matriz |
+| `docs/RGPD_RETENCION.md:531` | «Derechos del interesado» |
+
+**Consecuencia: el procedimiento de derecho de supresión (art. 17) fallaría HOY con `23514`** si lo
+ejercitara alguien que canjeó una invitación. No es un riesgo de 2028: es un incumplimiento vivo, y
+lo hemos encontrado por el camino de arreglar otra cosa.
+
+**Efecto en el diseño**: la adjudicación (b) NO cambia —es la única opción que arregla las **dos**
+rutas conservando la traza del canje—, pero su alcance sí: `disociada_at` es la marca de *«el
+identificador se retiró de esta fila»*, la estampen la **retención** o la **supresión a petición**.
+Los cuatro sitios entran en el barrido documental con la sentencia corregida:
+`SET canjeada_por = NULL, disociada_at = now()`.
+
+**Hallazgo propio del mismo barrido**: `RGPD_RETENCION.md:223` sigue diciendo «⚠️ SIN PLAZO — gap
+material abierto (propuesta: 6 meses…)» cuando el plazo se adjudicó a 24 meses el 17-ago en la
+sección de abajo del MISMO documento. La matriz se contradice consigo misma.
+
+## F-2 (medio, ACEPTADO) — el banner de supersesión es el control que ya falló una vez
+
+Fable: «documentación que confía en que el humano la lea — el mismo tipo de control que falló con el
+comentario de 016». Tiene razón, y el precedente que cita es literalmente el de esta sesión.
+El rediseño C-2 **no** lo cubre: reinstalar la función de 4 tablas deja una aserción que solo mira 4
+tablas ⇒ verde, disocia esas 4, ignora las 3 nuevas ⇒ **verde-parcial silencioso**.
+
+**Cierre estructural, no documental**: s299 gana una **precondición ejecutable** que aborta si
+detecta que s330 está aplicada (la política `rgpd_retencion_ventana` sobre `bot_allowlist`), con el
+mensaje de aplicar s330 después. El banner se queda, pero ya no es el control: es la explicación.
+
+## F-3 (menor, ACEPTADO) — «MEDIDO» → «medido a fecha de censo»
+
+Corregido en §4.2. El recibo versionado ya declara que es una foto de un instante.
+
+## Estado del dúo
+
+Sol 7/7 confirmados · Fable 3/3 confirmados · **0 falsos positivos entre los dos**. La v1 no era
+construible; la v3 sí. Se cablea con esto.
+
+---
+
+# v4 — lo que solo apareció EJECUTANDO contra PostgreSQL 17 real
+
+Ni Sol ni Fable lo vieron, y yo tampoco: **`CREATE OR REPLACE` sobre `rgpd_retencion_pasada` falla
+con `42501 permission denied for function`**, y la causa es su propio encabezado. Al reemplazar una
+función que lleva `SET role = rgpd_retencion`, el chequeo del objeto previo ocurre **ya con ese rol
+asumido**, y a ese rol s299 le revocó todo — EXECUTE sobre ella misma incluido. Cuando s299 la
+**creó** no había objeto previo que chequear, así que el problema aparece **solo al ampliarla**:
+exactamente la operación que esta sesión necesitaba.
+
+Aislado por eliminación, no por intuición: función nueva con `SET role` → pasa · reemplazo sin
+`SET role` → pasa · reemplazo **con** `SET role` → deniega.
+
+**Arreglo**: `DROP FUNCTION` explícito antes del `CREATE`, dentro de la misma transacción. Quitar el
+`SET role` no era opción — es lo que hace que la ventana la garantice el motor. Y el `DROP` arrastra
+una consecuencia que había que cerrar en el mismo acto: **la función nace de nuevo y los default
+privileges de Supabase le conceden EXECUTE a la API entera**, que es el agujero que s299 tuvo abierto
+en producción con `rgpd_quedan_identificados`. Por eso s330 re-declara los REVOKE y añade la
+postcondición **6.1.b** que lo verifica. Ampliar la retención estuvo a un paso de reabrir ese agujero.
+
+El job de pg_cron no se rompe con el `DROP`: `cron.schedule` guarda el comando como **texto**, no como
+dependencia del catálogo.
+
+## Verificación (Protocolo 1) — ejecutada, no declarada
+
+- **53/53 verdes contra PostgreSQL 17 real** (mismo mayor que CI): los **41** tests previos de
+  s295/s296/s297/s299 siguen pasando y los **12 nuevos de s330** también. El contenedor no traía
+  pg17 (solo pg16, que ni siquiera conoce el privilegio `MAINTAIN` que usa la cola); se instaló
+  desde PGDG para medir contra la versión que importa.
+- **Control negativo ejecutado**: con la política de `bot_allowlist` saboteada a `USING (true)`, la
+  migración **no aplica** — la aserción de mecanismo la corta. El gate no pasa en verde con la
+  ventana abierta.
+- Suites relacionadas sin BD: **171 passed**.
+- Paths de s330 añadidos al workflow `s295-rgpd-retencion-pg.yml`, o el gate no habría corrido al
+  tocar esta migración.
