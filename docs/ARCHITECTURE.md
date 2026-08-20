@@ -24,7 +24,8 @@
 > **La retención, completa.** El job mensual `rgpd_retencion_pasada` (pg_cron, ventana de 24 meses
 > como invariante RLS, recibo en la base) pasa de 4 a **7 tablas**: entran `bot_invitaciones`,
 > `bot_allowlist` y `panel_usuarios`, cerrando el «PENDIENTE MATERIAL (art. 5.1.e)». **Escrito y
-> probado (53/53 contra PostgreSQL 17 real), pendiente de APLICAR.** Por el camino: la sentencia
+> probado (54/54 contra PostgreSQL 17 real) y APLICADO en producción el 20-ago** (postcondiciones
+> PASS, dry-run con 0 filas tocadas; primera pasada del cron el 1-sep). Por el camino: la sentencia
 > del runbook para el **derecho de supresión** la base la rechazaba —mal en cuatro sitios— y queda
 > arreglada; el tercer estado `disociada_at` es lo que lo hace posible (DEC-256).
 >

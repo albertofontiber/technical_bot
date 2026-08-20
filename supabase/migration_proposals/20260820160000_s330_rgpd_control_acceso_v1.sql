@@ -1,9 +1,16 @@
 -- ============================================================================
 -- s330 — La retención alcanza a las TRES tablas de control de acceso.
 --
--- NO APLICADA TODAVÍA. La aplica Alberto en el SQL Editor, como el resto de esta
--- cola (s295 → s296 → s297 → s299 → **s330**). Idempotente: re-ejecutarla es
--- segura (CREATE OR REPLACE, ADD COLUMN IF NOT EXISTS, DROP POLICY IF EXISTS).
+-- APLICADA EN PRODUCCIÓN el 20-ago-2026 (adjudicada por Alberto; la aplicó el asistente
+-- por el conector de Supabase, en los tres bloques en que está escrita). Postcondiciones
+-- PASS y dry-run de la pasada con 0 filas tocadas en las 7 tablas — recibo en
+-- `evals/s330_aplicacion_produccion_v1.json`. Orden de la cola: s295 → s296 → s297 →
+-- s299 → **s330**. Idempotente: re-ejecutarla es segura (CREATE OR REPLACE, ADD COLUMN
+-- IF NOT EXISTS, DROP POLICY IF EXISTS).
+--
+-- OJO al re-aplicarla en un entorno NUEVO: el conector honra los BEGIN/COMMIT del script
+-- (verificado antes de tocar nada), así que vale tal cual — pero `rgpd_recibos` solo
+-- admite origen 'manual'|'cron', cosa que el primer dry-run descubrió a las malas.
 -- ============================================================================
 -- QUÉ CIERRA. `docs/RGPD_RETENCION.md` marcaba «PENDIENTE MATERIAL — plazo y purga
 -- de las dos tablas (art. 5.1.e)»: `bot_invitaciones` y `bot_allowlist` no tenían

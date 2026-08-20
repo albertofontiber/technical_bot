@@ -1,0 +1,41 @@
+{
+  "que_es": "Recibo de la APLICACION EN PRODUCCION de s330 (retencion ampliada a las 3 tablas de control de acceso). Adjudicada por Alberto el 20-ago-2026. Sin datos personales: solo conteos, nombres de objeto y veredictos.",
+  "utc": "2026-08-20T16:10:00Z",
+  "proyecto": "technical-bot (izooestgffgscdirkfia)",
+  "via": "conector Supabase (execute_sql), NO el sistema de migraciones — estas propuestas estan excluidas de `supabase db push` a proposito (README de migration_proposals)",
+  "sonda_previa": {
+    "conectado_como": "postgres",
+    "es_superusuario": false,
+    "membresia_SET_en_rgpd_retencion": true,
+    "transacciones": "el conector HONRA BEGIN/COMMIT/ROLLBACK del script igual que el SQL Editor (probado con una tabla temporal revertida antes de tocar nada)"
+  },
+  "estado_antes": {"s330_aplicada": false, "columna_disociada_at": false, "pasada_de_7_tablas": false,
+                   "bot_invitaciones": 2, "bot_allowlist": 2, "panel_usuarios": 1, "recibos": 1},
+  "aplicado_en_3_bloques": [
+    "1) esquema (disociada_at + CHECK ampliado) + privilegios de columna + oraculo rgpd_invitacion_vencida + 3 politicas de ventana — atomico, OK",
+    "2) DROP + CREATE de rgpd_retencion_pasada (7 tablas) + REVOKE re-declarados — atomico, OK",
+    "3) postcondiciones del propio fichero — PASAN (sin excepcion)"
+  ],
+  "postcondiciones": {
+    "oraculo_no_alcanzable_por_api": "PASS",
+    "pasada_no_alcanzable_por_api": "PASS (el DROP+CREATE la hizo nacer bajo los default privileges; sin este control se habria reabierto el agujero de s299)",
+    "rol_no_puede_leer_nota": "PASS",
+    "ventana_en_las_7_tablas": "PASS",
+    "pasada_viva_cubre_las_3_nuevas": "PASS",
+    "check_sigue_prohibiendo_canje_sin_atribuir_ni_marca": "PASS (control negativo real, con verificacion del NOMBRE de la restriccion)"
+  },
+  "dry_run": {
+    "como": "BEGIN; SELECT rgpd_retencion_pasada('manual'); ROLLBACK; — equivalente al driver de Python, que no puede correr desde cloud (el proxy no permite TCP al 5432)",
+    "corte": "2024-08-20",
+    "tocadas": {"query_logs": 0, "feedback": 0, "answer_feedback": 0, "answer_messages": 0,
+                "bot_invitaciones": 0, "bot_allowlist": 0, "panel_usuarios": 0, "persona_seudonimo": 3},
+    "modos": {"bot_invitaciones": "disociar", "bot_allowlist": "borrar", "panel_usuarios": "borrar"},
+    "lectura": "las 7 tablas entran en la pasada y NINGUNA tiene filas vencidas. El unico numero no nulo son 3 vinculos de persona_seudonimo sin NINGUNA fila identificada: sus codigos no agrupan nada, asi que destruirlos no pierde corpus. Es el «caso benigno» que s299 ya declaro (entonces eran 2). El 4o vinculo, que si tiene datos, sobrevive.",
+    "recibo_persistido": "NO — el dry-run revierte, y esa es la garantia: toda fila en rgpd_recibos = pasada confirmada"
+  },
+  "incidencia_declarada": "el primer intento de dry-run uso origen='dry-run-s330-aplicacion' y fue RECHAZADO por rgpd_recibos_origen_check, que solo admite 'manual'|'cron'. Aborto limpio: se verifico que nada quedo tocado (2/2/1 filas y 1 recibo, identicos al censo). Repetido con 'manual'.",
+  "estado_despues": {"s330_aplicada": true, "columna_disociada_at": true, "pasada_de_7_tablas": true,
+                     "filas_tocadas_por_la_aplicacion": 0},
+  "que_pasa_ahora": "la proxima pasada del cron (dia 1 de cada mes, 04:30 UTC — la primera, el 1-sep) destruira esos 3 vinculos vacios y nada mas. El primer borrado con datos seria en agosto de 2028.",
+  "pendiente": "validacion del abogado (va en el paquete) y el gap de creada_por/revocada_por, que conservan `panel:<usuario>` sin plazo."
+}

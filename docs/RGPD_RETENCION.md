@@ -299,9 +299,13 @@ donde está gobernado: `bot_invitaciones.canjeada_por` y el aviso de arriba.
 ### ~~PENDIENTE MATERIAL~~ → **RESUELTO EN CÓDIGO (s330, 20-ago-2026), pendiente de APLICAR**
 
 > **Estado hoy**: el plazo estaba decidido y faltaban dos cosas — (1) escribir la política, y (2) la
-> validación del abogado. **(1) está hecho**: `supabase/migration_proposals/20260820160000_s330_rgpd_control_acceso_v1.sql`
+> validación del abogado. **(1) está hecho Y APLICADO EN PRODUCCIÓN el 20-ago-2026**
+> (recibo: `evals/s330_aplicacion_produccion_v1.json`; postcondiciones PASS, dry-run con 0
+> filas tocadas). Concretamente: `supabase/migration_proposals/20260820160000_s330_rgpd_control_acceso_v1.sql`
 > amplía `rgpd_retencion_pasada` de 4 a 7 tablas, con gate contra PostgreSQL 17 real (53/53) y
-> control negativo ejecutado. **(2) sigue siendo de Alberto**, y aplicar la migración también.
+> control negativo ejecutado. **(2), la validación legal, sigue siendo de Alberto** — y no la
+> bloqueaba: la pasada no borra nada hasta 2028, así que aplicar el mecanismo no consume
+> ninguna decisión del asesor. Lo que sí arregló YA es el derecho de supresión.
 > Lo que sigue es el análisis original, que explica POR QUÉ el hueco existía.
 
 #### El hueco original (s324e) — plazo y purga de las dos tablas (art. 5.1.e)

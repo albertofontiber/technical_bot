@@ -68,7 +68,7 @@ tenían un agujero que solo apareció al **ejecutar el control negativo**:
 **La retención cubre las 7 tablas con dato personal** (DEC-256, s330): el job mensual que ya corría
 desde el 5-ago —`rgpd_retencion_pasada`, pg_cron, ventana de 24 meses como invariante RLS— se amplía
 a `bot_invitaciones`, `bot_allowlist` y `panel_usuarios`, cerrando el «PENDIENTE MATERIAL (art.
-5.1.e)». **Escrito y probado (53/53 contra PostgreSQL 17 real), NO aplicado**: lo aplica Alberto. Y
+5.1.e)». **Probado (54/54 contra PostgreSQL 17 real) y APLICADO en producción el 20-ago**. Y
 por el camino apareció que la sentencia del runbook para el **derecho de supresión (art. 17)** la
 base la RECHAZA —estaba mal en cuatro sitios, incluido el runbook del piloto—: eso sí era un fallo
 de HOY, y queda arreglado.
@@ -101,11 +101,11 @@ causa de que una VM no la recibiera sigue abierta.
 4. **Gate de EXPONER que sigue abierto**: la **medición XFF** antes de encender la mitad `ip:` del
    cerrojo (`INCLUIR_CLAVE_IP` sigue en False). **No bloquea nada** — el cerrojo por usuario
    funciona desde el día 1.
-5. **APLICAR la purga del control de acceso** (s330/DEC-256) — el mecanismo ya existe y está
-   probado; falta ejecutarlo en el SQL Editor:
-   `supabase/migration_proposals/20260820160000_s330_rgpd_control_acceso_v1.sql`. Sin prisa, y
-   medido: **0 filas vencidas hoy**, la primera sería en agosto de 2028. Va naturalmente DESPUÉS del
-   punto 1 (el propio doc lo condiciona a la validación del abogado).
+5. ~~Aplicar la purga del control de acceso~~ **APLICADA EN PRODUCCIÓN (20-ago, s330/DEC-256)**:
+   postcondiciones PASS y dry-run con **0 filas tocadas** en las 7 tablas
+   (`evals/s330_aplicacion_produccion_v1.json`). La primera pasada del cron (1-sep, 04:30 UTC)
+   destruirá 3 vínculos de `persona_seudonimo` **sin ninguna fila identificada** —caso benigno ya
+   declarado en s299— y nada más; el primer borrado con datos sería en agosto de 2028.
    · **Gap nuevo para el asesor**: `creada_por`/`revocada_por` guardan `panel:<usuario>` —posible
    correo del administrador— **sin plazo**; es dato personal de otro interesado. Merece una línea en
    el paquete.
