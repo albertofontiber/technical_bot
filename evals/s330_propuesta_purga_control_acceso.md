@@ -137,3 +137,84 @@ a `rgpd_retencion`, con postcondición que lo asevera.
 Migración + rollback + tests de integración contra PostgreSQL real (fixture extendido con las tres
 tablas) + paths del workflow + docs (RGPD_RETENCION, el comentario de 016, PLAN, DECISIONS,
 TECH_DEBT). **Sin aplicar en producción.**
+
+---
+
+# v2 — qué cambió tras la ronda de Sol (7 hallazgos, 2 CRÍTICOS, todos CONFIRMADOS contra el código)
+
+Ningún hallazgo se descarta. Los dos críticos **tumban la v1 tal cual estaba**: no era construible.
+
+## C-1 (crítico, CONFIRMADO) — la regla adjudicada VIOLA un CHECK de la tabla
+
+`migrations/016:180-182`:
+```sql
+CONSTRAINT bot_invitaciones_canje_completo CHECK (
+    (canjeada_at IS NULL AND canjeada_por IS NULL)
+    OR (canjeada_at IS NOT NULL AND canjeada_por IS NOT NULL))
+```
+La matriz manda `canjeada_por = NULL` **conservando** `canjeada_at`. Eso viola el CHECK ⇒
+`RAISE` ⇒ **la pasada mensual ENTERA se revierte**, no solo esa fila: `query_logs`, `feedback`,
+`answer_feedback`, `answer_messages` y el vínculo se quedan sin disociar, con el job en rojo
+únicamente en `cron.job_run_details`. Y no se vería hasta **2028**, cuando aparezca la primera fila
+elegible. Es el peor perfil posible: daño diferido y silencioso.
+
+**Esto NO es solo un bug de mi diseño: es que la regla canónica de la matriz no se puede ejecutar
+tal cual.** Requiere adjudicación de Alberto, no una elección mía.
+
+| Opción | Qué hace | Por qué |
+|---|---|---|
+| **(b) RECOMENDADA — tercer estado explícito** | Columna `disociada_at TIMESTAMPTZ` + CHECK ampliado: se admite `canjeada_at IS NOT NULL AND canjeada_por IS NULL` **solo si** `disociada_at IS NOT NULL` | Conserva «hubo un canje y cuándo» (la traza de auditoría), mantiene vivo el invariante «un canje reciente se puede atribuir» para todo lo demás, y la columna ES el recibo por fila de que la retención actuó |
+| (a) Nulificar también `canjeada_at` | Cumple el CHECK sin tocar esquema | La invitación pasaría a parecer **nunca canjeada**: `access.estado_invitacion` la mostraría como caducada. Falsea la auditoría para salvar una restricción |
+| (c) Centinela (`canjeada_por = 0`) | Cumple el CHECK | Un identificador falso en una columna de identificadores. Mentira estructural |
+| (d) `DELETE` de la invitación entera | Simple | Destruye «quién la emitió y cuándo», que es justo lo que la matriz quiere conservar; contradice «disociar, no borrar» |
+
+## C-2 (crítico, CONFIRMADO) — la aserción de mecanismo abortaría SIEMPRE
+
+`s299:196-227` no comprueba «hay una política»: exige, por tabla, RLS forzada + **exactamente una**
+política que alcance al rol + que se llame `rgpd_retencion_ventana` + que su `qual` contenga
+**literalmente** `created_at` **y** el intervalo (`2 years`/`24 mons`). Mis anclas son `revocado_at`,
+`revocado_en` y una llamada a función ⇒ el `qual` no contiene `created_at` ⇒ **la pasada aborta cada
+mes**. Cambiar el array de 4 a 7 nombres, como decía la v1, era exactamente lo que Sol señala: no basta.
+
+**Rediseño (sin debilitar el listón)**: la aserción pasa de array de nombres a **array de pares
+(tabla, ancla esperada)**, y comprueba `qual LIKE '%'||ancla||'%'` + el intervalo. Para
+`bot_invitaciones`, cuya política delega en la función, se exige que el `qual` nombre
+`rgpd_invitacion_vencida` **y** —esto es lo que impide el agujero— que `prosrc` de esa función
+contenga el intervalo de 24 meses. La ventana sigue teniendo UNA sola fuente y se VERIFICA, que es
+el mismo criterio que la postcondición 6.6 de s295.
+
+## M-3 (medio, CONFIRMADO) — la purga no cierra todo el dato personal de la tabla
+
+`creada_por` y `revocada_por` guardan `panel:<usuario>` (`dashboard/gestion.py:223-226, 293-300`), y
+`panel_usuarios.usuario` admite un correo (`CHECK usuario ~ '^[a-z0-9._@-]{1,64}$'`). Es dato personal
+de **otro interesado** —el administrador— conservado sin plazo. La v1 no lo veía.
+**No lo resuelvo yo**: es plazo o justificación (interés legítimo de auditoría) y va al asesor con el
+resto. Se declara como gap con dueño, en la matriz y en el paquete.
+
+## M-4 (medio, CONFIRMADO) — la v1 sobre-afirmaba «reglas ya adjudicadas»
+
+La matriz adjudica: invitación canjeada **con alta revocada**, anclada en `revocado_at`. **Son
+criterios NUEVOS míos**: (i) tratar el caso «el alta ya no existe» y (ii) el suelo `canjeada_at + 24m`.
+Son prudentes —cierran un incumplimiento silencioso— pero **van a adjudicación de Alberto**, no
+coladas como ejecución de lo ya decidido. Marcados como tales en la tabla de reglas.
+
+## M-5 (medio, CONFIRMADO) — s299 revertiría s330 en silencio
+
+s299 declara en su cabecera que re-ejecutarla es seguro, y su `CREATE OR REPLACE` **reinstala la
+versión de 4 tablas**. En una cola que se aplica a mano, alguien re-afirmando el bootstrap borraría
+las tres sentencias nuevas sin ningún error. Cierre: **banner de supersesión en s299** («no
+re-ejecutar sin re-aplicar s330 después») + **postcondición en s330** que aserta que la función viva
+cubre las 7 tablas.
+
+## m-6 y m-7 (menores, CONFIRMADOS)
+
+- `migrations/019:343-352` también afirma que la función controla «EXACTAMENTE 4 tablas»: entra en el
+  barrido documental junto al comentario de 016.
+- El censo de producción no era inspeccionable desde el repo ⇒ versionado en
+  `evals/s330_censo_produccion_v1.json` (conteos y fecha más antigua; sin datos personales).
+
+## Lo que hace falta de Alberto antes de cablear
+
+1. **C-1**: ¿opción (b) —columna `disociada_at` + CHECK ampliado— u otra?
+2. **M-4**: ¿se aceptan los dos criterios nuevos (huérfanos y suelo `canjeada_at + 24m`)?
+3. **M-3**: queda declarado para el asesor; no bloquea el resto.
