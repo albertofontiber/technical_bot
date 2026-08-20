@@ -17,59 +17,34 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s328c (20 ago 2026) — LA TAXONOMÍA v8 QUEDA ACORDADA (gate 29/29).**
-> Primera vez que el gate de acuerdo pasa: la v1 sacó ~80 % y disparó el ciclo del «otros»
-> (DEC-246). El paquete pendiente estaba CADUCO —era de la v6, con `no_es_pregunta`, categoría
-> retirada en la v7— y se regeneró contra producción. El clasificador deja de ser una propuesta y
-> pasa a ser criterio compartido: las gráficas de tipología se leen como verdad, con sus residuales
-> declarados (`catalogo_especificaciones` = 70 % por la fusión adjudicada; `mantenimiento_pruebas` y
-> `normativa` sin ni una fila). Medido aparte y SIN tocar código: una pregunta **sin signos de
-> interrogación** («qué productos Detnov tienes») se reconoce 8/8 — la sostiene el prompt, no una
-> regla, y por eso queda como sonda con trigger en vez de como regla que taparía la señal. Y la
-> puerta lleva **Playfair Display auto-hospedada** (14 glifos, 1.988 bytes, en el código; `font-src
-> data:` solo en `/entrar`), replicando lo que el Data Room consigue con `next/font/google`.
-> DEC-251.
+> **Estado s327–s328e (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y TRES PROMESAS SON PUERTAS.**
+> Un solo bloque para todo el día: cinco sub-sesiones encadenadas, cuya narración vive en
+> `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-253.
 >
-> > **Estado s328b (20 ago 2026) — LAS GRÁFICAS SON COLUMNAS EN HTML, NO SVG.**
-> Adjudicación de Alberto: «que salgan de izquierda a derecha, no de arriba a abajo», «el mismo
-> tamaño de letra». Lo segundo destapó la causa común de los dos intentos anteriores: **una escala
-> uniforme mueve el texto por definición** — el SVG de s327 se ampliaba ×2,29 en escritorio y el de
-> s328 encogía la letra a ~8 px en una tarjeta estrecha. En HTML el texto es texto (12 px a
-> cualquier anchura, los mismos que el resto del panel) y solo estira la barra, con la altura en una
-> CLASE de una tabla fija —un atributo de estilo abriría la CSP con `unsafe-inline`—. El rótulo va
-> vertical (`writing-mode`, que sí ocupa layout) y es hijo del **mismo** `<li>` que su columna, así
-> que la clase de fallo de s328 desaparece en vez de vigilarse. Gate de geometría a cinco
-> invariantes, con controles versionados en las dos direcciones. DEC-250.
+> **Lo estructural.** `es_pregunta` deja de ser categoría y pasa a **eje** (columna, migración 023):
+> tema y «¿esto pide algo?» son ortogonales, y mezclarlos perdía siempre una de las dos. Las 8
+> vistas de análisis excluyen las no-preguntas —**votos incluidos**, que faltaban (024)— y las
+> no-preguntas conservan su tema. La regla dura («**termina** en “?” ⇒ pregunta») la decide el
+> CÓDIGO, sin LLM, y se aplica DESPUÉS del modelo porque manda sobre él. Medido con censo completo:
+> 93/109 los resuelve la regla, **≤1/109 falsos negativos**. Y la **taxonomía v8 queda ACORDADA**:
+> el gate de acuerdo pasó **29/29**, primera vez (la v1 sacó ~80 %).
 >
-> > **Estado s328 (20 ago 2026) — UN NAVEGADOR MIDE EL PANEL EN CI, Y LA PUERTA LLEVA MARCA.**
-> La primera regresión visible del panel llegó de s327: las gráficas se pintaban a **×2,29** en
-> escritorio porque el SVG era fluido **sin tope** y los rótulos vivían FUERA, en filas HTML de
-> 28 px fijos — **dos sistemas de coordenadas** que solo cuadraban a 1 unidad = 1 px. Arreglado por
-> construcción (el rótulo va dentro del SVG) y **gateado**: `tests/test_s328_panel_geometria.py`
-> recorre el panel con Chromium en 390/768/1440 y afirma que no desborda, **no se amplía** y el
-> rótulo está a <3 px de su barra, con el patrón roto versionado como control negativo. Cierra
-> `TECH_DEBT #94`. Y `/entrar` lleva la identidad **Fontiber** del Data Room (navy/cobre/arena),
-> acotada a `body.entrada`: sin JavaScript, sin fuentes externas, y sin prometer 2FA ni recuperación
-> de contraseña, que este panel no tiene. DEC-249.
+> **El panel.** Portada con las 9 gráficas de un vistazo + `/metricas/<clave>` (primera ruta con
+> parámetro: se normaliza ANTES de la puerta y el sufijo va contra lista cerrada o 404), con
+> presupuesto de 18 s contra el `maxDuration: 30` de Vercel. Las gráficas son **columnas en HTML, no
+> SVG** — dos intentos con SVG fallaron por lo mismo: *una escala uniforme mueve el texto por
+> definición*; en HTML 12 px son 12 px a cualquier anchura y solo estira la barra, con la altura en
+> una CLASE porque un atributo `style` abriría la CSP. La puerta lleva identidad **Fontiber** con
+> Playfair **auto-hospedada** (14 glifos, 1.988 bytes, en el código; `font-src data:` solo en
+> `/entrar`), replicando lo que el Data Room logra con `next/font/google`.
 >
-> > **Estado s327 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y `es_pregunta` ES UN EJE.**
-> Migraciones **021→024 APLICADAS** en producción; histórico clasificado **109/109 con taxonomía
-> v8**. Lo que se separó: **tema** y **«¿esto pide algo?»** son dimensiones ortogonales, así que
-> `no_es_pregunta` dejó de ser categoría y pasó a columna (`query_clasificacion.es_pregunta`,
-> adjudicación de Alberto). Las 8 vistas de análisis excluyen las no-preguntas —**votos incluidos**,
-> que faltaban (024)— y las que parten de `query_logs` usan `COALESCE(es_pregunta, TRUE)`: sin
-> clasificar cuenta como pregunta. La regla dura («**termina** en “?” ⇒ pregunta») la decide el
-> CÓDIGO, sin LLM y sin coste, y se aplica DESPUÉS del modelo porque manda sobre él. **Medido**
-> (censo completo, no muestra): 93/109 los resuelve la regla; **≤ 1/109 falsos negativos**.
-> El panel gana —**cableado en rama, aún sin desplegar**; lo que SÍ está en producción son las
-> migraciones— **portada de métricas** (9 gráficas con título y leyenda) + `/metricas/<clave>`
-> —primera ruta con parámetro: se normaliza ANTES de la puerta y el sufijo va contra lista cerrada
-> o 404— con presupuesto de tiempo de 18 s (`maxDuration: 30` de Vercel). **Móvil medido con
-> navegador real**: 0 px de scroll horizontal en 390/768/1440, CSP `default-src 'none'` intacta,
-> sin JavaScript (`docs/PANEL_RESPONSIVE.md`). Gate pg de las migraciones: 11/11 contra PostgreSQL
-> 17 real (TECH_DEBT #91 pagada). Qué falta para el primer DG: `docs/PILOTO_DG_ESTADO.md` — el
-> único bloqueante es el paquete del abogado. DEC-248.
->
+> **Y lo que más vale: tres promesas pasaron a ser puertas**, y las tres tenían un agujero que solo
+> apareció al ejecutar el control negativo — (1) el CSS no tenía red de seguridad y ahora **Chromium
+> lo mide en CI** (no desborda · la letra no escala · rótulo centrado · nada cortado), cerrando
+> `TECH_DEBT #94`; (2) el anexo del paquete del abogado era una **copia** que llevaba el v8 con el
+> v9 en producción, y ahora **se genera del código**; (3) la sonda del eje tenía el gatillo en un
+> docstring y ahora es **pre-vuelo del job**, que aborta si el eje regresa.
+
 > **Estado s326/s326b (19 ago 2026) — LAS MÉTRICAS DE USO/CALIDAD, CABLEADAS (021/022 aplicadas).**
 > Adjudicación completa de Alberto (prosa opción (a) · taxonomía v1 · alias · coste):
 > tabla derivada `query_clasificacion` + clasificador batch determinista-primero (regla $0,
