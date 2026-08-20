@@ -2,7 +2,8 @@
 """s326 — el clasificador batch de preguntas: el núcleo puro, sin red.
 
 Lo que este fichero fija:
-  1. la taxonomía v1 carga, tiene `otros`, y sus reglas apuntan dentro;
+  1. la taxonomía VIGENTE carga, tiene `otros`, sus reglas apuntan dentro, y
+     lleva las adjudicaciones de la v2 (dos fusiones + «no es una pregunta»);
   2. el parser del LLM es ESTRICTO: categoría fuera de lista = respuesta
      descartada ENTERA (jamás degradada a 'otros' — 'otros' es una elección
      del clasificador, no su modo de fallo);
@@ -25,6 +26,10 @@ from src import clasificacion as cl
 
 RAIZ = Path(__file__).resolve().parent.parent
 M021 = (RAIZ / "migrations" / "021_query_clasificacion.sql").read_text("utf-8")
+#: La migración que define el CHECK de `categoria` VIGENTE. Al subir la
+#: taxonomía se apunta aquí a su migración hermana — fricción deliberada,
+#: igual que el censo de módulos: un cambio de categorías paga un toque.
+M_TAXONOMIA = (RAIZ / "migrations" / "022_taxonomia_v2.sql").read_text("utf-8")
 
 TAX = cl.cargar_taxonomia()
 
@@ -32,12 +37,58 @@ TAX = cl.cargar_taxonomia()
 # ------------------------------------------------------------------ taxonomía
 
 
-def test_taxonomia_v1_carga_y_es_coherente():
-    assert TAX.version == 1
+def test_taxonomia_vigente_carga_y_es_coherente():
+    assert TAX.version == 6
     assert "otros" in TAX.ids
-    assert len(TAX.ids) == len(set(TAX.ids)) == 9
-    assert TAX.regla_rutas["catalog_shortcut"] == "catalogo_documentacion"
+    assert len(TAX.ids) == len(set(TAX.ids)) == 8
+    assert TAX.regla_rutas["catalog_shortcut"] == "catalogo_especificaciones"
     assert set(TAX.regla_rutas.values()) <= set(TAX.ids)
+
+
+#: sha256 del CONTENIDO SEMÁNTICO de la taxonomía (ids + descripciones +
+#: reglas) por versión. Existe porque el contrato «cualquier cambio sube
+#: `version`» era SOLO PROSA (hallazgo Sol s326b): los tests fijaban los ids y
+#: el número, así que reescribir una descripción —que ES el prompt, y cambia
+#: las asignaciones— dejaba todo verde y las filas históricas sin re-encolar.
+#: Al subir de versión se añade la entrada nueva aquí, y la vieja se queda como
+#: traza de qué clasificó cada número.
+HUELLAS_TAXONOMIA = {
+    5: "6d29f56b581f0a34",
+    6: "512bf3108860f4d2",
+}
+
+
+def _huella(tax) -> str:
+    import hashlib
+    canon = "\n".join(
+        [str(tax.version)]
+        + [f"{cid}|{desc}" for cid, desc in tax.categorias]
+        + [f"{k}={v}" for k, v in sorted(tax.regla_rutas.items())])
+    return hashlib.sha256(canon.encode("utf-8")).hexdigest()[:16]
+
+
+def test_cambiar_una_descripcion_obliga_a_subir_la_version():
+    esperada = HUELLAS_TAXONOMIA.get(TAX.version)
+    assert esperada is not None, (
+        f"taxonomía v{TAX.version} sin huella declarada: añade su entrada a "
+        f"HUELLAS_TAXONOMIA (la de ahora es {_huella(TAX)!r})")
+    assert _huella(TAX) == esperada, (
+        f"el contenido de la taxonomía cambió SIN subir `version` (huella "
+        f"{_huella(TAX)!r} ≠ {esperada!r}). Las descripciones SON el prompt: "
+        f"cambiarlas cambia las asignaciones, así que exigen versión nueva — "
+        f"si no, las filas ya clasificadas no se re-encolan y el histórico "
+        f"queda mezclando dos criterios bajo el mismo número.")
+
+
+def test_las_adjudicaciones_de_la_v2_estan_en_la_lista():
+    """Las cuatro decisiones de Alberto que CAMBIAN la lista (19-ago): dos
+    fusiones, la clase «no es una pregunta» y la retirada de los ids viejos."""
+    assert "catalogo_especificaciones" in TAX.ids      # catálogo + specs
+    assert "instalacion_configuracion" in TAX.ids      # instalación + config
+    assert "no_es_pregunta" in TAX.ids                 # punto 7
+    for retirado in ("especificaciones", "catalogo_documentacion",
+                     "instalacion_cableado", "configuracion_programacion"):
+        assert retirado not in TAX.ids, retirado
 
 
 def test_prompt_lleva_las_categorias_y_la_pregunta_acotada():
@@ -131,7 +182,7 @@ def test_ruta_por_regla_no_llama_al_llm():
         _fila(), TAX, cl.indice_de_marcas(NOMBRES),
         marca_de_modelo=_marca_de_modelo, resolver_alias=lambda m: m,
         llm=_llm_prohibido, modelo_llm="haiku")
-    assert clasif["categoria"] == "catalogo_documentacion"
+    assert clasif["categoria"] == "catalogo_especificaciones"
     assert clasif["origen"] == "regla"
     assert clasif["modelo_llm"] is None
     assert clasif["taxonomia_version"] == TAX.version
@@ -206,15 +257,31 @@ def test_el_payload_escribe_exactamente_las_columnas_concedidas_en_021():
     assert set(clasif) == columnas
 
 
-def test_el_check_de_categoria_en_021_es_la_taxonomia_v1():
+def test_el_check_vigente_en_sql_es_la_taxonomia_del_yaml():
+    """Las dos mitades del contrato, atadas: la lista del YAML y el CHECK de la
+    base tienen que decir EXACTAMENTE lo mismo (si divergen, el job escribe
+    categorías que la base rechaza — o al revés, y nadie se entera hasta
+    producción)."""
     check = re.search(
-        r"categoria\s+TEXT NOT NULL CHECK \(categoria IN \(([^)]+)\)\)",
-        re.sub(r"\s+", " ", M021))
-    assert check, "falta el CHECK de categoria en la 021"
+        r"ADD CONSTRAINT query_clasificacion_categoria_check "
+        r"CHECK \(categoria IN \(([^)]+)\)\)",
+        re.sub(r"\s+", " ", M_TAXONOMIA))
+    assert check, "falta el CHECK de categoria en la migración de taxonomía"
     en_sql = {c.strip().strip("'") for c in check.group(1).split(",")}
     assert en_sql == set(TAX.ids), (
-        "taxonomía YAML ≠ CHECK de la 021 — una taxonomía nueva exige "
-        "migración hermana (contrato del YAML)")
+        "taxonomía YAML ≠ CHECK vigente — una taxonomía nueva exige migración "
+        "hermana (contrato del YAML)")
+
+
+def test_la_migracion_de_taxonomia_retira_los_ids_viejos_de_datos_y_check():
+    """El mapa de la 022 no puede dejar filas con un id que el CHECK ya no
+    admite: la migración comprueba AMBOS lados (postcondición propia)."""
+    compacta = re.sub(r"\s+", " ", M_TAXONOMIA)
+    for retirado in ("especificaciones", "catalogo_documentacion",
+                     "instalacion_cableado", "configuracion_programacion"):
+        assert f"WHEN '{retirado}'" in compacta, f"{retirado} sin mapa"
+    assert "quedan % filas con el id retirado" in compacta
+    assert "el CHECK todavía admite el id retirado" in compacta
 
 
 # ------------------------------------------------------------ correr_pendientes

@@ -133,7 +133,7 @@ exit 0
 ```
 
   Semántica contrastada con la doc oficial (cloud-environments). **El AVISO que aquí decía
-  «el snapshot no trajo nada» era de s325h-c y está REFUTADO** (s325h-e / DEC-246): una VM
+  «el snapshot no trajo nada» era de s325h-c y está REFUTADO** (s325h-e / DEC-247): una VM
   recibió el marcador de otra anterior, así que la persistencia ocurre. Lo que sigue sin
   medirse es el AHORRO, y una VM (la de 14:12:33) **no** recibió la caché por causa aún sin
   cerrar — o sea, el párrafo que sigue describe lo que la doc promete y lo observado lo
@@ -302,7 +302,7 @@ NO LISTO, PR #289) es lo que hay que saber antes de montar otro environment:
   de GitHub integradas funcionan, pero un script que lea `GITHUB_TOKEN` recibe el
   placeholder, no un token. El `git push` solo funciona contra la rama de la sesión.
 - **La caché PUEDE persistir `site-packages` — observado al menos una vez; NO uniformemente
-  (s325h-e, DEC-246; refuta el «no persiste» de s325h-c)**: una VM cuyo registro se sella con
+  (s325h-e, DEC-247; refuta el «no persiste» de s325h-c)**: una VM cuyo registro se sella con
   **uptime 40,89 s** arrancó con el marcador `663fae88` de **mtime 14:09:35Z**; en 41 segundos de
   vida no pudo escribirlo, luego llegó de un arranque anterior. Pero **otra VM (la de 14:12:33) NO
   lo recibió**, por causa sin cerrar: lo que hay es «al menos a veces», no una propiedad uniforme.

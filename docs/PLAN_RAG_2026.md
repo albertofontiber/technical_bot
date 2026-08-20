@@ -66,7 +66,7 @@ haber tocado el instalador tres veces; se medirá solo en cuanto pase un día si
 nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (confirma s325g), y
 **cada `resume` re-provisiona el contenedor y resetea el uptime** (4 boots en una sesión), lo que
 invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
-que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-246).
+que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
@@ -123,13 +123,19 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
    conducta del bot idéntica; nada corre en la ruta de respuesta) ·
    `scripts/clasificar_preguntas.py` (backfill/re-taxonomización con
    recibo) · página **Explorador** con filtros de listas cerradas. **Para USARLO, en orden**:
-   (i) ~~aplicar la 021~~ **APLICADA en producción** (19-ago noche, conector, GO de Alberto;
-   postcondiciones + verificación externa verdes; el backfill destapó y cerró el incidente
-   upsert-PK — DEC-245 addendum 2); (ii) ~~backfill~~ **HECHO**: 109/109 clasificadas, 0 fallos,
-   $0,085 (recibo `evals/s326_backfill_v1.json`) — **queda el gate de acuerdo ≥85 %**: Alberto
-   marca los desacuerdos de la muestra de 35 (en el hilo) ANTES de leer las gráficas como
-   verdad; (iii) opcional `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática
-   cada 6 h (sin ella, re-correr el script tras tráfico nuevo).
+   (i) ~~aplicar la 021~~ **APLICADA** (19-ago noche, conector, GO de Alberto; DEC-245 add. 2);
+   (ii) ~~backfill~~ **HECHO** (109/109, $0,085); (iii) ~~gate de acuerdo v1~~ **CORRIDO Y
+   FALLADO — y eso lo puso en marcha todo** (~80 % < 85 %): Alberto adjudicó SIETE cambios,
+   nació la **taxonomía v2** (fusiones catálogo+specs e instalación+config, compatibilidad
+   acotada a «¿funciona X con Y?» entre marcas, y la clase nueva `no_es_pregunta` = 10 % del
+   histórico), se aplicó la **022** y el histórico se re-clasificó **cuatro veces** (v2→v5) por
+   **~$0,49 y ~6 min, 109/109 y 0 fallos** — el ciclo del «otros» ejecutado por primera vez y
+   MEDIDO (DEC-247); (iv) **PENDIENTE: el gate de acuerdo de la v5** — muestra nueva entregada
+   a Alberto en el hilo, con un residual declarado («especificaciones técnicas del NC» en
+   `otros`, 1/109) y dos gaps: `catalogo_especificaciones` = 61,5 % (categoría dominante por la
+   fusión que él pidió) y `no_es_pregunta` mezclando ruido con quejas de calidad;
+   (v) opcional `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática cada 6 h
+   (sin ella, re-correr el script tras tráfico nuevo).
    **Gate de EXPONER nuevo que nace aquí: addendum del Explorador (prosa de
    preguntas/comentarios, adjudicación (a)/DEC-231) al paquete del abogado.**
 5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·

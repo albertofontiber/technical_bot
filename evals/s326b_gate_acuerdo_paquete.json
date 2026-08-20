@@ -1,0 +1,244 @@
+{
+  "gate": "acuerdo del clasificador de preguntas",
+  "umbral": "≥85 % de acuerdo",
+  "taxonomia_version": 6,
+  "taxonomia_ids": [
+    "catalogo_especificaciones",
+    "instalacion_configuracion",
+    "averias_diagnostico",
+    "mantenimiento_pruebas",
+    "compatibilidad_sustitucion",
+    "normativa",
+    "no_es_pregunta",
+    "otros"
+  ],
+  "poblacion": 109,
+  "distribucion": {
+    "catalogo_especificaciones": 67,
+    "instalacion_configuracion": 19,
+    "no_es_pregunta": 11,
+    "averias_diagnostico": 6,
+    "otros": 4,
+    "normativa": 1,
+    "compatibilidad_sustitucion": 1
+  },
+  "muestra_estratificada": [
+    {
+      "n": 1,
+      "query_log_id": "2ab087ec-ddc5-43c8-ad41-47df71bb7118",
+      "pregunta": "¿Cómo se resuelve un fallo de tierra en la central AFP-400?",
+      "categoria_asignada": "averias_diagnostico",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 2,
+      "query_log_id": "45d885d2-280a-40b2-b881-48f091d55e78",
+      "pregunta": "El detector ASD535 de Securiton está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "categoria_asignada": "averias_diagnostico",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 3,
+      "query_log_id": "9ec2c1bd-0f06-4d07-b54f-1f3157a85af7",
+      "pregunta": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "categoria_asignada": "averias_diagnostico",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 4,
+      "query_log_id": "76dac05e-5184-4ef9-a875-4eb01a127290",
+      "pregunta": "El detector ASD535 está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "categoria_asignada": "averias_diagnostico",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 5,
+      "query_log_id": "583fc1f1-2a50-45ca-8e13-88185f28ab66",
+      "pregunta": "Características de la AFP-200E",
+      "categoria_asignada": "catalogo_especificaciones",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 6,
+      "query_log_id": "bcd9b9af-ed00-4a04-a485-abd7edf806bb",
+      "pregunta": "¿Qué versiones existen de la central CAD-171?",
+      "categoria_asignada": "catalogo_especificaciones",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 7,
+      "query_log_id": "6e0f2d7a-b7ae-42ad-ba1e-b18dc31c0c50",
+      "pregunta": "¿qué fabricantes tienes?",
+      "categoria_asignada": "catalogo_especificaciones",
+      "ruta": "catalog_shortcut",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 8,
+      "query_log_id": "9bb04b0d-23f6-4870-b1e8-9996a990a08d",
+      "pregunta": "¿Qué centrales de cuatro lazos analógica de Detnov tienes?",
+      "categoria_asignada": "catalogo_especificaciones",
+      "ruta": "catalog_shortcut",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 9,
+      "query_log_id": "9e5978cf-5593-4822-aa87-a109fc1dff5a",
+      "pregunta": "¿cómo puedo conseguir tener 32 lazos en la CAD-250?",
+      "categoria_asignada": "catalogo_especificaciones",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 10,
+      "query_log_id": "ca104ef7-a434-47dd-91cb-66c6a105f048",
+      "pregunta": "¿qué sensores se humo son compatibles?",
+      "categoria_asignada": "compatibilidad_sustitucion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 11,
+      "query_log_id": "d38b30e3-a973-4254-93d4-14c2f38c966c",
+      "pregunta": "esquema de conexión del CAD-250",
+      "categoria_asignada": "instalacion_configuracion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 12,
+      "query_log_id": "07f9c304-e7f7-4bd1-bcfe-c2cad87c5274",
+      "pregunta": "y que cuerpos he de poner para conseguir los 32 lazos, y cómo se montan?",
+      "categoria_asignada": "instalacion_configuracion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 13,
+      "query_log_id": "4c94d42a-afc7-453f-9623-27eeb43e2981",
+      "pregunta": "En esa central, ¿cómo programo un lazo?",
+      "categoria_asignada": "instalacion_configuracion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 14,
+      "query_log_id": "4cbe3a12-dc59-454b-8871-2d5524681b78",
+      "pregunta": "En la CCD-103, ¿cómo desactivo un detector individual?",
+      "categoria_asignada": "instalacion_configuracion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 15,
+      "query_log_id": "af38fd4d-c387-461b-80fd-0294a8eb853c",
+      "pregunta": "¿Como se programa la central CAD-250?",
+      "categoria_asignada": "instalacion_configuracion",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 16,
+      "query_log_id": "0daba814-cacb-4360-a284-45ef68f64ce0",
+      "pregunta": "Te he pedido información sobre centrales analógicas (e.g. la CAD-250, CAD-171, etc.), no sobre todos los productos de Detnov",
+      "categoria_asignada": "no_es_pregunta",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 17,
+      "query_log_id": "347229b6-0986-4a27-a2ab-213d357e208d",
+      "pregunta": "sus especificaciones técnicas básicas",
+      "categoria_asignada": "no_es_pregunta",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 18,
+      "query_log_id": "4fbca15f-e6e5-4b38-83d5-72fcf906fc71",
+      "pregunta": "Programación principalmente.",
+      "categoria_asignada": "no_es_pregunta",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 19,
+      "query_log_id": "5a952636-d2d7-4d9a-8663-a5b7fa26f7c8",
+      "pregunta": "Me has pasado información sobre la ID3000 que no es de Detnov, cuando quería información de Detnov",
+      "categoria_asignada": "no_es_pregunta",
+      "ruta": "manufacturer_mismatch",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 20,
+      "query_log_id": "4515bb29-4546-4718-aee6-9a48d0bab023",
+      "pregunta": "esto parece incluir muchos más productos que \"centrales de incendios\"",
+      "categoria_asignada": "no_es_pregunta",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 21,
+      "query_log_id": "65325c6b-0b30-4d0a-a018-eabf558a78e6",
+      "pregunta": "¿A partir de cuantas sirenas de lazo es necesario instalar una fuente de alimentación?",
+      "categoria_asignada": "normativa",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 22,
+      "query_log_id": "088ff2dc-1fa4-45d0-b7b6-d52d170210bd",
+      "pregunta": "ZX1e",
+      "categoria_asignada": "otros",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 23,
+      "query_log_id": "a23f2720-8836-4d7f-a04d-fd14f48a6724",
+      "pregunta": "¿me puedes dar las especificaciones técnicas del NC?",
+      "categoria_asignada": "otros",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 24,
+      "query_log_id": "ae86e487-0c79-4d65-8120-82b5862d17d8",
+      "pregunta": "sonda-018",
+      "categoria_asignada": "otros",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    },
+    {
+      "n": 25,
+      "query_log_id": "14d6f73b-3ba4-4e73-88a8-69196a4c382f",
+      "pregunta": "¿Para que productos tienes información?",
+      "categoria_asignada": "otros",
+      "ruta": "rag",
+      "veredicto_alberto": null
+    }
+  ],
+  "como_se_eligio": "hasta 5 por categoría, DEDUPLICADA por texto y con orden determinista por md5 del query_log_id — reproducible, sin cherry-picking y sin gastar cupo en la misma pregunta repetida (hallazgo Fable s326b)",
+  "que_significa_un_PASS_aqui": "MENOS que el gate v1, y hay que decirlo (hallazgo Fable s326b): las descripciones se afinaron v2→v6 mirando ESTAS MISMAS 109 filas, así que esto mide acuerdo sobre datos VISTOS. Un PASS autoriza a usar las gráficas del histórico con la vara declarada, NO a dar por validada la generalización: eso lo dirá el primer gate sobre tráfico del piloto, que sí será held-out de verdad.",
+  "residuales_conocidos": [
+    {
+      "pregunta": "¿Para que productos tienes información?",
+      "cae_en": "otros",
+      "deberia": "catalogo_especificaciones",
+      "nota": "lo cazó Fable; la v6 lo nombró LITERALMENTE en la descripción y aun así no cede ⇒ techo del modelo, no falta de prompt"
+    },
+    {
+      "pregunta": "¿me puedes dar las especificaciones técnicas del NC?",
+      "cae_en": "otros",
+      "deberia": "catalogo_especificaciones",
+      "nota": "el modelo no reconoce «NC» como producto"
+    }
+  ],
+  "residuales_medidos": "2 de 109 (1,8 %) — censo COMPLETO de `otros`, no muestra"
+}

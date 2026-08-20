@@ -15,8 +15,17 @@
 !/dashboard
 !/src
 !/scripts
+!/config
 !/requirements.txt
 !/vercel.json
+
+# `/config` entra por los FICHEROS DE DATOS que la superficie lee en runtime —
+# hoy `taxonomia_preguntas.yaml`, que el Explorador necesita para pintar su
+# filtro de categorías. Pesa 244 KB enteros, así que no se afina más. Se
+# descubrió en el smoke del preview de s326b: sin él, `cargar_taxonomia` falla,
+# el fail-open deja el desplegable VACÍO y nadie se entera — la misma clase que
+# el PyYAML ausente, pero silenciosa. Lo vigila
+# tests/test_s326_datos_del_panel_en_el_bundle.py.
 
 # ...y dentro de lo re-incluido, fuera lo que no aporta: caché de bytecode
 # (8,4 MB sólo en `scripts/`), scripts archivados y tests.
