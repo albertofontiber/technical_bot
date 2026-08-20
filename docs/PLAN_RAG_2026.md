@@ -131,6 +131,8 @@ PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 si
    `evals/s328c_gate_acuerdo_v8.json`. DEC-251.
 3. **Opcional, cuando el tráfico lo pida**: `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida
    automática cada 6 h. Hoy la corrida es manual y con recibo — que para 109 filas es lo correcto.
+   Desde s328e esa corrida lleva **pre-vuelo del eje**: si el prompt cambió, mide 12 casos
+   congelados y **aborta sin escribir** si el eje ha regresado (DEC-253).
 4. **Re-medir el eje con datos del piloto** (~200 mensajes): el censo de hoy es PRE-piloto, casi sin
    multi-turno, y la proporción de continuaciones subirá con tráfico real — con ella, el peso de #92.
 5. **Gates de EXPONER que siguen abiertos** (aviso v9 §13): plazo `[DECIDIR: Alberto]` de

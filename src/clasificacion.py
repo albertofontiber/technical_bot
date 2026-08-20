@@ -52,6 +52,7 @@ import json
 import logging
 import re
 import time
+import hashlib
 import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -180,6 +181,85 @@ def cargar_taxonomia(ruta: Path = RUTA_TAXONOMIA) -> Taxonomia:
 def construir_prompt(taxonomia: Taxonomia, query: str) -> str:
     lineas = "\n".join(f"- {cid}: {desc}" for cid, desc in taxonomia.categorias)
     return PROMPT.format(categorias=lineas, q=query.strip()[:1500])
+
+
+# ---------------------------------------------------- la sonda del EJE (s328e)
+
+#: Peticiones REALES escritas SIN un solo signo de interrogación. La regla dura
+#: no las coge —mira el signo FINAL, que es la adjudicación literal de Alberto—,
+#: así que quien decide es el LLM con el sesgo «ante la duda, pregunta». Es
+#: decir: esta conducta la sostiene el PROMPT, no el código.
+#:
+#: POR QUÉ VIVEN AQUÍ Y NO EN UN TEST. Un test con un LLM de mentira no probaría
+#: nada; hace falta el modelo de verdad. Y por qué en el módulo y no en el
+#: script: las usan DOS sitios —la sonda suelta y el pre-vuelo del job— y dos
+#: copias de una lista de casos congelados divergen.
+SONDA_EJE_PREGUNTAS = (
+    "qué productos Detnov tienes",
+    "que centrales de 4 lazos teneis",
+    "cuantos lazos tiene la CAD-250",
+    "como se rearma la ID3000 tras una alarma",
+    "dime las especificaciones del DGD-600",
+    "necesito el esquema de conexión del CAD-250",
+    "me puedes pasar el manual de la NFS2-3030",
+    "cual es la resistencia de fin de línea de la AFP-200E",
+)
+
+#: La otra mitad, sin la cual la sonda no vale: un clasificador que dijera
+#: «pregunta» a todo sacaría 8/8 y parecería perfecto.
+SONDA_EJE_NO_PREGUNTAS = (
+    "ok, entendido",
+    "Programación principalmente.",
+    "estoy trabajando con la ZX1e",
+    "gracias, me vale",
+)
+
+
+def huella_prompt(taxonomia: Taxonomia) -> str:
+    """sha256 de lo que el modelo REALMENTE lee: la plantilla más las
+    descripciones de las categorías.
+
+    Es la señal de «el prompt ha cambiado», y es mejor que la versión del YAML
+    por un motivo concreto: el contrato dice que tocar una descripción obliga a
+    subir `version`, pero eso es una CONVENCIÓN que nadie impide saltarse. La
+    huella no se puede saltar — si el texto cambió, cambia.
+    """
+    lineas = "\n".join(f"- {cid}: {desc}" for cid, desc in taxonomia.categorias)
+    return hashlib.sha256(
+        (PROMPT + "\x00" + lineas).encode("utf-8")).hexdigest()
+
+
+def correr_sonda_eje(llm: Callable[[str], str], taxonomia: Taxonomia) -> dict:
+    """Pasa los casos congelados por el LLM y devuelve qué decidió el EJE.
+
+    No mira la categoría a propósito: lo que se protege aquí es la decisión que
+    saca un mensaje del análisis entero. Una categoría equivocada lo pone en la
+    barra de al lado; un `es_pregunta` equivocado lo hace desaparecer.
+    """
+    fallos, falsos_positivos = [], []
+    for texto in SONDA_EJE_PREGUNTAS:
+        parseado = parsear_respuesta(llm(construir_prompt(taxonomia, texto)),
+                                     taxonomia.ids)
+        # Una respuesta que el parser rechaza cuenta como FALLO, no se ignora:
+        # la fila se quedaría pendiente y el eje no se habría medido.
+        if parseado is None or not parseado[2]:
+            fallos.append(texto)
+    for texto in SONDA_EJE_NO_PREGUNTAS:
+        parseado = parsear_respuesta(llm(construir_prompt(taxonomia, texto)),
+                                     taxonomia.ids)
+        if parseado is None or parseado[2]:
+            falsos_positivos.append(texto)
+    return {
+        "huella_prompt": huella_prompt(taxonomia),
+        "taxonomia_version": taxonomia.version,
+        "preguntas_reconocidas": len(SONDA_EJE_PREGUNTAS) - len(fallos),
+        "preguntas_totales": len(SONDA_EJE_PREGUNTAS),
+        "controles_limpios": len(SONDA_EJE_NO_PREGUNTAS) - len(falsos_positivos),
+        "controles_totales": len(SONDA_EJE_NO_PREGUNTAS),
+        "no_reconocidas": fallos,
+        "falsos_positivos": falsos_positivos,
+        "pasa": not fallos and not falsos_positivos,
+    }
 
 
 _MARCA_RE = re.compile(r"^[0-9a-zñç&/. _-]{2,40}$")

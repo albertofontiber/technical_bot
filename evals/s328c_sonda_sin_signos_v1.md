@@ -47,8 +47,27 @@ me puedes»— no añadiría precisión hoy. Y sí haría daño: **taparía la s
 prompt rompiera esto, la regla lo escondería en lugar de dejar que esta sonda lo cazara. Ampliarla
 además re-litigaría una adjudicación explícita de Alberto (la regla es sobre el signo FINAL).
 
-**Trigger de re-medición**: cuando suba `version` en `config/taxonomia_preguntas.yaml` o se cambie
-de modelo. Está escrito en la cabecera del script.
+**Trigger de re-medición — YA NO ES UNA NOTA, ES UNA PUERTA (s328e).** Al preguntar Alberto si
+esto era mejor como sonda o como regla determinista, salió a la luz la debilidad real: el gatillo
+vivía en un docstring y dependía de que alguien se acordara. Ahora la sonda es **pre-vuelo del job
+de clasificación** (`scripts/clasificar_preguntas.py`): antes de escribir una sola fila mide los 12
+casos y **aborta si el eje ha regresado**. Es el único camino por el que un prompt nuevo llega a los
+datos, así que no hay forma de saltárselo por olvido.
+
+Y no se re-mide por gusto: corre **solo si el prompt cambió**, medido por su **huella** (sha256 de
+la plantilla + las descripciones). La huella es mejor señal que `version` del YAML, porque el
+contrato de «tocar una descripción obliga a subir version» es una convención que nadie impide
+saltarse — verificado: retocar una descripción sin tocar la versión **sí** dispara la re-medición.
+El aprobado queda apuntado en `evals/sonda_eje_ultima_pasada.json`.
+
+**Por qué NO se puso la regla determinista** (la alternativa que Alberto planteó): en castellano el
+marcador interrogativo que una regla detecta sin ambigüedad es **la tilde** —`qué`, `cómo`,
+`cuánto`— y un técnico escribiendo desde el móvil no pone tildes. La regla segura (solo con tilde)
+se deja fuera justo el caso que Alberto señaló; la regla útil (también sin tilde) se traga
+subordinadas normales («que no me va el lazo») y mete ruido en el denominador, que es lo que el eje
+existe para evitar. **No hay regla léxica limpia para esto en castellano.** El `¿` de apertura sí
+sería inequívoco, pero medido: de 84 mensajes con `¿`, **cero** carecen del cierre — sería una regla
+para un caso que no ocurre.
 
 **Límite**: ocho casos escritos por mí, no tráfico real. Miden que el mecanismo funciona, no la
 frecuencia con que aparecen preguntas sin signos — eso solo lo dirá el piloto.

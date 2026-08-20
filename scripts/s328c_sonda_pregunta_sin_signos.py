@@ -17,9 +17,14 @@ un solo falso positivo en los controles. Una regla de aperturas interrogativas
 y sobre todo TAPARÍA la señal: si un cambio de prompt rompiera esto, la regla lo
 escondería en vez de dejar que esta sonda lo cace.
 
-CUÁNDO RE-CORRERLA: siempre que suba `version` en `config/taxonomia_preguntas.yaml`
-(el prompt cambia con las descripciones) o se cambie de modelo. El recibo de la
-última corrida vive en `evals/s328c_sonda_sin_signos_v1.md`.
+CUÁNDO RE-CORRERLA A MANO: casi nunca, desde s328e. Los mismos casos son ahora
+**pre-vuelo del job de clasificación** (`scripts/clasificar_preguntas.py`), que
+los mide antes de escribir nada y ABORTA si el eje ha regresado — el gatillo
+dejó de depender de que alguien se acuerde. Este script sigue existiendo para
+mirar el detalle caso a caso (imprime qué decidió cada eje y qué categoría),
+que el pre-vuelo no enseña. Los casos congelados viven en `src/clasificacion.py`
+(`SONDA_EJE_PREGUNTAS` / `SONDA_EJE_NO_PREGUNTAS`), no aquí: dos copias de una
+lista congelada divergen.
 
 Uso:  python -m scripts.s328c_sonda_pregunta_sin_signos
 """

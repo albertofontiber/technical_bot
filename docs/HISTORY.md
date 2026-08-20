@@ -6414,3 +6414,45 @@ matriz. Ahora está, con veinticuatro meses y con la misma excepción declarada 
 escrito al lado en vez de escondido: el plazo está decidido y **no hay job que lo ejecute**.
 
 Queda una cosa y es de Alberto: rellenar a quién se abre el piloto y cuándo, y mandarlo. DEC-252.
+
+
+## s328e (20-ago-2026) — «¿Sonda o determinista?», y la pregunta que destapó otra cosa
+
+Alberto preguntó si el eje sin signos de interrogación estaba mejor como sonda o como regla
+determinista. Al pensarlo en serio tuve que **corregirme**: le había dicho que una regla «taparía la
+señal», y ese argumento era flojo. La sonda puede medir lo que decide el modelo antes de que la
+regla lo pise, así que no se tapa nada. Si esa hubiera sido la única objeción, la regla salía
+gratis.
+
+La razón de verdad resultó ser lingüística, y más incómoda. En castellano el marcador interrogativo
+que una regla detecta sin ambigüedad es **la tilde** —`qué`, `cómo`, `cuánto`— y un técnico
+escribiendo desde el móvil en una obra no pone tildes. La regla segura deja fuera justo el caso que
+Alberto señaló; la regla útil se traga subordinadas normales («que no me va el lazo») y mete ruido
+en el denominador, que es literalmente para lo que se creó el eje. No hay regla léxica limpia para
+esto en castellano. El `¿` de apertura sí sería inequívoco, pero de ochenta y cuatro mensajes que lo
+llevan, **cero** carecen del cierre: sería una regla para un caso que no ha ocurrido nunca.
+
+Y entonces apareció lo que de verdad estaba mal, y no era ninguna de las dos opciones que
+discutíamos. **El gatillo de la sonda vivía en un docstring**: «re-correr al subir la versión». Es la
+protección más débil que existe —depende de que alguien se acuerde— y el eje es la decisión más cara
+del clasificador: un `false` equivocado saca el mensaje de todo el análisis sin dejar rastro.
+
+Así que la sonda pasó a ser **pre-vuelo del job**. Antes de escribir una sola fila, mide los doce
+casos congelados y aborta si el eje ha regresado. Es el único camino por el que un prompt nuevo llega
+a los datos, así que no hay forma de saltárselo por olvido — y protege más que la regla, porque la
+regla solo habría cubierto las aperturas léxicas y el pre-vuelo cubre el eje entero.
+
+Un detalle del diseño que me gusta más que el resto: **corre solo si el prompt cambió, medido por su
+huella**, no por la versión del YAML. El contrato dice que tocar una descripción obliga a subir
+`version`, pero eso es una convención que nadie impide saltarse; un sha256 de la plantilla más las
+descripciones, no. Lo comprobé retocando una descripción sin tocar la versión: la huella cambió y la
+sonda se re-armó.
+
+Los tests que acompañan esto tienen una cabecera que dice algo que prefiero dejar escrito: **no hay
+test que pueda proteger la conducta**, porque la sostiene el prompt y un test con un LLM de mentira
+no mide al modelo. Lo que se testea es el arnés — que la sonda caza un eje regresado, que no se
+contenta con decir «pregunta» a todo, que una respuesta que el parser rechaza cuenta como fallo y no
+como silencio aprobado, y que una regresión aborta **sin llegar a llamar** al clasificador. La
+medición contra el modelo de verdad vive aparte, con su recibo. Separar esas dos cosas —lo que un
+test puede garantizar y lo que solo una medición puede— es lo que hace honesto al conjunto.
+DEC-253.
