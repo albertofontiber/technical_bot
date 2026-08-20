@@ -97,10 +97,15 @@ variante-hermana-only NO desaparece del servido bajo REPLACE (clase hp009, abajo
   ```
   Así (a) la rama `resolved_model=_modelo_plan` (`src/bot/telegram_bot.py:2066/2076`) queda
   CUBIERTA — si el plan trae un modelo legacy-truncado, la resolución lo canonicaliza
-  (idempotente para canónicos) — y (b) `detect_turn_signals` sigue PURA: el invariante asertado
-  por `tests/test_conversation_policy_impl.py:371` (`test_detect_turn_signals_is_pure_regex`)
-  se preserva intacto; un test NUEVO aserta la composición. `target_models` del handler
-  intacto; stamp hereda de F1.
+  (idempotente para canónicos; **canonicalize-only en esta rama: jamás re-escanear la query ni
+  añadir modelos — la autoridad del plan se preserva**, con aserto de coherencia
+  preámbulo↔servido, ítems B2/B8 §11) — y (b) `detect_turn_signals` sigue pura. **Corrección
+  de framing (Fable-2 r-v6):** el test `test_detect_turn_signals_is_pure_regex`
+  (`tests/test_conversation_policy_impl.py:371-373`) documenta la INTENCIÓN de pureza pero solo
+  comprueba pertenencia — NO fallaría con resolución dentro; el argumento de la seam de
+  composición se sostiene por sí solo (cubre la rama `resolved_model`, un solo punto de
+  integración) y un test NUEVO aserta la composición. `target_models` del handler intacto;
+  stamp hereda de F1.
 - **Qué:** wrapper `resolve_for_turn(query, base_models)` — la MISMA resolución de
   `resolve_for_retrieval` (detección + canonicalización + política + cuarentena + regla
   monótona s287), sin efectos seam-2 y sin red en el hot-path (abajo).
@@ -177,8 +182,10 @@ unresolved_mention }` → `policy.resolve(..., unresolved_mention=…)` → `Tur
 (opcional) → `build_turn_request` → `TurnRequest.turn_identity`.
 
 **Cohorte negativa G0-b' (anti-sesgo de autor):** OBLIGA los FP nombrados por los revisores
-(`230VAC`, `24VDC`, `SLC1`, `UNE-23007`, ISO/NFPA refs) + muestra real de `query_logs`; la
-cohorte va en el paquete del dúo r-v5.
+(`230VAC`, `24VDC`, `SLC1`, `UNE-23007`, ISO/NFPA refs) + muestra real de `query_logs` + el
+caso composicional de NEGACIÓN-con-token («No, no es la 2X-AF1-S», Sol-1 r-v6); se materializa
+como fichero de cohorte EN el build de G0 (el dúo de diseño está cerrado — r-v6 fue la última
+ronda por decisión de Alberto, anti parálisis-por-análisis).
 
 ### C.2 · `GENERATOR_NO_REASK` — dos niveles, prompt Y plantillas deterministas
 
@@ -365,4 +372,25 @@ Dúo r-v6 (~$3-6) → build A+C.1+C.2+D flag-off + G0 (1-2 sesiones) → G1-pre/
   (`tests/test_conversation_policy_impl.py:371`) ⇒ **la resolución se muda a la seam de
   COMPOSICIÓN** — cubre ambas ramas y preserva el test; + no-bloqueo del path síncrono
   (`:2074`), reconocimiento visible al usuario en G1c, paths canónicos completos.
-- **r-v6**: pendiente (agentes frescos, worktree congelado durante la ronda).
+- **r-v6 EMPAREJADO** (19:43:59) — **ÚLTIMA RONDA DE DISEÑO** (adjudicación de Alberto:
+  «sigue, ojo no entres en paralysis by analysis»). Sol: 1 crítico (polaridad de la gramática:
+  «No, no es la 2X-AF1-S» bindearía el modelo negado) + 6 medios; Fable: SUSTANCIALMENTE
+  SÓLIDO, 3 medios de coherencia + 2 menores. NINGUNO invalida arquitectura ⇒ TODOS pasan a
+  ítems de build (§11). Los dos framings cazados (pure-regex sobre-afirmado; ref rancia r-v5)
+  corregidos in-place en esta v6.
+
+## 11 · Ítems de build de la ronda final r-v6 (checklist vinculante del build)
+
+| # | Origen | Ítem |
+|---|--------|------|
+| B1 | Sol-1 (crítico) | Gramática: con `pending_mention`, la NEGACIÓN-con-token precede a la regla token-resoluble — «No, no es la X» EXCLUYE X, limpia pending y pide la etiqueta una vez. Caso composicional OBLIGATORIO en G0-g |
+| B2 | Sol-2 + Fable-1 | Rama `resolved_model`: `resolve_for_turn(canonicalize_only=True)` — jamás re-escanear la query ni añadir modelos; **aserto de coherencia preámbulo↔servido** + centinela de conflicto plan↔query (stamp, gana el plan) |
+| B3 | Sol-3 | CLEAR de `pending_mention` EXPLÍCITO en TODAS las rutas de salida (negación→CLARIFY, cambio-de-tema→CLARIFY/DECLINE incluidos — hoy devuelven estado intacto); sin esto «ciclo máx 1» es falso. Tests por ruta en G0-f' |
+| B4 | Sol-4 | La mención se detecta EN COMPOSICIÓN (no dentro de `detect_turn_signals`): el contrato 2-tupla del detector queda intacto de verdad; `TurnSignals` retirado de la spec |
+| B5 | Sol-5 | Sección de trace con TRI-ESTADO `enabled` (patrón sección `intent`): flag ON sin evento ≠ flag OFF; presente siempre que el flag esté ON |
+| B6 | Sol-6 | Precisión del claim de privacidad: la mención NO entra al TRACE (allowlist cerrada); `query`/`response` ya llevan texto de usuario bajo retención RGPD — el eco del reconocimiento en `response` es la UX misma, aceptado y declarado |
+| B7 | Sol-7 | Veto multi-fabricante sobre MULTIMAP término→{fabricantes} construido de products+aliases+`vendido_bajo` (el índice actual colapsa a uno y ocultaría la colisión) |
+| B8 | Fable-1 | = B2 (coherencia preámbulo↔servido) |
+| B9 | Fable-3 | Validador: shape `direct/1` ACOPLADO a `route∈{clarify,decline}` (validación cruzada fila↔schema) — un builder RAG no puede esquivar `exact_keys` emitiendo direct/1 |
+| B10 | Fable-4 | G4: el censo verifica AMBAS (`IDENTITY_RESOLVE=on` y `POLICY=replace`) — `release_profiles.py` solo fuerza la segunda; el interlock de boot cubre la primera |
+| B11 | Fable-5 | Cohorte G0-b' materializada como fichero en el build (hecho en esta v6) |
