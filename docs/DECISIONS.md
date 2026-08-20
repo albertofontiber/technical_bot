@@ -9454,3 +9454,62 @@ REVOKE y la postcondición 6.1.b lo verifica.
   propuesta post-dúo `evals/s331_residuo_e1_propuesta_v2.md` · TECH_DEBT #87 (cerrada por la vía de
   la atestación) · #95 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
   `evals/adversarial_review_log.jsonl`.
+
+## DEC-258 (s331, 20 ago 2026) — El alcance «A + E» firmado por Alberto: la serie 20/20 SharpEye entera faltaba del catálogo, y el software se ata a la familia como `secondary` porque es de 1997
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r39
+  INNEGOCIABLE y esta vez EMPAREJADO**: Sol xhigh 3/3 confirmados + Fable 4/4, 0 FP, máx. medio).
+  **Disparador**: Alberto cuestionó las dos adjudicaciones conservadoras de DEC-257 («MNDT600: ¿por
+  qué unknown?» · «MNDT701: es el software del modelo IR3, ¿no tiene sentido asociar el manual a ese
+  modelo?»), pidió medirlo y firmó **«A + E, aplícalo»**.
+- **Tenía razón en las dos, y en la segunda el agujero era mayor que la fila**: el censo destapó que
+  **la serie 20/20 SharpEye entera faltaba del catálogo** — 8 documentos activos, 0 productos —
+  mientras la serie hermana 40/40 sí estaba (firmada por él en s324b). El software de MNDT701 no
+  estaba huérfano por ser software: lo estaba porque su detector no existía.
+- **Decisión (aplicada con recibo `evals/s331_lote_AE_aplicar_20260820T204701Z.json`)**:
+  - **A** — `MNDT600` → doc_map a los 3 SMART **confirmados** (`notifier:smart3g-c3`,
+    `notifier:smart3g-d3`, `sensitron:smart-2`), **+0 términos** al detector. El `product_model`
+    sigue `unknown` a propósito: no hay modelo citado, el vínculo vive en el doc_map, que es su sitio.
+  - **E** — **9 altas** de la serie 20/20 con cita de portada verificada full-text
+    (`S20/20MI`, `S20/20SI`, `20/20I` = los **Triple IR (IR³)**, más `20/20R`, `20/20U`, `20/20UB`,
+    `20/20L`, `20/20LB`, `20/20ML`), 2 alias (`20/20MI`, `20/20SI`) y 12 filas de doc_map:
+    **+11 términos**, todos de modelo, sin un solo alias descriptivo.
+- **Por qué se descartaron B y C** (familia SMART completa / gama de gas): el gate las pasaba, pero
+  al promover los candidates entraban **12 y 15 alias descriptivos** que son basura de extracción
+  («SMART 3 con pantalla», «SMART 4 (COPTIR) Multi-sensor», «Twin version Smart 2», «serie 3G» —
+  este último colisiona con la red móvil de los documentos UCIP-GPRS). Mismo patrón que el gate cazó
+  en Detnov (s324c). Además esos 8 candidates **ya tienen su sitio en los bloques de E1b**:
+  promoverlos aquí sería adelantar por la puerta de atrás una decisión con puerta propia.
+- **El hallazgo de modelado del dúo (lo que cambió antes de escribir)**: el software **no enumera
+  modelos** —su única evidencia es «El software permite comunicarse con hasta 64 detectores IR3»— y
+  al verificarlo aparecieron dos datos que la propuesta no tenía: **RS-485 no discrimina** (lo tienen
+  los tres IR³ *y* el 20/20R; los UV y UV/IR se configuran por microinterruptores) y **el software es
+  de 1997 v1.0, ANTERIOR a los tres manuales** (20/20I 1999-2003, S20/20SI 2003-06, S20/20MI rev D
+  2010-11). → Sus 3 entries se escriben **`secondary`**, no `primary`: verificado en
+  `catalog_resolver.py:182-191` que una entry `secondary` **sí** mete el documento en las fuentes del
+  producto pero **no** reclama el scope gobernado. El manual se sirve al preguntar por esos
+  detectores **sin afirmar compatibilidad individual**, que es exactamente lo que la evidencia
+  sostiene.
+- **Otras tres correcciones del dúo, todas aplicadas**: (1) A y E tenían recibos separados contra el
+  mismo estado — se generó el **plan combinado** y se corrió un **dry-run del plan exacto** antes de
+  aplicar (freeze-contract); (2) el manual del 20/20ML **no era huérfano** (ya tenía fila con 3
+  entries `secondary`): son 7 huérfanos + 1 fila ampliada, y el writer fusiona por `document_id`
+  (verificado, no duplica); (3) el gap nombraba la fila equivocada — la cita más floja es **20/20R**
+  (2 chunks), no 20/20I (3).
+- **Medida**: dry-run del plan exacto **PASS** — detector 1744→1755 (+11/−0), 0 gold perdidas, 0
+  disparos en negativos sintéticos, 0 detecciones nuevas en 111 consultas reales; censo posterior
+  PASS. 12 vínculos doc→producto nuevos; 9 productos que no existían pasan a tener 1-3 fuentes.
+- **Alternativas descartadas**: mapear el software solo al `S20/20MI` como `primary` (la fecha de
+  1997 no lo sostiene); dejar `SI` y `20/20I` fuera (perdía el vínculo de familia sin ganar
+  precisión: `secondary` expresa exactamente el grado de evidencia); crear paraguas «20/20» (riesgo
+  léxico real con proporciones/fracciones — se mediría aparte, no se presupone).
+- **Gaps declarados**: (1) **ninguna gold se mueve** (0/0): esto es **cobertura de catálogo, NO un
+  delta medido en eval** — no debe contarse como mejora de calidad; (2) **sesgo declarado en A**
+  (hallazgo de Fable): elegir «los 3 confirmados» es un proxy del estado del catálogo, no una razón
+  documental —Alberto habló de GD3/GD2— ⇒ **plan de re-visita**: cuando E1b promueva los 8 candidates
+  SMART, esa fila se re-evalúa; (3) `MNDT690` (catálogo de gama Spectrex) sigue sin mapear, es clase
+  R1 y va en otro lote; (4) «20/20» y «S20/20» a secas (47+41 menciones) no resuelven modelo.
+- **Relacionado**: DEC-257 (las adjudicaciones que Alberto cuestionó) · medición
+  `evals/s331_sondas_alcance_resultado_v1.md` (sondas A-E) · propuesta post-dúo
+  `evals/s331_aplicacion_AE_propuesta_v2.md` · packet E1 (marcas de MNDT600/MNDT701 **supersedidas**
+  explícitamente) · tally r39 en `evals/adversarial_review_log.jsonl`.

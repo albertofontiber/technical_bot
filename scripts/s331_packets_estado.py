@@ -79,18 +79,25 @@ def main() -> int:
             f"— y su árbol de configuración es idéntico al del anexo MADT015_03 («Anexo al manual de instalación de la "
             f"central **NFS 2-8**, ref.: MI-DT-015»). Aplicado: retag pm + doc_map `notifier:nfs-2-8` · recibo {ref_lote}"),
         "notifier:mndt-600": (
-            f"✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**, sin doc_map. El texto es genérico (calibración/"
-            f"mantenimiento de detectores de gas) y no nombra ni un modelo: los únicos códigos son las células "
-            f"«S1096/2096… S1097.2097…». **Tu pregunta contestada con censo corpus-wide** (1.054 activos): el doc del "
-            f"**SMART3 GD2 NO está en el corpus** con ninguna grafía (los 6 hits de «GD2/GD3» son «P**GD-2**00», el "
-            f"programador Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (doc MTEX4805 Zona 2). El paraguas "
-            f"«SMART 3» sería decisión tuya aparte — no hace falta para limpiar este artefacto · recibo {ref_lote}"),
+            f"✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a los 3 SMART confirmados** "
+            f"(alcance **A**, que firmaste al leer la medición). ⚠️ **SUPERSEDE** a mi marca anterior de esta misma "
+            f"sesión («sin doc_map»): tú preguntaste por qué `unknown` y tenías razón — el doc SÍ ancla la familia en "
+            f"su contenido indexado (portada: «smart GASDETECTOR»/«sensitron») y las células «S1096/2096… S1097.2097…», "
+            f"y yo había sido más estricto aquí que con MADT015_01. El pm sigue `unknown` a propósito: no hay un modelo "
+            f"citado, el vínculo vive en el doc_map. **Tu sub-pregunta, con censo corpus-wide** (1.054 activos): el doc "
+            f"del **SMART3 GD2 NO está en el corpus** (los 6 hits de «GD2/GD3» son «P**GD-2**00», el programador "
+            f"Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (MTEX4805 Zona 2). **Pendiente declarado**: cuando "
+            f"E1b promueva los 8 candidates SMART, esta fila se re-visita para no quedar sesgada a 3 · recibo "
+            f"`s331_lote_AE_aplicar_20260820T204701Z.json`"),
         "notifier:mndt-701": (
-            f"✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**. Confirmado en el PDF: es la guía del software "
-            f"del detector **Triple IR / IR3** (SPECTRONIX; la portada es un SharpEye™), pero el software no tiene "
-            f"nombre en el texto y solo se habla de «detectores IR3» en bus RS-485. El doc_map queda DIFERIDO al ítem 3 "
-            f"de tu lista («nombres con barra»): en cuanto firmes 20/20MI y 20/20R nace la familia y se atesta ahí "
-            f"(grafía verbatim del corpus: «S20/20MI») · recibo {ref_lote}"),
+            f"✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a la familia IR³** (alcance **E**). "
+            f"⚠️ **SUPERSEDE** a mi marca anterior («doc_map diferido»): preguntaste si no tenía sentido asociarlo al "
+            f"modelo IR3 y lo tenía — el censo destapó que **la serie 20/20 SharpEye entera faltaba en el catálogo** "
+            f"(8 docs activos, 0 productos), así que se dieron de alta los 9 modelos con cita de portada. Los Triple IR "
+            f"(IR³) son tres: `S20/20MI`, `S20/20SI` y `20/20I`. **El vínculo del software es `secondary`, no `primary`**, "
+            f"por el dúo r39: el manual no enumera modelos («hasta 64 detectores IR3») y es de **1997**, anterior a los "
+            f"tres manuales (1999-2011) — así el doc se sirve al preguntar por esos detectores sin afirmar compatibilidad "
+            f"individual · recibo `s331_lote_AE_aplicar_20260820T204701Z.json`"),
         # §1.A — las dos filas que quedaban
         "996-130-000-3 manuel d'utilisation zx_hlsi": (
             f"✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible) · "
@@ -121,9 +128,13 @@ def main() -> int:
 > 0 gold perdidas, findability 4/4; recibos {ref_lote} y {ref_baja}):
 > - **MADT015_01 → NFS 2-8** (retag + doc_map). Tu hipótesis FS se comprobó al píxel contra el manual
 >   `FS2-1` y NO cuadra (1/2/4 zonas, sin condensador EFL, sin entradas digitales ni retardos).
-> - **MNDT600 → `unknown`** + tu pregunta contestada: el **SMART3 GD2 no está en el corpus**; el GD3
->   (`SMART3G-D3`) sí, por el doc MTEX4805.
-> - **MNDT701 → `unknown`**, con el doc_map diferido al ítem 3 (20/20MI, 20/20R).
+> - **MNDT600 → `unknown` + doc_map a los 3 SMART confirmados** (alcance A, firmado por ti tras la
+>   medición). Tu sub-pregunta: el **SMART3 GD2 no está en el corpus**; el GD3 (`SMART3G-D3`) sí, por
+>   el doc MTEX4805.
+> - **MNDT701 → `unknown` + doc_map a la familia IR³** (alcance E). Al preguntar tú por el modelo IR3
+>   apareció que **la serie 20/20 SharpEye entera faltaba del catálogo**: 9 altas con cita de portada
+>   (`S20/20MI`, `S20/20SI`, `20/20I` = los Triple IR, + R/U/UB/L/LB/ML) y 7 documentos huérfanos
+>   enganchados. El vínculo del software es `secondary` (el manual es de 1997 y no enumera modelos).
 > - **TI-007**: retag a VSN-4REL + doc_map con cita full-text → la atestación pendiente de #87, cerrada.
 > - **§1.A: COMPLETA.** De sus 13 filas, 11 ya estaban resueltas; hoy caen las 2 últimas (la baja del
 >   fragmento FR `996-130` que firmaste, y TI-007).

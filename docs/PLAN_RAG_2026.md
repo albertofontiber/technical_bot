@@ -112,16 +112,21 @@ causa de que una VM no la recibiera sigue abierta.
 6. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    —la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin tocar
    el instalador— y la causa de que una VM NO la recibiera sigue abierta.
-7. **Del packet E1 (s331/DEC-257) — lo que sigue siendo de Alberto, y es POCO**: el residuo del
+7. **Del packet E1 (s331/DEC-257 + DEC-258) — lo que sigue siendo de Alberto, y es POCO**: el residuo del
    `s320_e1_packet_adjudicacion_v2.md` quedó cerrado salvo (a) **una frase sobre el paraguas «2X-A»**
    —con táctiles (38) o sin ellos (27)—, ya con la medida hecha (0 gold perdidas, +2 golds ganan 12
    fuentes cada una, 0 disparos en 111 consultas reales; solo salta la sonda sintética «2 x a»:
    `evals/s331_2xa_sonda_plan_v1.json`); (b) los **10 nombres reales con barra** (un «sí» = alta; con
-   20/20MI y 20/20R se desbloquea además la atestación de MNDT701); (c) **VSN2-PLUS**, censado y
-   diferido a propósito a la sentada E1b por ser rebrand multi-marca
+   20/20MI y 20/20R **ya no** dependen de esto: la serie 20/20 entró entera en DEC-258); (c)
+   **VSN2-PLUS**, censado y diferido a propósito a la sentada E1b por ser rebrand multi-marca
    (`evals/s331_vsn2plus_censo_v1.md`). **§1.A queda COMPLETA** y las 3 preguntas delegadas están
    adjudicadas y aplicadas con recibo. Los bloques **E1b (474)** y **E2 (1.361 altas)** siguen
    abiertos y son el grueso pendiente.
+8. **La cola REAL de «asignar modelo a un documento» son 85 → 77 documentos activos SIN doc_map**
+   (censo s331, tras enganchar los 7 de la serie 20/20): Notifier 31 · Morley 23 · Kidde 13 ·
+   Spectrex 8 → 1 · Aritech 4 · Xtralis 3 · resto 3. **No vive en ningún packet** — es la lista que
+   sale de cruzar `documents` activos contra `doc_map.jsonl`, y es el sitio natural para seguir
+   adjudicando identidad documento a documento cuando E1b/E2 no sean la prioridad.
 
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)

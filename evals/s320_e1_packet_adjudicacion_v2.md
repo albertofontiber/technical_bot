@@ -21,16 +21,20 @@
 <!-- s324-estado:fin -->
 
 <!-- s331-estado:inicio -->
-> ## 🟢 ESTADO s331 (2026-08-20 20:04Z) — el residuo de este fichero, CERRADO salvo una frase tuya
+> ## 🟢 ESTADO s331 (2026-08-20 20:48Z) — el residuo de este fichero, CERRADO salvo una frase tuya
 > Encargo tuyo de hoy: «las 3 preguntas son para ti» + atacar los no-bloqueantes + ¿queda algo en §1.A?
 >
 > **Hecho y aplicado** (dúo r38 Sol+Fable ANTES de escribir; dry-run PASS: detector +0/−0 términos,
 > 0 gold perdidas, findability 4/4; recibos `s331_residuo_aplicar_20260820T200321Z.json` y `s331_retirar_docs_aplicar_20260820T200406Z.json`):
 > - **MADT015_01 → NFS 2-8** (retag + doc_map). Tu hipótesis FS se comprobó al píxel contra el manual
 >   `FS2-1` y NO cuadra (1/2/4 zonas, sin condensador EFL, sin entradas digitales ni retardos).
-> - **MNDT600 → `unknown`** + tu pregunta contestada: el **SMART3 GD2 no está en el corpus**; el GD3
->   (`SMART3G-D3`) sí, por el doc MTEX4805.
-> - **MNDT701 → `unknown`**, con el doc_map diferido al ítem 3 (20/20MI, 20/20R).
+> - **MNDT600 → `unknown` + doc_map a los 3 SMART confirmados** (alcance A, firmado por ti tras la
+>   medición). Tu sub-pregunta: el **SMART3 GD2 no está en el corpus**; el GD3 (`SMART3G-D3`) sí, por
+>   el doc MTEX4805.
+> - **MNDT701 → `unknown` + doc_map a la familia IR³** (alcance E). Al preguntar tú por el modelo IR3
+>   apareció que **la serie 20/20 SharpEye entera faltaba del catálogo**: 9 altas con cita de portada
+>   (`S20/20MI`, `S20/20SI`, `20/20I` = los Triple IR, + R/U/UB/L/LB/ML) y 7 documentos huérfanos
+>   enganchados. El vínculo del software es `secondary` (el manual es de 1997 y no enumera modelos).
 > - **TI-007**: retag a VSN-4REL + doc_map con cita full-text → la atestación pendiente de #87, cerrada.
 > - **§1.A: COMPLETA.** De sus 13 filas, 11 ya estaban resueltas; hoy caen las 2 últimas (la baja del
 >   fragmento FR `996-130` que firmaste, y TI-007).
@@ -512,13 +516,13 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
       razón: MNDT-1202 no aparece en el texto; deriva del nombre del fichero MNDT1202, un código de documento como MNDT690.
       ALBERTO: elimína el doc del corpus.
 - [ ] `notifier:mndt-600` (MNDT-600) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT600`
-      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**, sin doc_map. El texto es genérico (calibración/mantenimiento de detectores de gas) y no nombra ni un modelo: los únicos códigos son las células «S1096/2096… S1097.2097…». **Tu pregunta contestada con censo corpus-wide** (1.054 activos): el doc del **SMART3 GD2 NO está en el corpus** con ninguna grafía (los 6 hits de «GD2/GD3» son «P**GD-2**00», el programador Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (doc MTEX4805 Zona 2). El paraguas «SMART 3» sería decisión tuya aparte — no hace falta para limpiar este artefacto · recibo `s331_residuo_aplicar_20260820T200321Z.json`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a los 3 SMART confirmados** (alcance **A**, que firmaste al leer la medición). ⚠️ **SUPERSEDE** a mi marca anterior de esta misma sesión («sin doc_map»): tú preguntaste por qué `unknown` y tenías razón — el doc SÍ ancla la familia en su contenido indexado (portada: «smart GASDETECTOR»/«sensitron») y las células «S1096/2096… S1097.2097…», y yo había sido más estricto aquí que con MADT015_01. El pm sigue `unknown` a propósito: no hay un modelo citado, el vínculo vive en el doc_map. **Tu sub-pregunta, con censo corpus-wide** (1.054 activos): el doc del **SMART3 GD2 NO está en el corpus** (los 6 hits de «GD2/GD3» son «P**GD-2**00», el programador Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (MTEX4805 Zona 2). **Pendiente declarado**: cuando E1b promueva los 8 candidates SMART, esta fila se re-visita para no quedar sesgada a 3 · recibo `s331_lote_AE_aplicar_20260820T204701Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-600_A** 06 ABRIL 2011»
       razón: «MNDT-600» deriva del código de manual MN-DT-600_A; es un documento genérico de notas de mantenimiento, no un modelo.
       ALBERTO: aplica a los detectores de gas smart (sensitron). viendo la portada del doc, parece que uno de los modelos es el Smart3 GD3, y el otro "SMART3 GD2", utilizado para Butano. ¿puedes revisar en el corpus si tenemos el documento?
 - [ ] `notifier:mndt-701` (MNDT-701) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT701.pdf`
-      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**. Confirmado en el PDF: es la guía del software del detector **Triple IR / IR3** (SPECTRONIX; la portada es un SharpEye™), pero el software no tiene nombre en el texto y solo se habla de «detectores IR3» en bus RS-485. El doc_map queda DIFERIDO al ítem 3 de tu lista («nombres con barra»): en cuanto firmes 20/20MI y 20/20R nace la familia y se atesta ahí (grafía verbatim del corpus: «S20/20MI») · recibo `s331_residuo_aplicar_20260820T200321Z.json`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a la familia IR³** (alcance **E**). ⚠️ **SUPERSEDE** a mi marca anterior («doc_map diferido»): preguntaste si no tenía sentido asociarlo al modelo IR3 y lo tenía — el censo destapó que **la serie 20/20 SharpEye entera faltaba en el catálogo** (8 docs activos, 0 productos), así que se dieron de alta los 9 modelos con cita de portada. Los Triple IR (IR³) son tres: `S20/20MI`, `S20/20SI` y `20/20I`. **El vínculo del software es `secondary`, no `primary`**, por el dúo r39: el manual no enumera modelos («hasta 64 detectores IR3») y es de **1997**, anterior a los tres manuales (1999-2011) — así el doc se sirve al preguntar por esos detectores sin afirmar compatibilidad individual · recibo `s331_lote_AE_aplicar_20260820T204701Z.json`
       ↳ **s324:** ⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-701**<br/>**13 OCTUBRE 1997**<br/>**Versión 1.0**»
       razón: MNDT-701 no aparece verbatim; deriva de MN-DT-701, referencia del manual (como MA-DT-015), no un modelo de producto.

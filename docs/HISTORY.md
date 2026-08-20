@@ -6613,3 +6613,41 @@ De lo que Alberto tenía pendiente en este fichero queda una frase: si el paragu
 los once táctiles. La medida ya está hecha —no pierde ninguna gold, dos golds ganan doce fuentes cada
 una, y lo único que dispara es una sonda de tokens sintética que ningún técnico escribiría—, así que
 la decisión es de alcance de producto, que es suya, no de riesgo, que era mía.
+
+## s331b (20 ago 2026) — Alberto cuestiona mis dos «unknown», y la serie 20/20 aparece entera
+
+Cerrado el residuo del packet, Alberto no aceptó dos de mis adjudicaciones y preguntó por qué:
+«MNDT600: ¿por qué unknown?» y «MNDT701: es el software del modelo IR3, ¿no tiene sentido asociar el
+manual a ese modelo?».
+
+En la primera tenía razón sobre mi criterio: yo había aplicado la regla estricta (sin cita, sin
+doc_map) justo donde tenía su adjudicación explícita y un anclaje real —la portada descrita en el
+chunk dice «smart GASDETECTOR» y «sensitron», y la tabla imprime las células «S1096/2096»—, mientras
+que a MADT015_01 le había concedido evidencia documental de una hermana. Doble rasero.
+
+En la segunda el hallazgo fue mayor que la pregunta. Al censar el corpus buscando dónde enganchar el
+software apareció que **la serie 20/20 SharpEye entera no estaba en el catálogo**: ocho documentos
+activos, cero productos, mientras la serie hermana 40/40 sí estaba desde s324b. El manual del
+software no estaba huérfano por ser software; lo estaba porque su detector no existía.
+
+Alberto pidió medirlo antes de decidir, así que se montaron cinco sondas —tres alcances para el gas,
+dos para la llama— y se pasaron por el gate real. Las cinco pasaban, y ahí estuvo lo útil: **el
+veredicto no decidía nada, el detalle sí**. Promover los candidates SMART metía doce alias
+descriptivos que son basura de extracción («SMART 3 con pantalla», «SMART 4 (COPTIR) Multi-sensor»,
+y un «serie 3G» que colisiona con la red móvil de los documentos UCIP). Las altas de la serie 20/20,
+en cambio, eran once términos de modelo sin un solo alias sucio. Firmó «A + E».
+
+El dúo r39 —emparejado esta vez, tras el drift que rompió el anterior— cambió el lote antes de
+escribirlo. Sol pidió el plan combinado con su propio dry-run (dos recibos separados contra el mismo
+estado inicial se invalidan entre sí) y señaló que atar el software a los tres detectores afirmaba
+más de lo que la evidencia decía. Al verificarlo aparecieron dos datos que no estaban en la
+propuesta: RS-485 no distingue a los IR³ (también lo lleva el 20/20R single-IR, y los UV se
+configuran con microinterruptores), y **el software es de 1997, anterior a los tres manuales**, uno
+de ellos de 2011. Así que las tres entradas del software se escribieron como `secondary`: el
+documento entra en las fuentes del producto —eso se verificó en el resolver— pero no reclama el
+scope gobernado. Fable añadió que mi lista de gaps nombraba la fila equivocada (la cita más floja es
+20/20R con dos chunks, no 20/20I con tres) y que uno de los ocho «huérfanos» ya tenía fila.
+
+Y de la pregunta final de Alberto —dónde seguir asignando modelos— salió el dato que faltaba: la
+cola real no vive en ningún packet. Son **85 documentos activos sin doc_map**, que tras este lote
+quedan en 77, y se obtienen cruzando `documents` contra el catálogo.
