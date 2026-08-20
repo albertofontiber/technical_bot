@@ -65,6 +65,23 @@ PATRONES = [
 ]
 
 
+# Filas VALIDADAS con la ficha del fabricante (encargo de Alberto, 20-ago) — su nota va bajo la fila.
+VALIDADAS = {
+    "morley:efs-em-8": (
+        "✅ **VALIDADO online** (`evals/s331_validacion_efsem_nx_v1.md`): panel convencional de 8 zonas, "
+        "**obsoleto** (Notifier lo publica en `manualesobs`). **El motivo por el que cayó era la "
+        "respuesta**: `MS8` y `FS8` son EL MISMO manual (código `997-201-103`, misma edición) archivado "
+        "bajo las DOS marcas ⇒ **R3 (OEM)**, se atesta bajo ambas. Lo único que queda es TU decisión de "
+        "**namespace**: ¿`notifier:efs-em-8` o `morley:efs-em-8`?"),
+    "notifier:nx2-r-r-y-nx5-r-r": (
+        "✅ **VALIDADO online** (`evals/s331_validacion_efsem_nx_v1.md`): son **DOS** productos reales — "
+        "`NX2/R/R` (flash estroboscópico rojo, 2 W) y `NX5/R/R` (sirena/estrobo de 14 tonos, flash 5 W). "
+        "La grafía con barras es la del FABRICANTE (**R8** cumplida) ⇒ por **R7** el id concatenado NO se "
+        "crea: son dos altas. Gap: 1 mención por modelo, en un documento que es solo un dibujo (su PDF "
+        "tiene 17 caracteres de texto), pero la ficha del fabricante lo respalda."),
+}
+
+
 def clasifica(bloque: str) -> list[tuple[str, str, str]]:
     return [(k, d, r) for k, d, f, r in PATRONES if f(bloque)]
 
@@ -121,9 +138,10 @@ def main() -> int:
                     break
             # separar propuesto de aplicado
             b2 = re.sub(r"^(      juez: )", r"      PROPUESTO por el juez (NO es lo aplicado) · ", b, flags=re.M)
-            reco = ""
+            val = VALIDADAS.get(clave)
+            reco = f"\n      {val}" if val else ""
             if pats:
-                reco = "\n      🎯 **Recomendación afinada** (patrón que ya firmaste): " + \
+                reco += "\n      🎯 **Recomendación afinada** (patrón que ya firmaste): " + \
                        " · ".join(f"[{k}] {r}" for k, _, r in pats)
             cuerpo.append(b2 + aviso + reco + "\n")
 

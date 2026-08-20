@@ -1,4 +1,4 @@
-# Packet E1 — adjudicación · **v3** (generado 2026-08-20 23:08Z)
+# Packet E1 — adjudicación · **v3** (generado 2026-08-20 23:25Z)
 
 > **Esta versión SUSTITUYE al v2 para trabajar.** El v2 queda como archivo: allí está la traza de
 > las **125 filas ya resueltas** (con su recibo) y tus anotaciones originales. Aquí solo hay lo que
@@ -98,6 +98,7 @@
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Panel de control de incendios de 8 zonas EFS/EM 8 # Manual de instalación, puesta en…»
       doc `MS8.pdf` · estrictas doc 9 / global 18 en 2 docs · otros motivos: ambiguedad:mismo-termino-propuesto-a-dos-fabricantes
+      ✅ **VALIDADO online** (`evals/s331_validacion_efsem_nx_v1.md`): panel convencional de 8 zonas, **obsoleto** (Notifier lo publica en `manualesobs`). **El motivo por el que cayó era la respuesta**: `MS8` y `FS8` son EL MISMO manual (código `997-201-103`, misma edición) archivado bajo las DOS marcas ⇒ **R3 (OEM)**, se atesta bajo ambas. Lo único que queda es TU decisión de **namespace**: ¿`notifier:efs-em-8` o `morley:efs-em-8`?
       🎯 **Recomendación afinada** (patrón que ya firmaste): [P4] **tuya**: un «sí» lo da de alta; comprueba que la grafía es la del FABRICANTE (lección DOA: el sufijo del certificado no es parte del modelo)
 
 - [ ] `notifier:efs-em-8` (EFS/EM 8)
@@ -111,6 +112,7 @@
       **PRODUCTO_REAL** · rol TITULO · confianza media · cita ✓ «| 1 | → | (−) | NX2/R/R y NX5/R/R»
       doc `EMA24RS2R_NX2y5-R-R` · estrictas doc 1 / global 1 en 1 doc · otros motivos: juez:confianza-media; juez:propone-otra-grafia(NX2/R/R; NX5/R/R)
       el juez propone otra grafía: `NX2/R/R; NX5/R/R`
+      ✅ **VALIDADO online** (`evals/s331_validacion_efsem_nx_v1.md`): son **DOS** productos reales — `NX2/R/R` (flash estroboscópico rojo, 2 W) y `NX5/R/R` (sirena/estrobo de 14 tonos, flash 5 W). La grafía con barras es la del FABRICANTE (**R8** cumplida) ⇒ por **R7** el id concatenado NO se crea: son dos altas. Gap: 1 mención por modelo, en un documento que es solo un dibujo (su PDF tiene 17 caracteres de texto), pero la ficha del fabricante lo respalda.
       🎯 **Recomendación afinada** (patrón que ya firmaste): [P1] **seguir al juez**: es el patrón que firmaste 9 veces («OK con juez») en §1.B · [P4] **tuya**: un «sí» lo da de alta; comprueba que la grafía es la del FABRICANTE (lección DOA: el sufijo del certificado no es parte del modelo)
 
 - [ ] `notifier:pul-d-ext` (PUL-D/EXT)

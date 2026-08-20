@@ -68,8 +68,22 @@ porque la marca correcta no es la misma para los cinco (depende de bajo qué mar
 documento). **Lo que necesito de ti**: confirmar que los 5 `Xtralis` pasan a **System Sensor**, o
 decirme cuáles van a Notifier/Morley.
 
-### 6. `morley:efs-em-8` y `notifier:nx2-r-r-y-nx5-r-r`
-Los dejaste en «pending.» y con la anotación vacía. Siguen ahí, sin tocar.
+### 6. `EFS/EM 8` y `NX2/R/R` + `NX5/R/R` — **VALIDADOS online, listos para tu firma**
+Los habías dejado en «pending.» y con la anotación vacía; me pediste validarlos. Los dos son
+**productos reales**, con ficha del fabricante. Informe: `evals/s331_validacion_efsem_nx_v1.md`.
+
+- **`EFS/EM 8`** — panel convencional de 8 zonas, **obsoleto** (Notifier lo publica en su carpeta
+  `manualesobs`). **El motivo por el que la fila cayó era, en realidad, la respuesta**: `MS8` y `FS8`
+  son **el mismo manual** (mismo código `997-201-103`, misma edición) archivado bajo **las dos
+  marcas** → es **R3 (OEM)**, se atesta bajo ambas con `vendido_bajo`.
+  👉 **Lo único que decides: el namespace.** Los ids llevan marca y este producto tiene dos. El
+  precedente FAAST es acuñar bajo una y declarar la otra en `vendido_bajo`. **¿`notifier:efs-em-8` o
+  `morley:efs-em-8`?** (el packet propuso Morley; el manual lo publica hoy Notifier).
+- **`NX2/R/R` y `NX5/R/R`** — **dos** dispositivos de aviso: el NX2 es un flash estroboscópico rojo
+  de **2 W**; el NX5 es sirena/estrobo de **14 tonos** con flash de **5 W**. La grafía con barras es
+  la del fabricante, así que **R8 se cumple**. Por **R7**, el id concatenado no se crea: son dos altas.
+  👉 **Un sí y las aplico.** Gap declarado: la cita es 1 mención por modelo, en un documento que es
+  **solo un dibujo** (su PDF tiene 17 caracteres de texto) — pero la ficha del fabricante la respalda.
 
 ---
 
