@@ -13,7 +13,7 @@
 
 | # | Frente | Estado | ¿Bloquea? |
 |---|---|---|---|
-| 1 | **Paquete del abogado** (P1 y P3) | ⛔ **sin enviar** y **desfasado** (describe el aviso v8; producción sirve **v9**) | **SÍ** |
+| 1 | **Paquete del abogado** (P1 y P3) | ⛔ **sin enviar** · ✅ **ya NO desfasado** (20-ago: anexo A al **v9**, generado del código; P7/P8 añadidas; plazo de `panel_usuarios` puesto) | **SÍ — solo falta mandarlo** |
 | 2 | Puerta de acceso (allowlist + invitación de un solo uso) | ✅ viva y probada con tráfico real | no |
 | 3 | Aviso de privacidad y consentimiento | ✅ mecanismo vivo (v9) · ⚠️ 1 de los 2 usuarios actuales sigue en v8 | no |
 | 4 | Tope de gasto por persona | ✅ `BOT_DAILY_LIMIT=30/día`, kill-switch sin deploy | no |
@@ -30,20 +30,20 @@
 las que **P1 (validez del aviso) y P3 (invitaciones y terceros) bloquean el piloto** por decisión
 propia del documento. No consta que se haya enviado ni respondido.
 
-**Antes de mandarlo hay que tocarlo** (verificado hoy): el paquete describe y adjunta el **aviso
-v8**, pero producción sirve **v9** (`src/logging_db.py:52`). Mandarlo tal cual haría que el
-asesor valide un texto que ya no es el que la gente acepta. Son dos cambios pequeños: actualizar
-el anexo A al v9 y decir qué cambió del v8 al v9.
+**Ya está tocado (20-ago-2026)** — lo que quedaba de edición está hecho:
+- el **anexo A lleva el v9**, y ya no transcrito: se **genera del código que se sirve**
+  (`python -m scripts.s328d_anexo_aviso`, con `--comprobar` que avisa si vuelve a quedarse atrás).
+  Llevaba el v8 mientras producción servía el v9, que es el fallo que esto cierra de raíz;
+- el **anexo B** lleva el delta v8→v9, con el cambio de fondo señalado: **la mención a que los
+  datos salen de la UE bajó de la primera capa a la segunda**, y eso va como pregunta expresa en P1
+  porque es lo único del v9 que podría afectar a la validez del consentimiento;
+- **P7 (leer conversaciones desde el Explorador)** y **P8 (clasificación automática con un LLM)**
+  añadidas y marcadas como nuevas;
+- **P4** cierra el plazo de `panel_usuarios`: **24 meses**, decidido por Alberto el 20-ago.
 
-**Además, dos preguntas que este documento aún NO lleva** y que nacieron después:
-- el **Explorador del panel** enseña ahora la pregunta y el comentario del técnico en texto
-  (adjudicación de Alberto de anoche) — el propio `RGPD_RETENCION.md §s326` lo declara como
-  addendum pendiente;
-- la tabla derivada `query_clasificacion` (clasificación de las preguntas con un LLM), como
-  finalidad estadística sobre datos ya recogidos.
-
-**Acción concreta**: actualizar anexo A al v9 + añadir esas dos preguntas → enviar. Es la tarea
-que desbloquea el piloto, y es de Alberto.
+**Acción concreta que queda**: rellenar los dos `<…>` del apartado 1 (a quién se abre el piloto y
+cuándo), borrar la nota de cabecera y **enviarlo**. Es lo único que bloquea el piloto, y es de
+Alberto.
 
 ## 2. Lo que ya está y no hay que tocar
 

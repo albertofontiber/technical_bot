@@ -116,12 +116,14 @@ PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 si
 
 ### QUÉ SIGUE — el piloto con el primer DG, y lo que lo bloquea
 
-1. **BLOQUEANTE, y es de Alberto: el paquete del abogado.** Está desactualizado —describe el aviso
-   **v8** mientras el código sirve **v9** (`src/logging_db.py:52`)— y le faltan dos addenda que
-   nacieron después: el **Explorador** (prosa de preguntas y comentarios entra al panel,
-   adjudicación (a)) y el **panel** en sí, que nombra la purga 24m pendiente de `bot_invitaciones`.
-   Nada más bloquea invitar al primer DG: allowlist, invitaciones, retención y supresión están en
-   verde y verificadas contra la BD (`docs/PILOTO_DG_ESTADO.md`).
+1. **BLOQUEANTE, y es de Alberto: ENVIAR el paquete del abogado.** Ya no está desfasado (20-ago,
+   DEC-252): el anexo A lleva el **v9** y **se genera del código** —era una copia, y toda copia se
+   desfasa—, el anexo B lleva el delta v8→v9 con el cambio de fondo señalado (la mención a las
+   transferencias fuera de la UE **bajó** de la primera capa a la segunda, y va como pregunta
+   expresa en P1), entran **P7** (leer conversaciones desde el Explorador) y **P8** (clasificación
+   con un LLM), y **P4 cierra el plazo de `panel_usuarios` en 24 meses**. Lo que queda: rellenar los
+   dos `<…>` del apartado 1 y mandarlo. Nada más bloquea invitar al primer DG
+   (`docs/PILOTO_DG_ESTADO.md`).
 2. ~~El gate de acuerdo de la taxonomía~~ **PASADO (20-ago, 29/29 = 100 %)**. La v8 queda
    **ACORDADA**, no solo razonable — primera vez que este gate pasa (la v1 sacó ~80 % y disparó el
    ciclo del «otros»). El paquete que había pendiente era de la **v6** y estaba caduco: incluía

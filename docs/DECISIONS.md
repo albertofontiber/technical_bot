@@ -9059,3 +9059,70 @@ real que no debe marcar.
   conserva a propósito.
 - **Verificado en navegador**: `document.fonts.check('30px "Playfair Display"')` → `true`, cero
   errores de consola (una CSP mal puesta habría bloqueado la fuente ahí).
+
+---
+
+## DEC-252 (s328d, 20 ago 2026) — El paquete del abogado deja de ser una COPIA del aviso: el anexo se genera del código, entran P7/P8, y el plazo de `panel_usuarios` queda en 24 meses
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (documento que sale a un tercero + una decisión de
+  retención firmada). **Encargo de Alberto**: «haz 1 y 2, pon 24 meses».
+
+### 1. La causa real del desfase, y por qué el arreglo no es actualizar el anexo
+
+- El paquete llevaba el aviso **v8 transcrito a mano** mientras producción servía el **v9**. El
+  asesor iba a validar un texto que ya no es el que la gente acepta — y P1, que es una de las dos
+  preguntas que bloquean el piloto, es exactamente «¿es válido este aviso?».
+- **Actualizar el anexo habría arreglado el síntoma.** La causa es que el anexo era una **copia**, y
+  toda copia se desfasa. Ahora **se genera del código que se sirve**
+  (`scripts/s328d_anexo_aviso.py`, por AST sobre `_CONSENT_TERMS` y `_PRIVACY_DETAIL` — sin importar
+  `telegram_bot`, que arrastra medio bot y haría que el anexo dependiera de tener el entorno
+  completo). `--comprobar` dice si el documento se ha vuelto a quedar atrás.
+- **El control negativo destapó un hueco del propio comprobador**: comparaba el TEXTO y no la
+  ETIQUETA, así que un bump de `TERMS_VERSION` sin cambio de prosa pasaba en verde y el anexo
+  seguiría titulado con la versión vieja — el asesor validando un texto correcto bajo un nombre
+  falso. Cerrado: ahora cruza también el título. Verificado en las dos direcciones (bump a v10 →
+  rojo; restaurado → verde).
+
+### 2. Lo que el v9 cambió y NO estaba preguntado
+
+- El delta v8→v9 entra en el anexo B, y uno de los cuatro puntos es de fondo: **la mención a que
+  los datos salen de la UE bajó de la primera capa a la segunda** (decisión de Alberto en s324f,
+  para aligerar la pantalla de aceptación). La transferencia es real y la segunda capa se lee sin
+  aceptar nada — pero **es el único cambio del v9 que puede afectar a la validez del
+  consentimiento**, así que se sube a **P1** como pregunta expresa: ¿basta con la segunda capa, o la
+  transferencia internacional debe estar delante de la persona ANTES de aceptar?
+- **Deriva colateral corregida**: `RGPD_RETENCION.md` afirmaba que la primera capa dice «que hay
+  proveedores fuera de la UE». Desde el v9 **no lo dice**. Corregido en el propio documento con la
+  fecha y el motivo, en vez de en silencio.
+
+### 3. Las dos preguntas nuevas
+
+- **P7 — leer las conversaciones desde el Explorador.** Se declara sin disimular el cambio de grado:
+  hasta ahora el responsable veía **cifras**; ahora puede **leer lo que la gente escribió**. Se
+  pregunta por proporcionalidad, por si **hay que anunciarlo** (hoy el aviso dice «el equipo técnico
+  de Fontiber» sin decir que se leen las consultas una a una desde un navegador) y por el registro
+  de actividades.
+- **P8 — clasificación automática con un LLM.** Se acota con los tres hechos que importan: es sobre
+  **datos ya recogidos**, va al **mismo proveedor** que ya recibía la pregunta (no hay destinatario
+  nuevo) y **no produce ninguna decisión sobre la persona** — la tabla ni siquiera sabe de quién es.
+  La pregunta es si es tratamiento ulterior **compatible** o finalidad nueva.
+- Las dos van **marcadas como nuevas** en el documento, con una nota en la cabecera: el sistema
+  creció mientras el paquete esperaba, y ocultarlo obligaría al asesor a comparar a ciegas.
+
+### 4. `panel_usuarios`: 24 meses, y el mecanismo que NO existe
+
+- **Decisión de Alberto (20-ago)**: 24 meses desde la revocación, por **consistencia** — un plazo
+  único es más simple de cumplir y de explicar que tres.
+- **No era una celda `[DECIDIR]`: era una fila que FALTABA** en la matriz de retención. Añadida, con
+  la misma excepción declarada que `bot_allowlist`: el usuario **es la clave primaria**, así que no
+  se puede disociar sin destruir la fila — se borra en lugar de seudonimizar.
+- **Y se declara el gap, no se esconde**: hoy la baja es lógica (`activo=false`) y **no hay job que
+  ejecute el borrado a los 24 meses**. El plazo está decidido y sin mecanismo. Mismo estado que la
+  purga 24m de `bot_invitaciones`/`bot_allowlist`, que ya estaba declarada así.
+- El gate del runbook (`DASHBOARD_DESPLIEGUE.md`, «una fila en blanco no entra a producción») queda
+  cerrado por la decisión, con el gap del mecanismo escrito al lado.
+
+### Lo que queda, y es de Alberto
+
+Rellenar los dos `<…>` del apartado 1 (a quién se abre el piloto y cuándo), borrar la nota de
+cabecera y **enviarlo**. Es lo único que bloquea el piloto.

@@ -6367,3 +6367,50 @@ Nota de entrega, pequeña pero deliberada: los veintinueve mensajes son prosa de
 justo lo que el paquete del abogado tiene pendiente de validar. Se los pasé como fichero, no como
 página publicada. Adelantarme a esa consulta por comodidad de formato habría sido barato de hacer y
 caro de explicar. DEC-251.
+
+
+## s328d (20-ago-2026) — El anexo que era una copia, y por eso mentía
+
+Alberto pidió dos cosas del paquete del abogado —actualizar el anexo del aviso y añadir las dos
+preguntas que faltaban— y firmó el plazo que quedaba en blanco: veinticuatro meses.
+
+Lo del anexo tenía una trampa que se ve al mirarlo dos segundos. El documento llevaba el aviso **v8**
+transcrito a mano mientras producción servía el **v9**, y la primera pregunta del paquete —una de
+las dos que bloquean el piloto— es literalmente «¿es válido este aviso?». Es decir: el asesor iba a
+validar un texto que ya no es el que la gente acepta.
+
+Actualizar el anexo habría arreglado el síntoma. La causa es que **el anexo era una copia**, y toda
+copia se desfasa; la siguiente vez que alguien toque el texto del bot volvería a pasar lo mismo. Así
+que ahora se **genera del código que se sirve**, leyendo las dos constantes por AST —sin importar el
+módulo del bot, que arrastra medio sistema y haría que un anexo dependiera de tener el entorno
+completo—, y hay un `--comprobar` que dice si el documento se ha vuelto a quedar atrás.
+
+Y ahí el control negativo hizo su trabajo, otra vez. Subí la versión a mano para ver si el
+comprobador lo cazaba y **dijo que todo estaba al día**: comparaba el texto y no la etiqueta, así
+que un bump sin cambio de prosa pasaba en verde y el anexo seguiría titulado con la versión vieja.
+El asesor validando un texto correcto bajo un nombre falso. Se cerró cruzando también el título, y
+esta vez el control salió rojo cuando debía.
+
+Del v9 salió además una pregunta que nadie había hecho. Entre el v8 y el v9, la mención a que los
+datos salen de la UE **bajó de la pantalla de aceptación al detalle de `/privacidad`** — decisión de
+Alberto en su día para aligerar el primer contacto. La transferencia es real y la segunda capa se
+lee sin aceptar nada, pero es el único cambio del v9 que puede morder la validez del
+consentimiento, así que sube a P1 como pregunta expresa en vez de quedarse como nota de diseño. De
+paso apareció una deriva hermana: el documento interno de retención seguía afirmando que la primera
+capa menciona los proveedores fuera de la UE. Desde el v9 no lo menciona. Corregido con fecha y
+motivo, no en silencio.
+
+Las dos preguntas nuevas se escribieron sin suavizar lo incómodo. La del Explorador dice lo que hay:
+hasta ahora el responsable veía **cifras**, y ahora puede **leer lo que la gente escribió**. La de la
+clasificación acota con los tres hechos que de verdad importan —datos ya recogidos, mismo proveedor
+que ya recibía la pregunta, ninguna decisión sobre la persona— y pregunta lo único que queda en
+duda: si es tratamiento ulterior compatible o finalidad nueva. Ambas van marcadas como nuevas, con
+una nota en cabecera: el sistema creció mientras el documento esperaba, y esconderlo obligaría al
+asesor a comparar a ciegas.
+
+El plazo, por último, no era una casilla `[DECIDIR]` sin rellenar: era una **fila que faltaba** en la
+matriz. Ahora está, con veinticuatro meses y con la misma excepción declarada que la lista de acceso
+—el usuario es la clave primaria, así que no se puede disociar sin destruir la fila—. Y con el gap
+escrito al lado en vez de escondido: el plazo está decidido y **no hay job que lo ejecute**.
+
+Queda una cosa y es de Alberto: rellenar a quién se abre el piloto y cuándo, y mandarlo. DEC-252.

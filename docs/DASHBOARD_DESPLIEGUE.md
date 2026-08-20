@@ -42,8 +42,11 @@
 
 ## Gates previos a EXPONER — no opcionales (v9 §13, DEC-239)
 
-- **Plazo de `panel_usuarios` revocados**: `[DECIDIR: Alberto]` en la matriz de retención — una
-  fila en blanco no entra a producción.
+- ~~Plazo de `panel_usuarios` revocados~~ **DECIDIDO (Alberto, 20-ago-2026): 24 meses desde la
+  revocación**, por consistencia con el resto del sistema, y borrado de la fila entera —el usuario
+  es la clave primaria, así que no se puede disociar sin destruirla—. La fila ya está en la matriz
+  (`RGPD_RETENCION.md`). **Queda SIN MECANISMO y así se declara**: hoy la baja es lógica
+  (`activo=false`) y no hay job que ejecute el borrado a los 24 meses.
 - **El panel dentro del paquete del abogado** (la mitigación que DEC-231 exigió), nombrando el
   pendiente canónico: la purga 24m de `bot_invitaciones`/`bot_allowlist` está adjudicada (s324e)
   y sin mecanismo — declarada, no escondida.

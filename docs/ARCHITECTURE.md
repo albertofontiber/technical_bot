@@ -86,7 +86,7 @@
 > migraciones **019/020 aplicadas** (usuarios en `panel_usuarios`, cerrojo distribuido
 > `panel_puerta` + reloj diario de retención) y **acceso verificado por Alberto** — el login
 > real ejercitó scrypt+sello+cookie+cerrojo contra PostgREST. Dúo completo sobre TODO el
-> cableado (DEC-239→244). Gates abiertos: plazo de retención de `panel_usuarios` · paquete
+> cableado (DEC-239→244). Gates abiertos entonces: plazo de retención de `panel_usuarios` (**decidido 20-ago: 24 meses**) · paquete
 > del abogado · medición XFF (la mitad `ip:` del cerrojo sigue apagada).
 >
 > **Estado s324e/f (17 ago 2026) — EL PILOTO DG ESTÁ ABIERTO Y CONTROLADO.** La **puerta de acceso
