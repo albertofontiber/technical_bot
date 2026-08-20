@@ -9513,3 +9513,61 @@ REVOKE y la postcondición 6.1.b lo verifica.
   `evals/s331_sondas_alcance_resultado_v1.md` (sondas A-E) · propuesta post-dúo
   `evals/s331_aplicacion_AE_propuesta_v2.md` · packet E1 (marcas de MNDT600/MNDT701 **supersedidas**
   explícitamente) · tally r39 en `evals/adversarial_review_log.jsonl`.
+
+## DEC-259 (s331, 20 ago 2026) — Las 30 anotaciones de Alberto en el packet E1, verificadas una a una; y el gate aprende a distinguir una pérdida DESEADA de una regresión
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor) + **ALTO en el
+  instrumento** (se toca el GATE). **Dúo r40**: Sol xhigh 5 hallazgos · Fable 4 (veredicto SÓLIDO) →
+  **6 confirmados, 3 falsos positivos**, máx. crítico.
+- **Origen**: Alberto repasó el packet en local y subió su copia con **30 anotaciones nuevas** (11 en
+  §1.A, 19 en §1.B). Encargo: «Revísalo en este lote».
+- **El hallazgo que lo justifica todo**: su nota de §0.B «este archivo habla también de la ZX-A, ZX-E,
+  ZX-2/5e, ZX2/5SE» se había aplicado a la FAQ de la **DXc Connexion**, cuando describe la FAQ
+  **hermana** («ZX y DX») — los nombres son casi idénticos. Resultado: 6 productos ZX tenían como
+  fuente un PDF de una página que solo habla de la DXc, y `zxae`/`zxee` tenían enganchada la respuesta
+  **contraria** (Windows XP/7 + MK-DXc, cuando la ZX-A usa **MS-DOS + FIRE5**).
+- **Validado a petición suya («¿puedes validarlo y me dices antes de hacer nada?»)**: los modelos son
+  **ZXAE y ZXEE**, no «ZXA/ZXE». Prueba directa: la tabla de equivalencias del TG imprime
+  «**TG-ZXA | PROGRAMA GRAFICO ZXAE**». En el corpus, ZXAE 197 menciones/12 docs y ZXEE 224/13,
+  mientras «ZX-A» y «ZX-E» salen **1 vez cada una y solo en esa FAQ**.
+- **Aplicado** (recibos `s331_lote_1AB_aplicar_20260820T223256Z.json` y
+  `s331_retirar_mndt730p_20260820T223336Z.json`): 3 altas con cita de portada verificada
+  (`kidde:ke-dba-labw-s`, `notifier:conv232-485`, `kidde:9-30520`), 5 filas de doc_map, **2
+  modificaciones** (la FAQ de la DXc pierde los 6 ZX; la de «ZX y DX» gana `zxae`+`zxee`), `MNDT730`
+  al paraguas STRATOS por R1 y baja del fragmento PT `MNDT730P`.
+- **EL CAMBIO DE INSTRUMENTO (lo que más vale de la sesión)**: el gate **PARÓ el lote** con `STOP`
+  porque 2 gold perdían una fuente. Tenía razón en avisar y estaba **mal en bloquear**: el
+  instrumento solo sabía adjudicar disparos en negativos sintéticos, así que **bloqueaba por diseño
+  cualquier limpieza de contaminación** — retirar una atestación equivocada *es* perder fuentes a
+  propósito. Se añadió el canal simétrico **`perdidas_de_fuente_adjudicadas`**, con las cautelas que
+  impiden que sea un interruptor de apagado: **coincidencia EXACTA** de (gold, fuente), lo no
+  declarado **sigue en STOP**, y **`ids_perdidos` NUNCA se adjudica** (perder un producto es otra
+  clase de daño). Tests: `tests/test_s331_gate_perdidas_adjudicadas.py` (6 casos, incluidos los tres
+  de no-desactivación).
+  **La adjudicación se verificó, no se afirmó**: la FAQ retirada no dice nada de resistencias de fin
+  de línea ni de sirenas, y a `morley:zx2e`/`zx5e` les quedan **9 fuentes**, entre ellas los cinco
+  manuales reales de la ZXe (MIE-MI-530, MIE-MP-530/535, MIE-MU-530/535).
+- **Lo que el dúo dejó FUERA del lote** (y por qué se acató):
+  - **Retag de `manufacturer`** de `ASD Harsh` (Xtralis → System Sensor, con el documento diciendo
+    «© 2015 System Sensor»): **Sol, crítico** — sería otro parche efímero de la clase `#95`, porque la
+    reingesta re-deriva la marca y la re-estampa. Se **amplía `TECH_DEBT #95` a `manufacturer`** en vez
+    de construir un reaplicador hermano. El dato sigue mal a sabiendas, y declarado.
+  - **Alta `avotec:doa-fj-cpd`**: **Sol, medio** — los ids son INMUTABLES y la identidad sigue abierta.
+    El documento es «© AVOTEC Srl» y **«DOA» no aparece suelta ni una vez en todo el corpus** (sus 2
+    menciones son «DOA FJ/CPD», una dentro de un número de certificado CE, donde `/CPD` apunta a
+    *Construction Products Directive*). Queda **una pregunta para Alberto**, no un id acuñado a ciegas.
+- **Falsos positivos del dúo, verificados antes de acatarlos** (regla C): Sol dijo que `zxae`/`zxee`
+  **ya estaban** en la FAQ y que el lote partía de un estado falso — pero la línea que citó (`888`) es
+  la FAQ de la **DXc**, no la de «ZX y DX» (`928`): **cayó en la misma confusión entre homónimos que
+  causó el error original**. Fable temió que mapear `MNDT730` a los 3 miembros modificara una
+  adjudicación previa, pero la fila que citó (`972`) es `MADT731_02` y **ya tenía los 3** — el lote
+  crea simetría, no asimetría; y su sospecha de mapeo cross-marca no aplica (la FAQ es Morley).
+- **Alternativas descartadas**: crear producto `notifier:stratos-hssd` (el paraguas STRATOS ya existe
+  y `MNDT730` es una miniguía de FAMILIA que dice «el equipamiento puede variar según el modelo»;
+  además s324b **retiró 2 alias erróneos de esa misma grafía**); forzar el lote con un `--force` que
+  saltara el gate (habría cambiado un control por un atajo).
+- **Gaps declarados**: (1) `9-30520` es un número de parte y el precedente limpio en catálogo es
+  **UNO** (`spectrex:777163`), no tres — corregido tras Fable; (2) el gate **no mide retrieval
+  end-to-end**: el único efecto de serving es el buscado, quitar una fuente equivocada; (3) siguen sin
+  decisión `morley:efs-em-8` («pending.») y `notifier:nx2-r-r-y-nx5-r-r` (anotación vacía).
+- **Relacionado**: DEC-257/DEC-258 · `evals/s331_lote_1AB_propuesta_v1.md` · packet E1 · tally r40.

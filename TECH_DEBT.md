@@ -3641,3 +3641,6 @@ haya adjudicación. Con eso el retag deja de ser un parche y pasa a ser un dato.
 **Trigger**: cualquier re-ingesta de un documento con pm adjudicado (o el siguiente lote de retags,
 que debería nacer ya contra la autoridad). Verificación al cerrar: re-ingestar TI-007 y comprobar
 que el pm sigue siendo `VSN-4REL` sin intervención.
+
+
+**AMPLIADO en s331 a `manufacturer`** (dúo r40, Sol crítico): la deuda no es solo de `product_model`. El mismo pipeline re-deriva **`manufacturer`** del filename y lo estampa en `documents` y en cada chunk (`src/reingest/metadata.py`), así que un retag de marca tampoco sobrevive a una re-ingesta. Caso vivo sin arreglar: `ASD Harsh Environments_SP` está como `Xtralis` cuando el documento es «© 2015 System Sensor» (gama FAAST) — Alberto lo detectó al revisar §1.A. **NO se parcheó a propósito**: crear un reaplicador hermano sería repetir el error que esta deuda describe. El campo NO es cosmético — `_diversify_by_manufacturer` (`src/rag/retriever.py:2207`) reparte resultados por marca y `get_available_manufacturers`/`get_manufacturers_by_docs` alimentan lo que el bot enseña. **Arreglo BP (único)**: que `detect_document_metadata` consulte la fuente gobernada (doc_map/catálogo) antes de derivar, para pm y para marca.

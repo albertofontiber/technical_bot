@@ -107,6 +107,52 @@ def main() -> int:
             f"sino markdown degenerado, #87), pero los chunks nuevos volvieron con pm artefacto `TI-007`. Hoy: retag a "
             f"**VSN-4REL** + doc_map `notifier:vsn-4rel` con cita full-text «Instalación del módulo VSN-4REL» — "
             f"la atestación que dejaste pendiente · recibo {ref_lote}"),
+        # §1.A + §1.B — las 30 anotaciones que Alberto escribió en su copia (lote DEC-259)
+        "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx": (
+            "✅ APLICADO (s331, tu repaso) → **+`morley:zxae` +`morley:zxee`**. Validado lo que pediste validar "
+            "antes de nada: son **ZXAE/ZXEE**, no «ZXA/ZXE» — prueba en la tabla de equivalencias del TG "
+            "«TG-ZXA | PROGRAMA GRAFICO **ZXAE**» (corpus: ZXAE 197 menciones/12 docs, ZXEE 224/13; «ZX-A» y «ZX-E» "
+            "1 vez cada una y solo en esta FAQ). Sobre «no sé de dónde sacas ZXce/ZXhe/ZX50»: **tienes razón y NO "
+            "estaban aplicados** — son la línea `juez:` que R1 descartó; el packet los imprime al lado de lo aplicado "
+            "y eso induce a error. zx5e, zx2se y la DX-Dimension ya estaban"),
+        "asd harsh environments_sp": (
+            "⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es "
+            "«© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo "
+            "sería otro parche que la re-ingesta deshace → **`TECH_DEBT #95` ampliado a `manufacturer`**, que es donde "
+            "vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota"),
+        "avotec:doa-fj-cpd": (
+            "⏳ PENDIENTE DE TI — **una pregunta**: el alta no se hizo porque los ids son INMUTABLES y tu nota («marca "
+            "DOA, producto FJ/CPD») no cuadra con el documento: es «® AVOTEC» dos veces, «MADE IN ITALY», copyright "
+            "«AVOTEC Srl», y **«DOA» no aparece suelta ni una vez en todo el corpus** — sus 2 únicas menciones son "
+            "«DOA FJ/CPD», una dentro de «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384» (número de certificado CE, donde "
+            "`/CPD` = *Construction Products Directive*). ¿DOA es una línea comercial de Avotec, o es la designación "
+            "de tipo del certificado? Con tu respuesta lo doy de alta bien a la primera"),
+        "notifier:conv232-485": (
+            "✅ ALTA APLICADA (s331, tu nota) → `notifier:conv232-485` = **CONV232/485**, cita «Convertidor RS232 a "
+            "RS485/422 para TG a centrales ID3000 - punto a punto. **Ref.: CONV232/485**». Tu matiz aplicado: RS232 y "
+            "RS485/422 **no** se dan de alta (son esquemas de transmisión, no modelos)"),
+        "kidde:zlsm-me-zlsm-mr": (
+            "✅ RESUELTO (s331, tu «OK con juez») → R7 hizo lo correcto al NO crear ZLSM-ME/ZLSM-MR (0 menciones: son "
+            "artefactos). El sujeto real del documento es el P/N **9-30520**, «Carcasa de expansión MiniLaser», que "
+            "hoy queda dado de alta como `kidde:9-30520` con su hoja ES y su MI en inglés"),
+        "kidde:ke-dba-labw-l1s-ke-dba-labw-l2s-ke-dba-labw-l3s-ke-dba-labw-l4s": (
+            "✅ ALTA APLICADA (s331, tu «OK con juez») → `kidde:ke-dba-labw-s`, cita de portada «# **KE-DBA-LABW-S** "
+            "Accesorio detector inteligente direccionable - etiqueta en blanco (pequeña)»"),
+        "kidde:n-io-mbx-1-n-io-mbx-2": (
+            "✅ CONTESTADO (s331): R7 partió el concatenado y **creó los dos**, `kidde:n-io-mbx-1` y `n-io-mbx-2`, "
+            "ambos activos. Que el `DS` nombre solo el `-1` es correcto —es su ficha— y el `MI` cubre la serie "
+            "entera, que es justo lo que observaste en la segunda fila. No hay nada que corregir"),
+        "kidde:n-io-sbx-1g-n-io-sbx-2g": (
+            "✅ CONTESTADO (s331): sí, es lo mismo que habíamos determinado — `kidde:n-io-sbx-1g` y `n-io-sbx-2g` "
+            "existen los dos, activos y sin marca de candidate"),
+        "notifier:stratos-hssd": (
+            "✅ APLICADO (s331) → **NO se crea el producto «Stratos-HSSD»** y `MNDT730` se mapea a los **3 miembros "
+            "del paraguas STRATOS** (R1). Motivo: el paraguas ya existe (s324b) y el doc es una miniguía de FAMILIA "
+            "(«El equipamiento puede variar según el modelo»); además s324b retiró 2 alias erróneos de esa misma "
+            "grafía. Tu «versión portuguesa, retirar doc»: **`MNDT730P` retirado** (fragmento PT de 1 chunk; el "
+            "hermano ES sigue activo con 6)"),
+        "996-130-000-3 manuel d'utilisation zx_hlsi": (
+            "✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible)"),
         # §0.C — las dos preguntas que quedaban
         "aritech:2x-a": (
             "⏳ SIGUE SIENDO TUYA, pero ya con la MEDIDA hecha (s331, sonda `evals/s331_2xa_sonda_plan_v1.json`): crear "

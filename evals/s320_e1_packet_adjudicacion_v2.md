@@ -21,7 +21,7 @@
 <!-- s324-estado:fin -->
 
 <!-- s331-estado:inicio -->
-> ## 🟢 ESTADO s331 (2026-08-20 20:48Z) — el residuo de este fichero, CERRADO salvo una frase tuya
+> ## 🟢 ESTADO s331 (2026-08-20 22:44Z) — el residuo de este fichero, CERRADO salvo una frase tuya
 > Encargo tuyo de hoy: «las 3 preguntas son para ti» + atacar los no-bloqueantes + ¿queda algo en §1.A?
 >
 > **Hecho y aplicado** (dúo r38 Sol+Fable ANTES de escribir; dry-run PASS: detector +0/−0 términos,
@@ -613,7 +613,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 0
       **por qué NO entra en bloque**: confianza media; cita no verificada full-text; la cita verifica pero NO nombra al sujeto: la entrada se apoyaría sólo en la ficha del documento, no en su contenido
 - [ ] `996-130-000-3 manuel d'utilisation zx_hlsi` (Morley · 1 chunk · vigente)
-      ↳ **s331:** ✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible) · recibo `s331_retirar_docs_aplicar_20260820T200406Z.json`
+      ↳ **s331:** ✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible)
       ↳ **s324:** ⏳ PENDIENTE DE TI — fragmento FR de 1 chunk (mismo caso que los PT retirados): ¿BAJA? (no se atesta hasta decidirlo)
       pm doc «ZX» · pm chunks «ZX» · tokens sin id: —
       ids del packet 12-ago `morley:zx2e`, `morley:zx2se`, `morley:zx50`, `morley:zxae`, `morley:zxce`, `morley:zxhe` → resueltos HOY — · **deriva**
@@ -623,6 +623,7 @@ Motivos de caída (del recibo, uno por línea):
       **por qué NO entra en bloque**: confianza media
       ALBERTO: baja del corpus.
 - [ ] `asd harsh environments_sp` (Xtralis · 6 chunks · vigente)
+      ↳ **s331:** ⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es «© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo sería otro parche que la re-ingesta deshace → **`TECH_DEBT #95` ampliado a `manufacturer`**, que es donde vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota
       ↳ **s324:** ✅ APLICADO (R1) → 13 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «FAAST» · pm chunks «FAAST» · tokens sin id: —
       ids del packet 12-ago `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7) → resueltos HOY `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7)
@@ -631,6 +632,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 5
       **por qué NO entra en bloque**: ambigüedad estructural: la entrada atestaría productos de 2 marcas ['morley', 'notifier'] — clase rebrand/OEM, decisión entre marcas
 - [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ APLICADO (s331, tu repaso) → **+`morley:zxae` +`morley:zxee`**. Validado lo que pediste validar antes de nada: son **ZXAE/ZXEE**, no «ZXA/ZXE» — prueba en la tabla de equivalencias del TG «TG-ZXA | PROGRAMA GRAFICO **ZXAE**» (corpus: ZXAE 197 menciones/12 docs, ZXEE 224/13; «ZX-A» y «ZX-E» 1 vez cada una y solo en esta FAQ). Sobre «no sé de dónde sacas ZXce/ZXhe/ZX50»: **tienes razón y NO estaban aplicados** — son la línea `juez:` que R1 descartó; el packet los imprime al lado de lo aplicado y eso induce a error. zx5e, zx2se y la DX-Dimension ya estaban
       ↳ **s324:** ✅ APLICADO (R1) → 10 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «ZX/DX» · pm chunks «ZX/DX» · tokens sin id: `DX`
       ids del packet 12-ago `morley:zx2e`, `morley:zx2se`, `morley:zx50`, `morley:zxae`, `morley:zxce`, `morley:zxhe` → resueltos HOY — · **deriva**
@@ -725,6 +727,7 @@ hay que adjudicar.
 **ambiguedad:termino-multi-modelo** — 23
 
 - [ ] `avotec:doa-fj-cpd` (DOA FJ/CPD)
+      ↳ **s331:** ⏳ PENDIENTE DE TI — **una pregunta**: el alta no se hizo porque los ids son INMUTABLES y tu nota («marca DOA, producto FJ/CPD») no cuadra con el documento: es «® AVOTEC» dos veces, «MADE IN ITALY», copyright «AVOTEC Srl», y **«DOA» no aparece suelta ni una vez en todo el corpus** — sus 2 únicas menciones son «DOA FJ/CPD», una dentro de «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384» (número de certificado CE, donde `/CPD` = *Construction Products Directive*). ¿DOA es una línea comercial de Avotec, o es la designación de tipo del certificado? Con tu respuesta lo doy de alta bien a la primera
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «**DOA FJ/CPD** – Fire alarm sounding device for fire signalling conform to regulatio…»
       doc `Manual Rotulo REXD-103_EN` · estrictas doc 2 / global 2 en 1 doc
@@ -739,6 +742,7 @@ hay que adjudicar.
       doc `G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-DBA-ADPW-KIL y KE-DBA-ADPW-ZIT (serie KE-DBA-ADPW)`
 - [ ] `kidde:ke-dba-labw-l1s-ke-dba-labw-l2s-ke-dba-labw-l3s-ke-dba-labw-l4s` (KE-DBA-LABW-L1S/KE-DBA-LABW-L2S/KE-DBA-LABW-L3S/KE-DBA-LABW-L4S)
+      ↳ **s331:** ✅ ALTA APLICADA (s331, tu «OK con juez») → `kidde:ke-dba-labw-s`, cita de portada «# **KE-DBA-LABW-S** Accesorio detector inteligente direccionable - etiqueta en blanco (pequeña)»
       ↳ **s324:** ✅ RESUELTO por R7: ningún componente L1S..L4S aparece como token → no se da de alta (el juez propone KE-DBA-LABW-S: si quieres ese alta, dilo)
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «El KE-DBA-LABW-S es un juego de etiquetas adhesivas de la serie Excellence de format…»
       doc `HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
@@ -769,26 +773,31 @@ hay que adjudicar.
       doc `MI_KE_IU3111_ZME_202407_ES_fde1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
       el juez propone otra grafía: `KE-IU3111-ZME`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s331:** ✅ CONTESTADO (s331): R7 partió el concatenado y **creó los dos**, `kidde:n-io-mbx-1` y `n-io-mbx-2`, ambos activos. Que el `DS` nombre solo el `-1` es correcto —es su ficha— y el `MI` cubre la serie entera, que es justo lo que observaste en la segunda fila. No hay nada que corregir
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-MBX-1 Caja para módulos carril DIN»
       doc `DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s331:** ✅ CONTESTADO (s331): R7 partió el concatenado y **creó los dos**, `kidde:n-io-mbx-1` y `n-io-mbx-2`, ambos activos. Que el `DS` nombre solo el `-1` es correcto —es su ficha— y el `MI` cubre la serie entera, que es justo lo que observaste en la segunda fila. No hay nada que corregir
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «N-IO-MBX Series DIN Rail Module Box Installation Sheet»
       doc `MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)); ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)`
 - [ ] `kidde:n-io-sbx-1g-n-io-sbx-2g` (N-IO-SBX-1G/N-IO-SBX-2G)
+      ↳ **s331:** ✅ CONTESTADO (s331): sí, es lo mismo que habíamos determinado — `kidde:n-io-sbx-1g` y `n-io-sbx-2g` existen los dos, activos y sin marca de candidate
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-SBX-1G Caja para 1 módulo con carril DIN (pequeño)»
       doc `DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-SBX-1G)
       el juez propone otra grafía: `N-IO-SBX-1G`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s331:** ✅ RESUELTO (s331, tu «OK con juez») → R7 hizo lo correcto al NO crear ZLSM-ME/ZLSM-MR (0 menciones: son artefactos). El sujeto real del documento es el P/N **9-30520**, «Carcasa de expansión MiniLaser», que hoy queda dado de alta como `kidde:9-30520` con su hoja ES y su MI en inglés
       ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf»
       doc `DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
       el juez propone otra grafía: `9-30520`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s331:** ✅ RESUELTO (s331, tu «OK con juez») → R7 hizo lo correcto al NO crear ZLSM-ME/ZLSM-MR (0 menciones: son artefactos). El sujeto real del documento es el P/N **9-30520**, «Carcasa de expansión MiniLaser», que hoy queda dado de alta como `kidde:9-30520` con su hoja ES y su MI en inglés
       ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf»
       doc `MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
@@ -798,6 +807,7 @@ hay que adjudicar.
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Panel de control de incendios de 8 zonas EFS/EM 8 # Manual de instalación, puesta en…»
       doc `MS8.pdf` · estrictas doc 9 / global 18 en 2 docs · otros motivos: ambiguedad:mismo-termino-propuesto-a-dos-fabricantes
 - [ ] `notifier:conv232-485` (CONV232/485)
+      ↳ **s331:** ✅ ALTA APLICADA (s331, tu nota) → `notifier:conv232-485` = **CONV232/485**, cita «Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. **Ref.: CONV232/485**». Tu matiz aplicado: RS232 y RS485/422 **no** se dan de alta (son esquemas de transmisión, no modelos)
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza alta · cita ✓ «Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. Ref.: CONV…»
       doc `TIDT110.pdf` · estrictas doc 3 / global 4 en 2 docs
@@ -1058,11 +1068,13 @@ hay que adjudicar.
 **colision:el-texto-ya-es-alias-de-otro-producto** — 2
 
 - [ ] `notifier:stratos-hssd` (STRATOS HSSD)
+      ↳ **s331:** ✅ APLICADO (s331) → **NO se crea el producto «Stratos-HSSD»** y `MNDT730` se mapea a los **3 miembros del paraguas STRATOS** (R1). Motivo: el paraguas ya existe (s324b) y el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo»); además s324b retiró 2 alias erróneos de esa misma grafía. Tu «versión portuguesa, retirar doc»: **`MNDT730P` retirado** (fragmento PT de 1 chunk; el hermano ES sigue activo con 6)
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «*STRATOS* HSSD® # DETECTOR DE HUMO DE # ALTA SENSIBILIDAD»
       doc `MNDT730.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`
       ALBERTO: modelo que propone el juez
 - [ ] `notifier:stratos-hssd` (STRATOS HSSD)
+      ↳ **s331:** ✅ APLICADO (s331) → **NO se crea el producto «Stratos-HSSD»** y `MNDT730` se mapea a los **3 miembros del paraguas STRATOS** (R1). Motivo: el paraguas ya existe (s324b) y el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo»); además s324b retiró 2 alias erróneos de esa misma grafía. Tu «versión portuguesa, retirar doc»: **`MNDT730P` retirado** (fragmento PT de 1 chunk; el hermano ES sigue activo con 6)
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Central SENSENET (Stratos-HSSD)»
       doc `MNDT730P.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`
