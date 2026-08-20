@@ -17,7 +17,18 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s327 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y `es_pregunta` ES UN EJE.**
+> **Estado s328 (20 ago 2026) — UN NAVEGADOR MIDE EL PANEL EN CI, Y LA PUERTA LLEVA MARCA.**
+> La primera regresión visible del panel llegó de s327: las gráficas se pintaban a **×2,29** en
+> escritorio porque el SVG era fluido **sin tope** y los rótulos vivían FUERA, en filas HTML de
+> 28 px fijos — **dos sistemas de coordenadas** que solo cuadraban a 1 unidad = 1 px. Arreglado por
+> construcción (el rótulo va dentro del SVG) y **gateado**: `tests/test_s328_panel_geometria.py`
+> recorre el panel con Chromium en 390/768/1440 y afirma que no desborda, **no se amplía** y el
+> rótulo está a <3 px de su barra, con el patrón roto versionado como control negativo. Cierra
+> `TECH_DEBT #94`. Y `/entrar` lleva la identidad **Fontiber** del Data Room (navy/cobre/arena),
+> acotada a `body.entrada`: sin JavaScript, sin fuentes externas, y sin prometer 2FA ni recuperación
+> de contraseña, que este panel no tiene. DEC-249.
+>
+> > **Estado s327 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y `es_pregunta` ES UN EJE.**
 > Migraciones **021→024 APLICADAS** en producción; histórico clasificado **109/109 con taxonomía
 > v8**. Lo que se separó: **tema** y **«¿esto pide algo?»** son dimensiones ortogonales, así que
 > `no_es_pregunta` dejó de ser categoría y pasó a columna (`query_clasificacion.es_pregunta`,

@@ -8802,3 +8802,109 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   existe pero el panel aún no la pinta (se leen por el filtro `tipo` del Explorador) · el gate de
   acuerdo de la taxonomía (`evals/s326b_gate_acuerdo_paquete.json`, 25 ítems) sigue esperando a
   Alberto · `CLASIFICADOR_PREGUNTAS` sigue en off en Railway (la corrida es manual y con recibo).
+---
+
+## DEC-249 (s328, 20 ago 2026) — El gráfico tenía DOS escalas y solo cuadraban por casualidad: una regresión de s327 que mi propia verificación no podía ver; y la puerta se viste de Fontiber
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (render del panel expuesto + gate nuevo en CI +
+  superficie de la puerta). **Estado**: cableado, con control negativo ejecutado en las dos mitades.
+- **Qué lo destapó**: Alberto abrió `/metricas` en escritorio y dijo que se veía «como con zoom».
+  Tenía razón y era mío, de anoche.
+
+### 1. La causa: dos sistemas de coordenadas que tenían que coincidir a mano
+
+- El SVG de `barras` era **fluido sin tope** (`width:100%`, `viewBox`, sin `max-width`) y los
+  **rótulos iban fuera**, en `<div>`s de 28 px FIJOS. Las dos mitades solo cuadraban cuando el SVG
+  se pintaba a **1 unidad = 1 píxel**, es decir, cuando su contenedor medía exactamente 410 px.
+- **Medido** con Chromium sobre el código de s327: a 1440 px el SVG salía a **×2,29** y el rótulo
+  quedaba a **264 px** del centro de su barra. A 768 px, ×1,50 y 100 px. **Y a 390 px, 81 px de
+  desalineo** — el móvil también estaba roto.
+- **Lo importante no es el bug, es por qué mi verificación no podía verlo**: en s327 medí
+  **desbordamiento** (`scrollWidth`) y nada más. El fallo no desbordaba, se ampliaba. Declaré
+  «móvil verificado con navegador real» sobre un layout roto, y era verdad lo que medí y falso lo
+  que concluí. La clase entera: **los tests leen HTML, y la geometría no está en el HTML**.
+- **El arreglo, estructural**: el rótulo pasa DENTRO del SVG ⇒ **una escala, no dos**, y la
+  alineación es correcta **por construcción** a cualquier anchura. El CSS lo topa en su ancho
+  natural (`render.ANCHO_GRAFICO`): fluido hacia abajo, nunca ampliado. Y `barras` **deja de
+  aceptar `ancho`** — un llamador que lo cambiara movería el `viewBox` sin mover el tope del CSS,
+  que es exactamente el desajuste que esto cierra. La constante y la regla CSS son el mismo número
+  y un test los cruza.
+- **De paso**: cada fila pasa a ser un `<g>` con su propio `<title>`. Sueltos como hermanos del
+  `<svg>` (defecto de s326) solo contaba el primero, como nombre accesible del gráfico entero:
+  ninguno funcionaba de tooltip por fila. Ahora importa, porque el rótulo se recorta a 16
+  caracteres y el texto completo tiene que seguir alcanzable.
+- **Alternativas descartadas**: (a) solo `max-width`, sin mover el rótulo — arregla escritorio y
+  deja el móvil desalineado, que es medio arreglo sobre la mitad que Alberto no había visto;
+  (b) barras en HTML/CSS con anchos por fila — necesita un `style` por barra (la CSP lo prohíbe) o
+  una regla CSS generada por barra, que es peor de mantener que un SVG; (c) `preserveAspectRatio="none"`
+  para estirar solo en X — deforma el texto de los valores.
+
+### 2. El gate: TECH_DEBT #94, pagada por su propio gatillo
+
+- #94 se abrió a las 05:00 diciendo «el primer cambio de CSS POSTERIOR a s327 debería traer el gate
+  Playwright». El primero fue **el propio s327**, y lo cobró antes de que nadie lo pagara.
+- **Qué hay**: `tests/test_s328_panel_geometria.py` + `.github/workflows/s328-panel-geometria.yml`.
+  Levanta la app ASGI real (`scripts/s328_panel_servidor_de_medida.py`, transporte doblado) y la
+  recorre con Chromium en 390/768/1440 afirmando tres cosas **sobre pantalla**: no desborda · ningún
+  SVG se pinta a más de 1 unidad de `viewBox` por píxel · el rótulo está a menos de 3 px del centro
+  de su barra.
+- La tercera sonda busca el rótulo dentro del SVG **y también** en una columna HTML hermana: si
+  alguien vuelve a partir el gráfico en dos escalas, el gate lo ve igual. Es la diferencia entre
+  cazar la CLASE y cazar mi arreglo — la primera versión de la sonda solo miraba dentro del SVG y
+  daba 0,0 px sobre el código roto (ciega, no verde).
+- **Control negativo EJECUTADO**: con el render de s327, **13 rojos**; con el arreglo, 39 verdes.
+- **Gaps declarados**: mide **Chromium** (Safari/iOS fuera, y el técnico en obra puede llevar un
+  iPhone) y mide **geometría, no estética**.
+
+### 3. La puerta, con la identidad Fontiber del Data Room
+
+- **Pedido de Alberto**: que `/entrar` se vea como `dataroom.fontiber.com/login`. Los tokens salen
+  del repo del Data Room (`src/app/globals.css`: navy `#0c1932`, cobre `#c75b39`, arena `#f5f3ef`)
+  y el logotipo copia el patrón de su `BrandLogo` —primera palabra en blanco, segunda en cobre—
+  con el nombre de ESTA herramienta: «Fontiber **Bot PCI**».
+- **Acotado a la puerta**: todo cuelga de `body.entrada` (parámetro `clase_cuerpo` nuevo en
+  `render.pagina`). Detrás sigue el design system del war room. La puerta es la cara de la casa;
+  repintar el panel entero no es lo que se pidió y nadie ha diseñado ese segundo aspecto.
+- **Tres cosas del original NO están, y ninguna por olvido** — es la parte que importa:
+  · el botón «Mostrar» de la contraseña necesita **JavaScript**, y la CSP del panel dice
+    `default-src 'none'`;
+  · «¿Olvidaste tu contraseña?» y «El acceso requiere verificación en dos pasos» describen cosas que
+    el Data Room **tiene** y este panel **no** (no hay recuperación ni 2FA). Un enlace muerto y una
+    promesa de seguridad falsa son peores que su ausencia; queda el aviso verdadero que ya había;
+  · la **Playfair Display** es de Google Fonts: cargarla obligaría a abrir la CSP a
+    `fonts.googleapis.com` y `fonts.gstatic.com` en un panel que hoy no pide nada de fuera. Va la
+    pila serif del sistema. **La alternativa que no toca la CSP es incrustarla en base64** — se
+    decide, no se cuela. Pendiente de Alberto si quiere la fuente exacta.
+- **Trampa que dejó y queda escrita**: los campos de la puerta pintan a 14 px con más especificidad
+  que la regla anti-zoom de iOS, así que el `font-size:16px` se **repite** dentro de la media query
+  para ellos. Sin eso, iOS hace zoom al tocar el campo de usuario.
+- **El campo sigue siendo `Usuario`, no `Email`**: el panel autentica por nombre de usuario. Copiar
+  la etiqueta del Data Room habría sido copiar el aspecto y romper el significado.
+
+### 4. El dúo (Protocolo 3): 5 hallazgos de Fable, 5 confirmados, 0 FP — y dos me pillaron sobre-afirmando
+
+- **Tiering declarado**: impacto MEDIO **fuera** de la zona de dolor (corpus/idiomas/legacy/
+  retrieval/esquema) ⇒ Fable sí, Sol no. Queda escrito para que la ausencia de Sol sea una decisión
+  visible y no un olvido. Tally `2026-08-20T06:10:23`, adjudicado regla C
+  (`scripts/s328_adjudicate_adversarial_review.py`).
+- **F1 — el aislamiento de la puerta era convención, no construcción, y encima rompí otra página.**
+  `.entrar`, `.marca-puerta` y `.pie-puerta` no colgaban de `body.entrada`, y `class="entrar"`
+  **ya se usaba** en la página de error: mi regla le estaba cambiando el layout **hoy**. Verificado
+  con grep antes de actuar. Cerrado acotando todo bajo `body.entrada`, restaurando la regla original
+  de `.entrar` para `_error`, y re-fotografiando la 404 con Chromium.
+- **F2 — el gate cazaba mi instancia, no la clase.** Un SVG sin `viewBox` se saltaba (test de
+  alineación pasando en vacío) y el rótulo de fuera se buscaba **por nombre de clase**. Cerrado: la
+  sonda busca «hojas con texto del subárbol del padre», no clases; no se salta ningún SVG; y un SVG
+  sin ancho medible es rojo, no salto.
+- **F3 — el gate podía quedar verde sin medir nada.** Un fallo de Chromium en CI caía en `skip` y el
+  job pasaba: **el patrón de cobertura-que-miente que #94 vino a cerrar, reintroducido dentro del
+  arreglo de #94**. Cerrado con `PANEL_GEOMETRIA_EXIGIDA=1`, verificado en los tres modos.
+- **F4 — el control negativo era prosa.** «13 rojos con el render de s327» no se reproduce: ese
+  render ya no existe en el árbol. Misma clase que el crítico de s327. Cerrado versionando el patrón
+  roto como página sintética, con dos tests: la sonda **debe** marcarla y **no debe** marcar el
+  render vigente. Sin la segunda mitad, una sonda rota-siempre pasaría la primera.
+- **F5 — el docstring citaba `script-src 'none'`** cuando la cabecera real es `default-src 'none'`.
+- **El patrón que se repite y conviene nombrar**: mis dos hallazgos medios de esta ronda (F2, F3) y
+  el crítico de la anterior son **la misma cosa** — construir el instrumento de verificación y no
+  verificar el instrumento. Un gate que se salta, una sonda que mira mi implementación y un control
+  negativo que es una frase fallan todos hacia el verde.

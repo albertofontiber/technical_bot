@@ -3526,7 +3526,7 @@ que necesite el dúo, o antes si el recibo perdido llega a hacer falta para audi
 **Mitigación mientras tanto**: el script de adjudicación referencia los artefactos de Fable por
 `sha256` y el estado dice `completed_unpaired_hand_adjudicated`, no `completed`.
 
-## 94. Las claims de móvil y CSP no son auditables desde el repo: el navegador solo corrió en mi máquina (s327)
+## 94. ✅ RESUELTO (s328, 20-ago-2026) — El panel ya se mide con un navegador en CI, y el trigger lo cobró antes de que nadie lo pagara
 
 **El defecto**: el trabajo de móvil de s327 se verificó con Chromium real —0 px de scroll horizontal
 en 390/768/1440 en portada, detalle y explorador, y el bug del header se diagnosticó midiendo estilos
@@ -3548,3 +3548,26 @@ texto. Coste real: el arnés de arranque del panel con sesión válida.
 Postgres; meter un runtime de navegador en CI es un frente propio. **Trigger**: el primer cambio de
 CSS o de estructura de tabla del panel POSTERIOR a esta sesión — o el primer reporte de scroll
 lateral desde un móvil real.
+
+**PAGADA, y el gatillo se cumplió a la primera.** Se escribió a las 05:00 diciendo «el primer
+cambio de CSS o de estructura de tabla POSTERIOR a s327» — y el primero fue **el propio s327**:
+Alberto abrió `/metricas` en escritorio y las gráficas salían «con zoom». Medido después: el SVG se
+pintaba a **×2,29** de su tamaño natural a 1440 px y los rótulos quedaban a **264 px** de su barra.
+Y lo peor, **en móvil también** (81 px a 390 px) — sobre un layout que yo había dado por verificado
+en s327 midiendo SOLO desbordamiento. La causa de que no se viera es estructural y vale la pena
+escribirla: **los tests miran el HTML, y la geometría no está en el HTML** — la calcula el navegador.
+
+**Qué hay ahora**: `tests/test_s328_panel_geometria.py` + workflow
+`.github/workflows/s328-panel-geometria.yml`. Levanta la app ASGI de verdad
+(`scripts/s328_panel_servidor_de_medida.py`, transporte doblado), la recorre con Chromium en
+390/768/1440 y afirma tres cosas sobre PANTALLA: no desborda · ningún SVG se pinta a más de
+1 unidad de `viewBox` por píxel · el rótulo está a menos de 3 px del centro de su barra. La tercera
+sonda busca el rótulo dentro del SVG **y también** en una columna HTML hermana, para no quedarse
+ciega si alguien vuelve a partir el gráfico en dos sistemas de coordenadas.
+
+**Control negativo EJECUTADO**: con el render de s327 el gate da **13 rojos**; con el arreglo,
+39 verdes. Discrimina.
+
+**Gap que queda**: mide **Chromium**. Safari/iOS no entra, y el móvil del técnico en obra puede ser
+un iPhone — para esa mitad sigue haciendo falta que alguien lo abra. Y mide **geometría**, no
+estética: que nada desborde ni se amplíe no dice que se vea bien.

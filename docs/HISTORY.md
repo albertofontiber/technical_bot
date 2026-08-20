@@ -6212,3 +6212,60 @@ Quedan dos deudas nuevas y las dos son sobre no poder comprobar cosas. La #93: n
 el tally exige que ambos vean los mismos bytes, así que el enganche nunca cuadra y el recibo se
 pierde; salió tres veces en dos días. La #94: el CSS del panel no tiene red de seguridad, y el móvil
 es el dispositivo del técnico en obra. DEC-248.
+
+
+## s328 (20-ago-2026) — La primera regresión visible, y la lección de haber verificado lo que no era
+
+Alberto abrió `/metricas` en el escritorio y dijo que se veía «como con zoom». Tenía razón, era
+mía, y era de la noche anterior.
+
+La causa resultó ser más interesante que el síntoma. El gráfico de barras no era una cosa: eran
+**dos**. Las barras vivían en un SVG que yo había hecho fluido en s327 para que no se saliera de un
+móvil, y los rótulos vivían fuera, en `<div>`s de 28 píxeles fijos, en una columna al lado. Dos
+sistemas de coordenadas que tenían que coincidir a mano, y que solo coincidían cuando el SVG se
+pintaba exactamente a una unidad por píxel — es decir, cuando su contenedor medía 410 px y ni uno
+más. En una tarjeta ancha de escritorio el SVG escalaba y los rótulos no. Medido después con
+Chromium: **×2,29 y 264 px de separación entre cada barra y su rótulo a 1440 px**.
+
+Lo incómodo no fue el bug. Fue esto: **en móvil también estaba roto** —81 px a 390— y yo había
+escrito «móvil verificado con navegador real» doce horas antes. Y era cierto lo que medí: cero
+píxeles de desbordamiento horizontal, en las tres anchuras, con Chromium de verdad. El problema es
+que medí *desbordamiento*, y este fallo no desbordaba: se ampliaba. Verifiqué algo real y concluí
+otra cosa. La clase, que vale más que el caso: **los tests del panel leen HTML, y la geometría no
+está en el HTML** — la calcula el navegador, y lo que no se le pregunta no se sabe.
+
+El arreglo se eligió para que la pregunta no vuelva a poder hacerse mal: el rótulo pasa DENTRO del
+SVG. Una escala, no dos, y la alineación es correcta **por construcción** a cualquier anchura, no
+porque dos números coincidan. El CSS topa el gráfico en su ancho natural —fluido hacia abajo, nunca
+ampliado— y `barras()` deja de aceptar un parámetro de ancho, porque un llamador que lo cambiara
+movería el `viewBox` sin mover el tope, que es exactamente el desajuste que se estaba cerrando.
+
+`TECH_DEBT #94` se había abierto a las cinco de la mañana diciendo «el primer cambio de CSS
+posterior a s327 debería traer el gate de navegador». El primer cambio fue el propio s327, y lo
+cobró antes de que nadie lo pagara. Ahora existe: levanta la app de verdad y la recorre con Chromium
+en tres anchuras exigiendo que no desborde, que no se amplíe y que cada rótulo esté a menos de tres
+píxeles de su barra.
+
+Y entonces el revisor hizo su trabajo. Cinco hallazgos, los cinco confirmados, y **dos de ellos
+sobre el gate que acababa de escribir**: que se saltaba en silencio si Chromium fallaba en CI —o
+sea, un job verde sin haber medido nada, que es exactamente el patrón de cobertura-que-miente que
+#94 venía a cerrar, reintroducido dentro del arreglo de #94—, y que la sonda buscaba los rótulos
+**por nombre de clase**, con lo que cazaba mi implementación concreta y no la clase de error. Un
+tercero era peor de lo que parecía: al reescribir la regla `.entrar` para la puerta nueva le había
+cambiado el layout **a la página de error**, que la reutiliza desde siempre. Y un cuarto señaló que
+mi «control negativo ejecutado: 13 rojos» era una frase, no un artefacto — el render viejo ya no
+existe en el árbol, así que nadie podía repetirlo. Ahora el patrón roto está versionado como página
+sintética y dos tests exigen que la sonda lo marque *y* que no marque el render vigente.
+
+Los tres juntos tienen nombre: **construí el instrumento de verificación y no verifiqué el
+instrumento**. Un gate que se salta, una sonda que mira mi arreglo y un control negativo que es
+prosa fallan todos hacia el mismo lado, el verde.
+
+La otra mitad de la noche fue la puerta. Alberto quiso que `/entrar` se viera como el login del Data
+Room, así que se trajeron sus tokens de marca —navy, cobre, arena— y el patrón de su logotipo, con
+el nombre de esta herramienta. Lo que no se trajo importa igual: el botón de «Mostrar» la contraseña
+necesita JavaScript y aquí la CSP no deja correr ninguno; «¿olvidaste tu contraseña?» y
+«verificación en dos pasos» describen cosas que el Data Room tiene y este panel no, y un enlace
+muerto y una promesa de seguridad falsa son peores que su ausencia; y la Playfair Display obligaría
+a abrir la CSP a dos dominios de Google en un panel que hoy no pide nada de fuera. Todo cuelga de
+`body.entrada`: la puerta es la cara de la casa, y detrás sigue estando la herramienta. DEC-249.

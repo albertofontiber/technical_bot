@@ -262,24 +262,35 @@ def _nonce() -> str:
 def pagina_entrar(peticion: Peticion, *, mensaje: str = "",
                   estado: int = 200) -> Respuesta:
     banda = render.aviso(mensaje, tono="error") if mensaje else Seguro("")
+    # La puerta lleva la marca FONTIBER (s328, pedido de Alberto: «que sea como
+    # la del dataroom»). El logotipo copia el patrón de `BrandLogo` de allí —
+    # «Fontiber» hereda el blanco del titular y la segunda mitad va en cobre—,
+    # con el nombre de ESTA herramienta. El detalle de qué se adopta y qué NO
+    # (el «Mostrar», el «olvidé mi contraseña», el 2FA, la Playfair) está en el
+    # bloque `LA PUERTA` de `render._ESTILO`, junto al CSS que lo hace.
     cuerpo = Seguro(
         '<div class="entrar">'
-        "<h1>Panel del bot PCI</h1>"
+        '<div class="marca-puerta">'
+        "<h1>Fontiber <span>Bot&nbsp;PCI</span></h1>"
+        "<p>Panel de control del asistente técnico</p>"
+        "</div>"
         f"{banda}"
         '<section class="tarjeta"><form method="post" action="/entrar">'
         '<label>Usuario<input name="usuario" autocomplete="username" '
         'autofocus required></label>'
         '<label>Contraseña<input name="contrasena" type="password" '
         'autocomplete="current-password" required></label>'
-        '<button type="submit" class="principal">Entrar</button>'
+        '<button type="submit" class="principal">Continuar</button>'
         "</form></section>"
-        f"{render.nota('Acceso restringido. Todo lo que hay detrás son datos de personas.')}"
+        '<p class="pie-puerta">Acceso restringido. Todo lo que hay detrás '
+        "son datos de personas.</p>"
         "</div>"
     )
     return Respuesta(
         estado=estado,
         cuerpo=render.pagina("Entrar · Panel del bot", cuerpo,
-                             nonce=peticion.nonce).encode("utf-8"),
+                             nonce=peticion.nonce,
+                             clase_cuerpo="entrada").encode("utf-8"),
     )
 
 

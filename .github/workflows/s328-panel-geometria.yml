@@ -1,0 +1,53 @@
+name: S328 geometria del panel con navegador real
+
+# El CSS del panel no tenia red de seguridad: TECH_DEBT #94 lo declaro y el
+# primer cambio posterior lo cobro. Las graficas de s327 se ampliaban x2,3 en
+# escritorio y los rotulos se despegaban de sus barras hasta 264 px — y 81 px en
+# movil, sobre un layout que se habia dado por verificado. Ningun test lo vio
+# porque todos miran el HTML, y la GEOMETRIA no esta en el HTML: la calcula el
+# navegador. Mismo patron que los gates de Postgres — ejercer el EFECTO.
+#
+# Control negativo EJECUTADO al escribirlo: con el render de s327 el gate da
+# 13 rojos; con el arreglo, verde.
+#
+# Gap declarado: mide Chromium. Safari/iOS no se prueba aqui, y el panel lo
+# mira un tecnico desde el movil — el smoke manual sigue haciendo falta para esa
+# mitad.
+
+on:
+  push:
+    paths:
+      - "dashboard/**"
+      - "scripts/s328_panel_servidor_de_medida.py"
+      - "tests/test_s328_panel_geometria.py"
+      - ".github/workflows/s328-panel-geometria.yml"
+  workflow_dispatch:
+
+jobs:
+  geometria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest uvicorn playwright
+
+      - name: Chromium
+        run: python -m playwright install --with-deps chromium
+
+      - name: Gate de geometria
+        # PANEL_GEOMETRIA_EXIGIDA=1 convierte «no hay navegador» en ROJO. Sin
+        # ella, un fallo de runtime de Chromium se leia como job verde — un gate
+        # que degrada a skip silencioso es el patron de cobertura-que-miente que
+        # TECH_DEBT #94 vino a cerrar (hallazgo Fable s328).
+        env:
+          PANEL_GEOMETRIA_EXIGIDA: "1"
+        run: python -m pytest tests/test_s328_panel_geometria.py -q

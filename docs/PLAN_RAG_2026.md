@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s327 — 20 ago 2026; el panel MIDE calidad de uso, y el móvil está medido)
+## Estado actual (s328 — 20 ago 2026; el panel mide calidad de uso, y ahora un navegador mide el panel)
 
 **El panel está VIVO** en https://technical-bot-lake.vercel.app (proyecto Vercel propio, DEC-244),
 con las migraciones **019/020/021/022/023/024 APLICADAS** en producción y el login real ejercitando
@@ -83,11 +83,26 @@ nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (
 invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
 que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
 
-**Dúo (Protocolo 3) en las tres sesiones**: 7+5, 8+4 y 7+5 hallazgos — **todos confirmados, 0 falsos
-positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de
+**s328 → la primera regresión visible, y lo que enseñó.** Alberto abrió `/metricas` en escritorio:
+las gráficas salían «con zoom». Eran **dos sistemas de coordenadas** —SVG fluido sin tope, rótulos
+en `<div>`s de 28 px fijos— que solo cuadraban cuando el SVG se pintaba a 1 unidad = 1 px. Medido
+sobre el código de s327: **×2,29 y 264 px de desalineo a 1440 px, y 81 px a 390** — el móvil también
+estaba roto, sobre un layout que yo había declarado verificado midiendo **solo desbordamiento**.
+El arreglo es por construcción (el rótulo va DENTRO del SVG: una escala, no dos) y **TECH_DEBT #94
+queda pagada por su propio gatillo**: `tests/test_s328_panel_geometria.py` recorre el panel con
+Chromium en 390/768/1440 y afirma que no desborda, no se amplía y el rótulo está a menos de 3 px de
+su barra. Y `/entrar` se viste con la identidad **Fontiber** del Data Room (adjudicación de Alberto),
+acotada a `body.entrada` — sin JavaScript, sin fuentes externas y sin afirmar nada que el panel no
+haga (no hay 2FA ni recuperación de contraseña, así que no se prometen). DEC-249.
+
+**Dúo (Protocolo 3) en las cuatro sesiones**: 7+5, 8+4, 7+5 y 5 hallazgos — **todos confirmados, 0
+falsos positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de
 medición **antes de crearlo**, y lo cazó el revisor, no yo. Regla nueva al Protocolo 4: **el
-artefacto se versiona ANTES de citarlo**. Deuda **#91 pagada el mismo día que se disparó su
-trigger** (gate pg, 11/11 contra PostgreSQL 17 real + control negativo); **#93 y #94 abiertas**.
+artefacto se versiona ANTES de citarlo**. Y la de s328 dejó el patrón que las une: **construí el
+instrumento de verificación y no verifiqué el instrumento** — un gate que se saltaba en silencio, una
+sonda que miraba mi implementación en vez de la clase de error, y un control negativo que era una
+frase. Los tres fallaban hacia el verde. Deuda **#91 y #94 pagadas** (gate pg 11/11 contra
+PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 sigue abierta**.
 
 ### QUÉ SIGUE — el piloto con el primer DG, y lo que lo bloquea
 
@@ -107,8 +122,10 @@ trigger** (gate pg, 11/11 contra PostgreSQL 17 real + control negativo); **#93 y
 5. **Gates de EXPONER que siguen abiertos** (aviso v9 §13): plazo `[DECIDIR: Alberto]` de
    `panel_usuarios` · medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP`
    sigue en False; **no** bloquea nada — el cerrojo por usuario funciona desde el día 1).
-6. **Deuda con trigger caliente**: **#94** — el CSS del panel no tiene red de seguridad; el primer
-   cambio de estructura de tabla POSTERIOR a s327 debería traer el gate Playwright en CI.
+6. **Decidir la fuente de la puerta**: el logotipo usa la pila serif del sistema, no la Playfair
+   Display del Data Room. Cargarla de Google Fonts obligaría a abrir la CSP a dos dominios en un
+   panel que hoy no pide nada de fuera; la vía que no la toca es incrustarla en base64. Es de
+   Alberto: se decide, no se cuela.
 7. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    — la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin
    tocar el instalador. Y la causa de que una VM NO recibiera la caché sigue abierta.

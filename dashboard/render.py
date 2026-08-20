@@ -12,7 +12,9 @@ del marcador falla hacia el lado seguro (se ve el `<b>` en pantalla), que es el
 único sentido aceptable para un fallo de escapado.
 
 POR QUÉ NO HAY JAVASCRIPT NI FICHEROS ESTÁTICOS. La CSP del panel dice
-`script-src 'none'`: no hay script propio ni ajeno que pueda ejecutarse, así que
+`default-src 'none'` (no `script-src 'none'`, que es lo que decía este párrafo
+hasta s328 — hallazgo Fable): no hay script propio ni ajeno que pueda ejecutarse,
+y tampoco fuente, imagen ni conexión de fuera. Así que
 un XSS —si se colara pese al párrafo anterior— no tiene dónde correr. Y sin
 ficheros estáticos no hay ruta que sirva ficheros, que es no tener por dónde
 recorrer un directorio. Los gráficos son SVG generado aquí, con la geometría en
@@ -142,19 +144,36 @@ def tabla(cabeceras, filas, *, vacio: str = "Sin datos todavía.",
     )
 
 
-def barras(pares, *, ancho: int = 320, unidad: str = "",
-           leyenda: str = "") -> Seguro:
+#: Sistema de coordenadas INTERNO del gráfico: unidades del `viewBox`, no
+#: píxeles de pantalla. El ancho total tiene que ser una CONSTANTE porque el CSS
+#: la necesita para topar la escala (`max-width`) — la constante y la regla son
+#: el MISMO número y `test_s328_grafico_una_sola_escala` los cruza, así que no
+#: pueden divergir. Por eso `barras` ya no acepta un `ancho`: un llamador que lo
+#: cambiara movería el `viewBox` sin mover el tope, que es justo el desajuste
+#: que esto viene a cerrar.
+_ROTULO_ANCHO, _BARRA_ANCHO, _VALOR_ANCHO = 116, 320, 96
+ANCHO_GRAFICO = _ROTULO_ANCHO + _BARRA_ANCHO + _VALOR_ANCHO
+_FILA_ALTO, _FILA_HUECO = 22, 6
+#: A 13 px de fuente entran ~16 caracteres en el canalón del rótulo. El texto
+#: completo NO se pierde: va en el `<title>` de la fila (tooltip del navegador).
+_ROTULO_MAX = 16
+
+
+def barras(pares, *, unidad: str = "", leyenda: str = "") -> Seguro:
     """Un gráfico de barras horizontal en SVG, sin una línea de JavaScript.
 
     `pares` = [(etiqueta, valor)]. Se dibuja con el máximo como escala; si todos
     los valores son 0 se enseña igualmente (barras a cero), porque «hoy no hubo
     tráfico» es un dato y no un fallo.
 
-    FLUIDO (s327): el SVG lleva `viewBox` pero NO `width`/`height` en píxeles —
-    los pone el CSS al 100 % del contenedor. Con medidas fijas (410 px) el
-    gráfico se salía de la pantalla en un móvil, que es justo lo que había que
-    arreglar. `ancho` sigue existiendo como sistema de coordenadas interno, no
-    como tamaño en pantalla.
+    UNA SOLA ESCALA (s328). Hasta s327 esto eran DOS sistemas de coordenadas que
+    tenían que coincidir a mano: los rótulos iban en `<div>`s de 28 px fijos y
+    las barras en un SVG fluido. Coincidían solo cuando el SVG se pintaba a
+    1 unidad = 1 px; en una tarjeta ancha de escritorio el SVG escalaba ~3× y las
+    filas se separaban de sus rótulos (lo que Alberto vio como «zoom»). Ahora el
+    rótulo vive DENTRO del SVG: hay una escala, no dos, y la alineación es
+    correcta por construcción a cualquier anchura. El CSS la deja crecer hasta su
+    tamaño natural y ahí la topa — fluida hacia abajo, nunca ampliada.
 
     `leyenda` explica QUÉ se está midiendo (unidad, ventana, si suma semanas).
     Va debajo del gráfico y es parte del contrato de «una gráfica se lee sola».
@@ -163,28 +182,31 @@ def barras(pares, *, ancho: int = 320, unidad: str = "",
     if not pares:
         return Seguro("")
     tope = max((v for _, v in pares), default=0) or 1
-    alto_fila, hueco = 22, 6
-    alto = len(pares) * (alto_fila + hueco)
+    alto = len(pares) * (_FILA_ALTO + _FILA_HUECO)
     filas = []
     for indice, (etiqueta, valor) in enumerate(pares):
-        y = indice * (alto_fila + hueco)
-        largo = max(1, int(ancho * (valor / tope)))
+        y = indice * (_FILA_ALTO + _FILA_HUECO)
+        largo = max(1, int(_BARRA_ANCHO * (valor / tope)))
         texto = f"{numero(valor)}{(' ' + unidad) if unidad else ''}"
+        rotulo = str(etiqueta)
+        corto = (rotulo if len(rotulo) <= _ROTULO_MAX
+                 else rotulo[:_ROTULO_MAX - 1] + "…")
+        # Cada fila en su `<g>` CON su `<title>`: sueltos como hermanos del
+        # `<svg>` solo valía el primero como nombre accesible del gráfico entero
+        # y ninguno funcionaba de tooltip por fila (defecto de s326, visible al
+        # recortar el rótulo — ahora el texto completo hay que poder verlo).
         filas.append(
-            f'<rect x="0" y="{y}" width="{largo}" height="{alto_fila}" '
-            f'rx="3" class="barra"></rect>'
-            f'<text x="{largo + 8}" y="{y + 15}" class="valor">{esc(texto)}</text>'
-            f'<title>{esc(etiqueta)}: {esc(texto)}</title>'
+            f'<g><title>{esc(rotulo)}: {esc(texto)}</title>'
+            f'<text x="0" y="{y + 15}" class="rotulo">{esc(corto)}</text>'
+            f'<rect x="{_ROTULO_ANCHO}" y="{y}" width="{largo}" '
+            f'height="{_FILA_ALTO}" rx="3" class="barra"></rect>'
+            f'<text x="{_ROTULO_ANCHO + largo + 8}" y="{y + 15}" '
+            f'class="valor">{esc(texto)}</text></g>'
         )
-    etiquetas = unir(
-        Seguro(f'<div class="etiqueta" title="{esc(e)}">{esc(e)}</div>')
-        for e, _ in pares
-    )
     pie = (f'<p class="leyenda">{esc(leyenda)}</p>') if leyenda else ""
     return Seguro(
-        f'<div class="grafico"><div class="etiquetas">{etiquetas}</div>'
-        f'<svg role="img" preserveAspectRatio="xMinYMin meet" '
-        f'viewBox="0 0 {ancho + 90} {alto}">{"".join(filas)}</svg></div>{pie}'
+        f'<svg class="grafico" role="img" preserveAspectRatio="xMinYMin meet" '
+        f'viewBox="0 0 {ANCHO_GRAFICO} {alto}">{"".join(filas)}</svg>{pie}'
     )
 
 
@@ -330,14 +352,16 @@ td.ancho, th.ancho { white-space:normal; min-width:260px; }
 .cifra .valor { font-size:22px; font-weight:600; }
 .cifra .rotulo { color:var(--suave); font-size:12px; }
 .cifra .detalle { color:var(--suave); font-size:12px; margin-top:4px; }
-.grafico { display:flex; gap:12px; align-items:flex-start; }
-.grafico svg { width:100%; height:auto; min-width:0; flex:1; }
-.etiquetas { padding-top:3px; flex:0 0 auto; max-width:42%; }
-.etiqueta { height:22px; margin-bottom:6px; font-size:13px; color:var(--suave);
-  line-height:22px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* El tope es el ANCHO NATURAL del viewBox (render.ANCHO_GRAFICO): por debajo
+   el gráfico es fluido y encoge entero —rótulos incluidos, que por eso van
+   dentro del SVG—; por encima NO se amplía. Sin el tope, una tarjeta ancha lo
+   escalaba ~3× y parecía un zoom. El número está cruzado con el módulo en
+   test_s328_grafico_una_sola_escala. */
+svg.grafico { display:block; width:100%; max-width:532px; height:auto; }
+svg.grafico .rotulo { fill:var(--suave); font-size:13px; }
+svg.grafico .barra { fill:var(--barra); }
+svg.grafico .valor { fill:var(--suave); font-size:12px; }
 .leyenda { margin:8px 0 0; font-size:12px; color:var(--suave); }
-.barra { fill:var(--barra); }
-.valor { fill:var(--suave); font-size:12px; }
 .banda { border-radius:var(--radio); padding:10px 12px; margin:0 0 12px; font-size:14px; }
 .banda.error { background:var(--malo-fondo); color:var(--malo); }
 .banda.bien { background:var(--bien-fondo); color:var(--bien); }
@@ -361,9 +385,77 @@ button.peligro { background:none; color:var(--malo); text-decoration:underline;
   font-size:13px; word-break:break-all; background:var(--hueco);
   border:1px dashed var(--linea); border-radius:var(--radio); padding:10px;
   margin:8px 0; }
-.entrar { max-width:340px; margin:12vh auto; }
-.entrar form { flex-direction:column; align-items:stretch; }
-.entrar input, .entrar button { width:100%; }
+.entrar { max-width:340px; margin:12vh auto; }   /* la usa también `_error` */
+
+/* ===================== LA PUERTA (s328) =====================
+   Identidad de marca FONTIBER, pedida por Alberto: que el login del panel se vea
+   como el del Data Room (dataroom.fontiber.com/login). Los tokens salen de
+   `dataroom/src/app/globals.css` —navy #0c1932, cobre #c75b39, arena #f5f3ef—
+   igual que el resto del panel tomó los del war room: se adoptan los VALORES,
+   no la tecnología (allí es Tailwind + React; aquí sigue sin ser nada).
+
+   SOLO la puerta, y a propósito: detrás sigue el design system del war room. La
+   puerta es la cara de la casa y la herramienta es la herramienta; repintar el
+   panel entero no es lo que se pidió. Por eso todo cuelga de `body.entrada` y
+   ni una regla de aquí puede alcanzar al resto.
+
+   TRES COSAS DEL ORIGINAL NO ESTÁN, y ninguna por olvido:
+   · el botón «Mostrar» de la contraseña necesita JavaScript, y la CSP de este
+     panel dice `default-src 'none'`: no hay script propio ni ajeno que corra;
+   · «¿Olvidaste tu contraseña?» y «El acceso requiere verificación en dos
+     pasos» describen cosas que el Data Room TIENE y este panel NO —no hay
+     recuperación ni 2FA—. Un enlace muerto y una promesa de seguridad falsa son
+     peores que su ausencia; en su lugar queda el aviso verdadero que ya había;
+   · la Playfair Display del logotipo es de Google Fonts, y cargarla obligaría a
+     abrir la CSP a `fonts.googleapis.com` y `fonts.gstatic.com` en un panel que
+     hoy no pide NADA de fuera. Va la pila serif del sistema. Si Alberto quiere
+     la Playfair exacta, la vía que no toca la CSP es incrustarla en base64: se
+     decide, no se cuela. */
+body.entrada { --navy:#0c1932; --navy-claro:#142850; --cobre:#c75b39;
+  --arena:#f5f3ef; --papel-claro:#ffffff; --linea-clara:#e5e5e5;
+  --linea-campo:#d4d4d4; --tinta-clara:#171717; --rotulo-claro:#404040;
+  background:var(--navy); color:var(--arena);
+  display:flex; align-items:center; justify-content:center;
+  min-height:100dvh; padding:24px 16px; box-sizing:border-box; }
+body.entrada main { max-width:384px; width:100%; padding:0; margin:0; }
+body.entrada footer { display:none; }   /* el aviso va dentro, ver `.pie-puerta` */
+/* `.entrar` NO es solo de la puerta: la página de ERROR la reutiliza
+   (app.py, `_error`). Por eso su regla original se conserva intacta arriba y la
+   de la puerta va acotada — hallazgo Fable s328, y era doble: además de
+   desmentir la claim de aislamiento, reescribirla suelta le cambiaba el layout
+   a una página que nadie estaba tocando. TODO lo de aquí abajo cuelga de
+   `body.entrada`, sin excepción. */
+body.entrada .entrar { max-width:none; margin:0; }
+body.entrada .marca-puerta { text-align:center; margin:0 0 32px; }
+body.entrada .marca-puerta h1 { font-family:Georgia,"Times New Roman",serif;
+  font-weight:400; font-size:30px; line-height:1.2; letter-spacing:-.02em;
+  color:#fff; margin:0; white-space:nowrap; }
+body.entrada .marca-puerta h1 span { color:var(--cobre); }
+body.entrada .marca-puerta p { margin:8px 0 0; font-size:14px;
+  color:rgba(245,243,239,.8); }
+body.entrada .tarjeta { background:var(--papel-claro);
+  border:1px solid var(--linea-clara); border-radius:12px; padding:24px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05); }
+body.entrada .tarjeta form { flex-direction:column; align-items:stretch;
+  gap:16px; }
+body.entrada .tarjeta label { gap:4px; font-size:14px; font-weight:500;
+  color:var(--rotulo-claro); }
+body.entrada .tarjeta input { width:100%; box-sizing:border-box;
+  padding:8px 12px; font-size:14px; border-radius:8px;
+  border:1px solid var(--linea-campo); background:var(--papel-claro);
+  color:var(--tinta-clara); }
+body.entrada .tarjeta input:focus { outline:none; border-color:var(--tinta-clara);
+  box-shadow:0 0 0 1px var(--tinta-clara); }
+body.entrada .tarjeta button { width:100%; padding:9px 12px; font-size:14px;
+  font-weight:500; border:0; border-radius:8px; background:var(--navy);
+  color:#fff; cursor:pointer; }
+body.entrada .tarjeta button:hover { background:var(--navy-claro); }
+/* La banda de error del panel es oscura; sobre navy con tarjeta blanca no se
+   lee. Aquí toma la forma clara del aviso del Data Room. */
+body.entrada .banda.error { background:#fef2f2; border:1px solid #fecaca;
+  color:#b91c1c; text-align:center; margin:0 0 16px; }
+body.entrada .pie-puerta { margin:16px 0 0; text-align:center; font-size:12px;
+  color:rgba(245,243,239,.5); }
 /* La portada: TODAS las gráficas de un vistazo (s327, pedido de Alberto: «no
    quiero hacer scroll para ir viendo gráficas»). Una sola regla sirve los tres
    tamaños —`auto-fit` reparte lo que quepa— así que no hay media query que
@@ -402,14 +494,16 @@ footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
     align-items:center; }
   header .sesion { margin-left:auto; font-size:13px; }
   input, select, textarea { font-size:16px; }   /* anti-zoom iOS */
+  /* La puerta pinta sus campos a 14 px con más especificidad que la
+     regla de arriba, así que el anti-zoom hay que repetirlo AQUÍ o
+     iOS hace zoom al tocar el campo de usuario. */
+  body.entrada .tarjeta input { font-size:16px; }
   button, .tarjeta form button { min-height:44px; }
   form { flex-direction:column; align-items:stretch; }
   form label { width:100%; }
   input, select { min-width:0; width:100%; }
   .tarjeta { padding:14px; }
   .cifra .valor { font-size:22px; }
-  .etiquetas { max-width:38%; }
-  .etiqueta { font-size:12px; }
   table { font-size:13px; }
   td, th { padding:8px 6px; }
   /* tabla → tarjetas (pivot del war room, aquí en 640 px y sin JS) */
@@ -441,9 +535,15 @@ footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
 
 
 def pagina(titulo: str, cuerpo, *, nonce: str, usuario: str | None = None,
-           ruta: str = "", csrf: str = "") -> str:
+           ruta: str = "", csrf: str = "", clase_cuerpo: str = "") -> str:
     """El documento entero. `nonce` es por RESPUESTA: la CSP sólo autoriza el
-    `<style>` que lleve ese número, así que un `<style>` inyectado no pinta."""
+    `<style>` que lleve ese número, así que un `<style>` inyectado no pinta.
+
+    `clase_cuerpo` existe para UNA cosa (s328): la puerta lleva la identidad de
+    marca Fontiber y el resto del panel el design system del war room. Una clase
+    en el `<body>` acota el repintado a esa página — sin ella habría que colar
+    reglas por ruta, que es la vía por la que un estilo se escapa a donde nadie
+    lo esperaba."""
     if usuario:
         def _enlace(destino: str, nombre: str) -> Seguro:
             clase = ' class="activa"' if destino == ruta else ""
@@ -459,12 +559,14 @@ def pagina(titulo: str, cuerpo, *, nonce: str, usuario: str | None = None,
         )
     else:
         cabecera = ""
+    cuerpo_abre = f' class="{esc(clase_cuerpo)}"' if clase_cuerpo else ""
     return (
         "<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<meta name="robots" content="noindex,nofollow">'
         f"<title>{esc(titulo)}</title>"
-        f'<style nonce="{esc(nonce)}">{_ESTILO}</style></head><body>'
+        f'<style nonce="{esc(nonce)}">{_ESTILO}</style></head>'
+        f"<body{cuerpo_abre}>"
         f"{cabecera}<main>{_pintar(cuerpo)}</main>"
         "<footer>Panel interno · datos de personas: mira sólo lo que "
         "necesites</footer></body></html>"
