@@ -26,12 +26,14 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s328e — 20 ago 2026; el panel mide CALIDAD de uso, y tres promesas son ahora puertas)
+## Estado actual (s329 — 20 ago 2026; el panel mide CALIDAD de uso, y cuatro promesas son ahora puertas)
 
 **Qué es el sistema hoy.** El bot responde en Telegram desde manuales de ~30 fabricantes, con la
 puerta de acceso viva (allowlist + invitación de un solo uso) y el **panel web en
 https://technical-bot-lake.vercel.app** (DEC-244). Migraciones **019→024 aplicadas**; histórico
-clasificado **109/109 en taxonomía v8**.
+clasificado **109/109 en taxonomía v8**. El **enlace de invitación sale completo, de copiar y
+pegar** (DEC-255): el @username del bot es identidad pública y vive en código, no en una variable de
+entorno que no estaba puesta en ningún sitio.
 
 **Lo que cambió en el bloque s326→s328e**: el panel dejó de ser telemetría y pasa a medir **uso y
 calidad**. La captura de feedback ya estaba completa desde s294 —el gap era de EXPOSICIÓN—, así que
@@ -53,14 +55,15 @@ vez que pasa —la v1 sacó ~80 % y disparó el ciclo del «otros»—. Las grá
 leer como verdad, con sus residuales declarados (`catalogo_especificaciones` = 70 % por la fusión
 adjudicada; `mantenimiento_pruebas` y `normativa` sin ni una fila).
 
-**Y lo que más vale de la sesión no es una feature: tres promesas pasaron a ser PUERTAS**, y las
-tres tenían un agujero que solo apareció al **ejecutar el control negativo**:
+**Y lo que más vale del bloque no es una feature: cuatro promesas pasaron a ser PUERTAS**, y todas
+tenían un agujero que solo apareció al **ejecutar el control negativo**:
 
 | Antes | Ahora | Lo que el control destapó |
 |---|---|---|
 | El CSS del panel sin red de seguridad (`#94`) | Chromium lo mide en CI: no desborda · la letra no escala · rótulo centrado · nada cortado (DEC-249/250) | El gate se saltaba en silencio sin navegador → job verde sin medir |
 | El anexo del abogado, copiado a mano (llevaba el v8 con el v9 en producción) | Se **genera del código** que se sirve (DEC-252) | El comprobador miraba el texto y no la etiqueta: un bump pasaba en verde |
 | La sonda del eje, con el gatillo en un docstring | **Pre-vuelo del job**: aborta si el eje regresa (DEC-253) | — |
+| El hook del digest de levers, versionado en s316 «para que viaje a cloud» | Se invoca vía `bash <script>`: **el bit deja de ser condición** (DEC-254) | Viajó sin bit de ejecución → `exit 126` en todo checkout cloud **desde s316**, en silencio (es fail-open) |
 
 **Frente paralelo (s325h-e, DEC-247)**: la caché del environment **PUEDE** persistir `site-packages`
 —al menos a veces—, lo que **REFUTA** la conclusión de s325h-c. Sigue sin medirse el AHORRO, y la
