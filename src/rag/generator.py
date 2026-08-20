@@ -605,8 +605,51 @@ def _guard_estricto(nombre: str, raw: str) -> bool:
     raise RuntimeError(f"{nombre}={raw!r} no reconocido (on|off) — fail-fast")
 
 
+def _no_reask_on() -> bool:
+    """(s331 §3.C.2) Conducta anti-re-pregunta. Guard estricto (typo revienta)."""
+    return _guard_estricto("GENERATOR_NO_REASK", os.getenv("GENERATOR_NO_REASK", "off"))
+
+
+def _no_reask_block(turn_identity) -> str:
+    """(s331 §3.C.2, sitio 1: prompt) Bloque por-turno construido del canal
+    ESTRUCTURADO `turn_identity` — jamás parseado del texto de la query (spoofing
+    cerrado, §3.D). Dos niveles (Sol-2 r-v1): con canónico y SIN mención nueva, no
+    re-preguntar identidad; con mención sin resolver, RECONOCERLA — la confirmación
+    dirigida está PERMITIDA (una mención no-resuelta no es un producto identificado;
+    el clarify necesario nunca se suprime)."""
+    ti = turn_identity
+    if ti is None:
+        return ""
+    partes: list[str] = []
+    tiene_mencion = getattr(ti, "mention", None) and \
+        getattr(ti, "mention_provenance", "none") != "none"
+    modelos = tuple(getattr(ti, "resolved_models", ()) or ())
+    if modelos and not tiene_mencion:
+        partes.append(
+            "\n\nIDENTIDAD DEL TURNO (canal estructurado): el producto ya está "
+            f"identificado ({', '.join(modelos)}). NO vuelvas a preguntar qué modelo "
+            "tiene el usuario. Si tu evidencia es a nivel de familia, respóndela "
+            "declarando el alcance («esto aplica a toda la familia X») y señala qué "
+            "puntos pueden variar por variante."
+        )
+    elif tiene_mencion:
+        contexto_modelos = (
+            f" El resto del contexto identificado: {', '.join(modelos)}."
+            if modelos else ""
+        )
+        partes.append(
+            "\n\nIDENTIDAD DEL TURNO (canal estructurado): el usuario mencionó "
+            f"«{ti.mention}», que no está en mi catálogo.{contexto_modelos} "
+            "RECONÓCELO explícitamente en tu respuesta (nunca preguntes de cero qué "
+            "modelo tiene, como si no lo hubiera dicho). Puedes pedir UNA "
+            "confirmación dirigida del código exacto de la etiqueta si hace falta."
+        )
+    return "".join(partes)
+
+
 def _assemble_system(
-    query: str | None = None, *, enforced_policy: bool = False
+    query: str | None = None, *, enforced_policy: bool = False,
+    turn_identity=None,
 ) -> str:
     """Prompt del generador, compuesto por flags leídos en RUNTIME (togglear en
     un mismo proceso). s319 (DEC-210): el DEFAULT sin env = conducta SHIP
@@ -634,6 +677,11 @@ def _assemble_system(
     if _guard_estricto("ANTI_DIAGRAM_INVENTION",
                        os.getenv("ANTI_DIAGRAM_INVENTION", "on")):
         base = base + _ANTI_DIAGRAM_BLOCK
+    # (s331 §3.C.2) Trigger EN CÓDIGO sobre el canal estructurado (lección DEC-097:
+    # el prompt-gated sobre-dispara): el bloque solo existe con flag on Y identidad
+    # presente. Flag off o identidad None ⇒ prompt byte-idéntico a hoy.
+    if turn_identity is not None and _no_reask_on():
+        base = base + _no_reask_block(turn_identity)
     if enforced_policy:
         base = base + render_enforced_system_policy()
     return base
@@ -753,6 +801,38 @@ def generate_answer(
     )
 
     if not relevant_chunks:
+        # (s331 §3.C.2, sitio 2 — Sol-2 r-v2: la re-pregunta amnésica vivía TAMBIÉN
+        # en estas plantillas deterministas, sin pasar por el prompt) Con el canal
+        # estructurado presente y el flag on, la plantilla RECONOCE la identidad en
+        # vez de preguntar «¿qué modelo usas?» como si el hilo no existiera. Con
+        # flag off o identidad None: plantillas históricas byte-idénticas.
+        if _turn_identity is not None and _no_reask_on():
+            ti = _turn_identity
+            tiene_mencion = getattr(ti, "mention", None) and \
+                getattr(ti, "mention_provenance", "none") != "none"
+            modelos = tuple(getattr(ti, "resolved_models", ()) or ())
+            if tiene_mencion:
+                answer = (
+                    f"No encuentro documentación específica de «{ti.mention}» para "
+                    f"responder esto. Si puedes, confírmame el código exacto tal "
+                    f"como aparece en la etiqueta del equipo y lo vuelvo a mirar."
+                )
+            elif modelos:
+                answer = (
+                    f"Tengo documentación de {', '.join(modelos)}, pero no he "
+                    f"encontrado en ella evidencia para esta pregunta concreta. "
+                    f"¿Quieres que la reformulemos o que mire otro apartado?"
+                )
+            else:  # pragma: no cover - identidad vacía no se construye (invariante)
+                answer = ("No he encontrado información relevante en los manuales "
+                          "disponibles para responder a tu pregunta.")
+            return {
+                "answer": answer,
+                "diagrams": [],
+                "stop_reason": None,
+                "input_tokens": None,
+                "output_tokens": None,
+            }
         # If we know available models, offer them
         if available_models:
             models_str = ", ".join(f"**{m}**" for m in available_models[:8])
@@ -922,6 +1002,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
             "system": _assemble_system(
                 query,
                 enforced_policy=planner_mode == "enforced",
+                turn_identity=_turn_identity,  # (s331 §3.C.2) canal estructurado
             ),  # s69 base|fidelity (+s103b selection code-gated) + optional code policy
             "messages": [{"role": "user", "content": user_message}],
         }

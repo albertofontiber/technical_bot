@@ -233,6 +233,13 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
+    "GENERATOR_NO_REASK": {
+        # (s331 §3.C.2) Conducta anti-re-pregunta sobre el canal turn_identity
+        # (prompt + plantillas sin-evidencia). Default off = byte-idéntico.
+        "default_fuente": '"off"',
+        "via": ['getenv'],
+        "lectores": ('src/rag/generator.py',),
+    },
     "GENERATOR_PROMPT_VARIANT": {
         "default_fuente": '"fidelity"',
         "via": ['getenv'],

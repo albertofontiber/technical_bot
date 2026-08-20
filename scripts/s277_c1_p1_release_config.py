@@ -168,6 +168,9 @@ ALLOWED_SAFE_VALUES = {
     # s331 §3.C.1: precedencia de mencion + gramatica de confirmacion en F1.
     # Default off (byte-identico); C-solo medible (G1c). Valores on/off.
     "F1_MENTION_PRECEDENCE": frozenset({"on", "off"}),
+    # s331 §3.C.2: conducta anti-re-pregunta del generador sobre turn_identity
+    # (prompt + plantillas). Default off (byte-identico). Valores on/off.
+    "GENERATOR_NO_REASK": frozenset({"on", "off"}),
     # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
     # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
     "HTTP_RETRIES": frozenset({"on", "off"}),
