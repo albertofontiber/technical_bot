@@ -390,6 +390,10 @@ def _pintar_resultado(resultado: datos.Resultado, *, que: str,
     if resultado.estado == datos.SIN_CREDENCIALES:
         return render.aviso("El panel no tiene credenciales de Supabase.",
                             tono="error")
+    if resultado.estado == datos.SIN_TIEMPO:
+        return render.aviso(
+            "No dio tiempo a cargar esta tarjeta (la página tiene un límite de "
+            "tiempo). Ábrela en su detalle para verla sola.", tono="aviso")
     return render.aviso(f"No se pudo leer: {resultado.detalle or 'fallo'}.",
                         tono="error")
 
@@ -425,10 +429,13 @@ def _tabla_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
         [_formatear(fila.get(c.nombre), c.formato) for c in declaradas]
         for fila in resultado.filas
     ]
-    return render.tabla(cabeceras, filas)
+    # `cards=True`: en móvil estas tablas tienen hasta nueve columnas y se
+    # reescriben como tarjetas (s327).
+    return render.tabla(cabeceras, filas, cards=True)
 
 
-def _grafico_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
+def _grafico_de_vista(vista: datos.Vista, resultado: datos.Resultado, *,
+                      tope: int = 14) -> Seguro:
     if not vista.grafico or not resultado.filas:
         return Seguro("")
     col_etiqueta, col_valor, unidad = vista.grafico
@@ -446,18 +453,33 @@ def _grafico_de_vista(vista: datos.Vista, resultado: datos.Resultado) -> Seguro:
                     + (f.get(col_valor) or 0))
             except TypeError:
                 continue
-        pares = sorted(total.items(), key=lambda kv: kv[1], reverse=True)[:14]
+        pares = sorted(total.items(), key=lambda kv: kv[1], reverse=True)[:tope]
     else:
         # Las vistas temporales vienen en orden descendente (lo más reciente
         # primero) porque es como se lee una tabla; el gráfico se lee al revés.
         pares = [(str(f.get(col_etiqueta, "?")), f.get(col_valor))
-                 for f in reversed(resultado.filas[:14])]
-    return render.barras(pares, unidad=unidad)
+                 for f in reversed(resultado.filas[:tope])]
+    return render.barras(pares, unidad=unidad, leyenda=vista.leyenda)
+
+
+#: Cuánto puede tardar la portada LEYENDO, en total (s327, hallazgo Sol). La
+#: función de Vercel muere a los 30 s (`vercel.json`) y aquí se encadenan ~16
+#: lecturas: sin tope, una Supabase lenta mata la página entera en vez de
+#: dejarla pintar sus tarjetas con el estado de cada una. 18 s deja margen
+#: holgado para renderizar y responder dentro del límite.
+PRESUPUESTO_PORTADA_S = 18.0
+
+#: Barras por gráfica en la PORTADA. Es un resumen: con 14 barras cada tarjeta
+#: mide media pantalla y «verlo todo de un vistazo» deja de ser cierto. El
+#: detalle enseña la serie completa.
+BARRAS_EN_PORTADA = 5
 
 
 def pagina_resumen(peticion: Peticion) -> Respuesta:
+    presupuesto = datos.Presupuesto(PRESUPUESTO_PORTADA_S)
     salud = datos.salud()
-    diario = datos.leer_vista(datos.VISTAS_POR_CLAVE["bot_health_daily"])
+    diario = datos.leer_vista(datos.VISTAS_POR_CLAVE["bot_health_daily"],
+                              presupuesto)
     allowlist = gestion.listar_allowlist()
     invitaciones = gestion.listar_invitaciones()
     cifras = gestion.resumen_acceso(allowlist, invitaciones)
@@ -504,21 +526,71 @@ def pagina_resumen(peticion: Peticion) -> Respuesta:
             pregunta="Lo que hay que mirar antes de abrir cualquier pestaña.",
         ),
     ]
-    vista_diaria = datos.VISTAS_POR_CLAVE["bot_health_daily"]
-    if diario.hay_datos:
-        tarjetas.append(render.tarjeta(
-            "Consultas por día",
-            _grafico_de_vista(vista_diaria, diario),
-            pregunta=vista_diaria.pregunta,
-            pie="El detalle completo, en Métricas.",
-        ))
-    return _pagina(peticion, "Resumen", tarjetas, ruta="/")
+    # (s327, pedido de Alberto: «quiero verlo todo de un vistazo, sin scroll»)
+    # TODAS las vistas con gráfico, en una rejilla, cada una con su título y su
+    # leyenda y clicable hacia su detalle. Se leen en el mismo turno: son 9
+    # lecturas a PostgREST, ninguna depende de otra y la página tolera que
+    # cualquiera falle (cada tarjeta pinta su estado).
+    graficas = []
+    for vista in datos.VISTAS:
+        if not vista.grafico:
+            continue
+        resultado = datos.leer_vista(vista, presupuesto)
+        if resultado.hay_datos:
+            cuerpo = _grafico_de_vista(vista, resultado,
+                                       tope=BARRAS_EN_PORTADA)
+        else:
+            cuerpo = _pintar_resultado(resultado, que="datos de esa vista",
+                                       si_falta=vista.si_falta)
+        graficas.append((vista.titulo, f"/metricas/{vista.clave}", cuerpo))
+
+    cuerpo_portada = [render.unir(tarjetas)]
+    if graficas:
+        cuerpo_portada.append(Seguro('<h2 class="seccion">Métricas</h2>'))
+        cuerpo_portada.append(render.panel_graficos(graficas))
+    return _pagina(peticion, "Resumen", cuerpo_portada, ruta="/")
+
+
+def pagina_metrica_detalle(peticion: Peticion) -> Respuesta:
+    """El detalle de UNA métrica: su gráfico grande y su tabla completa.
+
+    La clave viaja en la RUTA (`/metricas/<clave>`) y se resuelve contra
+    `VISTAS_POR_CLAVE` — lista cerrada, igual que los filtros del Explorador:
+    lo que no está declarado es un 404, así que de la URL no sale nunca un
+    nombre de recurso hacia PostgREST.
+    """
+    clave = peticion.ruta[len("/metricas/"):].strip("/")
+    vista = datos.VISTAS_POR_CLAVE.get(clave)
+    if vista is None:
+        return _error(404, "No hay nada en esa dirección.", peticion.nonce)
+
+    resultado = datos.leer_vista(vista)
+    if resultado.hay_datos:
+        cuerpo = render.unir([
+            _grafico_de_vista(vista, resultado),
+            _tabla_de_vista(vista, resultado),
+        ])
+    else:
+        cuerpo = _pintar_resultado(resultado, que="datos de esa vista",
+                                   si_falta=vista.si_falta)
+    tarjetas = [
+        Seguro('<p class="migas"><a href="/">← Resumen</a> · '
+               '<a href="/metricas">Todas las métricas</a></p>'),
+        render.tarjeta(vista.titulo, cuerpo, pregunta=vista.pregunta,
+                       pie=f"Vista SQL: {vista.clave}"),
+    ]
+    return _pagina(peticion, vista.titulo, tarjetas, ruta="/metricas")
 
 
 def pagina_metricas(peticion: Peticion) -> Respuesta:
+    # El MISMO presupuesto que la portada, y por el mismo motivo (hallazgo
+    # Fable s327: el cierre de S2 se había quedado a medias): esta página lee
+    # las 14 vistas y además pinta la tabla entera de cada una, así que es la
+    # que más cerca está del límite de la función.
+    presupuesto = datos.Presupuesto(PRESUPUESTO_PORTADA_S)
     tarjetas = []
     for vista in datos.VISTAS:
-        resultado = datos.leer_vista(vista)
+        resultado = datos.leer_vista(vista, presupuesto)
         if resultado.hay_datos:
             cuerpo = render.unir([
                 _grafico_de_vista(vista, resultado),
@@ -527,9 +599,10 @@ def pagina_metricas(peticion: Peticion) -> Respuesta:
         else:
             cuerpo = _pintar_resultado(resultado, que="datos de esa vista",
                                        si_falta=vista.si_falta)
-        tarjetas.append(render.tarjeta(vista.titulo, cuerpo,
-                                       pregunta=vista.pregunta,
-                                       pie=f"Vista SQL: {vista.clave}"))
+        tarjetas.append(render.tarjeta(
+            vista.titulo, cuerpo, pregunta=vista.pregunta,
+            pie=f"Vista SQL: {vista.clave}",
+            enlace=(f"/metricas/{vista.clave}", "Ver solo esta métrica →")))
     tarjetas.append(render.tarjeta(
         "Sobre quién pregunta",
         render.nota(
@@ -571,6 +644,9 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
     feedback = _opciones(
         [("todos", "todos"), ("up", "👍"), ("down", "👎"),
          ("comentados", "con comentario")], filtros.feedback)
+    tipo = _opciones(
+        [("preguntas", "solo preguntas"), ("no_preguntas", "solo lo que NO lo es"),
+         ("todos", "todo")], filtros.tipo)
 
     tarjetas = [render.tarjeta(
         "Filtros",
@@ -582,6 +658,7 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
             f'<label>Categoría<select name="categoria">{categoria}</select></label>'
             f'<label>Fabricante<select name="marca">{marca}</select></label>'
             f'<label>Feedback<select name="feedback">{feedback}</select></label>'
+            f'<label>Tipo<select name="tipo">{tipo}</select></label>'
             '<button type="submit" class="principal">Aplicar</button>'
             "</form>")] + ([] if marcas_ok else [render.aviso(
                 # «no hay marcas» y «no se pudo leer la lista» son pantallas
@@ -589,9 +666,10 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
                 # silencio justo cuando Supabase falla.
                 "No se pudo leer la lista de fabricantes: ese filtro no está "
                 "disponible ahora.", tono="aviso")])),
-        pregunta="Listas cerradas: el periodo y el feedback son fijos, la "
+        pregunta="Listas cerradas: periodo, feedback y tipo son fijos, la "
                  "categoría es la taxonomía vigente y las marcas son las "
-                 "canónicas del corpus.",
+                 "canónicas del corpus. Por defecto solo se listan los "
+                 "mensajes que PIDEN algo (s327).",
     )]
 
     if resultado.estado == datos.OK:
@@ -618,6 +696,7 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
                 ["Cuándo", "Quién", "Canal · ruta", "Categoría",
                  "Marcas y modelos", "Pregunta", "Feedback", "Comentario"],
                 [_fila(f) for f in resultado.filas],
+                cards=True,
             ),
             pregunta=f"De la más reciente a la más antigua (tope "
                      f"{explorador.TOPE_FILAS}; para exportar, SQL en Supabase).",
@@ -914,6 +993,9 @@ RUTAS = {
     ("GET", "/"): pagina_resumen,
     ("GET", "/acceso"): pagina_acceso,
     ("GET", "/metricas"): pagina_metricas,
+    # `/metricas/<clave>`: el prefijo es la clave de enrutado (ver `despachar`);
+    # NO está en RUTAS_PUBLICAS, así que pasa por la puerta como cualquier otra.
+    ("GET", "/metricas/"): pagina_metrica_detalle,
     ("GET", "/explorador"): pagina_explorador,
     ("GET", "/errores"): pagina_errores,
     ("GET", "/entrar"): pagina_entrar,
@@ -947,6 +1029,14 @@ def despachar(peticion: Peticion) -> Respuesta:
     ninguna puerta."""
     clave = (peticion.metodo, peticion.ruta)
     manejador = RUTAS.get(clave)
+    if manejador is None and peticion.metodo == "GET" \
+            and peticion.ruta.startswith("/metricas/"):
+        # Única ruta con parámetro del panel (s327). Se normaliza a su clave
+        # ANTES de la puerta, así que hereda TODAS sus comprobaciones — y el
+        # sufijo no se usa como nombre de recurso: el manejador lo resuelve
+        # contra la lista cerrada `VISTAS_POR_CLAVE` o devuelve 404.
+        clave = ("GET", "/metricas/")
+        manejador = RUTAS.get(clave)
     if manejador is None:
         return _error(404, "No hay nada en esa dirección.", peticion.nonce)
 

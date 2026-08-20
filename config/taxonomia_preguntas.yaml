@@ -71,7 +71,27 @@
 # (hallazgo Fable s326b, predicho sobre tráfico futuro, no observado en el
 # histórico). Se acota a lo que la pregunta busca: productos, marcas, modelos o
 # documentación.
-version: 6
+# v7 (s327, adjudicación de Alberto): `no_es_pregunta` DEJA de ser una categoría
+# y pasa a ser un EJE PROPIO (`es_pregunta`, columna en la tabla). Su razón, en
+# palabras de Alberto: «lo BP es separar lo que es pregunta de lo que no, para
+# que las no-preguntas no entren en el análisis». Y tenía razón de fondo: tema y
+# «¿esto pide algo?» son dimensiones ORTOGONALES — mezclarlas obligaba a elegir
+# entre etiquetar el tema de una queja o marcarla como no-pregunta, y perdías
+# una de las dos. Ahora las vistas de análisis filtran `es_pregunta` y las
+# no-preguntas siguen teniendo su tema, listas para mirarse aparte.
+#
+# REGLA DE `es_pregunta` (literal de Alberto): lo que acaba en «?» SIEMPRE es
+# pregunta —eso lo decide el código, sin LLM y sin coste—; lo demás se infiere
+# por contexto; y **ante la duda, pregunta**. El sesgo es deliberado: preferimos
+# colar una no-pregunta en el análisis a perder una pregunta real.
+# v8 (s327, cierres del dúo): (a) la descripción de `otros` seguía mandando
+# mensajes a `no_es_pregunta`, un id RETIRADO de la lista cerrada — el modelo
+# recibía instrucciones contradictorias y, si lo devolvía, el parser estricto
+# descartaba la fila y la reintentaba en cada corrida (hallazgo Sol s327);
+# (b) la regla dura pasa a ser TERMINAR en «?», que es la adjudicación literal
+# de Alberto — buscar el signo en cualquier posición forzaba a pregunta las
+# quejas que citan una pregunta anterior.
+version: 8
 
 categorias:
   - id: catalogo_especificaciones
@@ -115,28 +135,20 @@ categorias:
     descripcion: >-
       Requisitos normativos como intención principal: normas UNE/EN, RIPCI,
       certificaciones (EN 54, ATEX), niveles o plazos exigidos por norma.
-  - id: no_es_pregunta
-    descripcion: >-
-      El mensaje no PIDE nada: continúa la conversación respondiendo a lo que
-      el bot acababa de preguntar («sobre la 2X-AF1-FBS», «programación
-      principalmente»), acusa recibo («ok, entendido»), o da feedback y
-      observaciones sobre la respuesta anterior («esto parece incluir muchos
-      más productos que centrales de incendios»). El criterio es la FORMA del
-      mensaje, no si el asunto tiene sentido: una pregunta con un sujeto
-      absurdo, inexistente o ajeno al sector SIGUE siendo una pregunta y va a
-      la categoría que le toque por tema.
   - id: otros
     descripcion: >-
-      Es una consulta pero no encaja con claridad en ninguna categoría, o no
-      se sabe QUÉ pide: un código de modelo SUELTO, sin nada más («ZX1e»),
+      No encaja con claridad en ninguna categoría, o no se sabe QUÉ pide.
+      Aquí caen también los mensajes que no piden nada y no tratan de ningún
+      tema en concreto («ok, entendido») — su condición de no-pregunta la
+      marca el eje `es_pregunta`, no esta categoría: un código de modelo SUELTO, sin nada más («ZX1e»),
       va aquí. Ojo, el criterio NO es la longitud: si se entiende qué tipo de
       dato se pide, va a su categoría aunque el mensaje sea corto y aunque el
       producto venga del hilo y no se nombre («¿cuántos lazos tiene?» o «sus
       especificaciones básicas» son catalogo_especificaciones, no `otros`). Un mensaje corto pero que sí es
       una frase de continuación («sobre la 2X-AF1-FBS») NO va aquí, va a
-      `no_es_pregunta`; y una pregunta de la forma «¿tienes/tenéis/hay X?»
-      TAMPOCO va aquí, va siempre a `catalogo_especificaciones` por rara que
-      sea X. Preferir `otros` antes que forzar una categoría: este
+      su tema (y el eje `es_pregunta` ya recoge que no pide nada); y una
+      pregunta de la forma «¿tienes/tenéis/hay X?» TAMPOCO va aquí, va siempre
+      a `catalogo_especificaciones` por rara que sea X. Preferir `otros` antes que forzar una categoría: este
       cajón se revisa y alimenta la siguiente versión de la taxonomía.
 
 # Rutas que se clasifican por REGLA ($0, sin LLM): el plan de turno ya decidió

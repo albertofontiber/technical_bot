@@ -13,9 +13,10 @@ from dashboard import datos
 def test_leer_vista_pide_solo_las_columnas_declaradas(monkeypatch):
     capturado = {}
 
-    def leer(recurso, params):
+    def leer(recurso, params, presupuesto=None):
         capturado["recurso"] = recurso
         capturado["params"] = dict(params)
+        capturado["presupuesto"] = presupuesto
         return datos.Resultado(datos.VACIO, [])
 
     monkeypatch.setattr(datos, "leer", leer)
@@ -24,6 +25,10 @@ def test_leer_vista_pide_solo_las_columnas_declaradas(monkeypatch):
     assert capturado["params"]["select"] == ",".join(
         c.nombre for c in vista.columnas)
     assert "*" not in capturado["params"]["select"]
+    # El presupuesto de tiempo es OPCIONAL y por eso viaja hasta aquí (s327):
+    # `leer_vista` sin él NO inventa uno —lo pasa tal cual—, que es lo que
+    # permite a las páginas de una sola lectura seguir sin presupuesto.
+    assert capturado["presupuesto"] is None
 
 
 def test_sentido_1_una_columna_no_declarada_no_se_pinta():

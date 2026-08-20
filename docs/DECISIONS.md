@@ -8536,7 +8536,7 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Traza**: recibos `evals/s326b_retaxonomizacion_v{2,3,4,5}.json` · briefing del dúo
   `evals/s326b_taxonomia_v2_briefing_v1.md` · tally en `evals/adversarial_review_log.jsonl`.
 
-### DEC-247 addendum (s326b) — El dúo sobre el cambio de taxonomía: Sol 8/8 confirmados, Fable SÓLIDO-en-mecánica con 4 de framing; el «1/109» era sobre-afirmación mía
+### DEC-246 addendum (s326b) — El dúo sobre el cambio de taxonomía: Sol 8/8 confirmados, Fable SÓLIDO-en-mecánica con 4 de framing; el «1/109» era sobre-afirmación mía
 
 - **Sol (GPT-5.6 xhigh, agéntico)**: **8 hallazgos, 8 confirmados contra el código, 0 falsos
   positivos**. Los tres que cambiaron cosas de verdad:
@@ -8576,7 +8576,7 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Coste total del ciclo**: cinco pasadas del histórico (v2→v6), ~$0,62, 109/109 y 0 fallos en
   todas. **Traza**: tally `2026-08-19T22:18:08`; recibos Sol/Fable en `evals/adversarial_reviews/`.
 
-### DEC-247 addendum 2 (s326b) — El smoke del preview destapó que `config/` nunca viajaba al bundle: el Explorador llevaba desde #308 con el filtro de categorías VACÍO en producción, en silencio
+### DEC-246 addendum 2 (s326b) — El smoke del preview destapó que `config/` nunca viajaba al bundle: el Explorador llevaba desde #308 con el filtro de categorías VACÍO en producción, en silencio
 
 - **Cómo se encontró**: haciendo el smoke público del preview de #311. Las tres rutas daban 302
   y eso **no era la app** sino el SSO de Vercel (`location: vercel.com/sso-api`) — es decir, el
@@ -8603,6 +8603,8 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   uno, hay que preguntarse qué deja de verse — aquí, que faltaba un fichero. Los fail-open del
   panel que degradan a «vacío» necesitan que algo AFIRME la precondición en CI, o el silencio
   se instala.
+
+---
 
 ## DEC-247 (s325h-e, 19 ago 2026) — La caché del environment PUEDE persistir (no siempre): la conclusión de DEC-242 queda REFUTADA, y el mensaje del check que indujo el error se arregla
 
@@ -8685,3 +8687,118 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Alternativas descartadas.** *Borrar DEC-242*: se conserva íntegra con marca de error — la traza
   de un diagnóstico invertido vale más que un registro limpio. *Dejar el mensaje del check como
   estaba y corregir solo la prosa*: el mensaje es la causa activa del error y volvería a inducirlo.
+
+---
+
+> **Nota de la colisión (20-ago)**: esta decisión nació numerada **DEC-247** en la rama de s327
+> y colisionó al mergear con la DEC-247 de s325h-e, que llegó antes a `main`. Se renumeró ESTA
+> (es la posterior). Es la tercera vez que pasa — `TECH_DEBT #92` (11 números DEC duplicados) y
+> `#93` (dos sesiones paralelas sobre el mismo frente) describen exactamente esto, y el registro
+> sigue sin mecanismo que lo impida: dos ramas largas no pueden reservar el número siguiente.
+
+## DEC-248 (s327, 20 ago 2026) — `es_pregunta` es un EJE, no una categoría: el análisis deja de contar lo que nadie preguntó; portada de métricas «de un vistazo», móvil medido y el inventario del primer DG
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO-ALTO (esquema + superficie expuesta del panel +
+  primera ruta con parámetro). **Estado**: **023 y 024 APLICADAS en producción**, histórico
+  re-clasificado **109/109 con taxonomía v8** (verificado contra la BD: `taxonomia_version`
+  mín = máx = 8, `sin_clasificar` = 0). Panel cableado en rama.
+- **Qué pidió Alberto** (anoche, tres encargos + una adjudicación de diseño): (1) optimizar la web
+  de Vercel para el móvil apoyándose en el war room; (2) entender qué falta para compartir el bot
+  con el primer DG; (3) resumen de métricas al principio, sin scroll, **con título y leyenda**, y
+  que al hacer clic lleve a un path con gráfico + detalle. Y la adjudicación: «lo BP es separar lo
+  que es pregunta de lo que no, para que las no-preguntas no entren en el análisis… lo que acaba
+  en “?” siempre será pregunta, el resto por contexto, y **ante la duda, pregunta**».
+
+### 1. El eje `es_pregunta` (el cambio estructural de la sesión)
+
+- **Decide**: `no_es_pregunta` —que en DEC-246 había NACIDO como categoría— deja de serlo y pasa a
+  columna propia (`query_clasificacion.es_pregunta`, migración **023**). Taxonomía **v7** (retirada
+  del id) y luego **v8** (cierres del dúo).
+- **Por qué Alberto tenía razón de fondo, y no solo de preferencia**: tema y «¿esto pide algo?» son
+  dimensiones **ORTOGONALES**. Mezcladas, una queja obligaba a elegir entre etiquetar su tema o
+  marcarla como no-pregunta — y perdías la otra mitad. Separadas, las no-preguntas conservan su
+  tema y se miran aparte (`bot_no_preguntas_v1`), mientras las 8 vistas de análisis las excluyen.
+- **La regla dura, y dónde va**: lo que **termina** en «?» es pregunta, lo decide el código sin LLM
+  y sin coste, y se aplica **DESPUÉS** de parsear la respuesta del modelo — porque manda sobre él.
+  Ante campo ausente o raro, `True`. Las vistas que parten de `query_logs` usan
+  `COALESCE(es_pregunta, TRUE)`: una fila sin clasificar cuenta como pregunta. Todo el diseño
+  sesga hacia el falso positivo, que es el error que la adjudicación ELIGE.
+- **Alternativas descartadas**: (a) dejarlo como categoría y filtrarla en cada vista — más barato
+  hoy, pero perpetúa la pérdida de información y obliga a recordar el filtro en cada vista futura;
+  (b) inferirlo en el panel al leer, sin columna — recalcular en cada render lo que ya se sabe al
+  clasificar, y sin poder auditarlo; (c) regla puramente determinista sin LLM — deja fuera las
+  peticiones sin signo («Especificaciones técnicas de la NFS2-3030»), que son **9 de 109**.
+- **Calidad MEDIDA, no declarada** (`evals/s327_eje_pregunta_medicion_v1.md`): censo COMPLETO, no
+  muestra. **93/109 (85 %)** las resuelve la regla determinista; los **16** casos que decidió el
+  modelo se revisan uno a uno. **Falsos negativos ≤ 1/109 (0,9 %)** —«ZX1e», dudoso— y falsos
+  positivos 3/109, que son el error elegido. El único FN posible es **exactamente** el gap ya
+  declarado en TECH_DEBT #92 (el clasificador no ve el hilo): no se tuneó el prompt para ganarlo.
+- **Límite declarado**: es el histórico PRE-piloto (109 mensajes, 2 personas, casi sin multi-turno).
+  La proporción de continuaciones subirá con tráfico real y con ella el peso de #92. Re-medir con
+  los primeros ~200 mensajes del piloto.
+
+### 2. La portada «de un vistazo» y la primera ruta con parámetro
+
+- **Decide**: `/metricas` gana una portada con las 9 gráficas en rejilla, cada una con título y
+  leyenda, y cada una enlaza a `/metricas/<clave>` con la serie completa + su tabla.
+- **La ruta con parámetro es la primera del panel, y se cablea sin abrir agujero**: `despachar`
+  normaliza `/metricas/<x>` a la clave `("GET", "/metricas/")` **ANTES** de la puerta de sesión, así
+  que hereda sesión, CSRF y cabeceras; el sufijo se resuelve contra `VISTAS_POR_CLAVE` (lista
+  cerrada) o es 404. **Nunca viaja a PostgREST.**
+- **Presupuesto de tiempo** (`datos.Presupuesto`, 18 s, estado `SIN_TIEMPO`): la portada hace 9
+  lecturas y `/metricas` recorre 14 vistas, contra `maxDuration: 30` de Vercel. Sin presupuesto, la
+  página muere en 504 y no dice por qué; con él, degrada declarando qué no le dio tiempo a leer.
+
+### 3. Móvil (encargo 1) y el inventario del DG (encargo 2)
+
+- **Móvil**: un solo punto de corte (640 px), `repeat(auto-fit, minmax(280px,1fr))`, SVG fluido
+  (solo `viewBox`), objetivos táctiles de 44 px, 16 px en inputs (anti-zoom de iOS) y tablas anchas
+  → tarjetas vía `data-etiqueta` + `content:attr()` — **CSS del `<style>` con nonce, no estilo
+  inline: la CSP `default-src 'none'` sigue intacta y sigue sin JavaScript**. Documentado en
+  `docs/PANEL_RESPONSIVE.md`. El bug del header se **midió** (Playwright, estilos computados: el
+  nav heredaba `flex-basis:0%`), no se adivinó.
+- **DG** (`docs/PILOTO_DG_ESTADO.md`): inventario semáforo verificado contra código y BD el 20-ago.
+  **El único bloqueante es el paquete del abogado**, que además está **desactualizado** (describe
+  el aviso v8 mientras `src/logging_db.py:52` dice `TERMS_VERSION = "v9"`). Todo lo demás —
+  allowlist, invitaciones, panel, retención, supresión — está en verde.
+
+### 4. El dúo (Protocolo 3): 12 hallazgos, 12 confirmados, 0 FP, severidad máxima CRÍTICO
+
+- **Sol xhigh** (7/7 confirmados): la 023 pisó el trigger de la deuda #91 sin resolverla · la
+  portada podía morir en 504 · los recibos probaban ejecución, no calidad del eje · los **votos** no
+  filtraban `es_pregunta` (→ migración **024**) · la regla era «contiene ?» y la adjudicación decía
+  «acaba en ?» · «de un vistazo» no lo era · el prompt nombraba un id RETIRADO, y el parser estricto
+  descartaba esas filas **en cada corrida**.
+- **Fable** sobre el árbol post-cierres (5/5), y su hallazgo **crítico es de PROCESO**: el cierre de
+  S3 citaba `evals/s327_eje_pregunta_medicion_v1.md`, un fichero que **yo creé 14 minutos después de
+  lanzar la corrida**. El censo existía; el artefacto que el revisor iba a abrir, no. Es el patrón
+  que el Protocolo 1 existe para cortar, cometido **dentro del aparato montado para cortarlo** —
+  y lo cazó el revisor, no yo. Cierre en dos pasos: el artefacto se versiona, y sus cifras se
+  **re-verifican contra la BD de producción**, no contra mi memoria.
+  Los otros cuatro: el cierre del presupuesto se había quedado a medias (`pagina_metricas`, que es
+  la página MÁS expuesta, no lo tenía) · framing v7/v8 incoherente en el briefing · comentario
+  duplicado y postcondición frágil en la 024 · hueco no declarado en la regla de interrogación
+  («¿cuántos lazos», apertura sin cierre) — **no se amplía a propósito**: la adjudicación de Alberto
+  es sobre el signo FINAL y ampliarla por mi cuenta sería re-litigarla.
+- **Regla nueva que se lleva el Protocolo 4**: **el artefacto se VERSIONA ANTES de citarlo.** Un
+  cierre anclado a algo que el revisor no puede abrir no es una verificación, es una promesa.
+- Tally `2026-08-20T04:35:23` adjudicado regla C (`scripts/s327_adjudicate_adversarial_review.py`).
+
+### 5. Deuda: una pagada, dos abiertas
+
+- **#91 RESUELTA el mismo día que se disparó su trigger**: `tests/test_s327_clasificacion_pg.py`
+  (11 casos) + workflow propio, **11/11 verdes contra un PostgreSQL 17 real** (PG16 no vale: el
+  arnés usa el privilegio `MAINTAIN`) y **control negativo ejecutado**. Ejerce el EFECTO: trinquete
+  de ACL (`service_role` **no** puede `UPDATE` de la PK — ese permiso exacto ya mordió con 42501 en
+  el backfill de s326), `anon`/`authenticated` sin `SELECT` en las 10 vistas, CASCADE, el CHECK
+  vigente leído de `pg_constraint` contra el YAML, y siembra pareada probando que los votos de las
+  no-preguntas no cuentan.
+- **#93 (nueva)**: el tally del dúo exige revisores que vean los MISMOS bytes, pero nuestra práctica
+  es secuencial a propósito (Fable audita los cierres de Sol) ⇒ el enganche **nunca** cuadra y el
+  recibo de Fable se pierde. Salió 3 veces en 2 días. Se cierra a mano por sesión.
+- **#94 (nueva)**: las claims de móvil/CSP no son auditables desde el repo — el navegador solo corrió
+  aquí. El CSS del panel no tiene red de seguridad; el arreglo es un gate Playwright en CI.
+- **Riesgos que quedan, declarados**: la portada hace 9 lecturas sin caché · `bot_no_preguntas_v1`
+  existe pero el panel aún no la pinta (se leen por el filtro `tipo` del Explorador) · el gate de
+  acuerdo de la taxonomía (`evals/s326b_gate_acuerdo_paquete.json`, 25 ítems) sigue esperando a
+  Alberto · `CLASIFICADOR_PREGUNTAS` sigue en off en Railway (la corrida es manual y con recibo).

@@ -6000,3 +6000,215 @@ las tres iteraciones de descripciones, dos cerraban adjudicaciones de Alberto qu
 incumplía y **la tercera reparaba un daño que causaron mis propios refuerzos** (tanto insistir en
 «escueto → otros» empujó allí preguntas de especificaciones perfectamente claras); el tuneo se
 paró con un residual conocido en pie, para no ajustar el prompt a 109 filas. DEC-246.
+
+
+## ARCHIVO — «Estado actual» del PLAN en s324j (19 ago 2026), retirado en s327
+
+> Movido aquí al reconciliar el PLAN en s327: llevaba tres sesiones congelado en s324j mientras
+> el trabajo iba por s326/s326b/s327. El PLAN se relee en cada arranque y se mantiene COMPACTO
+> (DEC-036); el *por qué* de todo lo de abajo vive en DEC-240…DEC-244, y su narración en las
+> secciones s324j de este mismo fichero. Se conserva verbatim como recibo, no como estado.
+
+### Estado actual (s324j — 19 ago 2026; panel MERGEADO + seguimiento del dúo SELLADO)
+
+**La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
+`handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
+— la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
+faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
+procedencia registrase en silencio un audio como si se hubiera tecleado. **Las SEIS capas
+cerradas**: Fase 1 (`Procedencia` + preludio compartido), Fase 2 (`TurnRequest` /
+`build_turn_request`, PR #287) y la sexta —el `DEFAULT` del esquema— con la **018 APLICADA por
+Alberto** (verificado 19-ago: `column_default = NULL`, `is_nullable = NO`, CHECK
+`text|voice|error`). La **017** también (el CHECK ya lista `cuota_agotada`).
+Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
+
+**VERIFICADO EN PRODUCCIÓN (19-ago), no sólo en la suite.** El recibo está en `query_logs.route`,
+que separa `rag` de `catalog_shortcut`, y lo prueba **la misma pregunta cambiando de ruta al
+cambiar de canal**:
+
+| hora (18-ago) | canal | `route` | `response_length` |
+|---|---|---|---|
+| 14:16 | voice | `rag` | 152 — «no he encontrado información relevante» |
+| 14:18 | text | `catalog_shortcut` | **494** — el listado de 14 |
+| **20:36** | **voice** | **`catalog_shortcut`** | **494** |
+| 21:42 | voice | `catalog_shortcut` | 1041 — Kidde, 36 centrales |
+
+Los dos `494` son **la misma respuesta byte a byte** por canales distintos y con la pregunta
+redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el censo de las 10 filas
+de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
+también en los datos que ya estaban escritos.
+
+> **⚠️ El párrafo que sigue quedó REFUTADO el mismo día, por s325h-e/DEC-247**: la caché del
+> environment SÍ puede persistir `site-packages` (al menos a veces — no es una propiedad
+> uniforme, y el hueco sigue sin explicar). Se conserva tal cual porque este bloque es un
+> **recibo** de lo que el PLAN decía al retirarlo, no un estado: la traza de un diagnóstico
+> invertido vale más que un archivo limpio (mismo criterio que DEC-247 aplicó a DEC-242).
+> El estado vigente de este frente vive en el «Estado actual» del PLAN.
+
+**Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
+~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. Las
+deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
+(DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
+**La sospecha se desplaza fuera del repo, sin cerrarse** (s325h-d, contrastado con la doc
+oficial): la caché conserva lo que el setup script escribe sin exclusión de rutas documentada, y
+el script «solo corre cuando NO existe caché». Alberto declara no haber tocado script ni dominios
+desde que lo pegó ⇒ ninguna causa de rebuild documentada aplica. Se retira la vía «venv bajo un
+prefijo que viaje». **Pendiente ANTES de concluir nada**: abrir una sesión nueva y correr
+`python scripts/cloud_smoke.py` → leer `deps_cache` (la 1.ª línea del hook NO basta: dos de los
+tres desenlaces son idénticos a simple vista — DEC-242 addendum).
+
+**Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
+un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
+generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
+(DEC-234: el bake-off no lo cumplió) · #86 el runner de Fable pega 191 KB y ahoga a su revisor
+(DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
+adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
+
+#### QUÉ SIGUE (entonces) — el panel a Vercel: MERGEADO (#296) + seguimiento SELLADO (DEC-241); falta el GO y aplicar
+
+**El cableado está en `main`** (PR #296, mergeada por Alberto 19-ago; diseño DEC-239, cableado
+DEC-240) **y el seguimiento post-merge está listo en PR aparte** (DEC-241): la PR #296 se mergeó
+con el sello final del dúo abierto, y ese sello (Sol) cazó 3 medios que ahora están cerrados —
+**S-M1** el cap tenía fuga de +1 (el DELETE no excluía las claves de la propia admisión; cierre:
+`<> ALL(claves)` + guard de tres ramas NULL-safe; cota declarada INDUCTIVA), **S-M2** la carrera
+`acierto`↔`admitir` con hilos (ley de conservación con siembra; cierre por tres patas), **S-M3**
+el gate pg congela sus dependencias reales y prueba la 020 contra la **016 canónica** (la copia
+estrecha era una 016 de ficción). **El dúo del seguimiento está COMPLETO**: 5 rondas Sol xhigh +
+**Fable emparejado en la final — SÓLIDO** (3 menores de framing, aplicados; 0 falsos positivos).
+Remedio DEC-236 que funcionó: briefing compacto + `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000`.
+**Verificado**: gate pg **22/22** contra Postgres 17 real (control negativo del discriminante
+ejecutado); suite **4517 passed, 67 skipped**.
+
+**El gap 2º-frontera está CERRADO (DEC-243)**: Alberto pagó la revisión por trozos y las TRES
+tandas completaron a la primera (briefings compactos + presupuesto 600k — el remedio DEC-236).
+Identidad **SÓLIDO con reservas** (3 cierres cableados: estricto anti-duplicados +
+`exigir_produccion` en el alta + csrf sobre bytes), puerta HTTP **SÓLIDO** (rojo documental:
+docstring legacy de `api/index.py` reescrito), gestión **SÓLIDO** (charset de `op` al CHECK de
+la 020). 13 hallazgos, 13 confirmados, 0 falsos positivos. La #298 (seguimiento) también está
+MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
+
+**LIVE (19-ago noche): el panel está DESPLEGADO en https://technical-bot-lake.vercel.app**
+(proyecto Vercel propio, DEC-244; `api/requirements.txt` mínimo tras el 541MB>500 del primer
+deploy) **y las migraciones 019/020 APLICADAS en producción** (vía conector Supabase, enteras y
+transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado (303 vacío →
+/entrar 200, sin SUPABASE en el fuente, CSP/DENY). Medido: el lifespan ASGI SÍ corre en Vercel
+— el fail-CERRAR de arranque se observó en producción con la 019 aún sin aplicar.
+
+**Lo que FALTA para USARLO, en orden**:
+1. ~~Mergear las PRs~~ HECHO (#301 tandas, #302 requirements — mergeadas por Alberto).
+2. ~~El GO de despliegue~~ DADO por los hechos (Alberto creó el proyecto y ordenó aplicar las migraciones).
+3. ~~El ALTA de usuarios~~ HECHA (19-ago noche): Alberto se dio de alta y **ENTRÓ** — el login
+   real ejercitó la cadena entera (scrypt, sello, cookie firmada, cerrojo `panel_puerta` vía
+   PostgREST). El panel está OPERATIVO de punta a punta.
+4. **s326: las MÉTRICAS del panel — adjudicada ENTERA y CABLEADA (propuesta mergeada en
+   #305; el cableado va en PR aparte, rama `claude/technical-bot-dashboard-metrics-jpbrns`).**
+   La lista de Alberto (19-ago): tipología · fabricantes · modelos · feedback por pregunta
+   (sub-feedback + motivo en texto) · por-usuario. Propuesta:
+   `evals/s326_panel_metricas_uso_propuesta_v1.md`. **Adjudicaciones (19-ago, en el hilo):
+   drill-down con prosa = OPCIÓN (a) completa · taxonomía v1 OK · por-usuario con ALIAS de
+   allowlist OK · coste OK.** Cableado: migración **021** (`query_clasificacion` + 8 vistas,
+   postcondiciones dentro) · `src/clasificacion.py` (raíz pura, catálogo INYECTADO — la
+   matriz de imports ni se toca) · seam `CLASIFICADOR_PREGUNTAS` (default off =
+   conducta del bot idéntica; nada corre en la ruta de respuesta) ·
+   `scripts/clasificar_preguntas.py` (backfill/re-taxonomización con
+   recibo) · página **Explorador** con filtros de listas cerradas. **Para USARLO, en orden**:
+   (i) ~~aplicar la 021~~ **APLICADA** (19-ago noche, conector, GO de Alberto; DEC-245 add. 2);
+   (ii) ~~backfill~~ **HECHO** (109/109, $0,085); (iii) ~~gate de acuerdo v1~~ **CORRIDO Y
+   FALLADO — y eso lo puso en marcha todo** (~80 % < 85 %): Alberto adjudicó SIETE cambios,
+   nació la **taxonomía v2** (fusiones catálogo+specs e instalación+config, compatibilidad
+   acotada a «¿funciona X con Y?» entre marcas, y la clase nueva `no_es_pregunta` = 10 % del
+   histórico), se aplicó la **022** y el histórico se re-clasificó **cuatro veces** (v2→v5) por
+   **~$0,49 y ~6 min, 109/109 y 0 fallos** — el ciclo del «otros» ejecutado por primera vez y
+   MEDIDO (DEC-246); (iv) **PENDIENTE: el gate de acuerdo de la v5** — muestra nueva entregada
+   a Alberto en el hilo, con un residual declarado («especificaciones técnicas del NC» en
+   `otros`, 1/109) y dos gaps: `catalogo_especificaciones` = 61,5 % (categoría dominante por la
+   fusión que él pidió) y `no_es_pregunta` mezclando ruido con quejas de calidad;
+   (v) opcional `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática cada 6 h
+   (sin ella, re-correr el script tras tráfico nuevo).
+   **Gate de EXPONER nuevo que nace aquí: addendum del Explorador (prosa de
+   preguntas/comentarios, adjudicación (a)/DEC-231) al paquete del abogado.**
+5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
+   panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
+   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
+   NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
+6. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
+   el runbook). Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
+
+**Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
+contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);
+la 020 lo cierra de raíz con `revocada_por`.
+
+
+## s327 (20-ago-2026) — La noche de los tres encargos, y el revisor cazándome citando un fichero que no existía
+
+Alberto se fue a dormir dejando tres encargos y una adjudicación de diseño. Los tres encargos se
+cerraron. La adjudicación resultó ser lo importante.
+
+**«Separar lo que es pregunta de lo que no.»** En s326b habíamos hecho nacer `no_es_pregunta` como
+una categoría más de la taxonomía, y funcionaba: el 10 % del histórico dejó de contaminar los
+denominadores. Alberto miró eso y dijo que no era el sitio. Tenía razón por un motivo que yo no
+había visto al diseñarlo: **el tema de un mensaje y si el mensaje pide algo son dimensiones
+ortogonales**. Con una sola columna, una queja de un técnico —«me has pasado información de la
+ID3000 que no es de Detnov»— obligaba a elegir entre etiquetar su tema o marcarla como no-pregunta,
+y perdías la otra mitad. Con dos ejes no hay que elegir: las no-preguntas conservan su tema y se
+miran aparte. La migración 023 abrió la columna, las ocho vistas de análisis pasaron a filtrarla, y
+la 024 arregló lo que se me había escapado —los **votos** seguían contándose sobre no-preguntas—.
+
+La regla que Alberto dictó es literal y barata: **lo que termina en «?» es pregunta**, punto. Eso lo
+decide el código, sin LLM y sin coste, y —esto importa— se aplica **DESPUÉS** de parsear la
+respuesta del modelo, porque manda sobre él. El resto se infiere por contexto, y ante la duda se
+clasifica como pregunta. Todo el diseño sesga hacia el falso positivo a propósito: colar un acuse de
+recibo en el análisis cuesta ruido; perder la pregunta de un técnico cuesta la pregunta.
+
+Y aquí es donde la sesión se puso interesante. Sol, en su ronda, señaló que mis recibos probaban
+**ejecución** (109/109, 0 fallos, coste) pero no **calidad**: nadie había comprobado si el eje deja
+fuera del análisis una pregunta real. Hice el censo —completo, no muestra: 93 de 109 los resuelve la
+regla determinista sin criterio de nadie, y los 16 que decide el modelo se revisan uno a uno— y
+escribí en el briefing «cierre S3: ver `evals/s327_eje_pregunta_medicion_v1.md`». Luego lancé a
+Fable. **Y creé el fichero catorce minutos después de lanzarlo.**
+
+Fable devolvió NO SÓLIDO con eso de crítico: *«el cierre S3 cita un fichero que NO existe en el
+snapshot; o no se versionó, o el censo no existe»*. Es el patrón exacto que el Protocolo 1 existe
+para cortar —declarar cerrado lo que el otro no puede verificar—, cometido **dentro del aparato
+montado para cortarlo**, y en el hallazgo de un revisor que yo mismo pago para que no dependa de
+Alberto ser el anti-bias. El cierre no fue discutirlo: fue versionar el artefacto y **re-derivar sus
+cifras contra la base de producción** en vez de contra mi memoria — 109 filas, 93 terminan en «?»,
+102 marcadas pregunta, 7 no, cero sin clasificar, todas en taxonomía v8. Los números cuadran con el
+censo (102−93 = 9 decididas por el modelo, más 7 no-preguntas = los 16 auditables), y ahora
+cualquiera puede re-correr la consulta. La regla que se lleva el Protocolo 4 es de una línea: **el
+artefacto se versiona ANTES de citarlo.** Un cierre anclado a algo que el revisor no puede abrir no
+es una verificación, es una promesa.
+
+Los otros cuatro de Fable fueron del mismo estilo incómodo y útil: el presupuesto de tiempo que Sol
+me había hecho poner en la portada **no estaba en `/metricas`**, que lee catorce vistas y pinta la
+tabla entera de cada una — o sea, la página más expuesta al 504 era justo la que se quedó sin
+cubrir. El briefing decía v7 donde el YAML decía v8. Un comentario duplicado en la 024. Y un hueco
+que decidí **no** tapar: «¿cuántos lazos» —apertura sin cierre, que el teclado del móvil español
+produce a todas horas— no la coge la regla y cae al LLM. Ampliar la regla por mi cuenta sería
+re-litigar una adjudicación de Alberto, que fue explícita sobre el signo **final**; se declara en el
+código y se deja.
+
+De paso se pagó una deuda **el mismo día que se disparó su trigger**. La #91 se había abierto la
+noche anterior diciendo «la próxima migración que toque `query_clasificacion` trae gate», y la 023
+la tocó. Once casos contra un PostgreSQL 17 real —16 no vale: el arnés usa el privilegio `MAINTAIN`,
+que es de 17— ejerciendo el **efecto** y no el texto: que `service_role` **no** puede tocar la clave
+primaria (ese permiso exacto ya mordió con un 42501 en el backfill de s326), que `anon` no ve nada
+de las diez vistas, que el CASCADE se lleva la clasificación, que el CHECK vivo coincide con el YAML
+leído de `pg_constraint`, y que los votos de las no-preguntas no cuentan. Con control negativo
+ejecutado. Correrlo por primera vez encontró un defecto suyo: contaba las filas que sembraba el
+arnés compartido.
+
+Los tres encargos: el **móvil** se midió con Chromium real —0 px de scroll horizontal en 390, 768 y
+1440— y el bug del header se diagnosticó leyendo estilos computados en vez de adivinando (el nav
+heredaba `flex-basis:0%`, así que su `width:100%` no servía de nada); la CSP sigue en
+`default-src 'none'` y sigue sin una línea de JavaScript. El **inventario del primer DG** salió en
+verde salvo por una cosa, y es la de siempre: el paquete del abogado, que además está
+desactualizado —describe el aviso v8 mientras el código sirve el v9—. Y la **portada de un vistazo**
+trajo la primera ruta con parámetro del panel, que se normaliza antes de la puerta de sesión y
+resuelve el sufijo contra una lista cerrada o devuelve 404.
+
+Quedan dos deudas nuevas y las dos son sobre no poder comprobar cosas. La #93: nuestro dúo es
+**secuencial** a propósito —Fable audita los cierres de Sol, que es donde estuvo su valor hoy— pero
+el tally exige que ambos vean los mismos bytes, así que el enganche nunca cuadra y el recibo se
+pierde; salió tres veces en dos días. La #94: el CSS del panel no tiene red de seguridad, y el móvil
+es el dispositivo del técnico en obra. DEC-248.

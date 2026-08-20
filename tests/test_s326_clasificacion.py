@@ -29,7 +29,10 @@ M021 = (RAIZ / "migrations" / "021_query_clasificacion.sql").read_text("utf-8")
 #: La migración que define el CHECK de `categoria` VIGENTE. Al subir la
 #: taxonomía se apunta aquí a su migración hermana — fricción deliberada,
 #: igual que el censo de módulos: un cambio de categorías paga un toque.
-M_TAXONOMIA = (RAIZ / "migrations" / "022_taxonomia_v2.sql").read_text("utf-8")
+M_TAXONOMIA = (RAIZ / "migrations" / "023_es_pregunta.sql").read_text("utf-8")
+#: Las migraciones que conceden columnas de la tabla derivada. El payload del
+#: job tiene que caber EXACTAMENTE en la unión de sus GRANT INSERT (clase 9-bis).
+M_GRANTS = (M021, (RAIZ / "migrations" / "023_es_pregunta.sql").read_text("utf-8"))
 
 TAX = cl.cargar_taxonomia()
 
@@ -38,9 +41,9 @@ TAX = cl.cargar_taxonomia()
 
 
 def test_taxonomia_vigente_carga_y_es_coherente():
-    assert TAX.version == 6
+    assert TAX.version == 8
     assert "otros" in TAX.ids
-    assert len(TAX.ids) == len(set(TAX.ids)) == 8
+    assert len(TAX.ids) == len(set(TAX.ids)) == 7
     assert TAX.regla_rutas["catalog_shortcut"] == "catalogo_especificaciones"
     assert set(TAX.regla_rutas.values()) <= set(TAX.ids)
 
@@ -54,6 +57,8 @@ def test_taxonomia_vigente_carga_y_es_coherente():
 #: traza de qué clasificó cada número.
 HUELLAS_TAXONOMIA = {
     5: "6d29f56b581f0a34",
+    8: "3efde60a9f79e2c0",
+    7: "e3666c1c824a3636",
     6: "512bf3108860f4d2",
 }
 
@@ -85,7 +90,8 @@ def test_las_adjudicaciones_de_la_v2_estan_en_la_lista():
     fusiones, la clase «no es una pregunta» y la retirada de los ids viejos."""
     assert "catalogo_especificaciones" in TAX.ids      # catálogo + specs
     assert "instalacion_configuracion" in TAX.ids      # instalación + config
-    assert "no_es_pregunta" in TAX.ids                 # punto 7
+    assert "no_es_pregunta" not in TAX.ids   # s327: dejó de ser categoría y
+                                             # pasó a ser el eje `es_pregunta`
     for retirado in ("especificaciones", "catalogo_documentacion",
                      "instalacion_cableado", "configuracion_programacion"):
         assert retirado not in TAX.ids, retirado
@@ -118,8 +124,9 @@ def test_parser_acepta_json_con_ruido_alrededor_y_normaliza_marcas():
              '{"categoria": "averias_diagnostico", '
              '"marcas_mencionadas": ["Détnov", "detnov", "X" , '
              '"<script>alert(1)</script>", "a", "m1", "m2", "m3", "m4"]}\n')
-    categoria, marcas = cl.parsear_respuesta(crudo, TAX.ids)
+    categoria, marcas, es_pregunta = cl.parsear_respuesta(crudo, TAX.ids)
     assert categoria == "averias_diagnostico"
+    assert es_pregunta is True          # ausente en el JSON ⇒ ante la duda, sí
     # tildes fuera, duplicados fuera, charset raro fuera, y el tope de 5 se
     # aplica ANTES de filtrar (m1..m4 ni se miran)
     assert marcas == ["detnov"]
@@ -196,7 +203,7 @@ def test_fila_rag_sin_llm_queda_pendiente():
 
 def test_fila_rag_con_llm_une_marcas_de_modelo_texto_y_llm():
     def _llm(_prompt):
-        return ('{"categoria": "averias_diagnostico", '
+        return ('{"es_pregunta": true, "categoria": "averias_diagnostico", '
                 '"marcas_mencionadas": ["aguilera", "fantasma"]}')
 
     clasif = cl.clasificar_fila(
@@ -222,12 +229,58 @@ def test_ruta_null_cuenta_como_rag():
     clasif = cl.clasificar_fila(
         _fila(route=None), TAX, {}, marca_de_modelo=_marca_de_modelo,
         resolver_alias=lambda m: m,
-        llm=lambda _p: '{"categoria": "otros", "marcas_mencionadas": []}',
+        llm=lambda _p: '{"es_pregunta": true, "categoria": "otros", '
+                       '"marcas_mencionadas": []}',
         modelo_llm="haiku")
     assert clasif["origen"] == "llm"
 
 
 # -------------------------------------------------------- pendientes y payload
+
+
+def test_la_interrogacion_manda_sobre_el_llm():
+    """Regla dura de Alberto: lo que lleva «?» es pregunta, aunque el modelo
+    diga que no. Un signo de interrogación no se somete a votación."""
+    clasif = cl.clasificar_fila(
+        _fila(route="rag", query="¿cuántos lazos tiene?"), TAX, {},
+        marca_de_modelo=_marca_de_modelo, resolver_alias=lambda m: m,
+        llm=lambda _p: '{"es_pregunta": false, "categoria": "otros", '
+                       '"marcas_mencionadas": []}',
+        modelo_llm="haiku")
+    assert clasif["es_pregunta"] is True
+
+
+def test_sin_interrogacion_manda_el_llm():
+    clasif = cl.clasificar_fila(
+        _fila(route="rag", query="ok, entendido"), TAX, {},
+        marca_de_modelo=_marca_de_modelo, resolver_alias=lambda m: m,
+        llm=lambda _p: '{"es_pregunta": false, "categoria": "otros", '
+                       '"marcas_mencionadas": []}',
+        modelo_llm="haiku")
+    assert clasif["es_pregunta"] is False
+
+
+def test_la_ruta_de_atajo_es_siempre_peticion():
+    """Pedir el catálogo ES pedir algo: la ruta por regla no consulta al LLM y
+    marca `es_pregunta` por construcción."""
+    clasif = cl.clasificar_fila(
+        _fila(), TAX, {}, marca_de_modelo=_marca_de_modelo,
+        resolver_alias=lambda m: m, llm=None, modelo_llm="haiku")
+    assert clasif["es_pregunta"] is True and clasif["origen"] == "regla"
+
+
+@pytest.mark.parametrize("texto,esperado", [
+    ("¿cuántos lazos tiene?", True),
+    ("cuantos lazos tiene?", True),          # sin el de apertura, como se teclea
+    ("¿cuántos lazos? ", True),              # espacios finales no cuentan
+    # ⚠️ la regla es TERMINAR, no CONTENER (hallazgo Sol s327): una queja que
+    # cita una pregunta anterior NO es una pregunta.
+    ("la respuesta a «¿cuántos lazos?» estaba mal", False),
+    ("ok, entendido", False),
+    ("", False),
+])
+def test_regla_de_interrogacion(texto, esperado):
+    assert cl.termina_en_interrogacion(texto) is esperado
 
 
 @pytest.mark.parametrize("embed,esperado", [
@@ -249,12 +302,16 @@ def test_el_payload_escribe_exactamente_las_columnas_concedidas_en_021():
     clasif = cl.clasificar_fila(
         _fila(), TAX, {}, marca_de_modelo=_marca_de_modelo,
         resolver_alias=lambda m: m, llm=None, modelo_llm="haiku")
-    grant = re.search(
-        r"GRANT INSERT \(([^)]+)\)\s+ON public\.query_clasificacion",
-        re.sub(r"\s+", " ", M021))
-    assert grant, "la 021 tiene que conceder INSERT por columnas"
-    columnas = {c.strip() for c in grant.group(1).split(",")}
-    assert set(clasif) == columnas
+    columnas = set()
+    for migracion in M_GRANTS:
+        for grant in re.finditer(r"GRANT INSERT \(([^)]+)\)[^;]*?"
+                                 r"ON public\.query_clasificacion",
+                                 re.sub(r"\s+", " ", migracion)):
+            columnas |= {c.strip() for c in grant.group(1).split(",")}
+    assert columnas, "alguna migración tiene que conceder INSERT por columnas"
+    assert set(clasif) == columnas, (
+        f"payload {sorted(set(clasif) - columnas)} sin GRANT / "
+        f"GRANT {sorted(columnas - set(clasif))} sin uso")
 
 
 def test_el_check_vigente_en_sql_es_la_taxonomia_del_yaml():
@@ -273,15 +330,23 @@ def test_el_check_vigente_en_sql_es_la_taxonomia_del_yaml():
         "hermana (contrato del YAML)")
 
 
-def test_la_migracion_de_taxonomia_retira_los_ids_viejos_de_datos_y_check():
-    """El mapa de la 022 no puede dejar filas con un id que el CHECK ya no
-    admite: la migración comprueba AMBOS lados (postcondición propia)."""
-    compacta = re.sub(r"\s+", " ", M_TAXONOMIA)
+def test_la_migracion_de_taxonomia_retira_sus_ids_de_los_datos_y_del_check():
+    """Una migración de taxonomía no puede dejar filas con un id que su propio
+    CHECK ya no admite: mapea los datos Y lo comprueba. Se verifica sobre la
+    VIGENTE (`M_TAXONOMIA`) y sobre la que la precedió, porque cada una retiró
+    ids distintos: la 022 fusionó cuatro, la 023 retiró `no_es_pregunta` al
+    convertirlo en el eje `es_pregunta`."""
+    m022 = re.sub(r"\s+", " ",
+                  (RAIZ / "migrations" / "022_taxonomia_v2.sql").read_text("utf-8"))
     for retirado in ("especificaciones", "catalogo_documentacion",
                      "instalacion_cableado", "configuracion_programacion"):
-        assert f"WHEN '{retirado}'" in compacta, f"{retirado} sin mapa"
-    assert "quedan % filas con el id retirado" in compacta
-    assert "el CHECK todavía admite el id retirado" in compacta
+        assert f"WHEN '{retirado}'" in m022, f"{retirado} sin mapa en la 022"
+    assert "quedan % filas con el id retirado" in m022
+
+    vigente = re.sub(r"\s+", " ", M_TAXONOMIA)
+    assert "SET categoria = 'otros' WHERE categoria = 'no_es_pregunta'" in vigente
+    assert "quedan % filas con la categoría retirada" in vigente
+    assert "el CHECK todavía admite no_es_pregunta" in vigente
 
 
 # ------------------------------------------------------------ correr_pendientes

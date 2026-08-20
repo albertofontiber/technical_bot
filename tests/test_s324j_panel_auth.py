@@ -21,7 +21,7 @@ def _leer_con(filas=None, estado=None, detalle=""):
         estado = datos.OK if filas else datos.VACIO
     resultado = datos.Resultado(estado, list(filas or []), detalle)
 
-    def leer(recurso, params):
+    def leer(recurso, params, presupuesto=None):
         leer.llamadas.append((recurso, dict(params)))
         return resultado
 

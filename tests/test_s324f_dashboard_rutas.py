@@ -206,7 +206,7 @@ FILAS = {
 }
 
 
-def _leer_doble(recurso, params):
+def _leer_doble(recurso, params, presupuesto=None):
     filas = FILAS.get(recurso)
     if filas is None:
         return datos.Resultado(datos.TABLA_AUSENTE, detalle=recurso)
@@ -508,7 +508,7 @@ def test_texto_de_persona_va_escapado(monkeypatch):
     }]
     monkeypatch.setattr(
         datos, "leer",
-        lambda recurso, params: datos.Resultado(
+        lambda recurso, params, presupuesto=None: datos.Resultado(
             datos.OK, list(filas.get(recurso, []))) if filas.get(recurso)
         else datos.Resultado(datos.TABLA_AUSENTE, detalle=recurso))
     cliente, _ = _con_sesion()
@@ -529,7 +529,7 @@ def test_la_pregunta_de_un_tecnico_se_recorta():
 def test_supabase_caido_no_tumba_ninguna_pagina(monkeypatch):
     monkeypatch.setattr(
         datos, "leer",
-        lambda recurso, params: datos.Resultado(
+        lambda recurso, params, presupuesto=None: datos.Resultado(
             datos.ERROR, detalle="no se pudo hablar con Supabase (ConnectError)"))
     cliente, _ = _con_sesion()
     for ruta in ("/", "/acceso", "/metricas", "/errores"):
@@ -542,7 +542,7 @@ def test_supabase_caido_no_tumba_ninguna_pagina(monkeypatch):
 def test_migracion_sin_aplicar_se_dice_con_su_nombre(monkeypatch):
     monkeypatch.setattr(
         datos, "leer",
-        lambda recurso, params: datos.Resultado(datos.TABLA_AUSENTE,
+        lambda recurso, params, presupuesto=None: datos.Resultado(datos.TABLA_AUSENTE,
                                                 detalle=recurso))
     cliente, _ = _con_sesion()
     assert "016_allowlist_invitaciones.sql" in cliente.get("/acceso").texto
@@ -551,7 +551,7 @@ def test_migracion_sin_aplicar_se_dice_con_su_nombre(monkeypatch):
 def test_vista_vacia_no_es_un_fallo(monkeypatch):
     monkeypatch.setattr(
         datos, "leer",
-        lambda recurso, params: datos.Resultado(datos.VACIO, []))
+        lambda recurso, params, presupuesto=None: datos.Resultado(datos.VACIO, []))
     cliente, _ = _con_sesion()
     respuesta = cliente.get("/metricas")
     assert respuesta.estado == 200

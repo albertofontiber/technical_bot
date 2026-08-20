@@ -3446,29 +3446,36 @@ va a abrir (una llamada a la API de GitHub) convierte «no me enteré» en «me 
 abrir». Alternativa más barata y más débil: declarar el frente en el nombre de rama y exigir que
 sea único entre las ramas vivas.
 
-## 91. Las migraciones 021/022 no tienen gate contra Postgres real (s326b, hallazgo Sol)
+## 91. ✅ RESUELTO (s327, 20-ago-2026) — Las migraciones 021→024 ya tienen gate contra Postgres real
 
-**Qué falta**: `test_s326_query_clasificacion_acl.py` fija el TEXTO de la 021 y
-`test_s326_clasificacion.py` cruza el YAML de la taxonomía con el CHECK de la 022 — los dos
-con regex sobre el fichero, no contra una base. El workflow `s324j-panel-pg.yml` (Postgres 17
-desechable) NO las incluye en sus `paths` ni las aplica.
+**Se abrió anoche declarando el gap y poniendo un trigger** («la próxima migración que toque
+`query_clasificacion` o sus vistas»). **La 023 lo disparó el mismo día**, y el dúo cazó que
+declarar la deuda y luego pisar su trigger sin resolverla es justo lo que este registro existe
+para impedir. Resuelto en el acto.
 
-**El riesgo concreto que señala el dúo**: como la 022 YA está aplicada en producción, editar
-ese fichero más adelante junto con el YAML deja **CI verde y producción con el CHECK anterior**
-— la divergencia no la ve nadie EN CI. Mitigación puesta hoy (cultural, no mecánica): banner
-`✅ APLICADA EN PRODUCCIÓN … NO se edita` en la cabecera de 021 y 022, con la instrucción de
-escribir una migración nueva. **Mitigante verificado por el 2.º revisor**: si aun así
-divergieran, el fallo sería RUIDOSO y no silencioso — el job escribiría ids que el CHECK de
-producción rechaza (23514) y el parser estricto nunca degrada a `otros`, así que la corrida
-falla en vez de guardar basura. Eso rebaja la urgencia, no cierra el hueco.
+**Qué hay ahora**: `tests/test_s327_clasificacion_pg.py` (11 casos) + workflow
+`.github/workflows/s327-clasificacion-pg.yml` (Postgres 17 desechable, mismo patrón que
+s295/s133/s324j). Ejerce el EFECTO, no el texto:
+  · el **trinquete de la ACL**: `service_role` escribe las nueve columnas concedidas y **NO**
+    puede `UPDATE` de la PK — ese permiso exacto ya mordió (el upsert de PostgREST murió con
+    42501 en el backfill de s326);
+  · `anon`/`authenticated` sin `SELECT` sobre la tabla y las **diez** vistas;
+  · **CASCADE**: `DELETE FROM query_logs` se lleva la clasificación (mitad silenciosa del
+    procedimiento de supresión RGPD);
+  · el **CHECK vigente leído de `pg_constraint`** contra los ids del YAML — el contrato
+    YAML↔SQL comprobado contra la base y no contra el fichero;
+  · las **vistas de análisis excluyen las no-preguntas**, votos incluidos (el defecto que
+    arregla la 024), con siembra pareada.
 
-**Arreglo de raíz**: extender el gate pg —o crear uno hermano— que aplique la cola
-021→022 sobre el contenedor desechable y afirme el EFECTO: RLS+FORCE, ACL por columna
-(el trinquete que prohíbe `UPDATE(query_log_id)`, que ya mordió una vez), las 8 vistas con
-`security_invoker`, y el CHECK vigente == ids del YAML leídos de `pg_constraint`.
+**Verificado de verdad, no solo escrito**: 11/11 verdes contra un PostgreSQL 17 real levantado
+para la ocasión (PG16 no vale: el arnés usa el privilegio `MAINTAIN`, que es de 17 — como
+producción y como CI). **Control negativo ejecutado**: re-creando la vista sin el filtro de
+votos, la consulta devuelve `(1, 1, 1, 1)` donde el gate espera `(1, 1, 0, 1)` ⇒ lo cazaría.
+Y correrlo por primera vez ya encontró un defecto propio: contaba las filas que siembra el
+arnés `base`, no solo las suyas.
 
-**Trigger**: (a) la próxima migración que toque `query_clasificacion` o sus vistas, O
-(b) que el panel deje de ser de uso interno (DGs invitados), O (c) cualquier sesión sin presión.
+**Gap que queda** (el mismo que el gate del panel): el contenedor es Postgres, no Supabase —
+PostgREST y su caché de esquema solo se prueban en el smoke post-deploy.
 
 ## 92. El clasificador de preguntas no ve el hilo, y `no_es_pregunta` depende del hilo (s326b, hallazgo Sol)
 
@@ -3488,3 +3495,56 @@ pre-piloto no hay con qué medirlo.
 **Trigger**: cuando el piloto acumule conversaciones multi-turno reales (o si el gate de
 acuerdo de Alberto marca desacuerdos concentrados en mensajes de continuación). Medición
 propuesta: etiquetar a mano N mensajes de continuación y comparar acuerdo con/sin contexto.
+
+## 93. El tally del dúo asume revisores PARALELOS; nuestra práctica es SECUENCIAL, y el enganche nunca cuadra (s327)
+
+**El defecto**: `attach_fable_receipt` (en `scripts/adversarial_review_fable.py`) exige que Sol y
+Fable hayan revisado **exactamente los mismos bytes** (`review_subject_sha256` idéntico) antes de
+enganchar el recibo de Fable a la fila de Sol. El guardián está bien pensado —dos revisores que
+opinan sobre textos distintos no son un dúo— pero describe un dúo **paralelo**.
+
+**Lo que hacemos de verdad es secuencial, y a propósito**: Sol revisa el briefing, sus hallazgos se
+cierran, los cierres se apendizan al briefing (la sección «v2 — qué cambió tras la ronda de Sol»), y
+Fable revisa ESE briefing ya cerrado. Ahí está justamente su valor: no repite a Sol, **audita los
+cierres** — y es lo que hizo en s327, donde su hallazgo crítico fue precisamente que uno de los
+cierres de Sol citaba un artefacto inexistente. Con esa práctica el `review_subject_sha256` diverge
+SIEMPRE, así que el enganche automático no puede cuadrar nunca.
+
+**La medida del coste**: `review guardada pero NO emparejada … Sol y Fable no revisaron exactamente
+los mismos bytes ordenados` salió tres veces en dos días — 19-ago 20:35, 19-ago 22:23, 20-ago 04:51.
+Cada vez el runner sale con código 1 y **el recibo de Fable se pierde** (se construye en memoria y no
+se persiste en ninguna rama); lo único que sobrevive son la review y la traza del proveedor. La fila
+queda `pending_fable` hasta que alguien la cierra a mano
+(`scripts/s327_adjudicate_adversarial_review.py`, y sus hermanos s247/s251/s252/s276).
+
+**Por qué no se arregla hoy**: el arreglo correcto es un modo `--secuencial` que congele el subject
+de Sol y registre APARTE el subject que vio Fable (los dos hashes en la fila, más el delta entre
+ellos), de forma que la trazabilidad diga la verdad —«Fable vio esto OTRO, y esto es lo que cambió»—
+en vez de exigir una igualdad que el método no quiere. Es tocar el runner y el esquema de la fila
+para un problema que hoy paga un script de adjudicación por sesión. **Trigger**: la próxima sesión
+que necesite el dúo, o antes si el recibo perdido llega a hacer falta para auditar una ronda.
+**Mitigación mientras tanto**: el script de adjudicación referencia los artefactos de Fable por
+`sha256` y el estado dice `completed_unpaired_hand_adjudicated`, no `completed`.
+
+## 94. Las claims de móvil y CSP no son auditables desde el repo: el navegador solo corrió en mi máquina (s327)
+
+**El defecto**: el trabajo de móvil de s327 se verificó con Chromium real —0 px de scroll horizontal
+en 390/768/1440 en portada, detalle y explorador, y el bug del header se diagnosticó midiendo estilos
+computados, no adivinando—. Pero **nada de eso se puede re-ejecutar desde el repo**. Fable lo dijo
+sin rodeos y tiene razón: «tómese como declaración del autor, no como hecho». Es la única parte del
+paquete cuya verdad depende de creerme.
+
+**Por qué importa más de lo que parece**: el CSS del panel no tiene red de seguridad. Un `min-width`
+en una tabla nueva, una columna más en una vista, o un cambio de `grid-template` reintroducen el
+scroll horizontal sin que ningún test se entere — y el móvil es el dispositivo del técnico en obra,
+que es el usuario del piloto.
+
+**El arreglo**: un gate Playwright en CI (el navegador ya está disponible) que levante el ASGI con
+dobles de datos, visite las tres rutas en los tres anchos y afirme
+`scrollWidth <= clientWidth`. Es el mismo patrón que los gates de Postgres: ejercer el efecto, no el
+texto. Coste real: el arnés de arranque del panel con sesión válida.
+
+**Por qué no hoy**: la sesión ya cablea cuatro migraciones, el eje `es_pregunta` y el gate de
+Postgres; meter un runtime de navegador en CI es un frente propio. **Trigger**: el primer cambio de
+CSS o de estructura de tabla del panel POSTERIOR a esta sesión — o el primer reporte de scroll
+lateral desde un móvil real.

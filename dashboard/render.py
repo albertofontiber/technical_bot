@@ -111,29 +111,53 @@ def recorte(valor: object, ancho: int) -> str:
 # ---------------------------------------------------------------- componentes
 
 
-def tabla(cabeceras, filas, *, vacio: str = "Sin datos todavía.") -> Seguro:
+def tabla(cabeceras, filas, *, vacio: str = "Sin datos todavía.",
+          cards: bool = False) -> Seguro:
+    """Una tabla. Con `cards=True` cada celda lleva su etiqueta en un atributo y
+    el CSS la reescribe como TARJETA por debajo de 640 px.
+
+    Por qué (s327): una tabla de nueve columnas en un móvil enseña dos y esconde
+    siete detrás de un scroll horizontal que nadie descubre. Es el mismo pivot
+    que el war room aplicó a su tabla de empresas (`docs/RESPONSIVE.md`:
+    «TablaEmpresas cards en <md»), aquí sin JS y sin duplicar el HTML: una clase
+    y un `data-etiqueta` por celda. El `content:attr(...)` del CSS no es «inline
+    style», así que la CSP sigue intacta.
+    """
     if not filas:
         return nota(vacio)
-    cabeza = unir(
-        Seguro(f"<th>{_pintar(c)}</th>") for c in cabeceras
-    )
-    cuerpo = unir(
-        Seguro("<tr>" + "".join(f"<td>{_pintar(celda)}</td>" for celda in fila)
-               + "</tr>")
-        for fila in filas
-    )
+    etiquetas = [str(_pintar(c)) for c in cabeceras]
+    cabeza = unir(Seguro(f"<th>{_pintar(c)}</th>") for c in cabeceras)
+    cuerpo_filas = []
+    for fila in filas:
+        celdas = []
+        for indice, celda in enumerate(fila):
+            etiqueta = (f' data-etiqueta="{esc(etiquetas[indice])}"'
+                        if cards and indice < len(etiquetas) else "")
+            celdas.append(f"<td{etiqueta}>{_pintar(celda)}</td>")
+        cuerpo_filas.append(Seguro("<tr>" + "".join(celdas) + "</tr>"))
+    clase = ' class="cards"' if cards else ""
     return Seguro(
-        f'<div class="scroll"><table><thead><tr>{cabeza}</tr></thead>'
-        f"<tbody>{cuerpo}</tbody></table></div>"
+        f'<div class="scroll"><table{clase}><thead><tr>{cabeza}</tr></thead>'
+        f"<tbody>{unir(cuerpo_filas)}</tbody></table></div>"
     )
 
 
-def barras(pares, *, ancho: int = 320, unidad: str = "") -> Seguro:
+def barras(pares, *, ancho: int = 320, unidad: str = "",
+           leyenda: str = "") -> Seguro:
     """Un gráfico de barras horizontal en SVG, sin una línea de JavaScript.
 
     `pares` = [(etiqueta, valor)]. Se dibuja con el máximo como escala; si todos
-    los valores son 0 se enseña la tabla igualmente (barras a cero), porque «hoy
-    no hubo tráfico» es un dato y no un fallo.
+    los valores son 0 se enseña igualmente (barras a cero), porque «hoy no hubo
+    tráfico» es un dato y no un fallo.
+
+    FLUIDO (s327): el SVG lleva `viewBox` pero NO `width`/`height` en píxeles —
+    los pone el CSS al 100 % del contenedor. Con medidas fijas (410 px) el
+    gráfico se salía de la pantalla en un móvil, que es justo lo que había que
+    arreglar. `ancho` sigue existiendo como sistema de coordenadas interno, no
+    como tamaño en pantalla.
+
+    `leyenda` explica QUÉ se está midiendo (unidad, ventana, si suma semanas).
+    Va debajo del gráfico y es parte del contrato de «una gráfica se lee sola».
     """
     pares = [(e, v) for e, v in pares if isinstance(v, (int, float))]
     if not pares:
@@ -153,24 +177,50 @@ def barras(pares, *, ancho: int = 320, unidad: str = "") -> Seguro:
             f'<title>{esc(etiqueta)}: {esc(texto)}</title>'
         )
     etiquetas = unir(
-        Seguro(f'<div class="etiqueta">{esc(e)}</div>') for e, _ in pares
+        Seguro(f'<div class="etiqueta" title="{esc(e)}">{esc(e)}</div>')
+        for e, _ in pares
     )
+    pie = (f'<p class="leyenda">{esc(leyenda)}</p>') if leyenda else ""
     return Seguro(
         f'<div class="grafico"><div class="etiquetas">{etiquetas}</div>'
-        f'<svg role="img" viewBox="0 0 {ancho + 90} {alto}" '
-        f'width="{ancho + 90}" height="{alto}">{"".join(filas)}</svg></div>'
+        f'<svg role="img" preserveAspectRatio="xMinYMin meet" '
+        f'viewBox="0 0 {ancho + 90} {alto}">{"".join(filas)}</svg></div>{pie}'
     )
+
+
+def panel_graficos(elementos) -> Seguro:
+    """La rejilla de la portada: cada elemento es una GRÁFICA CLICABLE con su
+    título y su leyenda. `elementos` = [(titulo, href, cuerpo)].
+
+    Una sola regla de layout (`auto-fit` + `minmax`) sirve móvil, tablet y
+    escritorio sin media queries: 1 columna cuando no caben 280 px dos veces,
+    2-3 cuando caben. Es la traducción CSS-only del pivot `sm/lg` del war room
+    (`docs/RESPONSIVE.md`) a un panel que no tiene Tailwind ni JS.
+    """
+    tarjetas = []
+    for titulo, href, cuerpo in elementos:
+        tarjetas.append(Seguro(
+            f'<a class="tarjeta grafica" href="{esc(href)}">'
+            f'<h2>{esc(titulo)}</h2>{_pintar(cuerpo)}'
+            f'<span class="ver-mas">Ver detalle →</span></a>'
+        ))
+    return Seguro(f'<div class="panel-graficos">{"".join(tarjetas)}</div>')
 
 
 def tarjeta(titulo: str, cuerpo, *, pregunta: str = "",
-            pie: str = "") -> Seguro:
-    cabecera = f"<h2>{esc(titulo)}</h2>"
-    if pregunta:
-        cabecera += f'<p class="pregunta">{esc(pregunta)}</p>'
-    final = f'<p class="pie">{esc(pie)}</p>' if pie else ""
-    return Seguro(
-        f'<section class="tarjeta">{cabecera}{_pintar(cuerpo)}{final}</section>'
-    )
+            pie: str = "", enlace: tuple[str, str] | None = None) -> Seguro:
+    """Una tarjeta del panel. `enlace` = (destino, texto) añade al pie un enlace
+    —lo usa el índice de métricas para llevar al detalle de cada una (s327)."""
+    cabecera = f"<h2>{esc(titulo)}</h2>" if titulo else ""
+    sub = f'<p class="pregunta">{esc(pregunta)}</p>' if pregunta else ""
+    partes = []
+    if pie:
+        partes.append(f'<p class="pie">{esc(pie)}</p>')
+    if enlace:
+        destino, texto = enlace
+        partes.append(f'<p class="pie"><a href="{esc(destino)}">{esc(texto)}</a></p>')
+    return Seguro(f'<section class="tarjeta">{cabecera}{sub}'
+                  f'{_pintar(cuerpo)}{"".join(partes)}</section>')
 
 
 def nota(texto: str) -> Seguro:
@@ -280,10 +330,12 @@ td.ancho, th.ancho { white-space:normal; min-width:260px; }
 .cifra .valor { font-size:22px; font-weight:600; }
 .cifra .rotulo { color:var(--suave); font-size:12px; }
 .cifra .detalle { color:var(--suave); font-size:12px; margin-top:4px; }
-.grafico { display:flex; gap:12px; align-items:flex-start; overflow-x:auto; }
-.etiquetas { padding-top:3px; }
+.grafico { display:flex; gap:12px; align-items:flex-start; }
+.grafico svg { width:100%; height:auto; min-width:0; flex:1; }
+.etiquetas { padding-top:3px; flex:0 0 auto; max-width:42%; }
 .etiqueta { height:22px; margin-bottom:6px; font-size:13px; color:var(--suave);
-  white-space:nowrap; line-height:22px; }
+  line-height:22px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.leyenda { margin:8px 0 0; font-size:12px; color:var(--suave); }
 .barra { fill:var(--barra); }
 .valor { fill:var(--suave); font-size:12px; }
 .banda { border-radius:var(--radio); padding:10px 12px; margin:0 0 12px; font-size:14px; }
@@ -312,7 +364,75 @@ button.peligro { background:none; color:var(--malo); text-decoration:underline;
 .entrar { max-width:340px; margin:12vh auto; }
 .entrar form { flex-direction:column; align-items:stretch; }
 .entrar input, .entrar button { width:100%; }
+/* La portada: TODAS las gráficas de un vistazo (s327, pedido de Alberto: «no
+   quiero hacer scroll para ir viendo gráficas»). Una sola regla sirve los tres
+   tamaños —`auto-fit` reparte lo que quepa— así que no hay media query que
+   mantener ni breakpoint que recordar. */
+.panel-graficos { display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); }
+a.tarjeta.grafica { display:block; text-decoration:none; color:inherit;
+  transition:border-color .15s, transform .15s; }
+a.tarjeta.grafica:hover, a.tarjeta.grafica:focus-visible {
+  border-color:var(--acento); transform:translateY(-1px); }
+a.tarjeta.grafica h2 { margin:0 0 10px; font-size:15px; }
+.ver-mas { display:inline-block; margin-top:10px; font-size:12px;
+  color:var(--acento); }
+.migas { font-size:13px; color:var(--suave); margin:0 0 14px; }
+h2.seccion { margin:22px 0 12px; font-size:14px; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--suave); }
+.migas a { color:var(--acento); }
 footer { color:var(--suave); font-size:12px; text-align:center; padding:24px; }
+
+/* ------------------------------------------------------------------ MÓVIL
+   Reglas tomadas de `docs/RESPONSIVE.md` del war room, traducidas a un panel
+   sin Tailwind: pivot en 640 px (su `sm`), targets de 44 px (Apple HIG) y la
+   regla anti-zoom de iOS —Safari hace zoom al enfocar un input con menos de
+   16 px, y el zoom deja la página descuadrada hasta que recargas—. */
+@media (max-width:639px) {
+  body { font-size:15px; }
+  main { padding:12px; }
+  header { padding:0 12px; gap:10px; }
+  header .marca { padding:12px 0; font-size:14px; }
+  /* `flex:1 0 100%` y no `width:100%`: el nav hereda `flex:1 1 0%` del CSS de
+     escritorio y una base de 0% gana a cualquier width — medido con el
+     navegador, no supuesto (la nav salía en columna y de 110 px). */
+  header nav { display:flex; flex-wrap:wrap; gap:2px; flex:1 0 100%;
+    order:3; border-top:1px solid var(--linea); padding:4px 0; }
+  header nav a { padding:10px 12px; min-height:44px; display:flex;
+    align-items:center; }
+  header .sesion { margin-left:auto; font-size:13px; }
+  input, select, textarea { font-size:16px; }   /* anti-zoom iOS */
+  button, .tarjeta form button { min-height:44px; }
+  form { flex-direction:column; align-items:stretch; }
+  form label { width:100%; }
+  input, select { min-width:0; width:100%; }
+  .tarjeta { padding:14px; }
+  .cifra .valor { font-size:22px; }
+  .etiquetas { max-width:38%; }
+  .etiqueta { font-size:12px; }
+  table { font-size:13px; }
+  td, th { padding:8px 6px; }
+  /* tabla → tarjetas (pivot del war room, aquí en 640 px y sin JS) */
+  table.cards, table.cards tbody, table.cards tr, table.cards td { display:block; }
+  table.cards thead { display:none; }
+  table.cards tr { border:1px solid var(--linea); border-radius:var(--radio);
+    padding:8px 10px; margin:0 0 10px; background:var(--hueco); }
+  table.cards td { display:flex; gap:10px; align-items:baseline;
+    border:0; padding:5px 0; }
+  table.cards td::before { content:attr(data-etiqueta); color:var(--suave);
+    font-size:12px; flex:0 0 38%; }
+  /* el valor ENVUELVE en vez de cortarse: en una tarjeta hay sitio a lo alto,
+     que es justo lo que no había en la fila de una tabla. */
+  table.cards td > * { min-width:0; }
+  table.cards td, table.cards td .ancho { overflow-wrap:anywhere;
+    white-space:normal; display:block; }
+  table.cards td { display:flex; }
+  table.cards td:empty { display:none; }
+  .ancho { max-width:none; }
+}
+@media (min-width:640px) and (max-width:1023px) {
+  main { padding:16px; }
+}
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:var(--fondo); }
 ::-webkit-scrollbar-thumb { background:var(--linea); border-radius:3px; }

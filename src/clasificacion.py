@@ -2,10 +2,19 @@
 """Clasificación batch de preguntas (s326): la tabla derivada `query_clasificacion`.
 
 QUÉ HACE. Recorre las filas de `query_logs` sin clasificar (o clasificadas con
-una taxonomía anterior a la vigente) y escribe, por cada una: la CATEGORÍA
-(taxonomía cerrada `config/taxonomia_preguntas.yaml`), las MARCAS y MODELOS
-canónicos que la pregunta toca, y las menciones de marca que NO resuelven
-contra el catálogo (`marcas_libres` — la señal de demanda no cubierta).
+una taxonomía anterior a la vigente) y escribe, por cada una: si el mensaje ES
+UNA PREGUNTA (`es_pregunta`), la CATEGORÍA temática (taxonomía cerrada
+`config/taxonomia_preguntas.yaml`), las MARCAS y MODELOS canónicos que toca, y
+las menciones de marca que NO resuelven contra el catálogo (`marcas_libres` —
+la señal de demanda no cubierta).
+
+DOS EJES ORTOGONALES, no uno (s327, adjudicación de Alberto). «¿Pide algo?» y
+«¿de qué tema?» son preguntas distintas: una queja sobre un catálogo mal
+servido TIENE tema (catálogo) y NO es una pregunta. Mezclarlas en una sola
+etiqueta obligaba a perder una de las dos. Las vistas de análisis filtran
+`es_pregunta`; las no-preguntas se miran aparte, que es donde vive el feedback
+en prosa. La regla del eje: interrogación ⇒ pregunta (código, $0, manda sobre
+el LLM) · resto, inferido · **ante la duda, pregunta**.
 
 DÓNDE CORRE, y dónde NO. Es un job BATCH: el script
 `scripts/clasificar_preguntas.py` (manual: backfill y re-taxonomización) y el
@@ -75,22 +84,52 @@ _LOTE_ESCRITURA = 50
 
 _COLUMNAS_FILA = "id,query,route,source,product_models,created_at"
 
-PROMPT = """Eres el clasificador de preguntas de un asistente técnico de \
+PROMPT = """Eres el clasificador de mensajes de un asistente técnico de \
 sistemas de protección contra incendios (PCI). Los usuarios son técnicos de \
 mantenimiento e instalación.
 
-Clasifica esta pregunta en EXACTAMENTE una categoría de la lista:
+Mensaje del técnico: «{q}»
+
+Responde TRES cosas:
+
+1. `es_pregunta`: ¿el mensaje PIDE algo al asistente (información, un \
+procedimiento, un dato)? Cuenta como pregunta aunque no lleve signo de \
+interrogación («dame el esquema de la CAD-250», «necesito el manual»). NO son \
+preguntas: continuar la conversación respondiendo a lo que el asistente acaba \
+de preguntar («programación principalmente», «sobre la 2X-AF1-FBS»), acusar \
+recibo («ok, entendido») y comentar o quejarse de la respuesta anterior («esto \
+incluye más productos que centrales de incendios»). **ANTE LA DUDA, true.**
+
+2. `categoria`: EXACTAMENTE una de la lista, por el TEMA del mensaje — también \
+si no es una pregunta (una queja sobre un catálogo mal servido es de tema \
+catálogo). Si no trata de ningún tema, `otros`.
 
 {categorias}
 
-Pregunta del técnico: «{q}»
-
-Además, lista las MARCAS de fabricante de equipos PCI que la pregunta \
-mencione (solo nombres de fabricante, no modelos; lista vacía si no menciona \
-ninguna).
+3. `marcas_mencionadas`: las MARCAS de fabricante de equipos PCI que aparezcan \
+(solo fabricantes, no modelos; lista vacía si no hay).
 
 Responde SOLO con un JSON en una línea, sin nada más:
-{{"categoria": "<id>", "marcas_mencionadas": ["<marca>", ...]}}"""
+{{"es_pregunta": true, "categoria": "<id>", "marcas_mencionadas": ["<marca>", ...]}}"""
+
+#: Regla DETERMINISTA de Alberto, LITERAL: «no necesariamente una pregunta será
+#: todo aquello que acabe en "?" (que estas sí serán)». Es decir: TERMINAR en
+#: interrogación ⇒ pregunta, y punto; no terminar no dice nada (lo infiere el
+#: LLM). La primera versión buscaba el signo en CUALQUIER posición y eso forzaba
+#: a pregunta una queja como «la respuesta a "¿cuántos lazos?" estaba mal» —
+#: contaminando justo el análisis que este eje viene a limpiar (hallazgo Sol
+#: s327). Se aceptan cierres tipográficos y espacios después del signo.
+#: HUECO DECLARADO (Fable, s327): «¿cuántos lazos» —apertura sin cierre, que el
+#: teclado español del móvil produce a menudo— NO lo coge esta regla y cae al
+#: LLM. No se amplía a propósito: la adjudicación de Alberto es sobre el signo
+#: FINAL, y el sesgo «ante la duda, pregunta» ya cubre ese caso sin inventar
+#: reglas que él no pidió.
+_CIERRES_TRAS_INTERROGACION = ' \t\r\n"\'»)]}.…'
+
+
+def termina_en_interrogacion(texto: str) -> bool:
+    return (texto or "").strip().rstrip(
+        _CIERRES_TRAS_INTERROGACION).endswith(("?", "？"))
 
 
 class ClasificacionNoDisponible(RuntimeError):
@@ -152,8 +191,8 @@ def _normalizar(texto: str) -> str:
 
 
 def parsear_respuesta(raw: str, ids_validos: tuple[str, ...]
-                      ) -> tuple[str, list[str]] | None:
-    """JSON estricto → (categoria, marcas_mencionadas), o None.
+                      ) -> tuple[str, list[str], bool] | None:
+    """JSON estricto → (categoria, marcas_mencionadas, es_pregunta), o None.
 
     ESTRICTO a propósito (espejo de `intent_llm.parse_decision`): una categoría
     fuera de la lista NO se degrada a 'otros' — se descarta la respuesta entera
@@ -182,7 +221,12 @@ def parsear_respuesta(raw: str, ids_validos: tuple[str, ...]
         limpia = _normalizar(str(m)).strip()
         if limpia and _MARCA_RE.match(limpia) and limpia not in marcas:
             marcas.append(limpia)
-    return str(categoria), marcas
+    # `es_pregunta` ausente o con forma rara → True: es el sesgo que pidió
+    # Alberto («ante la duda, pregunta»), y aquí además cubre el caso de un
+    # modelo que se salte el campo.
+    crudo_es = datos.get("es_pregunta")
+    es_pregunta = crudo_es if isinstance(crudo_es, bool) else True
+    return str(categoria), marcas, es_pregunta
 
 
 def indice_de_marcas(nombres_canonicos: list[str]) -> dict[str, str]:
@@ -273,7 +317,9 @@ def clasificar_fila(fila: dict, taxonomia: Taxonomia, indice: dict[str, str],
 
     categoria = taxonomia.regla_rutas.get(ruta)
     if categoria is not None:
-        origen, modelo = "regla", None
+        # Una ruta de atajo es siempre una PETICIÓN (el técnico pidió el
+        # catálogo): es_pregunta True por construcción, sin LLM.
+        origen, modelo, es_pregunta = "regla", None, True
     else:
         if llm is None:
             return None
@@ -281,15 +327,22 @@ def clasificar_fila(fila: dict, taxonomia: Taxonomia, indice: dict[str, str],
                                       taxonomia.ids)
         if veredicto is None:
             return None
-        categoria, menciones = veredicto
+        categoria, menciones, es_pregunta = veredicto
         extra, marcas_libres = canonicalizar_libres(menciones, indice,
                                                     resolver_alias)
         marcas.update(extra)
         origen, modelo = "llm", modelo_llm
 
+    # La regla DURA de Alberto, aplicada DESPUÉS del LLM porque manda sobre él:
+    # lo que lleva interrogación es pregunta, punto. Un modelo que dijera `false`
+    # sobre «¿cuántos lazos tiene?» no puede ganarle a un signo de interrogación.
+    if termina_en_interrogacion(query):
+        es_pregunta = True
+
     return {
         "query_log_id": fila["id"],
         "categoria": categoria,
+        "es_pregunta": es_pregunta,
         "taxonomia_version": taxonomia.version,
         "marcas": sorted(marcas),
         "modelos": modelos,

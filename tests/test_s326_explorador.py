@@ -114,7 +114,7 @@ def _peticion(consulta=None):
 def doble(monkeypatch):
     lecturas = {}
 
-    def _leer(recurso, params):
+    def _leer(recurso, params, presupuesto=None):
         lecturas[recurso] = params
         if recurso == "documents":
             return datos.Resultado(datos.OK,
@@ -146,7 +146,7 @@ def test_un_parametro_hostil_no_llega_a_postgrest(doble):
 
 
 def test_sin_la_021_la_pagina_lo_dice(monkeypatch):
-    def _leer(recurso, params):
+    def _leer(recurso, params, presupuesto=None):
         if recurso == "documents":
             return datos.Resultado(datos.VACIO)
         return datos.Resultado(datos.TABLA_AUSENTE, detalle=recurso)
@@ -159,7 +159,7 @@ def test_sin_la_021_la_pagina_lo_dice(monkeypatch):
 def test_si_la_lista_de_marcas_no_se_puede_leer_la_pagina_lo_dice(monkeypatch):
     """«no hay marcas» y «no se pudo leer la lista» son pantallas distintas
     (hallazgo Fable r1 s326): la degradación se declara, no se esconde."""
-    def _leer(recurso, params):
+    def _leer(recurso, params, presupuesto=None):
         if recurso == "bot_explorador_v1":
             return datos.Resultado(datos.OK, [FILA])
         return datos.Resultado(datos.ERROR, detalle="caída")

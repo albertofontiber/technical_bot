@@ -25,36 +25,51 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s324j — 19 ago 2026; panel MERGEADO + seguimiento del dúo SELLADO)
+<a id="estado-actual-s327"></a>
+## Estado actual (s327 — 20 ago 2026; el panel MIDE calidad de uso, y el móvil está medido)
 
-**La voz ya hace lo mismo que el texto (DEC-235, PR #284 mergeada).** El piloto destapó que
-`handle_voice` nunca llamaba a `plan_turn`: las NUEVE rutas de atajo eran inalcanzables hablando
-— la misma pregunta se contestaba tecleada y se rechazaba dicha. La causa no era la ruta que
-faltaba: era el mismo default `= "text"` replicado SEIS veces, que hacía que olvidar la
-procedencia registrase en silencio un audio como si se hubiera tecleado. **Las SEIS capas
-cerradas**: Fase 1 (`Procedencia` + preludio compartido), Fase 2 (`TurnRequest` /
-`build_turn_request`, PR #287) y la sexta —el `DEFAULT` del esquema— con la **018 APLICADA por
-Alberto** (verificado 19-ago: `column_default = NULL`, `is_nullable = NO`, CHECK
-`text|voice|error`). La **017** también (el CHECK ya lista `cuota_agotada`).
-Suite 4426 verde. 8 rondas de dúo; el gate verificado que DISCRIMINA (12/24 fallaban antes).
+**El panel está VIVO** en https://technical-bot-lake.vercel.app (proyecto Vercel propio, DEC-244),
+con las migraciones **019/020/021/022/023/024 APLICADAS** en producción y el login real ejercitando
+la cadena entera. Lo que cambió estas tres sesiones es QUÉ enseña: dejó de ser telemetría pura
+—diagnóstico de Alberto— y pasa a medir **uso y calidad de las respuestas**.
 
-**VERIFICADO EN PRODUCCIÓN (19-ago), no sólo en la suite.** El recibo está en `query_logs.route`,
-que separa `rag` de `catalog_shortcut`, y lo prueba **la misma pregunta cambiando de ruta al
-cambiar de canal**:
+**s326 → las métricas de uso, adjudicadas enteras y cableadas** (DEC-245). El hallazgo que
+dimensionó el trabajo, medido ANTES de opinar: la captura de feedback ya estaba **completa** desde
+s294 — el gap era de EXPOSICIÓN y de dos dimensiones (tipología, fabricante), no de captura. De ahí
+`query_clasificacion` (tabla DERIVADA 1:1, CASCADE, desechable y reconstruible), el clasificador
+**determinista-primero** (reglas a $0; Haiku solo para el residuo, JSON estricto: categoría fuera de
+lista = fila PENDIENTE, jamás degradada a `otros`) y la pestaña **Explorador** con prosa completa
+(opción (a) de Alberto, que reabre a conciencia el «fuera de v1» de DEC-231).
 
-| hora (18-ago) | canal | `route` | `response_length` |
-|---|---|---|---|
-| 14:16 | voice | `rag` | 152 — «no he encontrado información relevante» |
-| 14:18 | text | `catalog_shortcut` | **494** — el listado de 14 |
-| **20:36** | **voice** | **`catalog_shortcut`** | **494** |
-| 21:42 | voice | `catalog_shortcut` | 1041 — Kidde, 36 centrales |
+**s326b → el ciclo del «otros», ejecutado por primera vez y MEDIDO** (DEC-246). El gate de acuerdo
+de la taxonomía v1 **falló** (~80 % < 85 %) y eso lo puso todo en marcha: Alberto adjudicó siete
+cambios, nació la v2 (fusiones catálogo+specs e instalación+config, compatibilidad acotada a
+«¿funciona X con Y?» entre marcas) y el histórico se re-clasificó cuatro veces por **~$0,49 y ~6
+minutos**, 109/109 y cero fallos. «Re-taxonomizar cuesta céntimos» dejó de ser una promesa.
 
-Los dos `494` son **la misma respuesta byte a byte** por canales distintos y con la pregunta
-redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el censo de las 10 filas
-de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
-también en los datos que ya estaban escritos.
+**s327 → `es_pregunta` es un EJE, no una categoría** (DEC-248). Adjudicación de Alberto: «separar lo
+que es pregunta de lo que no, para que las no-preguntas no entren en el análisis». Tenía razón de
+fondo: tema y «¿esto pide algo?» son **ortogonales**, y mezclarlos perdía siempre una de las dos.
+Ahora es columna propia (023), las 8 vistas de análisis excluyen las no-preguntas —**votos
+incluidos**, que faltaban (024)— y las no-preguntas conservan su tema. La regla dura («termina en
+“?” ⇒ pregunta») la decide el **código**, sin LLM y sin coste, y se aplica DESPUÉS del modelo porque
+manda sobre él; ante la duda, pregunta. **Medido, no declarado** (censo completo, no muestra):
+**93/109 (85 %)** los resuelve la regla; de los 16 que decide el modelo, **≤ 1/109 falsos negativos**
+—y ese único caso dudoso es exactamente TECH_DEBT #92, el clasificador que no ve el hilo.
 
-**s325h-e — la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
+**Y los tres encargos de la noche, cerrados** —**el código del panel va en rama, sin desplegar
+todavía**; lo que YA está en producción son las migraciones y el histórico re-clasificado—:
+(1) **móvil** — un punto de corte, SVG fluido,
+tablas→tarjetas, 44 px, anti-zoom iOS; **0 px de scroll horizontal medido con Chromium real** en
+390/768/1440, CSP `default-src 'none'` intacta y sigue sin JavaScript (`docs/PANEL_RESPONSIVE.md`);
+(2) **qué falta para el primer DG** — inventario semáforo verificado contra código y BD
+(`docs/PILOTO_DG_ESTADO.md`): **el único bloqueante es el paquete del abogado**; (3) **portada de
+métricas** — las 9 gráficas de un vistazo, con título y leyenda, cada una enlazando a
+`/metricas/<clave>` (primera ruta con parámetro del panel: se normaliza ANTES de la puerta y el
+sufijo se resuelve contra lista cerrada o 404 — nunca viaja a PostgREST), con presupuesto de tiempo
+de 18 s contra el `maxDuration: 30` de Vercel.
+
+**Frente paralelo, de la otra rama (s325h-e, 19-ago)** — **la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
 REFUTADA.** El
 registro de una VM la sella con **uptime 40,89 s** en el momento de instalar, y esa VM traía el
 marcador `663fae88` de **mtime 14:09:35Z**: en 41 s de vida no pudo escribirlo, luego viajó en el
@@ -68,87 +83,35 @@ nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (
 invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
 que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
 
-**Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
-un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
-generan las de los modelos, no coleccionar confusiones) · el gate de ASR con ≥30 audios reales
-(DEC-234: el bake-off no lo cumplió) · #86 el runner de Fable pega 191 KB y ahoga a su revisor
-(DEC-236, diagnóstico medido) · bloque A del catálogo (`detnov:ccd-103` → convencional, regla
-adjudicada, control independiente: reproduce 14 citas CAD sin contradicción).
+**Dúo (Protocolo 3) en las tres sesiones**: 7+5, 8+4 y 7+5 hallazgos — **todos confirmados, 0 falsos
+positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de
+medición **antes de crearlo**, y lo cazó el revisor, no yo. Regla nueva al Protocolo 4: **el
+artefacto se versiona ANTES de citarlo**. Deuda **#91 pagada el mismo día que se disparó su
+trigger** (gate pg, 11/11 contra PostgreSQL 17 real + control negativo); **#93 y #94 abiertas**.
 
-### QUÉ SIGUE — el panel a Vercel: MERGEADO (#296) + seguimiento SELLADO (DEC-241); falta el GO y aplicar
+### QUÉ SIGUE — el piloto con el primer DG, y lo que lo bloquea
 
-**El cableado está en `main`** (PR #296, mergeada por Alberto 19-ago; diseño DEC-239, cableado
-DEC-240) **y el seguimiento post-merge está listo en PR aparte** (DEC-241): la PR #296 se mergeó
-con el sello final del dúo abierto, y ese sello (Sol) cazó 3 medios que ahora están cerrados —
-**S-M1** el cap tenía fuga de +1 (el DELETE no excluía las claves de la propia admisión; cierre:
-`<> ALL(claves)` + guard de tres ramas NULL-safe; cota declarada INDUCTIVA), **S-M2** la carrera
-`acierto`↔`admitir` con hilos (ley de conservación con siembra; cierre por tres patas), **S-M3**
-el gate pg congela sus dependencias reales y prueba la 020 contra la **016 canónica** (la copia
-estrecha era una 016 de ficción). **El dúo del seguimiento está COMPLETO**: 5 rondas Sol xhigh +
-**Fable emparejado en la final — SÓLIDO** (3 menores de framing, aplicados; 0 falsos positivos).
-Remedio DEC-236 que funcionó: briefing compacto + `FABLE_REVIEW_MAX_TOTAL_TOKENS=600000`.
-**Verificado**: gate pg **22/22** contra Postgres 17 real (control negativo del discriminante
-ejecutado); suite **4517 passed, 67 skipped**.
-
-**El gap 2º-frontera está CERRADO (DEC-243)**: Alberto pagó la revisión por trozos y las TRES
-tandas completaron a la primera (briefings compactos + presupuesto 600k — el remedio DEC-236).
-Identidad **SÓLIDO con reservas** (3 cierres cableados: estricto anti-duplicados +
-`exigir_produccion` en el alta + csrf sobre bytes), puerta HTTP **SÓLIDO** (rojo documental:
-docstring legacy de `api/index.py` reescrito), gestión **SÓLIDO** (charset de `op` al CHECK de
-la 020). 13 hallazgos, 13 confirmados, 0 falsos positivos. La #298 (seguimiento) también está
-MERGEADA. Con esto TODO el cableado del panel tiene dúo completo.
-
-**LIVE (19-ago noche): el panel está DESPLEGADO en https://technical-bot-lake.vercel.app**
-(proyecto Vercel propio, DEC-244; `api/requirements.txt` mínimo tras el 541MB>500 del primer
-deploy) **y las migraciones 019/020 APLICADAS en producción** (vía conector Supabase, enteras y
-transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado (303 vacío →
-/entrar 200, sin SUPABASE en el fuente, CSP/DENY). Medido: el lifespan ASGI SÍ corre en Vercel
-— el fail-CERRAR de arranque se observó en producción con la 019 aún sin aplicar.
-
-**Lo que FALTA para USARLO, en orden**:
-1. ~~Mergear las PRs~~ HECHO (#301 tandas, #302 requirements — mergeadas por Alberto).
-2. ~~El GO de despliegue~~ DADO por los hechos (Alberto creó el proyecto y ordenó aplicar las migraciones).
-3. ~~El ALTA de usuarios~~ HECHA (19-ago noche): Alberto se dio de alta y **ENTRÓ** — el login
-   real ejercitó la cadena entera (scrypt, sello, cookie firmada, cerrojo `panel_puerta` vía
-   PostgREST). El panel está OPERATIVO de punta a punta.
-4. **s326: las MÉTRICAS del panel — adjudicada ENTERA y CABLEADA (propuesta mergeada en
-   #305; el cableado va en PR aparte, rama `claude/technical-bot-dashboard-metrics-jpbrns`).**
-   La lista de Alberto (19-ago): tipología · fabricantes · modelos · feedback por pregunta
-   (sub-feedback + motivo en texto) · por-usuario. Propuesta:
-   `evals/s326_panel_metricas_uso_propuesta_v1.md`. **Adjudicaciones (19-ago, en el hilo):
-   drill-down con prosa = OPCIÓN (a) completa · taxonomía v1 OK · por-usuario con ALIAS de
-   allowlist OK · coste OK.** Cableado: migración **021** (`query_clasificacion` + 8 vistas,
-   postcondiciones dentro) · `src/clasificacion.py` (raíz pura, catálogo INYECTADO — la
-   matriz de imports ni se toca) · seam `CLASIFICADOR_PREGUNTAS` (default off =
-   conducta del bot idéntica; nada corre en la ruta de respuesta) ·
-   `scripts/clasificar_preguntas.py` (backfill/re-taxonomización con
-   recibo) · página **Explorador** con filtros de listas cerradas. **Para USARLO, en orden**:
-   (i) ~~aplicar la 021~~ **APLICADA** (19-ago noche, conector, GO de Alberto; DEC-245 add. 2);
-   (ii) ~~backfill~~ **HECHO** (109/109, $0,085); (iii) ~~gate de acuerdo v1~~ **CORRIDO Y
-   FALLADO — y eso lo puso en marcha todo** (~80 % < 85 %): Alberto adjudicó SIETE cambios,
-   nació la **taxonomía v2** (fusiones catálogo+specs e instalación+config, compatibilidad
-   acotada a «¿funciona X con Y?» entre marcas, y la clase nueva `no_es_pregunta` = 10 % del
-   histórico), se aplicó la **022** y el histórico se re-clasificó **cuatro veces** (v2→v5) por
-   **~$0,49 y ~6 min, 109/109 y 0 fallos** — el ciclo del «otros» ejecutado por primera vez y
-   MEDIDO (DEC-247); (iv) **PENDIENTE: el gate de acuerdo de la v5** — muestra nueva entregada
-   a Alberto en el hilo, con un residual declarado («especificaciones técnicas del NC» en
-   `otros`, 1/109) y dos gaps: `catalogo_especificaciones` = 61,5 % (categoría dominante por la
-   fusión que él pidió) y `no_es_pregunta` mezclando ruido con quejas de calidad;
-   (v) opcional `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida automática cada 6 h
-   (sin ella, re-correr el script tras tráfico nuevo).
-   **Gate de EXPONER nuevo que nace aquí: addendum del Explorador (prosa de
-   preguntas/comentarios, adjudicación (a)/DEC-231) al paquete del abogado.**
-5. **Los gates de EXPONER que siguen abiertos** (v9 §13): plazo `[DECIDIR: Alberto]` de `panel_usuarios` ·
-   panel en el paquete del abogado (que NOMBRA la purga 24m pendiente de `bot_invitaciones`) ·
-   medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP` sigue en False;
-   NO bloquea el live — el cerrojo por usuario funciona desde el día 1).
-6. ~~Aplicar 019/020 + proyecto Vercel + variables + smoke~~ HECHO (19-ago noche; recibos en
-   el runbook). Runbook: `docs/DASHBOARD_DESPLIEGUE.md`.
-
-**Ya arreglado en el cableado — un LATENTE de hoy** (S-C1): anular una invitación estaba ROTA
-contra Supabase real (`gestion.py` firmaba en `nota`, la 016 no concedía `UPDATE (nota)` → 42501);
-la 020 lo cierra de raíz con `revocada_por`.
-
+1. **BLOQUEANTE, y es de Alberto: el paquete del abogado.** Está desactualizado —describe el aviso
+   **v8** mientras el código sirve **v9** (`src/logging_db.py:52`)— y le faltan dos addenda que
+   nacieron después: el **Explorador** (prosa de preguntas y comentarios entra al panel,
+   adjudicación (a)) y el **panel** en sí, que nombra la purga 24m pendiente de `bot_invitaciones`.
+   Nada más bloquea invitar al primer DG: allowlist, invitaciones, retención y supresión están en
+   verde y verificadas contra la BD (`docs/PILOTO_DG_ESTADO.md`).
+2. **El gate de acuerdo de la taxonomía, esperando a Alberto**: `evals/s326b_gate_acuerdo_paquete.json`
+   (25 ítems). Sin él, la taxonomía v8 es razonable pero no está **acordada**; con él se sabe si el
+   ciclo del «otros» hay que volver a girar.
+3. **Opcional, cuando el tráfico lo pida**: `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida
+   automática cada 6 h. Hoy la corrida es manual y con recibo — que para 109 filas es lo correcto.
+4. **Re-medir el eje con datos del piloto** (~200 mensajes): el censo de hoy es PRE-piloto, casi sin
+   multi-turno, y la proporción de continuaciones subirá con tráfico real — con ella, el peso de #92.
+5. **Gates de EXPONER que siguen abiertos** (aviso v9 §13): plazo `[DECIDIR: Alberto]` de
+   `panel_usuarios` · medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP`
+   sigue en False; **no** bloquea nada — el cerrojo por usuario funciona desde el día 1).
+6. **Deuda con trigger caliente**: **#94** — el CSS del panel no tiene red de seguridad; el primer
+   cambio de estructura de tabla POSTERIOR a s327 debería traer el gate Playwright en CI.
+7. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
+   — la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin
+   tocar el instalador. Y la causa de que una VM NO recibiera la caché sigue abierta.
 ---
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
