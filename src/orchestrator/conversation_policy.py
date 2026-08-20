@@ -114,6 +114,60 @@ NON_PRODUCT_CODES: frozenset[str] = frozenset(
 )
 
 
+# (s331 §3.D) Procedencias válidas de la identidad del turno — POR COMPONENTE
+# (Sol-4 r-v4: una sola procedencia no representa el estado mixto «canónico
+# arrastrado + mención nueva»; Sol-3 r-v5: `pending_derived` = la familia procede
+# del pending confirmado sin binding, ni resuelta este turno ni arrastrada).
+MODELS_PROVENANCE: tuple[str, ...] = (
+    "resolved_this_turn", "carried", "pending_derived", "none",
+)
+MENTION_PROVENANCE: tuple[str, ...] = ("this_turn", "pending_carried", "none")
+_PRESENCE_STATES: tuple[str, ...] = ("vigente", "stale", "cold")
+
+
+@dataclass(frozen=True, kw_only=True)
+class TurnIdentity:
+    """(s331 §3.D) Identidad ESTRUCTURADA del turno — el canal por el que la
+    resolución gobernada y la mención no-resuelta viajan hasta generación SIN
+    pasar por el texto de la query (spoofing cerrado, Fable-3 r-v1/Sol-3 r-v2).
+
+    FRONTERA DE PRIVACIDAD (Sol-2 r-v5): ``mention`` es texto del usuario y vive
+    SOLO in-process — JAMÁS se serializa a trace ni a log estructurado (el trace
+    admite solo booleanos/contadores/tokens controlados; la vista DERIVADA que sí
+    se persiste son los enums/booleanos de esta clase, nunca el string). El texto
+    del usuario ya vive en ``query``/``response`` bajo su retención RGPD.
+
+    Un turno sin modelos NI mención no construye TurnIdentity: usa ``None``
+    (invariante «no se construye vacío», v6 §3.D)."""
+
+    resolved_models: tuple[str, ...] = ()
+    models_provenance: str = "none"
+    mention: str | None = None
+    mention_provenance: str = "none"
+    presence: str | None = None   # vigente|stale|cold — solo si la resolución A corrió
+    route_cut: bool = False       # la puerta 2 (corte-de-ruta) disparó este turno
+
+    def __post_init__(self) -> None:
+        if self.models_provenance not in MODELS_PROVENANCE:
+            raise ValueError(f"models_provenance inválida: {self.models_provenance!r}")
+        if self.mention_provenance not in MENTION_PROVENANCE:
+            raise ValueError(f"mention_provenance inválida: {self.mention_provenance!r}")
+        if self.presence is not None and self.presence not in _PRESENCE_STATES:
+            raise ValueError(f"presence inválida: {self.presence!r}")
+        if (self.mention is None) != (self.mention_provenance == "none"):
+            raise ValueError("mention y mention_provenance deben ir juntas "
+                             "(mention=None ⇔ provenance='none')")
+        if bool(self.resolved_models) != (self.models_provenance != "none"):
+            raise ValueError("resolved_models y models_provenance deben ir juntas "
+                             "(vacía ⇔ provenance='none')")
+        if self.route_cut and self.mention_provenance != "this_turn":
+            raise ValueError("route_cut=True exige mention_provenance='this_turn' "
+                             "(solo una mención de ESTE turno corta ruta)")
+        if self.models_provenance == "none" and self.mention_provenance == "none":
+            raise ValueError("TurnIdentity vacía: usa None en su lugar "
+                             "(invariante v6 §3.D)")
+
+
 @dataclass(frozen=True, kw_only=True)
 class WorkingState:
     """Durable per-conversation working state (design §6/§8).
@@ -130,10 +184,26 @@ class WorkingState:
     last_answer_excerpt: str | None = None
     last_turn_at: datetime | None = None
     available_models: tuple[str, ...] | None = None
+    # (s331 §3.C.1) Mención con forma de modelo que la resolución NO pudo bindear y
+    # que provocó un CLARIFY dirigido (puerta 2). Lifecycle EXPLÍCITO (B3 §11 v6):
+    # SET solo en la ruta CLARIFY-de-mención (copia del estado prior con SOLO estos
+    # dos campos añadidos — el resto INTACTO, incluida la no-renovación de
+    # ``last_turn_at``: el invariante anti-resurrección S99 se preserva); CONSUME o
+    # CLEAR explícitos en TODAS las rutas de salida del turno siguiente (answer,
+    # negación→clarify, cambio-de-tema→clarify/decline); EXPIRE con la ventana de
+    # 1 h sobre ``pending_at``. Una mención caducada jamás corta un carry-forward.
+    pending_mention: str | None = None
+    pending_at: datetime | None = None
 
     @property
     def is_empty(self) -> bool:
         return not self.last_target_models and self.last_query is None
+
+    def pending_within_window(self, now: datetime, window_seconds: int) -> bool:
+        """True si hay mención pendiente y su ventana propia sigue viva."""
+        if self.pending_mention is None or self.pending_at is None:
+            return False
+        return (now - self.pending_at).total_seconds() < window_seconds
 
     def within_window(self, now: datetime, window_seconds: int) -> bool:
         """True when the last turn is recent enough to carry context forward."""
@@ -161,6 +231,9 @@ class TurnResolution:
     clarify_question: str | None = None
     decline_reason: str | None = None
     rationale: str = ""
+    # (s331 §3.D) Identidad estructurada del turno para generación/plantillas/trace.
+    # None = sin identidad (o levers apagados) ⇒ conducta de hoy byte-idéntica.
+    turn_identity: "TurnIdentity | None" = None
 
     def __post_init__(self) -> None:
         # Enforce the $0 invariant at construction so a mis-built resolution
@@ -275,6 +348,9 @@ __all__ = [
     "PolicyRoute",
     "ZERO_COST_ROUTES",
     "NON_PRODUCT_CODES",
+    "MODELS_PROVENANCE",
+    "MENTION_PROVENANCE",
+    "TurnIdentity",
     "WorkingState",
     "TurnResolution",
     "RewriteFn",
