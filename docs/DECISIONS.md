@@ -8157,6 +8157,16 @@ prometía y habrá que decidir si se revierte.
 
 ## DEC-242 (s325h-c, 19 ago 2026) — La caché del environment NO ahorra: la medición que s325h dejó pendiente sale NO; se para la inversión a ciegas, se instrumenta la CAUSA y DEC-238 se degrada (no se revierte)
 
+> **⚠️ CONCLUSIÓN CENTRAL FALSA — REFUTADA por DEC-247 (s325h-e, 19-ago).** La caché SÍ puede
+> persistir `site-packages`: una VM cuyo registro la sella con **uptime 40,89 s** arrancó con el
+> marcador `663fae88` de **mtime 14:09:35Z** — imposible de escribir en 41 segundos de vida, luego
+> sobrevivió a un arranque anterior. Lo medido aquí era correcto para UNA VM y se generalizó mal.
+> (Ojo con el error simétrico: «persiste siempre» tampoco está probado — esta misma VM no la
+> recibió, y esa es la observación que sostiene el matiz.) Lo medido aquí era correcto **como observación de UNA VM** (la de boot 14:12:33, que
+> instaló 163/164 entradas); la generalización a «la caché no persiste» era un salto injustificado.
+> El bloque se conserva íntegro como traza del error, no como decisión viva. Lo único que sobrevive:
+> el instrumento de causa que cableó, que es justamente lo que permitió cazarlo.
+
 - **Fecha**: 19 ago 2026. **Impacto**: MEDIO (tooling de arranque; no toca retrieval, corpus,
   esquema ni producción). **Estado**: medido; el instrumento de causa, cableado; la causa raíz,
   ABIERTA. Cierra la pregunta que el addendum s325h de DEC-238 dejó explícitamente abierta.
@@ -8258,8 +8268,9 @@ tenía sentido si la causa eran las rutas.
 «basta la primera línea del hook»: es FALSO — hallazgo Fable). El merge de #300 movió la huella a
 `1ead8d63` mientras un snapshot construido hoy llevaría `663fae88`. En una VM nueva hay TRES
 desenlaces, y dos son indistinguibles a simple vista:
-- el hook imprime **«marcador previo 663fae88 … huella caduca»** ⇒ la caché SÍ persiste (trajo el
-  estado viejo) y el diagnóstico de «no persiste» era erróneo;
+- el hook imprime **«marcador previo 663fae88 … huella caduca»** ⇒ la caché persistió en ESA VM
+  (trajo el estado viejo) y el diagnóstico de «no persiste» era erróneo — **es lo que ocurrió**, ver
+  DEC-247;
 - el hook imprime **«ya instaladas (1ead8d63)»** ⇒ **ambiguo**: puede ser que no hubiera caché (el
   setup script instaló antes, en esa misma VM) o que la caché se reconstruyera post-merge y sí
   funcione. Distinguirlos exige `python scripts/cloud_smoke.py` y leer **`deps_cache`**, que
@@ -8525,7 +8536,7 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Traza**: recibos `evals/s326b_retaxonomizacion_v{2,3,4,5}.json` · briefing del dúo
   `evals/s326b_taxonomia_v2_briefing_v1.md` · tally en `evals/adversarial_review_log.jsonl`.
 
-### DEC-246 addendum (s326b) — El dúo sobre el cambio de taxonomía: Sol 8/8 confirmados, Fable SÓLIDO-en-mecánica con 4 de framing; el «1/109» era sobre-afirmación mía
+### DEC-247 addendum (s326b) — El dúo sobre el cambio de taxonomía: Sol 8/8 confirmados, Fable SÓLIDO-en-mecánica con 4 de framing; el «1/109» era sobre-afirmación mía
 
 - **Sol (GPT-5.6 xhigh, agéntico)**: **8 hallazgos, 8 confirmados contra el código, 0 falsos
   positivos**. Los tres que cambiaron cosas de verdad:
@@ -8565,7 +8576,7 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
 - **Coste total del ciclo**: cinco pasadas del histórico (v2→v6), ~$0,62, 109/109 y 0 fallos en
   todas. **Traza**: tally `2026-08-19T22:18:08`; recibos Sol/Fable en `evals/adversarial_reviews/`.
 
-### DEC-246 addendum 2 (s326b) — El smoke del preview destapó que `config/` nunca viajaba al bundle: el Explorador llevaba desde #308 con el filtro de categorías VACÍO en producción, en silencio
+### DEC-247 addendum 2 (s326b) — El smoke del preview destapó que `config/` nunca viajaba al bundle: el Explorador llevaba desde #308 con el filtro de categorías VACÍO en producción, en silencio
 
 - **Cómo se encontró**: haciendo el smoke público del preview de #311. Las tres rutas daban 302
   y eso **no era la app** sino el SSO de Vercel (`location: vercel.com/sso-api`) — es decir, el
@@ -8592,3 +8603,85 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   uno, hay que preguntarse qué deja de verse — aquí, que faltaba un fichero. Los fail-open del
   panel que degradan a «vacío» necesitan que algo AFIRME la precondición en CI, o el silencio
   se instala.
+
+## DEC-247 (s325h-e, 19 ago 2026) — La caché del environment PUEDE persistir (no siempre): la conclusión de DEC-242 queda REFUTADA, y el mensaje del check que indujo el error se arregla
+
+- **Fecha**: 19 ago 2026. **Impacto**: MEDIO (corrige un hecho falso en el registro canónico + un
+  mensaje de instrumento). **Estado**: **la caché PUEDE persistir `site-packages` — observado al menos una
+  vez, NO uniformemente** (cross-check de Fable r1 hecho, abajo). Sin medir: el AHORRO, y por qué
+  otra VM no la recibió.
+- **El dato que invierte.** En la VM de la sesión de las ~20:05, el hook imprimió:
+  `deps: marcador previo 663fae88 mtime=2026-08-19T14:09:35Z — huella caduca`. Un marcador de **seis
+  horas antes**, y anterior incluso al boot de la VM que motivó DEC-242 (14:12:33): **viajó en el
+  snapshot**. La caché conserva `site-packages`, como decía la doc.
+- **Cronología reconstruida** (y por qué las dos medidas son compatibles):
+
+  | hora | VM | qué pasó |
+  |---|---|---|
+  | ~14:09:35 | A | construyó la caché y estampó `663fae88` |
+  | **14:12:33** | la de DEC-242 | arrancó **3 min después** y NO recibió la caché → instaló 163/164 |
+  | ~20:05 | la de #307 | **sí** la recibió, pero reinstaló porque #300 movió la huella a `1ead8d63` |
+
+- **Por qué falló mi razonamiento, nombrado para no repetirlo.** (a) Generalicé de una VM a «el
+  mecanismo»; (b) la cadena «el setup script corrió ⇒ no había caché» era válida para ESA VM y la
+  extendí a todas; (c) tres VMs más de s325h apuntaban igual, pero **todas caían en la misma ventana
+  temprana** — muestra correlacionada, no independiente; (d) el instrumento me lo dijo al oído: el
+  check `deps_cache` afirmaba «la caché del environment no las traía» en un caso donde SÍ las traía.
+- **Arreglo de código (la raíz, no el parche).** `cloud_smoke.py` ya no deduce el contenido de la
+  caché a partir del coste pagado: pasa de «INSTALADAS en este arranque — la caché no las traía» a
+  «se PAGÓ la instalación en este arranque — no dice qué traía la caché: si la huella cambió, pudo
+  traer la receta anterior». El contrato queda fijado en `tests/test_cloud_smoke.py` con un assert
+  NEGATIVO (`"no las traía" not in detalle`), para que la afirmación no pueda volver.
+- **Estado de DEC-238: la degradación a «redundancia inocua» se RETIRA por falta de fundamento —
+  que no es lo mismo que vindicarla.** Lo prometido era ahorro: una VM que arranca con las deps y
+  se salta la instalación. **De eso no hay ni un solo arranque medido** — los cuatro de hoy tienen
+  la huella movida, porque tocamos `install-deps.sh` tres veces y el script entra en su propia
+  huella a propósito (DEC-238 r2), lo que fuerza reinstalación aunque el snapshot haya viajado. La
+  predicción es que con la huella estable la 2.ª VM de cada ventana ahorre; **es predicción, no
+  medida**.
+- **EL CROSS-CHECK, HECHO — y por el HECHO, no por inferencia.** Fable r1 exigía excluir que la VM
+  de las 20:05 fuera la VM-A viva 6 h. Lo cierra el propio registro de s325h, que anota el uptime de
+  cada corrida:
+
+  ```
+  instalada 1ead8d63 3ed69f66-… 40.89 2026-08-19T20:06:56Z   ← el arranque
+  saltada   1ead8d63 c6a2be29-… 14.30 2026-08-19T20:28:51Z   ← resume 1
+  saltada   1ead8d63 26d13e00-… 15.81 2026-08-19T20:54:36Z   ← resume 2
+  saltada   1ead8d63 5b85241a-… 22.26 2026-08-19T21:18:50Z   ← boot actual
+  ```
+
+  Cuando el hook instaló, esa VM llevaba **40,89 s de vida**. Un boot de 41 segundos no pudo escribir
+  un fichero con mtime `14:09:35Z`, seis horas anterior ⇒ **el marcador sobrevivió a un arranque
+  anterior**. No es la aritmética mtime-vs-uptime que s325h declaró no fiable: el uptime va sellado
+  en la línea del evento. **Matiz de precisión** (Fable r2): el sello está en la línea `instalada`,
+  mientras el `mtime` lo observa la traza del hook, que NO lleva `boot_id`; se emparejan por
+  identidad de sesión —hay una sola `instalada` y la traza solo imprime al reinstalar—, sólido pero
+  no un sello único. **Y el mecanismo no se distingue desde dentro**: «snapshot del filesystem» es lo
+  que documenta Anthropic, pero un volumen persistente daría la misma observación; da igual para la
+  decisión.
+- **Dos hechos nuevos del entorno, más valiosos que el veredicto:**
+  1. **Persiste `purelib`, no persiste `/tmp`**: el marcador caduco —**UN fichero** de
+     site-packages; que viajaran las 164 entradas NO se comprobó— estaba ahí, y sin embargo el
+     registro de esa VM empieza a las 20:06:56, sin línea de las 14:09. **Confirma empíricamente la decisión de s325g** de mudar el centinela de `/tmp` a
+     site-packages: si se hubiera quedado en `/tmp`, cada VM habría reinstalado aunque el snapshot
+     trajera todo. Se decidió por razonamiento; ahora está medido.
+  2. **Cada `resume` re-provisiona el contenedor y RESETEA el uptime** — cuatro `boot_id` distintos
+     en una sola sesión (20:06 → 20:28 → 20:54 → 21:18). Cualquier medida basada en `/proc/uptime`
+     entre turnos es inválida, incluida la derivación de boot que usó DEC-242. Es la generalización
+     del incidente que motivó s325h, y refuerza que quien dictamina el origen sea el registro.
+- **Lo que SIGUE sin probarse** (hallazgos Fable r1 #1 y #2, en pie):
+  1. **Ahorro real: cero arranques medidos.** Que el snapshot porte `purelib` está probado; que el
+     mecanismo AHORRE exige una VM que arranque y se salte la instalación, y de eso no hay ninguna
+     — las cuatro de hoy llevan la huella movida. Se medirá sola en cuanto pase un día sin tocar
+     `install-deps.sh`.
+  2. **Por qué la VM de las 14:12:33 NO recibió la caché sigue sin explicación cerrada.** La
+     latencia de publicación del snapshot (build a las 14:09:35, VM 3 min después) es la candidata,
+     pero es hipótesis sin medir; el re-provisionado por turno del punto 2 de arriba abre alguna
+     más. No se persigue: ya no sostiene ninguna conclusión.
+- **Lo que se mantiene de DEC-242**: la traza de diagnóstico en `install-deps.sh` — es lo que cazó
+  este error, imprimiendo el `mtime` del marcador previo en vez de afirmar su origen. La calibración
+  que Fable forzó en la r3 («el mensaje NO asevera persistencia; quien decide es el mtime») resultó
+  ser exactamente la que hizo el hallazgo posible.
+- **Alternativas descartadas.** *Borrar DEC-242*: se conserva íntegra con marca de error — la traza
+  de un diagnóstico invertido vale más que un registro limpio. *Dejar el mensaje del check como
+  estaba y corregir solo la prosa*: el mensaje es la causa activa del error y volvería a inducirlo.

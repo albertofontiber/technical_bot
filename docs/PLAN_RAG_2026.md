@@ -54,17 +54,19 @@ redactada distinta: es la paridad del gate ocurriendo con tráfico real. Y el ce
 de voz da **cero ASR perdidos** — la invariante que `Procedencia` impone en el TIPO se cumple
 también en los datos que ya estaban escritos.
 
-**Cerrado (s325h-c)**: Alberto pegó el Setup script y se verificó en VM nueva — **NO baja a
-~30 s**: 99 s de boot a deps listas, 163/164 entradas de site-packages escritas post-boot. Las
-deps no estaban en disco al arrancar; DEC-238 queda degradada a redundancia inocua
-(DEC-242 · `evals/s325h_setup_script_verificacion_v2.json`).
-**La sospecha se desplaza fuera del repo, sin cerrarse** (s325h-d, contrastado con la doc
-oficial): la caché conserva lo que el setup script escribe sin exclusión de rutas documentada, y
-el script «solo corre cuando NO existe caché». Alberto declara no haber tocado script ni dominios
-desde que lo pegó ⇒ ninguna causa de rebuild documentada aplica. Se retira la vía «venv bajo un
-prefijo que viaje». **Pendiente ANTES de concluir nada**: abrir una sesión nueva y correr
-`python scripts/cloud_smoke.py` → leer `deps_cache` (la 1.ª línea del hook NO basta: dos de los
-tres desenlaces son idénticos a simple vista — DEC-242 addendum).
+**s325h-e — la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
+REFUTADA.** El
+registro de una VM la sella con **uptime 40,89 s** en el momento de instalar, y esa VM traía el
+marcador `663fae88` de **mtime 14:09:35Z**: en 41 s de vida no pudo escribirlo, luego viajó en el
+snapshot. Lo medido en s325h-c era correcto para SU VM y se generalizó mal — **pero ojo con el
+error simétrico**: esa misma VM NO recibió la caché, así que lo observado es «al menos a veces»,
+no una propiedad uniforme, y la causa de ese hueco sigue sin cerrar. **Sigue sin medirse el
+AHORRO** (cero arranques que se salten la instalación: los de ese día llevan la huella movida por
+haber tocado el instalador tres veces; se medirá solo en cuanto pase un día sin tocarlo). Dos hechos
+nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (confirma s325g), y
+**cada `resume` re-provisiona el contenedor y resetea el uptime** (4 boots en una sesión), lo que
+invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
+que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
 
 **Abierto, con dueño**: «no te he entendido» (el ASR devuelve algo que no es marca → el bot afirma
 un hueco de corpus que no existe; el arreglo es GENERAR las variantes de las 30 marcas como ya se
@@ -128,7 +130,7 @@ transaccionales, postcondiciones verdes, reloj diario activo). Smoke verificado 
    acotada a «¿funciona X con Y?» entre marcas, y la clase nueva `no_es_pregunta` = 10 % del
    histórico), se aplicó la **022** y el histórico se re-clasificó **cuatro veces** (v2→v5) por
    **~$0,49 y ~6 min, 109/109 y 0 fallos** — el ciclo del «otros» ejecutado por primera vez y
-   MEDIDO (DEC-246); (iv) **PENDIENTE: el gate de acuerdo de la v5** — muestra nueva entregada
+   MEDIDO (DEC-247); (iv) **PENDIENTE: el gate de acuerdo de la v5** — muestra nueva entregada
    a Alberto en el hilo, con un residual declarado («especificaciones técnicas del NC» en
    `otros`, 1/109) y dos gaps: `catalogo_especificaciones` = 61,5 % (categoría dominante por la
    fusión que él pidió) y `no_es_pregunta` mezclando ruido con quejas de calidad;
