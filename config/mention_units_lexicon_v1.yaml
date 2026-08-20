@@ -1,0 +1,82 @@
+# config/mention_units_lexicon_v1.yaml — léxico de UNIDADES del detector de mención
+# no-resuelta (s331 §3.C.1, puerta 1 de `catalog_resolver.detect_unresolved_mentions`).
+#
+# GOBERNANZA: ampliación por PR con revisión, s331 §C.1 (misma disciplina que el resto de
+# la config versionada del catálogo; NUNCA se edita en caliente ni se genera).
+#
+# SEMÁNTICA (la aplica `_is_unit_token`): un token con FORMA DE MODELO (letras + dígitos,
+# ≥4 alfanuméricos) al que, tras quitar los DÍGITOS Y SEPARADORES INICIALES, le queda un
+# resto que —en minúscula y sin separadores— pertenece a esta lista es una MAGNITUD FÍSICA,
+# no un producto: '230VAC' → 'vac' · '24VDC' → 'vdc' · '24kΩ' → 'kohm' (la 'Ω' se normaliza
+# a 'ohm' en código). El token NO se propone como mención al usuario.
+#
+# COSTE DECLARADO: un modelo real cuya cola sea exactamente una unidad ('100W') queda
+# excluido (falso NEGATIVO deliberado). Es la dirección segura: un FN de puerta 1 = no hay
+# frase de reconocimiento; un FP = frase superflua — y el catálogo gobernado ya excluye por
+# su lado todo término que SÍ resuelve (exclusión (a) del detector).
+#
+# Entradas en MINÚSCULA, sin separadores, una por línea.
+version: 1
+unidades:
+  # tensión
+  - vac
+  - vdc
+  - vca              # grafía ES de VAC (corriente alterna)
+  - vcc              # grafía ES de VDC (corriente continua)
+  - v
+  - mv
+  - kv
+  # corriente y carga
+  - a
+  - ma
+  - ua
+  - ka
+  - ah
+  - mah
+  # potencia y energía
+  - w
+  - mw
+  - kw
+  - va
+  - kva
+  - wh
+  - kwh
+  # frecuencia
+  - hz
+  - khz
+  - mhz
+  # nivel sonoro
+  - db
+  - dba
+  - dbm
+  # resistencia (fin de línea, lazos) y cableado
+  - ohm
+  - kohm
+  - mohm
+  - awg
+  - mm2              # sección de conductor
+  # longitud y superficie
+  - mm
+  - cm
+  - km
+  - m2
+  # masa y volumen (agente extintor)
+  - kg
+  - mg
+  - l
+  - ml
+  # temperatura
+  - c
+  # óptica (luminarias de emergencia / señalización)
+  - lm
+  - lx
+  # presión (extinción)
+  - pa
+  - kpa
+  - bar
+  - mbar
+  # tiempo
+  - ms
+  # estanqueidad (IP): NO vive aquí — 'IP65' tiene forma de NORMA (prefijo alfabético +
+  # dígitos) y la regla de unidades quita dígitos INICIALES, así que nunca alcanzaba esta
+  # lista. Adjudicación advisor M2: 'ip' está en mention_norms_lexicon_v1.yaml.
