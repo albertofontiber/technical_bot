@@ -220,7 +220,10 @@ def entorno(monkeypatch):
     y (s324j) el backend DOBLE enchufado — la revalidación por sello corre en
     cada petición protegida y necesita quien responda."""
     monkeypatch.setenv(sesion.VARIABLE_SECRETO, SECRETO)
-    monkeypatch.setenv("TELEGRAM_BOT_USERNAME", "PCI_Soporte_tecnico_bot")
+    # s329: la variable se BORRA a propósito — el estado real de Vercel hoy.
+    # El enlace del test de invitación sale del default en código
+    # (`access.BOT_USERNAME_DEFECTO`), que es la ruta que corre en producción.
+    monkeypatch.delenv("TELEGRAM_BOT_USERNAME", raising=False)
     monkeypatch.setattr(datos, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)
     monkeypatch.setattr(datos, "SUPABASE_URL", "https://proyecto.supabase.co")
     monkeypatch.setattr(gestion, "SUPABASE_SERVICE_KEY", CLAVE_SERVICIO)

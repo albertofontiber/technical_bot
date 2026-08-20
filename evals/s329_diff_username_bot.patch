@@ -1,0 +1,158 @@
+diff --git a/dashboard/gestion.py b/dashboard/gestion.py
+index d4a2373d..61bfe76d 100644
+--- a/dashboard/gestion.py
++++ b/dashboard/gestion.py
+@@ -37,7 +37,6 @@ además estaba ROTA contra Supabase real, porque la 016 nunca concedió
+ """
+ from __future__ import annotations
+ 
+-import os
+ import re
+ import uuid
+ from dataclasses import dataclass
+@@ -176,10 +175,6 @@ def resumen_acceso(allowlist: datos.Resultado,
+ # ------------------------------------------------------------------ escrituras
+ 
+ 
+-def _nombre_del_bot() -> str | None:
+-    return (os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
+-
+-
+ #: La forma admisible del token de operación `op` (v9 §4.2): lo genera el panel
+ #: con `secrets.token_urlsafe(16)` al pintar el formulario, así que cualquier
+ #: otra cosa es un formulario manipulado — y el CHECK de la 020 lo rechazaría
+@@ -248,17 +243,14 @@ def generar_invitacion(*, nota: str, dias: int, por: str, op: str) -> Accion:
+                                              "emitir la invitación"),
+                       tono="error", detalle=detalle)
+ 
+-    bot = _nombre_del_bot()
+-    enlace = (access.enlace_invitacion(bot, token) if bot
+-              else f"https://t.me/<NOMBRE_DEL_BOT>?start={token}")
+-    aviso = "" if bot else (
+-        " OJO: falta `TELEGRAM_BOT_USERNAME` en el entorno del panel, así que "
+-        "hay que sustituir <NOMBRE_DEL_BOT> a mano."
+-    )
++    # El username se resuelve SIEMPRE (env var > default en código, s329): el
++    # enlace es de copiar y pegar y el aviso «sustituye <NOMBRE_DEL_BOT> a
++    # mano» murió con la rama que lo necesitaba.
++    enlace = access.enlace_invitacion(access.bot_username_publico(), token)
+     return Accion(
+         True,
+         f"Invitación emitida para «{nota}». Caduca en {dias} día(s). "
+-        f"Este enlace NO se puede volver a ver: cópialo ahora." + aviso,
++        f"Este enlace NO se puede volver a ver: cópialo ahora.",
+         enlace=enlace,
+     )
+ 
+diff --git a/docs/DASHBOARD_DESPLIEGUE.md b/docs/DASHBOARD_DESPLIEGUE.md
+index 44d5730b..94bd6ea8 100644
+--- a/docs/DASHBOARD_DESPLIEGUE.md
++++ b/docs/DASHBOARD_DESPLIEGUE.md
+@@ -134,6 +134,7 @@ Variables de entorno en Vercel:
+ | ~~`DASHBOARD_USUARIOS`~~ | **NO va en Vercel (s324j, a2/DEC-239)**: la lista vive en `panel_usuarios` y revocar es un UPDATE, no un redespliegue. La variable queda SOLO para el modo local (`python -m dashboard`, `BackendEntorno`): `usuario:registro` separados por `;` o salto de línea — no por coma (dúo r41) | Local: `python scripts/s324f_dashboard_password.py`. Producción: `python -m scripts.s324j_panel_usuario alta <usuario>` |
+ | `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` | La base del **bot** (no la del war room) | Las mismas que usa Railway |
+ | `DASHBOARD_SESION_HORAS` | Opcional. Duración de la sesión; por defecto 8 h | — |
++| `TELEGRAM_BOT_USERNAME` | Opcional. Override del usuario del bot para el enlace de invitación; **por defecto va en código** (`access.BOT_USERNAME_DEFECTO`, s329), así el enlace es de copiar y pegar sin configurar nada | Solo si se apunta a un bot distinto del de producción |
+ 
+ **Mismas credenciales que el war room, dos logins.** El war room identifica al admin con
+ `ADMIN_EMAIL_n` + `ADMIN_PASS_HASH_n` (bcrypt) en variables de Vercel. El panel del bot usa el
+diff --git a/docs/DG_DEPLOYMENT.md b/docs/DG_DEPLOYMENT.md
+index 84074c55..0a3a8671 100644
+--- a/docs/DG_DEPLOYMENT.md
++++ b/docs/DG_DEPLOYMENT.md
+@@ -87,7 +87,7 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
+ 
+ ### 4.3. Antes del primer DG — preparación comercial
+ 
+-- [ ] Confirmar branding del bot en [@BotFather](https://t.me/BotFather) (nombre y descripción visibles cuando alguien abre el chat).
++- [ ] Confirmar branding del bot en [@BotFather](https://t.me/BotFather) (nombre y descripción visibles cuando alguien abre el chat). OJO: si algún día cambias el **@username**, actualiza `BOT_USERNAME_DEFECTO` en `src/bot/access.py` — es lo que hace que el enlace de invitación salga de copiar y pegar (s329).
+ - [ ] Decidir si quieres invitar 1, 2 o 3 DGs en la primera ronda. Recomendación: 2-3 desde el inicio para diversificar y multiplicar volumen.
+ - [ ] Adaptar el template del §1 a tu tono y cada DG concreto.
+ 
+diff --git a/scripts/s324e_invitaciones.py b/scripts/s324e_invitaciones.py
+index 60b11a7f..064c90fd 100644
+--- a/scripts/s324e_invitaciones.py
++++ b/scripts/s324e_invitaciones.py
+@@ -191,12 +191,6 @@ def _dias_validos(bruto: str) -> int:
+     return dias
+ 
+ 
+-def _nombre_del_bot(explicito: str | None) -> str | None:
+-    import os
+-
+-    return (explicito or os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
+-
+-
+ # ---------------------------------------------------------------- acciones
+ 
+ 
+@@ -216,9 +210,8 @@ def cmd_generar(args) -> int:
+         print("No se pudo crear la invitacion (la base no devolvio la fila).")
+         return 2
+     invitacion = filas[0]
+-    bot = _nombre_del_bot(args.bot)
+-    enlace = (access.enlace_invitacion(bot, token) if bot
+-              else f"https://t.me/<NOMBRE_DEL_BOT>?start={token}")
++    enlace = access.enlace_invitacion(access.bot_username_publico(args.bot),
++                                      token)
+ 
+     print()
+     print("  INVITACION CREADA")
+@@ -231,10 +224,6 @@ def cmd_generar(args) -> int:
+     print("  Enlace (mandaselo a esa persona):")
+     print(f"    {enlace}")
+     print()
+-    if not bot:
+-        print("  OJO: sustituye <NOMBRE_DEL_BOT> por el usuario del bot, o pasa")
+-        print("       --bot PCI_Soporte_tecnico_bot (o TELEGRAM_BOT_USERNAME).")
+-        print()
+     print("  Este enlace NO se puede volver a mostrar: en la base solo esta su")
+     print("  huella. Si lo pierdes, anula la invitacion y emite otra.")
+     print("  Es de UN SOLO USO: quien lo pulse primero se queda el acceso.")
+@@ -477,8 +466,9 @@ def construir_parser() -> argparse.ArgumentParser:
+                               f"{access.DIAS_CADUCIDAD_DEFECTO}, maximo "
+                               f"{access.DIAS_CADUCIDAD_MAX})")
+     generar.add_argument("--bot", default=None,
+-                         help="usuario del bot para el enlace "
+-                              "(o TELEGRAM_BOT_USERNAME)")
++                         help="usuario del bot para el enlace (por defecto "
++                              f"{access.BOT_USERNAME_DEFECTO}; tambien manda "
++                              "TELEGRAM_BOT_USERNAME)")
+     generar.add_argument("--por", default=None, help="quien la emite")
+     generar.set_defaults(funcion=cmd_generar)
+ 
+diff --git a/src/bot/access.py b/src/bot/access.py
+index f12d226d..97bca5a1 100644
+--- a/src/bot/access.py
++++ b/src/bot/access.py
+@@ -705,6 +705,30 @@ def es_payload_plausible(payload: object) -> bool:
+     return all(caracter in _ALFABETO_PAYLOAD for caracter in payload)
+ 
+ 
++#: Identidad PÚBLICA del bot de producción — verificada contra `getMe` con el
++#: token vivo del worker (s329): @PCI_Soporte_tecnico_bot, «Soporte tecnico
++#: PCI IA». Es un default de CÓDIGO a conciencia: no es un secreto ni un
++#: tunable, es el nombre del producto (aparece en cada enlace t.me que ya se
++#: comparte), y así el enlace de invitación sale completo en TODOS los
++#: entornos sin depender de configurar una variable en cada uno. Si el bot se
++#: renombra en BotFather, se actualiza AQUÍ (checklist en DG_DEPLOYMENT.md);
++#: `TELEGRAM_BOT_USERNAME` queda como override para un swap o un bot de pruebas.
++BOT_USERNAME_DEFECTO = "PCI_Soporte_tecnico_bot"
++
++
++def bot_username_publico(explicito: str | None = None) -> str:
++    """Resuelve el username del bot: explícito > `TELEGRAM_BOT_USERNAME` > default.
++
++    Nunca devuelve vacío — el default es la identidad pública del bot de
++    producción, así que quien pinta un enlace de invitación puede contar con
++    que es de copiar y pegar."""
++    for candidato in (explicito, os.getenv("TELEGRAM_BOT_USERNAME")):
++        limpio = (candidato or "").strip().lstrip("@")
++        if limpio:
++            return limpio
++    return BOT_USERNAME_DEFECTO
++
++
+ def enlace_invitacion(bot_username: str, token: str) -> str:
+     """`https://t.me/<bot>?start=<token>` — la forma que Telegram convierte en
+     `context.args` del handler de `/start`."""

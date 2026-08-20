@@ -87,7 +87,7 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
 
 ### 4.3. Antes del primer DG — preparación comercial
 
-- [ ] Confirmar branding del bot en [@BotFather](https://t.me/BotFather) (nombre y descripción visibles cuando alguien abre el chat).
+- [ ] Confirmar branding del bot en [@BotFather](https://t.me/BotFather) (nombre y descripción visibles cuando alguien abre el chat). OJO: si algún día cambias el **@username**, actualiza `BOT_USERNAME_DEFECTO` en `src/bot/access.py` — es lo que hace que el enlace de invitación salga de copiar y pegar (s329).
 - [ ] Decidir si quieres invitar 1, 2 o 3 DGs en la primera ronda. Recomendación: 2-3 desde el inicio para diversificar y multiplicar volumen.
 - [ ] Adaptar el template del §1 a tu tono y cada DG concreto.
 
@@ -101,7 +101,7 @@ Phase 1 final solo se compromete cuando los 3 evals concuerden. Si DG-grade dice
    - **Ya no es verdad que al revés te quedes fuera de tu bot** (verificado el 17-ago): la migración te dio de alta en la BASE y la puerta lee de ahí. Pero pon igualmente la variable, por dos razones que sí siguen vivas: **(1) sin ella no te llega el aviso de canje** —la contramedida anti-reenvío que pediste va justo a los ids de esa variable— y **(2)** es el único camino que funciona si Supabase se cae.
    - Comprobación de que quedó bien: en el log de Railway, tras el redespliegue, debe **desaparecer** la línea `puerta de acceso APAGADA`.
 
-**Invitar (cada vez)**: `python -m scripts.s324e_invitaciones generar --nota "Juan Pérez, DG de Acme" --bot PCI_Soporte_tecnico_bot` → imprime el enlace **una sola vez** (en la base solo queda su huella); se lo mandas a esa persona; al pulsarlo queda dada de alta y el bot le enseña los términos. Caduca en **2 días** por defecto (`--dias`, máximo 7).
+**Invitar (cada vez)**: `python -m scripts.s324e_invitaciones generar --nota "Juan Pérez, DG de Acme"` → imprime el enlace **una sola vez** (el username del bot sale solo — default en código desde s329; `--bot` queda para apuntar a un bot de pruebas) (en la base solo queda su huella); se lo mandas a esa persona; al pulsarlo queda dada de alta y el bot le enseña los términos. Caduca en **2 días** por defecto (`--dias`, máximo 7).
 
 **Te llega un aviso al canjear.** El bot te manda por Telegram: «era para *Juan Pérez, DG de Acme* · la ha canjeado *Marta Ruiz (@martaruiz) · id 987654321*», con el comando de revocación listo. Es la contramedida contra el reenvío: no lo impide, pero lo hace visible en minutos. Requiere que `BOT_ALLOWLIST_BOOTSTRAP` tenga tu id.
 

@@ -1,6 +1,6 @@
 """src/flags.py — REGISTRO declarativo de la configuración por entorno (L2b, s311).
 
-Qué ES: el censo ejecutable de las 96 flags que `src/` lee del entorno — censo v5,
+Qué ES: el censo ejecutable de las 97 flags que `src/` lee del entorno — censo v5,
 fuente UNICA en `tests/_censo_flags.py` (8 vias, ambas comillas, profile-owned por
 import del constante, y flags data-driven de los YAML de fabricantes), con default (como TEXTO fuente — el lector real
 es quien lo resuelve), vía y lectores por flag. Generado del árbol y VERIFICADO contra
@@ -572,6 +572,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/config.py',),
         "sensible": True,
+    },
+    # s329 — OVERRIDE del username publico del bot para el enlace de invitacion.
+    # El default real NO esta aqui: es `access.BOT_USERNAME_DEFECTO` en codigo
+    # (identidad publica verificada contra getMe), asi el enlace sale completo
+    # sin configurar nada; esta variable existe para apuntar a un bot de pruebas.
+    "TELEGRAM_BOT_USERNAME": {
+        "default_fuente": 'None',
+        "via": ['getenv'],
+        "lectores": ('src/bot/access.py',),
     },
     "TELEGRAM_FEEDBACK": {
         "default_fuente": '"off"',

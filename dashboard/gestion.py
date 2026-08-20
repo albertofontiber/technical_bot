@@ -37,7 +37,6 @@ además estaba ROTA contra Supabase real, porque la 016 nunca concedió
 """
 from __future__ import annotations
 
-import os
 import re
 import uuid
 from dataclasses import dataclass
@@ -176,10 +175,6 @@ def resumen_acceso(allowlist: datos.Resultado,
 # ------------------------------------------------------------------ escrituras
 
 
-def _nombre_del_bot() -> str | None:
-    return (os.getenv("TELEGRAM_BOT_USERNAME") or "").lstrip("@") or None
-
-
 #: La forma admisible del token de operación `op` (v9 §4.2): lo genera el panel
 #: con `secrets.token_urlsafe(16)` al pintar el formulario, así que cualquier
 #: otra cosa es un formulario manipulado — y el CHECK de la 020 lo rechazaría
@@ -248,17 +243,14 @@ def generar_invitacion(*, nota: str, dias: int, por: str, op: str) -> Accion:
                                              "emitir la invitación"),
                       tono="error", detalle=detalle)
 
-    bot = _nombre_del_bot()
-    enlace = (access.enlace_invitacion(bot, token) if bot
-              else f"https://t.me/<NOMBRE_DEL_BOT>?start={token}")
-    aviso = "" if bot else (
-        " OJO: falta `TELEGRAM_BOT_USERNAME` en el entorno del panel, así que "
-        "hay que sustituir <NOMBRE_DEL_BOT> a mano."
-    )
+    # El username se resuelve SIEMPRE (env var > default en código, s329): el
+    # enlace es de copiar y pegar y el aviso «sustituye <NOMBRE_DEL_BOT> a
+    # mano» murió con la rama que lo necesitaba.
+    enlace = access.enlace_invitacion(access.bot_username_publico(), token)
     return Accion(
         True,
         f"Invitación emitida para «{nota}». Caduca en {dias} día(s). "
-        f"Este enlace NO se puede volver a ver: cópialo ahora." + aviso,
+        f"Este enlace NO se puede volver a ver: cópialo ahora.",
         enlace=enlace,
     )
 
