@@ -8908,3 +8908,73 @@ Coste: una sesión nueva y un smoke. Nada que cablear.
   el crítico de la anterior son **la misma cosa** — construir el instrumento de verificación y no
   verificar el instrumento. Un gate que se salta, una sonda que mira mi implementación y un control
   negativo que es una frase fallan todos hacia el verde.
+
+---
+
+## DEC-250 (s328b, 20 ago 2026) — El gráfico deja de ser un SVG: columnas en HTML, porque ninguna escala uniforme puede dejar la letra quieta
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (render del panel expuesto). **Estado**: cableado y
+  medido con navegador. **Sin dúo adversarial POR ADJUDICACIÓN EXPLÍCITA de Alberto** («aquí no hace
+  falta que tires del dúo adversarial, para hacer el rediseño más cost-efficient») — se anota para
+  que la ausencia sea una decisión suya registrada y no un incumplimiento del Protocolo 3.
+- **Qué pidió Alberto**, tres cosas en un mensaje: (1) «las gráficas quiero que salgan de izquierda
+  a derecha, no de arriba a abajo»; (2) «el mismo tamaño de letra»; (3) «que los nombres de los ejes
+  estén alineados con las barras».
+- **Lo que había detrás de (2), y que él no tenía por qué saber**: su pantallazo era de
+  **producción** (código de s327, aún sin el arreglo de DEC-249). Pero al comprobarlo se vio que el
+  arreglo de DEC-249 **también** fallaba en (2), por el motivo contrario: al meter los rótulos
+  dentro del SVG, en una tarjeta estrecha el SVG encogía y la letra caía a ~8 px. Los dos diseños
+  fallaban lo mismo por razones opuestas, y eso señala la causa común: **una escala uniforme mueve
+  el texto por definición**. No hay ajuste de SVG que lo arregle.
+
+### La decisión
+
+- **El gráfico deja de ser un SVG y pasa a ser HTML + CSS**: una `<ol class="columnas">` donde cada
+  `<li>` lleva su cifra, su pista, su barra y su rótulo. El texto es texto —12 px son 12 px a
+  cualquier anchura, los mismos que la leyenda y el resto del panel— y lo único que estira es la
+  barra, con la altura en porcentaje.
+- **Columnas verticales, izquierda a derecha** (adjudicación de Alberto, elegida entre tres opciones
+  ofrecidas). Para las series temporales es además lo correcto: el tiempo avanza hacia la derecha, y
+  las vistas temporales ya venían invertidas justo para eso.
+- **La clase de fallo de s328 no se vigila: se ELIMINA.** Aquella era «dos sistemas de coordenadas
+  que tienen que coincidir». Ahora el rótulo y su columna son hijos del **mismo** `<li>`: no hay dos
+  cosas que puedan desalinearse.
+- **La altura viaja en una CLASE** (`.h0`…`.h100`, tabla fija de 101 reglas emitida una vez en la
+  hoja): un atributo de estilo sería «inline style» y obligaría a abrir la CSP con `unsafe-inline`.
+  No crece con las gráficas ni con las barras.
+- **El rótulo va vertical** con `writing-mode` —que a diferencia de `transform:rotate` **sí** ocupa
+  sitio en el layout, así que la banda reserva su alto sola—: bajo una columna de 44 px no cabe una
+  fecha en horizontal.
+- **Alternativas descartadas**: (a) seguir con SVG y ajustar tamaños — imposible por lo de arriba,
+  la escala mueve el texto; (b) barras horizontales con las filas bien alineadas (era mi
+  recomendación, y Alberto eligió columnas: es su panel y la lectura izquierda-derecha de una serie
+  temporal le da la razón); (c) columnas solo en las series temporales y horizontales en los
+  rankings — dos formas de gráfico en el mismo panel por un problema que las columnas resuelven en
+  las dos.
+
+### Lo que se aprendió midiendo, no diseñando
+
+- **Reusé `.cifra`, que YA existía** para las tarjetas de KPI (`min-width:150px`). Cada columna pasó
+  a medir 150 px y solo cabían dos por tarjeta. Renombrada a `.dato`. Lo cazó mirar la captura, no
+  un test: ningún invariante decía «las clases nuevas no colisionan».
+- **El gate de `style=` cazó mi propio COMENTARIO**: el bloque CSS explicaba por qué no se usa un
+  atributo de estilo… escribiendo el atributo literal. El gate busca la cadena en el HTML servido y
+  no distingue un comentario de un atributo. **No se ablandó el gate: se reescribió el comentario.**
+- **Mi arnés de medida mentía dos veces**, y las dos me habrían hecho «arreglar» código sano: las
+  fechas salían ascendentes cuando las vistas ordenan `dia.desc` (el gráfico salía del revés), y
+  todas las filas repetían la misma etiqueta, así que las cuatro gráficas dimensionales sumaban en
+  **una sola barra**. Un doble perezoso no verifica: tranquiliza.
+- **`_ROTULO_MAX` no se eligió a ojo**: con 14 caracteres el gate midió 11 px de texto cortado en
+  escritorio y 23 en móvil, con los ids largos de la taxonomía sembrados a propósito. Bajó a 12 y la
+  banda subió a 88 px. Antes de sembrar esos ids, el gate del recorte **pasaba en vacío**.
+- **La banda del rótulo YA NO baja en móvil**: la letra es la misma, luego el sitio que necesita es
+  el mismo. Bajarla a 72 px era arbitrario y cortaba el texto.
+
+### El gate, ampliado
+
+Los invariantes de geometría pasan a ser cinco: no desborda · **la letra del gráfico no escala**
+(todo el texto al mismo tamaño computado que la leyenda — la petición de Alberto convertida en
+invariante) · el rótulo centrado bajo su columna · ningún rótulo cortado por el CSS · ningún SVG
+ampliado (hoy no hay ninguno; la sonda se conserva armada). Con **controles versionados en las dos
+direcciones**: páginas sintéticas rotas que la sonda debe marcar, y el render vigente con la hoja
+real que no debe marcar.

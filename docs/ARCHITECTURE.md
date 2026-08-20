@@ -17,7 +17,18 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s328 (20 ago 2026) — UN NAVEGADOR MIDE EL PANEL EN CI, Y LA PUERTA LLEVA MARCA.**
+> **Estado s328b (20 ago 2026) — LAS GRÁFICAS SON COLUMNAS EN HTML, NO SVG.**
+> Adjudicación de Alberto: «que salgan de izquierda a derecha, no de arriba a abajo», «el mismo
+> tamaño de letra». Lo segundo destapó la causa común de los dos intentos anteriores: **una escala
+> uniforme mueve el texto por definición** — el SVG de s327 se ampliaba ×2,29 en escritorio y el de
+> s328 encogía la letra a ~8 px en una tarjeta estrecha. En HTML el texto es texto (12 px a
+> cualquier anchura, los mismos que el resto del panel) y solo estira la barra, con la altura en una
+> CLASE de una tabla fija —un atributo de estilo abriría la CSP con `unsafe-inline`—. El rótulo va
+> vertical (`writing-mode`, que sí ocupa layout) y es hijo del **mismo** `<li>` que su columna, así
+> que la clase de fallo de s328 desaparece en vez de vigilarse. Gate de geometría a cinco
+> invariantes, con controles versionados en las dos direcciones. DEC-250.
+>
+> > **Estado s328 (20 ago 2026) — UN NAVEGADOR MIDE EL PANEL EN CI, Y LA PUERTA LLEVA MARCA.**
 > La primera regresión visible del panel llegó de s327: las gráficas se pintaban a **×2,29** en
 > escritorio porque el SVG era fluido **sin tope** y los rótulos vivían FUERA, en filas HTML de
 > 28 px fijos — **dos sistemas de coordenadas** que solo cuadraban a 1 unidad = 1 px. Arreglado por

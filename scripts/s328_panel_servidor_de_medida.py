@@ -52,20 +52,39 @@ _SELLO = "sello-de-mentira"
 #: Un valor por FORMATO declarado. Lo que se mide es el layout: hacen falta
 #: filas plausibles, no datos reales.
 _POR_FORMATO = {
-    "numero": 7, "ms": 900, "pct": 42.0, "dia": "2026-08-19",
-    "semana": "2026-08-17", "fecha": "2026-08-19T10:00:00Z",
+    "numero": 7, "ms": 900, "pct": 42.0, "fecha": "2026-08-19T10:00:00Z",
 }
 _FILAS = 8
+
+
+#: Etiquetas DISTINTAS por fila. Con un solo texto repetido, las vistas
+#: `grafico_agregado` suman todo en UNA barra y el gráfico que se mide no se
+#: parece al de producción (me pasó: las cuatro dimensionales salían con una
+#: columna de 40 y parecía un fallo del render).
+#: Incluye los ids de taxonomía LARGOS a propósito: son los rótulos reales más
+#: hostiles del panel y son los que ejercitan el recorte. Sin ellos el gate de
+#: «ningún rótulo cortado» pasaría en vacío, que es no tener gate.
+_TEXTOS = ("catalogo_especificaciones", "instalacion_configuracion",
+           "averias_diagnostico", "Morley-IAS", "Securiton",
+           "Aritech", "Honeywell", "Bosch")
 
 
 def _fila(vista, indice: int) -> dict:
     fila = {}
     for columna in vista.columnas:
-        valor = _POR_FORMATO.get(columna.formato, "Morley-IAS Serie 5000")
+        valor = _POR_FORMATO.get(columna.formato)
         if columna.formato == "numero":
             valor = (indice * 3) % 11          # incluye ceros: barra a cero
         elif columna.formato == "dia":
-            valor = f"2026-08-{10 + indice:02d}"
+            # DESCENDENTE, como el `orden` de las vistas temporales
+            # (`dia.desc`): el gráfico invierte esa lista para que el tiempo
+            # avance hacia la derecha, así que un doble ascendente pintaba la
+            # serie del revés y el error parecía del código.
+            valor = f"2026-08-{24 - indice:02d}"
+        elif columna.formato == "semana":
+            valor = f"2026-08-{24 - indice * 7 % 28:02d}"
+        elif valor is None:
+            valor = _TEXTOS[indice % len(_TEXTOS)]
         fila[columna.nombre] = valor
     return fila
 

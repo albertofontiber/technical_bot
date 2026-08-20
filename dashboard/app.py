@@ -470,7 +470,7 @@ def _grafico_de_vista(vista: datos.Vista, resultado: datos.Resultado, *,
         # primero) porque es como se lee una tabla; el gráfico se lee al revés.
         pares = [(str(f.get(col_etiqueta, "?")), f.get(col_valor))
                  for f in reversed(resultado.filas[:tope])]
-    return render.barras(pares, unidad=unidad, leyenda=vista.leyenda)
+    return render.columnas(pares, unidad=unidad, leyenda=vista.leyenda)
 
 
 #: Cuánto puede tardar la portada LEYENDO, en total (s327, hallazgo Sol). La
@@ -769,7 +769,7 @@ def pagina_errores(peticion: Peticion) -> Respuesta:
             tarjetas.append(render.tarjeta(
                 titulo,
                 render.unir([
-                    render.barras([(k, v) for k, v in conteos]),
+                    render.columnas([(k, v) for k, v in conteos]),
                     render.tabla(["Valor", "Incidencias"],
                                  [[k, render.numero(v)] for k, v in conteos]),
                 ]) if conteos else render.nota("Ninguna."),

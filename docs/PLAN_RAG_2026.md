@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s328 — 20 ago 2026; el panel mide calidad de uso, y ahora un navegador mide el panel)
+## Estado actual (s328b — 20 ago 2026; el panel mide calidad de uso, y un navegador mide el panel)
 
 **El panel está VIVO** en https://technical-bot-lake.vercel.app (proyecto Vercel propio, DEC-244),
 con las migraciones **019/020/021/022/023/024 APLICADAS** en producción y el login real ejercitando
@@ -94,6 +94,16 @@ Chromium en 390/768/1440 y afirma que no desborda, no se amplía y el rótulo es
 su barra. Y `/entrar` se viste con la identidad **Fontiber** del Data Room (adjudicación de Alberto),
 acotada a `body.entrada` — sin JavaScript, sin fuentes externas y sin afirmar nada que el panel no
 haga (no hay 2FA ni recuperación de contraseña, así que no se prometen). DEC-249.
+
+**s328b → el gráfico deja de ser un SVG.** Alberto pidió tres cosas —columnas de izquierda a
+derecha, la misma letra en todas partes, y los rótulos alineados con las barras— y al comprobarlas
+apareció la causa común: **una escala uniforme mueve el texto por definición**. El SVG de s327 se
+ampliaba ×2,29 en escritorio; el arreglo de s328, con los rótulos dentro, encogía la letra a ~8 px
+en una tarjeta estrecha. Los dos fallaban lo mismo por razones opuestas. Ahora el gráfico es HTML:
+12 px son 12 px a cualquier anchura y lo único que estira es la barra (altura en una CLASE, porque
+un atributo de estilo abriría la CSP). La clase de fallo de s328 no se vigila — **se elimina**: el
+rótulo y su columna son hijos del mismo `<li>`. Y el gate crece a cinco invariantes, con controles
+versionados en las dos direcciones. **Sin dúo, por adjudicación explícita de Alberto.** DEC-250.
 
 **Dúo (Protocolo 3) en las cuatro sesiones**: 7+5, 8+4, 7+5 y 5 hallazgos — **todos confirmados, 0
 falsos positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de

@@ -6269,3 +6269,50 @@ necesita JavaScript y aquí la CSP no deja correr ninguno; «¿olvidaste tu cont
 muerto y una promesa de seguridad falsa son peores que su ausencia; y la Playfair Display obligaría
 a abrir la CSP a dos dominios de Google en un panel que hoy no pide nada de fuera. Todo cuelga de
 `body.entrada`: la puerta es la cara de la casa, y detrás sigue estando la herramienta. DEC-249.
+
+
+## s328b (20-ago-2026) — La tercera vez que se dibuja el mismo gráfico, y la primera que la letra se queda quieta
+
+Alberto mandó un pantallazo con tres peticiones en una línea: que las gráficas salieran de izquierda
+a derecha y no de arriba a abajo, que usaran el mismo tamaño de letra, y que los nombres de los ejes
+estuvieran alineados con las barras.
+
+Lo primero fue comprobar qué estaba mirando, porque el pantallazo era de **producción** — el código
+de anoche, sin el arreglo de esta misma mañana. Pero al renderizar la versión arreglada al mismo
+ancho apareció algo que no esperaba: **también fallaba lo del tamaño de letra, por el motivo
+contrario**. El SVG de s327 se ampliaba en una tarjeta ancha; el arreglo de s328, con los rótulos
+metidos dentro, encogía en una tarjeta estrecha y dejaba la letra en unos ocho píxeles. Dos diseños,
+dos fallos opuestos, una sola causa: **una escala uniforme mueve el texto por definición**. No hay
+ajuste que salve a un SVG de eso. Que Alberto pidiera «el mismo tamaño de letra» era, sin él
+saberlo, el diagnóstico.
+
+Así que el gráfico dejó de ser un SVG. Ahora es una lista de columnas en HTML: el texto es texto —12
+píxeles son 12 píxeles a cualquier anchura, los mismos que el resto de la página— y lo único que
+estira es la barra. La altura viaja en una clase de una tabla fija de 101 reglas, porque un atributo
+de estilo sería «inline style» y obligaría a abrir la CSP en un panel que no tiene JavaScript. Y la
+clase de fallo que ocupó toda la mañana —dos sistemas de coordenadas que tienen que coincidir— no se
+vigila: **desaparece**, porque el rótulo y su columna son hijos del mismo elemento de la rejilla.
+
+De las tres opciones que le ofrecí para «izquierda a derecha», Alberto eligió columnas verticales.
+Yo recomendaba mantener las barras horizontales con las filas bien alineadas, y él tenía mejor
+criterio para su panel: en una serie temporal el tiempo debe avanzar hacia la derecha, y las vistas
+temporales ya venían invertidas justo para eso.
+
+Lo que enseñó el rediseño no vino de diseñarlo, vino de medirlo. Reusé la clase `.cifra`, que ya
+existía para las tarjetas de KPI con un `min-width` de 150 píxeles: cada columna pasó a medir eso y
+solo cabían dos por tarjeta. Lo cazó mirar la captura, no un test — ningún invariante dice «las
+clases nuevas no colisionan». El gate de `style=` cazó mi propio **comentario**, que explicaba por
+qué no se usa un atributo de estilo escribiendo el atributo literal; no se ablandó el gate, se
+reescribió el comentario. Y el arnés de medida me mintió dos veces: sacaba las fechas ascendentes
+cuando las vistas ordenan al revés —el gráfico salía invertido y parecía un fallo del código— y
+repetía la misma etiqueta en todas las filas, con lo que las cuatro gráficas dimensionales sumaban
+en una sola barra. Un doble perezoso no verifica: tranquiliza.
+
+El detalle que mejor resume la mañana es el recorte de los rótulos. Puse catorce caracteres a ojo;
+el gate midió once píxeles de texto cortado en escritorio y veintitrés en móvil, y bajó a doce. Pero
+solo lo midió porque antes había sembrado en el arnés los ids largos de verdad de la taxonomía
+—`catalogo_especificaciones`—: con etiquetas cortas, ese gate pasaba en vacío. Un gate que nunca ha
+visto su fallo no se sabe si lo vería.
+
+Esta vez sin dúo adversarial, por adjudicación explícita de Alberto para abaratar el rediseño.
+DEC-250.

@@ -3560,13 +3560,17 @@ escribirla: **los tests miran el HTML, y la geometría no está en el HTML** —
 **Qué hay ahora**: `tests/test_s328_panel_geometria.py` + workflow
 `.github/workflows/s328-panel-geometria.yml`. Levanta la app ASGI de verdad
 (`scripts/s328_panel_servidor_de_medida.py`, transporte doblado), la recorre con Chromium en
-390/768/1440 y afirma tres cosas sobre PANTALLA: no desborda · ningún SVG se pinta a más de
-1 unidad de `viewBox` por píxel · el rótulo está a menos de 3 px del centro de su barra. La tercera
-sonda busca el rótulo dentro del SVG **y también** en una columna HTML hermana, para no quedarse
-ciega si alguien vuelve a partir el gráfico en dos sistemas de coordenadas.
+390/768/1440 y afirma sobre PANTALLA: no desborda · **la letra del gráfico no escala** (todo el
+texto al mismo tamaño computado que la leyenda) · el rótulo está centrado bajo su columna · ningún
+rótulo cortado por el CSS · ningún SVG ampliado. En CI corre con `PANEL_GEOMETRIA_EXIGIDA=1`, que
+convierte «no hay navegador» en ROJO — sin eso un fallo de Chromium se leía como job verde, que es
+el mismo patrón de cobertura-que-miente que esta deuda venía a cerrar.
 
-**Control negativo EJECUTADO**: con el render de s327 el gate da **13 rojos**; con el arreglo,
-39 verdes. Discrimina.
+**Controles VERSIONADOS en las dos direcciones**: páginas sintéticas con el fallo (un SVG que se
+amplía; unas columnas descentradas y con otra letra) que la sonda DEBE marcar, y el render vigente
+con la hoja real que NO debe marcar. Y el arnés siembra los rótulos reales más hostiles
+(`catalogo_especificaciones`) respetando el orden de cada vista: con etiquetas cortas el gate del
+recorte pasaba en vacío.
 
 **Gap que queda**: mide **Chromium**. Safari/iOS no entra, y el móvil del técnico en obra puede ser
 un iPhone — para esa mitad sigue haciendo falta que alguien lo abra. Y mide **geometría**, no
