@@ -146,7 +146,45 @@ def test_el_svg_es_fluido_y_no_lleva_medidas_fijas():
     cabecera = html[html.index("<svg"):html.index(">", html.index("<svg"))]
     assert "viewBox=" in cabecera
     assert "width=" not in cabecera and "height=" not in cabecera
-    assert ".grafico svg { width:100%; height:auto;" in render._ESTILO
+    assert "svg.grafico { display:block; width:100%;" in render._ESTILO
+
+
+def test_s328_grafico_una_sola_escala():
+    """LA regresión de s327, convertida en gate.
+
+    Fluido SIN tope y con los rótulos FUERA del SVG eran dos sistemas de
+    coordenadas que solo coincidían cuando el SVG se pintaba a 1 unidad = 1 px.
+    En una tarjeta ancha escalaba ~3× y las filas se despegaban de sus rótulos.
+    Las dos mitades del arreglo, cerradas aquí:
+
+      1. los rótulos van DENTRO del SVG (una escala, no dos);
+      2. el `max-width` del CSS es EXACTAMENTE el ancho del `viewBox` — si
+         alguien mueve una de las dos cifras sin la otra, vuelve el desajuste.
+    """
+    html = str(render.barras([("2026-08-08", 2), ("2026-08-09", 5)]))
+    svg = html[html.index("<svg"):html.index("</svg>")]
+
+    # (1) el rótulo está dentro del SVG, y NO queda ninguna columna HTML aparte
+    assert "2026-08-08" in svg
+    assert 'class="etiquetas"' not in html and 'class="etiqueta"' not in html
+    assert html.lstrip().startswith("<svg")
+
+    # (2) viewBox y tope del CSS son el mismo número
+    cabecera = html[html.index("<svg"):html.index(">", html.index("<svg"))]
+    assert f'viewBox="0 0 {render.ANCHO_GRAFICO} ' in cabecera
+    assert f"max-width:{render.ANCHO_GRAFICO}px" in render._ESTILO
+
+
+def test_s328_cada_fila_lleva_su_propio_title():
+    """El rótulo se recorta a 16 caracteres, así que el texto completo TIENE que
+    seguir alcanzable. Sueltos como hermanos del `<svg>` los `<title>` no eran
+    tooltips de fila —solo contaba el primero, como nombre del gráfico—; ahora
+    cada fila es un `<g>` con el suyo."""
+    largo = "Morley-IAS Serie 5000 ampliada"
+    html = str(render.barras([(largo, 3), ("Detnov", 1)], unidad="consultas"))
+    assert html.count("<g><title>") == 2
+    assert f"<title>{largo}: 3 consultas</title>" in html      # completo
+    assert ">Morley-IAS Seri…<" in html                        # recortado
 
 
 def test_el_css_lleva_las_reglas_de_movil_del_war_room():
