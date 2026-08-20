@@ -508,7 +508,7 @@ def test_e2e_core_runs_with_fakes_and_stamps_cost(monkeypatch):
     def fake_rewrite(q, ws):  # valid, source-bound (policy calls it on REWRITE)
         return "¿Cómo se borra el aviso Earth Fault en la AFP-400?"
 
-    def gen(query, chunks, *, available_models=None):
+    def gen(query, chunks, *, available_models=None, turn_identity=None):
         return {"answer": f"[ans] {query}", "diagrams": [],
                 "input_tokens": 100, "output_tokens": 20}
 

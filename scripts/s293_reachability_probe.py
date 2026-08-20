@@ -190,7 +190,7 @@ def run_turn(question: str, inject_rows: list[dict]) -> dict:
     generador antes de inyectar) para poder generar el oráculo pareado sobre ella."""
     captured: dict = {}
 
-    def generate(query, chunks, available_models=None):
+    def generate(query, chunks, available_models=None, turn_identity=None):
         rows = [dict(c) for c in chunks]
         captured["served_sin_inyeccion"] = [str(c.get("id") or "") for c in rows]
         captured["vista"] = copy.deepcopy(rows)

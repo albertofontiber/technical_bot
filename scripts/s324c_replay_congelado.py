@@ -310,7 +310,7 @@ def run_turn_capturing(question: str) -> dict:
     (`status=error`, la regla canónica de `FA.run_pipeline`; la sonda no reintentaba)."""
     captured: dict = {}
 
-    def generate(query, chunks, available_models=None):
+    def generate(query, chunks, available_models=None, turn_identity=None):
         rows = [dict(c) for c in chunks]           # como la sonda
         captured["view"] = copy.deepcopy(rows)     # vista EXACTA que entra a generate_answer
         captured["available_models"] = available_models

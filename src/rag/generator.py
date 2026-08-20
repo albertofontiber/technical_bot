@@ -7,6 +7,7 @@ import json
 import logging
 import os
 import re
+from typing import Any
 
 import anthropic
 
@@ -681,6 +682,7 @@ def generate_answer(
     query: str,
     chunks: list[dict],
     available_models: list[str] | None = None,
+    turn_identity: Any | None = None,
 ) -> dict:
     """Generate a technical answer using Claude based on retrieved chunks.
 
@@ -688,10 +690,21 @@ def generate_answer(
         query: The technician's question.
         chunks: Retrieved document chunks with content and metadata.
         available_models: Models available in the detected category, for offering options.
+        turn_identity: (s331 §3.D) identidad estructurada del turno que el
+            orquestador ya resolvió (``TurnIdentity | None``; tipada ``Any`` para
+            no invertir la dependencia rag -> orchestrator). En M3c-threading
+            SOLO se recibe: NINGUNA conducta del generador depende todavía de
+            ella — el trigger de C.2 (prompt + plantillas sin-evidencia) es
+            M3c-conducta, y hasta entonces esta función es byte-idéntica.
 
     Returns:
         Dict with 'answer' (str) and 'diagrams' (list of diagram dicts).
     """
+    # (s331 §3.D) Punto de amarre del threading: la identidad llega y queda a
+    # mano, sin leerse. Es deliberado — el lever de conducta se cablea aparte y
+    # con su propia revisión; aquí solo se prueba que el canal existe.
+    _turn_identity = turn_identity
+
     # NOTE (TECH_DEBT #11h, sesión 14): hard cross-brand short-circuit was tried
     # and reverted — subset eval showed it net-neutral to negative because the
     # SYSTEM_PROMPT already handles cross-brand nuance (list specs per product

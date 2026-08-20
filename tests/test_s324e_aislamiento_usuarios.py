@@ -163,7 +163,7 @@ def serving(monkeypatch):
     monkeypatch.setattr(retriever, "get_category_models", lambda _cat: [])
     monkeypatch.setattr(bot, "extract_product_models", detect)
 
-    def _generate(query, chunks, *, available_models=None):
+    def _generate(query, chunks, *, available_models=None, turn_identity=None):
         rec["generate"].append(query)
         return {"answer": f"Respuesta canned para: {query}", "diagrams": []}
 
@@ -289,7 +289,7 @@ def test_dos_turnos_concurrentes_de_verdad_no_se_cruzan(serving):
     barrera = threading.Barrier(2)
     fallo = {}
 
-    def _generate(query, chunks, *, available_models=None):
+    def _generate(query, chunks, *, available_models=None, turn_identity=None):
         try:
             barrera.wait(timeout=20)          # ambos turnos, dentro, a la vez
         except threading.BrokenBarrierError:  # pragma: no cover — diagnóstico

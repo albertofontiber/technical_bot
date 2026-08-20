@@ -254,7 +254,7 @@ def update_working_state(
 # Driver del orquestador (contract, $0)
 # ---------------------------------------------------------------------------
 def _recording_generate(record: dict[str, Any]):
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         record["served_query"] = query
         record["n_chunks"] = len(chunks)
         return {"answer": f"[stub] {query}", "diagrams": [], "input_tokens": 0,

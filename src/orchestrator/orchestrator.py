@@ -26,6 +26,10 @@ def plan_turn(request: TurnRequest) -> SingleHopPlan:
         rerank_top_k=request.rerank_top_k,
         target_models=request.target_models,
         available_models=request.available_models,
+        # (s331 §3.D) Copia literal: el planner no interpreta la identidad, solo
+        # la transporta. Sin esto el canal se cortaría aquí y generación tendría
+        # que re-parsear el texto — justo lo que el contrato cierra.
+        turn_identity=request.turn_identity,
     )
 
 
@@ -50,6 +54,8 @@ def run_turn(request: TurnRequest, adapters: RagServingAdapters) -> TurnResult:
         retrieval_top_k=plan.retrieval_top_k,
         rerank_top_k=plan.rerank_top_k,
         adapters=adapters,
+        # (s331 §3.D) Último tramo del threading: plan -> seam -> generador.
+        turn_identity=plan.turn_identity,
     )
 
     generation = pipeline["generation"]

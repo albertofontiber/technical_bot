@@ -287,7 +287,7 @@ def _iso_flow(clase_id):
 
 
 def _adapters(record):
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         record.append(query)
         return {"answer": f"[ans] {query}", "diagrams": [], "input_tokens": 0,
                 "output_tokens": 0}

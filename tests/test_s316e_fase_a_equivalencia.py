@@ -98,7 +98,7 @@ def eq(monkeypatch):
     monkeypatch.setattr(retriever, "extract_product_models", det)
     monkeypatch.setattr(retriever, "get_category_models", lambda c: [])
 
-    def _generate(query, chunks, *, available_models=None):
+    def _generate(query, chunks, *, available_models=None, turn_identity=None):
         rec["gen"].append(query)
         return {"answer": "Respuesta.", "diagrams": []}
 

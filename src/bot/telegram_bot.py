@@ -2134,6 +2134,11 @@ async def _process_query(
                 chat_id=update.effective_chat.id,
                 source=source,
                 transcription=transcription,
+                # (s331 §3.D) La identidad la resolvió la política; aquí solo se
+                # COPIA al request. Con los levers de s331 apagados vale None y
+                # el request queda byte-idéntico. El régimen sin F1 (`else`) no
+                # tiene resolución, así que ni siquiera pasa el kwarg.
+                turn_identity=f1_resolution.turn_identity,
             )
         else:
             # régimen STUB (env explícito): el request se construye desde la

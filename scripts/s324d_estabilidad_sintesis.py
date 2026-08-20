@@ -225,7 +225,7 @@ def run_turn_capturing(question: str) -> dict:
     hace fail-open (`status=error`), la regla canónica de `FA.run_pipeline`."""
     captured: dict = {}
 
-    def generate(query, chunks, available_models=None):
+    def generate(query, chunks, available_models=None, turn_identity=None):
         rows = [dict(c) for c in chunks]
         captured["view"] = copy.deepcopy(rows)      # vista EXACTA que entra a generate_answer
         METER.phase = "generate"
