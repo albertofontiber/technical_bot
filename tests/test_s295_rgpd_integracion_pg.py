@@ -39,6 +39,10 @@ PROPUESTA_S299 = (
     REPO / "supabase" / "migration_proposals"
     / "20260805150000_s299_job_programado_v1.sql"
 )
+PROPUESTA_S330 = (
+    REPO / "supabase" / "migration_proposals"
+    / "20260820160000_s330_rgpd_control_acceso_v1.sql"
+)
 
 DSN = os.environ.get("RGPD_TEST_DATABASE_URL")
 pytestmark = pytest.mark.skipif(
@@ -49,8 +53,51 @@ pytestmark = pytest.mark.skipif(
 # Esquema mínimo con lo que la retención toca: mismas columnas, mismas constraints, mismas
 # FK con CASCADE. No se copia el esquema entero — se copia lo que gobierna el invariante.
 ESQUEMA = """
-DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo, consent_events, rgpd_recibos CASCADE;
+DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo, consent_events, rgpd_recibos, bot_allowlist, bot_invitaciones, panel_usuarios CASCADE;
+DROP FUNCTION IF EXISTS public.rgpd_invitacion_vencida(UUID);
 DROP FUNCTION IF EXISTS public.rgpd_retencion_pasada(TEXT);
+-- s330 — las tres del control de acceso. Con sus CHECK REALES (016/019) y el
+-- `bot_invitaciones_canje_completo` ORIGINAL, sin `disociada_at`: así el test ejercita
+-- de verdad la transición del CHECK que s330 hace, en vez de partir del estado final.
+CREATE TABLE bot_invitaciones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    token_hash TEXT NOT NULL UNIQUE CHECK (token_hash ~ '^[0-9a-f]{64}$'),
+    nota TEXT,
+    creada_por TEXT NOT NULL,
+    creada_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expira_at TIMESTAMPTZ NOT NULL,
+    canjeada_at TIMESTAMPTZ,
+    canjeada_por BIGINT,
+    revocada_at TIMESTAMPTZ,
+    CONSTRAINT bot_invitaciones_canje_completo CHECK (
+        (canjeada_at IS NULL AND canjeada_por IS NULL)
+        OR (canjeada_at IS NOT NULL AND canjeada_por IS NOT NULL)),
+    CONSTRAINT bot_invitaciones_caducidad_acotada CHECK (
+        expira_at > creada_at AND expira_at <= creada_at + interval '7 days')
+);
+CREATE TABLE bot_allowlist (
+    telegram_user_id BIGINT PRIMARY KEY,
+    nota TEXT,
+    origen TEXT NOT NULL CHECK (origen IN ('bootstrap', 'invitacion', 'manual')),
+    alta_por TEXT NOT NULL,
+    alta_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    invitacion_id UUID REFERENCES bot_invitaciones(id) ON DELETE SET NULL,
+    revocado_at TIMESTAMPTZ,
+    revocado_por TEXT,
+    motivo_revocacion TEXT
+);
+CREATE TABLE panel_usuarios (
+    usuario      TEXT PRIMARY KEY CHECK (usuario ~ '^[a-z0-9._@-]{1,64}$'),
+    registro     TEXT NOT NULL CHECK (registro LIKE 'scrypt$%'),
+    activo       BOOLEAN NOT NULL DEFAULT TRUE,
+    alta_por     TEXT NOT NULL,
+    creado_en    TIMESTAMPTZ NOT NULL DEFAULT now(),
+    revocado_en  TIMESTAMPTZ,
+    revocado_por TEXT,
+    CONSTRAINT panel_usuarios_revocacion_coherente CHECK (
+        (activo AND revocado_en IS NULL AND revocado_por IS NULL)
+        OR (NOT activo AND revocado_en IS NOT NULL AND revocado_por IS NOT NULL))
+);
 CREATE TABLE query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
@@ -177,6 +224,9 @@ def base():
         # disponible ⇒ el bloque 3 corre su rama WARNING (gap declarado en la migración);
         # la FUNCIÓN — lo irreversible — se ejerce entera aquí abajo.
         cur.execute(PROPUESTA_S299.read_text(encoding="utf-8"))
+        # s330: la retención alcanza al control de acceso. Va DESPUÉS de s299 — que
+        # es el orden de la cola, y el que la precondición anti-drift de s299 exige.
+        cur.execute(PROPUESTA_S330.read_text(encoding="utf-8"))
 
         vieja = str(uuid.uuid4())
         nueva = str(uuid.uuid4())
@@ -1050,3 +1100,213 @@ def test_el_bloque_frontera_tiene_sus_marcadores():
     bootstrap = (REPO / "supabase_schema.sql").read_text(encoding="utf-8")
     assert ">>> RGPD-BOUNDARY-BEGIN <<<" in bootstrap
     assert ">>> RGPD-BOUNDARY-END <<<" in bootstrap
+
+
+# ============================================================ s330: control de acceso
+#
+# Por qué estos casos y no otros: el dúo encontró que la regla canónica violaba un CHECK
+# (la pasada MENSUAL ENTERA se revertía) y que la aserción de mecanismo abortaría siempre.
+# Los dos fallos eran invisibles hasta 2028 y verdes en cualquier test que no ejecutara la
+# pasada contra un Postgres real. Aquí se ejecuta.
+
+def _invitacion(cur, *, edad_creada, canjeada_hace=None, por=None, nota="Juan, DG"):
+    import uuid as _uuid
+    iid = str(_uuid.uuid4())
+    cur.execute(
+        "INSERT INTO bot_invitaciones (id, token_hash, nota, creada_por, creada_at, "
+        "expira_at, canjeada_at, canjeada_por) VALUES (%s, %s, %s, 'panel:alberto', "
+        "now() - interval %s, now() - interval %s + interval '2 days', "
+        "CASE WHEN %s IS NULL THEN NULL ELSE now() - interval %s END, %s)",
+        (iid, _uuid.uuid4().hex + _uuid.uuid4().hex, nota, edad_creada, edad_creada,
+         canjeada_hace, canjeada_hace or "0 days", por))
+    return iid
+
+
+def test_s330_la_pasada_no_aborta_con_las_siete_tablas(base):
+    """La aserción de mecanismo de s299 exigía `created_at` en el `qual` de CADA política.
+    Las anclas nuevas son `revocado_at`, `revocado_en` y una función: con el array de
+    nombres original, esto abortaría cada mes."""
+    conexion, _, _ = base
+    import scripts.rgpd_retencion as job
+    recibo = job.ejecutar(aplicar=False, conexion=conexion)
+    for tabla in ("bot_invitaciones", "bot_allowlist", "panel_usuarios"):
+        assert tabla in recibo["tablas"], f"{tabla} no entra en la pasada"
+
+
+def test_s330_la_invitacion_canjeada_se_disocia_sin_violar_el_check(base):
+    """EL caso que tumbó la v1: `canjeada_por = NULL` conservando `canjeada_at` violaba
+    `bot_invitaciones_canje_completo` y REVERTÍA LA PASADA ENTERA. Con el tercer estado
+    adjudicado, la fila queda disociada y con marca."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        iid = _invitacion(cur, edad_creada="30 months", canjeada_hace="29 months", por=777)
+        cur.execute("INSERT INTO bot_allowlist (telegram_user_id, nota, origen, alta_por, "
+                    "alta_at, invitacion_id, revocado_at, revocado_por) VALUES "
+                    "(777, 'Juan', 'invitacion', 'panel:alberto', now() - interval "
+                    "'29 months', %s, now() - interval '25 months', 'panel:alberto')", (iid,))
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT nota, canjeada_por, canjeada_at IS NOT NULL, "
+                    "disociada_at IS NOT NULL FROM bot_invitaciones WHERE id = %s", (iid,))
+        nota, por, hubo_canje, marcada = cur.fetchone()
+    assert (nota, por) == (None, None), "no se retiró el dato personal"
+    assert hubo_canje, "se perdió la traza de que hubo un canje"
+    assert marcada, "sin `disociada_at` la fila no cumpliría el CHECK"
+
+
+def test_s330_NO_disocia_la_invitacion_de_un_acceso_VIVO(base):
+    """El control negativo que decide el diseño: con una subconsulta dentro de la política,
+    el rol no vería el alta viva (su RLS solo enseña vencidas), la leería como huérfana y
+    disociaría la nota de alguien CON ACCESO. Es el fallo #2 de s296."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        iid = _invitacion(cur, edad_creada="30 months", canjeada_hace="29 months", por=888)
+        cur.execute("INSERT INTO bot_allowlist (telegram_user_id, nota, origen, alta_por, "
+                    "alta_at, invitacion_id) VALUES (888, 'Ana', 'invitacion', "
+                    "'panel:alberto', now() - interval '29 months', %s)", (iid,))
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT nota, canjeada_por FROM bot_invitaciones WHERE id = %s", (iid,))
+        assert cur.fetchone() == ("Juan, DG", 888), "disoció la traza de un acceso ACTIVO"
+        cur.execute("SELECT count(*) FROM bot_allowlist WHERE telegram_user_id = 888")
+        assert cur.fetchone()[0] == 1, "borró un alta VIVA"
+
+
+def test_s330_la_invitacion_huerfana_tambien_vence(base):
+    """Criterio adjudicado el 20-ago: si el alta ya no existe, sin esto la invitación
+    conservaría nombre e identificador PARA SIEMPRE, en silencio (fallo #1 de s296)."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        iid = _invitacion(cur, edad_creada="30 months", canjeada_hace="29 months", por=999)
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT nota, canjeada_por FROM bot_invitaciones WHERE id = %s", (iid,))
+        assert cur.fetchone() == (None, None)
+
+
+def test_s330_la_invitacion_reciente_no_se_toca(base):
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        iid = _invitacion(cur, edad_creada="2 months")
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT nota FROM bot_invitaciones WHERE id = %s", (iid,))
+        assert cur.fetchone()[0] == "Juan, DG"
+
+
+def test_s330_borra_el_alta_revocada_vencida_y_conserva_la_activa(base):
+    """`telegram_user_id` es la PK: es la única excepción al «disociar, no borrar»."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        cur.execute("INSERT INTO bot_allowlist (telegram_user_id, nota, origen, alta_por, "
+                    "revocado_at, revocado_por) VALUES (101, 'viejo', 'manual', 'x', "
+                    "now() - interval '25 months', 'x')")
+        cur.execute("INSERT INTO bot_allowlist (telegram_user_id, nota, origen, alta_por, "
+                    "revocado_at, revocado_por) VALUES (102, 'reciente', 'manual', 'x', "
+                    "now() - interval '2 months', 'x')")
+        cur.execute("INSERT INTO bot_allowlist (telegram_user_id, nota, origen, alta_por) "
+                    "VALUES (103, 'activo', 'manual', 'x')")
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    recibo = job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT telegram_user_id FROM bot_allowlist ORDER BY 1")
+        assert [f[0] for f in cur.fetchall()] == [102, 103]
+    # El id ES la persona ⇒ el recibo lleva conteo, nunca ids (patrón persona_seudonimo).
+    assert recibo["tablas"]["bot_allowlist"]["ids"] == []
+    assert recibo["tablas"]["bot_allowlist"]["tocadas"] == 1
+
+
+def test_s330_borra_el_usuario_de_panel_revocado_y_vencido(base):
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        cur.execute("INSERT INTO panel_usuarios (usuario, registro, activo, alta_por, "
+                    "revocado_en, revocado_por) VALUES ('viejo@x.com', 'scrypt$x', false, "
+                    "'a', now() - interval '25 months', 'a')")
+        cur.execute("INSERT INTO panel_usuarios (usuario, registro, alta_por) "
+                    "VALUES ('vivo@x.com', 'scrypt$x', 'a')")
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    recibo = job.ejecutar(aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT usuario FROM panel_usuarios ORDER BY 1")
+        assert [f[0] for f in cur.fetchall()] == ["vivo@x.com"]
+    assert recibo["tablas"]["panel_usuarios"]["ids"] == []
+
+
+def test_s330_la_segunda_pasada_no_re_toca_lo_ya_disociado(base):
+    """Sin el predicado de idempotencia, cada mes re-tocaría lo mismo y el recibo cobraría
+    trabajo que no existe."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        _invitacion(cur, edad_creada="30 months")
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    primera = job.ejecutar(aplicar=True, conexion=conexion)
+    segunda = job.ejecutar(aplicar=True, conexion=conexion)
+    assert primera["tablas"]["bot_invitaciones"]["tocadas"] == 1
+    assert segunda["tablas"]["bot_invitaciones"]["tocadas"] == 0
+
+
+def test_s330_el_oraculo_nuevo_no_es_alcanzable_por_la_api(base):
+    """La lección de s299: los default privileges de Supabase conceden EXECUTE sobre toda
+    función nueva de `public`, y un REVOKE a PUBLIC no los alcanza. El fixture reproduce
+    esos defaults, así que si el REVOKE nominal faltara, esto lo caza."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for rol in ("anon", "authenticated", "service_role"):
+            cur.execute("SELECT has_function_privilege(%s, "
+                        "'public.rgpd_invitacion_vencida(uuid)', 'EXECUTE')", (rol,))
+            assert cur.fetchone()[0] is False, f"{rol} puede ejecutar el oraculo"
+    conexion.rollback()
+
+
+def test_s330_el_check_sigue_prohibiendo_un_canje_sin_atribuir_ni_marca(base):
+    """El tercer estado se abrió para la retención, no para todo: un canje sin
+    `canjeada_por` y SIN marca de disociación tiene que seguir siendo imposible."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        with pytest.raises(psycopg2.errors.CheckViolation):
+            _invitacion(cur, edad_creada="1 month", canjeada_hace="1 day", por=None)
+    conexion.rollback()
+
+
+def test_s330_la_supresion_a_peticion_del_runbook_FUNCIONA(base):
+    """El hallazgo de Fable: el runbook de supresión (016:101, DG_DEPLOYMENT:152,
+    RGPD_RETENCION:223 y :531) prescribía una sentencia que la base RECHAZA — el derecho
+    del art. 17 fallaba HOY, no en 2028. Se prueba la forma corregida, y que la vieja
+    seguiría fallando (si no, este test no probaría nada)."""
+    import psycopg2
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        iid = _invitacion(cur, edad_creada="1 month", canjeada_hace="10 days", por=555)
+    conexion.autocommit = False
+    with conexion.cursor() as cur:
+        with pytest.raises(psycopg2.errors.CheckViolation):
+            cur.execute("UPDATE bot_invitaciones SET canjeada_por = NULL "
+                        "WHERE canjeada_por = 555")
+    conexion.rollback()
+    with conexion.cursor() as cur:
+        cur.execute("UPDATE bot_invitaciones SET canjeada_por = NULL, disociada_at = now() "
+                    "WHERE canjeada_por = 555")
+        cur.execute("SELECT canjeada_por, canjeada_at IS NOT NULL FROM bot_invitaciones "
+                    "WHERE id = %s", (iid,))
+        assert cur.fetchone() == (None, True)
+    conexion.rollback()

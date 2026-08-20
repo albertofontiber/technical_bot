@@ -1,0 +1,13 @@
+{
+  "que_es": "Censo SOLO-LECTURA de las 3 tablas de control de acceso en produccion, tomado ANTES de disenar la purga (s330). Dimensiona el riesgo destructivo real del cambio. Sin datos personales: solo conteos y la fecha de la fila mas antigua.",
+  "proyecto": "technical-bot (izooestgffgscdirkfia)",
+  "utc": "2026-08-20T15:00:00Z",
+  "consulta": "count(*) y count(*) FILTER (WHERE <ancla> < now() - interval '24 months') por tabla",
+  "tablas": {
+    "bot_invitaciones": {"filas": 2, "vencidas_hoy": 0, "ancla": "creada_at", "mas_antigua": "2026-08-17"},
+    "bot_allowlist":    {"filas": 2, "vencidas_hoy": 0, "ancla": "revocado_at", "mas_antigua": "2026-08-17"},
+    "panel_usuarios":   {"filas": 1, "vencidas_hoy": 0, "ancla": "revocado_en", "mas_antigua": "2026-08-19"}
+  },
+  "lectura": "Riesgo destructivo inmediato = 0. La fila mas antigua es del 17-ago-2026, asi que lo primero que esta purga podria borrar seria en agosto de 2028. El cambio es preventivo.",
+  "limite_declarado": "Foto de un instante. No sustituye a la verificacion en el momento de aplicar la migracion."
+}

@@ -92,15 +92,21 @@
 --
 -- CÓMO ENCAJA EN LA RETENCIÓN. Estas dos tablas son ESTADO OPERATIVO, igual que
 -- `user_consent`: no se pueden disociar (una lista de acceso sin identificador
--- no autoriza a nadie) y por eso el job mensual `rgpd_retencion_pasada` NO las
--- toca ni necesita una política nueva. Consecuencias, todas deliberadas:
---   · el PLAZO entra en el mismo `[DECIDIR]` con el asesor que ya tienen
---     `user_consent` y `consent_events` — no se inventa uno aquí;
+-- no autoriza a nadie).
+-- ⚠️ DESFASADO desde s330 (20-ago-2026): el plazo SÍ está decidido (24 meses, Alberto
+-- 17-ago) y el job mensual SÍ las alcanza — `bot_allowlist` se BORRA (el id es la PK:
+-- es la única excepción al «disociar, no borrar») y `bot_invitaciones` se disocia con
+-- marca `disociada_at`. Lo que sigue se conserva porque explica el diseño original.
+-- Consecuencias, todas deliberadas:
+--   · ~~el PLAZO entra en el mismo `[DECIDIR]`~~ → RESUELTO: 24 meses, como el resto
+--     de la matriz (una sola ventana es más simple de cumplir, auditar y explicar);
 --   · la SUPRESIÓN A PETICIÓN sí las alcanza y hay que añadirlas al runbook:
 --        DELETE FROM bot_allowlist WHERE telegram_user_id = X;
---        UPDATE bot_invitaciones SET canjeada_por = NULL
---         WHERE canjeada_por = X;      -- se conserva la traza del canje, sin
---                                      -- el identificador de quien lo hizo
+--        UPDATE bot_invitaciones SET canjeada_por = NULL,
+--               disociada_at = now()   -- s330: SIN esta marca el UPDATE falla con
+--         WHERE canjeada_por = X;      -- 23514 (bot_invitaciones_canje_completo).
+--                                      -- Se conserva la traza del canje, sin el
+--                                      -- identificador de quien lo hizo
 --     (y revisar la `nota`, que puede llevar su nombre escrito dentro);
 --   · NO hay FK a `query_logs`, así que nada cascadea hacia aquí: una supresión
 --     que solo borre `query_logs` dejaría a la persona en la allowlist. Está
