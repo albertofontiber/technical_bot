@@ -1310,3 +1310,60 @@ def test_s330_la_supresion_a_peticion_del_runbook_FUNCIONA(base):
                     "WHERE id = %s", (iid,))
         assert cur.fetchone() == (None, True)
     conexion.rollback()
+
+
+def test_s330_el_rollback_declarado_FUNCIONA_en_su_orden(base):
+    """Declarar un rollback sin ejecutarlo es media promesa — y esta mitad estaba MAL.
+
+    La primera versión ordenaba «re-ejecutar s299 primero», pero s299 lleva desde s330
+    una precondición que aborta si ve la política de s330 sobre `bot_allowlist`, que en
+    ese momento sigue existiendo: el rollback se bloqueaba en su propio paso 1. Este test
+    ejercita el orden CORREGIDO, y de paso comprueba que el orden viejo sigue fallando —
+    si no, no probaría nada."""
+    import psycopg2
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        # (a) el orden VIEJO se atasca: s299 aborta con la política de s330 puesta
+        with pytest.raises(psycopg2.errors.RaiseException) as excinfo:
+            cur.execute(PROPUESTA_S299.read_text(encoding="utf-8"))
+        assert "s330 esta aplicada" in str(excinfo.value)
+        # s299 abre su propia transacción con `BEGIN`, así que al abortar deja la sesión
+        # en estado fallido pese al autocommit del cliente: hay que cerrarla a mano.
+        cur.execute("ROLLBACK")
+
+        # (b) el orden CORREGIDO: políticas fuera primero...
+        for tabla in ("bot_invitaciones", "bot_allowlist", "panel_usuarios"):
+            cur.execute(f"DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.{tabla};")
+        cur.execute("REVOKE ALL ON public.bot_invitaciones, public.bot_allowlist, "
+                    "public.panel_usuarios FROM rgpd_retencion;")
+        cur.execute("DROP FUNCTION IF EXISTS public.rgpd_invitacion_vencida(UUID);")
+        # El DROP de la pasada tampoco es opcional, y es la MISMA trampa del `SET role`
+        # que obligó a s330 a llevarlo: sin él, s299 falla con 42501 al reemplazarla.
+        # Se comprueba que falla, porque si no este paso parecería decoración.
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute(PROPUESTA_S299.read_text(encoding="utf-8"))
+        cur.execute("ROLLBACK")
+        cur.execute("DROP FUNCTION IF EXISTS public.rgpd_retencion_pasada(TEXT);")
+        # ...y ahora s299 sí entra y reinstala la pasada de 4 tablas
+        cur.execute(PROPUESTA_S299.read_text(encoding="utf-8"))
+        cur.execute("SELECT prosrc NOT LIKE '%bot_allowlist%' FROM pg_proc "
+                    "WHERE oid = to_regprocedure('public.rgpd_retencion_pasada(text)')")
+        assert cur.fetchone()[0], "la pasada sigue siendo la de 7 tablas"
+
+        # (c) el esquema vuelve atrás si nadie estampó la marca
+        cur.execute("SELECT count(*) FROM bot_invitaciones WHERE disociada_at IS NOT NULL")
+        assert cur.fetchone()[0] == 0
+        cur.execute("ALTER TABLE public.bot_invitaciones "
+                    "DROP CONSTRAINT bot_invitaciones_canje_completo;")
+        cur.execute("""ALTER TABLE public.bot_invitaciones
+                       ADD CONSTRAINT bot_invitaciones_canje_completo CHECK (
+                           (canjeada_at IS NULL AND canjeada_por IS NULL)
+                           OR (canjeada_at IS NOT NULL AND canjeada_por IS NOT NULL));""")
+        cur.execute("ALTER TABLE public.bot_invitaciones DROP COLUMN disociada_at;")
+    # Y la pasada de 4 tablas vuelve a correr entera contra el sistema revertido.
+    conexion.autocommit = False
+    import scripts.rgpd_retencion as job
+    recibo = job.ejecutar(aplicar=False, conexion=conexion)
+    assert "bot_allowlist" not in recibo["tablas"]
+    assert "query_logs" in recibo["tablas"]

@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s329 — 20 ago 2026; el panel mide CALIDAD de uso, y cuatro promesas son ahora puertas)
+## Estado actual (s330 — 20 ago 2026; el panel mide CALIDAD de uso, y la retención alcanza ya a todo)
 
 **Qué es el sistema hoy.** El bot responde en Telegram desde manuales de ~30 fabricantes, con la
 puerta de acceso viva (allowlist + invitación de un solo uso) y el **panel web en
@@ -65,6 +65,14 @@ tenían un agujero que solo apareció al **ejecutar el control negativo**:
 | La sonda del eje, con el gatillo en un docstring | **Pre-vuelo del job**: aborta si el eje regresa (DEC-253) | — |
 | El hook del digest de levers, versionado en s316 «para que viaje a cloud» | Se invoca vía `bash <script>`: **el bit deja de ser condición** (DEC-254) | Viajó sin bit de ejecución → `exit 126` en todo checkout cloud **desde s316**, en silencio (es fail-open) |
 
+**La retención cubre las 7 tablas con dato personal** (DEC-256, s330): el job mensual que ya corría
+desde el 5-ago —`rgpd_retencion_pasada`, pg_cron, ventana de 24 meses como invariante RLS— se amplía
+a `bot_invitaciones`, `bot_allowlist` y `panel_usuarios`, cerrando el «PENDIENTE MATERIAL (art.
+5.1.e)». **Probado (54/54 contra PostgreSQL 17 real) y APLICADO en producción el 20-ago**. Y
+por el camino apareció que la sentencia del runbook para el **derecho de supresión (art. 17)** la
+base la RECHAZA —estaba mal en cuatro sitios, incluido el runbook del piloto—: eso sí era un fallo
+de HOY, y queda arreglado.
+
 **Frente paralelo (s325h-e, DEC-247)**: la caché del environment **PUEDE** persistir `site-packages`
 —al menos a veces—, lo que **REFUTA** la conclusión de s325h-c. Sigue sin medirse el AHORRO, y la
 causa de que una VM no la recibiera sigue abierta.
@@ -93,9 +101,14 @@ causa de que una VM no la recibiera sigue abierta.
 4. **Gate de EXPONER que sigue abierto**: la **medición XFF** antes de encender la mitad `ip:` del
    cerrojo (`INCLUIR_CLAVE_IP` sigue en False). **No bloquea nada** — el cerrojo por usuario
    funciona desde el día 1.
-5. **Plazos decididos SIN MECANISMO** (declarados, no escondidos): la purga a 24 meses de
-   `panel_usuarios`, `bot_allowlist` y `bot_invitaciones` está adjudicada y **no hay job que la
-   ejecute**. Hoy la baja de `panel_usuarios` es lógica (`activo=false`).
+5. ~~Aplicar la purga del control de acceso~~ **APLICADA EN PRODUCCIÓN (20-ago, s330/DEC-256)**:
+   postcondiciones PASS y dry-run con **0 filas tocadas** en las 7 tablas
+   (`evals/s330_aplicacion_produccion_v1.json`). La primera pasada del cron (1-sep, 04:30 UTC)
+   destruirá 3 vínculos de `persona_seudonimo` **sin ninguna fila identificada** —caso benigno ya
+   declarado en s299— y nada más; el primer borrado con datos sería en agosto de 2028.
+   · **Gap nuevo para el asesor**: `creada_por`/`revocada_por` guardan `panel:<usuario>` —posible
+   correo del administrador— **sin plazo**; es dato personal de otro interesado. Merece una línea en
+   el paquete.
 6. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    —la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin tocar
    el instalador— y la causa de que una VM NO la recibiera sigue abierta.

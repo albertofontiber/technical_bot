@@ -6510,3 +6510,63 @@ flag (96 → 97, con la nota de que el default real vive en código, no ahí), v
 
 Cierre: PR #318 mergeada por Alberto, y el deployment de producción de Vercel es exactamente ese
 merge. La próxima invitación sale de copiar y pegar. DEC-254 y DEC-255.
+
+---
+
+## s330 (20-ago-2026) — El job que ya existía, y el derecho que estaba roto
+
+Alberto eligió el frente: «job de purga». Yo se lo había ofrecido con esta frase — *el plazo de 24
+meses está decidido y no hay job que lo ejecute* —, y era **falsa**. Lo primero que hice fue mirar el
+código, que es lo que el Protocolo 4 manda antes de tocar una premisa, y ahí estaba:
+`rgpd_retencion_pasada` en producción desde el 5 de agosto, corriendo por pg_cron el día 1 de cada
+mes, con la ventana de 24 meses metida en las políticas RLS para que la garantice el motor y no la
+buena voluntad de quien escribe la sentencia. Si hubiera empezado a construir, habría hecho un
+segundo job — exactamente el drift que s299 eliminó a propósito, y que habría dividido en dos una
+operación irreversible.
+
+Lo que faltaba de verdad era más pequeño y estaba escrito: ampliar esa pasada a las tres tablas de
+control de acceso. El propio documento decía el mecanismo correcto — «una política más, no un job
+nuevo» — y hasta la tabla de reglas. Parecía media sesión.
+
+**Y entonces Sol dijo que la regla canónica no se podía ejecutar.** La matriz manda poner
+`canjeada_por = NULL` conservando `canjeada_at`, y eso viola un CHECK de la propia tabla. No fallaría
+esa fila: fallaría **la pasada entera**, revirtiendo también la disociación de `query_logs`,
+`feedback`, `answer_feedback` y la destrucción del vínculo, con el error escondido en
+`cron.job_run_details` y sin aparecer hasta 2028, que es cuando existirá la primera fila elegible.
+No era un bug de mi diseño: era la regla adjudicada la que no era ejecutable, así que fue a
+adjudicación con cuatro opciones. Alberto eligió el tercer estado explícito, que es el que conserva
+la traza del canje sin romper el invariante para todo lo demás.
+
+**Y Fable encontró que el mismo CHECK rompía algo que no era de 2028, sino de hoy.** La sentencia
+que nuestro runbook prescribe para atender un derecho de supresión —el artículo 17— es la misma que
+la base rechaza. Estaba escrita así en cuatro sitios, incluido el runbook operativo del piloto. Si un
+DG hubiera pedido el borrado de sus datos esta semana, el procedimiento habría fallado con un error
+de restricción. Lo encontramos arreglando otra cosa, que es la forma más incómoda de encontrar algo
+y también la más barata.
+
+Los otros dos hallazgos son de la misma familia: la aserción de mecanismo de s299 exige que la
+política de cada tabla lleve `created_at` literal, así que ampliar el array de nombres —lo que decía
+mi primera versión— habría dejado la pasada abortando cada mes; y re-ejecutar s299 después de esto
+reinstalaría la versión de cuatro tablas en silencio, para lo cual un banner no vale: la protección
+es una precondición que aborta.
+
+Pero lo más caro no lo vio ninguno de los dos revisores, ni yo. Lo vio **PostgreSQL**. Al ejecutar el
+gate, `CREATE OR REPLACE` sobre la función falló con *permission denied*, y la causa está en su
+propio encabezado: al reemplazar una función que lleva `SET role`, el chequeo del objeto previo
+ocurre ya con ese rol asumido, y a ese rol s299 le había revocado todo. Cuando s299 la **creó** no
+había nada que chequear, así que el problema solo existe para quien la **amplía** — es decir, para
+esta sesión y para todas las que vengan. El arreglo es un `DROP` explícito antes del `CREATE`, y ese
+`DROP` traía su propia trampa: la función renace bajo los default privileges de Supabase, que
+conceden EXECUTE a la API entera. Ampliar la retención estuvo a un paso de reabrir el agujero que
+s299 ya había pagado una vez.
+
+El contenedor no traía PostgreSQL 17 —solo el 16, que ni siquiera conoce un privilegio que la cola
+usa—, así que lo instalé. 53 de 53 verdes, y el control negativo ejecutado: con la ventana saboteada
+a `USING (true)`, la migración no aplica. Después, al ver que el gate de CI pasaba en 39 segundos,
+fui a los logs a comprobar que había **medido** en vez de saltarse: ahí estaban mis propios controles
+negativos disparando contra el servidor. Esa desconfianza la enseñó s328.
+
+Nada de esto está aplicado en producción: eso es de Alberto, y el propio documento lo condiciona
+además al visto bueno del abogado. Tampoco corre riesgo: el censo dice 2, 2 y 1 filas, cero vencidas,
+y la más antigua es del 17 de agosto — lo primero que este código podría borrar es de agosto de 2028.
+DEC-256.

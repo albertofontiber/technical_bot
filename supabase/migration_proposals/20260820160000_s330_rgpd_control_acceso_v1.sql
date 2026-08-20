@@ -1,9 +1,16 @@
 -- ============================================================================
 -- s330 — La retención alcanza a las TRES tablas de control de acceso.
 --
--- NO APLICADA TODAVÍA. La aplica Alberto en el SQL Editor, como el resto de esta
--- cola (s295 → s296 → s297 → s299 → **s330**). Idempotente: re-ejecutarla es
--- segura (CREATE OR REPLACE, ADD COLUMN IF NOT EXISTS, DROP POLICY IF EXISTS).
+-- APLICADA EN PRODUCCIÓN el 20-ago-2026 (adjudicada por Alberto; la aplicó el asistente
+-- por el conector de Supabase, en los tres bloques en que está escrita). Postcondiciones
+-- PASS y dry-run de la pasada con 0 filas tocadas en las 7 tablas — recibo en
+-- `evals/s330_aplicacion_produccion_v1.json`. Orden de la cola: s295 → s296 → s297 →
+-- s299 → **s330**. Idempotente: re-ejecutarla es segura (CREATE OR REPLACE, ADD COLUMN
+-- IF NOT EXISTS, DROP POLICY IF EXISTS).
+--
+-- OJO al re-aplicarla en un entorno NUEVO: el conector honra los BEGIN/COMMIT del script
+-- (verificado antes de tocar nada), así que vale tal cual — pero `rgpd_recibos` solo
+-- admite origen 'manual'|'cron', cosa que el primer dry-run descubrió a las malas.
 -- ============================================================================
 -- QUÉ CIERRA. `docs/RGPD_RETENCION.md` marcaba «PENDIENTE MATERIAL — plazo y purga
 -- de las dos tablas (art. 5.1.e)»: `bot_invitaciones` y `bot_allowlist` no tenían
@@ -556,20 +563,37 @@ $s330_post$;
 -- ============================================================================
 -- ROLLBACK (copiar y pegar; deja el sistema exactamente como antes de s330)
 -- ---------------------------------------------------------------------------
--- OJO con el orden: primero la función de 4 tablas (si no, la pasada mensual buscaría
--- políticas que ya no existen y abortaría), y `disociada_at` SOLO se puede quitar si
--- ninguna fila la usa — si la retención o una supresión ya la estamparon, quitarla
--- destruiría la única prueba de que el identificador se retiró.
+-- EL ORDEN IMPORTA, y la primera versión de este rollback LO TENÍA AL REVÉS — se
+-- corrigió al ir a aplicarlo, ejecutándolo en vez de leerlo (ahora hay test):
+-- decía «primero re-ejecutar s299», pero s299 lleva desde s330 una precondición que
+-- ABORTA si ve la política de s330 sobre `bot_allowlist`... que en ese momento todavía
+-- existe. El rollback se bloqueaba en su propio paso 1. Las políticas van PRIMERO.
 --
---   -- 1. Reinstalar la pasada de 4 tablas:
---   --    re-ejecutar 20260805150000_s299_job_programado_v1.sql ENTERA.
---   -- 2. Políticas y privilegios:
+-- ¿Y la ventana entre dropear las políticas y reinstalar la función de 4 tablas? Si la
+-- pasada mensual cayera justo ahí, su aserción de mecanismo no encontraría las políticas
+-- y ABORTARÍA sin tocar nada. Eso no es el riesgo: es la garantía. Fail-closed.
+--
+-- `disociada_at` SOLO se puede quitar si ninguna fila la usa — si la retención o una
+-- supresión ya la estamparon, quitarla destruiría la única prueba de que el
+-- identificador se retiró.
+--
+--   -- 1. Políticas y privilegios (ANTES que s299, ver arriba):
 --   DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.bot_invitaciones;
 --   DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.bot_allowlist;
 --   DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.panel_usuarios;
 --   REVOKE ALL ON public.bot_invitaciones, public.bot_allowlist, public.panel_usuarios
 --       FROM rgpd_retencion;
 --   DROP FUNCTION IF EXISTS public.rgpd_invitacion_vencida(UUID);
+--   -- 2. Reinstalar la pasada de 4 tablas. El DROP no es opcional y es la MISMA
+--   --    trampa que obligó a s330 a llevarlo (ver sección 5): s299 hace
+--   --    `CREATE OR REPLACE` sobre una función que lleva `SET role`, y el chequeo
+--   --    del objeto previo corre ya con ese rol, que no tiene EXECUTE. Sin este
+--   --    DROP, el rollback falla con 42501 igual que fallaba la ampliación.
+--   --    REGLA GENERAL, para la próxima vez que alguien toque esta función:
+--   --    reemplazarla SIEMPRE exige DROP primero.
+--   DROP FUNCTION IF EXISTS public.rgpd_retencion_pasada(TEXT);
+--   -- ...y ahora sí:
+--   --    re-ejecutar 20260805150000_s299_job_programado_v1.sql ENTERA.
 --   -- 3. El esquema (solo si nadie estampó la marca):
 --   --    SELECT count(*) FROM public.bot_invitaciones WHERE disociada_at IS NOT NULL;
 --   --    Si es 0:
