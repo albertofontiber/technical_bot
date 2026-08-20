@@ -6367,3 +6367,92 @@ Nota de entrega, pequeña pero deliberada: los veintinueve mensajes son prosa de
 justo lo que el paquete del abogado tiene pendiente de validar. Se los pasé como fichero, no como
 página publicada. Adelantarme a esa consulta por comodidad de formato habría sido barato de hacer y
 caro de explicar. DEC-251.
+
+
+## s328d (20-ago-2026) — El anexo que era una copia, y por eso mentía
+
+Alberto pidió dos cosas del paquete del abogado —actualizar el anexo del aviso y añadir las dos
+preguntas que faltaban— y firmó el plazo que quedaba en blanco: veinticuatro meses.
+
+Lo del anexo tenía una trampa que se ve al mirarlo dos segundos. El documento llevaba el aviso **v8**
+transcrito a mano mientras producción servía el **v9**, y la primera pregunta del paquete —una de
+las dos que bloquean el piloto— es literalmente «¿es válido este aviso?». Es decir: el asesor iba a
+validar un texto que ya no es el que la gente acepta.
+
+Actualizar el anexo habría arreglado el síntoma. La causa es que **el anexo era una copia**, y toda
+copia se desfasa; la siguiente vez que alguien toque el texto del bot volvería a pasar lo mismo. Así
+que ahora se **genera del código que se sirve**, leyendo las dos constantes por AST —sin importar el
+módulo del bot, que arrastra medio sistema y haría que un anexo dependiera de tener el entorno
+completo—, y hay un `--comprobar` que dice si el documento se ha vuelto a quedar atrás.
+
+Y ahí el control negativo hizo su trabajo, otra vez. Subí la versión a mano para ver si el
+comprobador lo cazaba y **dijo que todo estaba al día**: comparaba el texto y no la etiqueta, así
+que un bump sin cambio de prosa pasaba en verde y el anexo seguiría titulado con la versión vieja.
+El asesor validando un texto correcto bajo un nombre falso. Se cerró cruzando también el título, y
+esta vez el control salió rojo cuando debía.
+
+Del v9 salió además una pregunta que nadie había hecho. Entre el v8 y el v9, la mención a que los
+datos salen de la UE **bajó de la pantalla de aceptación al detalle de `/privacidad`** — decisión de
+Alberto en su día para aligerar el primer contacto. La transferencia es real y la segunda capa se
+lee sin aceptar nada, pero es el único cambio del v9 que puede morder la validez del
+consentimiento, así que sube a P1 como pregunta expresa en vez de quedarse como nota de diseño. De
+paso apareció una deriva hermana: el documento interno de retención seguía afirmando que la primera
+capa menciona los proveedores fuera de la UE. Desde el v9 no lo menciona. Corregido con fecha y
+motivo, no en silencio.
+
+Las dos preguntas nuevas se escribieron sin suavizar lo incómodo. La del Explorador dice lo que hay:
+hasta ahora el responsable veía **cifras**, y ahora puede **leer lo que la gente escribió**. La de la
+clasificación acota con los tres hechos que de verdad importan —datos ya recogidos, mismo proveedor
+que ya recibía la pregunta, ninguna decisión sobre la persona— y pregunta lo único que queda en
+duda: si es tratamiento ulterior compatible o finalidad nueva. Ambas van marcadas como nuevas, con
+una nota en cabecera: el sistema creció mientras el documento esperaba, y esconderlo obligaría al
+asesor a comparar a ciegas.
+
+El plazo, por último, no era una casilla `[DECIDIR]` sin rellenar: era una **fila que faltaba** en la
+matriz. Ahora está, con veinticuatro meses y con la misma excepción declarada que la lista de acceso
+—el usuario es la clave primaria, así que no se puede disociar sin destruir la fila—. Y con el gap
+escrito al lado en vez de escondido: el plazo está decidido y **no hay job que lo ejecute**.
+
+Queda una cosa y es de Alberto: rellenar a quién se abre el piloto y cuándo, y mandarlo. DEC-252.
+
+
+## s328e (20-ago-2026) — «¿Sonda o determinista?», y la pregunta que destapó otra cosa
+
+Alberto preguntó si el eje sin signos de interrogación estaba mejor como sonda o como regla
+determinista. Al pensarlo en serio tuve que **corregirme**: le había dicho que una regla «taparía la
+señal», y ese argumento era flojo. La sonda puede medir lo que decide el modelo antes de que la
+regla lo pise, así que no se tapa nada. Si esa hubiera sido la única objeción, la regla salía
+gratis.
+
+La razón de verdad resultó ser lingüística, y más incómoda. En castellano el marcador interrogativo
+que una regla detecta sin ambigüedad es **la tilde** —`qué`, `cómo`, `cuánto`— y un técnico
+escribiendo desde el móvil en una obra no pone tildes. La regla segura deja fuera justo el caso que
+Alberto señaló; la regla útil se traga subordinadas normales («que no me va el lazo») y mete ruido
+en el denominador, que es literalmente para lo que se creó el eje. No hay regla léxica limpia para
+esto en castellano. El `¿` de apertura sí sería inequívoco, pero de ochenta y cuatro mensajes que lo
+llevan, **cero** carecen del cierre: sería una regla para un caso que no ha ocurrido nunca.
+
+Y entonces apareció lo que de verdad estaba mal, y no era ninguna de las dos opciones que
+discutíamos. **El gatillo de la sonda vivía en un docstring**: «re-correr al subir la versión». Es la
+protección más débil que existe —depende de que alguien se acuerde— y el eje es la decisión más cara
+del clasificador: un `false` equivocado saca el mensaje de todo el análisis sin dejar rastro.
+
+Así que la sonda pasó a ser **pre-vuelo del job**. Antes de escribir una sola fila, mide los doce
+casos congelados y aborta si el eje ha regresado. Es el único camino por el que un prompt nuevo llega
+a los datos, así que no hay forma de saltárselo por olvido — y protege más que la regla, porque la
+regla solo habría cubierto las aperturas léxicas y el pre-vuelo cubre el eje entero.
+
+Un detalle del diseño que me gusta más que el resto: **corre solo si el prompt cambió, medido por su
+huella**, no por la versión del YAML. El contrato dice que tocar una descripción obliga a subir
+`version`, pero eso es una convención que nadie impide saltarse; un sha256 de la plantilla más las
+descripciones, no. Lo comprobé retocando una descripción sin tocar la versión: la huella cambió y la
+sonda se re-armó.
+
+Los tests que acompañan esto tienen una cabecera que dice algo que prefiero dejar escrito: **no hay
+test que pueda proteger la conducta**, porque la sostiene el prompt y un test con un LLM de mentira
+no mide al modelo. Lo que se testea es el arnés — que la sonda caza un eje regresado, que no se
+contenta con decir «pregunta» a todo, que una respuesta que el parser rechaza cuenta como fallo y no
+como silencio aprobado, y que una regresión aborta **sin llegar a llamar** al clasificador. La
+medición contra el modelo de verdad vive aparte, con su recibo. Separar esas dos cosas —lo que un
+test puede garantizar y lo que solo una medición puede— es lo que hace honesto al conjunto.
+DEC-253.

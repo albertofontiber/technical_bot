@@ -9059,3 +9059,129 @@ real que no debe marcar.
   conserva a propósito.
 - **Verificado en navegador**: `document.fonts.check('30px "Playfair Display"')` → `true`, cero
   errores de consola (una CSP mal puesta habría bloqueado la fuente ahí).
+
+---
+
+## DEC-252 (s328d, 20 ago 2026) — El paquete del abogado deja de ser una COPIA del aviso: el anexo se genera del código, entran P7/P8, y el plazo de `panel_usuarios` queda en 24 meses
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (documento que sale a un tercero + una decisión de
+  retención firmada). **Encargo de Alberto**: «haz 1 y 2, pon 24 meses».
+
+### 1. La causa real del desfase, y por qué el arreglo no es actualizar el anexo
+
+- El paquete llevaba el aviso **v8 transcrito a mano** mientras producción servía el **v9**. El
+  asesor iba a validar un texto que ya no es el que la gente acepta — y P1, que es una de las dos
+  preguntas que bloquean el piloto, es exactamente «¿es válido este aviso?».
+- **Actualizar el anexo habría arreglado el síntoma.** La causa es que el anexo era una **copia**, y
+  toda copia se desfasa. Ahora **se genera del código que se sirve**
+  (`scripts/s328d_anexo_aviso.py`, por AST sobre `_CONSENT_TERMS` y `_PRIVACY_DETAIL` — sin importar
+  `telegram_bot`, que arrastra medio bot y haría que el anexo dependiera de tener el entorno
+  completo). `--comprobar` dice si el documento se ha vuelto a quedar atrás.
+- **El control negativo destapó un hueco del propio comprobador**: comparaba el TEXTO y no la
+  ETIQUETA, así que un bump de `TERMS_VERSION` sin cambio de prosa pasaba en verde y el anexo
+  seguiría titulado con la versión vieja — el asesor validando un texto correcto bajo un nombre
+  falso. Cerrado: ahora cruza también el título. Verificado en las dos direcciones (bump a v10 →
+  rojo; restaurado → verde).
+
+### 2. Lo que el v9 cambió y NO estaba preguntado
+
+- El delta v8→v9 entra en el anexo B, y uno de los cuatro puntos es de fondo: **la mención a que
+  los datos salen de la UE bajó de la primera capa a la segunda** (decisión de Alberto en s324f,
+  para aligerar la pantalla de aceptación). La transferencia es real y la segunda capa se lee sin
+  aceptar nada — pero **es el único cambio del v9 que puede afectar a la validez del
+  consentimiento**, así que se sube a **P1** como pregunta expresa: ¿basta con la segunda capa, o la
+  transferencia internacional debe estar delante de la persona ANTES de aceptar?
+- **Deriva colateral corregida**: `RGPD_RETENCION.md` afirmaba que la primera capa dice «que hay
+  proveedores fuera de la UE». Desde el v9 **no lo dice**. Corregido en el propio documento con la
+  fecha y el motivo, en vez de en silencio.
+
+### 3. Las dos preguntas nuevas
+
+- **P7 — leer las conversaciones desde el Explorador.** Se declara sin disimular el cambio de grado:
+  hasta ahora el responsable veía **cifras**; ahora puede **leer lo que la gente escribió**. Se
+  pregunta por proporcionalidad, por si **hay que anunciarlo** (hoy el aviso dice «el equipo técnico
+  de Fontiber» sin decir que se leen las consultas una a una desde un navegador) y por el registro
+  de actividades.
+- **P8 — clasificación automática con un LLM.** Se acota con los tres hechos que importan: es sobre
+  **datos ya recogidos**, va al **mismo proveedor** que ya recibía la pregunta (no hay destinatario
+  nuevo) y **no produce ninguna decisión sobre la persona** — la tabla ni siquiera sabe de quién es.
+  La pregunta es si es tratamiento ulterior **compatible** o finalidad nueva.
+- Las dos van **marcadas como nuevas** en el documento, con una nota en la cabecera: el sistema
+  creció mientras el paquete esperaba, y ocultarlo obligaría al asesor a comparar a ciegas.
+
+### 4. `panel_usuarios`: 24 meses, y el mecanismo que NO existe
+
+- **Decisión de Alberto (20-ago)**: 24 meses desde la revocación, por **consistencia** — un plazo
+  único es más simple de cumplir y de explicar que tres.
+- **No era una celda `[DECIDIR]`: era una fila que FALTABA** en la matriz de retención. Añadida, con
+  la misma excepción declarada que `bot_allowlist`: el usuario **es la clave primaria**, así que no
+  se puede disociar sin destruir la fila — se borra en lugar de seudonimizar.
+- **Y se declara el gap, no se esconde**: hoy la baja es lógica (`activo=false`) y **no hay job que
+  ejecute el borrado a los 24 meses**. El plazo está decidido y sin mecanismo. Mismo estado que la
+  purga 24m de `bot_invitaciones`/`bot_allowlist`, que ya estaba declarada así.
+- El gate del runbook (`DASHBOARD_DESPLIEGUE.md`, «una fila en blanco no entra a producción») queda
+  cerrado por la decisión, con el gap del mecanismo escrito al lado.
+
+### Lo que queda, y es de Alberto
+
+Rellenar los dos `<…>` del apartado 1 (a quién se abre el piloto y cuándo), borrar la nota de
+cabecera y **enviarlo**. Es lo único que bloquea el piloto.
+
+---
+
+## DEC-253 (s328e, 20 ago 2026) — La sonda del eje pasa de nota en un docstring a PRE-VUELO del job: sonda, no regla, y por un motivo lingüístico
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (puerta nueva delante del único camino por el que un
+  prompt llega a los datos). **Pregunta de Alberto**: «¿es mejor dejarlo como sonda o
+  determinista?» — y su encargo tras la respuesta: «cablea el pre-vuelo».
+- **Corrección de un argumento MÍO**: le había dicho que una regla determinista «taparía la señal».
+  **Ese argumento era flojo** y se declara como tal: la sonda puede medir lo que decide el LLM
+  *antes* de que la regla lo pise, así que no se tapa nada. Si esa hubiera sido la única objeción,
+  la regla salía gratis.
+
+### Por qué sonda y no regla — la razón de verdad es lingüística
+
+- En castellano, el marcador interrogativo que una regla detecta **sin ambigüedad** es **la tilde**
+  (`qué`, `cómo`, `cuánto`, `cuál`). Y un técnico escribiendo desde el móvil en una obra **no pone
+  tildes**.
+- La regla **segura** (solo formas con tilde) deja fuera exactamente el caso que Alberto señaló
+  («que productos tienes»). La regla **útil** (también sin tilde) se traga subordinadas normales
+  —«que no me va el lazo», «creo que tienes razón»— y mete ruido en el denominador, que es
+  literalmente para lo que se creó el eje. **No hay regla léxica limpia para esto en castellano.**
+- Y «¿esto pide algo?» leído por contexto es lo que un modelo hace bien: 8/8 medido.
+- **Si algún día se quiere una regla, la correcta NO es la de aperturas léxicas: es el `¿` de
+  apertura**, que en castellano solo se usa para preguntar (cero falsos positivos por
+  construcción). Pero medido contra los datos: de **84** mensajes con `¿`, **cero** carecen del
+  cierre — sería una regla para un caso que **no ha ocurrido nunca** en 109 mensajes.
+
+### Lo que la pregunta de Alberto destapó, y que sí había que arreglar
+
+- La debilidad real no era «sonda vs regla»: era que **el gatillo de la sonda vivía en un
+  docstring** («re-correr al subir la versión»). Es la clase de protección más débil que hay, y el
+  eje es la decisión más cara del clasificador — un `false` equivocado saca el mensaje de TODO el
+  análisis y no deja rastro.
+- **Cableado como PRE-VUELO del job** (`scripts/clasificar_preguntas.py`): antes de escribir una
+  sola fila, mide los 12 casos congelados y **aborta con código 2 si el eje ha regresado**. Es el
+  único camino por el que un prompt nuevo llega a los datos —el backfill y las re-taxonomizaciones
+  se corren por aquí—, así que no se puede saltar por olvido. **Protege más que la regla**: la regla
+  solo cubriría las aperturas léxicas; el pre-vuelo cubre el eje entero.
+- **Corre solo si el prompt CAMBIÓ**, medido por `huella_prompt` (sha256 de la plantilla + las
+  descripciones). Elegido sobre `version` del YAML a conciencia: el contrato «tocar una descripción
+  obliga a subir version» es una **convención que nadie impide saltarse**; la huella no. Verificado:
+  retocar una descripción sin tocar la versión **sí** dispara la re-medición.
+- **Escape declarado**: `--sin-sonda` existe porque el criterio puede cambiar a propósito y entonces
+  los casos congelados estorban. No es silencioso: avisa por pantalla y queda estampado en el recibo
+  como `OMITIDA_por_bandera`.
+- **Sin clave de Anthropic no corre**: sin LLM el eje lo decide solo la regla dura, que es código y
+  tiene tests. Medir un prompt que no se va a usar sería teatro.
+
+### Lo que se puede testear y lo que no, separado
+
+- **No hay test que proteja la conducta**, porque la sostiene el prompt: un test con un LLM de
+  mentira no mide al modelo. Eso se declara en la cabecera del fichero de tests en vez de disimularse.
+- Lo que **sí** se testea es el ARNÉS (`tests/test_s328e_prevuelo_del_eje.py`, 10 casos): que la
+  sonda caza un eje regresado, que **no se contenta con decir «pregunta» a todo** (el control del
+  control), que una respuesta que el parser rechaza cuenta como fallo y no como silencio aprobado,
+  que la huella cambia con una descripción y no cambia sola, que una regresión **aborta sin llamar a
+  `correr_pendientes`**, que al pasar se apunta y la siguiente corrida no vuelve a gastar en el LLM,
+  y que el escape deja huella.
