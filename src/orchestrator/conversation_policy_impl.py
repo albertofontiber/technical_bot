@@ -127,6 +127,23 @@ _CLAUSE_CUTS = ",.;:¿?¡!"
 _NEGATION_CUES = frozenset({"no", "not", "nope"})
 
 
+def _build_turn_identity(models, models_prov: str, *, mention: str | None = None,
+                         route_cut: bool = False):
+    """(s331 §3.D) Construye la identidad del turno o None si no hay NADA que
+    declarar (invariante «no se construye vacía»). La mención solo con su
+    procedencia this_turn (puerta 1); route_cut exige mención."""
+    models_t = tuple(models or ())
+    if not models_t and not mention:
+        return None
+    return TurnIdentity(
+        resolved_models=models_t,
+        models_provenance=models_prov if models_t else "none",
+        mention=mention,
+        mention_provenance="this_turn" if mention else "none",
+        route_cut=bool(route_cut and mention),
+    )
+
+
 def _token_negated(query: str, token: str) -> bool:
     """(B1 §11 v6, Sol-1 r-v6) ¿Está el token NEGADO en su cláusula? Un cue de
     negación a ≤4 palabras por delante SIN puntuación entre medias niega el token:
@@ -514,7 +531,8 @@ class DeterministicConversationPolicy:
                 return True
         return False
 
-    def _carry_forward(self, query: str, models: tuple[str, ...], why: str) -> TurnResolution:
+    def _carry_forward(self, query: str, models: tuple[str, ...], why: str,
+                       mention: str | None = None) -> TurnResolution:
         hint = ", ".join(models)
         # Raw query preserved byte-verbatim; model hint APPENDED (design invariant).
         qfr = f"{query} (contexto: {hint})" if hint else query
@@ -522,6 +540,12 @@ class DeterministicConversationPolicy:
             route=PolicyRoute.CARRY_FORWARD,
             query_for_retrieval=qfr,
             target_models=models,
+            # (s331 §3.D — cazado por G1a: sin esto, GENERATOR_NO_REASK jamás
+            # dispara en el flujo principal) Identidad del turno también en el
+            # CARRY: canónicos arrastrados + mención de puerta-1 si la hay (el
+            # estado MIXTO de Sol-3 r-v2). None si no hay nada que declarar.
+            turn_identity=_build_turn_identity(
+                models, "carried", mention=mention),
             rationale=f"carry_forward:{why}",
         )
 
@@ -629,6 +653,10 @@ class DeterministicConversationPolicy:
                 query_for_retrieval=query,
                 target_models=real,
                 available_models=avail,
+                # (s331 §3.D — cazado por G1a) Identidad RESUELTA este turno;
+                # con mención de puerta-1 co-presente = estado mixto declarado.
+                turn_identity=_build_turn_identity(
+                    real, "resolved_this_turn", mention=unresolved_mention),
                 rationale="explicit_product",
             )
 
@@ -714,7 +742,8 @@ class DeterministicConversationPolicy:
                 # Brand alone, in-window -> compatibility follow-up about the state
                 # product (e.g. "¿es compatible con Hochiki?") -> carry-forward.
                 return self._carry_forward(
-                    query, working_state.last_target_models, "brand_compatibility_in_window"
+                    query, working_state.last_target_models,
+                    "brand_compatibility_in_window", mention=unresolved_mention,
                 )
             else:
                 # Brand named, no usable state -> new topic (possibly out-of-corpus).
@@ -804,7 +833,8 @@ class DeterministicConversationPolicy:
                 )
 
             # G. Simple within-window follow-up -> deterministic carry-forward, $0.
-            return self._carry_forward(query, models, "within_window_followup")
+            return self._carry_forward(query, models, "within_window_followup",
+                                       mention=unresolved_mention)
 
         # H/I. No usable state (empty or expired).
         if self._depends_on_context(query):
