@@ -8978,3 +8978,84 @@ invariante) · el rótulo centrado bajo su columna · ningún rótulo cortado po
 ampliado (hoy no hay ninguno; la sonda se conserva armada). Con **controles versionados en las dos
 direcciones**: páginas sintéticas rotas que la sonda debe marcar, y el render vigente con la hoja
 real que no debe marcar.
+
+---
+
+## DEC-251 (s328c, 20 ago 2026) — El gate de acuerdo PASA a la primera con la v8 (29/29); la fuente de marca se auto-hospeda como en el Data Room; y la pregunta sin signos queda MEDIDA, no supuesta
+
+- **Fecha**: 20 ago 2026. **Impacto**: MEDIO (cierra un gate de calidad + abre la CSP de una página).
+  **Sin dúo adversarial**, por la misma adjudicación de Alberto que DEC-250 (rediseño barato); se
+  anota para que la ausencia sea decisión registrada.
+
+### 1. El gate de acuerdo: PASS, 29/29 — y el paquete que había estaba CADUCO
+
+- **Lo primero fue no entregarlo tal cual.** El paquete pendiente
+  (`evals/s326b_gate_acuerdo_paquete.json`) era de la **v6** e incluía `no_es_pregunta`, una
+  categoría que **dejó de existir en la v7** al convertirse en el eje. Revisarlo habría sido pedirle
+  a Alberto que adjudicara decisiones que el sistema ya no toma — trabajo real gastado en un
+  artefacto muerto. Regenerado contra producción a la v8: `evals/s328c_gate_acuerdo_v8.json`.
+- **Diseño de la muestra**: las **7 no-preguntas enteras** (son pocas y son las decisiones caras —
+  un error en el eje saca el mensaje del análisis, no lo mueve de barra) + **22 preguntas**
+  estratificadas por categoría en proporción a la población, con mínimo 1 por categoría presente y
+  posiciones equiespaciadas dentro de cada estrato ordenado por `id`: determinista y reproducible
+  sin semilla. El SQL viaja dentro del propio paquete.
+- **Veredicto de Alberto**: «las primeras 7 no son preguntas» + «sobre las preguntas, estoy
+  alineado» ⇒ **29/29 = 100 %**, contra un umbral de ≥85 %.
+- **Qué significa**: la taxonomía v8 queda **ACORDADA**, no solo razonable. Es la **primera vez**
+  que este gate pasa — la v1 sacó ~80 % y disparó el ciclo del «otros» (DEC-246). El clasificador
+  deja de ser una propuesta mía y pasa a ser criterio compartido: las gráficas de tipología del
+  panel se pueden leer como verdad, con sus residuales declarados.
+- **Residuales que siguen en pie y se declaran**: `catalogo_especificaciones` se lleva el 70 % de
+  las preguntas (efecto de la fusión que Alberto adjudicó en s326b — si molesta, se vuelve a
+  partir); `mantenimiento_pruebas` y `normativa` no tienen **ni una fila** en la v8 y con 109
+  mensajes de 2 personas no se puede distinguir «el tráfico no las toca» de «el prompt no las
+  alcanza»; y el clasificador sigue sin ver el hilo (TECH_DEBT #92).
+- **Entregado como FICHERO, no como página publicada**, a propósito: los 29 ítems son prosa de
+  técnicos, que es exactamente lo que el paquete del abogado tiene pendiente de validar (addendum
+  del Explorador, DEC-231). Publicarlo en una URL alojada habría adelantado esa consulta.
+
+### 2. La pregunta SIN signos de interrogación: medida, y por eso NO se tocó la regla
+
+- **Punto de Alberto**: «si alguien pregunta "qué productos Detnov tienes", sin los signos, también
+  debería considerarse pregunta». Tiene razón, y la regla determinista **no** lo coge — mira el
+  signo FINAL, que es su adjudicación literal de s327.
+- **Medido antes de opinar** (`evals/s328c_sonda_sin_signos_v1.md`, sonda reproducible): **8/8**
+  peticiones sin un solo signo reconocidas como pregunta, **4/4** controles limpios. La conducta que
+  pidió **ya está** — pero la sostiene el **prompt** más el sesgo «ante la duda, pregunta», no una
+  regla.
+- **Decisión: NO se amplía la regla determinista.** Con 8/8 y 0 falsos positivos no añadiría
+  precisión, y sí haría daño — **taparía la señal**: si un cambio de descripciones o de modelo
+  rompiera esto, la regla lo escondería en vez de dejar que la sonda lo cazara. Además re-litigaría
+  una adjudicación explícita. **Alternativa elegida**: sonda versionada con **trigger** (re-correr
+  al subir `version` en el YAML o cambiar de modelo), escrito en la cabecera del script.
+- **Lo estructural**: esto separa dos cosas que se confunden. Una conducta sostenida por CÓDIGO se
+  protege con un test; una sostenida por un PROMPT solo se protege midiéndola contra el modelo de
+  verdad. Meter una regla para «asegurar» lo segundo convierte una señal en un punto ciego.
+
+### 3. La fuente de marca: se auto-hospeda, como el Data Room
+
+- **Pregunta de Alberto**: «¿podrías replicar lo que hemos hecho para el dataroom? no sé si ahí nos
+  descargamos las fuentes».
+- **Verificado**: sí. El Data Room usa `next/font/google`, que **descarga la fuente en el build y la
+  sirve desde su propio origen** — su CSP es `font-src 'self'`, sin un solo dominio de Google
+  (`dataroom/src/proxy.ts:39`). La intuición era exacta.
+- **Replicado con el medio que este panel tiene**: los bytes viajan **en el código**
+  (`dashboard/fuente_marca.py`), no en un fichero. Motivo declarado: un `.woff2` en disco habría que
+  meterlo a mano en el bundle de Vercel, y **ese es exactamente el fallo de s326b** — `config/`
+  llevaba desde #308 sin viajar, en silencio. Un módulo Python viaja por construcción.
+- **Subconjunto, no la familia**: Playfair Display 400 recortada a los **14 glifos** del logotipo
+  («Fontiber Bot PCI» con su espacio duro) = **1.988 bytes**, frente a ~38 KB del latino completo y
+  ~110 KB de la familia. Y viaja **solo en la respuesta de `/entrar`**.
+- **La CSP se abre SOLO en la puerta**: `font-src data:` va en la respuesta del login y en ninguna
+  otra; el resto del panel sigue con `default-src 'none'` y sin ninguna fuente de fuentes. Lo que
+  **no** se hace es abrir `fonts.googleapis.com`/`fonts.gstatic.com`: eso sería meter un tercero en
+  la carga de una página de login, que es justo lo que el Data Room tampoco hace.
+- **Reproducible, no un binario opaco**: `scripts/s328c_recortar_fuente_marca.py` regenera el módulo
+  desde cero y tiene `--comprobar`, que compara el juego de glifos con lo versionado sin escribir.
+  Los bytes de woff2 no son reproducibles bit a bit (brotli, orden de tablas), así que se compara lo
+  que importa: los glifos.
+- **Licencia**: Playfair Display es **SIL OFL 1.1**, que permite incrustarla. El aviso de copyright
+  y la URL de la licencia viajan **dentro** del propio `.woff2` (`name` IDs 0 y 14) y el recorte los
+  conserva a propósito.
+- **Verificado en navegador**: `document.fonts.check('30px "Playfair Display"')` → `true`, cero
+  errores de consola (una CSP mal puesta habría bloqueado la fuente ahí).

@@ -6316,3 +6316,54 @@ visto su fallo no se sabe si lo vería.
 
 Esta vez sin dúo adversarial, por adjudicación explícita de Alberto para abaratar el rediseño.
 DEC-250.
+
+
+## s328c (20-ago-2026) — El gate pasa a la primera, y la fuente demuestra que «descargarla» era la respuesta
+
+Tres encargos sueltos de Alberto, y los tres acabaron enseñando algo distinto.
+
+**La fuente.** Preguntó si podíamos replicar lo del Data Room, «no sé si ahí nos descargamos las
+fuentes o algo». Sí: `next/font/google` descarga la fuente en el build y la sirve desde el propio
+origen, y su CSP lo demuestra — `font-src 'self'`, sin un solo dominio de Google. Su intuición era
+exacta. Aquí no hay build ni ficheros estáticos, así que los bytes viajan **en el código**: un
+módulo Python con la Playfair Display recortada a los catorce glifos que el logotipo pinta, mil
+novecientos ochenta y ocho bytes. Que vayan en código y no en un `.woff2` en disco no es capricho —
+es la lección de s326b, donde `config/` llevaba desde #308 sin viajar al bundle de Vercel, en
+silencio, porque había que re-incluirlo a mano. Un módulo Python viaja por construcción. Y la CSP se
+abre **solo** en la puerta: `font-src data:` en la respuesta del login y en ninguna otra.
+
+Lo que no quise dejar es un binario opaco de cuatro kilobytes en el repo con un «confía en mí», así
+que hay un script que lo regenera y un `--comprobar` que compara el juego de glifos con lo
+versionado. Escribirlo mordió a la primera de una forma que hace gracia: `re.sub` leía el espacio
+duro de la cadena de reemplazo como un escape de plantilla y reventaba con «bad escape \u».
+
+**El gate de acuerdo.** Alberto pidió la taxonomía «que la reviso», y lo primero fue no dársela. El
+paquete que llevaba días esperando era de la **v6** e incluía `no_es_pregunta` — una categoría que
+había dejado de existir en la v7, cuando se convirtió en el eje. Entregarlo habría sido pedirle que
+adjudicara decisiones que el sistema ya no toma: trabajo real gastado en un artefacto muerto. Se
+regeneró contra producción, con las siete no-preguntas enteras —son las decisiones caras— y
+veintidós preguntas estratificadas.
+
+Contestó en dos líneas: las siete primeras no son preguntas, y en las demás está alineado.
+**Veintinueve de veintinueve.** El umbral era ochenta y cinco por ciento. Es la primera vez que este
+gate pasa: la v1 sacó un ochenta y disparó el ciclo del «otros» que produjo la v2. La taxonomía deja
+de ser una propuesta mía y pasa a ser criterio compartido, que es exactamente para lo que existía el
+gate.
+
+**Y el punto que añadió**, que resultó ser el más interesante: si alguien escribe «qué productos
+Detnov tienes» sin signos de interrogación, también debería contar como pregunta. Tenía razón, y la
+regla determinista no lo coge —mira el signo final, que es su propia adjudicación—. La reacción
+obvia era ampliar la regla. En vez de eso lo medí: ocho de ocho peticiones sin un solo signo
+reconocidas, cuatro de cuatro controles limpios. La conducta que pedía **ya estaba**.
+
+Pero no la sostiene una regla: la sostiene el prompt. Y ahí está lo que aprendí escribiéndolo. Una
+conducta sostenida por CÓDIGO se protege con un test; una sostenida por un PROMPT solo se protege
+midiéndola contra el modelo de verdad. Meter una regla determinista para «asegurarla» habría
+convertido una señal en un punto ciego: si mañana un cambio de descripciones rompiera el eje, la
+regla lo taparía en vez de dejar que se viera. Así que queda como sonda versionada con su gatillo —
+re-correr cuando suba la versión de la taxonomía o se cambie de modelo— y sin tocar el código.
+
+Nota de entrega, pequeña pero deliberada: los veintinueve mensajes son prosa de técnicos, que es
+justo lo que el paquete del abogado tiene pendiente de validar. Se los pasé como fichero, no como
+página publicada. Adelantarme a esa consulta por comodidad de formato habría sido barato de hacer y
+caro de explicar. DEC-251.

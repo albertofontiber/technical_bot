@@ -111,6 +111,10 @@ class Respuesta:
     cuerpo: bytes = b""
     tipo: str = "text/html; charset=utf-8"
     extra: list = field(default_factory=list)
+    #: ¿esta respuesta incrusta la fuente de marca? Solo la puerta. Abre
+    #: `font-src data:` en SU CSP y en ninguna otra: el resto del panel sigue
+    #: con `default-src 'none'` y sin ninguna fuente de fuentes (s328c).
+    fuente_incrustada: bool = False
 
 
 def _redirigir(destino: str, *, extra: list | None = None) -> Respuesta:
@@ -121,7 +125,7 @@ def _redirigir(destino: str, *, extra: list | None = None) -> Respuesta:
                      + (extra or []))
 
 
-def _cabeceras_seguridad(nonce: str) -> list:
+def _cabeceras_seguridad(nonce: str, *, fuente: bool = False) -> list:
     """Las mismas en TODA respuesta: página, redirección, 404 y 403.
 
     **Se aplican en `_enviar`, no en cada manejador**, y eso es una corrección:
@@ -151,10 +155,17 @@ def _cabeceras_seguridad(nonce: str) -> list:
         normal en un formulario del mismo sitio). Frente a terceros protege
         igual; hacia dentro, devuelve la señal que la defensa necesitaba.
     """
+    # `font-src data:` SOLO donde hace falta (la puerta). Se replica la
+    # propiedad del Data Room —que el navegador no le pida nada a un tercero:
+    # su CSP es `font-src 'self'` y `next/font/google` auto-hospeda— con el
+    # medio que tiene este panel: los bytes van incrustados. Lo que NO se hace
+    # es abrir `fonts.googleapis.com`/`fonts.gstatic.com`, que sería meter un
+    # tercero en la carga de una página de login.
+    fuentes = " font-src data:;" if fuente else ""
     return [
         ("content-security-policy",
          "default-src 'none'; "
-         f"style-src 'nonce-{nonce}'; "
+         f"style-src 'nonce-{nonce}';{fuentes} "
          "form-action 'self'; base-uri 'none'; frame-ancestors 'none'"),
         ("x-content-type-options", "nosniff"),
         ("x-frame-options", "DENY"),
@@ -291,6 +302,7 @@ def pagina_entrar(peticion: Peticion, *, mensaje: str = "",
         cuerpo=render.pagina("Entrar · Panel del bot", cuerpo,
                              nonce=peticion.nonce,
                              clase_cuerpo="entrada").encode("utf-8"),
+        fuente_incrustada=True,
     )
 
 
@@ -1195,7 +1207,8 @@ async def app(scope, receive, send) -> None:
 async def _enviar(send, respuesta: Respuesta, nonce: str) -> None:
     cabeceras = [(b"content-type", respuesta.tipo.encode("latin-1")),
                  (b"content-length", str(len(respuesta.cuerpo)).encode())]
-    for nombre, valor in respuesta.extra + _cabeceras_seguridad(nonce):
+    for nombre, valor in respuesta.extra + _cabeceras_seguridad(
+            nonce, fuente=respuesta.fuente_incrustada):
         cabeceras.append((nombre.encode("latin-1"),
                           str(valor).encode("latin-1")))
     await send({"type": "http.response.start", "status": respuesta.estado,
