@@ -26,126 +26,77 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s328b — 20 ago 2026; el panel mide calidad de uso, y un navegador mide el panel)
+## Estado actual (s328e — 20 ago 2026; el panel mide CALIDAD de uso, y tres promesas son ahora puertas)
 
-**El panel está VIVO** en https://technical-bot-lake.vercel.app (proyecto Vercel propio, DEC-244),
-con las migraciones **019/020/021/022/023/024 APLICADAS** en producción y el login real ejercitando
-la cadena entera. Lo que cambió estas tres sesiones es QUÉ enseña: dejó de ser telemetría pura
-—diagnóstico de Alberto— y pasa a medir **uso y calidad de las respuestas**.
+**Qué es el sistema hoy.** El bot responde en Telegram desde manuales de ~30 fabricantes, con la
+puerta de acceso viva (allowlist + invitación de un solo uso) y el **panel web en
+https://technical-bot-lake.vercel.app** (DEC-244). Migraciones **019→024 aplicadas**; histórico
+clasificado **109/109 en taxonomía v8**.
 
-**s326 → las métricas de uso, adjudicadas enteras y cableadas** (DEC-245). El hallazgo que
-dimensionó el trabajo, medido ANTES de opinar: la captura de feedback ya estaba **completa** desde
-s294 — el gap era de EXPOSICIÓN y de dos dimensiones (tipología, fabricante), no de captura. De ahí
-`query_clasificacion` (tabla DERIVADA 1:1, CASCADE, desechable y reconstruible), el clasificador
-**determinista-primero** (reglas a $0; Haiku solo para el residuo, JSON estricto: categoría fuera de
-lista = fila PENDIENTE, jamás degradada a `otros`) y la pestaña **Explorador** con prosa completa
-(opción (a) de Alberto, que reabre a conciencia el «fuera de v1» de DEC-231).
+**Lo que cambió en el bloque s326→s328e**: el panel dejó de ser telemetría y pasa a medir **uso y
+calidad**. La captura de feedback ya estaba completa desde s294 —el gap era de EXPOSICIÓN—, así que
+se añadió `query_clasificacion` (tabla derivada 1:1, CASCADE, desechable), un clasificador
+**determinista-primero** y las vistas que lo enseñan. Sobre eso, dos decisiones de Alberto marcaron
+el diseño:
 
-**s326b → el ciclo del «otros», ejecutado por primera vez y MEDIDO** (DEC-246). El gate de acuerdo
-de la taxonomía v1 **falló** (~80 % < 85 %) y eso lo puso todo en marcha: Alberto adjudicó siete
-cambios, nació la v2 (fusiones catálogo+specs e instalación+config, compatibilidad acotada a
-«¿funciona X con Y?» entre marcas) y el histórico se re-clasificó cuatro veces por **~$0,49 y ~6
-minutos**, 109/109 y cero fallos. «Re-taxonomizar cuesta céntimos» dejó de ser una promesa.
+- **`es_pregunta` es un EJE, no una categoría** (DEC-248). Tema y «¿esto pide algo?» son
+  ortogonales; mezclarlos perdía siempre una de las dos. Las 8 vistas de análisis excluyen las
+  no-preguntas —votos incluidos (024)— y las no-preguntas conservan su tema. La regla dura
+  («**termina** en “?” ⇒ pregunta») la decide el código, sin LLM, y manda sobre el modelo.
+  **Medido**: 93/109 los resuelve la regla; **≤1/109 falsos negativos**.
+- **Las gráficas son COLUMNAS en HTML, no SVG** (DEC-250). Dos intentos con SVG fallaron por lo
+  mismo: *una escala uniforme mueve el texto por definición*. En HTML 12 px son 12 px a cualquier
+  anchura y solo estira la barra.
 
-**s327 → `es_pregunta` es un EJE, no una categoría** (DEC-248). Adjudicación de Alberto: «separar lo
-que es pregunta de lo que no, para que las no-preguntas no entren en el análisis». Tenía razón de
-fondo: tema y «¿esto pide algo?» son **ortogonales**, y mezclarlos perdía siempre una de las dos.
-Ahora es columna propia (023), las 8 vistas de análisis excluyen las no-preguntas —**votos
-incluidos**, que faltaban (024)— y las no-preguntas conservan su tema. La regla dura («termina en
-“?” ⇒ pregunta») la decide el **código**, sin LLM y sin coste, y se aplica DESPUÉS del modelo porque
-manda sobre él; ante la duda, pregunta. **Medido, no declarado** (censo completo, no muestra):
-**93/109 (85 %)** los resuelve la regla; de los 16 que decide el modelo, **≤ 1/109 falsos negativos**
-—y ese único caso dudoso es exactamente TECH_DEBT #92, el clasificador que no ve el hilo.
+**La taxonomía v8 está ACORDADA** (DEC-251): el gate de acuerdo pasó **29/29** el 20-ago, primera
+vez que pasa —la v1 sacó ~80 % y disparó el ciclo del «otros»—. Las gráficas de tipología se pueden
+leer como verdad, con sus residuales declarados (`catalogo_especificaciones` = 70 % por la fusión
+adjudicada; `mantenimiento_pruebas` y `normativa` sin ni una fila).
 
-**Y los tres encargos de la noche, cerrados** —**el código del panel va en rama, sin desplegar
-todavía**; lo que YA está en producción son las migraciones y el histórico re-clasificado—:
-(1) **móvil** — un punto de corte, SVG fluido,
-tablas→tarjetas, 44 px, anti-zoom iOS; **0 px de scroll horizontal medido con Chromium real** en
-390/768/1440, CSP `default-src 'none'` intacta y sigue sin JavaScript (`docs/PANEL_RESPONSIVE.md`);
-(2) **qué falta para el primer DG** — inventario semáforo verificado contra código y BD
-(`docs/PILOTO_DG_ESTADO.md`): **el único bloqueante es el paquete del abogado**; (3) **portada de
-métricas** — las 9 gráficas de un vistazo, con título y leyenda, cada una enlazando a
-`/metricas/<clave>` (primera ruta con parámetro del panel: se normaliza ANTES de la puerta y el
-sufijo se resuelve contra lista cerrada o 404 — nunca viaja a PostgREST), con presupuesto de tiempo
-de 18 s contra el `maxDuration: 30` de Vercel.
+**Y lo que más vale de la sesión no es una feature: tres promesas pasaron a ser PUERTAS**, y las
+tres tenían un agujero que solo apareció al **ejecutar el control negativo**:
 
-**Frente paralelo, de la otra rama (s325h-e, 19-ago)** — **la caché del environment PUEDE persistir (no siempre); la conclusión de s325h-c queda
-REFUTADA.** El
-registro de una VM la sella con **uptime 40,89 s** en el momento de instalar, y esa VM traía el
-marcador `663fae88` de **mtime 14:09:35Z**: en 41 s de vida no pudo escribirlo, luego viajó en el
-snapshot. Lo medido en s325h-c era correcto para SU VM y se generalizó mal — **pero ojo con el
-error simétrico**: esa misma VM NO recibió la caché, así que lo observado es «al menos a veces»,
-no una propiedad uniforme, y la causa de ese hueco sigue sin cerrar. **Sigue sin medirse el
-AHORRO** (cero arranques que se salten la instalación: los de ese día llevan la huella movida por
-haber tocado el instalador tres veces; se medirá solo en cuanto pase un día sin tocarlo). Dos hechos
-nuevos del entorno: el snapshot trae `purelib` pero **no** el `/tmp` del build (confirma s325g), y
-**cada `resume` re-provisiona el contenedor y resetea el uptime** (4 boots en una sesión), lo que
-invalida cualquier medida por `/proc/uptime` entre turnos. Arreglado además el check `deps_cache`,
-que afirmaba el ORIGEN deduciéndolo del coste y fue lo que indujo el error (DEC-247).
+| Antes | Ahora | Lo que el control destapó |
+|---|---|---|
+| El CSS del panel sin red de seguridad (`#94`) | Chromium lo mide en CI: no desborda · la letra no escala · rótulo centrado · nada cortado (DEC-249/250) | El gate se saltaba en silencio sin navegador → job verde sin medir |
+| El anexo del abogado, copiado a mano (llevaba el v8 con el v9 en producción) | Se **genera del código** que se sirve (DEC-252) | El comprobador miraba el texto y no la etiqueta: un bump pasaba en verde |
+| La sonda del eje, con el gatillo en un docstring | **Pre-vuelo del job**: aborta si el eje regresa (DEC-253) | — |
 
-**s328 → la primera regresión visible, y lo que enseñó.** Alberto abrió `/metricas` en escritorio:
-las gráficas salían «con zoom». Eran **dos sistemas de coordenadas** —SVG fluido sin tope, rótulos
-en `<div>`s de 28 px fijos— que solo cuadraban cuando el SVG se pintaba a 1 unidad = 1 px. Medido
-sobre el código de s327: **×2,29 y 264 px de desalineo a 1440 px, y 81 px a 390** — el móvil también
-estaba roto, sobre un layout que yo había declarado verificado midiendo **solo desbordamiento**.
-El arreglo es por construcción (el rótulo va DENTRO del SVG: una escala, no dos) y **TECH_DEBT #94
-queda pagada por su propio gatillo**: `tests/test_s328_panel_geometria.py` recorre el panel con
-Chromium en 390/768/1440 y afirma que no desborda, no se amplía y el rótulo está a menos de 3 px de
-su barra. Y `/entrar` se viste con la identidad **Fontiber** del Data Room (adjudicación de Alberto),
-acotada a `body.entrada` — sin JavaScript, sin fuentes externas y sin afirmar nada que el panel no
-haga (no hay 2FA ni recuperación de contraseña, así que no se prometen). DEC-249.
+**Frente paralelo (s325h-e, DEC-247)**: la caché del environment **PUEDE** persistir `site-packages`
+—al menos a veces—, lo que **REFUTA** la conclusión de s325h-c. Sigue sin medirse el AHORRO, y la
+causa de que una VM no la recibiera sigue abierta.
 
-**s328b → el gráfico deja de ser un SVG.** Alberto pidió tres cosas —columnas de izquierda a
-derecha, la misma letra en todas partes, y los rótulos alineados con las barras— y al comprobarlas
-apareció la causa común: **una escala uniforme mueve el texto por definición**. El SVG de s327 se
-ampliaba ×2,29 en escritorio; el arreglo de s328, con los rótulos dentro, encogía la letra a ~8 px
-en una tarjeta estrecha. Los dos fallaban lo mismo por razones opuestas. Ahora el gráfico es HTML:
-12 px son 12 px a cualquier anchura y lo único que estira es la barra (altura en una CLASE, porque
-un atributo de estilo abriría la CSP). La clase de fallo de s328 no se vigila — **se elimina**: el
-rótulo y su columna son hijos del mismo `<li>`. Y el gate crece a cinco invariantes, con controles
-versionados en las dos direcciones. **Sin dúo, por adjudicación explícita de Alberto.** DEC-250.
 
-**Dúo (Protocolo 3) en las cuatro sesiones**: 7+5, 8+4, 7+5 y 5 hallazgos — **todos confirmados, 0
-falsos positivos**. El de s327 dejó el hallazgo más incómodo y más útil del mes: cité un artefacto de
-medición **antes de crearlo**, y lo cazó el revisor, no yo. Regla nueva al Protocolo 4: **el
-artefacto se versiona ANTES de citarlo**. Y la de s328 dejó el patrón que las une: **construí el
-instrumento de verificación y no verifiqué el instrumento** — un gate que se saltaba en silencio, una
-sonda que miraba mi implementación en vez de la clase de error, y un control negativo que era una
-frase. Los tres fallaban hacia el verde. Deuda **#91 y #94 pagadas** (gate pg 11/11 contra
-PostgreSQL 17 real; gate de navegador con control negativo VERSIONADO); **#93 sigue abierta**.
+### QUÉ SIGUE — un solo bloqueante, y es de Alberto
 
-### QUÉ SIGUE — el piloto con el primer DG, y lo que lo bloquea
+> Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
+> arrastra tachaduras deja de leerse.
 
-1. **BLOQUEANTE, y es de Alberto: ENVIAR el paquete del abogado.** Ya no está desfasado (20-ago,
-   DEC-252): el anexo A lleva el **v9** y **se genera del código** —era una copia, y toda copia se
-   desfasa—, el anexo B lleva el delta v8→v9 con el cambio de fondo señalado (la mención a las
-   transferencias fuera de la UE **bajó** de la primera capa a la segunda, y va como pregunta
-   expresa en P1), entran **P7** (leer conversaciones desde el Explorador) y **P8** (clasificación
-   con un LLM), y **P4 cierra el plazo de `panel_usuarios` en 24 meses**. Lo que queda: rellenar los
-   dos `<…>` del apartado 1 y mandarlo. Nada más bloquea invitar al primer DG
+1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
+   está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
+   cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la
+   pantalla de aceptación a `/privacidad`—, **P7** (leer conversaciones desde el Explorador) y **P8**
+   (clasificación con un LLM) añadidas, y **P4 con el plazo de `panel_usuarios` en 24 meses**.
+   **Lo que falta: rellenar los dos `<…>` del apartado 1 (a quién y cuándo), borrar la nota de
+   cabecera y mandarlo.** Todo lo demás del piloto está en verde y verificado
    (`docs/PILOTO_DG_ESTADO.md`).
-2. ~~El gate de acuerdo de la taxonomía~~ **PASADO (20-ago, 29/29 = 100 %)**. La v8 queda
-   **ACORDADA**, no solo razonable — primera vez que este gate pasa (la v1 sacó ~80 % y disparó el
-   ciclo del «otros»). El paquete que había pendiente era de la **v6** y estaba caduco: incluía
-   `no_es_pregunta`, categoría retirada en la v7. Regenerado y adjudicado:
-   `evals/s328c_gate_acuerdo_v8.json`. DEC-251.
-3. **Opcional, cuando el tráfico lo pida**: `CLASIFICADOR_PREGUNTAS=on` en Railway para la corrida
-   automática cada 6 h. Hoy la corrida es manual y con recibo — que para 109 filas es lo correcto.
-   Desde s328e esa corrida lleva **pre-vuelo del eje**: si el prompt cambió, mide 12 casos
-   congelados y **aborta sin escribir** si el eje ha regresado (DEC-253).
-4. **Re-medir el eje con datos del piloto** (~200 mensajes): el censo de hoy es PRE-piloto, casi sin
-   multi-turno, y la proporción de continuaciones subirá con tráfico real — con ella, el peso de #92.
-5. **Gates de EXPONER que siguen abiertos** (aviso v9 §13): plazo `[DECIDIR: Alberto]` de
-   `panel_usuarios` · medición XFF antes de encender la mitad `ip:` del cerrojo (`INCLUIR_CLAVE_IP`
-   sigue en False; **no** bloquea nada — el cerrojo por usuario funciona desde el día 1).
-6. ~~Decidir la fuente de la puerta~~ **HECHO**: Playfair Display **auto-hospedada**, igual que en
-   el Data Room (que usa `next/font/google` y sirve desde su propio origen — CSP `font-src 'self'`,
-   sin dominios de Google). Aquí los 14 glifos del logotipo viajan **en el código** (1.988 bytes) y
-   `font-src data:` se abre **solo** en la respuesta de `/entrar`. DEC-251.
-7. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
-   — la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin
-   tocar el instalador. Y la causa de que una VM NO recibiera la caché sigue abierta.
----
+2. **Re-medir el eje con datos del piloto** (~200 mensajes). El censo de hoy es PRE-piloto: 109
+   mensajes de 2 personas y casi sin multi-turno. Con tráfico real sube la proporción de
+   continuaciones y con ella el peso de `TECH_DEBT #92` (el clasificador no ve el hilo).
+3. **Opcional, cuando el tráfico lo pida**: `CLASIFICADOR_PREGUNTAS=on` en Railway (corrida cada
+   6 h). Hoy es manual y con recibo, que para 109 filas es lo correcto. Esa corrida ya lleva
+   **pre-vuelo del eje**: si el prompt cambió, mide y **aborta sin escribir** si el eje regresó
+   (DEC-253).
+4. **Gate de EXPONER que sigue abierto**: la **medición XFF** antes de encender la mitad `ip:` del
+   cerrojo (`INCLUIR_CLAVE_IP` sigue en False). **No bloquea nada** — el cerrojo por usuario
+   funciona desde el día 1.
+5. **Plazos decididos SIN MECANISMO** (declarados, no escondidos): la purga a 24 meses de
+   `panel_usuarios`, `bot_allowlist` y `bot_invitaciones` está adjudicada y **no hay job que la
+   ejecute**. Hoy la baja de `panel_usuarios` es lógica (`activo=false`).
+6. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
+   —la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin tocar
+   el instalador— y la causa de que una VM NO la recibiera sigue abierta.
+
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)
 
