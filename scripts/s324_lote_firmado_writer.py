@@ -299,9 +299,18 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
                            "ganadas": sorted(set(v1["docs_by_id"].get(pid, [])) - set(v0["docs_by_id"].get(pid, [])))[:8]}
                      for pid in ids_plan}
     # (4) findability de los retags: pm_nuevo casa con ≥1 entry primaria del doc_map del doc
+    # Modos por fila (OPT-IN vía `findability`; sin la clave = comportamiento histórico):
+    #   ausente / "modelo"        → basta que case una entry primaria del catálogo DESPUÉS.
+    #   "modelo_independiente"    → si la ÚNICA entry que casa la añade este mismo plan, el gate
+    #       sería autosatisfecho (dúo r38, Fable): se exige además que el pm nuevo YA resuelva en
+    #       el catálogo ANTES del plan (producto/alias/paraguas preexistente).
+    #   "na_unknown"              → solo válido con pm_nuevo == "unknown"; se declara, no se exige.
     dm1 = {r["document_id"]: r for r in despues.doc_map}
+    ids_del_plan = {(row["document_id"], e["id"]) for row in plan["doc_map_altas"] for e in row["entries"]}
+    terminos_antes = set(t0)                     # normkeys resolubles ANTES del plan
     findability = []
     for rt in plan["retags_db"]:
+        modo = rt.get("findability", "modelo")
         row = dm1.get(rt["document_id"])
         pats = []
         for e in (row or {}).get("entries", []):
@@ -311,7 +320,27 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
                 if p:
                     pats.append((pid, re.compile(model_to_imatch_pattern(p["canonical_model"]).replace(r"\y", r"\b"), re.I)))
         casa = [pid for pid, rx in pats if rx.search(rt["pm_nuevo"])]
-        findability.append({"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "entries_primarias": [pid for pid, _ in pats], "casan": casa, "ok": bool(casa)})
+        fila = {"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "modo": modo,
+                "entries_primarias": [pid for pid, _ in pats], "casan": casa}
+        if modo == "na_unknown":
+            fila["ok"] = rt["pm_nuevo"] == "unknown"
+            fila["declarado"] = ("pm 'unknown' a propósito: doc sin producto citable, no lleva doc_map "
+                                 "(clase §0.E MANTENER-unknown) → la findability por modelo NO aplica")
+            if not fila["ok"]:
+                fila["declarado"] = f"MODO INVÁLIDO: na_unknown exige pm_nuevo 'unknown', llegó {rt['pm_nuevo']!r}"
+        elif modo == "modelo_independiente":
+            aportadas = [pid for pid in casa if (rt["document_id"], pid) in ids_del_plan]
+            autosat = bool(casa) and len(aportadas) == len(casa)
+            resuelve_antes = C.normkey(rt["pm_nuevo"]) in terminos_antes
+            fila.update({"aportadas_por_este_plan": aportadas, "autosatisfecha_por_el_plan": autosat,
+                         "pm_resuelve_en_catalogo_previo": resuelve_antes,
+                         "ok": bool(casa) and (resuelve_antes if autosat else True)})
+            if autosat:
+                fila["declarado"] = ("la entry que satisface el gate la añade ESTE plan; el gate se apoya en que "
+                                     "el pm nuevo ya resolvía en el catálogo previo (evidencia independiente del plan)")
+        else:
+            fila["ok"] = bool(casa)
+        findability.append(fila)
     stop_terminos = sorted({x for v in disparos_negativos.values() for x in v["nuevos"]})
     # Términos ADJUDICADOS por Alberto explícitamente (plan.adjudicados_por_alberto_para_el_gate):
     # un disparo en un negativo SINTÉTICO (escrito por el autor) se declara como aviso, no como STOP.

@@ -6570,3 +6570,46 @@ Nada de esto está aplicado en producción: eso es de Alberto, y el propio docum
 además al visto bueno del abogado. Tampoco corre riesgo: el censo dice 2, 2 y 1 filas, cero vencidas,
 y la más antigua es del 17 de agosto — lo primero que este código podría borrar es de agosto de 2028.
 DEC-256.
+
+## s331 (20 ago 2026) — El residuo del packet E1: tres preguntas delegadas, y un dúo que corrige la evidencia sin cambiar la conclusión
+
+Alberto abrió la review de los packets pendientes y, sobre el E1 v2, hizo lo contrario de lo
+habitual: en vez de contestar las tres preguntas ⏳ que le esperaban, me las devolvió («las 3
+preguntas son para ti»), pidió atacar los no-bloqueantes y preguntó si quedaba algo en §1.A.
+
+Las tres se adjudicaron leyendo la FUENTE, no la ficha: los PDF originales viven en el bucket
+público, así que `MADT015_01`, `MNDT600` y `MNDT701` se decidieron con el manual delante.
+
+Lo interesante fue el dúo. Mi propuesta descartaba la hipótesis de Alberto («¿puede ser de la serie
+FS, por el esquema de bornes?») con un censo de grafía: no hay ids `fs2-*`. **Sol lo cazó como
+crítico**: el catálogo tiene `notifier:fs-1/fs-2/fs-4` y el corpus el manual `FS2-1` activo, con
+doc_map adjudicado. Mi censo era ciego a la grafía, no una prueba. La respuesta correcta exigía la
+comparación al píxel, y esa es la que zanja: las FS son de 1/2/4 zonas, con final de línea solo
+resistivo, sin entradas digitales ni retardos; la guía tiene 8 zonas, condensador como EFL
+alternativo, dos entradas digitales configurables y retardos — y su árbol de configuración es
+idéntico, opción por opción, al del anexo hermano que se titula «Anexo al manual de instalación de
+la central **NFS 2-8**». La conclusión sobrevivió; la evidencia que la sostenía, no. Lo mismo pasó
+con el censo del «SMART3 GD2»: era circular (miraba solo docs con pm `SMART*`, justo la clase que el
+plan estaba corrigiendo) y encima truncaba a 1.000 filas. Re-hecho corpus-wide sobre los 1.054
+activos, el veredicto se puede dar cerrado: ese documento no está, y los seis «hits» eran el
+programador «PGD-200».
+
+Fable aportó el hallazgo de instrumento: la findability que iba a validar el retag de `MADT015_01`
+la satisfacía **la fila que el propio plan añadía**. Un gate que no puede fallar es un ritual, así
+que el writer ganó modos explícitos: cuando la entry viene del plan, se exige además que el modelo
+ya resolviera en el catálogo previo, y el recibo lo imprime (`autosatisfecha_por_el_plan: true`).
+
+Se aplicó con la puerta de siempre: dry-run PASS (detector +0/−0, 0 gold perdidas, 0 disparos en 111
+consultas reales), CAS por chunk, recibo y verificación posterior. Cuatro retags, dos filas de
+doc_map, y la baja del fragmento FR que Alberto ya había firmado. Con TI-007 atestado —la
+re-ingesta de s324d había traído el texto pero devuelto el pm al artefacto— **§1.A queda completa**.
+
+Y quedó una deuda que solo aparece cuando miras dos veces el mismo documento: **#94**. Los retags de
+`product_model` no sobreviven a una re-ingesta, porque el pipeline vuelve a derivar el modelo del
+nombre del fichero. TI-007 es la prueba: es la segunda vez que se corrige a mano. El arreglo bueno no
+es re-aplicar parches, es que la detección pregunte al doc_map antes de inventar.
+
+De lo que Alberto tenía pendiente en este fichero queda una frase: si el paraguas «2X-A» incluye o no
+los once táctiles. La medida ya está hecha —no pierde ninguna gold, dos golds ganan doce fuentes cada
+una, y lo único que dispara es una sonda de tokens sintética que ningún técnico escribiría—, así que
+la decisión es de alcance de producto, que es suya, no de riesgo, que era mía.

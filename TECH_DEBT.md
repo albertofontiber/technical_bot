@@ -3606,3 +3606,32 @@ segundo bot (staging, otro fabricante, marca blanca) y el default deja de ser ú
 el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta que el enlace no abre
 el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
 tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
+
+## #94 — Los retags de `product_model` NO son persistentes: una re-ingesta los deshace en silencio — s331
+
+**Estado: DECLARADA (dúo r38, Sol xhigh, severidad medio, confirmada contra el código).** Todo
+retag de `product_model` que se aplica por DB (los de s324, s324b/c y los 4 de s331) es una
+corrección del ESTADO, no de la AUTORIDAD: si el documento se re-ingesta, `pipeline.process_file`
+llama a `detect_document_metadata(source_path, sample)` (`src/reingest/metadata.py`), que deriva el
+modelo del **filename primero** y del contenido después, y `apply_metadata` lo estampa en todos los
+chunks. El pm adjudicado se pierde sin aviso.
+
+**La recaída ya ocurrió y está medida**: `HLSI-TI-007_VSN-4REL` se re-ingestó en s324d (#87) y sus
+2 chunks nuevos volvieron con pm `TI-007` —el artefacto del código de documento— aunque el
+filename contiene `VSN-4REL` y `documents.product_model` ya decía `VSN-4REL`. s331 lo vuelve a
+corregir a mano: es la segunda pasada sobre el mismo documento.
+
+**Alcance**: 4 docs en s331 (`MADT015_01` → NFS 2-8, `MNDT600` → unknown, `MNDT701` → unknown,
+TI-007 → VSN-4REL) + todos los retags de los lotes de s324. Hoy NO afecta al serving (el retriever
+usa el pm del chunk y el estado es correcto); el riesgo se materializa en la próxima re-ingesta de
+uno de esos documentos.
+
+**Qué hacer (BP, estructural)**: una **autoridad de pm gobernada** que B5 consuma — el doc_map ya
+es esa autoridad para la identidad, así que `detect_document_metadata` debería consultar la entry
+primaria del documento (por sha/filename) ANTES de derivar del nombre, y derivar solo cuando no
+haya adjudicación. Con eso el retag deja de ser un parche y pasa a ser un dato. Alternativa pobre
+(no recomendada): re-aplicar los retags tras cada re-ingesta desde un recibo — mantiene la deuda.
+
+**Trigger**: cualquier re-ingesta de un documento con pm adjudicado (o el siguiente lote de retags,
+que debería nacer ya contra la autoridad). Verificación al cerrar: re-ingestar TI-007 y comprobar
+que el pm sigue siendo `VSN-4REL` sin intervención.

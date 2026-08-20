@@ -20,19 +20,39 @@
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- s331-estado:inicio -->
+> ## 🟢 ESTADO s331 (2026-08-20 20:04Z) — el residuo de este fichero, CERRADO salvo una frase tuya
+> Encargo tuyo de hoy: «las 3 preguntas son para ti» + atacar los no-bloqueantes + ¿queda algo en §1.A?
+>
+> **Hecho y aplicado** (dúo r38 Sol+Fable ANTES de escribir; dry-run PASS: detector +0/−0 términos,
+> 0 gold perdidas, findability 4/4; recibos `s331_residuo_aplicar_20260820T200321Z.json` y `s331_retirar_docs_aplicar_20260820T200406Z.json`):
+> - **MADT015_01 → NFS 2-8** (retag + doc_map). Tu hipótesis FS se comprobó al píxel contra el manual
+>   `FS2-1` y NO cuadra (1/2/4 zonas, sin condensador EFL, sin entradas digitales ni retardos).
+> - **MNDT600 → `unknown`** + tu pregunta contestada: el **SMART3 GD2 no está en el corpus**; el GD3
+>   (`SMART3G-D3`) sí, por el doc MTEX4805.
+> - **MNDT701 → `unknown`**, con el doc_map diferido al ítem 3 (20/20MI, 20/20R).
+> - **TI-007**: retag a VSN-4REL + doc_map con cita full-text → la atestación pendiente de #87, cerrada.
+> - **§1.A: COMPLETA.** De sus 13 filas, 11 ya estaban resueltas; hoy caen las 2 últimas (la baja del
+>   fragmento FR `996-130` que firmaste, y TI-007).
+> - **VSN2-PLUS**: censado (18 grafías en ~20 docs Supra/UCIP) y DIFERIDO a la sentada E1b a propósito —
+>   es rebrand multi-marca (NFS Supra ↔ VSN-2Plus/Vision Plus2 ↔ ESS-2Plus): `evals/s331_vsn2plus_censo_v1.md`.
+> - **STRATOS**: tu OK cierra la fila (ya estaba aplicado como paraguas en s324b).
+>
+> **LO ÚNICO QUE SIGUE SIENDO TUYO en este fichero:**
+> 1. **2X-A**: una frase — «con táctiles» (38) o «sin táctiles» (27). La medida ya está hecha: 0 gold
+>    perdidas, +2 golds ganan fuentes, 0 disparos en 111 consultas reales (solo salta la sonda
+>    sintética «2 x a»). Ver la fila marcada de `aritech:2x-a`.
+> 2. **Nombres reales con barra (10)**: DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT,
+>    STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R — un «sí» y se dan de alta (y con 20/20MI + 20/20R se
+>    desbloquea la atestación de MNDT701).
+> 3. **VSN2-PLUS / «Plus2»**: no bloquea; se adjudica dentro de la sentada E1b.
+>
+> **Deuda declarada nueva**: `TECH_DEBT #94` — los retags de `product_model` NO sobreviven a una
+> re-ingesta (el pipeline re-deriva el pm del filename). Hoy no afecta al serving; el arreglo BP es que
+> `detect_document_metadata` consulte el doc_map antes de derivar.
+>
+> Marcas fila a fila: `↳ **s331:**` bajo cada casilla tocada hoy.
+<!-- s331-estado:fin -->
 **SUPERSEDE a `evals/s320_e1_packet_adjudicacion_v1.md`.**
 Aquel packet te pedía **253 casillas** una a una (§1 colisiones, §2 tier B,
 §3 candidates, §4 product_model sucio). Cuatro pasadas hermanas han refrescado cada
@@ -310,6 +330,7 @@ No son altas duplicadas: es el mismo producto atestado dos veces.
 En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 filas.
 
 - [ ] `aritech:2x-a` (2X-A) → **ALTA** · rol TITULO · doc `00-3280-507-4009-03_r003_2x-a_series_quick_installation_g…`
+      ↳ **s331:** ⏳ SIGUE SIENDO TUYA, pero ya con la MEDIDA hecha (s331, sonda `evals/s331_2xa_sonda_plan_v1.json`): crear el paraguas «2X-A» **no pierde ninguna gold** y hace GANAR 2 golds (12 fuentes cada una, entre ellas «¿El detector KE-DP3020W vale para la central 2X-A?»). Lo único que dispara es la sonda de tokens sintética «2 x a» del gate — **0 disparos en las 111 consultas reales**. Lo que necesito de ti es UNA frase: «2X-A sí, con los táctiles» (38 modelos, incluidos los 11 2X-AT) o «2X-A sí, sin táctiles» (27; los táctiles ya tienen su propio paraguas 2X-AT). Con eso lo aplico con recibo.
       ↳ **s324:** ⏳ PENDIENTE DE TI — paraguas «2X-A» (familia): el revisor señaló que tu nota adjudica el ALCANCE, no el riesgo léxico del gate («2 x a» con espacios lo dispararía; 0 casos en 96 consultas reales) ni si incluye la sub-serie táctil 2X-AT (11 de 38). ¿Lo quieres igualmente, con 2X-AT dentro?
       menciones estrictas doc 1 / global 43 en 18 docs · cita ✓ «Guía de instalación rápida de la serie 2X-A»
       ALBERTO: aplica a todos los modelos de la serie 2x-A
@@ -408,6 +429,7 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:nfxi-bsf-wch` · cita verificada en HOP-138-9ES issue 5_11-2025_In · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
+      ↳ **s331:** ✅ CONFIRMADO por ti (s331: «OK a Stratos… parece de verdad que es una familia», con el enlace de sensetek). Ya estaba aplicado en s324b como paraguas de familia (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); tu OK cierra la fila.
       ↳ **s324:** ✅ RESUELTO (tu «este doc es paraguas»): STRATOS = paraguas de familia con sus modelos ya catalogados bajo nombre Notifier (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); MADT731_02 → doc_map a los 3; retirados 2 alias erróneos (Stratos-HSSD→SenseNET, Stratos-HSSD detector→MiniLáser25) · recibo `s324b_stratos_aplicar_*.json`
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
@@ -469,6 +491,7 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
       razón: «ET-DT-314» es la referencia del documento en la cabecera; el manual trata de etiquetas del NAS-1u, no de un producto ETDT-314.
       ALBERTO: OK a retirar. retira también el documento del corpus.
 - [ ] `notifier:madt-015` (MADT-015) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MADT015_01`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → **NFS 2-8**, no la serie FS. Comparé los dos PDF: el manual `FS2-1` (que SÍ existe, con `notifier:fs-1/2/4` en catálogo — mi «no existe» de s324 era falso, lo cazó el dúo) es de centrales de **1/2/4 zonas**, con EFL solo resistivo, sin entradas digitales ni retardos; la guía MADT015_01 tiene **8 zonas**, EFL resistencia **o** condensador, 2 entradas digitales y retardos — y su árbol de configuración es idéntico al del anexo MADT015_03 («Anexo al manual de instalación de la central **NFS 2-8**, ref.: MI-DT-015»). Aplicado: retag pm + doc_map `notifier:nfs-2-8` · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — el texto no nombra el modelo; sus hermanas MADT015_02/_03 ya están mapeadas a NFS8REL/NFS2-8 ⇒ ¿NFS2-8 (no FS2)? FS2-1/2/4 no existen en catálogo
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «MA-DT-015_01_C (997-502) 27/07/04 NOTIFIER ESPAÑA»
       razón: «MADT-015» deriva del código de documento MA-DT-015 en la cabecera del manual; nunca aparece como modelo comercial.
@@ -489,11 +512,13 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
       razón: MNDT-1202 no aparece en el texto; deriva del nombre del fichero MNDT1202, un código de documento como MNDT690.
       ALBERTO: elimína el doc del corpus.
 - [ ] `notifier:mndt-600` (MNDT-600) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT600`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**, sin doc_map. El texto es genérico (calibración/mantenimiento de detectores de gas) y no nombra ni un modelo: los únicos códigos son las células «S1096/2096… S1097.2097…». **Tu pregunta contestada con censo corpus-wide** (1.054 activos): el doc del **SMART3 GD2 NO está en el corpus** con ninguna grafía (los 6 hits de «GD2/GD3» son «P**GD-2**00», el programador Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (doc MTEX4805 Zona 2). El paraguas «SMART 3» sería decisión tuya aparte — no hace falta para limpiar este artefacto · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-600_A** 06 ABRIL 2011»
       razón: «MNDT-600» deriva del código de manual MN-DT-600_A; es un documento genérico de notas de mantenimiento, no un modelo.
       ALBERTO: aplica a los detectores de gas smart (sensitron). viendo la portada del doc, parece que uno de los modelos es el Smart3 GD3, y el otro "SMART3 GD2", utilizado para Butano. ¿puedes revisar en el corpus si tenemos el documento?
 - [ ] `notifier:mndt-701` (MNDT-701) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT701.pdf`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`**. Confirmado en el PDF: es la guía del software del detector **Triple IR / IR3** (SPECTRONIX; la portada es un SharpEye™), pero el software no tiene nombre en el texto y solo se habla de «detectores IR3» en bus RS-485. El doc_map queda DIFERIDO al ítem 3 de tu lista («nombres con barra»): en cuanto firmes 20/20MI y 20/20R nace la familia y se atesta ahí (grafía verbatim del corpus: «S20/20MI») · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-701**<br/>**13 OCTUBRE 1997**<br/>**Versión 1.0**»
       razón: MNDT-701 no aparece verbatim; deriva de MN-DT-701, referencia del manual (como MA-DT-015), no un modelo de producto.
@@ -584,6 +609,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 0
       **por qué NO entra en bloque**: confianza media; cita no verificada full-text; la cita verifica pero NO nombra al sujeto: la entrada se apoyaría sólo en la ficha del documento, no en su contenido
 - [ ] `996-130-000-3 manuel d'utilisation zx_hlsi` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible) · recibo `s331_retirar_docs_aplicar_20260820T200406Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — fragmento FR de 1 chunk (mismo caso que los PT retirados): ¿BAJA? (no se atesta hasta decidirlo)
       pm doc «ZX» · pm chunks «ZX» · tokens sin id: —
       ids del packet 12-ago `morley:zx2e`, `morley:zx2se`, `morley:zx50`, `morley:zxae`, `morley:zxce`, `morley:zxhe` → resueltos HOY — · **deriva**
@@ -627,6 +653,7 @@ Motivos de caída (del recibo, uno por línea):
       **por qué NO entra en bloque**: ids CANDIDATE ['kidde:2x-at']: el producto existe pero está pendiente de QA humana — atestarlo con un documento es promoverlo de hecho, y esa es una decisión de Alberto, no un efecto colateral
       ids NO consumibles (candidate/retirado): `kidde:2x-at`
 - [ ] `hlsi-ti-007_vsn-4rel` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ CERRADO (s331): la re-ingesta de s324d ya trajo el texto (2 chunks, 3.600 chars — la causa NO era OCR sino markdown degenerado, #87), pero los chunks nuevos volvieron con pm artefacto `TI-007`. Hoy: retag a **VSN-4REL** + doc_map `notifier:vsn-4rel` con cita full-text «Instalación del módulo VSN-4REL» — la atestación que dejaste pendiente · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ re-ingesta OCR primero (tu adjudicación: modelo VSN-4REL); atestación después
       pm doc «VSN-4REL» · pm chunks «VSN-4REL» · tokens sin id: —
       ids del packet 12-ago `notifier:vsn-4rel` → resueltos HOY `notifier:vsn-4rel`

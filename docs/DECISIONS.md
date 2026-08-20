@@ -9385,3 +9385,71 @@ REVOKE y la postcondición 6.1.b lo verifica.
   la matriz.
 - El gate de CI no ejercita la rama de programación (el contenedor no trae pg_cron): límite heredado
   de s299, no nuevo.
+
+## DEC-257 (s331, 20 ago 2026) — Las 3 preguntas del packet E1, adjudicadas por delegación: la hipótesis FS se comprueba AL PÍXEL y cae; y el dúo destapa que mi «no existe» era ceguera de grafía
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r38
+  INNEGOCIABLE**: Sol xhigh 5/5 confirmados 0 FP severidad máx. crítico + Fable 4/4 confirmados 0 FP
+  máx. medio; pairing roto por drift del árbol en vuelo — el autor escribió plan y censo mientras Sol
+  corría, clase TECH_DEBT #86 — así que la review de Fable quedó guardada SIN emparejar).
+  **Disparador**: Alberto delegó las 3 preguntas ⏳ del packet E1 v2 («las 3 preguntas son para ti»),
+  pidió atacar los no-bloqueantes y preguntó si quedaba algo en §1.A.
+- **Decisión (4 retags + 2 filas de doc_map + 1 baja, aplicados con recibo)**:
+  - `MADT015_01` → pm **`NFS 2-8`** + doc_map `notifier:nfs-2-8`.
+  - `MNDT600` → pm **`unknown`**, sin doc_map (doc genérico de calibración de detectores de gas).
+  - `MNDT701` → pm **`unknown`**; doc_map DIFERIDO al ítem 3 de Alberto (20/20MI, 20/20R).
+  - `HLSI-TI-007_VSN-4REL` → retag de chunks a **`VSN-4REL`** + doc_map `notifier:vsn-4rel` con cita
+    full-text «Instalación del módulo VSN-4REL» (ejecuta la atestación que #87 dejó pendiente).
+  - Baja de corpus del fragmento FR `996-130-000-3 Manuel d'utilisation ZX_hlsi` (firmada por Alberto
+    en la fila §1.A del packet). Recibos: `evals/s331_residuo_aplicar_20260820T200321Z.json` y
+    `evals/s331_retirar_docs_aplicar_20260820T200406Z.json`.
+- **Lo que el dúo cambió (y por qué era necesario)**: mi propuesta v1 descartaba la hipótesis FS de
+  Alberto con un censo de grafía (`fs2-*` en ids/pm) que era **ciego a `notifier:fs-1/fs-2/fs-4`** —
+  productos que SÍ existen, con el manual activo `FS2-1` y doc_map adjudicado. Sol lo cazó como
+  crítico. La comparación **al píxel** (los dos PDF delante) es la que zanja: las FS-1/2/4 son de
+  **1/2/4 zonas**, EFL solo resistivo 4K7, sin entradas digitales configurables ni retardos; la guía
+  `MADT015_01` muestra **8 zonas**, EFL resistencia **o** condensador 0,47µF, 2 entradas digitales
+  (7 tipos) y retardos principal/secundario — y su árbol de Nivel 3 es idéntico al del anexo
+  `MADT015_03`, que se titula «Anexo al manual de instalación de la central **NFS 2-8**, ref.:
+  MI-DT-015». **La conclusión sobrevive; la evidencia que la sostiene, no**: pasó de censo de grafía
+  a comparación de fuentes. Igual con el censo GD2, que era circular (solo docs con pm `SMART*`,
+  justo la clase que este plan corrige) y además truncaba a 1.000 filas: re-hecho **corpus-wide**
+  (1.054 activos), los 6 hits de «GD2/GD3» son «P**GD-2**00» (programador Detnov) ⇒ el doc del
+  **SMART3 GD2 NO está en el corpus**; el GD3 = `SMART3G-D3` sí, atestado por MTEX4805.
+- **Guarda de instrumento, no ritual (hallazgo de Fable)**: la findability de un retag cuya única
+  entry de doc_map la aporta *el propio plan* es **autosatisfecha por construcción** — no podía
+  fallar. El writer gana modos OPT-IN por fila (`findability`, ausente = conducta histórica):
+  `modelo_independiente` exige, cuando la entry es del plan, que el pm nuevo **ya resolviera en el
+  catálogo PREVIO** (evidencia independiente); `na_unknown` solo vale con pm `unknown` y se declara
+  en el recibo. Ambos casos quedan impresos en el recibo con `autosatisfecha_por_el_plan: true`.
+- **Alternativas descartadas**: (a) mapear `MADT015_01` a la serie FS — refutada al píxel;
+  (b) paraguas «SMART 3» para `MNDT600` — mezcla candidates pendientes de QA y no hace falta para
+  limpiar el artefacto: es decisión aparte de Alberto; (c) atestar `MNDT701` a SharpEye — los ids no
+  existen aún (penden del ítem 3), atestar antes sería crear identidad por ficha (R4); (d) fallback
+  «pm-only sin doc_map» para D1 — incoherente con el propio gate, eliminado: D1 es par atómico.
+- **Medida (dry-run + censo posterior, ambos PASS)**: detector **1744→1744 (+0/−0 términos)**, 0 gold
+  perdidas, 0 disparos en negativos sintéticos, 0 detecciones nuevas en 111 consultas reales,
+  findability 4/4, doc_map +2 filas (`notifier:nfs-2-8` 3→4 fuentes, `notifier:vsn-4rel` 7→8).
+- **Deuda nueva `TECH_DEBT #94`** (Sol, medio): los retags de `product_model` **no sobreviven a una
+  re-ingesta** — `detect_document_metadata` deriva del filename y `apply_metadata` lo estampa en los
+  chunks; TI-007 es la recaída demostrada (s324d lo devolvió a `TI-007`). Arreglo BP: que la
+  detección consulte la entry primaria del doc_map antes de derivar.
+- **Sonda del paraguas 2X-A (no aplicada, es de Alberto)**: `evals/s331_2xa_sonda_plan_v1.json` mide
+  lo que el gate frenó en s324 — **0 gold perdidas, 2 golds GANAN 12 fuentes cada una** (una de ellas
+  «¿El detector KE-DP3020W vale para la central 2X-A?»), **0 disparos en 111 consultas reales**, y el
+  único disparo es la sonda de tokens sintética «2 x a». Falta una frase suya: con o sin los 11
+  táctiles.
+- **VSN2-PLUS**: censado (18 grafías en ~20 docs Supra/UCIP: 2Plus ×40, Vision Plus2 ×12, ESS-2Plus
+  ×9…) y **diferido a la sentada E1b a propósito** — es rebrand multi-marca (NFS Supra ↔
+  VSN-2Plus/Vision Plus2 ↔ ESS-2Plus) con los homónimos cross-bloque que E1b ya declara. Cero
+  escrituras: `evals/s331_vsn2plus_censo_v1.md`.
+- **Gaps declarados**: la fila de doc_map de `MADT015_01` NO tiene cita full-text del propio doc
+  (evidencia documental de la hermana; clase MADT731_06, con la diferencia declarada de que aquello
+  fue adjudicación explícita de Alberto y esto es delegación); `unknown` en MNDT600/MNDT701 renuncia
+  al vínculo de producto hoy; la baja FR no tiene hermano ES del mismo manual (la política de idiomas
+  —RULER_DESIGN, answer ES+EN— deja el FR fuera igualmente; **la cita DEC-066 de la v1 era errónea**,
+  otro hallazgo de Sol).
+- **Relacionado**: packet `evals/s320_e1_packet_adjudicacion_v2.md` (§0.D/§1.A marcados) ·
+  propuesta post-dúo `evals/s331_residuo_e1_propuesta_v2.md` · TECH_DEBT #87 (cerrada por la vía de
+  la atestación) · #94 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
+  `evals/adversarial_review_log.jsonl`.
