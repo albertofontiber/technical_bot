@@ -4,7 +4,7 @@
 Es el MISMO código que corre el seam del worker (`src/clasificacion.py`); este
 script existe para las corridas que un humano decide: el backfill inicial tras
 aplicar la 021, y la re-clasificación del histórico cuando la taxonomía sube de
-versión (subir `version` en `config/taxonomia_preguntas_v1.yaml` convierte todo
+versión (subir `version` en `config/taxonomia_preguntas.yaml` convierte todo
 el histórico en pendiente — no hay modo «re-taxonomizar» aparte a propósito:
 un solo camino, sin estados especiales).
 

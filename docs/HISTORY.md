@@ -5984,3 +5984,19 @@ pagó en su primera lectura: «death knife», «death knob» y «nfs» — el AS
 (DEC-233), por fin como métrica. Distribución del histórico: catálogo 46 · specs 22 ·
 configuración 13 · otros 9 (8 %) · compatibilidad 7 · instalación 6 · averías 6. Queda el gate
 de acuerdo de Alberto (muestra de 35 en el hilo), el flag opcional y el addendum del abogado.
+
+**s326b (19-ago, noche) — el gate dijo NO, y esa era la gracia.** La muestra de 35 volvió de
+Alberto con siete adjudicaciones: fusionar instalación+configuración y catálogo+especificaciones
+(«son difíciles de diferenciar»), acotar compatibilidad a «¿se pueden conectar dos equipos,
+típicamente de marcas distintas?», mandar los mensajes de una sola palabra a `otros`, y —la que
+cambió el diseño— «la 26 no es una pregunta, es feedback». De ahí nació `no_es_pregunta`, que
+resultó ser el **10 %** del histórico: sin ella, cada gráfica de tipología llevaba un denominador
+contaminado con acuses de recibo y quejas. La 022 entró al segundo intento: el primero puso el
+UPDATE antes de retirar el CHECK viejo y murió con 23514, revirtiendo entero sin tocar una fila
+—la transacción haciendo exactamente lo que la 016 enseñó a exigirle—, y la lección quedó escrita
+en la cabecera del fichero. Cuatro pasadas del histórico (v2→v5) por **~$0,49 y ~6 minutos**,
+109/109 y cero fallos: la promesa de «re-taxonomizar cuesta céntimos» dejó de ser una promesa. De
+las tres iteraciones de descripciones, dos cerraban adjudicaciones de Alberto que el clasificador
+incumplía y **la tercera reparaba un daño que causaron mis propios refuerzos** (tanto insistir en
+«escueto → otros» empujó allí preguntas de especificaciones perfectamente claras); el tuneo se
+paró con un residual conocido en pie, para no ajustar el prompt a 109 filas. DEC-246.

@@ -3,7 +3,7 @@
 
 QUÉ HACE. Recorre las filas de `query_logs` sin clasificar (o clasificadas con
 una taxonomía anterior a la vigente) y escribe, por cada una: la CATEGORÍA
-(taxonomía cerrada `config/taxonomia_preguntas_v1.yaml`), las MARCAS y MODELOS
+(taxonomía cerrada `config/taxonomia_preguntas.yaml`), las MARCAS y MODELOS
 canónicos que la pregunta toca, y las menciones de marca que NO resuelven
 contra el catálogo (`marcas_libres` — la señal de demanda no cubierta).
 
@@ -56,8 +56,11 @@ from .http_pool import abierto
 
 logger = logging.getLogger(__name__)
 
+#: La taxonomía VIGENTE. La versión vive DENTRO del fichero (una sola fuente).
+#: Cambiar los IDS exige además migración hermana que altere el CHECK; cambiar
+#: solo descripciones, no. El v1 queda como recibo de las 109 primeras filas.
 RUTA_TAXONOMIA = Path(__file__).resolve().parent.parent / "config" / \
-    "taxonomia_preguntas_v1.yaml"
+    "taxonomia_preguntas.yaml"
 
 #: Haiku 4.5: el escalón de coste correcto para elegir 1 etiqueta de 9. El
 #: gate de acuerdo (propuesta §3.B.5) decide si se queda; subir de modelo sin

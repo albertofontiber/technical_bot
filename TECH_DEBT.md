@@ -3445,3 +3445,46 @@ que liste los PRs abiertos y avise si alguno toca los mismos ficheros canónicos
 va a abrir (una llamada a la API de GitHub) convierte «no me enteré» en «me lo dijo antes de
 abrir». Alternativa más barata y más débil: declarar el frente en el nombre de rama y exigir que
 sea único entre las ramas vivas.
+
+## 91. Las migraciones 021/022 no tienen gate contra Postgres real (s326b, hallazgo Sol)
+
+**Qué falta**: `test_s326_query_clasificacion_acl.py` fija el TEXTO de la 021 y
+`test_s326_clasificacion.py` cruza el YAML de la taxonomía con el CHECK de la 022 — los dos
+con regex sobre el fichero, no contra una base. El workflow `s324j-panel-pg.yml` (Postgres 17
+desechable) NO las incluye en sus `paths` ni las aplica.
+
+**El riesgo concreto que señala el dúo**: como la 022 YA está aplicada en producción, editar
+ese fichero más adelante junto con el YAML deja **CI verde y producción con el CHECK anterior**
+— la divergencia no la ve nadie EN CI. Mitigación puesta hoy (cultural, no mecánica): banner
+`✅ APLICADA EN PRODUCCIÓN … NO se edita` en la cabecera de 021 y 022, con la instrucción de
+escribir una migración nueva. **Mitigante verificado por el 2.º revisor**: si aun así
+divergieran, el fallo sería RUIDOSO y no silencioso — el job escribiría ids que el CHECK de
+producción rechaza (23514) y el parser estricto nunca degrada a `otros`, así que la corrida
+falla en vez de guardar basura. Eso rebaja la urgencia, no cierra el hueco.
+
+**Arreglo de raíz**: extender el gate pg —o crear uno hermano— que aplique la cola
+021→022 sobre el contenedor desechable y afirme el EFECTO: RLS+FORCE, ACL por columna
+(el trinquete que prohíbe `UPDATE(query_log_id)`, que ya mordió una vez), las 8 vistas con
+`security_invoker`, y el CHECK vigente == ids del YAML leídos de `pg_constraint`.
+
+**Trigger**: (a) la próxima migración que toque `query_clasificacion` o sus vistas, O
+(b) que el panel deje de ser de uso interno (DGs invitados), O (c) cualquier sesión sin presión.
+
+## 92. El clasificador de preguntas no ve el hilo, y `no_es_pregunta` depende del hilo (s326b, hallazgo Sol)
+
+**El defecto**: `construir_prompt` manda al LLM el mensaje AISLADO. Pero varias reglas de la
+taxonomía son intrínsecamente conversacionales: `no_es_pregunta` cubre «continúa la
+conversación respondiendo a lo que el bot acababa de preguntar» («Programación
+principalmente.», «Sobre la 2X-AF1-FBS.»), y `otros`/`catalogo_especificaciones` se separan
+por si el sujeto viene del hilo («¿cuántos lazos tiene?»). **Dos mensajes idénticos pueden
+merecer etiquetas distintas según lo que el bot dijera antes** — y eso NO se arregla afinando
+descripciones, que es justo lo que se intentó en v3→v5.
+
+**Por qué no se arregla hoy**: el fix (pasar el turno anterior del mismo usuario como
+contexto) sube tokens por fila, cambia el prompt —así que exige versión nueva de taxonomía y
+re-corrida— y su beneficio real depende de cuánto tráfico multi-turno haya. Con 109 filas
+pre-piloto no hay con qué medirlo.
+
+**Trigger**: cuando el piloto acumule conversaciones multi-turno reales (o si el gate de
+acuerdo de Alberto marca desacuerdos concentrados en mensajes de continuación). Medición
+propuesta: etiquetar a mano N mensajes de continuación y comparar acuerdo con/sin contexto.
