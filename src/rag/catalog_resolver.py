@@ -547,6 +547,38 @@ def corpus_pm_elements() -> frozenset[str] | None:
         return elements
 
 
+def presence_estado() -> str:
+    """(s331 obs/boot) Estado actual de la caché SIN red: vigente|stale|cold."""
+    return _presence_peek(time.monotonic())[1]
+
+
+_presence_refresh_lock = threading.Lock()
+
+
+def refresh_presence() -> str:
+    """(s331 boot + refresher periódico a 0,8×TTL) Recarga SINGLE-FLIGHT del set de
+    presencia: 'refreshed' | 'in_progress' (otra recarga en vuelo — coalescida, no
+    espera) | 'failed' (fail-open: el set previo sigue sirviendo vía peek hasta su
+    stale, y los drops ya están desactivados en stale/cold). TODA la red del ciclo
+    de vida de la presencia vive aquí y en `corpus_pm_elements` (retrieval); el
+    path de TURNO usa `_presence_peek`, sin red y sin espera de lock."""
+    global _presence
+    if not _presence_refresh_lock.acquire(blocking=False):
+        return "in_progress"
+    try:
+        elements, fp = _load_presence()
+        now = time.monotonic()
+        with _presence_lock:
+            _presence = {"elements": elements, "at": now, "fp": fp, "fp_at": now}
+        return "refreshed" if elements is not None else "failed"
+    except Exception:  # noqa: BLE001 — telemetría/caché jamás rompe el proceso
+        logger.warning(
+            "refresh_presence falló (fail-open: el set previo sigue sirviendo)")
+        return "failed"
+    finally:
+        _presence_refresh_lock.release()
+
+
 def _token_core_absent_in_corpus(token: str) -> bool:
     """True SOLO si estamos SEGUROS de que el core del token NO tiene presencia exact-tag
     POR ELEMENTO en el corpus. Core vacío o DB no consultable ⇒ False = CONSERVAR."""

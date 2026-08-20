@@ -259,8 +259,11 @@ def _trace(**overrides):
     return build_rag_serving_trace(**base)
 
 
+# s331: +`turn_identity` — sección REQUERIDA nueva (tri-estado, patrón `intent`);
+# el pin protege la AUSENCIA de `mismatch_corrected`, no congela el esquema.
 _CLAVES_HISTORICAS = {"schema", "release_profile", "coverage", "must_preserve",
-                      "retrieval", "timings", "intent", "transport"}
+                      "retrieval", "timings", "intent", "transport",
+                      "turn_identity"}
 
 
 def test_trace_sin_correccion_es_byte_identico_al_de_antes():
