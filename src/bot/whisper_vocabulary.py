@@ -57,6 +57,12 @@ _CONFUSIONES_OBSERVADAS: tuple[tuple[str, str, str, bool, str | None, str], ...]
      "17-ago-2026 piloto: audio Detnov→«Death Knob»"),
     (r"bqide", "Kidde", "reescrito", False, "ASR_AVISOS",
      "query_logs 02055e5d 21-ago: audio Kidde→«BQide»"),
+    # 4ª y 5ª corrupciones OBSERVADAS de «Kidde» en un solo día (verificado: ni
+    # «kide» ni «itide» existen como marca, término gobernado ni token del corpus).
+    (r"kide", "Kidde", "reescrito", False, "ASR_AVISOS",
+     "query_logs 044c584a 21-ago 13:27Z: audio «Quería decir de KIDE»"),
+    (r"itide", "Kidde", "reescrito", False, "ASR_AVISOS",
+     "query_logs 11469925 21-ago 13:27Z: audio Kidde→«ITIDE»"),
     # Sin IGNORECASE y sólo aislada: `\b` no corta ID3000/ID3002/IDNet (letra→dígito
     # y letra→letra no son frontera), y «id» minúscula queda fuera. Modo `aviso`
     # porque la familia ID existe de verdad: reescribir sería corromper al legítimo.

@@ -23,7 +23,7 @@
 > Enseña **1.105 modelos que el bot usa** en 36 marcas. con sus manuales. sus alias y sus
 > paraguas. más las dos preguntas que hasta ahora no se veían en ningún sitio: **55 modelos sin
 > ningún manual** y **193 manuales huérfanos**. La cifra de huérfanos era **245** cuando la Wiki la
-> destapó (s331d): el ataque autónomo de s334 (DEC-269) promovió **81 productos verificados uno a
+> destapó (s331d): el ataque autónomo de s334 (DEC-270) promovió **81 productos verificados uno a
 > uno con el resolver** y rescató **52 manuales** — cuarentena 520 (era 601). consumibles
 > 1.105 (eran 1.024). Los **81 `redirect` entre marcas**
 > son clase propia — la vista OEM. Cambiar el catálogo sigue pasando por el lote firmado con recibo;

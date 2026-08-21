@@ -29,7 +29,7 @@
 ## Estado actual (21 ago 2026 — DOS hilos: correcciones/asunciones VISIBLES listas para ship, y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
-**s334 (DEC-269) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
+**s334 (DEC-270) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
 Alberto con su reencuadre («la unidad es el MANUAL, no el candidate»). Dos lotes firmados de
 `products_confirmar` **aplicados** por el gate de s324: **81 productos** salen de la cuarentena
 (601 → 520; consumibles 1.024 → **1.105**) y **52 manuales** dejan de ser inalcanzables por nombre
@@ -162,7 +162,7 @@ causa de que una VM no la recibiera sigue abierta.
    (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. Residuales
    post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
-0c. **s332+s333 correcciones/asunciones visibles + clasificador de corrección — s332 FLIP ON; s333 GO en gate, flip `F1_CORRECCION_LLM=on` tras merge #329; re-verificación por voz pendiente (fraseo NO tabulado)** (DEC-264/265/268; los
+0c. **s332+s333 correcciones/asunciones visibles + clasificador de corrección — s332 FLIP ON; s333 GO en gate, flip `F1_CORRECCION_LLM=on` tras merge #329; re-verificación por voz pendiente (fraseo NO tabulado)** (DEC-264/265/268/269 — s334: fuzzy+R8 GO en gates, flip de 2 vars pendiente tras merge #331; los
    dos GO de la mañana ya EJECUTADOS y con gates PASS): **Railway worker = 2 vars**:
    `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on`. **Tras el flip: verificación DEC-099 por VOZ**
    — dictar «¿Qué centrales Kidde tienes?» (si el ASR rompe la marca, la confirmación lleva el

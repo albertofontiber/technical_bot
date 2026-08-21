@@ -6828,6 +6828,32 @@ vieja, y un backtick ejecutado dentro de un `-m` que mutiló una línea de commi
 con regla. PRs del día: #325 (cierre s331 + colisión de numeración con la sesión paralela),
 #327 (build s332 entero), #328 (fix s332b), #329 (s333, pendiente de merge). DEC-263→265 y 268 (266/267 son de la sesión paralela).
 
+## s334 (21 ago 2026, tarde) — La conversación que ejercitó las tres capas y encontró la cuarta
+
+Alberto probó el flip de s333 por voz y Whisper le escupió la 4ª y 5ª corrupción de «Kidde»
+del día («ITIDE», «KIDE») — la segunda DENTRO del propio turno de corrección, donde ninguna
+capa podía verla: el cue era válido pero la marca corrupta no casaba ningún token gobernado y
+la red entera quedaba inalcanzable. Y en «Ahora quiero Morley» tras un listado por atajo, el
+clasificador de s333 se estrenó en producción con mecánica perfecta… razonando contra una
+`last_query` rancia, porque el atajo de catálogo nunca escribió estado (la R8 que s332 declaró
+como deuda). Su «es subóptimo» era exacto en los dos casos.
+
+La respuesta fue en dos tiempos. Inmediato: filas observadas kide/itide (la vía pre-autorizada,
+PR #331 en verde mientras se diseñaba lo demás). Estructural, con GO doble y dúo (10/10, 0 FP):
+el fuzzy ACOTADO al slot de marca — reframeado con honestidad tras el crítico de Sol («tu
+propia fila kide consumió la evidencia viva: esto es una apuesta anticipatoria del owner, no un
+rescate medido») y blindado con el guard-test de Fable (la invariante de unicidad se audita
+sobre el conjunto VIVO en cada CI, no una vez) — y la R8 cerrada de raíz: las CINCO rutas
+terminales de atajo (Sol cazó que «solo inventario» era falso) escriben la transición de
+respuesta por un helper extraído de `advance_working_state` (divergencia imposible por
+construcción) a través del escritor único, consumiendo de paso el pending que cruzaba atajos.
+
+El gate midió lo que había que medir en vez de presuponerlo: con estado fresco, el clasificador
+real leyó «Ahora quiero Morley» como corrección (1.261 ms) y la respuesta e2e sirvió las
+centrales Morley-IAS — la conversación de la tarde, reparada de raíz y con recibo. De regalo,
+los tests del fuzzy descubrieron que la plantilla s332 no toleraba el «de» preposicional del
+fraseo real de Alberto. Suite 4900 en verde. DEC-269.
+
 ---
 
 ## s334 (21 ago 2026) — «¿puedes atacarlo de forma autónoma?»: 52 manuales rescatados, y las tres veces que el número que yo daba no era el número que había
@@ -6895,3 +6921,4 @@ arreglado, no sólo la cifra.
 automático falló porque el manifiesto derivado del snapshot dejó de coincidir. Las semillas eran
 las mismas y las dos reviews están guardadas y adjudicadas — falta el sello, no el revisor. No
 volver a commitear entre Sol y Fable.
+
