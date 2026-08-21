@@ -7,9 +7,12 @@ secciones de enumeración/tablas de modelos para las filas no-alta (la ventana
 inicial de s322 perdió 22/22 que la repesca recuperó — TECH_DEBT s322b).
 
 NADA se escribe al catálogo aquí: recibo → capacidad+full-text (Sol2-1/Sol2-2)
-→ gate vs GT → writer atómico. El PROMPT es copia VERBATIM del de
-`s322_76_poblacion.py` (el recibo estampa sha256 de ambos para pinnar el
-no-drift; una fuente importable exigiría paquete en scripts/ — declarado).
+→ gate vs GT → writer atómico. El PROMPT es DERIVADO del de
+`s322_76_poblacion.py` con reglas s336 añadidas (divergencia multi-doc devuelve
+ambas entradas; sounders→sirena; y v2: la regla R16 doc-de-otro — el gate v1
+falló 13/14 EXACTAMENTE en pl4-e, la tarjeta clasificada como su central
+anfitriona). El control que valida ESTE prompt es el gate contra el GT
+congelado, no la herencia textual (los sha de ambos prompts van al recibo).
 
 Uso: python scripts/s336_poblacion.py [--limit N] [--out ...]
      (--limit 10 = el SMOKE pre-registrado que mide el coste real)
@@ -61,7 +64,8 @@ Clasifícalo. Responde SOLO este JSON:
  "confianza": "alta|media|baja",
  "razon": "una frase"}}
 
-Reglas: analogica INCLUYE direccionable/inteligente/addressable (uso PCI-ES estándar). Los sounder/VAD/beacon de notificación → sirena. LHD/sensor cable → detector. PAK/llaves/repuestos → accesorio. Si el doc cubre VARIAS variantes y los lazos difieren POR VARIANTE, devuelve los lazos DE ESTE producto (por su sufijo si el doc lo ancla) — si no puedes anclarlo, lazos=null. Si dos DOCS divergen (p.ej. mercados), devuelve AMBAS entradas de lazos con su cita. Sin cita verbatim → confianza baja."""
+Reglas: analogica INCLUYE direccionable/inteligente/addressable (uso PCI-ES estándar). Los sounder/VAD/beacon de notificación → sirena. LHD/sensor cable → detector. PAK/llaves/repuestos → accesorio. Si el doc cubre VARIAS variantes y los lazos difieren POR VARIANTE, devuelve los lazos DE ESTE producto (por su sufijo si el doc lo ancla) — si no puedes anclarlo, lazos=null. Si dos DOCS divergen (p.ej. mercados), devuelve AMBAS entradas de lazos con su cita. Sin cita verbatim → confianza baja.
+OJO (v2): el doc puede ser el manual de OTRO producto (típicamente una central) que CONTIENE al tuyo como tarjeta/módulo/expansión/accesorio opcional. Clasifica EL PRODUCTO DEL ID, no el sujeto del manual: si «{canonical}» aparece como tarjeta opcional, módulo, expansor, interfaz o accesorio DE la central del doc, su categoría es modulo/accesorio — JAMÁS central. La cita debe hablar de «{canonical}», no de la central anfitriona."""
 
 _RX_R9 = re.compile(
     r"descripci[oó]n general|\bmodelos\b|\bmodels\b|ordering information|"
@@ -142,6 +146,11 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true",
                     help="retoma desde el checkpoint .parcial (la pasada del "
                          "21-ago murió a mitad por crédito de API agotado)")
+    ap.add_argument("--solo-categoria", default="",
+                    help="re-pasada QUIRÚRGICA con el prompt v2: re-corre SOLO "
+                         "las filas del recibo previo cuya llm.categoria sea "
+                         "ésta (población mecánica del fallo R16 del gate v1) "
+                         "y FUSIONA sobre el recibo; el resto queda intacto")
     args = ap.parse_args()
     censo = json.loads((ROOT / "evals" / "s336_censo_diana_v1.json")
                        .read_text(encoding="utf-8"))["detalle"]
@@ -156,7 +165,16 @@ def main() -> int:
     uso = {"in": 0, "out": 0}
     filas, docs_sin_chunks = [], set()
     hechas: set[str] = set()
-    if args.resume:
+    if args.solo_categoria:
+        previo = json.loads(Path(out).read_text(encoding="utf-8"))
+        diana_ids = {f["id"] for f in previo["detalle"]
+                     if f["llm"].get("categoria") == args.solo_categoria}
+        filas = [f for f in previo["detalle"] if f["id"] not in diana_ids]
+        hechas = {f["id"] for f in filas}
+        docs_sin_chunks = set(previo.get("docs_sin_chunks") or [])
+        print(f"  re-pasada v2 sobre {len(diana_ids)} filas "
+              f"llm.categoria={args.solo_categoria!r}; {len(hechas)} intactas")
+    elif args.resume:
         parcial = Path(out + ".parcial")
         if parcial.exists():
             filas = json.loads(parcial.read_text(encoding="utf-8"))["detalle"]
@@ -212,6 +230,12 @@ def main() -> int:
     recibo = {
         "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
         "modelo": MODELO,
+        "re_pasada_v2": ({"solo_categoria": args.solo_categoria,
+                          "n_re_corridas": len(censo) - len(hechas),
+                          "nota": "las filas re-corridas usaron el prompt v2 "
+                                  "(regla R16); las intactas, el v1 — el sha "
+                                  "de abajo es el del prompt VIGENTE (v2)"}
+                         if args.solo_categoria else None),
         "prompt_sha256": hashlib.sha256(PROMPT.encode()).hexdigest()[:16],
         "prompt_s322_sha256": hashlib.sha256(
             re.search(r'PROMPT = """(.*?)"""',
