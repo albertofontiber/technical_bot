@@ -139,6 +139,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default="")
+    ap.add_argument("--resume", action="store_true",
+                    help="retoma desde el checkpoint .parcial (la pasada del "
+                         "21-ago murió a mitad por crédito de API agotado)")
     args = ap.parse_args()
     censo = json.loads((ROOT / "evals" / "s336_censo_diana_v1.json")
                        .read_text(encoding="utf-8"))["detalle"]
@@ -152,9 +155,19 @@ def main() -> int:
                                   timeout=120.0, max_retries=1)
     uso = {"in": 0, "out": 0}
     filas, docs_sin_chunks = [], set()
+    hechas: set[str] = set()
+    if args.resume:
+        parcial = Path(out + ".parcial")
+        if parcial.exists():
+            filas = json.loads(parcial.read_text(encoding="utf-8"))["detalle"]
+            hechas = {f["id"] for f in filas}
+            print(f"  resume: {len(hechas)} filas desde el checkpoint "
+                  f"(el uso de tokens del recibo cubre SOLO lo re-corrido)")
     t0 = time.perf_counter()
     with abierto(timeout=30.0) as c:
         for i, d in enumerate(censo):
+            if d["id"] in hechas:
+                continue
             trozos = []
             for sf in d["docs"][:3]:
                 muestra_doc = _chunks(c, sf, 3)
