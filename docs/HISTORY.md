@@ -7055,3 +7055,67 @@ Tres veces en un día he dado un número que medía algo más ancho de lo que yo
 número bajó al medirlo bien. La diferencia con la mañana es que ahora el que corrige es el
 instrumento, no otro: la regla de R20 saltó sola sobre los alias, y la verificación de citas era un
 paso que el dúo pidió y que yo ejecuté sin regatearlo.
+
+---
+
+## s336 (21-ago-2026) — La clave de Gemini, y una sonda que medía qué páginas habíamos guardado
+
+Alberto me ofreció una clave de Google Gemini para «rascar» los manuales huérfanos que ningún
+camino de texto alcanza. Monté una sonda multimodal para medirlo y la primera corrida devolvió
+`gemini 0/37`. Miré el desglose de errores antes que el titular y eran 58 llamadas perdidas con
+429: reportarle «Gemini no lo consigue» habría sido vender un fallo de infraestructura como un
+dato. Arreglé el paso… contra el eje equivocado, porque leí la cuota como si fuera por minuto
+cuando el `quotaId` dice `GenerateRequestsPerDayPerProjectPerModel-FreeTier`: son **20 al día**.
+
+Con los tres lectores funcionando, la segunda corrida volvió a dar negativos en fila. Seis
+seguidos son un olor, así que en vez de teorizar me bajé las páginas y las miré. La portada del
+FAD-902 dice **«GUIDE MANUAL / Power Supplies»** y no nombra el modelo por ningún lado; su página
+8 es «3.4 Descripción de los leds». **Los lectores acertaban en todas.** La sonda no medía qué
+modelo lee mejor una página: medía qué páginas habíamos guardado — `document_visual_assets` es una
+selección, mediana de 2 páginas por huérfano en manuales de 30.
+
+Por el camino me equivoqué en voz alta dos veces y las dos hay que dejarlas escritas: llamé
+«recortes de figura» a lo que son páginas completas (`visual_role` describe lo que hay EN la
+página), y di por buena la explicación antes de mirar.
+
+Los PDF originales sí están en Storage, 83 de los 84. Lo cual convierte la pregunta cara en una
+gratis: **¿está el nombre en la capa de texto del PDF?** Leerlos enteros costó minutos y contestó
+los 84 de golpe. El resultado: **un lector multimodal paga 2** — los dos escaneados. Los demás se
+reparten entre adjudicaciones y promociones. La clave de Gemini nunca fue el desbloqueo.
+
+Dos números míos no llegaron a salir de aquí, y esa es la única mejora que compone. «75 de 84 lo
+tienen en el PDF» se cae con **R19** —`NAS`, `TG`, `RHistorico.exe` y «modelo antideflagrante»
+pasan la cita sin identificar nada—, y contra el canónico son 49. Y «lo perdimos al extraer» es
+**falso en 48 de 49**: el dato ya estaba en `chunks_v2`; lo que faltaba era promover. Los frené yo,
+con reglas que había escrito antes, y no el dúo ni Alberto.
+
+Luego vino el lote. Los «20 promovibles» eran una condición de evidencia, no una adjudicación:
+R19 y R21 se comieron 17, y el gate cazó lo que mi R21 no vio —sólo cruzaba canónico↔canónico, y
+`notifier-inspire-e10` ya es alias de `notifier:inspire-e10`—. El dúo devolvió **9 hallazgos, 9
+verificados, 0 falsos**, y los dos revisores convergieron en el mismo fallo: mi prosa decía «R19 6
+/ R21 10 / SUJETO 1» y su propio recibo dice R21=11, R19=6, **SUJETO=0**. Había presentado como la
+guarda que descartó ID-3000 un filtro que no decidió ni un caso.
+
+Y el hallazgo de Fable cambió el lote. Señaló que el censo del gate flagea `AM-LCD` con
+`[sin_digitos, acronimo_corto]` —la clase con la que R19 mata `NAS`— y que yo había escrito
+«LPX-751 es el más débil» omitiéndolo. Medí su huella en el corpus **esperando limpiar el flag** y
+lo confirmó: uno de sus seis documentos es «Pantalla **FM/AM LCD**», de un manual de radio.
+Quedaron dos: `SDX-751-TEM` y `LPX-751`. Huérfanos 84 → 82.
+
+Verificando ese hallazgo apareció lo más caro del día: dos pases idénticos daban `AM-LCD=2` y
+`AM-LCD=6`, y el corpus salía con 954 documentos teniendo 1.080. Mis paginadores no pasaban
+`order`, y **PostgREST no garantiza orden estable entre rangos**. Arreglado con `order` +
+verificación contra `count=exact`, que falla ruidosamente en vez de fiarse de que la última página
+venga corta. Re-corrí los dos censos que ya le había enseñado a Alberto: salen idénticos.
+
+Alberto zanjó además una preferencia — **Anthropic sobre Gemini cuando haya que elegir** — y la
+cablé en vez de sólo anotarla: `LECTORES=claude,gpt` por defecto. El cross-model no se toca;
+Claude y GPT ya son dos familias, y eso es lo que hace del acuerdo una evidencia.
+
+**Lo que queda como rumbo, y no es técnico.** 82 no se acerca a los «10 como máximo» que pidió, y
+ahora sé por qué con números: **53 de los 82 están gated en decisiones suyas**. Al descomponerlas
+apareció lo mejor de la sesión: los 29 «redirects pendientes» no eran una cola plana — **17 se
+desbloquean con 5 firmas**, y `unresolved:id50` → `notifier:id-50` vale 12 manuales él solo.
+Simulado sobre una copia del catálogo, **82 → 65 sin un solo huérfano nuevo**. El cuello de botella
+dejó de ser el corpus y pasó a ser el calendario de Alberto, que es un sitio mucho mejor donde
+tenerlo.
