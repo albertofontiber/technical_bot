@@ -1,0 +1,76 @@
+# s333 — cohorte CONGELADA del gate de juicio CORRECCION/NUEVO (v2 §5).
+# ANTI-GATE-SHOPPING (DEC-126): revisar el prompt o estas filas = cohorte NUEVA versionada.
+# Población del clasificador (v2 §2): turno con UNA marca gobernada, sin modelo resuelto,
+# sin model-token, sin pending, sin estado bindeado, last_query fresca, plantilla fallo.
+# GOLD autorado por el orquestador; revisión Fable-standalone pre-gate (desviación declarada
+# del dúo-entero, v2 §5); etiquetas LÍMITE excluidas de la barra y listadas abajo para
+# adjudicación de Alberto (precedente hp011#2).
+#
+# REGLA K PINNADA (v2 §5, espejo s316g «voto dañino»):
+#   negativa: FALLA si CUALQUIER voto de sus K es CORRECCION.
+#   positiva: PASA solo con MAYORÍA >=2/3 de CORRECCION.
+#   None/timeout cuenta como NUEVO.
+# BARRA: falsas_correccion == 0  Y  positivas_pass >= 10/12.
+# Framing honesto (Fable-3): las positivas p1/p2 las absorbe el fast-path en producción;
+# AQUÍ el clasificador se mide AISLADO (q intacta, cue incluido — es el e2e el que retira
+# el cue del léxico, no este runner). Barra efectiva de la cola real: >=8/10 restantes.
+# Distribución declarada (Fable-standalone pre-freeze, menor): 8/12 positivas comparten
+# plantilla semántica kidde-tras-ID/BQide y solo 2/12 son EN — la cola EN/otras-marcas se
+# re-adjudica con OBSERVACIONES (disciplina DEC-233; no se inventan fraseos para rellenar).
+version: 1
+k: 3
+umbral_falsas_correccion: 0
+umbral_positivas_pass: 10
+
+# Excluidos de la barra — LÍMITES pendientes de adjudicación de Alberto (no se corren):
+#   · «Kidde» a secas tras «¿Qué centrales ID tienes?» (¿corrección o tema nuevo?)
+#   · «vale, Kidde entonces» (asentimiento con marca; plausible corrección débil)
+
+positivas:   # esperado: CORRECCION
+  - {q: "sí, dije Kidde",                       last_query: "¿Qué centrales ID tienes?",              marca: kidde,    nota: "REAL 57b8d482 (fast-path en prod)"}
+  - {q: "me refería a Kidde",                   last_query: "¿Qué centrales BQide tienes?",           marca: kidde,    nota: "REAL 576a7ef9 (fast-path en prod)"}
+  - {q: "que no, que es Kidde",                 last_query: "¿Qué centrales ID tienes?",              marca: kidde}
+  - {q: "KIDDE te digo",                        last_query: "¿Qué centrales ID tienes?",              marca: kidde}
+  - {q: "era kidde, no id",                     last_query: "¿Qué centrales ID tienes?",              marca: kidde}
+  - {q: "te he dicho kidde",                    last_query: "¿Qué centrales BQide tienes?",           marca: kidde}
+  - {q: "no no, la marca es Kidde",             last_query: "¿Qué centrales BQide tienes?",           marca: kidde}
+  - {q: "Kidde, he dicho",                      last_query: "¿Qué centrales ID tienes?",              marca: kidde}
+  - {q: "perdona, quería decir Notifier",       last_query: "¿Qué detectores de Notifair tienes?",    marca: notifier}
+  - {q: "no I said Kidde",                      last_query: "What ID panels do you have?",            marca: kidde}
+  - {q: "I meant the Kidde one",                last_query: "What BQide panels do you have?",         marca: kidde}
+  - {q: "me refiero a la marca Aguilera",       last_query: "¿Qué centrales de Agilera tienes?",      marca: aguilera}
+
+negativas:   # esperado: NUEVO — un solo voto CORRECCION en cualquiera = falla la barra
+  - {q: "¿qué centrales de la marca Kidde tienes?",          last_query: "¿Qué centrales ID tienes?",        marca: kidde, nota: "REAL 6ee97e80"}
+  - {q: "los Kidde fallan mucho",                            last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "¿Kidde es mejor que la competencia?",               last_query: "¿Qué centrales ID tienes?",        marca: kidde, nota: "comparación con UNA marca gobernada (la versión «¿Kidde es mejor que Notifier?» quedó FUERA: dos tokens gobernados ⇒ la guarda len==1 la excluye de población — Fable-standalone pre-freeze)"}
+  - {q: "¿la sirena de Kidde es compatible con mi central?", last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "¿tienes manuales de Aguilera?",                     last_query: "¿Qué centrales Kidde tienes?",     marca: aguilera}
+  - {q: "ahora quiero ver detectores Notifier",              last_query: "¿Qué centrales Kidde tienes?",     marca: notifier}
+  - {q: "¿qué me recomiendas de Kidde para un parking?",     last_query: "¿Qué detectores ópticos tienes?",  marca: kidde}
+  - {q: "gracias, ya funciona el Kidde",                     last_query: "¿Cómo rearmo la central?",         marca: kidde}
+  - {q: "¿cuánto cuesta el mantenimiento de una central Kidde?", last_query: "¿Qué centrales ID tienes?",    marca: kidde}
+  - {q: "me han instalado una Kidde nueva",                  last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "¿Detnov tiene detectores por aspiración?",          last_query: "¿Qué centrales Kidde tienes?",     marca: detnov}
+  - {q: "pásame el teléfono del soporte de Kidde",           last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "what Kidde panels do you have?",                    last_query: "What ID panels do you have?",      marca: kidde}
+  - {q: "mejor dime algo de Morley",                         last_query: "¿Qué centrales Kidde tienes?",     marca: morley,   nota: "difícil: switch, no corrección"}
+  - {q: "¿y de Aguilera qué tienes?",                        last_query: "¿Qué centrales Kidde tienes?",     marca: aguilera}
+  - {q: "vale, pues busca en Notifier",                      last_query: "¿Qué centrales Kidde tienes?",     marca: notifier, nota: "difícil: instrucción de cambio"}
+  - {q: "¿las Kidde llevan certificado EN54?",               last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "mi cliente quiere presupuesto para una Kidde",      last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "la alarma de Kidde no para de sonar",               last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "¿Honeywell es el fabricante de esa central?",       last_query: "¿Qué centrales ID tienes?",        marca: honeywell}
+  - {q: "oye, ¿tienes fichas técnicas de Kidde Commercial?", last_query: "¿Qué centrales ID tienes?",        marca: kidde}
+  - {q: "no me gusta Kidde, ¿qué alternativas hay?",         last_query: "¿Qué centrales Kidde tienes?",     marca: kidde,    nota: "difícil: negación presente, tema nuevo"}
+  - {q: "¿me pasas el manual de la central Aguilera?",       last_query: "¿Qué centrales ID tienes?",        marca: aguilera}
+  - {q: "I want to see Notifier catalogs",                   last_query: "What Kidde panels do you have?",   marca: notifier}
+
+# Verifican la GUARDA Fable-1 contra resolve() ENTERO (jamás llegan al clasificador;
+# el runner las corre con una fn que EXPLOTA si se invoca). Strings VERIFICADOS con
+# extract_product_models == [] (E1 midió que «2X-AF9999» resuelve el prefijo «2X-A» ⇒
+# rama A, y «CAD-9871» se EXTRAE literal ⇒ rama A también — esa clase la pinea
+# test_codigo_que_SI_resuelve_lo_gana_la_rama_a, no esta guarda):
+guarda_model_token:
+  - {q: "no, era la Kidde XY-9999",  last_query: "¿Qué centrales ID tienes?",  esperado_rationale: new_brand_switch_model_token}
+  - {q: "dije Kidde QQ-8888",        last_query: "¿Qué centrales ID tienes?",  esperado_rationale: new_brand_switch_model_token}

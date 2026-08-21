@@ -339,6 +339,11 @@ _CENSO_ESTADO_DE_PROCESO = {
     "_inventario_falla_ts": "backoff tras un fallo de DB; un float, sin contenido",
     "_marcas_db_cache": "lista de fabricantes con documentos en la DB",
     "_INTENT_FN_CELL": "el CLIENTE del clasificador (una construcción por proceso)",
+    # (s333 B3) Misma clase EXACTA que _INTENT_FN_CELL: guarda el callable del
+    # clasificador de corrección (o el centinela False si su construcción falló).
+    # Ni clave ni valor tocan contenido de usuario — la query viaja por ARGUMENTOS
+    # del callable, jamás se guarda en la celda.
+    "_CORRECCION_FN_CELL": "el CLIENTE del clasificador de corrección (por proceso)",
     # (s324f) Cota del aviso al operador ante incidencias críticas. Cumple el
     # requisito de este censo por construcción: la CLAVE es `clase:etapa` de la
     # incidencia —vocabulario cerrado de la taxonomía, sin nada de quien la

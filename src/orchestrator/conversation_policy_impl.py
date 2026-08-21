@@ -180,6 +180,18 @@ def _correction_lexicon() -> "tuple[str, ...]":
     return _correction_cache
 
 
+def _marca_superficial(query: str, marca: str) -> str:
+    """(s332 §4 · extraído en s333 §2) Forma SUPERFICIAL de la marca tal como el
+    usuario la escribió, para que «Kidde» conserve su grafía: `marca` es el token
+    del catálogo de marcas y viene en MINÚSCULA, así que se relee de la query
+    ORIGINAL (case-insensible) y se le quita la puntuación de cola. UNA fuente para
+    las dos vías de corrección —plantilla y clasificador—: el sufijo que ve el
+    usuario no puede depender de cuál de las dos disparó."""
+    m = re.search(rf"\b{re.escape(marca)}\b", query, re.IGNORECASE)
+    superficial = (m.group(0) if m else marca).strip(" .,;:!?¡¿«»\"'")
+    return superficial or marca
+
+
 _CLAUSE_CUTS = ",.;:¿?¡!"
 _NEGATION_CUES = frozenset({"no", "not", "nope"})
 
@@ -509,12 +521,31 @@ class DeterministicConversationPolicy:
                           rf"[\s.!?¡¿]*$")
                 if not re.match(patron, ql):
                     continue
-                # La forma superficial se lee de la query ORIGINAL (case-insensible):
-                # `marca` es el token del catálogo de marcas y viene en minúscula.
-                m = re.search(rf"\b{re.escape(marca)}\b", query, re.IGNORECASE)
-                superficial = (m.group(0) if m else marca).strip(" .,;:!?¡¿«»\"'")
-                return superficial or marca
+                return _marca_superficial(query, marca)
         return None
+
+    @staticmethod
+    def _correction_resolution(base: str, marca: str,
+                               avail: "tuple[str, ...] | None",
+                               rationale: str) -> TurnResolution:
+        """(s332 §4 · extraído en s333 §2) La resolución STANDALONE de una corrección
+        de marca, IDÉNTICA para las dos vías —plantilla determinista y clasificador
+        LLM—: solo cambia el `rationale` (atribución de MECANISMO; la conducta
+        servida es byte-idéntica, y ESE es el criterio de los gates).
+
+        La base es la pregunta ORIGINAL y viaja en `state_query_override` para que
+        una SEGUNDA corrección reconstruya desde ELLA — nunca desde la meta-frase ni
+        desde la query ya anotada (Sol-3 s332)."""
+        return TurnResolution(
+            route=PolicyRoute.STANDALONE,
+            query_for_retrieval=f"{base} (el usuario corrige: la marca es {marca})",
+            target_models=(),
+            available_models=avail,
+            asunciones=(Asuncion(kind="marca_corregida", detectado=marca,
+                                 asumido=marca, modo="reescrito"),),
+            state_query_override=base,
+            rationale=rationale,
+        )
 
     @staticmethod
     def _is_out_of_domain(ql: str) -> bool:
@@ -661,6 +692,7 @@ class DeterministicConversationPolicy:
         rewrite: RewriteFn | None = None,
         intent=None,
         unresolved_mention: str | None = None,
+        correccion=None,
     ) -> TurnResolution:
         ql = query.lower()
         # A-filter: drop bus/protocol (NON_PRODUCT_CODES) AND normative/standards
@@ -814,22 +846,42 @@ class DeterministicConversationPolicy:
                     and working_state.within_window(now, self.window_seconds)):
                 marca = self._correction_rebuild(ql, query, matched_brands)
                 if marca:
-                    # La base es la pregunta ORIGINAL, y viaja en
-                    # `state_query_override` para que una SEGUNDA corrección
-                    # reconstruya desde ELLA — nunca desde la meta-frase ni desde la
-                    # query ya anotada (Sol-3).
-                    base = working_state.last_query
-                    return TurnResolution(
-                        route=PolicyRoute.STANDALONE,
-                        query_for_retrieval=(
-                            f"{base} (el usuario corrige: la marca es {marca})"),
-                        target_models=(),
-                        available_models=avail,
-                        asunciones=(Asuncion(kind="marca_corregida", detectado=marca,
-                                             asumido=marca, modo="reescrito"),),
-                        state_query_override=base,
-                        rationale="brand_correction_rebuild",
-                    )
+                    return self._correction_resolution(
+                        working_state.last_query, marca, avail,
+                        "brand_correction_rebuild")
+                # (s333 §1-§2) LA RED DE LA RED: la plantilla no casó y el turno
+                # sigue teniendo forma de corrección. El clasificador LLM juzga la
+                # RELACIÓN entre los dos turnos — el léxico deja de tener presión de
+                # crecimiento (un fraseo nuevo ya no es un PR + un miss de usuario).
+                # `correccion is None` (flag OFF / modo contrato / $0) ⇒ camino
+                # BYTE-IDÉNTICO a hoy. Guardas de la población (v2 §2), en orden de
+                # coste: sin pending vivo NO se re-chequea — lo garantiza la POSICIÓN
+                # (la gramática de pending ya corrió arriba), igual que `not real`.
+                if (correccion is not None
+                        and not in_window          # la rama COMPAT/SWITCH shipped, intacta
+                        and not self._has_model_type_token(ql)):
+                    # Guarda Fable-1 (v2 §1): marca + código NO resuelto («no, era la
+                    # Kidde XY-9999») conserva `new_brand_switch_model_token` —
+                    # reescribirlo como corrección PERDERÍA el código recién dado.
+                    from .conversation_policy import _MARCAS_AMBIGUAS
+
+                    tokens = [b for b in matched_brands if b not in _MARCAS_AMBIGUAS]
+                    if len(tokens) == 1:
+                        # Multi-marca / marca ambigua («fuego») fuera: sin base para un
+                        # rebuild unívoco. La marca es TOKEN GOBERNADO — el LLM juzga,
+                        # jamás extrae (parser-estricto-como-guard, Fable r12).
+                        try:
+                            decision = correccion(
+                                query, working_state.last_query, tokens[0])
+                        except Exception:    # noqa: BLE001 — fail-open TOTAL
+                            decision = None
+                        if decision == "correccion":
+                            return self._correction_resolution(
+                                working_state.last_query,
+                                _marca_superficial(query, tokens[0]), avail,
+                                "brand_correction_llm")
+                        # "nuevo" / None (timeout, parse, excepción) ⇒ la cascada de
+                        # hoy, sin tocar nada: el fail-open tiene DIRECCIÓN.
             same_mfr = in_window and self._same_manufacturer(
                 matched_brands, working_state.last_target_models
             )
@@ -1014,6 +1066,8 @@ def resolve_conversational_turn(
     rewrite: RewriteFn | None = None,
     intent=None,
     resolved_model: str | None = None,
+    *,
+    correccion=None,
 ) -> tuple[TurnResolution, WorkingState]:
     """Compose ``extract_product_models`` + the policy into a resolved turn.
 
@@ -1072,6 +1126,7 @@ def resolve_conversational_turn(
         rewrite=rewrite,
         intent=intent,
         unresolved_mention=unresolved_mention,
+        correccion=correccion,
     )
     new_state = advance_working_state(
         working_state, resolution, query, None, now, available

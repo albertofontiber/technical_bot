@@ -6791,3 +6791,39 @@ había «No he encontrado información relevante» ahora hay Serie NC de Kidde c
 Ship listo: 2 vars, flip de Alberto, verificación DEC-099 por voz. La mañana entera —incidente,
 diagnóstico, GO, diseño, dúo, build a cuatro manos, gates y cierre— cupo en una sesión. DEC-264.
 
+
+
+## s333 (21 ago 2026, mediodía-tarde) — La red aprende a juzgar: del «¿escalan las reglas?» de Alberto a un clasificador con SU frontera, en una tarde
+
+Nació de una pregunta de dirección, no de un plan: Alberto miró el fix s332b y preguntó si
+implementar reglas escalaría o si acabaríamos «con 39207245 reglas» — y si no tocaba un LLM
+que detectara el intent. La respuesta honesta era que el repo ya vivía en esa doctrina
+(INTENT_LLM existe porque cinco rondas de dúo demostraron que las reglas no convergían en la
+rama ambigua), y que la pieza donde su instinto mordía de verdad era el léxico de corrección.
+Su pushback lo remató: con 5-10 técnicos sin precisión léxica, la superficie es abierta a
+priori. GO con contrato («BP, robusto, escalable»).
+
+El diseño extendió el patrón probado en vez de inventar: fast-path determinista intacto,
+clasificador binario SOLO en su miss, población acotada, cohorte y gate PROPIOS (el 40/40 de
+INTENT_LLM midió otra métrica y NO transfiere). El dúo (10/10, 0 FP) mató lo que había que
+matar antes de nacer: el crítico de Sol —`to_thread` solo envolvía el resolve con
+`_intent_fn`, y el flag nuevo a solas habría congelado el event loop 6 segundos— y el medio
+de Fable —la población tragaba marca+código-no-resuelto—. El executor Opus cableó módulo y
+rama con spec cerrada (y cazó él solo que «2X-AF9999» resuelve el prefijo «2X-A», invalidando
+mi caso de guarda); el trace ganó su sección tri-estado; la revisión Fable de la cohorte cazó
+mi propia nota falsa (N3 con dos marcas gobernadas = fuera de población).
+
+El gate hizo exactamente su trabajo, tres veces. v1: NO-GO con 3 falsas que no eran fallos
+del modelo sino LÍMITES de mi gold — y Alberto los adjudicó uno a uno, dejando una frontera
+mejor que la mía: «¿el mensaje se sostiene solo?». v2 (su frontera codificada en el prompt):
+NO-GO por UNA falsa que era la misma clase que la que él acababa de adjudicar como corrección
+— el clasificador estaba siendo más consistente con su criterio que mi propio gold. v2.1
+(relabel puro): **GO — 14/14, 0 falsas, guarda 2/2**. Haiku quedó descartado con métrica
+propia (13 falsas), no por herencia. El e2e con el clasificador real cerró el círculo:
+«sí, dije Kidde» sin cue en el léxico ⇒ `brand_correction_llm` en 1,4 s y respuesta Kidde.
+
+Dos cicatrices de proceso, ambas de la misma familia que el pipe-trap: un assert de replace
+tumbado por whitespace cuya cadena con `;` dejó correr un gate repetido sobre la cohorte
+vieja, y un backtick ejecutado dentro de un `-m` que mutiló una línea de commit. Declaradas,
+con regla. PRs del día: #325 (cierre s331 + colisión de numeración con la sesión paralela),
+#327 (build s332 entero), #328 (fix s332b), #329 (s333, pendiente de merge). DEC-263→265 y 268 (266/267 son de la sesión paralela).

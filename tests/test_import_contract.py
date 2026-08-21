@@ -470,7 +470,15 @@ def test_cifras_de_control():
     # (nombres, marca-de-modelo, alias) entra INYECTADO como `Catalogo` desde sus
     # llamadores (seam del bot y script) — la matriz raiz→rag ni se toca, y lo fija
     # test_s326_clasificacion.test_el_modulo_de_clasificacion_es_raiz_pura.
-    assert len(MODULOS) == 129, (
+    # 129→130 (s333): + orchestrator/correccion_llm.py — el clasificador de
+    # corrección de marca del lever `F1_CORRECCION_LLM` (la RED que entra en el miss
+    # de la plantilla s332). Es PRODUCTO: el transporte lo construye e inyecta en
+    # `resolve()` con el flag on, igual que su espejo estructural `intent_llm.py`
+    # (mismo patrón: prompt + parser en UNA fuente que el gate de juicio importa —
+    # anti-gate-shopping DEC-126; un módulo por población medida, no un router
+    # genérico). Hoja PURA respecto de src/: no importa NADA del repo (solo
+    # `anthropic`, function-local), así que no añade una sola arista a la matriz.
+    assert len(MODULOS) == 130, (
         f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "

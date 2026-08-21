@@ -740,6 +740,54 @@ def _intent_seam(intent_obs: dict):
     return _lazy_intent
 
 
+_CORRECCION_FN_CELL: dict = {}
+
+
+def _correccion_seam(correccion_obs: dict):
+    """(s333 B3) Seam del clasificador CORRECCION/NUEVO — espejo de `_intent_seam`
+    (ver su docstring: celda de proceso, construcción ruidosa con centinela,
+    telemetría por turno hacia la sección `correccion` de rag_trace).
+
+    Desviación DECLARADA del espejo: el flag se lee con enum ESTRICTO on/off
+    (patrón `correction_enabled`/r19 — un typo en Railway revienta ruidoso, no
+    degrada en silencio), mientras INTENT_LLM conserva su parser laxo histórico."""
+    raw = (os.getenv("F1_CORRECCION_LLM", "") or "").strip().lower()
+    if raw in ("", "off"):
+        correccion_obs.update(status="off", decision="none", latency_ms=0)
+        return None
+    if raw != "on":
+        raise RuntimeError(
+            f"F1_CORRECCION_LLM={raw!r} no reconocido (on|off) — fail-fast")
+    correccion_obs.update(status="not_invoked", decision="none", latency_ms=0)
+
+    def _lazy_correccion(q, last_query, marca):
+        fn = _CORRECCION_FN_CELL.get("fn")
+        if fn is None:
+            try:
+                from ..orchestrator.correccion_llm import construir_correccion_fn
+
+                fn = construir_correccion_fn(ANTHROPIC_API_KEY)
+            except Exception as exc:      # noqa: BLE001
+                logger.error("correccion_llm: construccion FALLO (%s) — "
+                             "flag ON degradado a conducta OFF",
+                             type(exc).__name__)
+                fn = False                # centinela: no reintentar
+            _CORRECCION_FN_CELL["fn"] = fn
+        if fn is False:
+            correccion_obs["status"] = "construction_failed"
+            return None                   # fail-open declarado
+        t0 = _time.perf_counter()
+        decision = fn(q, last_query, marca)
+        correccion_obs.update(
+            status="invoked",
+            decision=decision if decision in ("correccion", "nuevo") else "fail_open",
+            latency_ms=int((_time.perf_counter() - t0) * 1000),
+        )
+        return decision
+
+    return _lazy_correccion
+
+
 def _marca_en_consulta(query: str) -> str | None:
     """Shell de `turn_plan.marca_en_texto` con la cache de proceso de la lista DB
     (semantica de hoy: el fallo de fetch NO se cachea -- el siguiente intento
@@ -2113,6 +2161,10 @@ async def _process_query(
         # sobreescribe si corre. Un dict sin estampar degrada a "not_wired" en el
         # builder (Sol r12 M1): «sin cablear» jamas se disfraza de «apagado».
         intent_obs: dict = {"status": "off", "decision": "none", "latency_ms": 0}
+        # (s333 B3) telemetría del clasificador de corrección — mismo contrato
+        # que `intent_obs`: "off" explícito cuando F1 no corre; el seam lo
+        # sobreescribe si corre. Sin estampar ⇒ el builder degrada a not_wired.
+        correccion_obs: dict = {"status": "off", "decision": "none", "latency_ms": 0}
         if f1_active:
             from datetime import datetime, timezone
 
@@ -2152,11 +2204,16 @@ async def _process_query(
             # modelo servido podría no ser el del preámbulo.
             _modelo_plan = preambulo.modelo if preambulo is not None else None
             _intent_fn = _intent_seam(intent_obs)
-            if _intent_fn is not None:
+            _correccion_fn = _correccion_seam(correccion_obs)
+            # (s333 B3, Sol-1 CRÍTICO de la ronda) `to_thread` con CUALQUIER seam
+            # LLM activo — antes solo con `_intent_fn`, y F1_CORRECCION_LLM=on con
+            # INTENT_LLM=off habría ejecutado hasta 6 s síncronos EN el event loop.
+            if _intent_fn is not None or _correccion_fn is not None:
                 f1_resolution, f1_new_state = await asyncio.to_thread(
                     resolve_conversational_turn,
                     query, f1_prev_state, f1_now,
                     rewrite=_lazy_rewrite, intent=_intent_fn,
+                    correccion=_correccion_fn,
                     resolved_model=_modelo_plan,
                 )
                 if intent_obs.get("status") == "invoked":
@@ -2164,6 +2221,10 @@ async def _process_query(
                     # sección `intent` de rag_trace (gate 1 del flip, s316h).
                     logger.info("intent_llm: %s en %d ms",
                                 intent_obs["decision"], intent_obs["latency_ms"])
+                if correccion_obs.get("status") == "invoked":
+                    logger.info("correccion_llm: %s en %d ms",
+                                correccion_obs["decision"],
+                                correccion_obs["latency_ms"])
             else:
                 f1_resolution, f1_new_state = resolve_conversational_turn(
                     query, f1_prev_state, f1_now, rewrite=_lazy_rewrite,
@@ -2370,6 +2431,8 @@ async def _process_query(
                 retrieval_health=retrieval_health,
                 stage_timings=stage_timings,
                 intent_obs=intent_obs,
+                # (s333 B4) espejo de `intent`: gate del flip de F1_CORRECCION_LLM.
+                correccion_obs=correccion_obs,
                 # (s331 B5) tri-estado: el builder degrada a not_wired si esto
                 # faltara; off = levers apagados; on = canal activo este turno.
                 turn_identity_obs=_turn_identity_obs(

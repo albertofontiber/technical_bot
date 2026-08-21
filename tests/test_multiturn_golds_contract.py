@@ -172,7 +172,7 @@ class _ReferencePolicy:
     window_seconds: int = 3600
 
     def resolve(self, *, query, turn_models, available_models, working_state,
-                now, rewrite=None, intent=None) -> TurnResolution:
+                now, rewrite=None, intent=None, correccion=None) -> TurnResolution:
         ql = query.lower()
         real = tuple(m for m in turn_models if m not in NON_PRODUCT_CODES)
 
@@ -265,7 +265,7 @@ class _AlwaysStandalone:
     IS_STUB: bool = False
 
     def resolve(self, *, query, turn_models, available_models, working_state,
-                now, rewrite=None, intent=None) -> TurnResolution:
+                now, rewrite=None, intent=None, correccion=None) -> TurnResolution:
         return TurnResolution(
             route=PolicyRoute.STANDALONE, query_for_retrieval=query,
             target_models=tuple(turn_models),
