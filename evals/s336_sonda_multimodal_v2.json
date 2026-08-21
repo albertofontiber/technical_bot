@@ -1,4 +1,17 @@
 {
+ "que_es": "Sonda multimodal v2 (s336). Arregla los 3 defectos que el dúo r41 señaló en la v1: cobertura verificada contra pdf_page_count, unidad = DOCUMENTO (n independientes) y guardarraíl anti-fuga con auto-test. Patrón de PLATA (nombre de fichero, R8 dice que miente). NADA aplicado.",
+ "modelos": {
+  "gemini": "gemini-3.6-flash",
+  "claude": "claude-fable-5",
+  "gpt": "gpt-5.6-sol"
+ },
+ "n_documentos": 37,
+ "aciertos": {
+  "gemini": 0,
+  "claude": 6,
+  "gpt": 6
+ },
+ "acuerdan_los_tres": 0,
  "filas": [
   {
    "document_id": "10e406a7-7aec-4741-ba18-45e5ef525c9c",
@@ -11,7 +24,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No se observa ningún modelo de producto específico en el documento; únicamente se describen genéricamente como 'Tarjeta Expansión de relés' / 'Relay Expansion Card' y 'Tarjeta Expansión de Sirenas' / 'Sounder Expansion Card', junto a un número de referencia (REF)."
+     "donde": "No se indica ningún modelo específico de producto en el documento, únicamente descripciones genéricas como 'Tarjeta de Expansión de relés' y 'Tarjeta Expansión de Sirenas'."
     }
    ],
    "gemini_acierta": false,
@@ -19,7 +32,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "El documento solo describe genéricamente 'Tarjeta Expansión de relés / Relay Expansion Card' y 'Tarjeta Expansión de Sirenas / Sounder Expansion Card' para sistemas convencionales, sin ningún código de modelo; la única referencia visible (REF: 55310007) es del documento, no del producto"
+     "donde": "El documento solo identifica los productos de forma genérica como 'Tarjeta Expansión de relés / Relay Expansion Card' y 'Tarjeta Expansión de Sirenas / Sounder Expansion Card' del sistema convencional; no aparece ningún código de modelo. La única referencia visible (REF: 55310007) es del documento, no un modelo."
     }
    ],
    "claude_acierta": false,
@@ -27,7 +40,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No aparece ningún modelo; sólo nombres genéricos de tarjetas de expansión y una referencia de documento (REF: 55310007)."
+     "donde": "No aparece ningún modelo en el título, las etiquetas de las fotos ni los diagramas; sólo nombres genéricos de tarjetas de expansión y una referencia documental."
     }
    ],
    "gpt_acierta": false,
@@ -44,17 +57,15 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No se especifica ningún modelo de producto en el documento (solo se incluye la descripción genérica 'Tarjeta de expansión Modbus del sistema convencional' y una referencia de catálogo REF: 55310008)."
+     "donde": "No se especifica ningún modelo de producto explícito en el documento (únicamente el nombre descriptivo 'Tarjeta de expansión Modbus del sistema convencional' y la referencia de documento REF: 55310008)."
     }
    ],
    "gemini_acierta": false,
    "claude": [
     {
-     "modelos": [
-      "Tarjeta de Expansión Modbus (Modbus Expansion Card)"
-     ],
-     "confianza": "media",
-     "donde": "Título del documento ('TARJETA DE EXPANSIÓN MODBUS DEL SISTEMA CONVENCIONAL' / 'CONVENTIONAL SYSTEM MODBUS EXPANSION CARDS') y etiquetas de las fotos ('Tarjeta Modbus' / 'Modbus Card'). No aparece ningún código de modelo específico; solo la referencia de documento REF: 55310008, que no es un modelo."
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo muestra nombres genéricos ('Tarjeta Modbus' / 'Modbus Card', 'Tarjeta de Expansión Modbus del Sistema Convencional' / 'Conventional System Modbus Expansion Cards') en el título y las etiquetas de las fotos; no aparece ningún código de modelo. El 'REF: 55310008' es una referencia del documento, no un modelo."
     }
    ],
    "claude_acierta": false,
@@ -62,7 +73,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No aparece ningún modelo identificable; sólo la denominación genérica «Tarjeta Modbus / Modbus Card» y la referencia documental «REF: 55310008»."
+     "donde": "No aparece ningún modelo identificable; solo la denominación genérica «Tarjeta Modbus / Modbus Card» y la referencia documental «REF: 55310008»."
     }
    ],
    "gpt_acierta": false,
@@ -79,15 +90,15 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No aparece ningún código o nombre de modelo específico en el documento; únicamente se indica la denominación genérica 'Sirena Convencional / Conventional Sounder' y la referencia 'REF: 55310400'."
+     "donde": "No se indica ningún modelo específico en el documento; únicamente se describe el producto genérico («Sirena Convencional» / «Conventional Sounder») y su número de referencia."
     }
    ],
    "gemini_acierta": false,
    "claude": [
     {
      "modelos": [],
-     "confianza": "alta",
-     "donde": "El título y las etiquetas solo indican el tipo genérico de producto ('Sirena Convencional' / 'Conventional Sounder'); la única referencia visible (REF: 55310400) es una referencia de documento, no un modelo, y los rótulos del diagrama (SND 1, SND 2, 24V IN/OUT) son bornes de conexión"
+     "confianza": "media",
+     "donde": "El documento solo muestra el nombre genérico del producto ('Sirena Convencional' / 'Conventional Sounder') en el título, la portada y las etiquetas de las fotos. No aparece ningún código de modelo; el 'REF: 55310400' es una referencia del documento y los rótulos de los diagramas (SND 1, SND 2, REL 4X7) corresponden a bornes/módulos del cableado, no a modelos."
     }
    ],
    "claude_acierta": false,
@@ -95,11 +106,1532 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "El título y la etiqueta de la foto sólo indican «Sirena Convencional / Conventional Sounder»; no aparece ningún modelo específico."
+     "donde": "No aparece ningún modelo; el título sólo indica «Sirena Convencional / Conventional Sounder» y la referencia visible es documental."
     }
    ],
    "gpt_acierta": false,
    "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "bc163277-ad9e-4ced-950f-c0e63de35a0a",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "esperado": "TCD-106",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 9,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "modelos": [
+      "kit transmisión CRA"
+     ],
+     "confianza": "alta",
+     "donde": "Rótulo en el pie de página inferior derecho ('Manual kit transmisión CRA')"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "baja",
+     "donde": "La portada solo muestra el título 'MANUAL DEL INSTALADOR' y el subtítulo 'Manual kit transmisión CRA', que es una descripción genérica del producto, no un modelo. En la foto de la placa se aprecian serigrafías de componentes (GPRS ANT1, GPS ANT2, D00S3, referencias de PCB) pero ningún nombre de modelo comercial identificable."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún nombre de modelo en el título, fotos ni diagramas; solo se menciona el protocolo ALWON 128, que es un protocolo de comunicación y no un modelo de producto"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún nombre de modelo en la página: el título es genérico ('1.3- Conexionado e Instalación'), el diagrama solo rotula 'Módulo de transmisión', 'Ethernet', 'Antena', '120 Ω' y '+24V', y en la foto de la placa solo se lee la serigrafía de componentes (RS485, referencias R/C/U) y el número '34110400', que es una referencia de placa, no un modelo comercial"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Kit transmisión CRA"
+     ],
+     "confianza": "alta",
+     "donde": "En la portada, en el rótulo inferior «Manual kit transmisión CRA»"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto; «ALWON 128» se identifica como protocolo de comunicación."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; el título y el diagrama sólo indican genéricamente «Módulo de transmisión», y la placa muestra etiquetas técnicas y códigos de circuito."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "800b1155-a909-40bb-b32a-21fdc2bbc28d",
+   "source_file": "55311003 Manual Sirenas Convencionales SCD-110 ES FR GB IT",
+   "esperado": "SCD-110",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "modelos": [
+      "Sirena Convencional",
+      "Sirena con Flash Convencional"
+     ],
+     "confianza": "alta",
+     "donde": "Etiquetas superiores sobre las imágenes del equipo y encabezado del documento"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo muestra nombres genéricos de producto ('Sirena Convencional' / 'Conventional Sounder' y 'Sirena con Flash' / 'Conventional Sounder with Flash') en el título y las etiquetas de las fotos, sin ningún código o nombre de modelo específico. El 'REF: 55311003' es una referencia del documento y 'RFL 4K7' en los diagramas es la resistencia de fin de línea, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Sirena Convencional",
+      "Sirena con Flash Convencional"
+     ],
+     "confianza": "media",
+     "donde": "En el título y en las etiquetas situadas sobre las fotografías de los equipos."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "esperado": "SCD-120",
+   "n_paginas_leidas": 2,
+   "n_paginas_renderizadas": 2,
+   "cobertura_completa_VERIFICADA": true,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "media",
+     "donde": "El título indica 'SIRENA EXTERIOR DE INCENDIO 24V - Manual de Instalación', que es una descripción genérica del producto, no un código de modelo. No aparece ninguna referencia de modelo en el título, diagramas (solo se ve 'SW1', que es un conjunto de puentes/jumpers) ni en las características técnicas."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento describe una sirena de incendio de 24V pero no menciona ningún modelo; solo aparecen rótulos genéricos como 'FUEGO' en la foto del equipo, terminales 'ALIM.' y '+AUT.' en la Figura 1, y marcados internos 'SW1' y 'AUTO' del circuito"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; el título «SIRENA EXTERIOR DE INCENDIO 24V» es una descripción del producto y «SW1» identifica un conmutador."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; sólo rótulos funcionales como «FUEGO», «ALIM 24V», «AUT» y «SW1»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "53d322d7-6834-42ec-9a17-4a4daf3b40a8",
+   "source_file": "55315012 Manual Tarjeta de bucle TBUD-150 Instalacion ES FR GB IT",
+   "esperado": "TBUD-150",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo describe el producto de forma genérica ('Tarjeta 2 Bucles Central Analógica' / 'Two Loops Card Analogue Control Panel') sin ningún nombre o código de modelo; el único código visible es 'REF: 55315012', que es una referencia de documento, no un modelo"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; sólo descripciones genéricas de la tarjeta de 2 bucles y la referencia documental REF: 55351012."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "3a2c783c-e0ca-4808-9481-64fcddd80495",
+   "source_file": "55320002 Manual Programador PGD-200 ES FR GB IT",
+   "esperado": "PGD-200",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo indica el tipo de producto ('Programador' / 'Programming Tool') en el título y las etiquetas de las fotos, sin ningún nombre o código de modelo; el 'REF: 553420002' es una referencia del documento, no un modelo"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, la fotografía ni el texto; sólo figura la referencia documental «REF: 553420002»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "f560fd92-586e-42fe-a039-1d021fbd0b34",
+   "source_file": "55320011 Manual zocalo con relé Z-200-R",
+   "esperado": "Z-200-R",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "baja",
+     "donde": "El documento no indica ningún modelo concreto: el título y las fotos solo dicen 'Base de conexión con relé / Connection base with relay', el campo 'Modelo-Referencia' de la tabla de características está vacío, y el texto solo menciona genéricamente los 'detectores de la serie 200' (los detectores compatibles, no el modelo de la base). El 'REF: 55320011' es la referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; «serie 200» es una familia de detectores y «REF: 55320011» es la referencia del documento."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "fe0a3e56-b314-44ad-ab96-8dba45a5880f",
+   "source_file": "55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)",
+   "esperado": "PAD-10A",
+   "n_paginas_leidas": 2,
+   "n_paginas_renderizadas": 2,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo muestra el título 'BUZZER FOR ANALOGUE DETECTORS' (descripción genérica del producto, no un modelo) y la referencia de documento 'REF: 55320102', que no es un modelo. No aparecen etiquetas con nombres o códigos de modelo en los diagramas de los pasos 1-3."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo muestra tablas de conexiones (colores de cables en varios idiomas) y características técnicas repetidas; no aparece ningún nombre o referencia de modelo en títulos, fotos ni diagramas"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; sólo el título genérico «BUZZER FOR ANALOGUE DETECTORS» y la referencia documental «REF: 55320102»."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en la página; solo se muestran tablas de conexiones y características técnicas."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "1a1e1521-c589-47df-bb87-cccd61ed4daf",
+   "source_file": "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+   "esperado": "MAD-402",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "Módulo de 1 entrada técnica (Single Input Unit)",
+      "Módulo de 2 entradas técnicas (Double Input Unit)"
+     ],
+     "confianza": "media",
+     "donde": "Título del documento («MÓDULO DE 1 O 2 ENTRADAS TÉCNICAS» / «1 OR 2 INPUT MODULE») y etiquetas de las fotos del equipo («Modulo 1 entrada técnica», «Modulo 2 entradas técnicas», «Single Input Unit», «Double Input Unit»). No aparece ningún código o referencia comercial de modelo específico; REF: 55340103 es solo la referencia del documento."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Módulo 1 entrada técnica",
+      "Módulo 2 entradas técnicas"
+     ],
+     "confianza": "alta",
+     "donde": "En los rótulos situados sobre las fotografías de los equipos."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "f7af1d6b-255b-4b32-862f-8454cdca90a3",
+   "source_file": "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+   "esperado": "MAD-412",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "Módulo de 1 relé (1 Relay Module)",
+      "Módulo de 2 relés (2 Relay Module)"
+     ],
+     "confianza": "media",
+     "donde": "Título del documento («MÓDULO DE 1 O 2 RELÉS» / «1 OR 2 RELAY OUTPUT MODULE»), etiquetas de las fotos del equipo («Modelo 1 Relé», «Modulo de 2 Relé», «1 Relay Module», «2 Relay Module») y rótulo del diagrama («2 Relay Output»). No aparece ninguna referencia comercial alfanumérica de modelo legible; la REF: 55341101 es referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "MDA1Y",
+      "MDA2Y"
+     ],
+     "confianza": "media",
+     "donde": "En las etiquetas de las fotografías, asociadas a los rótulos «Modelo 1 Relé» y «Módulo de 2 Relé»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "821c0406-ebff-41db-b2ee-aafbed9fbe7b",
+   "source_file": "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+   "esperado": "MAD-422",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento no contiene ningún código o nombre de modelo comercial. Los títulos y etiquetas de las fotos («Módulo 1 Entrada 1 Salida / Module with 1 Input & 1 Output» y «Módulo 2 Entradas 2 Salidas / Module with 2 Inputs & 2 Outputs») son descripciones genéricas del tipo de módulo, no referencias de modelo. El único código visible es «REF: 55342102», que es una referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "MDA1",
+      "MDA1Y",
+      "MDA2",
+      "MDA2Y"
+     ],
+     "confianza": "media",
+     "donde": "En la fila «Modelo-Referencia» de la tabla de características técnicas y en las etiquetas de los módulos de 1 entrada/1 salida y 2 entradas/2 salidas."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "a6f3d0ae-549a-4e6f-8e60-05385dd46488",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "esperado": "MAD-432",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "Módulo 1 Sirena o Salida 24V Supervisada",
+      "Módulo de 2 Sirenas o Salida 24V Supervisada"
+     ],
+     "confianza": "media",
+     "donde": "Título de la página ('MÓDULO 1 SIRENA O SALIDA 24V SUPERVISADOS' / '24 V POWERED SUPERVISED RELAY OUTPUT MODULE OR SIREN MODULE') y etiquetas de las fotos del equipo ('Módulo 1 Sirena o Salida Supervisada', 'Módulo de 2 Sirenas o Salida Supervisada'). No aparece ningún código de modelo alfanumérico; solo la referencia de documento REF: 55343101, que no es un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Módulo de 1 Sirena o Salida Supervisada",
+      "Módulo de 2 Sirenas o Salida Supervisada"
+     ],
+     "confianza": "alta",
+     "donde": "En el título, las etiquetas de las fotografías y la tabla «Modelo-Referencia»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "26c4f513-3e80-4286-8aea-1684190348df",
+   "source_file": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+   "esperado": "MAD-442",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Módulo 1 zona",
+      "Módulo de 2 zonas"
+     ],
+     "confianza": "alta",
+     "donde": "En las etiquetas de las fotos y en los encabezados de la tabla de características técnicas."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "0c7ae4c5-82cb-43c7-a5e0-bf84075fba0b",
+   "source_file": "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+   "esperado": "MAD-450",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo específico; sólo el nombre genérico «Pulsador Analógico / Analogue Manual Call Point» y la referencia documental «REF: 55345103»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "f00d814e-666b-4487-a0e9-fdbe01b7c410",
+   "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+   "esperado": "MAD-461",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Sirena Analógica",
+      "Sirena con Flash Analógica"
+     ],
+     "confianza": "alta",
+     "donde": "En el título y en las etiquetas situadas sobre las fotografías de los equipos."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "15015287-4b41-4623-96a5-e8076641560b",
+   "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+   "esperado": "MAD-471",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo legible; el título sólo identifica el tipo de producto y «REF: 55347101» es una referencia documental."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "43f4091d-1e7c-46b5-a8e9-a767ae3656a9",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+   "esperado": "MAD-472",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Sirena Analógica de Zócalo (Analogue Base Sounder)"
+     ],
+     "confianza": "alta",
+     "donde": "En el título superior y en la etiqueta sobre la fotografía del equipo, en español e inglés."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "27dec7c7-4277-41a8-891a-a3ada52eeb7a",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+   "esperado": "MAD-472",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo muestra el nombre genérico del producto («Sirena Analógica de Zócalo» / «Analogue Base Sounder») en el título y en las etiquetas de las fotos, sin ningún código de modelo. La única referencia visible (REF: 55347200) es una referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Sirena Analógica de Zócalo"
+     ],
+     "confianza": "alta",
+     "donde": "En el título superior y en la etiqueta situada sobre la fotografía del equipo; aparece también como «Analogue Base Sounder» en inglés."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "e4d762dd-0b65-4df0-8d22-9fc6bcfb371f",
+   "source_file": "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
+   "esperado": "MAD-491",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo menciona nombres genéricos de producto ('Módulo Aislador' / 'Isolator Module' y 'Zócalo Aislador' / 'Isolator Base') en el título, las etiquetas de las fotos y los diagramas; no aparece ninguna referencia de modelo concreta. El 'REF: 55349102' es una referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Módulo Aislador",
+      "Zócalo Aislador"
+     ],
+     "confianza": "media",
+     "donde": "En el título superior y en las etiquetas y leyendas de las fotografías y diagramas."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "f1a60b0d-54af-42eb-bb25-d999a174336f",
+   "source_file": "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+   "esperado": "CMD-500",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 30,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra el título 'GUIDE MANUAL', la descripción genérica 'Monoxide control panels - User's and installation guide' y los idiomas (ES, GB, FR, IT). La foto del equipo muestra rótulos funcionales (AVERIA, ALARMA, EXTRAC, AUTO, ON, OFF, TEST, SILENCIAR) pero ningún nombre o número de modelo."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene el apartado '1.3- Comprobaciones habituales' con la lista de material incluido y una ilustración de la central, sin ningún nombre o referencia de modelo visible"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene la guía de instalación de 'centrales de monóxido' sin mencionar ningún modelo concreto en títulos, texto o diagrama"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "En la portada sólo aparecen «GUIDE MANUAL» y «Monoxide control panels»; no se ve ningún modelo legible en la foto del equipo."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo identificable en el título, el texto ni la ilustración del equipo."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, el texto ni el diagrama de esta página."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "7f915cdf-68f5-4c17-9668-fca67d65795a",
+   "source_file": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "esperado": "TRMD-50X",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo menciona el nombre genérico del producto ('Tarjeta de Regulación e Integración de Motores' / 'Engine Regulation and Integration Card') en el título y en las etiquetas de las fotos ('Tarjeta Regulación' / 'Engine Regulation'). No aparece ningún código o nombre de modelo; el 'REF: 55350007' es una referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, la foto del equipo ni los diagramas; sólo figura la referencia documental REF: 55350007."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "b2a29604-2726-40cd-afb6-9310ddcd24ef",
+   "source_file": "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+   "esperado": "DMDX-500",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento solo identifica el tipo de producto (Detectores de Monóxido de Carbono / Carbon Monoxide Detectors) y sus dos variantes ('Versión Estándar' y 'Versión Compacta' en las etiquetas de las fotos), pero no aparece ningún nombre o código de modelo. El 'REF: 55350008' es una referencia del documento, no un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "Versión Estándar",
+      "Versión Compacta"
+     ],
+     "confianza": "media",
+     "donde": "En las etiquetas sobre las fotografías del equipo y en los encabezados de montaje y conexionado."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "5f7be781-f3ea-4bad-94f1-d310ce267c1c",
+   "source_file": "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+   "esperado": "FAD-902",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 13,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra el título 'GUIDE MANUAL', la descripción genérica 'Power Supplies / User's and installation guide' y una foto del equipo sin etiquetas de modelo visibles"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página muestra la sección 2.3 'Montaje de la fuente' con un diagrama de la fuente de alimentación, pero no aparece ningún nombre o modelo de producto en el título, texto ni en los rótulos del diagrama (solo etiquetas técnicas como 230VAC 50Hz, OUT 24V, TEST, BAT, CPU)."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene la sección '3.4 Descripción de los leds' con iconos y descripciones de los leds de una fuente de alimentación; no aparece ningún nombre o referencia de modelo de producto"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra «Power Supplies» y «User’s and installation guide»; no aparece ningún modelo identificable."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, el texto ni los rótulos legibles del diagrama."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto en el título, las etiquetas ni los rótulos visibles de esta página."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "fc5d53c5-b08f-461e-b3c1-a1758065c71d",
+   "source_file": "D 1100-4 Sounder",
+   "esperado": "D 1100-4 Sounder",
+   "n_paginas_leidas": 2,
+   "n_paginas_renderizadas": 2,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "CWSO-xx-S1",
+      "CWSO-xx-S2",
+      "CWSO-xx-W1",
+      "CWSO-xx-W2"
+     ],
+     "confianza": "alta",
+     "donde": "Listado bajo el encabezado 'MODELS:' en la esquina superior izquierda de la página: CWSO-xx-S1 Sounder, Shallow Base; CWSO-xx-S2 Sounder, Shallow Base, First Fix; CWSO-xx-W1 Sounder, Deep Base; CWSO-xx-W2 Sounder, Deep Base, First Fix. El producto es una sirena (SOUNDER) de la gama ENScape de KAC, según el rótulo superior derecho. 'xx' denota el color del cuerpo y del flash."
+    },
+    {
+     "modelos": [
+      "ENscape Sounder"
+     ],
+     "confianza": "media",
+     "donde": "Logotipo/rótulo lateral de la página con la marca 'ENscape' (KAC) junto a la palabra 'SOUNDER'; el resto del documento es una tabla de tonos (TONE TABLE) de KAC Alarm Company Limited sin otros números de modelo"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "CWSO-xx-S1",
+      "CWSO-xx-S2",
+      "CWSO-xx-W1",
+      "CWSO-xx-W2"
+     ],
+     "confianza": "alta",
+     "donde": "En la lista «MODELS» de la esquina superior izquierda."
+    },
+    {
+     "modelos": [
+      "ENscape Sounder"
+     ],
+     "confianza": "alta",
+     "donde": "En el encabezado de la página, junto al logotipo ENscape y el rótulo SOUNDER."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "efc1fc19-dd5e-411c-8950-3ada56d2b717",
+   "source_file": "F3000M_Spanish User Guide_0044-047-02-ES",
+   "esperado": "F3000M",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 14,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra el título genérico «Detector de humo de haz óptico, con emisor y receptor – Manual del usuario», el indicador de idioma «ES» e ilustraciones del equipo sin etiquetas de modelo visibles."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo muestra el título '1. Información general', diagramas con rótulos genéricos (Transmisor, Receptor, Fuente de alimentación, Controlador) y avisos de instalación; no aparece ningún nombre de modelo"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene el título '2. Diagramas de cableado', diagramas con rótulos genéricos (RECEPTOR 1/2, TRANSMISOR, ALIMENTACIÓN, ZONA 1/2, EOL, REARME EXTERNO) y notas de instalación; no aparece ningún nombre o número de modelo de producto"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada sólo muestra la descripción genérica «Detector de humo de haz óptico, con emisor y receptor» y no incluye ningún modelo visible."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, el diagrama ni el texto visible de esta página."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, los diagramas ni las notas de esta página."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "65de59c3-094c-4525-84ae-8ba70e17fc66",
+   "source_file": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+   "esperado": "F5K-2H",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 12,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra el título genérico 'Detector de humos con haz óptico infrarrojo motorizado - Manual del usuario', el indicador de idioma 'ES' y dos ilustraciones del equipo (cabezal detector y unidad de control) sin ningún nombre o número de modelo visible"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene un diagrama de cableado (sección '3. Diagramas de cableado') con etiquetas genéricas como DET 1, DET 2, Con A/B/C/D, EOL, zonas y alimentación; no aparece ningún nombre o número de modelo de producto"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo muestra un diagrama de cableado (relés Con A, Con B, Con C, Con D, EOL, Zona 1) y texto genérico; no aparece ningún nombre o número de modelo de producto"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra la descripción genérica «Detector de humos con haz óptico infrarrojo motorizado» y no incluye ningún modelo identificable."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto en el título, el diagrama ni los rótulos visibles de esta página."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto en el título, el texto ni los rótulos del diagrama de esta página."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "2c19ad01-0cc6-490d-b1d6-2b20e91e8e3a",
+   "source_file": "F5K-Additional-Information-Spanish",
+   "esperado": "F5K",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 11,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo muestra el título genérico 'Detector de humo de haz óptico por infrarrojos motorizado', el idioma (ES) e ilustraciones del detector y del controlador, sin ningún nombre o número de modelo visible"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo muestra un título genérico ('Instalación eléctrica en varias zonas'), diagramas de conexiones (N/O, COM, N/C, Con A-D, zonas) y notas técnicas; no aparece ningún nombre o número de modelo de producto"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene un diagrama de cableado de varias zonas y notas explicativas; no aparece ningún nombre o número de modelo de producto en el título, texto ni rótulos del diagrama."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "En la portada sólo aparece la descripción genérica «Detector de humo de haz óptico por infrarrojos motorizado»; no se muestra ningún modelo."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, el texto ni los rótulos de los diagramas."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto en el título, el diagrama ni las notas de esta página."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+   "source_file": "FS2-1",
+   "esperado": "FS-1",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 26,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo menciona genéricamente 'Centrales de Incendios Convencionales de 1, 2 y 4 zonas' sin nombres de modelo específicos; 'Ref. 997-158 Versión 1.0' es la referencia del documento, no un modelo"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página es únicamente un índice (tabla de contenidos) en español; menciona paneles de 1 zona y 2/4 zonas pero no aparece ningún nombre o número de modelo concreto"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo contiene el texto 'Limitaciones del Sistema de Alarma contra Incendios' con advertencias genéricas; no aparece ningún nombre de modelo, foto de equipo ni diagrama con rótulos."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La portada solo indica centrales convencionales de 1, 2 y 4 zonas; no aparece ningún modelo. «Ref. 997-158» es una referencia documental."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo de producto en esta página del índice; sólo se mencionan genéricamente paneles de 1, 2 y 4 zonas."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página sólo contiene limitaciones generales del sistema de alarma contra incendios; no aparecen modelos de producto."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "c379c84f-3889-4e4d-8269-0bfb51b09972",
+   "source_file": "HLSI_MA-DT-1412_01_TG-IP1-SEC_QG",
+   "esperado": "TG-IP-1-SEC",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 8,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "Port Server"
+     ],
+     "confianza": "media",
+     "donde": "Cabecera junto al logotipo de Honeywell aparece «Port Server» y el título indica «Esquema del Dispositivo Servidor Serie»; no se muestra ningún número de modelo específico"
+    },
+    {
+     "modelos": [
+      "TG-IP1_SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la sección ('TG-IP1_SEC Servidor Serie RS232/RS485'), repetido en las instrucciones de configuración, en la captura de pantalla de la interfaz web ('TG-IP1 SEC') y en el pie de página ('TG-IP1-SEC_Quick Guide')"
+    },
+    {
+     "modelos": [
+      "TG-IP1_SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la sección ('TG-IP1_SEC Servidor Serie RS232/RS485'), repetido en los pasos de configuración, en la captura de pantalla del interfaz web ('TG-IP1 SEC') y en el pie de página ('TG-IP1-SEC_Quick Guide')"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo específico; solo se identifica la categoría de producto «Port Server» / «Dispositivo Servidor Serie»."
+    },
+    {
+     "modelos": [
+      "TG-IP1_SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el subtítulo «TG-IP1_SEC Servidor Serie RS232/RS485» y repetido en las instrucciones; también aparece como «TG-IP1 SEC» en la interfaz mostrada."
+    },
+    {
+     "modelos": [
+      "TG-IP1_SEC",
+      "TG-IP1 SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el subtítulo («TG-IP1_SEC Servidor Serie RS232/RS485»), en las instrucciones y en el rótulo de la interfaz mostrada («TG-IP1 SEC»)."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "77f1a59a-f210-46b4-bc18-ee35f68a1c29",
+   "source_file": "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
+   "esperado": "TG-IP-1-SEC",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 12,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la portada bajo 'Dispositivo Servidor Serie', en la etiqueta del equipo en la foto ('TG-IP1 SEC Serial Device Server'), en la tabla de alimentación y repetidamente en el texto de la guía"
+    },
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "Título de la página («Dispositivo Servidor Serie TG-IP1-SEC»), tabla de conexiones («Conexiones TG-IP1-SEC»), rótulos de los diagramas («Lado TG-IP1 SEC»), texto del apartado 3.1.1 («El Puerto RS485 del TG-IP1-SEC») y pie de página («TG-IP1-SEC_User Manual»)"
+    },
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título del documento («Dispositivo Servidor Serie TG-IP1-SEC»), en las capturas de pantalla de la interfaz web («TG-IP1 SEC»), en el texto del cuerpo del documento y en el pie de página («TG-IP1-SEC_User Manual»)"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título, el texto introductorio, la tabla de características y la etiqueta del equipo fotografiado."
+    },
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título «Dispositivo Servidor Serie TG-IP1-SEC», en la tabla de conexiones, en los rótulos de los diagramas y en el pie de página del manual."
+    },
+    {
+     "modelos": [
+      "TG-IP1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título «Dispositivo Servidor Serie TG-IP1-SEC», en el texto del manual y en los encabezados de las capturas de pantalla."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "e988cce8-368f-478d-835a-2bb91be216d8",
+   "source_file": "I56-1320-001 SDX-751TEM",
+   "esperado": "SDX-751-TEM",
+   "n_paginas_leidas": 2,
+   "n_paginas_renderizadas": 2,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "SDX-751TEM"
+     ],
+     "confianza": "alta",
+     "donde": "En el título del documento ('Installation and Maintenance Instructions for Model SDX-751TEM Analogue Addressable Multi-Criteria Smoke Sensor') y repetido en las secciones General Description, Tamper Resistance y Limitations of Smoke Detectors. También se mencionan como accesorios la base B501 (en Specifications) y el imán de prueba M02-24 (en Testing), pero son complementos, no el producto principal."
+    },
+    {
+     "modelos": [
+      "SDX-751TEM",
+      "B501"
+     ],
+     "confianza": "alta",
+     "donde": "SDX-751TEM aparece en el título ('INSTRUCCIONES DE INSTALACIÓN Y MANTENIMIENTO DEL SENSOR DE HUMO ÓPTICO ANALÓGICO DIRECCIONABLE MODELO SDX-751TEM'), en la descripción general, en la opción antimanipulaciones y en las limitaciones de los detectores. B501 se cita en las características como base de montaje ('43 mm instalado en Base B501', '102 mm instalado en Base B501')"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [
+      "SDX-751TEM"
+     ],
+     "confianza": "alta",
+     "donde": "En el título y repetido en la descripción general y otras secciones del documento."
+    },
+    {
+     "modelos": [
+      "SDX-751TEM"
+     ],
+     "confianza": "alta",
+     "donde": "En el título y repetido en la descripción general, la opción de seguridad antimanipulaciones y las limitaciones de los detectores de humo."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "d1ab64d1-86de-4869-a2c3-7778465c6a72",
+   "source_file": "MNDT021",
+   "esperado": "Interface RS485 serie 800",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 17,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "CFP-800"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la portada: «REPETIDOR E INTERFACE RS485 DE LA CENTRAL CFP-800»"
+    },
+    {
+     "modelos": [],
+     "confianza": "baja",
+     "donde": "La página es solo el índice del documento; el título «Repetidor e Interface RS485» describe el tipo de equipo (repetidor con interfaz RS485) pero no aparece ninguna referencia de modelo concreta. MN-DT-021 es la referencia del documento, no un modelo."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo muestra la figura del frontal del 'Panel del Repetidor de 32 zonas' (descripción genérica del equipo) y la referencia de documento MN-DT-021, que no es un modelo. No aparece ningún nombre de modelo comercial en etiquetas, título ni rótulos."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [
+      "CFP-800"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la portada: «REPETIDOR E INTERFACE RS485 DE LA CENTRAL CFP-800»."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; «RS485» es una interfaz y «MN-DT-021» es una referencia de documento."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo; sólo la descripción genérica «Panel del Repetidor de 32 zonas» y la referencia documental «MN-DT-021»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "359934f9-c37c-4a86-84bb-9f90a7212667",
+   "source_file": "MNDT635",
+   "esperado": "LISA 2 EEx d",
+   "n_paginas_leidas": 3,
+   "n_paginas_renderizadas": 9,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    },
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "LISA 2"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2»"
+    },
+    {
+     "modelos": [
+      "LISA 2"
+     ],
+     "confianza": "alta",
+     "donde": "Mencionado en la descripción (sección 1.1: 'Los detectores de gas \"LISA 2\"'), en el texto como 'detectores LISA-2' y en el rótulo del diagrama de identificación ('DETECTORES DE LA SERIE LISA 2')"
+    },
+    {
+     "modelos": [
+      "DT-635"
+     ],
+     "confianza": "media",
+     "donde": "Inferido del pie de página «MN-DT-635» (MN = manual del detector DT-635); en el cuerpo de la página no aparece ningún nombre de modelo explícito, solo el elemento sensor MINI IR de DYNAMENT"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [
+      "LISA 2"
+     ],
+     "confianza": "alta",
+     "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2»."
+    },
+    {
+     "modelos": [
+      "LISA 2",
+      "LISA-2 Ex d",
+      "LISA-2 EEx nA"
+     ],
+     "confianza": "alta",
+     "donde": "En la descripción se menciona «detectores de gas LISA 2»; en el texto se identifican las variantes LISA-2 con protección «Ex d» y «EEx nA»; y en el diagrama figura «DETECTORES DE LA SERIE LISA 2»."
+    },
+    {
+     "modelos": [
+      "MINI IR"
+     ],
+     "confianza": "alta",
+     "donde": "En la sección «Características técnicas», línea «Elemento sensor»: «Sensor MINI IR de DYNAMENT»."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "f0b9b790-f2e2-40cb-b793-289e11b82f4f",
+   "source_file": "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+   "esperado": "TG-IP-1-SEC",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": true,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "TG-IP-1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título del documento y en el texto de la pregunta"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [
+      "TG-IP-1-SEC"
+     ],
+     "confianza": "alta",
+     "donde": "En el título y en la pregunta del documento."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "7a89e64d-7a94-4c6a-9954-c76a25419a4e",
+   "source_file": "TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo",
+   "esperado": "TG-IP-1-SEC",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": true,
+   "gemini": [
+    {
+     "error": "Client error '429 Too Many Requests' for url 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'\nFor more information che"
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "TG-IP-SEC",
+      "TG-IP1_SEC"
+     ],
+     "confianza": "alta",
+     "donde": "El modelo TG-IP-SEC aparece en el título del documento y en la pregunta; el modelo TG-IP1_SEC aparece repetidamente en los pasos de la respuesta (instrucciones de reseteo a fábrica)"
+    }
+   ],
+   "claude_acierta": true,
+   "gpt": [
+    {
+     "modelos": [
+      "TG-IP-SEC",
+      "TG-IP1_SEC"
+     ],
+     "confianza": "alta",
+     "donde": "TG-IP-SEC aparece en el título y la pregunta; TG-IP1_SEC aparece repetidamente en los pasos de las instrucciones."
+    }
+   ],
+   "gpt_acierta": true,
+   "acuerdan_los_tres": false
   }
+ ],
+ "veredicto": "INVALIDA_PARA_GEMINI_Y_PARCIAL_PARA_CLAUDE",
+ "por_que": "El 0/37 de Gemini NO es un resultado: son 58 de sus ~61 llamadas caídas con 429 «generate_content_free_tier_requests, limit: 20» — el free tier es de 20 peticiones POR MINUTO y la sonda dispara con 0,4 s entre medias. El reintento que lleva (4 s y 8 s) es más corto que la ventana de 60 s. Y Claude perdió 5 llamadas por «credit balance is too low», no por formato de imagen como supuse al principio sin leer el mensaje. Sólo GPT corrió limpio. Un fallo de infraestructura NO es un «no lo vio»: leer estas cifras como capacidad de los modelos sería exactamente el error que esta sonda existe para no cometer.",
+ "errores_por_lector": {
+  "gemini:429_CUOTA": 58,
+  "claude:SIN_CREDITO": 5
+ },
+ "lo_unico_interpretable": "GPT-5.6 Sol: 6/37 documentos, y los 6 coinciden con los 6 de Claude (TG-IP-1-SEC, SDX-751TEM, LISA 2 EEx d…). Con una sola familia limpia no hay cross-model, así que ni siquiera eso zanja nada.",
+ "que_hace_falta": [
+  "Gemini: paso de 20 req/min (3,2 s) y backoff que respete el `retry in Ns` que devuelve la propia API; o facturación activada.",
+  "Claude: crédito en la cuenta de ANTHROPIC_API_KEY_SCRIPTS.",
+  "Sin esas dos cosas la sonda no puede dar un veredicto cross-model."
  ]
 }
