@@ -174,11 +174,34 @@ def main() -> int:
                 señales.append("sin-token-con-forma-de-modelo")
             if not resto and not con_forma:
                 señales.append("solo-palabras-corrientes")
-            veredicto = "identificador"
-            if len(sfs) >= TOPE_DOCS or len(marcas) >= TOPE_MARCAS:
-                veredicto = "GENERICO"        # se dispersa por el corpus
-            elif not con_forma and not resto:
-                veredicto = "GENERICO"        # es una DESCRIPCIÓN, no un nombre
+            # LA REGLA, corregida tras leer su propia salida (s334c). La primera
+            # versión marcó 82 y al mirarlos uno a uno se pasaba de frenada en dos
+            # clases enteras — la misma forma de error que G1-G6 nombran, ahora en
+            # mi instrumento de higiene:
+            #
+            #  · **56 de los 82 eran alias PURAMENTE NUMÉRICOS** (`020-579`,
+            #    `55347200`, `7251`). Los marcaba «sin token con forma de modelo»
+            #    y **ninguno entra hoy al detector**: `_add` descarta los tokens
+            #    digit-only a propósito (`segs.isdigit()`). Retirar lo que no
+            #    puede disparar es ruido, y encima destruye números de parte
+            #    legítimos que un técnico sí escribe.
+            #  · **`n_marcas` marcaba CROSS-REFERENCES como si fueran categorías.**
+            #    `AFP400` sale en documentos de Morley, Notifier y Xtralis porque
+            #    las centrales de una marca se citan en los manuales de otra —
+            #    eso es una referencia cruzada, no vocabulario genérico. Lo mismo
+            #    `AM2000`, `8100E`, `TG-ID3000`.
+            #
+            # Lo que queda es lo que el dúo señaló de verdad y sólo eso: un alias
+            # se retira si es una DESCRIPCIÓN —varias palabras, ninguna con forma
+            # de modelo, ninguna propia— **y además puede llegar al detector**. La
+            # dispersión y el número de marcas se siguen midiendo y publicando,
+            # pero como CORROBORACIÓN, no como gatillo.
+            solo_numerico = not re.search(r"[A-Za-z]", alias)
+            descripcion = (not con_forma and not resto and len(palabras) > 1
+                           and not solo_numerico)
+            veredicto = "GENERICO" if descripcion else "identificador"
+            if solo_numerico:
+                señales.append("solo-numerico-INERTE-en-el-detector")
             filas_extra = {"palabras_con_forma_de_modelo": con_forma,
                            "palabras_propias": resto}
             filas.append({**filas_extra,

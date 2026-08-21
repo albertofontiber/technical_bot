@@ -1,0 +1,72 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260821T162547Z",
+ "plan_sha": "8defcc9cf0daf793",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "8bc7363666766187",
+   "aliases": "8836557bdbcf570b",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "28cd85a0345b48c7"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 5,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1891,
+  "terminos_despues": 1886,
+  "entran": 0,
+  "salen": 5,
+  "salen_lista": [
+   "Serie 4000",
+   "Series 01",
+   "Series 02",
+   "Series 11",
+   "modelo 6424"
+  ],
+  "por_termino": [],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 135,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals/s334c_higiene_alias_backup_20260821T162547Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

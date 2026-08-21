@@ -3739,6 +3739,54 @@ real muestre una detección nueva causada por un alias y no por un canónico. En
 higiene sobre `aliases.jsonl` con reglas mecánicas (códigos de edición, cadenas de versión,
 frases con artículo) + gate propio, **antes** del siguiente lote grande.
 
+---
+
+### PASADA HECHA (s334c, 21-ago) — y el resultado INVIERTE el orden que este trigger prescribía
+
+Censo completo de los **1.175** alias que la puerta de `catalog_resolver._add` deja entrar, midiendo
+para cada uno en cuántos `source_file` aparece **con frontera de palabra** (que es como lo busca el
+detector) y en cuántos fabricantes. Recibo: `evals/s334c_higiene_alias_v1.json`.
+
+**La primera versión de la regla marcó 82 y se pasaba de frenada en dos clases enteras** —el mismo
+error que las guardas G1–G6 nombran, esta vez en mi instrumento de higiene:
+
+- **56 de los 82 eran alias PURAMENTE NUMÉRICOS** (`020-579`, `55347200`, `7251`). Los marcaba «sin
+  token con forma de modelo» y **ninguno entra hoy al detector**: `_add` descarta los digit-only a
+  propósito. Retirar lo que no puede disparar es ruido, y destruye números de parte legítimos.
+- **El nº de fabricantes marcaba CROSS-REFERENCES como si fueran categorías.** `AFP400` sale en
+  documentos de Morley, Notifier y Xtralis porque las centrales de una marca se citan en los
+  manuales de otra. Lo mismo `AM2000`, `8100E`, `TG-ID3000`.
+
+Regla corregida (**82 → 18**): se retira sólo lo que es una DESCRIPCIÓN —varias palabras, ninguna
+con forma de modelo, ninguna propia— **y puede llegar al detector**. Dispersión y nº de marcas se
+miden y publican como corroboración, no como gatillo.
+
+**Y entonces R20 mordió: de esos 18, 13 son la ÚNICA vía por la que el detector alcanza su
+producto.** Retirarlos haría desaparecer el producto — lo contrario del objetivo. Se parten en dos
+por motivos distintos:
+
+- **8 porque su producto está EN CUARENTENA** (`1 Relay Module` → `unresolved:mad-412`,
+  `2 Zones Module` → `unresolved:mad-442`, `Expansion card with 4 supervised siren outputs` →
+  `unresolved:tsd-100`). Su canónico (`MAD-412`…) no entra en el detector **porque es candidate**;
+  en cuanto se promueva, el alias descriptivo sobra y se puede retirar.
+- **5 porque su canónico es DIGIT-ONLY** (`kac:2001` canónico `2001`, `kac:2004`, `kac:2061`,
+  `kac:2072`, `kac:2101`). El detector nunca podrá verlo, así que `Model 2001` es su vía
+  **permanente**. Estos no se retiran jamás.
+
+**Consecuencia para el orden**: la higiene **no puede ir del todo antes** del lote de huérfanos,
+como asumió el dúo r43 — 8 de los alias «basura» sólo dejan de ser necesarios DESPUÉS de promover
+sus productos. El orden correcto es **promover → retirar lo que queda redundante**.
+
+**Aplicado**: 5 alias retirados (`Serie 4000`, `Series 01/02/11`, `modelo 6424`), todos con su
+producto alcanzable por otra vía. Detector 1891 → 1886 (+0/−5), 0 gold perdidas, dry-run PASS.
+Recibo: `evals/s334c_higiene_alias_aplicar_20260821T162547Z.json`.
+
+**Lo que sigue abierto**: los 8 portadores en cuarentena, que se resuelven con el lote de huérfanos;
+y la atribución equivocada que destapó Fable —`1 Relay Module` y `2 Relay Module` apuntando LAS DOS
+a `unresolved:mad-412` existiendo `mad-422`, y `Single/Double Input Unit` LAS DOS a
+`unresolved:mad-402`— que **no se arregla retirando** (son la única vía) sino adjudicando cuál es
+cuál con el catálogo de Detnov delante.
+
 **Descubierto por**: Fable 5, dúo r42 (`evals/adversarial_review_log.jsonl` ts=2026-08-21T14:13:43).
 
 ---

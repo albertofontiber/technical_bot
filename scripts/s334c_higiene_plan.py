@@ -27,11 +27,21 @@ Uso:  python scripts/s334c_higiene_plan.py [--salida X]
 from __future__ import annotations
 
 import json
+import os
 import sys
 from collections import Counter
 from pathlib import Path
 
+os.environ.setdefault("CHUNKS_TABLE", "chunks_v2")
+os.environ["IDENTITY_RESOLVE"] = "on"
+
+from dotenv import load_dotenv
+
 ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(ROOT / ".env", override=True)
+sys.path.insert(0, str(ROOT))
+from src.rag import catalog_store as cs                      # noqa: E402
+from src.rag import catalog_resolver as R                    # noqa: E402
 CENSO = ROOT / "evals/s334c_higiene_alias_v1.json"
 DESTINO = ROOT / "evals/s334c_higiene_alias_plan.json"
 
@@ -46,9 +56,49 @@ def main() -> int:
               f"parece un smoke, no la pasada completa. Se genera igual, pero el lote "
               f"NO debe aplicarse con un censo parcial.")
 
+    # R20 APLICADO A LOS ALIAS: medir lo que se PIERDE, no sólo lo que se gana.
+    # Un alias descriptivo puede ser la ÚNICA vía por la que el detector alcanza su
+    # producto, y entonces retirarlo hace desaparecer el producto — lo contrario
+    # del objetivo. Se evalúa el CONJUNTO, no la fila: quitar «Model 2001» y
+    # «modelo 2001» a la vez deja `kac:2001` sin vía aunque cada uno, por
+    # separado, parezca prescindible.
+    cat = cs.load()
+    R._loaded = False
+    R._pattern = None
+    R._build()
+    vias_de: dict[str, set[str]] = {}
+    for a in cat.aliases:
+        if a.get("candidate") or not cat._consumable(a["id"]):
+            continue
+        if (a.get("tipo") not in R.DETECT_ALIAS_TIPOS
+                and not any(c.isdigit() for c in a["alias"])):
+            continue
+        vias_de.setdefault(a["id"], set()).add(a["alias"])
+
+    genericos = [f for f in filas if f["veredicto"] == "GENERICO"]
+    portadores = []
+    retirables = set()
+    for pid in {f["id"] for f in genericos}:
+        prod = cat.products.get(pid)
+        canon_detectable = bool(R.detect(prod["canonical_model"])) if prod else False
+        del_producto = [f for f in genericos if f["id"] == pid]
+        resto = vias_de.get(pid, set()) - {f["alias"] for f in del_producto}
+        if canon_detectable or resto:
+            retirables.update(id(f) for f in del_producto)
+        else:
+            for f in del_producto:
+                canon = prod["canonical_model"] if prod else "?"
+                portadores.append({
+                    "alias": f["alias"], "id": pid, "canonical_model": canon,
+                    "por_que": ("su canónico es digit-only y el detector NUNCA podrá verlo: "
+                                "este alias es su única vía, permanentemente"
+                                if prod and not any(c.isalpha() for c in canon) else
+                                "su producto está EN CUARENTENA, así que su canónico no entra "
+                                "en el detector: en cuanto se promueva, este alias sobra")})
+
     quitar, motivos = [], Counter()
     for f in filas:
-        if f["veredicto"] != "GENERICO":
+        if f["veredicto"] != "GENERICO" or id(f) not in retirables:
             continue
         if f["docs_frontera"] >= censo["umbrales"]["docs"]:
             razon = (f"se reparte por el corpus: aparece con FRONTERA DE PALABRA en "
@@ -80,9 +130,19 @@ def main() -> int:
         "perdidas_de_fuente_adjudicadas": [],
         "censo": {"examinados": censo["resumen"]["examinados"],
                   "umbrales": censo["umbrales"], "motivos": dict(motivos)},
+        # EL HALLAZGO QUE INVIERTE EL ORDEN. De los 18 descriptivos, 13 son la
+        # ÚNICA vía por la que el detector alcanza su producto, y se parten en dos
+        # por un motivo distinto: 8 porque su producto está EN CUARENTENA (al
+        # promoverlo, su canónico entra en el detector y el alias sobra) y 5
+        # porque su canónico es DIGIT-ONLY y nunca será detectable. Es decir: la
+        # higiene NO puede ir del todo antes del lote de huérfanos, como asumió el
+        # dúo r43 — 8 de los alias basura sólo dejan de ser necesarios DESPUÉS de
+        # promover. El orden correcto es promover → retirar lo que queda redundante.
+        "portadores_no_retirables": portadores,
     }
     destino.write_text(json.dumps(plan, ensure_ascii=False, indent=1), "utf-8")
     print(f"alias a retirar: {len(quitar)}  ·  motivos: {dict(motivos)}")
+    print(f"PORTADORES (única vía de su producto, NO se tocan): {len(portadores)}")
     for q in quitar[:15]:
         print(f"   {q['alias'][:44]:46s} → {q['id']}")
     if len(quitar) > 15:

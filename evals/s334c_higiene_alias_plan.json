@@ -1,0 +1,133 @@
+{
+ "que_es": "s334c — lote de HIGIENE de aliases.jsonl (TECH_DEBT #99). Sólo `aliases_quitar`: no toca productos, ni doc_map, ni la DB.",
+ "prerrequisito_de": "el lote de manuales huérfanos (s334b), que el dúo r43 bloqueó hasta que esta pasada exista.",
+ "products_altas": [],
+ "products_confirmar": [],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_altas": [],
+ "aliases_quitar": [
+  {
+   "alias": "modelo 6424",
+   "id": "notifier:6424",
+   "motivo": "s334c higiene (TECH_DEBT #99): es una DESCRIPCIÓN, no un nombre: ningún token con forma de modelo (letras y dígitos juntos) y ninguna palabra propia — sólo vocabulario de categoría, que es de cualquier fabricante · señales: sin-token-con-forma-de-modelo, solo-palabras-corrientes"
+  },
+  {
+   "alias": "Serie 4000",
+   "id": "notifier:afp4000",
+   "motivo": "s334c higiene (TECH_DEBT #99): es una DESCRIPCIÓN, no un nombre: ningún token con forma de modelo (letras y dígitos juntos) y ninguna palabra propia — sólo vocabulario de categoría, que es de cualquier fabricante · señales: sin-token-con-forma-de-modelo, solo-palabras-corrientes"
+  },
+  {
+   "alias": "Series 01",
+   "id": "sti:waterproof-reset-series-01",
+   "motivo": "s334c higiene (TECH_DEBT #99): es una DESCRIPCIÓN, no un nombre: ningún token con forma de modelo (letras y dígitos juntos) y ninguna palabra propia — sólo vocabulario de categoría, que es de cualquier fabricante · señales: sin-token-con-forma-de-modelo, solo-palabras-corrientes"
+  },
+  {
+   "alias": "Series 02",
+   "id": "sti:waterproof-reset-series-02",
+   "motivo": "s334c higiene (TECH_DEBT #99): es una DESCRIPCIÓN, no un nombre: ningún token con forma de modelo (letras y dígitos juntos) y ninguna palabra propia — sólo vocabulario de categoría, que es de cualquier fabricante · señales: sin-token-con-forma-de-modelo, solo-palabras-corrientes"
+  },
+  {
+   "alias": "Series 11",
+   "id": "sti:waterproof-reset-11",
+   "motivo": "s334c higiene (TECH_DEBT #99): es una DESCRIPCIÓN, no un nombre: ningún token con forma de modelo (letras y dígitos juntos) y ninguna palabra propia — sólo vocabulario de categoría, que es de cualquier fabricante · señales: sin-token-con-forma-de-modelo, solo-palabras-corrientes"
+  }
+ ],
+ "umbrellas_altas": [],
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "gaps": [],
+ "perdidas_de_fuente_adjudicadas": [],
+ "censo": {
+  "examinados": 1175,
+  "umbrales": {
+   "docs": 25,
+   "marcas": 3
+  },
+  "motivos": {
+   "descripcion": 5
+  }
+ },
+ "portadores_no_retirables": [
+  {
+   "alias": "1 Zone Module",
+   "id": "unresolved:mad-442",
+   "canonical_model": "MAD-442",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "2 Zones Module",
+   "id": "unresolved:mad-442",
+   "canonical_model": "MAD-442",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "Model 2101",
+   "id": "kac:2101",
+   "canonical_model": "2101",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "Model 3466",
+   "id": "unresolved:3466",
+   "canonical_model": "3466",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "1 Relay Module",
+   "id": "unresolved:mad-412",
+   "canonical_model": "MAD-412",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "2 Relay Module",
+   "id": "unresolved:mad-412",
+   "canonical_model": "MAD-412",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "Modelo 1 Relé",
+   "id": "unresolved:mad-412",
+   "canonical_model": "MAD-412",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "Model 2061",
+   "id": "kac:2061",
+   "canonical_model": "2061",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "Model 2004",
+   "id": "kac:2004",
+   "canonical_model": "2004",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "Model 2001",
+   "id": "kac:2001",
+   "canonical_model": "2001",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "modelo 2001",
+   "id": "kac:2001",
+   "canonical_model": "2001",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  },
+  {
+   "alias": "Expansion card with 4 supervised siren outputs",
+   "id": "unresolved:tsd-100",
+   "canonical_model": "TSD-100",
+   "por_que": "su producto está EN CUARENTENA, así que su canónico no entra en el detector: en cuanto se promueva, este alias sobra"
+  },
+  {
+   "alias": "Model 2072",
+   "id": "kac:2072",
+   "canonical_model": "2072",
+   "por_que": "su canónico es digit-only y el detector NUNCA podrá verlo: este alias es su única vía, permanentemente"
+  }
+ ]
+}
