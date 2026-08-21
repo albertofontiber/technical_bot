@@ -86,11 +86,15 @@ def test_voice_handler_normalizes_for_rag_but_preserves_raw_transcription(monkey
     # NUEVA y deseada, no adaptacion de fixture: se declara aqui y no se disimula.
     # Lo que NO cambia es el contrato que este test existe para proteger: la
     # consulta va NORMALIZADA y el ASR crudo viaja intacto al lado.
+    # (s332 B5) `asunciones_asr` viaja como kwarg paralelo — misma clase aditiva
+    # que `preambulo` arriba. Aquí es `()` porque este audio no dispara ninguna
+    # fila de la tabla; el contrato protegido (normalizada + crudo al lado) sigue.
     assert captured == {
         "query": "fallo en ID3000",
         "source": "voice",
         "transcription": raw,
         "preambulo": None,
+        "asunciones_asr": (),
     }
     confirmation = message.reply_text.await_args.args[0]
     assert raw in confirmation

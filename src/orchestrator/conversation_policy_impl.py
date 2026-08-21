@@ -69,8 +69,13 @@ from .conversation_policy import (
     TurnResolution,
     WorkingState,
 )
-# (s332 §2) La primitiva de asunción vive en `contracts` (que importa la INTERFAZ,
-# no este módulo): impl -> contracts -> conversation_policy, sin ciclo.
+# (s332 §2) La primitiva de asunción vive en `contracts`, que desde E1-s332 NO
+# importa nada de la política (su `TurnIdentity` es anotación diferida): este
+# import no añade aristas al SCC permitido `conversation_policy ↔ _impl` y
+# `test_import_contract` lo vigila. (El razonamiento original de este comentario
+# —«contracts importa la interfaz, sin ciclo»— era falso: el analizador cuenta
+# también los imports lazy y la arista contracts→policy SÍ cerraba ciclo; la
+# corrección de raíz fue cortarla en contracts.)
 from .contracts import Asuncion
 
 WINDOW_SECONDS = 3600  # carry-forward-1h (telegram_bot SESSION_TIMEOUT); design §8

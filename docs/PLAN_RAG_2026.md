@@ -26,7 +26,21 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
+## Estado actual (s332 — 21 ago 2026; correcciones/asunciones VISIBLES: build+gates COMPLETOS el mismo día del GO, ship listo con 2 vars)
+
+**s332 (DEC-264) — los dos GO de la mañana, ejecutados y medidos el mismo día**: tabla ASR con
+modo/case/cita por fila (bqide→Kidde reescrito con AVISO; ID↔Kidde solo-aviso case-sensitive —
+ID3000 es familia real de Notifier; el «id» español no dispara) + primitiva `Asuncion`
+generalizable con render DETERMINISTA en bot (confirmación 🏷/ℹ️ + sufijo citando la pregunta
+base) + red F1 `brand_correction_rebuild` («me refería a Kidde» reconstruye la pregunta anterior;
+`state_query_override` evita que la meta-frase sea base) + sección `asunciones` tri-estado en
+trace. Dúo 13/13-0FP mató el oráculo-de-plan (v2 §9 = adjudicación); gates GC0 7/7 (off=hoy) ·
+GC1 7/7 (la mañana re-jugada: contenido Kidde real donde había plantilla vacía) · GC3 4/4 ·
+MT 52/52 off/on. **SHIP LISTO: Railway `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on` (flip de
+Alberto) → verificación DEC-099 por VOZ** (guía: `evals/s332_gc_resultado_v1.md`). Proceso:
+advisor/executor en paralelo sobre worktree compartido (E1 cazó de raíz un ciclo de imports).
+
+## Estado anterior (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 
 **s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
 entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
@@ -103,12 +117,16 @@ causa de que una VM no la recibiera sigue abierta.
    DEC-099 CERRADA a las 07:50Z**: la conversación real re-lanzada por VOZ — T2 «¿cómo la
    programo?» responde con clarify de ASPECTO (cero re-pregunta de identidad) y T3 entrega el
    manual de FAMILIA; `turn_identity` estampado en producción
-   (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. **Quedan dos GO
-   de Alberto, nacidos de la misma mañana**: (a) activar la tabla de confusiones ASR de DEC-233
-   (≥3 observaciones: Death Knob/BQide/ID←Kidde); (b) fix de corrección-de-marca-sin-estado
-   («me refería a Kidde» → reconstruir `last_query` con la marca corregida). Residuales
+   (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. Residuales
    post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
+0c. **s332 correcciones/asunciones visibles — SHIP LISTO, el flip es de Alberto** (DEC-264; los
+   dos GO de la mañana ya EJECUTADOS y con gates PASS): **Railway worker = 2 vars**:
+   `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on`. **Tras el flip: verificación DEC-099 por VOZ**
+   — dictar «¿Qué centrales Kidde tienes?» (si el ASR rompe la marca, la confirmación lleva el
+   aviso), luego «me refería a Kidde» si hiciera falta → contenido Kidde + sufijo ℹ️; filas con
+   `asunciones.status=on`. Rollback = quitar las 2 (GC0 = byte-idéntico probado). Después:
+   R4 (aviso-ID) se re-adjudica con tráfico; graduación DEC-210/211 cuando asienten.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
    cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la
