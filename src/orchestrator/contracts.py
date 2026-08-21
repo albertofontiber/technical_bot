@@ -33,7 +33,7 @@ class PlanKind(str, Enum):
 
 # (s332 §2) Enums CERRADOS de `Asuncion`. El guard es estricto a propósito: una
 # asunción mal construida revienta al construirse, no al renderizarse.
-_ASUNCION_KINDS = frozenset({"marca_asr", "marca_corregida"})
+_ASUNCION_KINDS = frozenset({"marca_asr", "marca_corregida", "marca_fuzzy"})
 _ASUNCION_MODOS = frozenset({"reescrito", "aviso"})
 
 

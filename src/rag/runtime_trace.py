@@ -347,7 +347,7 @@ def _turn_identity_section(ti_obs: Mapping[str, Any] | None) -> dict[str, Any]:
     }
 
 
-_ALLOWED_AS_KINDS = frozenset({"marca_asr", "marca_corregida"})
+_ALLOWED_AS_KINDS = frozenset({"marca_asr", "marca_corregida", "marca_fuzzy"})
 _ALLOWED_AS_MODOS = frozenset({"reescrito", "aviso"})
 _AS_ITEMS_MAX = 8
 

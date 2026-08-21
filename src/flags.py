@@ -220,6 +220,20 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/orchestrator/conversation_policy_impl.py',),
     },
+    "F1_CORRECCION_FUZZY": {
+        # (s334 §2) Fuzzy d<=1 contra marcas gobernadas, solo slot de correccion,
+        # disclosure obligatorio. Solo efectivo con F1_MARCA_CORRECCION=on.
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/orchestrator/conversation_policy_impl.py',),
+    },
+    "F1_ESTADO_ATAJOS": {
+        # (s334 §3, R8) Las rutas terminales de atajo CON contenido escriben la
+        # transicion de respuesta (last_query fresca + pending consumido).
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/orchestrator/conversation_policy_impl.py',),
+    },
     "F1_CORRECCION_LLM": {
         # (s333 §2/§5) La RED aprende a juzgar: clasificador CORRECCION/NUEVO tras el
         # miss de la plantilla determinista. Default off = byte-idéntico. Solo tiene

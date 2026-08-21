@@ -1671,6 +1671,34 @@ def _resolver_hechos(necesita) -> dict:
     return hechos
 
 
+def _refrescar_estado_atajo(context, query: str, respuesta: str) -> None:
+    """(s334 §3, R8) Tras una ruta terminal de atajo CON contenido: la transición
+    de respuesta (last_query fresca, pending consumido) vía el escritor único.
+    Flag off = no-op byte-idéntico. Cortesías NO llaman aquí (no cambian de tema).
+    Fail-open total: un estado que no se puede refrescar jamás rompe el turno ya
+    respondido."""
+    from datetime import datetime, timezone
+
+    from ..orchestrator.conversation_policy import WorkingState
+    from ..orchestrator.conversation_policy_impl import (
+        advance_after_shortcut,
+        estado_atajos_enabled,
+    )
+    try:
+        if not estado_atajos_enabled():
+            return
+        user_data = getattr(context, "user_data", None)
+        if not isinstance(user_data, dict):
+            return
+        ws = user_data.get("mt_working_state")
+        if not isinstance(ws, WorkingState):
+            ws = WorkingState()
+        _aplicar_estado(user_data, advance_after_shortcut(
+            ws, query, respuesta[:500], datetime.now(timezone.utc)))
+    except Exception:                            # noqa: BLE001 — fail-open declarado
+        logger.warning("estado_atajos: refresco fallo — estado intacto")
+
+
 async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
                          user_id: int, query: str, plan: TurnPlan, *,
                          procedencia: Procedencia,
@@ -1704,6 +1732,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
                           transcription=procedencia.transcription,
                           response=respuesta, response_length=len(respuesta))
                 asegurar_seudonimo(user_id)
+            _refrescar_estado_atajo(context, query, respuesta)
             return
     if ruta == "cortesia_saludo":
         await update.message.reply_text(
@@ -1738,6 +1767,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
             update, respuesta, user_id=user_id, query=query,
             registrar=plan.log_consulta, procedencia=procedencia,
         )
+        _refrescar_estado_atajo(context, query, respuesta)
         return
     if ruta == "mismatch":
         d = plan.datos
@@ -1754,6 +1784,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
                       transcription=procedencia.transcription,
                       response=respuesta, response_length=len(respuesta))
             asegurar_seudonimo(user_id)
+        _refrescar_estado_atajo(context, query, respuesta)
         return
     if ruta == "marca_no_servida":
         available = get_available_manufacturers()
@@ -1770,6 +1801,7 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
                       transcription=procedencia.transcription,
                       response=respuesta, response_length=len(respuesta))
             asegurar_seudonimo(user_id)
+        _refrescar_estado_atajo(context, query, respuesta)
         return
     if ruta == "feedback":
         await _handle_feedback(update, context, query)
@@ -2000,6 +2032,14 @@ def _con_sufijo_asunciones(answer: str, f1_resolution) -> str:
     rancia (R8), el técnico LO VE y corrige — la visibilidad es el control.
     Con el flag off la rama no emite asunciones y esto es identidad."""
     for asuncion in getattr(f1_resolution, "asunciones", ()) or ():
+        if asuncion.kind == "marca_fuzzy":
+            # (s334 §2) El disclosure ES la condición de existencia del fuzzy:
+            # aquí `detectado` (lo que llegó) SÍ es visible para el técnico —
+            # la frontera de privacidad aplica al TRACE, no al mensaje.
+            answer += (
+                f"\n\nℹ️ Entiendo que te refieres a {asuncion.asumido} "
+                f"(llegó «{asuncion.detectado}»). Si no es así, dímelo."
+            )
         if asuncion.kind == "marca_corregida":
             base = f1_resolution.state_query_override
             cita = f" («{base}»)" if base else ""

@@ -1,0 +1,48 @@
+{
+  "manifest": {
+    "ts": "2026-08-21T13:55:06+00:00",
+    "git_sha": "14f0065bd3e193143a541a37a316e79d49ec6e78"
+  },
+  "filas": [
+    {
+      "check": "ga0_fuzzy_apagado_no_dispara",
+      "ok": true,
+      "detalle": "standalone_no_product"
+    },
+    {
+      "check": "ga1a_fuzzy_morlei_asr_on",
+      "ok": true,
+      "detalle": "brand_correction_fuzzy · ['marca_fuzzy', 'marca_corregida']"
+    },
+    {
+      "check": "ga1a_fuzzy_morlei_asr_off",
+      "ok": true,
+      "detalle": "brand_correction_fuzzy · ['marca_fuzzy', 'marca_corregida']"
+    },
+    {
+      "check": "ga1a_capa_tabla_gana_en_tabulado",
+      "ok": true,
+      "detalle": "Quería decir de Kidde."
+    },
+    {
+      "check": "ga1b_atajo_refresca_last_query",
+      "ok": true,
+      "detalle": "¿Qué centrales de KIDDE tienes?"
+    },
+    {
+      "check": "ga1b_respuesta_morley_no_vacia",
+      "ok": true,
+      "detalle": "Los fragmentos disponibles corresponden a la marca **Morley-IAS** (no Kidde). Los modelos de centrales que aparecen en m"
+    }
+  ],
+  "hipotesis_morley": {
+    "rationale": "brand_correction_llm",
+    "ultima": {
+      "decision": "correccion",
+      "ms": 1261
+    },
+    "qfr": "¿Qué centrales de KIDDE tienes? (el usuario corrige: la marca es Morley)",
+    "answer": "Los fragmentos disponibles corresponden a la marca **Morley-IAS** (no Kidde). Los modelos de centrales que aparecen en mi base documental son:\n\n- **VSN LT** (2, 4, 8 y 12 zonas) [F1][F6][F7]\n- **MI-200** (4 zonas / 2 extinciones, convencional) [F2]\n- **HRZ 2-8** (2, 4 u 8 zonas, convencional) [F3][F10]\n- **ZX50** (con software de configuración MK-50) [F4]\n- **ZXAE / ZXEE** (hasta 20 zonas en ZXAE, ampliable hasta 80 en ZXEE) [F5]\n- **VSN 2-4** (2 o 4 zonas, convencional) [F8]\n- **MOD.EXP** — módulo de expansión para central con protocolo Morley-IAS (no es una central en sí, pero aparece como equipo documentado) [F9]\n\n¿Sobre cuál de estas centrales necesitas información?\n\n---\n\nFuente: MIE-MI-580 (sin revisión registrada); MIE-MI-110 (Rev. 005); MIE-MI-100 (Rev. 001); MIE-MC-300 (sin revisión registrada); MIE-MP-310 (sin revisión registrada); MIEMI120rev05 (Rev. 005); MIE-MI-320 (sin revisión registrada)"
+  },
+  "fallos": []
+}
