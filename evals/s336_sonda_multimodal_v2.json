@@ -1622,8 +1622,8 @@
    "acuerdan_los_tres": false
   }
  ],
- "veredicto": "INVALIDA_PARA_GEMINI_Y_PARCIAL_PARA_CLAUDE",
- "por_que": "El 0/37 de Gemini NO es un resultado: son 58 de sus ~61 llamadas caídas con 429 «generate_content_free_tier_requests, limit: 20» — el free tier es de 20 peticiones POR MINUTO y la sonda dispara con 0,4 s entre medias. El reintento que lleva (4 s y 8 s) es más corto que la ventana de 60 s. Y Claude perdió 5 llamadas por «credit balance is too low», no por formato de imagen como supuse al principio sin leer el mensaje. Sólo GPT corrió limpio. Un fallo de infraestructura NO es un «no lo vio»: leer estas cifras como capacidad de los modelos sería exactamente el error que esta sonda existe para no cometer.",
+ "veredicto": "SUPERADA_POR_s336b_c__MEDIA_LO_QUE_NO_QUERIA",
+ "por_que": "Esta sonda leía las páginas guardadas en `document_visual_assets`, que son una SELECCIÓN (mediana: 2 páginas por huérfano, en manuales de 30). Miré dos de esas páginas a mano y los lectores ACERTABAN: en la portada del FAD-902 pone «GUIDE MANUAL / Power Supplies» y el modelo no aparece por ningún lado; la página 8 del mismo manual es «3.4 Descripción de los leds» y tampoco. O sea que su 6/37 no medía qué modelo lee mejor una página — medía qué páginas habíamos guardado. Sustituida por s336b (lee el PDF ORIGINAL de Storage, cobertura completa por construcción) + s336c (diagnóstico por bucket).",
  "errores_por_lector": {
   "gemini:429_CUOTA": 58,
   "claude:SIN_CREDITO": 5
@@ -1633,5 +1633,6 @@
   "Gemini: paso de 20 req/min (3,2 s) y backoff que respete el `retry in Ns` que devuelve la propia API; o facturación activada.",
   "Claude: crédito en la cuenta de ANTHROPIC_API_KEY_SCRIPTS.",
   "Sin esas dos cosas la sonda no puede dar un veredicto cross-model."
- ]
+ ],
+ "lo_que_de_verdad_zanjo": "Un lector multimodal paga 2 de 84 huérfanos: los 2 PDF escaneados. El resto se reparte entre adjudicaciones pendientes (44) y promociones con la cita ya verificada (20). La clave de Gemini no era el desbloqueo."
 }
