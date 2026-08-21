@@ -10205,3 +10205,127 @@ imports y `catalog_store`, verdes.
   Detalle: `evals/s335_gate_resultado_v1.md`.
 - **Relacionado**: DEC-268 (clasificador) · DEC-269 (R8/fuzzy) · DEC-126 (anti-gate-
   shopping) · DEC-210/211 (graduación pendiente — van 10 vars con esta).
+
+## DEC-271 (s334, 21 ago 2026) — Los manuales huérfanos se atacan solos, pero «desbloquear» no es «promover»: el dúo tumba 8 de mis 89 y cablea el veredicto que faltaba
+
+- **Fecha**: 21 ago 2026 (s334). **Impacto**: ALTO (catálogo gobernado + seam 1/2 del retrieval).
+- **Encargo (Alberto)**: «sobre los 535 —aunque lo mejor creo que es enfocarlo desde el punto de
+  vista de *manuales huérfanos*— ¿puedes atacarlo de forma autónoma para reducir el número de
+  manuales sin modelo?». El reencuadre es suyo y es el que hace el problema tratable: un candidate
+  suelto no le sirve a nadie; **un manual que no puede servir a nadie es una pérdida contable**.
+- **Qué se hizo**: dos lotes firmados de `products_confirmar` (sólo eso: cero altas, cero
+  retiradas, cero `doc_map`, cero retags en la DB), aplicados por el gate de s324 con freeze
+  sha×4 + fingerprint, build-validar-backup-swap y rollback.
+  **Resultado medido: manuales huérfanos 245 → 193 · cuarentena 601 → 520 · consumibles 1.024 →
+  1.105.** Dry-run PASS en los dos: 0 gold perdidas, 0 disparos en los 36 negativos sintéticos, 0
+  términos que salgan; ganancias reales en 2 gold — `fidegas:cs4` (**el fallo documentado del FOCO
+  1**: «CS4 es candidate → ni uno ni otro la reconoce») y `notifier:nfs-supra` **+9 fuentes** en la
+  pregunta de resistencia de fin de línea.
+- **La decisión de método, que es lo que vale para la próxima**: **«el token está en el texto» no
+  es criterio de promoción.** La cadena que sobrevivió: 601 cuarentena → 245 manuales huérfanos →
+  157 pares clase A → **118 ids** (los 157 eran pares `id × manual`) → 110 tras riesgos declarados
+  → **89 tras verificar con el resolver real** → **81 tras el dúo** → **52 manuales**. Cada eslabón
+  quitó filas que el eslabón anterior daba por buenas.
+- **Guardas nuevas, mecánicas y agnósticas de marca** (por eso escalan al fabricante 31):
+  **H** homónimo abierto — el token vive en dos namespaces y su fila `homonyms.jsonl` es
+  `candidate:true/fail-open`, así que `resolve()` devuelve `expand:False`: promover deja el término
+  EN el detector y el manual FUERA (10 ids). **G** gemelo — el token ya resuelve a otro id
+  (`ID-3000`→`notifier:id3000`; `TG-1020`→**`desico:tg-1020`**, ni siquiera la misma marca; 6 ids).
+  **N** no detectable — digit-only o con paréntesis, `detect()` devuelve vacío (5 ids).
+  **G4** — dentro sólo si `resolve_query` pasa de no traer su manual a traerlo.
+- **Lo que encontró el dúo r42** (Sol xhigh + Fable 5; 11 hallazgos, **11 verificados, 0 falsos
+  positivos**), y que cambió el lote:
+  1. **«Clase A» no prueba producto-hood** (Sol #1 · Fable #2). `notifier:eia-485` **es el bus
+     RS-485**: sus 71 menciones son el manual explicando el cableado, y promoverlo habría
+     secuestrado toda consulta de bus de cualquier fabricante. Con él caen `ad-pe` (sufijo de
+     variante) y `rhistorico.exe` (el ejecutable de «Reparación de Históricos»: R10 se cumple, la
+     grafía no). Mi propuesta afirmaba «ninguna fila entra porque parece un modelo» — falso.
+  2. **Promover puede ESTRECHAR** (Fable #3). `8100E FAAST` 14 fuentes → 1 y `models` 14 → 2;
+     `TG-6000`/`TG-6000 Net`/`TG-NOTIFIER` pierden el paraguas `TG` y **los 4 manuales genéricos**
+     que responden las consultas TG; `M710-CZ` pierde `M710`. Es el mecanismo hp009/DEC-091b, y mi
+     instrumento no podía verlo porque sólo preguntaba «¿llega su manual?».
+     → **veredicto `DESBLOQUEA_PERO_ESTRECHA` cableado en el instrumento**, con el peor caso
+     mandando sobre el mejor: la próxima tanda lo caza sola.
+  3. **La G4 tenía dos confundidores** (Sol #2): agrupaba todas las fuentes del id y promovía en
+     bloque. → rehecha como **G4-B**, aislada par a par (`id × su manual huérfano concreto`,
+     promoviendo sólo ese id): **107/107**.
+  4. **Los dos dry-run congelan el mismo sha de `products`** (Sol #3), así que el 2.º lote exige
+     re-dry-run tras aplicar el 1.º. Se hizo así, y la re-verificación mostró los 27 del primer
+     lote pasando a `YA_ALCANZABLE`: el instrumento reflejando el estado nuevo.
+  5. **La promoción ENCIENDE alias que ya existían** (Fable #6) — uno era `MU 591 m 2024 a`, un
+     código de edición documental. Retirado en el mismo lote; el resto de higiene → TECH_DEBT.
+  6. Menores ciertos: «no es un lever de retrieval» era framing falso (`models` alimenta también
+     `hyq_models` y `keyword_search`, Sol #4); eran **36** negativos y **52** gold, no 34 y 51.
+- **El hueco del gate que esta sesión tapó**: el censo de `s324_lote_firmado_writer.py` mide
+  `allowed_sources`, que sólo **añade** (unión-protectora, `retriever.py:2369-2374`), y **no mide
+  `models`**, que **resta** bajo la política de producción (`replace`, perfil C1). Nace
+  `scripts/s334_huerfanos_seam1.py`: 0 pérdidas de modelo en 156 consultas (52 gold + 131 reales)
+  en los dos lotes.
+- **Alternativas descartadas**: (a) promover los 601 de la cuarentena — 181 son `unresolved:` y el
+  resto no tiene manual huérfano detrás, así que no paga el riesgo léxico; (b) promover los 118 de
+  clase A sin verificar — habría metido 21 términos inertes, 10 de ellos rebrands sin adjudicar, y
+  **el gate habría dicho PASS** porque no mide «¿sirvió de algo?»; (c) resolver H y G en el mismo
+  lote — es adjudicación de datos (R8), no mecánica; (d) nueve lotes, uno por fabricante — el
+  riesgo léxico se mide por término y el censo ya lo hace término a término.
+- **Gaps declarados**: sin medición end-to-end de retrieval/generación (los 81 productos nuevos no
+  tienen gold propia); 2 de los 68 documentos implicados no están `active`; los 81 entran sin
+  `clasificacion` (como 856 de los 1.024 consumibles previos); y **193 manuales siguen huérfanos**
+  — 181 `unresolved:`, 53 sin candidates, y el resto en H/G/N/E/B.
+- **Pendiente de Alberto** (`docs/DECISIONES_PENDIENTES_ALBERTO.md`): los 5 rebrands
+  Morley↔Notifier↔Sensitron, los 4 gemelos, y los 8 que el dúo retiró.
+- **Ref**: `evals/adversarial_review_log.jsonl` ts=2026-08-21T14:13:43 (r42) ·
+  `evals/s334_huerfanos_{propuesta.md,verificacion_v1.json,g4b_v1.json}` · recibos
+  `s334_huerfanos_lote_*_aplicar_*.json`.
+
+## DEC-272 (s334b, 21 ago 2026) — El pushback de Alberto destapa un error de definición (59 falsos huérfanos) y el dúo me para con DOS REGLAS QUE ESCRIBÍ HOY
+
+- **Fecha**: 21 ago 2026 (s334b). **Impacto**: ALTO (catálogo + retrieval). **Veredicto: NO-GO.**
+- **Gatillo**: Alberto — «el ataque a huérfanos me parece todavía subóptimo. Que aún queden 193 no
+  me parece correcto, y deberías atacarlo hasta que queden 10 como máximo».
+- **Los dos errores míos que destapó el pushback**:
+  1. **59 de los 193 nunca fueron huérfanos.** Mi contador preguntaba `id in consumibles` con la
+     clasificación de la Wiki, donde un `redirect` cae en la clase «redirects». El resolver, en
+     cambio, hace `follow_redirect` ANTES de indexar (`catalog_resolver.py:187`) y
+     `catalog_store._consumable` lo sigue por diseño («fix dúo s90»). **Reimplementar la definición
+     en vez de usar la del consumidor se inventa un problema.** Corregido en `dashboard/catalogo.py`
+     con 2 tests (uno de ellos control negativo: si el destino sigue en cuarentena, SÍ es huérfano).
+     Cifra real: **134**.
+  2. **Descarté 181 `unresolved:` por prior.** «Asignar fabricante es adjudicación»: cierto e
+     irrelevante — **promover no exige asignarlo**, porque el detector se construye con
+     `canonical_model` y el índice con `norm_token(canonical_model)`: el namespace no interviene.
+- **Lo construido y medido (y NO aplicado)**: lote de 134 promociones + 25 redirects + 43
+  `doc_map_altas` + 3 alias de marca. Dry-run **PASS**; detector 1891→2131 (+240/−0); **0 gold
+  perdidas**, 7 ganancias; 0 disparos en 36 negativos; **0 pérdidas de modelo en 156 consultas**
+  (seam 1 bajo `replace`); **huérfanos 134 → 18**.
+- **Tres mecanismos nuevos, cada uno verificado ANTES de entrar**: promover+`doc_map` convierte el
+  veredicto `DESBLOQUEA_PERO_ESTRECHA` en ganancia (medido en `notifier:tg-6000`: 4 fuentes → 1 con
+  sólo promover, **4 → 5** con el doc_map); redirect de gemelos alcanza el manual **sin añadir
+  término al detector**; alias cualificado por marca alcanza el manual dejando el token homónimo
+  fallando abierto (3 de 4; el cuarto no lleva dígitos).
+- **Por qué NO se aplica — dúo r43, 10 hallazgos, 10 verificados, 0 FP**:
+  · **R21, escrita en DEC-270 esta misma sesión**: «resolver H o G es ADJUDICACIÓN (R8), **nunca
+    mecánica**». Los 25 redirects la incumplen. · **Trigger de TECH_DEBT #99**, también de hoy:
+    higiene de alias **antes** del siguiente lote grande cuando uno active >20; éste activa decenas
+    y **el subconjunto más conservador todavía activa 85**. · Las 43 `doc_map_altas` escriben «el
+    manual lo menciona y sirve como fuente» derivándolo sólo de que el paraguas las traía: son
+    atestaciones **no leídas**, y verdean el mismo gate de fuentes que evalúa el cambio. · Promover
+    los «sin cita literal» apoyándose en su fila de `doc_map` es **circular**: esa fila viene del
+    catálogo candidate que se está graduando. · **Fable**: las «7 ganancias» gold son en buena parte
+    ensanche producido POR el lote (una pregunta de batería de la AM-8200 gana el manual del gateway
+    H-GTW) — **el instrumento de validación lo modifica el lever que valida**. · La excepción
+    nombre-largo-con-dígito deja entrar frases genéricas al detector («1 Relay Module», «Caja de
+    central de tamaño 10U») y mi recuento con frontera de palabra se hizo **sólo sobre los 25
+    términos flageados**. · A favor: Fable verificó que el `doc_map` de un id redirigido NO se pierde.
+- **Un acierto de método que sí vale**: los 25 términos de riesgo se midieron contando en cuántos
+  `source_file` aparecen. Con `ilike *X*` (SUBSTRING) salían 4 palabras; **con FRONTERA DE PALABRA
+  —que es como busca el detector— `ITAC` cae de 270 a 11 documentos (casaba dentro de
+  «capaci*tac*ión») y `NAS` de 231 a 11**. Dos productos legítimos que habría perdido por medir con
+  un operador distinto del que usa el consumidor. Sobreviven sólo `VIEW` (331) e `INDICATOR` (260).
+- **Secuencia adjudicada para llegar a ≤10**: (1) higiene de alias `TECH_DEBT #99` con los casos
+  concretos del dúo; (2) leer los 43 documentos para que las `secondary` sean verificadas; (3)
+  Alberto: 3 fusiones Morley↔Notifier (desbloquean **6 manuales de golpe**) y los 25 redirects.
+  **5 son irreducibles**: digit-only y `EEV(2)`, que el detector excluye a propósito.
+- **Ref**: `evals/adversarial_review_log.jsonl` ts=2026-08-21T15:44:21 (r43) ·
+  `evals/s334b_huerfanos_{propuesta.md,plan.json,radio_explosion.json,seam1.json}` ·
+  `docs/DECISIONES_PENDIENTES_ALBERTO.md`.
+

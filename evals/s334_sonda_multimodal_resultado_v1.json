@@ -1,0 +1,1704 @@
+{
+ "que_es": "Sonda multimodal s334. Patrón de PLATA (nombre de fichero). Cero fuga verificada. NADA aplicado.",
+ "modelos": {
+  "claude": "claude-fable-5",
+  "gpt": "gpt-5.6-sol"
+ },
+ "limitacion_declarada": "Gemini —lo que observó Alberto— no tiene clave en este entorno; se mide con las dos familias disponibles.",
+ "resumen": {
+  "control": {
+   "n": 20,
+   "claude": 8,
+   "gpt": 8,
+   "ambos": 8,
+   "alguno": 8
+  },
+  "perdido": {
+   "n": 52,
+   "claude": 12,
+   "gpt": 8,
+   "ambos": 8,
+   "alguno": 12
+  }
+ },
+ "filas": [
+  {
+   "grupo": "control",
+   "id": "aritech:apic",
+   "canonico": "APIC",
+   "source_file": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "Aritech APIC",
+     "ModuLaser"
+    ],
+    "confianza": "alta",
+    "donde": "Título del documento ('Aritech APIC Installation Sheet for ModuLaser Aspirating Smoke Detection Systems'), rótulos 'APIC' en los diagramas de bornes (figuras 3 y 4) y sección Description, que define APIC como Aritech Addressable Protocol Interface Card para sistemas ModuLaser. Se citan además como compatibles/incompatibles los sistemas Aritech 2X/2X-A, Stratos y FP1200C-2000C, pero no son el producto del documento"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "Aritech APIC",
+     "ModuLaser"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada y en los rótulos de los diagramas; APIC también aparece desarrollado en la descripción como Addressable Protocol Interface Card."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "detnov:cad-171-r",
+   "canonico": "CAD-171 (R)",
+   "source_file": "Manual_CAD-171-MI-716-es",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "CAD-171"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «MANUAL DE INSTALACIÓN Y USUARIO CAD-171»"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "CAD-171"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «MANUAL DE INSTALACIÓN Y USUARIO CAD-171»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "detnov:pad-20",
+   "canonico": "PAD-20",
+   "source_file": "Manual_PAD-20 (MU 591 m 2024 a)",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "PAD-20"
+    ],
+    "confianza": "alta",
+    "donde": "Aparece como título del producto bajo los encabezados 'PILOTO INDICADOR DE ACCIÓN' y 'ACTION REMOTE INDICATOR', junto a la foto del equipo en ambas versiones (español e inglés)"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "PAD-20"
+    ],
+    "confianza": "alta",
+    "donde": "En el encabezado de la página, bajo los títulos «PILOTO INDICADOR DE ACCIÓN» y «ACTION REMOTE INDICATOR»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "detnov:spr_250",
+   "canonico": "SPR_250",
+   "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "media",
+    "donde": "En la portada solo se aprecia la marca 'detnov' en las etiquetas de los equipos y el título genérico 'GUIA DE INSTALACION'; no se distingue ningún número o nombre de modelo legible"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada y las etiquetas visibles del equipo sólo muestran la marca Detnov; no aparece ningún modelo legible."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:00051",
+   "canonico": "00051",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada del manual de usuario: 'SENSOR REMOTO S/3-T2 y S/2-T2', sensores remotos de oxígeno con rango (0-25) ó (21-0) % v/v, de la marca Fidegas"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «SENSOR REMOTO S/3-T2 y S/2-T2»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:00052",
+   "canonico": "00052",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada del manual de usuario, donde se indica 'SENSOR REMOTO S/3-T2 y S/2-T2' para oxígeno con rango (0-25) ó (21-0) % v/v, de la marca Fidegas"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «SENSOR REMOTO S/3-T2 y S/2-T2»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:03382",
+   "canonico": "03382",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada del manual de usuario, donde se indica 'SENSOR REMOTO S/3-T2 y S/2-T2' para oxígeno con rango (0-25) ó (21-0) % v/v"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «SENSOR REMOTO S/3-T2 y S/2-T2»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:03383",
+   "canonico": "03383",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada del manual de usuario, bajo el texto 'SENSOR REMOTO', se indican los modelos S/3-T2 y S/2-T2 (sensores de oxígeno, rango (0-25) ó (21-0) % v/v)"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "S/3-T2",
+     "S/2-T2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «SENSOR REMOTO S/3-T2 y S/2-T2»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:cs4",
+   "canonico": "CS4",
+   "source_file": "Manual-de-Usuario-CS4",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "Título de portada («CENTRAL DE ALARMAS CS4 (Analógica o Digital)») y rótulo «CS4» en la carcasa del equipo mostrado en la foto"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada y en la etiqueta frontal del equipo fotografiado."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:cs4-analgica",
+   "canonico": "CS4 Analógica",
+   "source_file": "Manual-de-Usuario-CS4",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada («CENTRAL DE ALARMAS CS4 (Analógica o Digital)») y en la serigrafía del propio equipo mostrado en la foto, donde aparece «CS4»."
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada y en la etiqueta frontal del equipo fotografiado."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "fidegas:cs4-digital",
+   "canonico": "CS4 Digital",
+   "source_file": "Manual-de-Usuario-CS4",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada («CENTRAL DE ALARMAS CS4 (Analógica o Digital)») y en la serigrafía del propio equipo mostrado en la foto de la central"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "CS4"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada y en la etiqueta frontal del equipo fotografiado."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "firebeam:adaptador",
+   "canonico": "ADAPTADOR",
+   "source_file": "Manual_Firebeam_XTRA_ES",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "The Fire Beam Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada del manual del usuario aparece el logotipo/nombre del producto 'thefirebeam Xtra', junto con la descripción 'Detector de humos lineal por reflexión'"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "thefirebeam Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada, debajo de la fotografía del equipo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "firebeam:firebeam-xtra",
+   "canonico": "Firebeam Xtra",
+   "source_file": "Firebeam Xtra User Guide 060619",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "thefirebeam protection system Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En el título/logotipo de la portada aparece 'thefirebeam™ protection system Xtra', y el documento se identifica como su 'user guide' (issue 0025-10 es la referencia del documento, no un modelo)."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "The FireBeam Protection System Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada, en el título/logotipo «thefirebeam protection system Xtra»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "firebeam:thefirebeam-xtra",
+   "canonico": "thefirebeam Xtra",
+   "source_file": "Manual_Firebeam_XTRA_ES",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "The Fire Beam Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada del manual aparece el logotipo/nombre del producto 'thefirebeam Xtra' junto a la descripción 'Detector de humos lineal por reflexión'"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "thefirebeam Xtra"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada, debajo de la fotografía del equipo."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "hosiden:ls-28",
+   "canonico": "LS 28",
+   "source_file": "BANI-G-24_Eng",
+   "page_index": 1,
+   "visual_role": "product_photo",
+   "claude": {
+    "modelos": [
+     "IS 28 Mk 4 Banshee"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la portada: 'IS 28 Mk 4 Banshee Audible Warning Device' de Hosiden Besson Ltd, repetido en el encabezado del texto y mencionado como 'IS 28 Banshee' en las secciones de instrucciones e instalación"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "IS 28 Mk 4 Banshee"
+    ],
+    "confianza": "alta",
+    "donde": "En el título superior y en el encabezado de la ficha: «IS 28 Mk 4 Banshee Audible Warning Device»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "kidde:1x-f8-sc",
+   "canonico": "1X-F8-SC",
+   "source_file": "nc-pf8-sc-161721-es",
+   "page_index": 1,
+   "visual_role": "product_photo",
+   "claude": {
+    "modelos": [
+     "NC-PF8-SC",
+     "1X-F8-SC"
+    ],
+    "confianza": "alta",
+    "donde": "NC-PF8-SC aparece como título principal del documento junto al subtítulo 'Conventional Fire Panel with Scandinavian Key - 8 Zone'; 1X-F8-SC se menciona en la sección 'The Panel' como nombre del panel descrito"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "NC-PF8-SC",
+     "1X-F8-SC"
+    ],
+    "confianza": "alta",
+    "donde": "NC-PF8-SC aparece en el título; 1X-F8-SC aparece en la sección «The Panel»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "control",
+   "id": "kidde:2010-1-nb",
+   "canonico": "2010-1-NB",
+   "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "Serie NC"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la portada: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Serie NC"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "kidde:2010-1-sb",
+   "canonico": "2010-1-SB",
+   "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "Serie NC"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Serie NC"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "kidde:ke-dm3010rs06",
+   "canonico": "KE-DM3010RS06",
+   "source_file": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "Excellence Series Intelligent Addressable Manual Call Point"
+    ],
+    "confianza": "media",
+    "donde": "Título de la portada del documento ('Excellence Series Intelligent Addressable Manual Call Point Installation Sheet'). No aparece ningún código de modelo específico en los diagramas; el P/N 03-0210-501-4300-06 del pie de página es la referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Excellence Series"
+    ],
+    "confianza": "media",
+    "donde": "En el título: «Excellence Series Intelligent Addressable Manual Call Point Installation Sheet»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "control",
+   "id": "kidde:ke-dm3010rs18",
+   "canonico": "KE-DM3010RS18",
+   "source_file": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "Excellence Series Intelligent Addressable Manual Call Point"
+    ],
+    "confianza": "media",
+    "donde": "Título del documento: 'Excellence Series Intelligent Addressable Manual Call Point Installation Sheet'. No aparece ningún código de modelo específico; el P/N 03-0210-501-4300-06 del pie de página es la referencia del documento, no del producto."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Excellence Series Intelligent Addressable Manual Call Point"
+    ],
+    "confianza": "media",
+    "donde": "En el título de la portada: «Excellence Series Intelligent Addressable Manual Call Point Installation Sheet»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:afp1020",
+   "canonico": "AFP1020",
+   "source_file": "Tg-Honeywell_Tecnico",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "TG"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada aparece «Honeywell TG Software gráfico» y en el título «TG - HONEYWELL MANUAL DE CONFIGURACIÓN»; MI-DT-951 (Rev.:7.4) es la referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "TG"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada: «TG Software gráfico» y en el título «TG - HONEYWELL»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:fs-1",
+   "canonico": "FS-1",
+   "source_file": "FS2-1",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo indica 'Centrales de incendios convencionales de 1, 2 y 4 zonas' sin nombre de modelo específico; 'Ref. 997-158 Versión 1.0' es la referencia del documento, no un modelo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo indica centrales convencionales de 1, 2 y 4 zonas; no aparece ningún modelo de producto."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:fs-2",
+   "canonico": "FS-2",
+   "source_file": "FS2-1",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo menciona genéricamente 'Centrales de incendios convencionales de 1, 2 y 4 zonas' sin nombres de modelo específicos; 'Ref. 997-158 Versión 1.0' es una referencia de documento, no un modelo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo identifica centrales convencionales de 1, 2 y 4 zonas; «Ref. 997-158» es una referencia documental, no un modelo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:fs-4",
+   "canonico": "FS-4",
+   "source_file": "FS2-1",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo menciona 'Centrales de incendios convencionales de 1, 2 y 4 zonas' de forma genérica, sin nombre de modelo específico; 'Ref. 997-158 Versión 1.0' es una referencia de documento, no un modelo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo identifica centrales convencionales de 1, 2 y 4 zonas; no aparece ningún modelo de producto. «Ref. 997-158» es una referencia documental."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:inspire",
+   "canonico": "INSPIRE",
+   "source_file": "Actualizacion del firmware de INSPIRE a R1.35",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona la marca NOTIFIER by Honeywell, versiones de firmware (1.35.0-138) y la herramienta de configuración CLSS, pero ningún modelo concreto de central o equipo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo de producto; CLSS es el programa de configuración y las referencias 1.35.0-R138 y similares son versiones de firmware."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:interface-rs485-serie-800",
+   "canonico": "Interface RS485 serie 800",
+   "source_file": "MNDT021",
+   "page_index": 1,
+   "visual_role": "product_photo",
+   "claude": {
+    "modelos": [
+     "CFP-800"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «REPETIDOR E INTERFACE RS485 DE LA CENTRAL CFP-800»"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "CFP-800"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «REPETIDOR E INTERFACE RS485 DE LA CENTRAL CFP-800»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:laserstar-repetidor",
+   "canonico": "LaserStar Repetidor",
+   "source_file": "MIDT730",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "LaserStar",
+     "Stratos HSSD"
+    ],
+    "confianza": "alta",
+    "donde": "«LaserStar» aparece como título principal de la portada del manual de instalación; «Stratos HSSD» figura en la etiqueta/rótulo del equipo ilustrado en la imagen de la portada"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "LaserStar",
+     "Stratos HSSD"
+    ],
+    "confianza": "alta",
+    "donde": "«LaserStar» aparece en el título de la portada y «Stratos HSSD» en la etiqueta frontal del equipo ilustrado."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:lisa-2-eex-d",
+   "canonico": "LISA 2 EEx d",
+   "source_file": "MNDT635",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "LISA 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2». Las referencias MN-DT-635 y MT1269 son códigos del documento, no modelos."
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "LISA 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:lisa-2-eex-na",
+   "canonico": "LISA 2 EEx nA",
+   "source_file": "MNDT635",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "LISA 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2». Las referencias MN-DT-635 y MT1269 son códigos del documento, no modelos."
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "LISA 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «DETECTORES INFRARROJOS PARA GAS LISA 2»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:nfs4",
+   "canonico": "NFS4",
+   "source_file": "NFS4_NFS8-2PLUS_MANU_ITA",
+   "page_index": 7,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "NFS-PLUS",
+     "NFS"
+    ],
+    "confianza": "alta",
+    "donde": "En el pie de página aparece 'NFS-PLUS' y 'NFS-PLUS_MANU-INST/PROG.'; en el texto de la sección 2.4.3 se menciona 'la parte inferiore della centrale NFS'"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "NFS-PLUS"
+    ],
+    "confianza": "alta",
+    "donde": "En el pie de página, a la izquierda, aparece «NFS-PLUS»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:nfs8-2plus",
+   "canonico": "NFS8-2PLUS",
+   "source_file": "NFS4_NFS8-2PLUS_MANU_ITA",
+   "page_index": 7,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "NFS-PLUS",
+     "NFS"
+    ],
+    "confianza": "alta",
+    "donde": "En el pie de página aparece 'NFS-PLUS' y 'NFS-PLUS_MANU-INST/PROG.'; en el texto de la sección 2.4.3 se menciona 'la parte inferiore della centrale NFS'"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "NFS-PLUS"
+    ],
+    "confianza": "alta",
+    "donde": "En el pie de página aparece «NFS-PLUS» y la referencia del manual «NFS-PLUS_MANU-INST/PROG.»; también se menciona «centrale NFS» en el texto."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "notifier:nport-5110",
+   "canonico": "NPort 5110",
+   "source_file": "HLSI_MNDT1410_B",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "TG-IP-1",
+     "Moxa NPort 5210",
+     "Moxa NPort 5110"
+    ],
+    "confianza": "alta",
+    "donde": "El encabezado indica 'Manual de usuario TG-IP-1' y el título de la página es 'CONFIGURACIÓN DEL TG-IP'; el subtítulo menciona explícitamente la configuración del 'Moxa Nport 5210/5110'. La captura del CD de instalación muestra además 'NPort 5200/5400/5600 Series' y la foto del equipo lleva la etiqueta NPort."
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "TG-IP-1",
+     "Moxa NPort 5210",
+     "Moxa NPort 5110"
+    ],
+    "confianza": "alta",
+    "donde": "En la cabecera «Manual de usuario TG-IP-1», el título «CONFIGURACIÓN DEL TG-IP» y el texto «configuración del Moxa Nport 5210/5110»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "sensitron:smart-2-twin",
+   "canonico": "SMART 2 TWIN",
+   "source_file": "Smart 2_MT251_Ita-Eng",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "SMART 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada, tanto en italiano («MANUALE D'INSTALLAZIONE ED USO DEI RIVELATORI SMART 2») como en inglés («USER MANUAL FOR SMART 2 GAS DETECTORS»). La foto muestra dos versiones del detector: la antideflagrante (EEx d IIC T6, II 2G) y la versión IP55."
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "SMART 2"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «DEI RIVELATORI SMART 2» y «SMART 2 GAS DETECTORS»."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:cmd-500",
+   "canonico": "CMD-500",
+   "source_file": "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título 'GUIDE MANUAL' y la descripción genérica 'Monoxide control panels - User's and installation guide'; en la foto del equipo solo se ven rótulos funcionales (AVERIA, ALARMA, EXTRAC 1/2, AUTO, ON, OFF, TEST, SILENCIAR), sin ningún nombre o referencia de modelo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo indica «Monoxide control panels» y no muestra ningún modelo legible; las etiquetas del equipo son demasiado pequeñas para identificarlo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:d-1100-4-sounder",
+   "canonico": "D 1100-4 Sounder",
+   "source_file": "D 1100-4 Sounder",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [
+     "CWSO-xx-S1 Sounder, Shallow Base",
+     "CWSO-xx-S2 Sounder, Shallow Base, First Fix",
+     "CWSO-xx-W1 Sounder, Deep Base",
+     "CWSO-xx-W2 Sounder, Deep Base, First Fix"
+    ],
+    "confianza": "alta",
+    "donde": "Listado bajo el encabezado 'MODELS:' en la esquina superior izquierda de la página; el producto es un sirena/sounder de la gama ENScape de KAC (título superior derecho 'ENScape KAC - SOUNDER'). Se indica que 'xx' denota el color del cuerpo y del flash. 'D 1100-4' en la esquina inferior es la referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "CWSO-xx-S1",
+     "CWSO-xx-S2",
+     "CWSO-xx-W1",
+     "CWSO-xx-W2"
+    ],
+    "confianza": "alta",
+    "donde": "En la lista «MODELS» de la esquina superior izquierda."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:dmdx-500",
+   "canonico": "DMDX-500",
+   "source_file": "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona 'Detectores de monóxido de carbono' con dos versiones ('Versión Estándar' y 'Versión Compacta' / 'Standard Version' y 'Compact Version'), pero no aparece ningún nombre o código de modelo en el título, fotos ni diagramas. El 'REF: 55350008' es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo se indican las variantes «Versión Estándar» y «Versión Compacta» y la referencia documental «REF: 5535000»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:ds-5--gl",
+   "canonico": "DS 5 -GL",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "page_index": 2,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [
+     "DS 5",
+     "DS 10",
+     "DS 5/10-TAS",
+     "DS 5/10-TAV"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la sección 6 («Externe Tonartenwahl für Typen DS 5/10 -TAS und DS 5/10 -TAV»), en los encabezados «Variante 1 (DS 5 / DS 10 - TAS)» y «Variante 2 (DS 5 / DS 10 - TAV)», y en las notas de los diagramas («Typ DS 10 oder 15 Schallgebern Typ DS 5»)"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "DS 5-TAS",
+     "DS 10-TAS",
+     "DS 5-TAV",
+     "DS 10-TAV"
+    ],
+    "confianza": "alta",
+    "donde": "En el título del apartado 6 y en los rótulos «Variante 1 (DS 5 / DS 10 -TAS)» y «Variante 2 (DS 5 / DS 10 -TAV)»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:ds-5--tas",
+   "canonico": "DS 5 -TAS",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "page_index": 2,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [
+     "DS 5",
+     "DS 10",
+     "DS 5 -TAS",
+     "DS 10 -TAS",
+     "DS 5 -TAV",
+     "DS 10 -TAV"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la sección 6 («Externe Tonartenwahl für Typen DS 5/10 -TAS und DS 5/10 -TAV»), encabezados de Variante 1 (DS 5 / DS 10 - TAS) y Variante 2 (DS 5 / DS 10 - TAV), y en las notas de los diagramas («Typ DS 10 oder 15 Schallgebern Typ DS 5»)"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "DS 5/10 -TAS",
+     "DS 5/10 -TAV"
+    ],
+    "confianza": "alta",
+    "donde": "En el título del apartado 6 y en los encabezados de los diagramas de Variante 1 y Variante 2."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:ds-5--tav",
+   "canonico": "DS 5 -TAV",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "page_index": 2,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [
+     "DS 5",
+     "DS 10",
+     "DS 5 -TAS",
+     "DS 10 -TAS",
+     "DS 5 -TAV",
+     "DS 10 -TAV"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la sección 6 («Option: Externe Tonartenwahl für Typen DS 5/10 -TAS und DS 5/10 -TAV»), en los encabezados de las variantes («Variante 1 (DS 5 / DS 10 - TAS)» y «Variante 2 (DS 5 / DS 10 - TAV)») y en las notas de los diagramas («Typ DS 10 oder 15 Schallgebern Typ DS 5»)"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "DS 5",
+     "DS 10",
+     "DS 5 -TAS",
+     "DS 10 -TAS",
+     "DS 5 -TAV",
+     "DS 10 -TAV"
+    ],
+    "confianza": "alta",
+    "donde": "En el título del apartado 6 y en los rótulos de los diagramas de las variantes 1 y 2."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:f3000m",
+   "canonico": "F3000M",
+   "source_file": "F3000M_Spanish User Guide_0044-047-02-ES",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título genérico «Detector de humo de haz óptico, con emisor y receptor - Manual del usuario», el indicador de idioma «ES» e ilustraciones del equipo sin etiquetas de modelo visibles"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada sólo muestra la descripción genérica «Detector de humo de haz óptico, con emisor y receptor»; no aparece ningún modelo en el título ni en las ilustraciones."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:f5k",
+   "canonico": "F5K",
+   "source_file": "F5K-Additional-Information-Spanish",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título genérico 'Detector de humo de haz óptico por infrarrojos motorizado - Información adicional', el indicador de idioma ES y dos ilustraciones del equipo (cabezal detector y unidad de control) sin ningún nombre de modelo o referencia visible"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada sólo muestra una descripción genérica del producto y dibujos del equipo; no aparece ningún modelo visible."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:f5k-2h",
+   "canonico": "F5K-2H",
+   "source_file": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+   "page_index": 1,
+   "visual_role": null,
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título genérico «Detector de humos con haz óptico infrarrojo motorizado - Manual del usuario» con el indicador de idioma ES e ilustraciones del detector y del controlador, sin ningún nombre o número de modelo visible"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra la descripción genérica «Detector de humos con haz óptico infrarrojo motorizado» y no incluye ningún modelo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:fad-902",
+   "canonico": "FAD-902",
+   "source_file": "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título 'GUIDE MANUAL', las etiquetas de idioma (ES, GB, FR, IT) y el texto 'Power Supplies - User's and installation guide', sin ningún nombre o referencia de modelo visible en la imagen del equipo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra «Power Supplies» y «User’s and installation guide»; no aparece ningún modelo identificable."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:fad-905",
+   "canonico": "FAD-905",
+   "source_file": "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo muestra el título 'GUIDE MANUAL', la indicación 'Power Supplies / User's and installation guide' y una foto del equipo sin etiquetas de modelo visibles; no aparece ningún nombre o referencia de modelo concreto."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "La portada solo indica «Power Supplies» y «User’s and installation guide»; no aparece ningún modelo identificable."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-402",
+   "canonico": "MAD-402",
+   "source_file": "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [
+     "Módulo de 1 entrada técnica (Single Input Unit)",
+     "Módulo de 2 entradas técnicas (Double Input Unit)"
+    ],
+    "confianza": "media",
+    "donde": "Título del documento ('Módulo de 1 o 2 entradas técnicas' / '1 or 2 Input Module'), etiquetas de las fotos del equipo ('Modulo 1 entrada técnica', 'Modulo 2 entradas técnicas', 'Single Input Unit', 'Double Input Unit'). No aparece ningún código de modelo alfanumérico concreto; la 'REF: 55340103' es solo la referencia del documento."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo 1 entrada técnica",
+     "Módulo 2 entradas técnicas"
+    ],
+    "confianza": "alta",
+    "donde": "En el título y en los rótulos situados sobre las fotografías del equipo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-412",
+   "canonico": "MAD-412",
+   "source_file": "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [
+     "Módulo de 1 relé (1 Relay Module)",
+     "Módulo de 2 relés (2 Relay Module)"
+    ],
+    "confianza": "media",
+    "donde": "Título del documento («MÓDULO DE 1 O 2 RELÉS» / «1 OR 2 RELAY OUTPUT MODULE»), etiquetas de las fotos («Modelo 1 Relé», «Modulo de 2 Relé», «1 Relay Module», «2 Relay Module») y rótulo del diagrama («2 Relay Output»). No aparece ningún código de modelo comercial legible; la REF: 55341101 es la referencia del documento."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "MAD-401",
+     "MAD-402"
+    ],
+    "confianza": "alta",
+    "donde": "en las etiquetas de las fotos de los módulos de 1 relé y 2 relés, respectivamente"
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-422",
+   "canonico": "MAD-422",
+   "source_file": "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo describe variantes genéricas del producto ('Módulo 1 Entrada 1 Salida' / 'Module with 1 Input & 1 Output' y 'Módulo 2 Entradas 2 Salidas' / 'Module with 2 Inputs & 2 Outputs'), sin ningún código o nombre de modelo específico. El único código visible (REF: 55342102) es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo 1 Entrada 1 Salida",
+     "Módulo 2 Entradas 2 Salidas"
+    ],
+    "confianza": "alta",
+    "donde": "En los rótulos situados sobre las fotografías de los equipos."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-432",
+   "canonico": "MAD-432",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "media",
+    "donde": "El documento solo usa nombres descriptivos ('Módulo 1 Sirena o Salida 24V Supervisados', 'Módulo de 2 Sirenas o Salida Supervisada' / '1 Siren Module or Supervised Relay Output', '2 Sirens Module') en el título y las etiquetas de las fotos, sin ninguna referencia comercial de modelo. El código 'REF: 55343101' es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo de 1 Sirena o Salida 24 V Supervisada",
+     "Módulo de 2 Sirenas o Salida Supervisada"
+    ],
+    "confianza": "media",
+    "donde": "En el título, en las etiquetas sobre las fotografías del equipo y en la tabla «Modelo-Referencia»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-432-mdulo-1-sirena",
+   "canonico": "MAD-432 Módulo 1 Sirena",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo usa nombres descriptivos ('Módulo 1 Sirena o Salida 24V Supervisados' / '1 Siren Module or Supervised Relay Output' y 'Módulo de 2 Sirenas' / '2 Sirens Module'), sin ningún código o referencia de modelo. El único código visible, REF: 55343101, es la referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "MDA1S",
+     "MDA2S"
+    ],
+    "confianza": "media",
+    "donde": "En las etiquetas de las fotografías de los módulos de 1 y 2 sirenas, respectivamente."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-432-mdulo-2-sirenas",
+   "canonico": "MAD-432 Módulo 2 Sirenas",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [
+     "Módulo de 1 sirena o salida 24V supervisada",
+     "Módulo de 2 sirenas o salida 24V supervisada"
+    ],
+    "confianza": "media",
+    "donde": "Título del documento ('Módulo 1 Sirena o Salida 24V Supervisados' / '24 V Powered Supervised Relay Output Module or Siren Module'), etiquetas de las fotos ('Módulo 1 Sirena o Salida Supervisada', 'Módulo de 2 Sirenas o Salida Supervisada') y cabecera de la tabla de características técnicas ('1 sirene module' / '2 sirens module'). No aparece ningún código de modelo alfanumérico específico; el 'REF: 55343101' es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo de 1 Sirena o Salida Supervisada",
+     "Módulo de 2 Sirenas o Salida Supervisada"
+    ],
+    "confianza": "alta",
+    "donde": "En los títulos de las fotografías y en la tabla «Modelo-Referencia»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-442",
+   "canonico": "MAD-442",
+   "source_file": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [
+     "Módulo de 1 zona (1 Zone Module)",
+     "Módulo de 2 zonas (2 Zones Module)"
+    ],
+    "confianza": "media",
+    "donde": "Título del documento («MÓDULO DE ZONA / ZONE MODULE»), etiquetas de las fotos del equipo («Modulo 1 zona», «Modulo de 2 zonas» / «1 Zone Module», «2 Zones Module») y cabecera de la tabla de características técnicas («Modelo - Referencia: Modulo 1 zona / Modulo de 2 zonas»). No aparece ningún código o referencia comercial de modelo; el «REF: 55344103» es una referencia del documento, no del producto."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo 1 zona",
+     "Módulo de 2 zonas"
+    ],
+    "confianza": "alta",
+    "donde": "En las etiquetas de las fotos y en los encabezados de la tabla de características técnicas; también aparecen como “1 Zone Module” y “2 Zones Module” en la versión inglesa."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-450",
+   "canonico": "MAD-450",
+   "source_file": "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "media",
+    "donde": "El documento solo identifica el producto de forma genérica como 'Pulsador Analógico' / 'Analogue Manual Call Point' en el título y las etiquetas de las fotos. La tabla 'Modelo de Referencia' / 'Model-Reference' aparece sin ningún código de modelo, y 'REF: 55345103' es una referencia de documento/producto, no un nombre de modelo. Se menciona que existe en dos variantes (con o sin aislador), pero sin denominación de modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo específico; el título sólo indica «Pulsador Analógico / Analogue Manual Call Point» y el campo «Modelo de Referencia / Model-Reference» está vacío."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-461",
+   "canonico": "MAD-461",
+   "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [
+     "Sirena Analógica (Analogue Sounder)",
+     "Sirena Analógica con Flash (Analogue Sounder with Flash)"
+    ],
+    "confianza": "alta",
+    "donde": "Título del documento («SIRENA Y SIRENA ANALÓGICA CON FLASH» / «ANALOGUE SOUNDER & ANALOGUE SOUNDER WITH FLASH»), etiquetas de las fotos del equipo («Sirena Analógica», «Sirena con Flash Analógica», «Analogue Sounder», «Analogue Sounder with Flash») y texto de introducción. No aparece ningún código de modelo alfanumérico específico; la tabla de características técnicas solo indica «Modelo-Referencia» sin valores, y REF: 55346102 es una referencia del documento."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Sirena Analógica",
+     "Sirena con Flash Analógica"
+    ],
+    "confianza": "alta",
+    "donde": "En el título y en las etiquetas sobre las fotografías del equipo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-471",
+   "canonico": "MAD-471",
+   "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo indica el nombre genérico del producto («Sirena Analógica de Zócalo con Flash» / «Analogue Base Sounder with Flash») en el título y en las etiquetas de las fotos, y una referencia de documento (REF: 55347101), pero no aparece ningún código o nombre de modelo específico"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo legible; el título es una descripción genérica del producto y «REF: 55347101» es una referencia documental."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-472",
+   "canonico": "MAD-472",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo muestra el nombre genérico del producto ('Sirena Analógica de Zócalo' / 'Analogue Base Sounder') en el título y en las etiquetas de las fotos, sin ningún código de modelo. La única referencia visible (REF: 55347200) es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo el nombre genérico «Sirena Analógica de Zócalo / Analogue Base Sounder» y la referencia documental «REF: 55347200»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:mad-491",
+   "canonico": "MAD-491",
+   "source_file": "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo identifica los productos de forma genérica como 'Módulo Aislador / Isolator Module' y 'Zócalo Aislador / Isolator Base', tanto en el título como en las etiquetas de las fotos y diagramas. No aparece ninguna referencia de modelo específica; el 'REF: 55349102' es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Módulo Aislador",
+     "Zócalo Aislador"
+    ],
+    "confianza": "alta",
+    "donde": "En el título y en las etiquetas de las fotografías y diagramas del equipo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:pad-10a",
+   "canonico": "PAD-10A",
+   "source_file": "55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo muestra el título genérico 'BUZZER FOR ANALOGUE DETECTORS' repetido en cada instrucción y la referencia de documento 'REF: 55320102', que no es un modelo de producto. No aparece ningún nombre o código de modelo en los diagramas ni etiquetas."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo el título genérico «BUZZER FOR ANALOGUE DETECTORS» y la referencia de documento «REF: 55320102»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:pgd-200",
+   "canonico": "PGD-200",
+   "source_file": "55320002 Manual Programador PGD-200 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona 'Programador' / 'Programming Tool' como nombre genérico del producto en el título y las etiquetas de las fotos; no aparece ningún código o nombre de modelo. La única referencia visible (REF: 553420002) es una referencia de documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo se identifica genéricamente como «Programador / Programming Tool» y figura la referencia documental REF: 553420002."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:scd-100",
+   "canonico": "SCD-100",
+   "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo indica el tipo de producto ('Sirena Convencional' / 'Conventional Sounder') en título y cabecera; no aparece ningún nombre de modelo. El 'REF: 55310400' es una referencia del documento y 'RFL 4K7' en el diagrama es la resistencia final de línea de 4,7 kΩ, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; solo la denominación genérica «Sirena Convencional / Conventional Sounder» y una referencia de documento."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:scd-110",
+   "canonico": "SCD-110",
+   "source_file": "55311003 Manual Sirenas Convencionales SCD-110 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona nombres genéricos de producto ('Sirena Convencional' / 'Conventional Sounder' y 'Sirena con Flash' / 'Conventional Sounder with Flash') en el título y las etiquetas de las fotos, pero no aparece ningún código o modelo específico. El 'REF: 55311003' es una referencia del documento y 'RFL 4K7' en los diagramas es una resistencia de fin de línea, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo denominaciones genéricas («Sirena Convencional» y «Sirena con Flash Convencional») y la referencia documental REF: 55311003."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:scd-110-con-flash",
+   "canonico": "SCD-110 con flash",
+   "source_file": "55311003 Manual Sirenas Convencionales SCD-110 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo contiene denominaciones genéricas del producto ('Sirena Convencional' / 'Conventional Sounder' y 'Sirena con Flash' / 'Conventional Sounder with Flash') en el título y las etiquetas de las fotos, pero ningún código o nombre de modelo específico. El 'REF: 55311003' es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Sirena Convencional",
+     "Sirena con Flash Convencional"
+    ],
+    "confianza": "media",
+    "donde": "En el título y en las etiquetas de las fotografías del equipo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:scd-120",
+   "canonico": "SCD-120",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento es un 'Manual de Instalación' titulado 'SIRENA EXTERIOR DE INCENDIO 24V', pero no aparece ningún código o nombre de modelo concreto en el título, texto, tablas ni diagramas (solo se menciona el conjunto de puentes 'SW1', que es un componente interno, no un modelo)"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; el título solo indica «SIRENA EXTERIOR DE INCENDIO 24V» y «SW1» corresponde a un selector, no al modelo."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:tbud-150",
+   "canonico": "TBUD-150",
+   "source_file": "55315012 Manual Tarjeta de bucle TBUD-150 Instalacion ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo describe una 'Tarjeta 2 Bucles Central Analógica' / 'Two Loops Card Analogue Control Panel' de forma genérica; no aparece ningún código o nombre de modelo en el título, fotos ni diagramas (la referencia 'REF: 55315012' es una referencia de documento, no un modelo)."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo descripciones genéricas de la tarjeta de 2 bucles y una referencia de documento."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:tcd-106",
+   "canonico": "TCD-106",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "page_index": 1,
+   "visual_role": "product_photo",
+   "claude": {
+    "modelos": [],
+    "confianza": "baja",
+    "donde": "La portada solo indica 'MANUAL DEL INSTALADOR' y 'Manual kit transmisión CRA', que es una descripción genérica del producto, no un modelo. En la foto de la placa solo se ven serigrafías de componentes (GPRS ANT1, GPS ANT2, CON1, R485) y referencias de PCB (PCB.107.0201, D00S3), que no son modelos comerciales."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Kit transmisión CRA"
+    ],
+    "confianza": "alta",
+    "donde": "En la portada, en el rótulo inferior «Manual kit transmisión CRA»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:tmd-100",
+   "canonico": "TMD-100",
+   "source_file": "55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "table",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo identifica el producto de forma genérica como 'Tarjeta Modbus / Modbus Card' (tarjeta de expansión Modbus del Sistema Convencional), tanto en el título como en las etiquetas de las fotos. No aparece ningún código de modelo; el único código visible (REF: 55310008) es una referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El título sólo identifica genéricamente una tarjeta de expansión Modbus para sistema convencional; no aparece ningún modelo legible. «REF: 55310008» es una referencia documental."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:trd-100",
+   "canonico": "TRD-100",
+   "source_file": "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo identifica los productos de forma genérica como 'Tarjeta Expansión de relés / Relay Expansion Card' y 'Tarjeta Expansión de Sirenas / Sounder Expansion Card' para centrales convencionales; no aparece ningún código o nombre de modelo específico. El único código visible (REF: 55310007) es la referencia del documento, no un modelo."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Tarjeta Expansión de relés",
+     "Tarjeta Expansión de Sirenas"
+    ],
+    "confianza": "media",
+    "donde": "En las etiquetas situadas sobre las fotografías de las dos tarjetas; en inglés aparecen como «Relay Expansion Card» y «Sounder Expansion Card»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:trmd-50x",
+   "canonico": "TRMD-50X",
+   "source_file": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona el nombre genérico del producto ('Tarjeta de Regulación e Integración de Motores' / 'Engine Regulation and Integration Card') y una referencia de documento (REF: 55350007), pero ningún nombre o código de modelo en el título, etiquetas de fotos ni diagramas"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo se identifica genéricamente una tarjeta de regulación e integración de motores. «REF: 55350007» es una referencia documental."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:tsd-100",
+   "canonico": "TSD-100",
+   "source_file": "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+   "page_index": 1,
+   "visual_role": "procedure",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo menciona nombres genéricos de producto ('Tarjeta Expansión de relés' / 'Relay Expansion Card' y 'Tarjeta Expansión de Sirenas' / 'Sounder Expansion Card') como tarjetas de expansión del sistema convencional, sin ningún código de modelo; la única referencia visible (REF: 55310007) es del documento, no un modelo"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; sólo denominaciones genéricas de tarjetas de expansión y una referencia de documento."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "unresolved:z-200-r",
+   "canonico": "Z-200-R",
+   "source_file": "55320011 Manual zocalo con relé Z-200-R",
+   "page_index": 1,
+   "visual_role": "wiring",
+   "claude": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "El documento solo indica el nombre genérico del producto ('Base de conexión con relé' / 'Connection base with relay') en el título y las etiquetas de las fotos. El campo 'Modelo-Referencia' de la tabla de características técnicas está vacío, y el único código presente (REF: 55320011) es una referencia del documento, no un modelo. Se menciona la 'serie 200' pero solo como los detectores compatibles, no como modelo de la base."
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [],
+    "confianza": "alta",
+    "donde": "No aparece ningún modelo; el campo «Modelo-Referencia / Model Reference» está vacío. «Serie 200» es una familia de detectores y «REF: 55320011» es una referencia documental."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "xtralis:mgate-mb3270",
+   "canonico": "MGate MB3270",
+   "source_file": "Li-ion_Tamer_User_Manual",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "Li-ion Tamer Rack Monitor"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la portada ('LI-ION TAMER RACK MONITOR USER MANUAL'), logotipo LI-ION TAMER y etiqueta de la foto ('LI-ION TAMER CONTROL BOX AND SENSORS')"
+   },
+   "claude_acierta": false,
+   "gpt": {
+    "modelos": [
+     "Li-ion Tamer Rack Monitor"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada: «LI-ION TAMER RACK MONITOR USER MANUAL»."
+   },
+   "gpt_acierta": false
+  },
+  {
+   "grupo": "perdido",
+   "id": "zareba:unipoint-ma",
+   "canonico": "Unipoint mA",
+   "source_file": "Manual Unipoint Esp",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "Unipoint"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la portada ('unipoint'), etiqueta en la foto del equipo ('zareba unipoint') y en el texto 'MANUAL DE USO DE UNIPOINT'"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "Unipoint"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada, en el texto «Manual de uso de Unipoint» y en la etiqueta frontal del equipo."
+   },
+   "gpt_acierta": true
+  },
+  {
+   "grupo": "perdido",
+   "id": "zareba:unipoint-mv",
+   "canonico": "Unipoint mV",
+   "source_file": "Manual Unipoint Esp",
+   "page_index": 1,
+   "visual_role": "cover",
+   "claude": {
+    "modelos": [
+     "Unipoint"
+    ],
+    "confianza": "alta",
+    "donde": "Título de la portada («unipoint»), texto «MANUAL DE USO DE UNIPOINT» y etiqueta «unipoint» visible en la foto del equipo"
+   },
+   "claude_acierta": true,
+   "gpt": {
+    "modelos": [
+     "Unipoint"
+    ],
+    "confianza": "alta",
+    "donde": "En el título de la portada, en «MANUAL DE USO DE UNIPOINT» y en la etiqueta frontal del equipo."
+   },
+   "gpt_acierta": true
+  }
+ ]
+}

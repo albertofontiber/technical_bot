@@ -1,0 +1,3448 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260821T154039Z",
+ "plan_sha": "42fe7dff1ee9ac82",
+ "freeze": {
+  "catalog_shas": {
+   "products": "8bc7363666766187",
+   "aliases": "8836557bdbcf570b",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "28cd85a0345b48c7"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 134,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 43,
+  "doc_map_modificadas": 0,
+  "redirects": 25,
+  "aliases_altas": 3
+ },
+ "censo": {
+  "terminos_antes": 1891,
+  "terminos_despues": 2131,
+  "entran": 240,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "0044-047-02-ES",
+    "normkey": "004404702es",
+    "core": "0044[-\\s/.+]*047[-\\s/.+]*02[-\\s/.+]*es",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "1 Relay Module",
+    "normkey": "1relaymodule",
+    "core": "1[-\\s/.+]*relay[-\\s/.+]*module",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "1 Zone Module",
+    "normkey": "1zonemodule",
+    "core": "1[-\\s/.+]*zone[-\\s/.+]*module",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2 Relay Module",
+    "normkey": "2relaymodule",
+    "core": "2[-\\s/.+]*relay[-\\s/.+]*module",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2 Zones Module",
+    "normkey": "2zonesmodule",
+    "core": "2[-\\s/.+]*zones[-\\s/.+]*module",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "300 series Zone Display Unit",
+    "normkey": "300serieszonedisplayunit",
+    "core": "300[-\\s/.+]*series[-\\s/.+]*zone[-\\s/.+]*display[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321KSP12",
+    "normkey": "321ksp12",
+    "core": "321[-\\s/.+]*ksp[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321XXX",
+    "normkey": "321xxx",
+    "core": "321[-\\s/.+]*xxx",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "8100E FAAST",
+    "normkey": "8100efaast",
+    "core": "8100[-\\s/.+]*e[-\\s/.+]*faast",
+    "origen": "confirmar systemsensor:8100e-faast",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "8100[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "8100 FAAST",
+    "normkey": "8100faast",
+    "core": "8100[-\\s/.+]*faast",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AutoSAT 10",
+    "normkey": "autosat10",
+    "core": "autosat[-\\s/.+]*10",
+    "origen": "confirmar unresolved:autosat-10",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AutoSAT 20",
+    "normkey": "autosat20",
+    "core": "autosat[-\\s/.+]*20",
+    "origen": "confirmar unresolved:autosat-20",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Caja de central de tamaño 10U",
+    "normkey": "cajadecentraldetamano10u",
+    "core": "caja[-\\s/.+]*de[-\\s/.+]*central[-\\s/.+]*de[-\\s/.+]*tamano[-\\s/.+]*10[-\\s/.+]*u",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Caja de central de tamaño 15U",
+    "normkey": "cajadecentraldetamano15u",
+    "core": "caja[-\\s/.+]*de[-\\s/.+]*central[-\\s/.+]*de[-\\s/.+]*tamano[-\\s/.+]*15[-\\s/.+]*u",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Caja protección IP65 SIMEI",
+    "normkey": "cajaproteccionip65simei",
+    "core": "caja[-\\s/.+]*proteccion[-\\s/.+]*ip[-\\s/.+]*65[-\\s/.+]*simei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CALYPSO-II",
+    "normkey": "calypsoii",
+    "core": "calypso[-\\s/.+]*ii",
+    "origen": "confirmar unresolved:calypso-ii",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Calypso-II-R",
+    "normkey": "calypsoiir",
+    "core": "calypso[-\\s/.+]*ii[-\\s/.+]*r",
+    "origen": "confirmar unresolved:calypso-ii-r",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMD-500",
+    "normkey": "cmd500",
+    "core": "cmd[-\\s/.+]*500",
+    "origen": "confirmar unresolved:cmd-500",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Conjunto de Interface RS485",
+    "normkey": "conjuntodeinterfacers485",
+    "core": "conjunto[-\\s/.+]*de[-\\s/.+]*interface[-\\s/.+]*rs[-\\s/.+]*485",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "D 1100-4 Sounder",
+    "normkey": "d11004sounder",
+    "core": "d[-\\s/.+]*1100[-\\s/.+]*4[-\\s/.+]*sounder",
+    "origen": "confirmar unresolved:d-1100-4-sounder",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DMDX-500",
+    "normkey": "dmdx500",
+    "core": "dmdx[-\\s/.+]*500",
+    "origen": "confirmar unresolved:dmdx-500",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220",
+    "normkey": "dod220",
+    "core": "dod[-\\s/.+]*220",
+    "origen": "confirmar unresolved:dod-220",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A",
+    "normkey": "dod220a",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dod-220a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A-I",
+    "normkey": "dod220ai",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dod-220a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230",
+    "normkey": "dotd230",
+    "core": "dotd[-\\s/.+]*230",
+    "origen": "confirmar unresolved:dotd-230",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A",
+    "normkey": "dotd230a",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dotd-230a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A-I",
+    "normkey": "dotd230ai",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dotd-230a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10",
+    "normkey": "ds10",
+    "core": "ds[-\\s/.+]*10",
+    "origen": "confirmar unresolved:ds-10",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10-GL",
+    "normkey": "ds10gl",
+    "core": "ds[-\\s/.+]*10[-\\s/.+]*gl",
+    "origen": "confirmar unresolved:ds-10-gl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10 -GL-Version",
+    "normkey": "ds10glversion",
+    "core": "ds[-\\s/.+]*10[-\\s/.+]*gl[-\\s/.+]*version",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10 -TAS",
+    "normkey": "ds10tas",
+    "core": "ds[-\\s/.+]*10[-\\s/.+]*tas",
+    "origen": "confirmar unresolved:ds-10--tas",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10 -TAV",
+    "normkey": "ds10tav",
+    "core": "ds[-\\s/.+]*10[-\\s/.+]*tav",
+    "origen": "confirmar unresolved:ds-10--tav",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5",
+    "normkey": "ds5",
+    "core": "ds[-\\s/.+]*5",
+    "origen": "confirmar unresolved:ds-5",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5 -GL",
+    "normkey": "ds5gl",
+    "core": "ds[-\\s/.+]*5[-\\s/.+]*gl",
+    "origen": "confirmar unresolved:ds-5--gl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5 -GL-Version",
+    "normkey": "ds5glversion",
+    "core": "ds[-\\s/.+]*5[-\\s/.+]*gl[-\\s/.+]*version",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5 -TAS",
+    "normkey": "ds5tas",
+    "core": "ds[-\\s/.+]*5[-\\s/.+]*tas",
+    "origen": "confirmar unresolved:ds-5--tas",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5 -TAV",
+    "normkey": "ds5tav",
+    "core": "ds[-\\s/.+]*5[-\\s/.+]*tav",
+    "origen": "confirmar unresolved:ds-5--tav",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210",
+    "normkey": "dtd210",
+    "core": "dtd[-\\s/.+]*210",
+    "origen": "confirmar unresolved:dtd-210",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A",
+    "normkey": "dtd210a",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-210a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A-I",
+    "normkey": "dtd210ai",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-210a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215",
+    "normkey": "dtd215",
+    "core": "dtd[-\\s/.+]*215",
+    "origen": "confirmar unresolved:dtd-215",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A",
+    "normkey": "dtd215a",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-215a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A-I",
+    "normkey": "dtd215ai",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-215a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "e²sense",
+    "normkey": "e2sense",
+    "core": "e[-\\s/.+]*2[-\\s/.+]*sense",
+    "origen": "confirmar unresolved:esense",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000",
+    "normkey": "eco1000",
+    "core": "eco[-\\s/.+]*1000",
+    "origen": "confirmar unresolved:eco1000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*l",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*nl",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*24[-\\s/.+]*l"
+    ]
+   },
+   {
+    "termino": "ECO1000 (base)",
+    "normkey": "eco1000(base)",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*base",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS12-2Plus",
+    "normkey": "ess122plus",
+    "core": "ess[-\\s/.+]*12[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess12-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS4-2Plus",
+    "normkey": "ess42plus",
+    "core": "ess[-\\s/.+]*4[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess4-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ESS8-2Plus",
+    "normkey": "ess82plus",
+    "core": "ess[-\\s/.+]*8[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:ess8-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Expansion card with 4 supervised siren outputs",
+    "normkey": "expansioncardwith4supervisedsirenoutputs",
+    "core": "expansion[-\\s/.+]*card[-\\s/.+]*with[-\\s/.+]*4[-\\s/.+]*supervised[-\\s/.+]*siren[-\\s/.+]*outputs",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Expansion card with 4 voltage free relay outputs",
+    "normkey": "expansioncardwith4voltagefreerelayoutputs",
+    "core": "expansion[-\\s/.+]*card[-\\s/.+]*with[-\\s/.+]*4[-\\s/.+]*voltage[-\\s/.+]*free[-\\s/.+]*relay[-\\s/.+]*outputs",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "F3000M",
+    "normkey": "f3000m",
+    "core": "f[-\\s/.+]*3000[-\\s/.+]*m",
+    "origen": "confirmar unresolved:f3000m",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "F5K",
+    "normkey": "f5k",
+    "core": "f[-\\s/.+]*5[-\\s/.+]*k",
+    "origen": "confirmar unresolved:f5k",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "F5K-2H",
+    "normkey": "f5k2h",
+    "core": "f[-\\s/.+]*5[-\\s/.+]*k[-\\s/.+]*2[-\\s/.+]*h",
+    "origen": "confirmar unresolved:f5k-2h",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAAST 8100",
+    "normkey": "faast8100",
+    "core": "faast[-\\s/.+]*8100",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "faast",
+     "faast[-\\s/.+]*8100[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "FAD-902",
+    "normkey": "fad902",
+    "core": "fad[-\\s/.+]*902",
+    "origen": "confirmar unresolved:fad-902",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAD-905",
+    "normkey": "fad905",
+    "core": "fad[-\\s/.+]*905",
+    "origen": "confirmar unresolved:fad-905",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E",
+    "normkey": "fl01xxe",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E-HS",
+    "normkey": "fl01xxehs",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl01xx-e-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI",
+    "normkey": "fl20xxei",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI-HS",
+    "normkey": "fl20xxeihs",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl20xx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FLS100-IR3",
+    "normkey": "fls100ir3",
+    "core": "fls[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS-1",
+    "normkey": "fs1",
+    "core": "fs[-\\s/.+]*1",
+    "origen": "confirmar notifier:fs-1",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": [
+     "fs[-\\s/.+]*1100",
+     "fs[-\\s/.+]*1100[-\\s/.+]*triple[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*flame[-\\s/.+]*simulator",
+     "fs[-\\s/.+]*1200",
+     "fs[-\\s/.+]*1300",
+     "fs[-\\s/.+]*1300[-\\s/.+]*flame[-\\s/.+]*simulator"
+    ]
+   },
+   {
+    "termino": "FS-2",
+    "normkey": "fs2",
+    "core": "fs[-\\s/.+]*2",
+    "origen": "confirmar notifier:fs-2",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X",
+    "normkey": "fs20x",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs20x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X-211-22-2",
+    "normkey": "fs20x211222",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*22[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X",
+    "normkey": "fs24x",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs24x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-2",
+    "normkey": "fs24x2",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*2",
+    "origen": "confirmar unresolved:fs24x-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211",
+    "normkey": "fs24x211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211-221",
+    "normkey": "fs24x211221",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*221",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-2 Detectors",
+    "normkey": "fs24x2detectors",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*2[-\\s/.+]*detectors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9",
+    "normkey": "fs24x9",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9",
+    "origen": "confirmar unresolved:fs24x-9",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911",
+    "normkey": "fs24x911",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-211",
+    "normkey": "fs24x911211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-24-5",
+    "normkey": "fs24x911245",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*24[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9 Detectors",
+    "normkey": "fs24x9detectors",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9[-\\s/.+]*detectors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand",
+    "normkey": "fs24xquadband",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand Triple IR",
+    "normkey": "fs24xquadbandtripleir",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband[-\\s/.+]*triple[-\\s/.+]*ir",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand Triple IR™",
+    "normkey": "fs24xquadbandtripleirtm",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband[-\\s/.+]*triple[-\\s/.+]*irtm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS-4",
+    "normkey": "fs4",
+    "core": "fs[-\\s/.+]*4",
+    "origen": "confirmar notifier:fs-4",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3",
+    "normkey": "fsl100ir3",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "confirmar unresolved:fsl100-ir3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3 (carcasa roja)",
+    "normkey": "fsl100ir3(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3-W",
+    "normkey": "fsl100ir3w",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-ir3-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3-W (carcasa blanca)",
+    "normkey": "fsl100ir3w(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-SM21",
+    "normkey": "fsl100sm21",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*sm[-\\s/.+]*21",
+    "origen": "confirmar unresolved:fsl100-sm21",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TL",
+    "normkey": "fsl100tl",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tl",
+    "origen": "confirmar unresolved:fsl100-tl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TLX",
+    "normkey": "fsl100tlx",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tlx",
+    "origen": "confirmar unresolved:fsl100-tlx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV",
+    "normkey": "fsl100uv",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv",
+    "origen": "confirmar unresolved:fsl100-uv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV (carcasa roja)",
+    "normkey": "fsl100uv(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR",
+    "normkey": "fsl100uvir",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir",
+    "origen": "confirmar unresolved:fsl100-uvir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR (carcasa roja)",
+    "normkey": "fsl100uvir(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR-W",
+    "normkey": "fsl100uvirw",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-uvir-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR-W (carcasa blanca)",
+    "normkey": "fsl100uvirw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV-W",
+    "normkey": "fsl100uvw",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-uv-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV-W (carcasa blanca)",
+    "normkey": "fsl100uvw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FVR-01",
+    "normkey": "fvr01",
+    "core": "fvr[-\\s/.+]*01",
+    "origen": "confirmar unresolved:fvr-01",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1",
+    "normkey": "hgtw1",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1",
+    "origen": "confirmar unresolved:h-gtw-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1 6010",
+    "normkey": "hgtw16010",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-N",
+    "normkey": "hgtwn",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*n",
+    "origen": "confirmar notifier:h-gtw-n",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HLS PS25",
+    "normkey": "hlsps25",
+    "core": "hls[-\\s/.+]*ps[-\\s/.+]*25",
+    "origen": "confirmar unresolved:hls-ps25",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HLS PS50",
+    "normkey": "hlsps50",
+    "core": "hls[-\\s/.+]*ps[-\\s/.+]*50",
+    "origen": "confirmar unresolved:hls-ps50",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Interface RS485 serie 800",
+    "normkey": "interfacers485serie800",
+    "core": "interface[-\\s/.+]*rs[-\\s/.+]*485[-\\s/.+]*serie[-\\s/.+]*800",
+    "origen": "confirmar notifier:interface-rs485-serie-800",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC",
+    "normkey": "itac",
+    "core": "itac",
+    "origen": "confirmar unresolved:itac",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC (ver 2.0)",
+    "normkey": "itac(ver2.0)",
+    "core": "itac[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC 2.0",
+    "normkey": "itac2.0",
+    "core": "itac[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "confirmar unresolved:itac-2.0",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITACs (ver 2.0)",
+    "normkey": "itacs(ver2.0)",
+    "core": "itacs[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "normkey": "lamparadepruebaportatiltl1055(nema1)",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*1055[-\\s/.+]*nema[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "normkey": "lamparadepruebaportatiltl2055paraareaspeligrosas",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*2055[-\\s/.+]*para[-\\s/.+]*areas[-\\s/.+]*peligrosas",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "limitador del campo de visión modelo FVR-01",
+    "normkey": "limitadordelcampodevisionmodelofvr01",
+    "core": "limitador[-\\s/.+]*del[-\\s/.+]*campo[-\\s/.+]*de[-\\s/.+]*vision[-\\s/.+]*modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 (EEx d)",
+    "normkey": "lisa2(eexd)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lisa[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "LISA 2 (EEx nA)",
+    "normkey": "lisa2(eexna)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*na",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lisa[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "LISA 2 EEx d",
+    "normkey": "lisa2eexd",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "confirmar notifier:lisa-2-eex-d",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lisa[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "LISA 2 EEx nA",
+    "normkey": "lisa2eexna",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*na",
+    "origen": "confirmar notifier:lisa-2-eex-na",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "lisa[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "M710-CZ",
+    "normkey": "m710cz",
+    "core": "m[-\\s/.+]*710[-\\s/.+]*cz",
+    "origen": "confirmar notifier:m710-cz",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "m[-\\s/.+]*710",
+     "m[-\\s/.+]*710[-\\s/.+]*czr"
+    ]
+   },
+   {
+    "termino": "MAD-402",
+    "normkey": "mad402",
+    "core": "mad[-\\s/.+]*402",
+    "origen": "confirmar unresolved:mad-402",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-412",
+    "normkey": "mad412",
+    "core": "mad[-\\s/.+]*412",
+    "origen": "confirmar unresolved:mad-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-422",
+    "normkey": "mad422",
+    "core": "mad[-\\s/.+]*422",
+    "origen": "confirmar unresolved:mad-422",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-432",
+    "normkey": "mad432",
+    "core": "mad[-\\s/.+]*432",
+    "origen": "confirmar unresolved:mad-432",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-432 Módulo 1 Sirena",
+    "normkey": "mad432modulo1sirena",
+    "core": "mad[-\\s/.+]*432[-\\s/.+]*modulo[-\\s/.+]*1[-\\s/.+]*sirena",
+    "origen": "confirmar unresolved:mad-432-mdulo-1-sirena",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-432 Módulo 2 Sirenas",
+    "normkey": "mad432modulo2sirenas",
+    "core": "mad[-\\s/.+]*432[-\\s/.+]*modulo[-\\s/.+]*2[-\\s/.+]*sirenas",
+    "origen": "confirmar unresolved:mad-432-mdulo-2-sirenas",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-442",
+    "normkey": "mad442",
+    "core": "mad[-\\s/.+]*442",
+    "origen": "confirmar unresolved:mad-442",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-461",
+    "normkey": "mad461",
+    "core": "mad[-\\s/.+]*461",
+    "origen": "confirmar unresolved:mad-461",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I",
+    "normkey": "mad464i",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-464-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I-W",
+    "normkey": "mad464iw",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-464-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I",
+    "normkey": "mad465i",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-465-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I-W",
+    "normkey": "mad465iw",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-465-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-471",
+    "normkey": "mad471",
+    "core": "mad[-\\s/.+]*471",
+    "origen": "confirmar unresolved:mad-471",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-472",
+    "normkey": "mad472",
+    "core": "mad[-\\s/.+]*472",
+    "origen": "confirmar unresolved:mad-472",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-491",
+    "normkey": "mad491",
+    "core": "mad[-\\s/.+]*491",
+    "origen": "confirmar unresolved:mad-491",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD564",
+    "normkey": "mad564",
+    "core": "mad[-\\s/.+]*564",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I",
+    "normkey": "mad564i",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-564-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I-W",
+    "normkey": "mad564iw",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-564-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD565",
+    "normkey": "mad565",
+    "core": "mad[-\\s/.+]*565",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I",
+    "normkey": "mad565i",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-565-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I-W",
+    "normkey": "mad565iw",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-565-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567",
+    "normkey": "mad567",
+    "core": "mad[-\\s/.+]*567",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567-I",
+    "normkey": "mad567i",
+    "core": "mad[-\\s/.+]*567[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-567-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569",
+    "normkey": "mad569",
+    "core": "mad[-\\s/.+]*569",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569-I",
+    "normkey": "mad569i",
+    "core": "mad[-\\s/.+]*569[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-569-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-DCZRM",
+    "normkey": "midczrm",
+    "core": "mi[-\\s/.+]*dczrm",
+    "origen": "confirmar unresolved:mi-dczrm",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI",
+    "normkey": "mifl20xxxxei",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI-HS",
+    "normkey": "mifl20xxxxeihs",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:mi-fl20xxxx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-LZR",
+    "normkey": "milzr",
+    "core": "mi[-\\s/.+]*lzr",
+    "origen": "confirmar morley:mi-lzr",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MN-DT-1311",
+    "normkey": "mndt1311",
+    "core": "mn[-\\s/.+]*dt[-\\s/.+]*1311",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Mod:H-GTW-1 6010",
+    "normkey": "mod:hgtw16010",
+    "core": "mod[-\\s/.+]*h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo 1 Relé",
+    "normkey": "modelo1rele",
+    "core": "modelo[-\\s/.+]*1[-\\s/.+]*rele",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo de la serie FS20X™",
+    "normkey": "modelodelaseriefs20xtm",
+    "core": "modelo[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*xtm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo FS24X",
+    "normkey": "modelofs24x",
+    "core": "modelo[-\\s/.+]*fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "modelo FVR-01",
+    "normkey": "modelofvr01",
+    "core": "modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo serie FS20X",
+    "normkey": "modeloseriefs20x",
+    "core": "modelo[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "modelo SM4",
+    "normkey": "modelosm4",
+    "core": "modelo[-\\s/.+]*sm[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Montaje giratorio SM4",
+    "normkey": "montajegiratoriosm4",
+    "core": "montaje[-\\s/.+]*giratorio[-\\s/.+]*sm[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MT3910",
+    "normkey": "mt3910",
+    "core": "mt[-\\s/.+]*3910",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NAP 100AC",
+    "normkey": "nap100ac",
+    "core": "nap[-\\s/.+]*100[-\\s/.+]*ac",
+    "origen": "confirmar unresolved:nap-100ac",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nap[-\\s/.+]*100"
+    ]
+   },
+   {
+    "termino": "NAS",
+    "normkey": "nas",
+    "core": "nas",
+    "origen": "confirmar notifier:nas",
+    "riesgo": [
+     "muy_corto",
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": [
+     "nas[-\\s/.+]*1",
+     "nas[-\\s/.+]*10",
+     "nas[-\\s/.+]*1[-\\s/.+]*u",
+     "nas[-\\s/.+]*1[-\\s/.+]*u[-\\s/.+]*aspirating[-\\s/.+]*smoke[-\\s/.+]*detector",
+     "nas[-\\s/.+]*1[-\\s/.+]*u[-\\s/.+]*aspirating[-\\s/.+]*system",
+     "nas[-\\s/.+]*1[-\\s/.+]*u[-\\s/.+]*detector"
+    ]
+   },
+   {
+    "termino": "NFS12",
+    "normkey": "nfs12",
+    "core": "nfs[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12 (Zones 1 to 12)",
+    "normkey": "nfs12(zones1to12)",
+    "core": "nfs[-\\s/.+]*12[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS12-Supra",
+    "normkey": "nfs12supra",
+    "core": "nfs[-\\s/.+]*12[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs12-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS4 (Zones 1 to 4)",
+    "normkey": "nfs4(zones1to4)",
+    "core": "nfs[-\\s/.+]*4[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS4-Supra",
+    "normkey": "nfs4supra",
+    "core": "nfs[-\\s/.+]*4[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs4-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS8",
+    "normkey": "nfs8",
+    "core": "nfs[-\\s/.+]*8",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nfs[-\\s/.+]*8[-\\s/.+]*rel"
+    ]
+   },
+   {
+    "termino": "NFS8 (Zones 1 to 8)",
+    "normkey": "nfs8(zones1to8)",
+    "core": "nfs[-\\s/.+]*8[-\\s/.+]*zones[-\\s/.+]*1[-\\s/.+]*to[-\\s/.+]*8",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS8-Supra",
+    "normkey": "nfs8supra",
+    "core": "nfs[-\\s/.+]*8[-\\s/.+]*supra",
+    "origen": "confirmar morley:nfs8-supra",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFXI-ASD-XXXX-HS",
+    "normkey": "nfxiasdxxxxhs",
+    "core": "nfxi[-\\s/.+]*asd[-\\s/.+]*xxxx[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:nfxi-asd-xxxx-hs",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Notifier ST.PL4+",
+    "normkey": "notifierst.pl4+",
+    "core": "notifier[-\\s/.+]*st[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAD-10A",
+    "normkey": "pad10a",
+    "core": "pad[-\\s/.+]*10[-\\s/.+]*a",
+    "origen": "confirmar unresolved:pad-10a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PGD-200",
+    "normkey": "pgd200",
+    "core": "pgd[-\\s/.+]*200",
+    "origen": "confirmar unresolved:pgd-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000",
+    "normkey": "pkid3000",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "confirmar notifier:pk-id3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000 REV 2.03G",
+    "normkey": "pkid3000rev2.03g",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000[-\\s/.+]*rev[-\\s/.+]*2[-\\s/.+]*03[-\\s/.+]*g",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PL4+",
+    "normkey": "pl4+",
+    "core": "pl[-\\s/.+]*4",
+    "origen": "confirmar sensitron:pl4+",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "PL4+ control unit",
+    "normkey": "pl4+controlunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4+ gas control panel",
+    "normkey": "pl4+gascontrolpanel",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*gas[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 central unit",
+    "normkey": "pl4centralunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*central[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 Control Panel",
+    "normkey": "pl4controlpanel",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 control unit",
+    "normkey": "pl4controlunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "POL-200-TS",
+    "normkey": "pol200ts",
+    "core": "pol[-\\s/.+]*200[-\\s/.+]*ts",
+    "origen": "confirmar unresolved:pol-200-ts",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-564-I",
+    "normkey": "ref.mad564i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-564-I-W",
+    "normkey": "ref.mad564iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I",
+    "normkey": "ref.mad565i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I-W",
+    "normkey": "ref.mad565iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55310007",
+    "normkey": "ref:55310007",
+    "core": "ref[-\\s/.+]*55310007",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55341201",
+    "normkey": "ref:55341201",
+    "core": "ref[-\\s/.+]*55341201",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55342102",
+    "normkey": "ref:55342102",
+    "core": "ref[-\\s/.+]*55342102",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55343101",
+    "normkey": "ref:55343101",
+    "core": "ref[-\\s/.+]*55343101",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55347101",
+    "normkey": "ref:55347101",
+    "core": "ref[-\\s/.+]*55347101",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55347200",
+    "normkey": "ref:55347200",
+    "core": "ref[-\\s/.+]*55347200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55349102",
+    "normkey": "ref:55349102",
+    "core": "ref[-\\s/.+]*55349102",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S300ZDU",
+    "normkey": "s300zdu",
+    "core": "s[-\\s/.+]*300[-\\s/.+]*zdu",
+    "origen": "confirmar unresolved:s300zdu",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-100",
+    "normkey": "scd100",
+    "core": "scd[-\\s/.+]*100",
+    "origen": "confirmar unresolved:scd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-110",
+    "normkey": "scd110",
+    "core": "scd[-\\s/.+]*110",
+    "origen": "confirmar unresolved:scd-110",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-110 con flash",
+    "normkey": "scd110conflash",
+    "core": "scd[-\\s/.+]*110[-\\s/.+]*con[-\\s/.+]*flash",
+    "origen": "confirmar unresolved:scd-110-con-flash",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-120",
+    "normkey": "scd120",
+    "core": "scd[-\\s/.+]*120",
+    "origen": "confirmar unresolved:scd-120",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SDX-751-TEM",
+    "normkey": "sdx751tem",
+    "core": "sdx[-\\s/.+]*751[-\\s/.+]*tem",
+    "origen": "confirmar notifier:sdx-751-tem",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "sdx[-\\s/.+]*751"
+    ]
+   },
+   {
+    "termino": "Sensitron PL4",
+    "normkey": "sensitronpl4",
+    "core": "sensitron[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Sensitron PL4+",
+    "normkey": "sensitronpl4+",
+    "core": "sensitron[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Series 300 Zone Display Unit",
+    "normkey": "series300zonedisplayunit",
+    "core": "series[-\\s/.+]*300[-\\s/.+]*zone[-\\s/.+]*display[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SIMEI",
+    "normkey": "simei",
+    "core": "simei",
+    "origen": "confirmar unresolved:simei",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SIMEI IP65",
+    "normkey": "simeiip65",
+    "core": "simei[-\\s/.+]*ip[-\\s/.+]*65",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "sistema AutoSAT 10",
+    "normkey": "sistemaautosat10",
+    "core": "sistema[-\\s/.+]*autosat[-\\s/.+]*10",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SM4",
+    "normkey": "sm4",
+    "core": "sm[-\\s/.+]*4",
+    "origen": "confirmar unresolved:sm4",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ST.PL4+",
+    "normkey": "st.pl4+",
+    "core": "st[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "confirmar notifier:st.pl4+",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ST.PL4E",
+    "normkey": "st.pl4e",
+    "core": "st[-\\s/.+]*pl[-\\s/.+]*4[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TBUD-150",
+    "normkey": "tbud150",
+    "core": "tbud[-\\s/.+]*150",
+    "origen": "confirmar unresolved:tbud-150",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TCD-106",
+    "normkey": "tcd106",
+    "core": "tcd[-\\s/.+]*106",
+    "origen": "confirmar unresolved:tcd-106",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-1000",
+    "normkey": "tg1000",
+    "core": "tg[-\\s/.+]*1000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000",
+    "normkey": "tg6000",
+    "core": "tg[-\\s/.+]*6000",
+    "origen": "confirmar notifier:tg-6000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000 Net",
+    "normkey": "tg6000net",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*net",
+    "origen": "confirmar notifier:tg-6000-net",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000 VER 3.2",
+    "normkey": "tg6000ver3.2",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*ver[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG HLSI",
+    "normkey": "tghlsi",
+    "core": "tg[-\\s/.+]*hlsi",
+    "origen": "confirmar unresolved:tg-hlsi",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG HLSI- v7",
+    "normkey": "tghlsiv7",
+    "core": "tg[-\\s/.+]*hlsi[-\\s/.+]*v[-\\s/.+]*7",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-ID3000",
+    "normkey": "tgid3000",
+    "core": "tg[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-IP-1-SEC",
+    "normkey": "tgip1sec",
+    "core": "tg[-\\s/.+]*ip[-\\s/.+]*1[-\\s/.+]*sec",
+    "origen": "confirmar unresolved:tg-ip-1-sec",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg",
+     "tg[-\\s/.+]*ip[-\\s/.+]*1"
+    ]
+   },
+   {
+    "termino": "TG MODBUS",
+    "normkey": "tgmodbus",
+    "core": "tg[-\\s/.+]*modbus",
+    "origen": "confirmar unresolved:tg-modbus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG- MorleyIAS v7",
+    "normkey": "tgmorleyiasv7",
+    "core": "tg[-\\s/.+]*morleyias[-\\s/.+]*v[-\\s/.+]*7",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-NOTIFIER",
+    "normkey": "tgnotifier",
+    "core": "tg[-\\s/.+]*notifier",
+    "origen": "confirmar notifier:tg-notifier",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG NOTIFIER 3.2",
+    "normkey": "tgnotifier3.2",
+    "core": "tg[-\\s/.+]*notifier[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG NOTIFIER VER 3.2",
+    "normkey": "tgnotifierver3.2",
+    "core": "tg[-\\s/.+]*notifier[-\\s/.+]*ver[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TGNOTIFIER VERSION 3.2",
+    "normkey": "tgnotifierversion3.2",
+    "core": "tgnotifier[-\\s/.+]*version[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TL-1055",
+    "normkey": "tl1055",
+    "core": "tl[-\\s/.+]*1055",
+    "origen": "confirmar unresolved:tl-1055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL1055X",
+    "normkey": "tl1055x",
+    "core": "tl[-\\s/.+]*1055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL-2055",
+    "normkey": "tl2055",
+    "core": "tl[-\\s/.+]*2055",
+    "origen": "confirmar unresolved:tl-2055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL2055X",
+    "normkey": "tl2055x",
+    "core": "tl[-\\s/.+]*2055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TMD-100",
+    "normkey": "tmd100",
+    "core": "tmd[-\\s/.+]*100",
+    "origen": "confirmar unresolved:tmd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TMP",
+    "normkey": "tmp",
+    "core": "tmp",
+    "origen": "confirmar notifier:tmp",
+    "riesgo": [
+     "muy_corto",
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": [
+     "tmp[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "TRD-100",
+    "normkey": "trd100",
+    "core": "trd[-\\s/.+]*100",
+    "origen": "confirmar unresolved:trd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TRMD-50X",
+    "normkey": "trmd50x",
+    "core": "trmd[-\\s/.+]*50[-\\s/.+]*x",
+    "origen": "confirmar unresolved:trmd-50x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TSD-100",
+    "normkey": "tsd100",
+    "core": "tsd[-\\s/.+]*100",
+    "origen": "confirmar unresolved:tsd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "type DS 10",
+    "normkey": "typeds10",
+    "core": "type[-\\s/.+]*ds[-\\s/.+]*10",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "type DS 5",
+    "normkey": "typeds5",
+    "core": "type[-\\s/.+]*ds[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Unidad de display de zona de la serie 300",
+    "normkey": "unidaddedisplaydezonadelaserie300",
+    "core": "unidad[-\\s/.+]*de[-\\s/.+]*display[-\\s/.+]*de[-\\s/.+]*zona[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*serie[-\\s/.+]*300",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Vision 2 Plus",
+    "normkey": "vision2plus",
+    "core": "vision[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vision[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "Vision Plus",
+    "normkey": "visionplus",
+    "core": "vision[-\\s/.+]*plus",
+    "origen": "confirmar notifier:vision-plus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "vision[-\\s/.+]*plus[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "VISION SUPRA",
+    "normkey": "visionsupra",
+    "core": "vision[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:vision-supra",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VNS-2PLUS",
+    "normkey": "vns2plus",
+    "core": "vns[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vns[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "VS111100 1.1 PLUS",
+    "normkey": "vs1111001.1plus",
+    "core": "vs[-\\s/.+]*111100[-\\s/.+]*1[-\\s/.+]*1[-\\s/.+]*plus",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN-2PLUS",
+    "normkey": "vsn2plus",
+    "core": "vsn[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar notifier:vsn-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "vsn[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "VSN4-2Plus",
+    "normkey": "vsn42plus",
+    "core": "vsn[-\\s/.+]*4[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn4-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN8-2Plus",
+    "normkey": "vsn82plus",
+    "core": "vsn[-\\s/.+]*8[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn8-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VW2W100",
+    "normkey": "vw2w100",
+    "core": "vw[-\\s/.+]*2[-\\s/.+]*w[-\\s/.+]*100",
+    "origen": "confirmar unresolved:vw2w100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z-200-R",
+    "normkey": "z200r",
+    "core": "z[-\\s/.+]*200[-\\s/.+]*r",
+    "origen": "confirmar unresolved:z-200-r",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "0044-047-02-ES",
+    "id": "unresolved:f3000m",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "1 Relay Module",
+    "id": "unresolved:mad-412",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "1 Zone Module",
+    "id": "unresolved:mad-442",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "2 Relay Module",
+    "id": "unresolved:mad-412",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "2 Zones Module",
+    "id": "unresolved:mad-442",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "300 series Zone Display Unit",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321KSP12",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321XXX",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "55310008",
+    "id": "unresolved:tmd-100",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55310400",
+    "id": "unresolved:scd-100",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55310401",
+    "id": "unresolved:scd-100",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55311003",
+    "id": "unresolved:scd-110",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55312000",
+    "id": "unresolved:scd-120",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55315012",
+    "id": "unresolved:tbud-150",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55320002",
+    "id": "unresolved:pgd-200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55320011",
+    "id": "unresolved:z-200-r",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55320102",
+    "id": "unresolved:pad-10a",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55340103",
+    "id": "unresolved:mad-402",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55341101",
+    "id": "unresolved:mad-412",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "553420002",
+    "id": "unresolved:pgd-200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55342102",
+    "id": "unresolved:mad-422",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55343101",
+    "id": "unresolved:mad-432",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55346102",
+    "id": "unresolved:mad-461",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55347101",
+    "id": "unresolved:mad-471",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55347200",
+    "id": "unresolved:mad-472",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55349102",
+    "id": "unresolved:mad-491",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "55350008",
+    "id": "unresolved:dmdx-500",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "8100 FAAST",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "addressable programmer",
+    "id": "unresolved:pgd-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable Heat detector",
+    "id": "unresolved:dtd-210a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable High Temp. Heat detector",
+    "id": "unresolved:dtd-215a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable Optical-Heat detector",
+    "id": "unresolved:dotd-230a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable Optical Smoke detector",
+    "id": "unresolved:dod-220a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue Base Sounder",
+    "id": "unresolved:mad-472",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue Base Sounder with Flash",
+    "id": "unresolved:mad-471",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue - Conventional Transmission Interface",
+    "id": "unresolved:itac",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue Sounder",
+    "id": "unresolved:mad-461",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AutoSAT",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AutoSAT-10",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AutoSAT-20",
+    "id": "unresolved:autosat-20",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Buzzer Analogico",
+    "id": "unresolved:pad-10a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "BUZZER FOR ANALOGUE DETECTORS",
+    "id": "unresolved:pad-10a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Caja estanca SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Caja protección IP65 SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Cámara Láser (MI-LZR)",
+    "id": "morley:mi-lzr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "cámara láser del sensor MI-LZR",
+    "id": "morley:mi-lzr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Centrale détection de monoxyde",
+    "id": "unresolved:cmd-500",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Conjunto de Interface RS485",
+    "id": "notifier:interface-rs485-serie-800",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Connection base with relay",
+    "id": "unresolved:z-200-r",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Conventional Sounder",
+    "id": "unresolved:scd-110",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Conventional Sounder with Flash",
+    "id": "unresolved:scd-110",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Conventional System Modbus Expansion Cards",
+    "id": "unresolved:tmd-100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Double Input Unit",
+    "id": "unresolved:mad-402",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "DS 10 -GL-Version",
+    "id": "unresolved:ds-10-gl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "DS 5 -GL-Version",
+    "id": "unresolved:ds-5--gl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "DS series",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ECO1000 (base)",
+    "id": "unresolved:eco1000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "EExnA",
+    "id": "notifier:lisa-2-eex-na",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ENScape SOUNDER",
+    "id": "unresolved:d-1100-4-sounder",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Expansion card with 4 supervised siren outputs",
+    "id": "unresolved:tsd-100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Expansion card with 4 voltage free relay outputs",
+    "id": "unresolved:trd-100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ezsense",
+    "id": "unresolved:esense",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "FAAST 8100",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FAAST unit",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "FL01XX E",
+    "id": "unresolved:fl01xx-e-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FL20XX EI",
+    "id": "unresolved:fl20xx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FLS100-IR3",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS20X-211-22-2",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211-221",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-2 Detectors",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-211",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-24-5",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-9 Detectors",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand Triple IR",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand Triple IR™",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3 (carcasa roja)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3-W (carcasa blanca)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TL",
+    "id": "unresolved:fsl100-tl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TLX",
+    "id": "unresolved:fsl100-tlx",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV (carcasa roja)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR (carcasa roja)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Germanischer Lloyd version",
+    "id": "unresolved:ds-10-gl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "-GL-Version",
+    "id": "unresolved:ds-10-gl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "HLSPS",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "HLS PS Series",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Interface de Transmisión Analógica-Convencional",
+    "id": "unresolved:itac",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Isolator Base",
+    "id": "unresolved:mad-491",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Isolator Module",
+    "id": "unresolved:mad-491",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ITAC (ver 2.0)",
+    "id": "unresolved:itac-2.0",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ITAC module",
+    "id": "unresolved:itac",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ITACs (ver 2.0)",
+    "id": "unresolved:itac-2.0",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "limitador del campo de visión modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LISA 2 (EEx d)",
+    "id": "notifier:lisa-2-eex-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LISA 2 (EEx nA)",
+    "id": "notifier:lisa-2-eex-na",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD564",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD565",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-567",
+    "id": "unresolved:mad-567-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-569",
+    "id": "unresolved:mad-569-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MI-FL20XXXX EI",
+    "id": "unresolved:mi-fl20xxxx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MN-DT-1311",
+    "id": "unresolved:autosat-20",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Mod:H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modbus Card",
+    "id": "unresolved:tmd-100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Modelo 1 Relé",
+    "id": "unresolved:mad-412",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo antideflagrante",
+    "id": "notifier:lisa-2-eex-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Modelo de la serie FS20X™",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo FS24X",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo serie FS20X",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo SM4",
+    "id": "unresolved:sm4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Monoxide control panel",
+    "id": "unresolved:cmd-500",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Montaje giratorio SM4",
+    "id": "unresolved:sm4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Morley IAS VSN.VSN",
+    "id": "notifier:vision-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "MT3910",
+    "id": "notifier:st.pl4+",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS12",
+    "id": "morley:nfs12-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS8",
+    "id": "morley:nfs8-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFXI-ASD-XXXX",
+    "id": "unresolved:nfxi-asd-xxxx-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "PK-ID3000 REV 2.03G",
+    "id": "notifier:pk-id3000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ control unit",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ gas control panel",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 central unit",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 Control Panel",
+    "id": "sensitron:pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 control unit",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Programador",
+    "id": "unresolved:pgd-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "programador de direcciones",
+    "id": "unresolved:pgd-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Programming Tool",
+    "id": "unresolved:pgd-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "REF: 55310007",
+    "id": "unresolved:tsd-100",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55341201",
+    "id": "unresolved:trd-100",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55342102",
+    "id": "unresolved:mad-422",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55343101",
+    "id": "unresolved:mad-432-mdulo-1-sirena",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55347101",
+    "id": "unresolved:mad-471",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55347200",
+    "id": "unresolved:mad-472",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "REF: 55349102",
+    "id": "unresolved:mad-491",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I-W",
+    "id": "unresolved:mad-564-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I-W",
+    "id": "unresolved:mad-565-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Relay Expansion Card",
+    "id": "unresolved:trd-100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "SDX751TEM",
+    "id": "notifier:sdx-751-tem",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Sensor analógico MI-LZR",
+    "id": "morley:mi-lzr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Sensor analógico MI-LZR de MorleyIAS",
+    "id": "morley:mi-lzr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "sensor láser MI-LZR",
+    "id": "morley:mi-lzr",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Serie HLS PS",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Series 300 Zone Display Unit",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Servidor ModBus",
+    "id": "unresolved:tg-modbus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "SIMEI IP65",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SIMEI waterproof box",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Single Input Unit",
+    "id": "unresolved:mad-402",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "sistema AutoSAT 10",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "sounders of type series DS",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ST.PL4E",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Terminal Grafico TG HLSI",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TG-1000",
+    "id": "notifier:tg-notifier",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-6000 VER 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG.exe",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TG-HLSI",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG HLSI- v7",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-ID3000",
+    "id": "notifier:tg-notifier",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-IP1 SEC",
+    "id": "unresolved:tg-ip-1-sec",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-IP_SEC",
+    "id": "unresolved:tg-ip-1-sec",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TG- MorleyIAS v7",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG NOTIFIER 3.2",
+    "id": "notifier:tg-6000-net",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG NOTIFIER VER 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TGNOTIFIER VERSION 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-XXXX.EXE",
+    "id": "notifier:tg-notifier",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TL1055X",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TL2055X",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "traductor",
+    "id": "unresolved:vw2w100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Two Loops Card Analogue Control Panel",
+    "id": "unresolved:tbud-150",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "type DS 10",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "type DS 5",
+    "id": "unresolved:ds-5",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Unidad de display de zona de la serie 300",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "VNS-2PLUS",
+    "id": "notifier:vsn-2plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "VS111100 1.1 PLUS",
+    "id": "notifier:vision-plus",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Waterproof Box SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ZDU",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ZONE MODULE",
+    "id": "unresolved:mad-442",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Notifier ST.PL4+",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Sensitron PL4",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Sensitron PL4+",
+    "id": "sensitron:pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?": {
+    "antes": [],
+    "despues": [
+     "mad-472"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 131,
+  "trafico_real_detecciones_nuevas": {
+   "¿Cómo se conecta el módulo MAD-461?": [
+    "mad-461"
+   ]
+  },
+  "avisos_muy_corto": [
+   "DS 5",
+   "F5K",
+   "FS-1",
+   "FS-2",
+   "FS-4",
+   "NAS",
+   "SM4",
+   "TMP"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?": {
+    "allowed_sources_nuevas": [
+     "Guia Rapida H_GTW",
+     "TG-Honeywell_Usuario_PT"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "id3000"
+    ]
+   },
+   "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?": {
+    "allowed_sources_nuevas": [
+     "Guia Rapida H_GTW",
+     "TG-Honeywell_Usuario_PT"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "id3000"
+    ]
+   },
+   "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?": {
+    "allowed_sources_nuevas": [
+     "HOP-138-9ES issue 5_11-2025_In",
+     "HOP-338-9ES issue 4_01-2026_Op",
+     "HOP-338-9PT-issue 4_01-2026_Op"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "inspire"
+    ]
+   },
+   "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?": {
+    "allowed_sources_nuevas": [
+     "HONEYWELL-H-GTW-ESP-2.26 Instalador"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "am-8200"
+    ]
+   },
+   "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?": {
+    "allowed_sources_nuevas": [
+     "HOP-138-9ES issue 5_11-2025_In",
+     "HOP-338-9ES issue 4_01-2026_Op",
+     "HOP-338-9PT-issue 4_01-2026_Op"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "inspire",
+     "e10",
+     "e15"
+    ]
+   },
+   "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?": {
+    "allowed_sources_nuevas": [
+     "HONEYWELL-H-GTW-ESP-2.26 Instalador"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "am-8200"
+    ]
+   },
+   "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?": {
+    "allowed_sources_nuevas": [
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2"
+    ],
+    "ids_nuevos": [
+     "unresolved:mad-472"
+    ],
+    "detected": [
+     "mad-472"
+    ]
+   }
+  },
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {
+   "notifier:lisa-2-eex-d": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MADT635_01"
+    ]
+   },
+   "notifier:lisa-2-eex-na": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MADT635_01"
+    ]
+   },
+   "notifier:m710-cz": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "Conexionado-del-modulo-M710-MI-DMMI",
+     "I56-2005-002 M710 M720 M721 M701"
+    ]
+   },
+   "notifier:sdx-751-tem": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "MIDT190",
+     "MNDT120",
+     "MNDT150"
+    ]
+   },
+   "notifier:tg-6000": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion",
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "notifier:tg-6000-net": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion",
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "notifier:tg-notifier": {
+    "fuentes_antes": 9,
+    "fuentes_despues": 13,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion",
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "systemsensor:8100e-faast": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 15,
+    "ganadas": [
+     "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+     "AM-8200-manu-prog-spa",
+     "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+     "ASD Harsh Environments_SP",
+     "FAAST Area Coverage Planner_SP",
+     "FAAST Understanding EN54-20_SP",
+     "I56-3947-202_FAAST LT_MULTI",
+     "I56-3956-201_ES Morley Loop FAAST LT QIG"
+    ]
+   },
+   "unresolved:fsl100-sm21": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "SW_MN_210-Series_CZ_flame_detectors_v1-ES"
+    ]
+   },
+   "unresolved:tg-hlsi": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion",
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "unresolved:tg-ip-1-sec": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "HLSI_MNDT1410_B"
+    ]
+   },
+   "unresolved:tg-modbus": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 5,
+    "ganadas": [
+     "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Introduccion",
+     "Tg-Honeywell_Tecnico"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

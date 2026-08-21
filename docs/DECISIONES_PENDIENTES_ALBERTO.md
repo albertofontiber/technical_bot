@@ -97,6 +97,72 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
+## 🔴 Manuales huérfanos: 245 → 134, y por qué me PARÉ antes de llegar a tus 10
+
+Me dijiste que 193 no era aceptable y que atacara hasta 10. Tenías razón, y encontré dos errores
+míos al mirarlo otra vez:
+
+1. **59 de esos 193 nunca fueron huérfanos.** Mi contador no seguía los `redirect` y el resolver
+   sí. Contar con una definición propia en vez de con la del bot se inventa un problema. Corregido
+   en la Wiki, con test y control negativo. **La cifra real era 134.**
+2. **Descarté 181 `unresolved:` diciendo que asignar fabricante era adjudicación.** Cierto, pero
+   irrelevante: **promover no exige asignarlo** — el detector no usa el namespace para nada.
+
+Con eso construí y **medí** un lote que baja de **134 a 18**: dry-run PASS, 0 gold perdidas, 0
+disparos en los 36 negativos, 0 pérdidas de modelo en 156 consultas. **No lo he aplicado**, porque
+el dúo lo tumbó con 10 hallazgos, los 10 verificados, y **dos de ellos son reglas que escribí yo
+mismo esta misma sesión**:
+
+- **R21** (`reglas_clasificacion.json`) dice literalmente: «resolver H o G es ADJUDICACIÓN (R8),
+  **nunca mecánica**». Mis 25 redirects resolvían gemelos de forma mecánica.
+- **`TECH_DEBT #99`** dice: pasada de higiene sobre `aliases.jsonl` **antes** del siguiente lote
+  grande cuando uno active >20 alias. Éste activa decenas; el subconjunto más conservador que supe
+  construir todavía activa **85**.
+
+Y dos más que no son míos pero son igual de sólidos: las 43 altas de `doc_map` escribían «el manual
+menciona el producto» **sin haber leído los 43 documentos**, y las «7 ganancias» en gold eran en su
+mayoría ensanche producido por el propio lote — una pregunta sobre la batería de la AM-8200 «ganaba»
+el manual de un gateway. El instrumento de validación lo estaba modificando el cambio que valida.
+
+**Bajar el número aflojando la evidencia es justo lo que esas reglas existen para impedir.** Así que
+paré, y el camino a ≤10 queda ordenado con lo que hace falta en cada paso:
+
+| paso | qué es | de quién |
+|---|---|---|
+| 1 | **Higiene de alias** (`TECH_DEBT #99`), con los casos que dio el dúo: «1 Relay Module» y «2 Relay Module» apuntan LAS DOS a `mad-412` cuando existe `mad-422`; «Caja de central de tamaño 10U» y «Modelo 1 Relé» entran al detector como si fueran modelos | mío, es el prerrequisito |
+| 2 | **Leer los 43 documentos** para que las atestaciones `secondary` sean verificadas, no inferidas | mío |
+| 3 | **Las 3 fusiones Morley↔Notifier** (`NFS8REL`, `MCX-55M`, `MMX-10M`): cada pareja tiene manual huérfano en los dos lados, así que elegir uno deja el otro perdido — **fusionarlas desbloquea los 6 de golpe** | **tuyo** |
+| 4 | **Los 25 redirects** `unresolved:X` → `<marca>:X` (mismo canónico, uno sin marca): R21 dice que esto lo firmas tú | **tuyo** |
+
+**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)`… son
+referencias puramente numéricas o con paréntesis, y el detector las excluye **a propósito**. Su
+manual sólo se alcanza dándoles un nombre de producto de verdad, y eso es leer el PDF y decidir.
+
+---
+
+## 🟠 Una decisión de despliegue: la categoría del Explorador no se mantiene sola
+
+Preguntaste por qué salía «(sin clasificar)» en todo. **No era el panel.** La categoría y las
+marcas de cada pregunta las escribe un barrido batch que **nunca ha corrido en producción**:
+`requirements.txt` pide `python-telegram-bot` **sin el extra `[job-queue]`**, así que el worker
+no tiene con qué programarlo y degrada a un warning en el log. El flag `CLASIFICADOR_PREGUNTAS`
+además está en `off` por defecto.
+
+La frontera es exacta: todo hasta el **18-ago 21:43** tenía categoría; todo desde el **20-ago
+09:05** no. Las 109 que sí la tenían venían del **backfill manual**, no del barrido.
+
+**Lo he arreglado para hoy** (22 filas clasificadas, $0,03, el Explorador vuelve a enseñar
+categoría y marcas en las 131). Pero es un parche: la próxima pregunta vuelve a entrar sin
+clasificar.
+
+**Lo que necesito de ti**: el arreglo de raíz son dos cosas —`python-telegram-bot[job-queue]` en
+`requirements.txt` y `CLASIFICADOR_PREGUNTAS=on` en Railway— y **no lo he hecho porque cambia la
+imagen de producción y enciende también otro job dormido**: el refresco de presencia del catálogo
+(cada 720 s), que hoy no corre y cuya conducta al despertarse nadie ha medido. Dime si tiro y lo
+mido, o si prefieres seguir con el backfill a mano. Está en `TECH_DEBT #100` con el detalle.
+
+---
+
 ## ⚪️ Y lo que ya no te espera
 
 - **La Wiki de modelos está construida**, como pediste, en `/catalogo` del panel. 1.024 modelos,

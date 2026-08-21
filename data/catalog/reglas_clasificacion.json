@@ -1,5 +1,5 @@
 {
- "version": "v1",
+ "version": "1.1",
  "nacido": "s331 (21-ago-2026)",
  "que_es": "Las REGLAS VIVAS con que se decide, ante un documento, qué producto(s) del catálogo gobernado atesta y con qué grafía. Es el fichero que lee el generador de packets para escribir su «Recomendación afinada»: si una regla nueva no entra aquí, no cambia nada de lo que se le pregunta a Alberto mañana — se queda en prosa que la siguiente sesión no lee (el fallo que CLAUDE.md avisa en su propio START HERE).",
  "canonicidad": "R1-R8 nacieron en `evals/s324_reglas_residuo_adjudicacion_v1.json`, que es el RECIBO de su adjudicación y está congelado. Aquí viven en su forma vigente; el recibo sigue siendo la traza de quién las firmó y por qué. R9-R18 nacen de la pasada completa de Alberto sobre el packet v3 (`evals/s331_packet_v3_anotado_alberto.md`), censada por `scripts/s331_censo_anotaciones.py`.",
@@ -197,6 +197,40 @@
     "D838 → WMSOU — las ocho especificaciones del documento coinciden literalmente con la hoja publicada de System Sensor Europe"
    ],
    "corolario_operativo": "Cuando el fabricante nombra una gama que NO tenemos ingestada, eso no es un callejón sin salida: es una entrada para la cola de manuales que faltan (Alberto, sobre MIW: «no sé si tenemos los manuales ingestados, pero podríamos añadirlos a la cola para incluirlos»)."
+  },
+  "R19": {
+   "enunciado": "QUE EL TOKEN ESTÉ EN EL TEXTO NO LO CONVIERTE EN PRODUCTO. La cita verificada (R4) prueba que el documento NOMBRA el token; para promoverlo hace falta además que el documento trate DE él (R9) y que sea un producto de un fabricante (R14). Un estándar de bus, un sufijo de variante y un nombre de fichero pasan R4 y fallan las tres.",
+   "nace_de": [
+    "notifier:eia-485 — 71 menciones en su manual porque EIA-485 ES el bus RS-485 y el manual explica su cableado; promoverlo habría secuestrado toda consulta de bus de CUALQUIER fabricante",
+    "notifier:ad-pe — «Versión Exd (AD-PE)», 1 mención, dentro de una tabla de versiones: sufijo de variante, no modelo suelto (el producto real es `notifier:smart-2-exd-ad-pe`)",
+    "notifier:rhistorico.exe — R10 se cumple (el software ES producto) pero la GRAFÍA no: el producto se llama «Reparación de Históricos»; `RHistorico.exe` es su ejecutable en C:\\NOTIFIER\\Util"
+   ],
+   "como_se_comprueba": [
+    "R14' — extender la lista de normas a los BUSES y protocolos: EIA/TIA/RS-xxx, Modbus, BACnet, LonWorks, Ethernet, SNMP. Ninguno es un producto de un fabricante.",
+    "R9 — la primera aparición puede ser el ÍNDICE (puntos guía `.....`): buscar la aparición en el CUERPO (encabezado de sección, tabla de pedido, «Descripción general», lista de «Productos aplicables»). `notifier:sensortube` parecía índice y SÍ es producto: tiene su propia sección.",
+    "GRAFÍA — un canónico que es una ruta o un ejecutable (`*.exe`) casi nunca es el nombre del producto: renombrar es adjudicación (R8), no promoción."
+   ],
+   "cazada_por": "Sol xhigh + Fable 5, dúo r42 (s334)"
+  },
+  "R20": {
+   "enunciado": "PROMOVER PUEDE ESTRECHAR: mide lo que se PIERDE, no sólo lo que se gana. Sacar un producto de la cuarentena puede QUITAR el paraguas de `models` bajo la política de producción (`IDENTITY_RESOLVE_POLICY=replace`) y dejar la consulta con MENOS fuentes que antes. Es el mecanismo hp009/DEC-091b. Preguntar «¿llega su manual?» no lo ve: hay que preguntar además «¿se pierde alguna otra fuente o algún modelo?».",
+   "nace_de": [
+    "systemsensor:8100e-faast — 14 fuentes → 1 y `models` de 14 a 2 (perdía toda la familia FAAST LT/ASD)",
+    "notifier:tg-6000 · tg-6000-net · tg-notifier — pierden el paraguas `TG` y con él los 4 manuales genéricos (Introducción/Usuario/Técnico/requisitos del PC), que son los que responden",
+    "notifier:m710-cz — pierde `M710` y 2 fuentes; gana 4 propias, así que el saldo PARECE bueno. Fuera igual: la regla no puede tener excepciones según convenga el saldo"
+   ],
+   "como_se_comprueba": "`scripts/s334_huerfanos_verificacion.py` — veredicto `DESBLOQUEA_PERO_ESTRECHA`, con el PEOR caso mandando sobre el mejor cuando un id atesta varios manuales. Y `scripts/s334_huerfanos_seam1.py` para el efecto sobre `models` en gold + tráfico real.",
+   "cazada_por": "Fable 5, dúo r42 (s334)"
+  },
+  "R21": {
+   "enunciado": "ANTES DE PROMOVER, MIRA SI ALGO YA OCUPA EL TOKEN. Tres bloqueos que no se ven desde el documento y que hacen la promoción inútil o dañina: HOMÓNIMO ABIERTO (el token vive en dos namespaces y su fila de `homonyms.jsonl` es `candidate:true/fail-open` → el resolver devuelve `expand:False` y el manual no llega), GEMELO (el token ya resuelve a otro id, a veces de otra marca) y NO DETECTABLE (digit-only o con paréntesis: `detect()` devuelve vacío).",
+   "nace_de": [
+    "morley:sp-200 ↔ notifier:sp-200, y MCX-55M / MMX-10M / NFS8REL igual; notifier:pl4 ↔ sensitron:pl4",
+    "notifier:id-3000 → ya resuelve a notifier:id3000; notifier:tg-1020 → a desico:tg-1020, OTRA MARCA",
+    "fidegas:00051 / 00052 / 03382 / 03383 son referencias puramente numéricas; notifier:eev2 es «EEV(2)»"
+   ],
+   "como_se_comprueba": "Los tres son MECÁNICOS y agnósticos de marca (por eso escalan al fabricante 31): H = grep del id en `homonyms.jsonl`; G = `cat.resolve(token)` devuelve un id distinto; N = `R.detect(canónico)` vacío. Resolver H o G es ADJUDICACIÓN (R8: rebrand o grafía canónica), nunca mecánica.",
+   "cazada_por": "verificación G4 propia (s334), confirmada por Sol #2"
   }
  },
  "lo_que_estas_reglas_NO_arreglan": [
@@ -205,5 +239,14 @@
   "Los retags de `product_model` y `manufacturer` siguen sin ser persistentes (TECH_DEBT #97): una re-ingesta los deshace en silencio. Las altas de catálogo sí persisten. Por eso los detectores de abajo leen el CONTENIDO del documento, nunca su etiqueta.",
   "R9, R11 y R14 tienen detector propuesto y SIN medir. Y el dúo r40 (Sol) precisó su límite: son deterministas en el DISPARO, no en el VEREDICTO — que no encuentren una sección «Descripción general» NO prueba que el documento no enumere variantes. Su salida se redacta «no encontrado por regla, sin comprobar», nunca «no hay»: un falso «no hay» sesga al humano hacia el sí.",
   "Medir esos detectores exige GROUND TRUTH, o sea adjudicar a mano una cohorte — trabajo humano no presupuestado (dúo r40, Fable). «Medir sobre 69 es barato» omitía ese coste."
- ]
+ ],
+ "guardas_de_metodo": {
+  "que_es": "Guardas que NO son sobre clasificar documentos sino sobre cómo mido: nacen de errores REALES de s331d/s334 en los que presenté una cifra como decisiva y medía algo más estrecho. Las tres veces el sesgo empujaba a favor de mi propia conclusión y las tres las cazó otro (el dúo o Alberto), no yo.",
+  "G1_la_tasa_base_es_de_ESTA_poblacion": "Un porcentaje heredado de otra población presentado como confianza es la forma silenciosa de equivocarse en bloque. El packet v3 vendía «P1: lo firmaste 9 veces» — cierto en el v2, y 60% en el v3. Se re-mide sobre la población que se va a aplicar, cada ronda.",
+  "G2_el_fail_open_tiene_que_reproducir_el_fallo_REAL": "Un try/except alrededor de una función que NO LANZA en el caso que te preocupa no es un guardarraíl, es un comentario. `catalog_store.load()` devuelve un catálogo vacío cuando faltan los ficheros; el except nunca saltaba y la Wiki salió con 0 modelos sin avisar. Y su test simulaba el fallo lanzando una excepción: probaba una ficción. TECH_DEBT #98.",
+  "G3_antes_de_estratificar_comprueba_que_cuenta_la_variable": "En la sonda s334 estratifiqué por «1 página = lectura completa» y `n_paginas` contaba ASSETS RENDERIZADOS, no páginas del PDF (`s271_pdf_coverage_v1.json`: MAD-412 tiene pdf_page_count=2 y renderable_pages=[1]). De 24 «completos», 0 lo eran. Antes de estratificar por una variable, comprobar contra la fuente canónica qué cuenta exactamente esa variable.",
+  "G4_control_negativo_o_no_has_arreglado_nada": "Que el test nuevo pase no prueba que cace el fallo. Hay que comprobar que se pone ROJO sin el arreglo. Los dos fallos de la Wiki tenían su test en verde.",
+  "G5_n_independientes": "Contar la misma unidad varias veces infla la n y presupone independencia que no hay: en s334, la misma IMAGEN contaba como 3 ensayos porque atestaba 3 candidates. Contar por unidad observada, no por fila del catálogo.",
+  "G6_verifica_el_EFECTO_no_solo_la_evidencia": "La evidencia dice que la fila es defendible; el EFECTO dice que sirve de algo. Son medidas distintas y yo las junté: de 110 filas con cita verificada, sólo 89 hacían que el manual llegara de verdad, y sólo 81 lo hacían sin quitar nada por el camino. Antes de escribir, ejecutar el cambio sobre una copia y medir el efecto con el componente REAL (aquí `resolve_query`), AISLANDO la fila — promover en bloque reparte crédito ajeno (s334, Sol #2)."
+ }
 }

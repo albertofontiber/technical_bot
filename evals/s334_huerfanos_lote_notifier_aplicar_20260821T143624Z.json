@@ -1,0 +1,1287 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260821T143624Z",
+ "plan_sha": "dbc041a5248ac203",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "0caff99f2c41a611",
+   "aliases": "8836557bdbcf570b",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "28cd85a0345b48c7"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 54,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1792,
+  "terminos_despues": 1891,
+  "entran": 99,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "AFPINGV1.EXE",
+    "normkey": "afpingv1.exe",
+    "core": "afpingv[-\\s/.+]*1[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPINGV2.EXE",
+    "normkey": "afpingv2.exe",
+    "core": "afpingv[-\\s/.+]*2[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPV1.EXE",
+    "normkey": "afpv1.exe",
+    "core": "afpv[-\\s/.+]*1[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AFPV2.EXE",
+    "normkey": "afpv2.exe",
+    "core": "afpv[-\\s/.+]*2[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AIM-200",
+    "normkey": "aim200",
+    "core": "aim[-\\s/.+]*200",
+    "origen": "confirmar notifier:aim-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AM-200",
+    "normkey": "am200",
+    "core": "am[-\\s/.+]*200",
+    "origen": "confirmar notifier:am-200",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "am[-\\s/.+]*2000"
+    ]
+   },
+   {
+    "termino": "AM-200 Control Panel",
+    "normkey": "am200controlpanel",
+    "core": "am[-\\s/.+]*200[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ANUNCIADOR LCD-80TM",
+    "normkey": "anunciadorlcd80tm",
+    "core": "anunciador[-\\s/.+]*lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AVD EVJ",
+    "normkey": "avdevj",
+    "core": "avd[-\\s/.+]*evj",
+    "origen": "confirmar notifier:avd-evj",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CCM-1",
+    "normkey": "ccm1",
+    "core": "ccm[-\\s/.+]*1",
+    "origen": "confirmar notifier:ccm-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CFP-ZS4",
+    "normkey": "cfpzs4",
+    "core": "cfp[-\\s/.+]*zs[-\\s/.+]*4",
+    "origen": "confirmar notifier:cfp-zs4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMX-10R",
+    "normkey": "cmx10r",
+    "core": "cmx[-\\s/.+]*10[-\\s/.+]*r",
+    "origen": "confirmar notifier:cmx-10r",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "cmx[-\\s/.+]*10[-\\s/.+]*rm"
+    ]
+   },
+   {
+    "termino": "DTS 240",
+    "normkey": "dts240",
+    "core": "dts[-\\s/.+]*240",
+    "origen": "confirmar notifier:dts-240",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAAST LT 5.5m 304 Series",
+    "normkey": "faastlt5.5m304series",
+    "core": "faast[-\\s/.+]*lt[-\\s/.+]*5[-\\s/.+]*5[-\\s/.+]*m[-\\s/.+]*304[-\\s/.+]*series",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "faast"
+    ]
+   },
+   {
+    "termino": "FIL-NAS-2",
+    "normkey": "filnas2",
+    "core": "fil[-\\s/.+]*nas[-\\s/.+]*2",
+    "origen": "confirmar notifier:fil-nas-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HON-CGW-MBB",
+    "normkey": "honcgwmbb",
+    "core": "hon[-\\s/.+]*cgw[-\\s/.+]*mbb",
+    "origen": "confirmar notifier:hon-cgw-mbb",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-131-206",
+    "normkey": "hop131206",
+    "core": "hop[-\\s/.+]*131[-\\s/.+]*206",
+    "origen": "confirmar notifier:hop-131-206",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-133-206",
+    "normkey": "hop133206",
+    "core": "hop[-\\s/.+]*133[-\\s/.+]*206",
+    "origen": "confirmar notifier:hop-133-206",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-134-412",
+    "normkey": "hop134412",
+    "core": "hop[-\\s/.+]*134[-\\s/.+]*412",
+    "origen": "confirmar notifier:hop-134-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HOP-136-412",
+    "normkey": "hop136412",
+    "core": "hop[-\\s/.+]*136[-\\s/.+]*412",
+    "origen": "confirmar notifier:hop-136-412",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751",
+    "normkey": "idx751",
+    "core": "idx[-\\s/.+]*751",
+    "origen": "confirmar notifier:idx-751",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751 AE",
+    "normkey": "idx751ae",
+    "core": "idx[-\\s/.+]*751[-\\s/.+]*ae",
+    "origen": "confirmar notifier:idx-751-ae",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751 detector",
+    "normkey": "idx751detector",
+    "core": "idx[-\\s/.+]*751[-\\s/.+]*detector",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751 sensors",
+    "normkey": "idx751sensors",
+    "core": "idx[-\\s/.+]*751[-\\s/.+]*sensors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IDX-751 Smoke Detector",
+    "normkey": "idx751smokedetector",
+    "core": "idx[-\\s/.+]*751[-\\s/.+]*smoke[-\\s/.+]*detector",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "La central AM-200",
+    "normkey": "lacentralam200",
+    "core": "la[-\\s/.+]*central[-\\s/.+]*am[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-80",
+    "normkey": "lcd80",
+    "core": "lcd[-\\s/.+]*80",
+    "origen": "confirmar notifier:lcd-80",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-80TM",
+    "normkey": "lcd80tm",
+    "core": "lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "confirmar notifier:lcd-80tm",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LCD-8200",
+    "normkey": "lcd8200",
+    "core": "lcd[-\\s/.+]*8200",
+    "origen": "confirmar notifier:lcd-8200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2",
+    "normkey": "lisa2",
+    "core": "lisa[-\\s/.+]*2",
+    "origen": "confirmar notifier:lisa-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 (IN EEX-D)",
+    "normkey": "lisa2(ineexd)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*in[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LTS-240",
+    "normkey": "lts240",
+    "core": "lts[-\\s/.+]*240",
+    "origen": "confirmar notifier:lts-240",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Mini Vista",
+    "normkey": "minivista",
+    "core": "mini[-\\s/.+]*vista",
+    "origen": "confirmar notifier:mini-vista",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Model IDX-751",
+    "normkey": "modelidx751",
+    "core": "model[-\\s/.+]*idx[-\\s/.+]*751",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MTX2081",
+    "normkey": "mtx2081",
+    "core": "mtx[-\\s/.+]*2081",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NAS-2",
+    "normkey": "nas2",
+    "core": "nas[-\\s/.+]*2",
+    "origen": "confirmar notifier:nas-2",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nas[-\\s/.+]*20"
+    ]
+   },
+   {
+    "termino": "NAS-2 aspirating system",
+    "normkey": "nas2aspiratingsystem",
+    "core": "nas[-\\s/.+]*2[-\\s/.+]*aspirating[-\\s/.+]*system",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NAS-2 detector",
+    "normkey": "nas2detector",
+    "core": "nas[-\\s/.+]*2[-\\s/.+]*detector",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS-PLUS",
+    "normkey": "nfsplus",
+    "core": "nfs[-\\s/.+]*plus",
+    "origen": "confirmar notifier:nfs-plus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NFS Supra",
+    "normkey": "nfssupra",
+    "core": "nfs[-\\s/.+]*supra",
+    "origen": "confirmar notifier:nfs-supra",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NOTIFIER NAS-2",
+    "normkey": "notifiernas2",
+    "core": "notifier[-\\s/.+]*nas[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NXFI-COPT22",
+    "normkey": "nxficopt22",
+    "core": "nxfi[-\\s/.+]*copt[-\\s/.+]*22",
+    "origen": "confirmar notifier:nxfi-copt22",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAN-AVD1",
+    "normkey": "panavd1",
+    "core": "pan[-\\s/.+]*avd[-\\s/.+]*1",
+    "origen": "confirmar notifier:pan-avd1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "pantalla alfanumérica LCD-80TM",
+    "normkey": "pantallaalfanumericalcd80tm",
+    "core": "pantalla[-\\s/.+]*alfanumerica[-\\s/.+]*lcd[-\\s/.+]*80[-\\s/.+]*tm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK200",
+    "normkey": "pk200",
+    "core": "pk[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-8200",
+    "normkey": "pk8200",
+    "core": "pk[-\\s/.+]*8200",
+    "origen": "confirmar notifier:pk-8200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-8200.EXE",
+    "normkey": "pk8200.exe",
+    "core": "pk[-\\s/.+]*8200[-\\s/.+]*exe",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK8200 1.2",
+    "normkey": "pk82001.2",
+    "core": "pk[-\\s/.+]*8200[-\\s/.+]*1[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PKAFP200",
+    "normkey": "pkafp200",
+    "core": "pkafp[-\\s/.+]*200",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-AFP200E",
+    "normkey": "pkafp200e",
+    "core": "pk[-\\s/.+]*afp[-\\s/.+]*200[-\\s/.+]*e",
+    "origen": "confirmar notifier:pk-afp200e",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PL4-E",
+    "normkey": "pl4e",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*e",
+    "origen": "confirmar notifier:pl4-e",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "Primera Tarjeta Expansora ZS4",
+    "normkey": "primeratarjetaexpansorazs4",
+    "core": "primera[-\\s/.+]*tarjeta[-\\s/.+]*expansora[-\\s/.+]*zs[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Programa Fuera Linea Version 2.1",
+    "normkey": "programafueralineaversion2.1",
+    "core": "programa[-\\s/.+]*fuera[-\\s/.+]*linea[-\\s/.+]*version[-\\s/.+]*2[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "RTU01",
+    "normkey": "rtu01",
+    "core": "rtu[-\\s/.+]*01",
+    "origen": "confirmar notifier:rtu01",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2138SD",
+    "normkey": "s2138sd",
+    "core": "s[-\\s/.+]*2138[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2138sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2139SD",
+    "normkey": "s2139sd",
+    "core": "s[-\\s/.+]*2139[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2139sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2140ND",
+    "normkey": "s2140nd",
+    "core": "s[-\\s/.+]*2140[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2140nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2141ND",
+    "normkey": "s2141nd",
+    "core": "s[-\\s/.+]*2141[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2141nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2142CL",
+    "normkey": "s2142cl",
+    "core": "s[-\\s/.+]*2142[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2142cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2143CL",
+    "normkey": "s2143cl",
+    "core": "s[-\\s/.+]*2143[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2143cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2147HC",
+    "normkey": "s2147hc",
+    "core": "s[-\\s/.+]*2147[-\\s/.+]*hc",
+    "origen": "confirmar notifier:s2147hc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2170SD",
+    "normkey": "s2170sd",
+    "core": "s[-\\s/.+]*2170[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2170sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2171SD",
+    "normkey": "s2171sd",
+    "core": "s[-\\s/.+]*2171[-\\s/.+]*sd",
+    "origen": "confirmar notifier:s2171sd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2172ND",
+    "normkey": "s2172nd",
+    "core": "s[-\\s/.+]*2172[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2172nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2173ND",
+    "normkey": "s2173nd",
+    "core": "s[-\\s/.+]*2173[-\\s/.+]*nd",
+    "origen": "confirmar notifier:s2173nd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2174CL",
+    "normkey": "s2174cl",
+    "core": "s[-\\s/.+]*2174[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2174cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2175CL",
+    "normkey": "s2175cl",
+    "core": "s[-\\s/.+]*2175[-\\s/.+]*cl",
+    "origen": "confirmar notifier:s2175cl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S2311HC",
+    "normkey": "s2311hc",
+    "core": "s[-\\s/.+]*2311[-\\s/.+]*hc",
+    "origen": "confirmar notifier:s2311hc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Securnet Plus",
+    "normkey": "securnetplus",
+    "core": "securnet[-\\s/.+]*plus",
+    "origen": "confirmar notifier:securnet-plus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Securnet v1.00b36",
+    "normkey": "securnetv1.00b36",
+    "core": "securnet[-\\s/.+]*v[-\\s/.+]*1[-\\s/.+]*00[-\\s/.+]*b[-\\s/.+]*36",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SensorTube",
+    "normkey": "sensortube",
+    "core": "sensortube",
+    "origen": "confirmar notifier:sensortube",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "serie 3G",
+    "normkey": "serie3g",
+    "core": "serie[-\\s/.+]*3[-\\s/.+]*g",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "sistema LTS 240",
+    "normkey": "sistemalts240",
+    "core": "sistema[-\\s/.+]*lts[-\\s/.+]*240",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 1",
+    "normkey": "smart1",
+    "core": "smart[-\\s/.+]*1",
+    "origen": "confirmar notifier:smart-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CC-CD",
+    "normkey": "smart3cccd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*cd",
+    "origen": "confirmar notifier:smart-3-cc-cd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CC-DC",
+    "normkey": "smart3ccdc",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*dc",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d Cl2",
+    "normkey": "smart3ccexdcl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d HCl",
+    "normkey": "smart3ccexdhcl",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*hcl",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d NO2",
+    "normkey": "smart3ccexdno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex d SO2",
+    "normkey": "smart3ccexdso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n Cl2",
+    "normkey": "smart3ccexncl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n NO2",
+    "normkey": "smart3ccexnno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CC Ex n SO2",
+    "normkey": "smart3ccexnso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CD",
+    "normkey": "smart3cd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd",
+    "origen": "confirmar notifier:smart-3-cd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d Cl2",
+    "normkey": "smart3cdexdcl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d HCl",
+    "normkey": "smart3cdexdhcl",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*hcl",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d NO2",
+    "normkey": "smart3cdexdno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex d SO2",
+    "normkey": "smart3cdexdso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*d[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n Cl2",
+    "normkey": "smart3cdexncl2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*cl[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n NO2",
+    "normkey": "smart3cdexnno2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*no[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3 CD Ex n SO2",
+    "normkey": "smart3cdexnso2",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd[-\\s/.+]*ex[-\\s/.+]*n[-\\s/.+]*so[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 con pantalla",
+    "normkey": "smart3conpantalla",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*con[-\\s/.+]*pantalla",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3G",
+    "normkey": "smart3g",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g",
+    "origen": "confirmar notifier:smart-3g",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*c[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*version[-\\s/.+]*display"
+    ]
+   },
+   {
+    "termino": "SMART3G con pantalla",
+    "normkey": "smart3gconpantalla",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*con[-\\s/.+]*pantalla",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3G-D",
+    "normkey": "smart3gd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d",
+    "origen": "confirmar notifier:smart3g-d",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3"
+    ]
+   },
+   {
+    "termino": "STPL4",
+    "normkey": "stpl4",
+    "core": "stpl[-\\s/.+]*4",
+    "origen": "confirmar notifier:stpl4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "unidad de terminación de transmisión RTU01",
+    "normkey": "unidaddeterminaciondetransmisionrtu01",
+    "core": "unidad[-\\s/.+]*de[-\\s/.+]*terminacion[-\\s/.+]*de[-\\s/.+]*transmision[-\\s/.+]*rtu[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UPDL-1020",
+    "normkey": "updl1020",
+    "core": "updl[-\\s/.+]*1020",
+    "origen": "confirmar notifier:updl-1020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "UPDL-2020",
+    "normkey": "updl2020",
+    "core": "updl[-\\s/.+]*2020",
+    "origen": "confirmar notifier:updl-2020",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "ADDRESSABLE INTERFACE MODULE",
+    "id": "notifier:aim-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AFPINGV1.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPINGV2.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPV1.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AFPV2.EXE",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AM-200 Control Panel",
+    "id": "notifier:am-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ANUNCIADOR LCD-80TM",
+    "id": "notifier:lcd-80tm",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "CCM1",
+    "id": "notifier:ccm-1",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FAAST LT 5.5m 304 Series",
+    "id": "notifier:nxfi-copt22",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "IDX-751 detector",
+    "id": "notifier:idx-751-ae",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "IDX-751 sensors",
+    "id": "notifier:idx-751-ae",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "IDX-751 Smoke Detector",
+    "id": "notifier:idx-751-ae",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "La central AM-200",
+    "id": "notifier:am-200",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LISA 2 (IN EEX-D)",
+    "id": "notifier:lisa-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LTS",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "LTS 240",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MiniVista",
+    "id": "notifier:mini-vista",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Model IDX-751",
+    "id": "notifier:idx-751-ae",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MTX2081",
+    "id": "notifier:smart-3-cc-cd",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NAS-2 aspirating system",
+    "id": "notifier:nas-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NAS-2 detector",
+    "id": "notifier:nas-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFS",
+    "id": "notifier:nfs-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "NOTIFIER NAS-2",
+    "id": "notifier:nas-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "pantalla alfanumérica LCD-80TM",
+    "id": "notifier:lcd-80tm",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK200",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK8200",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK8200 1.2",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PK-8200.EXE",
+    "id": "notifier:pk-8200",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PKAFP200",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Primera Tarjeta Expansora ZS4",
+    "id": "notifier:cfp-zs4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Programa Fuera Linea Version 2.1",
+    "id": "notifier:pk-afp200e",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SecurnetPlus",
+    "id": "notifier:securnet-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "securnetplus.exe",
+    "id": "notifier:securnet-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Securnet v1.00b36",
+    "id": "notifier:securnet-plus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "serie 3G",
+    "id": "notifier:smart-3g",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "sistema LTS",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "sistema LTS 240",
+    "id": "notifier:lts-240",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 3 CC-DC",
+    "id": "notifier:smart-3-cc-cd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d Cl2",
+    "id": "notifier:s2143cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d HCl",
+    "id": "notifier:s2147hc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d NO2",
+    "id": "notifier:s2141nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex d SO2",
+    "id": "notifier:s2139sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n Cl2",
+    "id": "notifier:s2142cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n NO2",
+    "id": "notifier:s2140nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CC Ex n SO2",
+    "id": "notifier:s2138sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d Cl2",
+    "id": "notifier:s2175cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d HCl",
+    "id": "notifier:s2311hc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d NO2",
+    "id": "notifier:s2173nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex d SO2",
+    "id": "notifier:s2171sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n Cl2",
+    "id": "notifier:s2174cl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n NO2",
+    "id": "notifier:s2172nd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3 CD Ex n SO2",
+    "id": "notifier:s2170sd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 3 con pantalla",
+    "id": "notifier:smart-3-cd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3G",
+    "id": "notifier:smart-3g",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3G con pantalla",
+    "id": "notifier:smart3g-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Tubo sensor",
+    "id": "notifier:sensortube",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "unidad de terminación de transmisión RTU01",
+    "id": "notifier:rtu01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UPDL",
+    "id": "notifier:updl-1020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "UPDL 2020",
+    "id": "notifier:updl-2020",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "UPDL.EXE",
+    "id": "notifier:updl-1020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "UPDOWN.EXE",
+    "id": "notifier:updl-2020",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?": {
+    "antes": [],
+    "despues": [
+     "nfs supra"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 131,
+  "trafico_real_detecciones_nuevas": {
+   "¿Qué resistencia de fin de línea hay que instalar en la central NFS Supra?": [
+    "nfs supra"
+   ]
+  },
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?": {
+    "allowed_sources_nuevas": [
+     "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+     "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+     "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+     "HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015",
+     "HLSI-MN-025-I_NFS Supra Series FR 25_03_2014 Sbr",
+     "NFS-SUPRA-VISION-PLUS-2-Como-solucionar-el-Fallo-de-alimentacion",
+     "NFS-SUPRA-VSN12-2PLUS-Funcionamiento-de-la-central-en-modo-prueba",
+     "NFS-SUPRA-VSN2-PLUS-Entrada-Digital",
+     "Ver-Como-Cambiar-configuracion-de-las-Funciones-especiales-en-las-centrales-"
+    ],
+    "ids_nuevos": [
+     "notifier:nfs-supra"
+    ],
+    "detected": [
+     "nfs supra"
+    ]
+   }
+  },
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals/s334_huerfanos_lote_notifier_backup_20260821T143624Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

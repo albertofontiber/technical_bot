@@ -1,0 +1,553 @@
+{
+ "que_es": "s334 lote «notifier»: promueve candidates cuya promoción DESBLOQUEA un manual huérfano, verificado con el resolver real (G4). Sólo `products_confirmar`: no da altas, no retira, no toca doc_map ni la DB.",
+ "guardas": [
+  "A/R4 — cita verificada con frontera de palabra en su propio documento",
+  "H — fuera si su token tiene homónimo abierto (rebrand: adjudicación, R8)",
+  "G — fuera si su token ya resuelve a otro id (gemelo)",
+  "N — fuera si el detector no puede verlo (digit-only, paréntesis)",
+  "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo",
+  "dúo r42 — fuera si la fila no es un PRODUCTO (R9/R14) o si promoverla ESTRECHA las fuentes de su propia consulta (mecanismo hp009/DEC-091b)"
+ ],
+ "fuera_por_el_duo": {
+  "notifier:eia-485": "R14' — EIA-485 es el bus serie (RS-485), no un producto Notifier. 71 menciones en su doc porque el manual habla del CABLEADO del bus; promoverlo secuestraría toda consulta de bus de cualquier fabricante.",
+  "notifier:ad-pe": "R2 — «Versión Exd (AD-PE)» es un SUFIJO de variante, no un modelo suelto (1 sola mención, dentro de una tabla de versiones). El producto real, `notifier:smart-2-exd-ad-pe`, sí entra.",
+  "notifier:rhistorico.exe": "R10 se cumple (el software ES producto) pero la GRAFÍA no: el producto se llama «Reparación de Históricos»; `RHistorico.exe` es su ejecutable dentro de C:\\NOTIFIER\\Util. Renombrar el canónico es adjudicación (R8), no promoción.",
+  "notifier:tg-6000": "ESTRECHA: la consulta pierde el paraguas `TG` y con él los 4 manuales genéricos del TG (Introducción/Usuario/Técnico/requisitos del PC). 4 fuentes → 1. Arreglarlo es una relación de catálogo, no una promoción.",
+  "notifier:tg-6000-net": "ESTRECHA igual que `tg-6000`: 4 fuentes → 1.",
+  "notifier:tg-notifier": "ESTRECHA igual: pierde los 4 genéricos del paraguas `TG` (gana 9, pero la pérdida es de los manuales que responden las consultas TG).",
+  "notifier:m710-cz": "ESTRECHA: pierde `M710` de `models` y 2 fuentes (la hoja combinada `I56-2005-002 M710 M720 M721 M701` y el conexionado del M710). Gana 4 propias, así que el saldo PARECE bueno — pero la regla que aplico a `tg-6000` no puede tener excepciones según me convenga el saldo: el instrumento marca estrechamiento y sale del lote autónomo."
+ },
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "notifier:aim-200",
+   "canonical_model": "AIM-200",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «n a tierra en la fuente de alimentación remota. Las centrales AM2020/AFP1010 y Sistema 5000 con una AIM-200 necesita una MPS-24A (o en una MPS-24 o MP»",
+   "_manuales": [
+    "MNDT060",
+    "MNDT400"
+   ],
+   "_menciones_en_su_doc": 14
+  },
+  {
+   "id": "notifier:am-200",
+   "canonical_model": "AM-200",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «de Acceso Nivel 2 Código de acceso :=Presionar Aceso unos seg. y cód. **1 2 3 4** [Image shows an AM-200 control panel with the following elements: - »",
+   "_manuales": [
+    "MNDT105_A"
+   ],
+   "_menciones_en_su_doc": 12
+  },
+  {
+   "id": "notifier:avd-evj",
+   "canonical_model": "AVD EVJ",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «*) | | **PESO** | 350g Versión AVD EVJ<br/>500g Versión AVD EVJ /A<br/>1200g Versión AVD EVJ /A/230 | (*) Versión 2»",
+   "_manuales": [
+    "PAN_AVD1"
+   ],
+   "_menciones_en_su_doc": 3
+  },
+  {
+   "id": "notifier:ccm-1",
+   "canonical_model": "CCM-1",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «liza el LCD-80 en Modo TERMINAL: Finalice el apantallado del EIA-485 en ambos Salida y Retorno del CCM-1 (o en el DIA-1010 o DIA-2020 si se utilizan),»",
+   "_manuales": [
+    "MNDT400"
+   ],
+   "_menciones_en_su_doc": 17
+  },
+  {
+   "id": "notifier:cfp-zs4",
+   "canonical_model": "CFP-ZS4",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «| </td> </tr> </table> # CFP-800 # Módulos expansores de salida y de zona # CFP-ZE4/CFP-ZS4 MA-DT-020 29 MAYO 1997 MA-DT-020 NOTIFIER ESPAÑA, S.A. 2 d»",
+   "_manuales": [
+    "MADT020"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:cmx-10r",
+   "canonical_model": "CMX-10R",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 # *CMX-10R* ## **Módulo de 10 relés de salida para sis»",
+   "_manuales": [
+    "MNDT1001",
+    "MNDT120"
+   ],
+   "_menciones_en_su_doc": 6
+  },
+  {
+   "id": "notifier:dts-240",
+   "canonical_model": "DTS 240",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# Conexiones del DTS Todas las conexiones del DTS 240 se encuentran en la parte posterior de la unidad. **Conectores del cable sensor** (END 1 y END 2»",
+   "_manuales": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071"
+   ],
+   "_menciones_en_su_doc": 44
+  },
+  {
+   "id": "notifier:fil-nas-2",
+   "canonical_model": "FIL-NAS-2",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «.................................................................... 11 3.4 Filtro de aire: FIL-NAS-2 ................................................»",
+   "_manuales": [
+    "MNDT742_G"
+   ],
+   "_menciones_en_su_doc": 3
+  },
+  {
+   "id": "notifier:hon-cgw-mbb",
+   "canonical_model": "HON-CGW-MBB",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «os ## 1.2 Productos NOTIFIER aplicables * HOP-131-206 * HOP-133-206 * HOP-134-412 * HOP-136-412 * HON-CGW-MBB * Programa de configuración de CLSS ## 1»",
+   "_manuales": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:hop-131-206",
+   "canonical_model": "HOP-131-206",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «s de red y conceptos * Cuestiones de seguridad y conceptos ## 1.2 Productos NOTIFIER aplicables * HOP-131-206 * HOP-133-206 * HOP-134-412 * HOP-136-41»",
+   "_manuales": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:hop-133-206",
+   "canonical_model": "HOP-133-206",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ceptos * Cuestiones de seguridad y conceptos ## 1.2 Productos NOTIFIER aplicables * HOP-131-206 * HOP-133-206 * HOP-134-412 * HOP-136-412 * HON-CGW-MB»",
+   "_manuales": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:hop-134-412",
+   "canonical_model": "HOP-134-412",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «iones de seguridad y conceptos ## 1.2 Productos NOTIFIER aplicables * HOP-131-206 * HOP-133-206 * HOP-134-412 * HOP-136-412 * HON-CGW-MBB * Programa d»",
+   "_manuales": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:hop-136-412",
+   "canonical_model": "HOP-136-412",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «idad y conceptos ## 1.2 Productos NOTIFIER aplicables * HOP-131-206 * HOP-133-206 * HOP-134-412 * HOP-136-412 * HON-CGW-MBB * Programa de configuració»",
+   "_manuales": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:idx-751",
+   "canonical_model": "IDX-751",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ica que acompaña a la central. El sistema debe identificarse con una etiqueta que se incluye en el IDX-751. Esta etiqueta debe colocarse en o junto al»",
+   "_manuales": [
+    "MNDT1020"
+   ],
+   "_menciones_en_su_doc": 6
+  },
+  {
+   "id": "notifier:idx-751-ae",
+   "canonical_model": "IDX-751 AE",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «l installation instructions for specific barrier/control panel compatibility information.* ---- **IDX-751 AE** **PITTWAY TECNOLOGICA S.r.l.** **VIA CA»",
+   "_manuales": [
+    "I56-3383-002 IDX-751 AE EN DE"
+   ],
+   "_menciones_en_su_doc": 5
+  },
+  {
+   "id": "notifier:lcd-80",
+   "canonical_model": "LCD-80",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# Configuración del CRT-1 para programar el LCD-80 Para programar el LCD-80 el monitor del terminal debe estar configurado como se describe más abajo»",
+   "_manuales": [
+    "15037SP",
+    "50253SP",
+    "BTDT017",
+    "MIDT170"
+   ],
+   "_menciones_en_su_doc": 212
+  },
+  {
+   "id": "notifier:lcd-80tm",
+   "canonical_model": "LCD-80TM",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «bio no interfiere en la ubicación de las baterías, transformadores o circuitos impresos. Entre cada LCD-80TM hay cuatro hilos: uno de par trenzado y a»",
+   "_manuales": [
+    "MNDT402"
+   ],
+   "_menciones_en_su_doc": 57
+  },
+  {
+   "id": "notifier:lcd-8200",
+   "canonical_model": "LCD-8200",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «- | - | - | AM-8200<br>Scheda<br>AM82-MB </td> <td> | 1 | 2 | 3 | 4 | 5 | | - | - | - | - | - | LCD-8200 </td> </tr> </table> Las conexiones típicas R»",
+   "_manuales": [
+    "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+    "LCD-8200-manu-spa"
+   ],
+   "_menciones_en_su_doc": 49
+  },
+  {
+   "id": "notifier:lisa-2",
+   "canonical_model": "LISA 2",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «8916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 # Esquema de conexión del detector LISA 2 [Technical diagram showing the connection sc»",
+   "_manuales": [
+    "MADT635_01"
+   ],
+   "_menciones_en_su_doc": 6
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonical_model": "LTS-240",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «60; Fax: 93 465 86 35 www.honeywelllifesafety.es # DETECTOR LINEAL DE TEMPERATURA POR FIBRA ÓPTICA LTS-240 Sensa # Manual de usuario **MN-DT-1071 10 A»",
+   "_manuales": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071",
+    "Tg-Honeywell_Tecnico"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:mini-vista",
+   "canonical_model": "Mini Vista",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# 3. Configuración. Mini Vista puede configurarse desde la **pantalla táctil** o a través de su **Web server**. ## 1 - Configurac»",
+   "_manuales": [
+    "HLSI-MA-202_01_Guia-MiniVista"
+   ],
+   "_menciones_en_su_doc": 31
+  },
+  {
+   "id": "notifier:nas-2",
+   "canonical_model": "NAS-2",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «s LED del panel deben estar a la altura de los ojos. MN-DT-742_G Manual de usuario e instalación. NAS-2 ## 3.3 Preparación de la unidad antes de la in»",
+   "_manuales": [
+    "997-528-000-1",
+    "MNDT742P_F",
+    "MNDT742_G"
+   ],
+   "_menciones_en_su_doc": 57
+  },
+  {
+   "id": "notifier:nfs-plus",
+   "canonical_model": "NFS-PLUS",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ee horizontal lines decreasing in size with a downward-pointing triangle) below the connection.] **NFS-PLUS** **Installazione e programmazione**»",
+   "_manuales": [
+    "NFS4_NFS8-2PLUS_MANU_ITA"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:nfs-supra",
+   "canonical_model": "NFS Supra",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# NFS SUPRA / VSN2-PLUS - Entrada Digital **Question** ¿Que tipo de operaciones puedo hacer con la entrada dig»",
+   "_manuales": [
+    "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+    "HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:nxfi-copt22",
+   "canonical_model": "NXFI-COPT22",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «miento. Para cumplir con estas pruebas, la unidad FAAST LT™ ha sido reconfigurada y homologada como NXFI-COPT22 para su uso específico en celdas de pr»",
+   "_manuales": [
+    "ASD in Custodial Applications_ES"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:pan-avd1",
+   "canonical_model": "PAN-AVD1",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «uxiliar a sus relativas entradas \"Entrada +\" y \"Entrada -\". NB: Verifique el JP1. Si se conecta el PAN-AVD1 con una alimentación +24V, este puente (ju»",
+   "_manuales": [
+    "PAN_AVD1"
+   ],
+   "_menciones_en_su_doc": 6
+  },
+  {
+   "id": "notifier:pk-8200",
+   "canonical_model": "PK-8200",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# 1 - FUNCIONALIDAD DEL PROGRAMA Al ejecutar el programa PK-8200 se visualiza la siguiente pantalla: [Screenshot of NewPlant - PK-8200 Notifier Italy »",
+   "_manuales": [
+    "PK-8200 manu-spa"
+   ],
+   "_menciones_en_su_doc": 55
+  },
+  {
+   "id": "notifier:pk-afp200e",
+   "canonical_model": "PK-AFP200E",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 # PK-AFP200E ## PARA PROGRAMACIÓN FUERA DE LÍNEA DE C»",
+   "_manuales": [
+    "MCDT120"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:pl4-e",
+   "canonical_model": "PL4-E",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «les. La central está diseñada para gestionar 4 zonas y, con la ampliación de una tarjeta opcional (PL4-E), se puede expandir hasta un total de 8 zonas»",
+   "_manuales": [
+    "MNDT515"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:rtu01",
+   "canonical_model": "RTU01",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «salida de relé de avería, un módulo de entrada (M710-CZ) y una unidad de terminación de transmisión RTU01. La conexión entre el módulo de entrada y el»",
+   "_manuales": [
+    "MADT190_14"
+   ],
+   "_menciones_en_su_doc": 8
+  },
+  {
+   "id": "notifier:s2138sd",
+   "canonical_model": "S2138SD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, leer con atención y seg»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2139sd",
+   "canonical_model": "S2139SD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «do uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2140nd",
+   "canonical_model": "S2140ND",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, leer con atención y seguir las i»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2141nd",
+   "canonical_model": "S2141ND",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2142cl",
+   "canonical_model": "S2142CL",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, leer con atención y seguir las instruccio»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2143cl",
+   "canonical_model": "S2143CL",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ctores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, leer»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2147hc",
+   "canonical_model": "S2147HC",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «guientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138SD, S2140ND o S2142CL, leer con aten»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2170sd",
+   "canonical_model": "S2170SD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «alación o uso. **Recomendamos a los clientes que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175C»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2171sd",
+   "canonical_model": "S2171SD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «mos a los clientes que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2172nd",
+   "canonical_model": "S2172ND",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «uso. **Recomendamos a los clientes que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2173nd",
+   "canonical_model": "S2173ND",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «clientes que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143C»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2174cl",
+   "canonical_model": "S2174CL",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «Recomendamos a los clientes que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2175cl",
+   "canonical_model": "S2175CL",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «que hayan adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147H»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:s2311hc",
+   "canonical_model": "S2311HC",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «n adquirido uno de los detectores siguientes: S2170SD, S2172ND, S2174CL, S2171SD, S2173ND, S2175CL, S2311HC, S2139SD, S2141ND, S2143CL, S2147HC, S2138»",
+   "_manuales": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:securnet-plus",
+   "canonical_model": "Securnet Plus",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# 3 UTILIZACIÓN DEL SISTEMA POR PARTE DEL USUARIO FINAL ## 3.1 Descripción Una vez el programa Securnet Plus ha sido instalado y configurado (ver el C»",
+   "_manuales": [
+    "MADT575_01",
+    "MNDT575"
+   ],
+   "_menciones_en_su_doc": 60
+  },
+  {
+   "id": "notifier:sensortube",
+   "canonical_model": "SensorTube",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «............................ 18 LTS 240 Criterios de actuación ............................... 19 SensorTube .........................................»",
+   "_manuales": [
+    "MNDT1070"
+   ],
+   "_menciones_en_su_doc": 6
+  },
+  {
+   "id": "notifier:smart-1",
+   "canonical_model": "SMART 1",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «LONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # PAUTA DE CALIBRACIÓN # *AJUSTE DEL SENSOR SMART 1* [Image shows a Spantech SPANCAN calibration»",
+   "_manuales": [
+    "MNDT607"
+   ],
+   "_menciones_en_su_doc": 3
+  },
+  {
+   "id": "notifier:smart-3-cc-cd",
+   "canonical_model": "SMART 3 CC-CD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «3 465 86 35 www.notifier.es ---- # sensitron ## GAS EVOLUTION # DETECTORES PARA GAS *TÓXICO* # SMART 3 CC-CD (ST/x) # *Manual de Usuario* | **MN-DT-62»",
+   "_manuales": [
+    "MNDT626"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:smart-3-cd",
+   "canonical_model": "SMART 3 CD",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ón de gas supera el 100% LIE, el led rojo de la placa base se iluminará para señalar AVERÍA y en el SMART 3 CD, con pantalla, se iluminarán todos los »",
+   "_manuales": [
+    "MNDT625"
+   ],
+   "_menciones_en_su_doc": 1
+  },
+  {
+   "id": "notifier:smart-3g",
+   "canonical_model": "SMART 3G",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ue se pueden conectar tanto a centrales analógicas directas, así como a centrales MULTISCAN++. Los SMART 3G se utilizan para detectar la presencia de »",
+   "_manuales": [
+    "MNDT646_SMART3G toxic_SP-EN",
+    "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+    "SMART 3 TOXICOS MTEX 4749_SP REV 3"
+   ],
+   "_menciones_en_su_doc": 11
+  },
+  {
+   "id": "notifier:smart3g-d",
+   "canonical_model": "SMART3G-D",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «l detector dispone de pantalla, consulte las instrucciones que se suministran junto con el detector SMART3G-D con pantalla. ## 4.2 Pruebas Los detecto»",
+   "_manuales": [
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:stpl4",
+   "canonical_model": "STPL4",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ansión [Warning triangle symbol with exclamation mark] *NOTA: Si adquiere la tarjeta de expansión STPL4 por separado, recuerde que antes de instalarla»",
+   "_manuales": [
+    "MNDT515"
+   ],
+   "_menciones_en_su_doc": 2
+  },
+  {
+   "id": "notifier:updl-1020",
+   "canonical_model": "UPDL-1020",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ades de Verifire, hasta que se abra una nueva base de datos, se ejecute el programa carga/descarga (UPDL-1020) o el usuario salga de la aplicación. *N»",
+   "_manuales": [
+    "MNDT285"
+   ],
+   "_menciones_en_su_doc": 15
+  },
+  {
+   "id": "notifier:updl-2020",
+   "canonical_model": "UPDL-2020",
+   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «.A. 5 # <ins>CARGA/DESCARGA</ins> Existen tres opciones básicas en el programa UPDL-2020. \"U\" Carga, recibe los datos de la AM2020 y los graba en un d»",
+   "_manuales": [
+    "MCDT280"
+   ],
+   "_menciones_en_su_doc": 10
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_altas": [],
+ "aliases_quitar": [],
+ "umbrellas_altas": [],
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "gaps": [],
+ "perdidas_de_fuente_adjudicadas": []
+}
