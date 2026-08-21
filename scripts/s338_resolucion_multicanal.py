@@ -140,9 +140,11 @@ def nombres_nuevos(web: dict, sf: str, conocidos: list[str]) -> list[str]:
 def main() -> int:
     cat = cs.load()
     diag = json.loads(DIAG.read_text("utf-8"))
-    web = {}
+    web, catalogo = {}, {}
     if "--web" in sys.argv:
         web = json.loads(Path(sys.argv[sys.argv.index("--web") + 1]).read_text("utf-8"))
+    if "--catalogo" in sys.argv:
+        catalogo = json.loads(Path(sys.argv[sys.argv.index("--catalogo") + 1]).read_text("utf-8"))
 
     # huérfanos VIVOS + el fabricante de cada documento
     huer = {}
@@ -205,9 +207,19 @@ def main() -> int:
         c_url, url = canal_url(web, sf, canon)
         if c_url:
             canales["URL_FABRICANTE"] = c_url
+        # El catálogo del fabricante es canal PROPIO: una sola descarga cubre la
+        # gama entera y trae la descripción impresa junto al código. Es más
+        # barato y más completo que buscar referencia a referencia.
+        c_cat, url_cat = canal_url(catalogo, sf, canon)
+        if c_cat:
+            canales["CATALOGO_FABRICANTE"] = c_cat
+            url = url or url_cat
         # nombres que el fabricante usa y el catálogo no tiene (ni canónico ni alias)
         conocidos = canon + [a["alias"] for a in cat.aliases if a.get("id") in ids]
-        propuestos = nombres_nuevos(web, sf, conocidos)
+        propuestos = nombres_nuevos({**web, **{k: (web.get(k, []) + v)
+                                               for k, v in catalogo.items()
+                                               if not k.startswith("_")}},
+                                    sf, conocidos)
         # el acuerdo se mide sobre canales INDEPENDIENTES: chunks se deriva del
         # PDF, así que los dos juntos NO son dos.
         indep = {k for k in canales if k != "CHUNKS"}

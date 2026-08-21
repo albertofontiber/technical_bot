@@ -2,8 +2,8 @@
  "que_es": "s338 · resolución por canales independientes (fichero, PDF, chunks, URL del fabricante, visión). RESUELTO exige ≥2 canales INDEPENDIENTES: `CHUNKS` se deriva del PDF, así que no cuenta como segundo. NADA aplicado.",
  "n": 82,
  "veredictos": {
-  "RESUELTO": 27,
-  "UN_SOLO_CANAL": 52,
+  "RESUELTO": 34,
+  "UN_SOLO_CANAL": 45,
   "SIN_CANAL": 3
  },
  "filas": [
@@ -51,15 +51,20 @@
     ],
     "PDF": [
      "TSD-100"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "TRD-100"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "TRD-100",
     "TSD-100"
    ],
    "veredicto": "RESUELTO",
-   "nombres_que_no_tenemos": [],
+   "nombres_que_no_tenemos": [
+    "CCD-100"
+   ],
    "bucket_anterior": "REDIRECT_PENDIENTE_R21"
   },
   {
@@ -73,14 +78,19 @@
    "canales": {
     "FICHERO": [
      "TMD-100"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "TMD-100"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "TMD-100"
    ],
-   "veredicto": "UN_SOLO_CANAL",
-   "nombres_que_no_tenemos": [],
+   "veredicto": "RESUELTO",
+   "nombres_que_no_tenemos": [
+    "TSD100"
+   ],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
   {
@@ -96,6 +106,9 @@
      "SCD-100"
     ],
     "URL_FABRICANTE": [
+     "SCD-100"
+    ],
+    "CATALOGO_FABRICANTE": [
      "SCD-100"
     ]
    },
@@ -190,6 +203,9 @@
     ],
     "URL_FABRICANTE": [
      "TBUD-150"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "TBUD-150"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/55315012-Manual-Tarjeta-de-bucle-TBUD-150-Instalacion-ES-FR-GB-IT.pdf",
@@ -235,13 +251,16 @@
    "canales": {
     "FICHERO": [
      "Z-200-R"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "Z-200-R"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "Z-200-R"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
@@ -256,13 +275,16 @@
    "canales": {
     "FICHERO": [
      "PAD-10A"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "PAD-10A"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "PAD-10A"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
@@ -304,6 +326,9 @@
     ],
     "URL_FABRICANTE": [
      "MAD-402"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-402"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-401-MAD-402-55340103-MI-627-m-2024-b.pdf",
@@ -330,6 +355,9 @@
     ],
     "URL_FABRICANTE": [
      "MAD-412"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-412"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-411_MAD-412-55341101-MI-629-m-2024-b.pdf",
@@ -353,13 +381,16 @@
    "canales": {
     "FICHERO": [
      "MAD-422"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-422"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "MAD-422"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
@@ -380,6 +411,9 @@
      "MAD-432"
     ],
     "URL_FABRICANTE": [
+     "MAD-432"
+    ],
+    "CATALOGO_FABRICANTE": [
      "MAD-432"
     ]
    },
@@ -405,6 +439,9 @@
     ],
     "URL_FABRICANTE": [
      "MAD-442"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-442"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/55344103-Manual-Modulo-1-2-Zonas-MAD-442-ES-FR-GB-IT.pdf",
@@ -429,6 +466,9 @@
     ],
     "URL_FABRICANTE": [
      "MAD-450"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-450"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/55345104-manual_MAD-45X-MI-554-m-2022-d.pdf",
@@ -452,13 +492,16 @@
    "canales": {
     "FICHERO": [
      "MAD-461"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-461"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "MAD-461"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
@@ -494,13 +537,16 @@
    "canales": {
     "FICHERO": [
      "MAD-472"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-472"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "MAD-472"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SIN_PDF"
   },
@@ -515,13 +561,16 @@
    "canales": {
     "FICHERO": [
      "MAD-472"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "MAD-472"
     ]
    },
-   "url_fabricante": null,
+   "url_fabricante": "https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf",
    "modelos": [
     "MAD-472"
    ],
-   "veredicto": "UN_SOLO_CANAL",
+   "veredicto": "RESUELTO",
    "nombres_que_no_tenemos": [],
    "bucket_anterior": "SOLO_NUMERO_DE_REFERENCIA"
   },
@@ -560,6 +609,9 @@
     ],
     "URL_FABRICANTE": [
      "CMD-500"
+    ],
+    "CATALOGO_FABRICANTE": [
+     "CMD-500"
     ]
    },
    "url_fabricante": "https://www.detnov.com/wp-content/uploads/2019/04/55350005-Manual-Central-Monoxido-CMD-500-ES-FR-GB-IT.pdf",
@@ -567,7 +619,9 @@
     "CMD-500"
    ],
    "veredicto": "RESUELTO",
-   "nombres_que_no_tenemos": [],
+   "nombres_que_no_tenemos": [
+    "CMD-503"
+   ],
    "bucket_anterior": "NI_CANONICO_NI_REFERENCIA"
   },
   {
