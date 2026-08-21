@@ -46,6 +46,10 @@ YA_DECIDIDO = {
 }
 
 DIAG = ROOT / "evals/s336c_diagnostico_huerfanos.json"
+#: s338 resolvió por canales independientes cosas que s336c había mandado al
+#: suelo. Sin esto el packet le diría a Alberto «esto NO baja» de manuales que
+#: acabo de resolver — evidencia caducada, que es justo lo que critico.
+MULTI = ROOT / "evals/s338_resolucion_multicanal.json"
 SALIDA = ROOT / "docs/REVISION_ALBERTO_HUERFANOS.md"
 
 
@@ -101,6 +105,16 @@ def marcas_que_lo_nombran(tokens: list[str]) -> dict[str, list[tuple[str, int]]]
 def main() -> int:
     cat = cs.load()
     diag = json.loads(DIAG.read_text("utf-8"))
+    multi, descubiertos = {}, {}
+    if MULTI.exists():
+        todas = json.loads(MULTI.read_text("utf-8"))["filas"]
+        multi = {f["source_file"]: f for f in todas if f["veredicto"] == "RESUELTO"}
+        # El DESCUBRIMIENTO de nombres vale aunque la fila no llegue a RESUELTO:
+        # `Manual-de-Usuario-S3-T2-y-S2-T2` se queda en un canal precisamente
+        # PORQUE el catálogo lo guarda por número de referencia — que es el
+        # problema que el nombre nuevo arregla. Filtrarlo por veredicto perdía
+        # el ejemplo bandera de Alberto.
+        descubiertos = {f["source_file"]: f for f in todas if f.get("nombres_que_no_tenemos")}
     bucket = {f["source_file"]: f for f in diag["filas"]}
 
     # huérfanos VIVOS ahora (el diagnóstico es de antes de aplicar s336f)
@@ -138,7 +152,10 @@ def main() -> int:
                            or (bucket.get(sf) or {}).get("tokens_citados")))
         elif b in ("NI_CANONICO_NI_REFERENCIA", "CANONICO_DIGIT_ONLY", "LECTOR_MULTIMODAL",
                    "SIN_PDF"):
-            suelo.append((sf, ids, b))
+            if sf in multi:
+                detnov.append((sf, ids, None))     # resuelto por s338: deja de ser suelo
+            else:
+                suelo.append((sf, ids, b))
         else:
             for i in ids:
                 sin_gemelo[(i, cat.products[i]["canonical_model"])].append(sf)
@@ -249,20 +266,52 @@ def main() -> int:
         A("")
 
     # ── Detnov ────────────────────────────────────────────────────────────
-    A("## 3 · Detnov — desbloqueado por tu «OK», para que lo repases de un vistazo")
+    A("## 3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)")
     A("")
-    A(f"**{len(detnov)} manuales.** Cada uno cita su **nº de referencia** en el texto del PDF, y "
-      "esa referencia **ya es alias** del producto en el catálogo y **coincide con el nombre del "
-      "fichero** (doble ancla). Con tu OK, la cita cumple R4.")
+    A(f"**{len(detnov)} manuales.** Dos orígenes, los dos con la evidencia a la vista:")
     A("")
-    A("| # | manual | producto | referencia citada |")
+    A("- **tu «Detnov OK»**: el manual cita su **nº de referencia**, que ya es alias del producto "
+      "y coincide con el nombre del fichero (doble ancla) → cumple R4.")
+    A("- **s338, tu pushback**: canales independientes. `FICHERO` (R8 protege de INVENTARSE un "
+      "producto, no impide CONFIRMAR uno que el `doc_map` ya enlaza), `URL_FABRICANTE` (el "
+      "fabricante publica ese PDF con el modelo en la URL) y `CATALOGO_FABRICANTE` (su catálogo "
+      "lo lista con descripción impresa). **RESUELTO exige ≥2 canales independientes.**")
+    A("")
+    A("| # | manual | producto | evidencia |")
     A("|---|---|---|---|")
     for n, (sf, ids, refs) in enumerate(sorted(detnov), 1):
         canon = [cat.products[i]["canonical_model"] for i in ids if i in cat.products]
-        A(f"| {n} | `{sf[:46]}` | {', '.join(canon[:2])} | `{', '.join((refs or [])[:2])}` |")
+        mf = multi.get(sf)
+        if mf:
+            ev = " + ".join(k for k in mf["canales"] if k != "CHUNKS")
+            if mf.get("url_fabricante"):
+                ev += f" · [fuente]({mf['url_fabricante']})"
+        else:
+            ev = f"ref. `{', '.join((refs or [])[:2])}`"
+        A(f"| {n} | `{sf[:44]}` | {', '.join(canon[:2])} | {ev} |")
     A("")
     A("- [ ] Adelante con todos  ·  [ ] quita los que marque arriba")
     A("")
+    faltan = sorted(descubiertos.items())
+    if faltan:
+        A("### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos")
+        A("")
+        A("El canal web no sólo confirma: **descubre**. Tu ejemplo del `S3-T2` era esto — el "
+          "catálogo los tiene como número de referencia y Fidegas los llama por su nombre. "
+          "Bautizar un producto es adjudicación tuya (R21), así que sólo se proponen.")
+        A("")
+        A("| manual | lo que tenemos | como lo llama el fabricante |")
+        A("|---|---|---|")
+        for sf, mf in sorted(faltan):
+            A(f"| `{sf[:40]}` | {', '.join(mf['canonicos'][:2])} | "
+              f"**{', '.join(mf['nombres_que_no_tenemos'][:3])}** |")
+        A("")
+        A("> Aviso honesto: junto a los hallazgos reales cuela algún vecino de contexto — "
+          "`CCD-100` es la serie de central donde se enchufa el TRD-100, no el producto de ese "
+          "manual. Por eso no se aplican solos.")
+        A("")
+        A("- [ ] añade los que marque  ·  [ ] ninguno  ·  [ ] otra cosa")
+        A("")
 
     # ── sin gemelo ────────────────────────────────────────────────────────
     # El cajón de sastre NO es una sola cosa. Clasificarlo es el trabajo: un
@@ -394,8 +443,14 @@ def main() -> int:
            "SIN_PDF": "no hay PDF en Storage"}
     A("| manual | por qué |")
     A("|---|---|")
+    # algunos están en el suelo SÓLO porque el catálogo los guarda por número de
+    # referencia; si apruebas el nombre que propone 3.b, dejan de estarlo. Sin
+    # este enlace, el mismo manual aparece en dos sitios y parece contradicción.
+    con_nombre = set(descubiertos)
     for sf, ids, b in sorted(suelo):
-        A(f"| `{sf[:52]}` | {MOT.get(b, b)} |")
+        extra = (" — **pero 3.b propone un nombre del fabricante**: si lo apruebas, sale del suelo"
+                 if sf in con_nombre else "")
+        A(f"| `{sf[:52]}` | {MOT.get(b, b)}{extra} |")
     A("")
     A("---")
     A("")

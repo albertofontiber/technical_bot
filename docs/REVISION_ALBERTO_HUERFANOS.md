@@ -97,28 +97,56 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 
   - [ ] fusionar, canónico `______`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa
 
-## 3 · Detnov — desbloqueado por tu «OK», para que lo repases de un vistazo
+## 3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)
 
-**14 manuales.** Cada uno cita su **nº de referencia** en el texto del PDF, y esa referencia **ya es alias** del producto en el catálogo y **coincide con el nombre del fichero** (doble ancla). Con tu OK, la cita cumple R4.
+**21 manuales.** Dos orígenes, los dos con la evidencia a la vista:
 
-| # | manual | producto | referencia citada |
+- **tu «Detnov OK»**: el manual cita su **nº de referencia**, que ya es alias del producto y coincide con el nombre del fichero (doble ancla) → cumple R4.
+- **s338, tu pushback**: canales independientes. `FICHERO` (R8 protege de INVENTARSE un producto, no impide CONFIRMAR uno que el `doc_map` ya enlaza), `URL_FABRICANTE` (el fabricante publica ese PDF con el modelo en la URL) y `CATALOGO_FABRICANTE` (su catálogo lo lista con descripción impresa). **RESUELTO exige ≥2 canales independientes.**
+
+| # | manual | producto | evidencia |
 |---|---|---|---|
-| 1 | `55310008 Manual Tarjeta Modbus TMD-100 Instala` | TMD-100 | `55310008` |
-| 2 | `55311003 Manual Sirenas Convencionales SCD-110` | SCD-110, SCD-110 con flash | `55311003` |
-| 3 | `55315012 Manual Tarjeta de bucle TBUD-150 Inst` | TBUD-150 | `55315012` |
-| 4 | `55320011 Manual zocalo con relé Z-200-R` | Z-200-R | `55320011` |
-| 5 | `55320102 Manual Buzzer Analogico PAD-10A ES FR` | PAD-10A | `55320102` |
-| 6 | `55340103 Manual Modulo 1-2 Entradas Tecnicas M` | MAD-402 | `55340103` |
-| 7 | `55341101 Manual Modulo 1-2 Reles libre de tens` | MAD-412 | `55341101` |
-| 8 | `55342102 Manual Modulo 1-2 Entradas 1-2 Salida` | MAD-422 | `55342102` |
-| 9 | `55343101 Manual Modulo 1-2 Sirenas Convenciona` | MAD-432, MAD-432 Módulo 1 Sirena | `55343101` |
-| 10 | `55346102 Manual Sirena Analogica MAD-461 ES FR` | MAD-461 | `55346102` |
-| 11 | `55347101 Manual Sirena Analogica MAD-471 ES FR` | MAD-471 | `55347101` |
-| 12 | `55347200 Manual Sirena Analogica MAD-472 ES GB` | MAD-472 | `55347200` |
-| 13 | `55349102 Manual Modulo Aislador MAD-491 ES FR ` | MAD-491 | `55349102` |
-| 14 | `55350008 Manual Detectores Monoxido DMDX-500 E` | DMDX-500 | `55350008` |
+| 1 | `55310008 Manual Tarjeta Modbus TMD-100 Insta` | TMD-100 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 2 | `55310401 Manual Sirenas Convencionales SCD-1` | SCD-100 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-SCD-100-55310401-MI-635-m-2024-b.pdf) |
+| 3 | `55311003 Manual Sirenas Convencionales SCD-1` | SCD-110, SCD-110 con flash | ref. `55311003` |
+| 4 | `55315012 Manual Tarjeta de bucle TBUD-150 In` | TBUD-150 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55315012-Manual-Tarjeta-de-bucle-TBUD-150-Instalacion-ES-FR-GB-IT.pdf) |
+| 5 | `55320002 Manual Programador PGD-200 ES FR GB` | PGD-200 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55320002-Manual-Programador-PGD-200-ES-FR-GB-IT.pdf) |
+| 6 | `55320011 Manual zocalo con relé Z-200-R` | Z-200-R | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 7 | `55320102 Manual Buzzer Analogico PAD-10A ES ` | PAD-10A | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 8 | `55320103 Manual Zocalo Conexion ES FR GB IT_` | 55320103 | FICHERO + PDF |
+| 9 | `55340103 Manual Modulo 1-2 Entradas Tecnicas` | MAD-402 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-401-MAD-402-55340103-MI-627-m-2024-b.pdf) |
+| 10 | `55341101 Manual Modulo 1-2 Reles libre de te` | MAD-412 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-411_MAD-412-55341101-MI-629-m-2024-b.pdf) |
+| 11 | `55342102 Manual Modulo 1-2 Entradas 1-2 Sali` | MAD-422 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 12 | `55343101 Manual Modulo 1-2 Sirenas Convencio` | MAD-432, MAD-432 Módulo 1 Sirena | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55343102-Manual-Modulo-1-2-Sirenas-Convencionales-MAD-432-ES-FR-GB-IT.pdf) |
+| 13 | `55344103 Manual Modulo 1-2 Zonas MAD-442 ES ` | MAD-442 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55344103-Manual-Modulo-1-2-Zonas-MAD-442-ES-FR-GB-IT.pdf) |
+| 14 | `55346102 Manual Sirena Analogica MAD-461 ES ` | MAD-461 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 15 | `55347101 Manual Sirena Analogica MAD-471 ES ` | MAD-471 | ref. `55347101` |
+| 16 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 17 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 18 | `55349102 Manual Modulo Aislador MAD-491 ES F` | MAD-491 | ref. `55349102` |
+| 19 | `55350005 Manual Central Monoxido CMD-500 ES ` | CMD-500 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350005-Manual-Central-Monoxido-CMD-500-ES-FR-GB-IT.pdf) |
+| 20 | `55350007 Manual Tarjeta Regulacion Motores T` | 55350007, TRMD-50X | FICHERO + PDF |
+| 21 | `55350008 Manual Detectores Monoxido DMDX-500` | DMDX-500 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350008-Manual-Detectores-Monoxido-DMDX-500-ES-FR-GB-IT.pdf) |
 
 - [ ] Adelante con todos  ·  [ ] quita los que marque arriba
+
+### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos
+
+El canal web no sólo confirma: **descubre**. Tu ejemplo del `S3-T2` era esto — el catálogo los tiene como número de referencia y Fidegas los llama por su nombre. Bautizar un producto es adjudicación tuya (R21), así que sólo se proponen.
+
+| manual | lo que tenemos | como lo llama el fabricante |
+|---|---|---|
+| `55310007 Manual Tarjeta Expansion TRD-10` | TRD-100, TSD-100 | **CCD-100** |
+| `55310008 Manual Tarjeta Modbus TMD-100 I` | TMD-100 | **TSD100** |
+| `55340103 Manual Modulo 1-2 Entradas Tecn` | MAD-402 | **MAD-401** |
+| `55341101 Manual Modulo 1-2 Reles libre d` | MAD-412 | **MAD-411** |
+| `55345103 Manual Pulsador Analogico MAD-4` | MAD-450 | **MAD-451-I** |
+| `55350005 Manual Central Monoxido CMD-500` | CMD-500 | **CMD-503** |
+| `Manual-de-Usuario-S3-T2-y-S2-T2` | 00051, 00052 | **S2-T2, S3-T2, S/3-T2** |
+
+> Aviso honesto: junto a los hallazgos reales cuela algún vecino de contexto — `CCD-100` es la serie de central donde se enchufa el TRD-100, no el producto de ese manual. Por eso no se aplican solos.
+
+- [ ] añade los que marque  ·  [ ] ninguno  ·  [ ] otra cosa
 
 ## 4 · Fusiones Morley ↔ Notifier — cada una desbloquea los DOS lados
 
@@ -232,19 +260,12 @@ Tienen marca y cita, pero **R19 (producto-hood)** los frenó: el token está en 
 
 ## 8 · El suelo — esto NO baja, y no es cola pendiente
 
-**20 manuales.** Los dejo listados para que se vea que están medidos, no olvidados.
+**13 manuales.** Los dejo listados para que se vea que están medidos, no olvidados.
 
 | manual | por qué |
 |---|---|
-| `55310401 Manual Sirenas Convencionales SCD-100 ES FR` | el manual no nombra su producto (ni por referencia) |
 | `55310600 Manual TCD-106 kit_ES` | el manual no nombra su producto (ni por referencia) |
 | `55312000 SCD-120_Manual_ES` | PDF escaneado; leído con Claude, la página no nombra el modelo |
-| `55320002 Manual Programador PGD-200 ES FR GB IT` | el manual no nombra su producto (ni por referencia) |
-| `55320103 Manual Zocalo Conexion ES FR GB IT_V2` | el canónico es sólo dígitos — el detector los excluye a propósito |
-| `55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT` | el manual no nombra su producto (ni por referencia) |
-| `55347200 Manual Sirena Analogica MAD-472 ES GB FR GB` | no hay PDF en Storage |
-| `55350005 Manual Central Monoxido CMD-500 ES FR GB IT` | el manual no nombra su producto (ni por referencia) |
-| `55350007 Manual Tarjeta Regulacion Motores TRMD-50X ` | el canónico es sólo dígitos — el detector los excluye a propósito |
 | `55393002 Manual Fuentes de Alimentacion FAD-905 ES F` | el manual no nombra su producto (ni por referencia) |
 | `D 1100-4 Sounder` | el manual no nombra su producto (ni por referencia) |
 | `F3000M_Spanish User Guide_0044-047-02-ES` | el manual no nombra su producto (ni por referencia) |
@@ -254,7 +275,7 @@ Tienen marca y cita, pero **R19 (producto-hood)** los frenó: el token está en 
 | `MADT190_10` | el canónico es sólo dígitos — el detector los excluye a propósito |
 | `MNDT021` | el manual no nombra su producto (ni por referencia) |
 | `MNDT635` | el manual no nombra su producto (ni por referencia) |
-| `Manual-de-Usuario-S3-T2-y-S2-T2` | el canónico es sólo dígitos — el detector los excluye a propósito |
+| `Manual-de-Usuario-S3-T2-y-S2-T2` | el canónico es sólo dígitos — el detector los excluye a propósito — **pero 3.b propone un nombre del fabricante**: si lo apruebas, sale del suelo |
 | `S3466R_Eng_ital` | PDF escaneado; leído con Claude, la página no nombra el modelo |
 
 ---
