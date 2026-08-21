@@ -10374,3 +10374,37 @@ adjudicación es 100, no 18.**
   (que **no** se arregla retirando el alias: es la única vía de su producto).
 - **Ref**: `evals/s334c_higiene_alias_v1.json` · `evals/s334d_atestaciones_verificadas.json` ·
   `evals/s334e_suelo_defendible_{plan,seam1}.json` + recibos de aplicación.
+
+## DEC-274 (s334f/g, 21 ago 2026) — El estrechamiento no era un muro: 13 de 21 eran PRECISIÓN, y mi exclusión en bloque los tenía presos
+
+- **Fecha**: 21 ago 2026. **Impacto**: ALTO (catálogo). **Aplicado**: sí. **Gatillo**: Alberto —
+  «tira con el (1), los 39 que estrechan».
+- **La pregunta que no me había hecho.** Cuando Fable cazó en r43 que promover puede quitarle
+  fuentes a la consulta, cablée el veredicto `DESBLOQUEA_PERO_ESTRECHA` y **excluí en bloque** a
+  todos los que lo disparaban. Eso presupone que perder una fuente es siempre malo. **No lo es**:
+  si el documento perdido no habla de este producto, perderlo es el filtro de modelo haciendo su
+  trabajo — precisión, no daño. La verificación de citas (s334d) ya lo tenía delante y yo no lo
+  leí así: `systemsensor:8100e-faast` perdía 14 documentos y **ninguno lo nombra**.
+- **La distinción que decide**, medida documento a documento: **DOC DE HERMANO** (no nos nombra
+  pero nombra a otro producto consumible → perderlo es precisión) vs **GENÉRICO DE FAMILIA** (no
+  nombra a ningún producto concreto → es el manual de la familia y perderlo es daño) vs
+  **NOMBRA A NUESTRO PRODUCTO** (daño claro).
+- **Resultado: 13 PRECISIÓN · 8 DAÑO** de los 21 que estrechan.
+- **DOS BUGS DEL INSTRUMENTO, cazados por mirar el desglose y no el titular**:
+  1. **`SIN_TEXTO` contado como daño.** El documento `TG-Cuales-son-los-requisitos-del-PC…` tiene
+     **0 chunks verificados** (`count=exact`, HTTP 200): no puede responderle a nadie, así que
+     perderlo es NEUTRO. Contarlo como daño bloqueaba 5 ids por un PDF sin contenido.
+  2. **Al endurecer el lector, lo invertí.** Añadí un `count=exact` con `if status != 200 → None`,
+     y **PostgREST devuelve `206 Partial Content` cuando el `limit` trunca**, o sea en TODO
+     documento CON contenido: el veredicto pasó a `13 PRECISIÓN` → `2`, marcando como «lectura
+     fallida» exactamente los que sí se leyeron. Se vio en el desglose por clase, no en el número.
+- **Aplicado (s334g)**: 8 promociones (de las 13, salen 4 sin cita verificada —evidencia
+  circular— y 1 por GEMELO, `unresolved:id60` vs `notifier:id-60`, que R21 manda a Alberto).
+  Dry-run PASS, detector 2014→2032 (+18/−0), **0 gold perdidas**, 0 disparos en 36 negativos, 0
+  detecciones nuevas en 137 consultas reales, **0 pérdidas de modelo en el seam 1**.
+  **Huérfanos 100 → 84**; cuarentena 455 → **447**; consumibles 1.170 → **1.178**.
+- **La lección de método**: una guarda que excluye en bloque es una hipótesis sin medir disfrazada
+  de prudencia. El veredicto `DESBLOQUEA_PERO_ESTRECHA` era correcto como DETECCIÓN y erróneo como
+  DECISIÓN — detectar el estrechamiento es mecánico, decidir si duele exige leer los documentos.
+- **Ref**: `evals/s334f_estrechamiento_util.json` · `evals/s334g_precision_{plan,seam1}.json` +
+  recibo de aplicación.
