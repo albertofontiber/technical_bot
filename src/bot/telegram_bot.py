@@ -1374,6 +1374,23 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 dict.fromkeys(item.canonical for item in normalization.substitutions)
             )
             confirmation += f"\n🔎 Modelo interpretado: {', '.join(recognized)}"
+        # (s332 §2) Las asunciones del turno se DECLARAN aquí, antes de la respuesta:
+        # el técnico ve lo que se asumió por él y puede desmentirlo en el acto — la
+        # visibilidad ES el control. No hace falta re-mirar `ASR_AVISOS`: con el lever
+        # apagado la tabla no emite asunciones, así que este bucle no itera. `modo` es
+        # enum cerrado validado en `Asuncion`, de modo que el `else` ES 'aviso'.
+        for asuncion in normalization.asunciones:
+            if asuncion.modo == "reescrito":
+                confirmation += (
+                    f"\n🏷 Entiendo que preguntas por {asuncion.asumido} (el audio se "
+                    f"transcribió como «{asuncion.detectado}»). Si no es eso, dímelo."
+                )
+            else:
+                confirmation += (
+                    f"\nℹ️ Nota: hay una confusión de voz observada "
+                    f"«{asuncion.detectado}»↔{asuncion.asumido}. "
+                    f"Si dictaste {asuncion.asumido}, dímelo."
+                )
         # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
         await update.message.reply_text(confirmation)
 
