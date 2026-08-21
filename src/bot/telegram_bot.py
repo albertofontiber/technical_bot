@@ -1374,6 +1374,23 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 dict.fromkeys(item.canonical for item in normalization.substitutions)
             )
             confirmation += f"\n🔎 Modelo interpretado: {', '.join(recognized)}"
+        # (s332 §2) Las asunciones del turno se DECLARAN aquí, antes de la respuesta:
+        # el técnico ve lo que se asumió por él y puede desmentirlo en el acto — la
+        # visibilidad ES el control. No hace falta re-mirar `ASR_AVISOS`: con el lever
+        # apagado la tabla no emite asunciones, así que este bucle no itera. `modo` es
+        # enum cerrado validado en `Asuncion`, de modo que el `else` ES 'aviso'.
+        for asuncion in normalization.asunciones:
+            if asuncion.modo == "reescrito":
+                confirmation += (
+                    f"\n🏷 Entiendo que preguntas por {asuncion.asumido} (el audio se "
+                    f"transcribió como «{asuncion.detectado}»). Si no es eso, dímelo."
+                )
+            else:
+                confirmation += (
+                    f"\nℹ️ Nota: hay una confusión de voz observada "
+                    f"«{asuncion.detectado}»↔{asuncion.asumido}. "
+                    f"Si dictaste {asuncion.asumido}, dímelo."
+                )
         # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
         await update.message.reply_text(confirmation)
 
@@ -1418,7 +1435,8 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # `mismatch`/`marca_no_servida` puede contestar con el manual de otra marca
         # cuando no se pudo verificar la identidad) y Fable por OBSERVABILIDAD.
         await _servir_turno(update, context, user_id, query,
-                            procedencia=Procedencia.de_voz(raw_transcription))
+                            procedencia=Procedencia.de_voz(raw_transcription),
+                            asunciones_asr=normalization.asunciones)
 
     except Exception as e:
         # s324e: antes se registraba `f"...: {e}"` — el texto CRUDO de la excepción
@@ -1522,7 +1540,8 @@ _FUENTE_META = {"text": "texto", "voice": "voz"}
 
 async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
                         user_id: int, query: str, *,
-                        procedencia: Procedencia) -> None:
+                        procedencia: Procedencia,
+                        asunciones_asr: tuple = ()) -> None:
     """El turno, igual para los dos canales.
 
     (s324h) Antes esto vivía dentro de `handle_message` y la voz se lo saltaba
@@ -1573,7 +1592,7 @@ async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
         logger.info("plan #70: cambio de marca a %r -- contexto de producto invalidado",
                     plan.transicion_marca)
     await _ejecutar_plan(update, context, user_id, query, plan,
-                         procedencia=procedencia)
+                         procedencia=procedencia, asunciones_asr=asunciones_asr)
 
 
 def _resolver_hechos(necesita) -> dict:
@@ -1606,7 +1625,8 @@ def _resolver_hechos(necesita) -> dict:
 
 async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
                          user_id: int, query: str, plan: TurnPlan, *,
-                         procedencia: Procedencia):
+                         procedencia: Procedencia,
+                         asunciones_asr: tuple = ()):
     """Despachador TONTO: ejecuta la ruta del plan sin re-examinar el texto. Las
     respuestas son las de hoy, byte a byte (tests de equivalencia s316e).
 
@@ -1713,9 +1733,13 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
     # regresión de algo que hoy funciona, porque `handle_voice` sí la pasa cuando
     # llama a `_process_query` por su cuenta.
     await update.message.chat.send_action("typing")
+    # (s332 B5) `asunciones_asr` viaja en kwarg PARALELO a la procedencia y su
+    # default `()` es VERDAD para todo llamador de texto (a diferencia del
+    # `="text"` que s324h mató: aquí omitirlo no miente — texto no tiene ASR).
     await _process_query(update, context, query, preambulo=plan.preambulo,
                          source=procedencia.source,
-                         transcription=procedencia.transcription)
+                         transcription=procedencia.transcription,
+                         asunciones_asr=asunciones_asr)
 
 
 def _texto_fabricantes(*, por_producto: bool) -> str:
@@ -1921,6 +1945,41 @@ async def _s331_presence_refresh_job(_context) -> None:
         logger.warning("s331: tick de refresh de presencia falló (fail-open)")
 
 
+def _con_sufijo_asunciones(answer: str, f1_resolution) -> str:
+    """(s332 §2, B5) Sufijo determinista que declara las asunciones de la
+    resolución F1 en el answer SERVIDO. La cita de la pregunta base sale de
+    `state_query_override` a propósito: si el rebuild partió de una `last_query`
+    rancia (R8), el técnico LO VE y corrige — la visibilidad es el control.
+    Con el flag off la rama no emite asunciones y esto es identidad."""
+    for asuncion in getattr(f1_resolution, "asunciones", ()) or ():
+        if asuncion.kind == "marca_corregida":
+            base = f1_resolution.state_query_override
+            cita = f" («{base}»)" if base else ""
+            answer += (
+                f"\n\nℹ️ Respondo a tu pregunta anterior{cita} entendiendo "
+                f"que la marca es {asuncion.asumido}."
+            )
+    return answer
+
+
+def _asunciones_obs(f1_resolution, asunciones_asr) -> dict:
+    """(s332 B6) Vista DERIVADA de las asunciones del turno para telemetría —
+    kind/modo/asumido por ítem (`asumido` = término gobernado); `detectado` JAMÁS
+    (es contenido de usuario/ASR — la misma frontera de privacidad que la mención
+    en `_turn_identity_obs`). `status` off = ambos levers s332 apagados; el
+    tri-estado `not_wired` lo produce el builder cuando este obs no llega."""
+    from ..orchestrator.conversation_policy_impl import correction_enabled
+    from .whisper_vocabulary import asr_avisos_on
+
+    if not (asr_avisos_on() or correction_enabled()):
+        return {"status": "off"}
+    items = list(asunciones_asr or ())
+    if f1_resolution is not None:
+        items.extend(getattr(f1_resolution, "asunciones", ()) or ())
+    return {"status": "on", "items": [
+        {"kind": a.kind, "modo": a.modo, "asumido": a.asumido} for a in items]}
+
+
 def _turn_identity_obs(turn_identity) -> dict:
     """(s331 B5) Vista DERIVADA de la identidad del turno para telemetría — enums y
     booleanos, JAMÁS el string de la mención (frontera de privacidad del trace).
@@ -1950,6 +2009,7 @@ async def _process_query(
     source: str,
     transcription: str | None = None,
     preambulo: Preambulo | None = None,
+    asunciones_asr: tuple = (),
 ):
     """Core RAG pipeline — shared between text and voice handlers.
 
@@ -2266,6 +2326,12 @@ async def _process_query(
                 f1_new_state.available_models,
             ))
 
+        # (s332 §2, B5) Las asunciones de la resolución F1 se DECLARAN como sufijo
+        # del answer servido — determinista, byte-nivel, tras el excerpt de estado
+        # (la nota es meta-conducta, no contenido para la anáfora del rewriter).
+        if f1_active and f1_resolution is not None:
+            answer = _con_sufijo_asunciones(answer, f1_resolution)
+
         # Render once: telemetry records the actual transport split and the
         # send loop consumes these exact same parts. A formatter defect must
         # neither erase the query receipt nor suppress the technical answer.
@@ -2308,6 +2374,9 @@ async def _process_query(
                 # faltara; off = levers apagados; on = canal activo este turno.
                 turn_identity_obs=_turn_identity_obs(
                     f1_resolution.turn_identity if f1_active else None),
+                # (s332 B6) mismo tri-estado que turn_identity: gate del flip.
+                asunciones_obs=_asunciones_obs(
+                    f1_resolution if f1_active else None, asunciones_asr),
                 mismatch_obs=(
                     {"modelo": preambulo.modelo,
                      "marca_real": preambulo.marca_real,

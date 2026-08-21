@@ -17,12 +17,60 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Union
 
-from .conversation_policy import TurnIdentity
+# (s332) `TurnIdentity` (de `conversation_policy`) se anota como CADENA y NO se
+# importa: las anotaciones ya eran diferidas, así que el import era puro tipado — y
+# a cambio ataba este módulo al de la política. Ese lazo era el que hacía crecer el
+# ciclo permitido `conversation_policy ↔ ..._impl` en cuanto `_impl` importaba de
+# aquí (`Asuncion`), y `test_import_contract` lo pone rojo con razón. Cortarlo aquí
+# es la raíz: `contracts` queda como superficie de contratos SIN dependencias de la
+# política, que es lo que siempre debió ser (y libera el import inverso).
 
 
 class PlanKind(str, Enum):
     SINGLE_HOP = "single_hop"
     CLARIFY = "clarify"
+
+
+# (s332 §2) Enums CERRADOS de `Asuncion`. El guard es estricto a propósito: una
+# asunción mal construida revienta al construirse, no al renderizarse.
+_ASUNCION_KINDS = frozenset({"marca_asr", "marca_corregida"})
+_ASUNCION_MODOS = frozenset({"reescrito", "aviso"})
+
+
+@dataclass(frozen=True, kw_only=True)
+class Asuncion:
+    """Una asunción DECLARADA que el turno hace en nombre del usuario (s332 §2).
+
+    Es la primitiva GENERALIZABLE del mandato: cualquier mecanismo que sustituya o
+    interprete lo que el usuario dijo la emite, y el transporte la renderiza de
+    forma determinista (cero LLM — la conducta no se delega al prompt).
+
+    ``detectado`` es lo que llegó (ASR crudo / token del usuario) y JAMÁS viaja al
+    trace: al trace solo va ``asumido``, que es término gobernado (allowlist s331).
+    """
+
+    kind: str        # 'marca_asr' | 'marca_corregida'
+    detectado: str
+    asumido: str
+    modo: str        # 'reescrito' (el texto se sustituyó) | 'aviso' (texto intacto)
+
+    def __post_init__(self) -> None:
+        if self.kind not in _ASUNCION_KINDS:
+            raise ValueError(
+                f"Asuncion.kind inválido: {self.kind!r} — esperado uno de "
+                f"{sorted(_ASUNCION_KINDS)}")
+        if self.modo not in _ASUNCION_MODOS:
+            raise ValueError(
+                f"Asuncion.modo inválido: {self.modo!r} — esperado uno de "
+                f"{sorted(_ASUNCION_MODOS)}")
+        if not self.detectado.strip():
+            raise ValueError(
+                "Asuncion.detectado vacío: sin lo que se detectó, el aviso al "
+                "usuario no dice nada verificable")
+        if not self.asumido.strip():
+            raise ValueError(
+                "Asuncion.asumido vacío: una asunción sin término gobernado no es "
+                "una asunción, es ruido")
 
 
 @dataclass(frozen=True, kw_only=True)

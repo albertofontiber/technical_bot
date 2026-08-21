@@ -43,6 +43,14 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
+    # s332 §5 — filas NUEVAS de la tabla de confusiones ASR (bqide, ID-aviso) y las
+    # lineas 🏷/ℹ️ de la confirmacion de voz. Default off = conducta servida
+    # byte-identica: la fila `death knob` de s324f sigue corrigiendo, y muda.
+    "ASR_AVISOS": {
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/bot/whisper_vocabulary.py',),
+    },
     # s324e — control de acceso al piloto. Las TRES nacen en `bot/access.py`.
     # `BOT_ALLOWLIST` es el interruptor maestro de la puerta y nace OFF porque
     # `main` auto-despliega mientras las migraciones las aplica Alberto a mano:
@@ -201,6 +209,16 @@ REGISTRO: dict[str, dict] = {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
         "lectores": ('src/rag/post_rerank_coverage.py',),
+    },
+    # s332 §5 — la RED: rama F1 de correccion de marca, su `state_query_override` y
+    # el sufijo de asuncion. Default off = byte-identico (sin la rama, «me referia a
+    # Kidde» cae en `new_brand_no_state`, como hoy). Flag PROPIO y no compartido con
+    # ASR_AVISOS: aislan riesgos distintos (aviso ruidoso vs conducta conversacional
+    # nueva) y sin separarlos no hay atribucion A/B.
+    "F1_MARCA_CORRECCION": {
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/orchestrator/conversation_policy_impl.py',),
     },
     "F1_MENTION_PRECEDENCE": {
         # (s331 §3.C.1) Precedencia de mención no-resuelta + gramática de confirmación

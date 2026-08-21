@@ -1,0 +1,39 @@
+# config/correction_lexicon_v1.yaml — cues de CORRECCIÓN DE MARCA del turno siguiente
+# a una respuesta con la marca equivocada (s332 §4, nivel 2 «la RED»: recupera las
+# confusiones que la tabla ASR aún NO tiene tabuladas).
+#
+# GOBERNANZA: ampliación por PR con revisión (config versionada; NUNCA se edita en
+# caliente ni se genera). Una entrada nueva se añade CON SU CITA — la observación real
+# que la justifica (transcript/ts o testimonio), disciplina DEC-233: la tabla de
+# confusiones se desplegó con UNA fila observada, no con un catálogo imaginado.
+#
+# REGLAS DE USO (las aplica `_correction_rebuild` en conversation_policy_impl):
+#   1. Matching de FRASE COMPLETA por token-boundary sobre la query en minúscula
+#      (mismo criterio que `_confirmation_lists`/`_match_phrase`, s331).
+#   2. El turno debe ser **SOLO la corrección**: la regla es de PLANTILLA CERRADA
+#      —`{cue} [artículo] {marca}` y nada más, salvo puntuación—, sin léxico de
+#      stopwords. Consecuencias DECLARADAS: «me refería a Kidde, ¿y el lazo?» NO
+#      dispara (hay sustancia extra: se responde por la cascada normal) y
+#      «no me refería a Kidde» tampoco (el ancla `^` no admite el «no» previo).
+#   3. Fail-open: si este fichero no es legible, la lista queda vacía con warning y
+#      la rama simplemente no dispara (statu quo, jamás rompe el turno).
+#   4. El cue NO basta por sí solo: exige además marca reconocida, `real == ()`,
+#      `last_query` presente y ventana viva (§4 de la spec v2).
+#
+# ES/EN (R6): las confusiones observadas son ES-only, pero el piloto recibe EN.
+version: 1
+correccion:
+  - me refería a
+  - me refiero a
+  - quería decir
+  - quise decir
+  - me referia a
+  - i meant
+  - i was referring to
+  # 21-ago-2026, PRIMERA conversación real post-flip (query_logs 57b8d482): el aviso
+  # de la fila ID↔Kidde invita «Si dictaste Kidde, dímelo» y Alberto respondió
+  # «sí, dije Kidde» — la respuesta natural a ESA invitación usa «decir» en pasado,
+  # no «referirse». Sin estas cues, la invitación del aviso no tenía receptor.
+  - dije
+  - he dicho
+  - i said

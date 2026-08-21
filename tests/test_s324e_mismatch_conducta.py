@@ -261,9 +261,11 @@ def _trace(**overrides):
 
 # s331: +`turn_identity` — sección REQUERIDA nueva (tri-estado, patrón `intent`);
 # el pin protege la AUSENCIA de `mismatch_corrected`, no congela el esquema.
+# s332: +`asunciones` — misma clase de sección REQUERIDA (tri-estado, gate del
+# flip de ASR_AVISOS/F1_MARCA_CORRECCION); el pin sigue protegiendo lo mismo.
 _CLAVES_HISTORICAS = {"schema", "release_profile", "coverage", "must_preserve",
                       "retrieval", "timings", "intent", "transport",
-                      "turn_identity"}
+                      "turn_identity", "asunciones"}
 
 
 def test_trace_sin_correccion_es_byte_identico_al_de_antes():

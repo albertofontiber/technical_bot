@@ -24,7 +24,7 @@
 > ahora no se veían en ningún sitio: **55 modelos sin ningún manual** y **245 manuales huérfanos**
 > (184 de ellos sólo porque todos sus ids siguen en cuarentena). Los **81 `redirect` entre marcas**
 > son clase propia — la vista OEM. Cambiar el catálogo sigue pasando por el lote firmado con recibo;
-> la Wiki es donde se VE el problema, no donde se arregla (DEC-264).
+> la Wiki es donde se VE el problema, no donde se arregla (DEC-267).
 >
 > **Estado s327–s330 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y LA RETENCIÓN ALCANZA A TODO.**
 > Un solo bloque para todo el día: seis sub-sesiones encadenadas, cuya narración vive en

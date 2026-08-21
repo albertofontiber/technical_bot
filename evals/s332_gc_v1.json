@@ -1,0 +1,119 @@
+{
+  "manifest": {
+    "ts": "2026-08-21T09:24:42+00:00",
+    "git_sha": "379f92da28ab6ac8530acdc23c48f56beae46f66",
+    "reps": 4,
+    "flags": [
+      "ASR_AVISOS",
+      "F1_MARCA_CORRECCION"
+    ]
+  },
+  "gc0": [
+    {
+      "check": "gc0_norm_intacto:¿Qué centrales BQide tie",
+      "ok": true,
+      "detalle": "¿Qué centrales BQide tienes?"
+    },
+    {
+      "check": "gc0_norm_intacto:¿Qué centrales ID tienes",
+      "ok": true,
+      "detalle": "¿Qué centrales ID tienes?"
+    },
+    {
+      "check": "gc0_norm_intacto:¿Qué centrales de la mar",
+      "ok": true,
+      "detalle": "¿Qué centrales de la marca ID tienes?"
+    },
+    {
+      "check": "gc0_norm_intacto:id al menú de configurac",
+      "ok": true,
+      "detalle": "id al menú de configuración del panel"
+    },
+    {
+      "check": "gc0_norm_intacto:la ID3000 está en fallo ",
+      "ok": true,
+      "detalle": "la ID3000 está en fallo de tierra"
+    },
+    {
+      "check": "gc0_deathknob_sigue_corrigiendo_muda",
+      "ok": true,
+      "detalle": "la central Detnov no arma"
+    },
+    {
+      "check": "gc0_correccion_statu_quo",
+      "ok": true,
+      "detalle": "new_brand_no_state"
+    }
+  ],
+  "gc1": [
+    {
+      "check": "gc1_bqide_reescrito_con_asuncion",
+      "ok": true,
+      "detalle": "{\"raw\": \"¿Qué centrales BQide tienes?\", \"normalized\": \"¿Qué centrales Kidde tienes?\", \"asunciones\": [{\"kind\": \"marca_asr\", \"modo\": \"reescrito\", \"detectado\": \"BQide\", \"asumido\": \"Kidde\"}]}"
+    },
+    {
+      "check": "gc1_id_intacto_con_aviso:¿Qué centrales ID tienes",
+      "ok": true,
+      "detalle": "{\"raw\": \"¿Qué centrales ID tienes?\", \"normalized\": \"¿Qué centrales ID tienes?\", \"asunciones\": [{\"kind\": \"marca_asr\", \"modo\": \"aviso\", \"detectado\": \"ID\", \"asumido\": \"Kidde\"}]}"
+    },
+    {
+      "check": "gc1_id_intacto_con_aviso:¿Qué centrales de la mar",
+      "ok": true,
+      "detalle": "{\"raw\": \"¿Qué centrales de la marca ID tienes?\", \"normalized\": \"¿Qué centrales de la marca ID tienes?\", \"asunciones\": [{\"kind\": \"marca_asr\", \"modo\": \"aviso\", \"detectado\": \"ID\", \"asumido\": \"Kidde\"}]}"
+    },
+    {
+      "check": "gc1_control_sin_disparo:id al menú de configurac",
+      "ok": true,
+      "detalle": "id al menú de configuración del panel"
+    },
+    {
+      "check": "gc1_control_sin_disparo:la ID3000 está en fallo ",
+      "ok": true,
+      "detalle": "la ID3000 está en fallo de tierra"
+    },
+    {
+      "check": "gc1_correccion_rebuild",
+      "ok": true,
+      "detalle": "¿Qué centrales BQide tienes? (el usuario corrige: la marca es Kidde)"
+    },
+    {
+      "check": "gc1_respuesta_kidde_no_vacia_sin_crossbrand",
+      "ok": true,
+      "detalle": "En mi base de documentación tengo las siguientes centrales **Kidde Commercial**:\n\n---\n\n## Serie NC — Centrales convencionales\n\nLos modelos de la Serie NC disponibles en los fragmentos son [F3][F4][F5]"
+    },
+    {
+      "answer_verbatim": "En mi base de documentación tengo las siguientes centrales **Kidde Commercial**:\n\n---\n\n## Serie NC — Centrales convencionales\n\nLos modelos de la Serie NC disponibles en los fragmentos son [F3][F4][F5]:\n\n- **NC-PF2** — 2 zonas [F1]\n- **NC-PF4** — 4 zonas\n- **NC-PF8** — 8 zonas\n- **NC-PF2-SC** — variante SC, 2 zonas\n- **NC-PF4-SC** — variante SC, 4 zonas\n- **NC-PF8-SC** — variante SC, 8 zonas\n\nCaracterísticas generales de la Serie NC [F1]:\n- Hasta **32 dispositivos por zona** [F6]\n- **2 salidas de relé supervisadas** para sirenas y enrutamiento de incendios\n- **2 salidas de relé convencionales** para condiciones comunes de incendio y falla\n- **2 entradas configurables** por el usuario\n- Ampliable con placas de relés auxiliares (hasta **8 salidas adicionales**) [F1]\n- Conectables en red hasta **64 zonas** [F1]\n- Aprobación **EN54:2, EN54:4 y CE** [F1]\n\n---\n\n## Serie 2X-A — Centrales direccionables\n\nLos modelos disponibles son [F10]:\n\n- **2X-A**\n- **2X-AT-F2** (con pantalla táctil de 7 pulgadas)\n- **2X-AT-F2-FB**\n- **2X-AT-F2-S** — versión en caja pequeña [F2]\n\nCaracterísticas generales de la Serie 2X-A [F2]:\n- **2 lazos** con hasta **256 dispositivos** en **512 zonas**\n- **4 salidas supervisadas** de sirena/enrutamiento de incendios (programables libremente)\n- **2 salidas de relé convencionales** y **2 salidas supervisadas**\n- **2 entradas configurables** por el usuario\n- Pantalla táctil de **7 pulgadas** (modelos AT)\n- Red máxima de **64 nodos / 256 lazos**\n- PAK de alta potencia disponible: aumenta la potencia del lazo de **500 mA a 800 mA** [F2]\n\n---\n\n¿Sobre cuál de estas centrales necesitas información más detallada?\n\nFuentes: NC-PF2 datasheet (sin revisión registrada); Manual de instalación Serie NC BCN-3100017-ES (rev. R002, 13MAY25); Manual de funcionamiento Serie NC BCN-3100018-ES (rev. R002, 13MAY25); Manual de funcionamiento Serie 2X-A 00-3280-505-4009-04 (rev. R004, 08MAY25); 2X-AT-F2-S datasheet (sin revisión registrada)"
+    }
+  ],
+  "gc3": {
+    "pass": 4,
+    "n": 4,
+    "reps": [
+      {
+        "rep": 0,
+        "ok": true,
+        "rationale": "brand_correction_rebuild",
+        "answer": "En mi base de documentación tengo las siguientes centrales **Kidde Commercial**:\n\n---\n\n## Serie NC — Centrales convencionales\n\nLos modelos de la Serie NC disponibles en los fragmentos son [F3][F4][F5]:\n\n- **NC-PF2** — 2 zonas [F1]\n- **NC-PF4** — 4 zonas\n- **NC-PF8** — 8 zonas\n- **NC-PF2-SC** — variante SC, 2 zonas\n- **NC-PF4-SC** — variante SC, 4 zonas\n- **NC-PF8-SC** — variante SC, 8 zonas\n\nCaracterísticas comunes de la Serie NC [F1]:\n- Hasta **32 dispositivos por zona** [F6]\n- **2 salidas de relé supervisadas** para sirenas y enrutamiento de incendios\n- **2 salidas de relé convencionales** para condiciones comunes de incendio y falla\n- **2 entradas configurables** por el usuario\n- Resistencia de fin de línea de zona: **4,7 kΩ** [F6]\n- Resistencia de línea máxima: **40 Ω** (zonas mixtas) / **55 Ω** (zonas automáticas/manuales) [F6]\n- Aprobaciones: **EN54-2, EN54-4, CE** [F1]\n- Conectable en red hasta **64 zonas** [F1]\n- Firmware versión **2.3 o posterior** [F3][F4]\n\n---\n\n## Serie 2X-A — Centrales direccionables\n\nLos modelos disponibles son [F10]:\n\n- **2X-A**\n- **2X-AT-F2** — 2 lazos\n- **2X-AT-F2-FB**\n- **2X-AT-F2-S** — 2 lazos, caja pequeña, con pantalla táctil de 7 pulgadas [F2]\n\nCaracterísticas principales [F2]:\n- **2 bucles** con hasta **256 dispositivos** en **512 zonas**\n- **4 salidas supervisadas** de sirena/enrutamiento de incendios (programables libremente)\n- **2 salidas de relé convencionales** y **2 salidas supervisadas**\n- **2 entradas configurables** por el usuario\n- Red máxima de **64 nodos / 256 lazos**\n- PAK de alta potencia disponible: de **500 mA** a **800 mA** por bucle [F2]\n- Firmware versión **5.0 o posterior** [F10]\n\n---\n\n¿Sobre qué modelo concreto necesitas información?\n\nFuentes: nc-pf2-161721-es (sin revisión registrada); bcn-3100018-es_r002 (rev. R002, 13MAY25); bcn-3100017-es_r002 (rev. R002, 13MAY25); G_INST_KIDDE_NC_PFx_202502_ES (rev. 2025.2, 2025-02-01); 2x-at-f2-s-161721-es (sin revisión registrada); 00-3280-505-4009-04 (rev. R004, 08MAY25)"
+      },
+      {
+        "rep": 1,
+        "ok": true,
+        "rationale": "brand_correction_rebuild",
+        "answer": "Aquí tienes los equipos **Kidde Commercial** que tengo documentados en mi base:\n\n---\n\n## Centrales convencionales — Serie NC\n\n- **NC-PF2** — Central convencional, **2 zonas**, hasta 32 dispositivos por zona [F1]\n- **NC-PF4** — Central convencional, 4 zonas [F9]\n- **NC-PF8** — Central convencional, 8 zonas [F9]\n- **NC-PF2-SC** — Variante SC de 2 zonas [F9]\n- **NC-PF4-SC** — Variante SC de 4 zonas [F9]\n- **NC-PF8-SC** — Variante SC de 8 zonas [F9]\n\n---\n\n## Centrales y repetidores direccionables — Serie 2X-A\n\n**Centrales:**\n- **2X-AT-F2-S** — Central direccionable con pantalla táctil de 7\", **2 lazos**, hasta 256 dispositivos / 512 zonas, caja pequeña [F2]\n- **2X-AT-F2-FB-P** — Central direccionable con pantalla táctil, controles de bomberos, **2 lazos**, PSU de **10 A**, caja grande [F8]\n- **2X-AF2-SCFB-S** — Central direccionable con interfaz escandinava integrada, **2 lazos**, caja pequeña [F7]\n\n**Repetidores:**\n- **2X-AFR-C** — Repetidor direccionable compacto, montaje en carril DIN, sin bucles direccionables propios [F5]\n- **2X-AT-FR-FB-S** — Repetidor con pantalla táctil de 7\" y controles de bomberos, caja pequeña [F6]\n\n---\n\n**Nota:** Los fragmentos recuperados cubren principalmente las fichas de producto (datasheets) y manuales de instalación/funcionamiento de las series NC y 2X-A. Puede haber otros modelos Kidde no presentes en mi base actual.\n\nFuentes: nc-pf2-161721-es (sin rev.); 2x-at-f2-s-161721-es (sin rev.); 00-3280-505-4009-04 r004 (08MAY25); 00-3280-501-4009-05 r005 (16FEB26); DS_KIDDE_KIT_2X_AFR_C_09 (2024.12); DS_KIDDE_2X_AT_FR_FB_S (2026.02); 2x-af2-scfb-s-161721-es (sin rev.); 2x-at-f2-fb-p-161721-es (sin rev.); BCN-3100018-ES r002 (13MAY25); BCN-3100017-ES r002 (13MAY25)"
+      },
+      {
+        "rep": 2,
+        "ok": true,
+        "rationale": "brand_correction_rebuild",
+        "answer": "Aquí tienes los equipos **Kidde Commercial** que tengo documentados en mi base:\n\n---\n\n## Centrales convencionales — Serie NC\n\n- **NC-PF2** — Central convencional, **2 zonas**, hasta 32 dispositivos por zona [F1]\n- **NC-PF4** — Central convencional, 4 zonas [F7][F8][F9]\n- **NC-PF8** — Central convencional, 8 zonas [F7][F8][F9]\n- **NC-PF2-SC** — Variante SC de 2 zonas [F7][F8][F9]\n- **NC-PF4-SC** — Variante SC de 4 zonas [F7][F8][F9]\n- **NC-PF8-SC** — Variante SC de 8 zonas [F7][F8][F9]\n\n---\n\n## Centrales direccionables — Serie 2X-A / 2X-AT\n\n- **2X-AT-F2-S** — Central direccionable con pantalla táctil, **2 lazos**, caja pequeña [F2]\n- **2X-AT-F2-FB-P** — Central direccionable con pantalla táctil y controles de bomberos, **2 lazos**, con fuente de alimentación mayor (**10A PSU**) [F6]\n- **2X-AF2-SCFB-S** — Central direccionable con interfaz escandinava y controles de brigada, **2 lazos**, caja pequeña [F5]\n\nTodos los modelos direccionables de 2 lazos admiten hasta **256 dispositivos en 512 zonas** [F2][F5][F6].\n\n---\n\n## Repetidores — Serie 2X-A / 2X-AT\n\n- **2X-AFR-C** — Repetidor direccionable compacto, montaje en carril DIN, sin fuente de alimentación de red (alimentación redundante **24 VCC**) [F3]\n- **2X-AT-FR-FB-S** — Repetidor con pantalla táctil de **7 pulgadas** y controles de bomberos, caja pequeña [F4]\n\n---\n\n**Nota:** Esta lista refleja únicamente los productos con documentación disponible en mi base. Pueden existir más modelos Kidde Commercial no incluidos aquí.\n\nFuentes: nc-pf2-161721-es (sin revisión registrada); 2x-at-f2-s-161721-es (sin revisión registrada); DS_KIDDE_KIT_2X_AFR_C_09_202412_ES (rev. 2024.12); DS_KIDDE_2X_AT_FR_FB_S_202602_ES (rev. 2026.2); 2x-af2-scfb-s-161721-es (sin revisión registrada); 2x-at-f2-fb-p-161721-es (sin revisión registrada); bcn-3100018-es_r002 (rev. R002, 13MAY25); bcn-3100017-es_r002 (rev. R002, 13MAY25); 00-3280-505-4009-04_r004 (rev. R004, 08MAY25)"
+      },
+      {
+        "rep": 3,
+        "ok": true,
+        "rationale": "brand_correction_rebuild",
+        "answer": "En mi base de documentación tengo las siguientes centrales **Kidde Commercial**:\n\n---\n\n## Serie NC — Centrales convencionales\n\nLos modelos de la Serie NC disponibles en los fragmentos son [F3][F4][F5]:\n\n- **NC-PF2** — 2 zonas [F1]\n- **NC-PF4** — 4 zonas\n- **NC-PF8** — 8 zonas\n- **NC-PF2-SC** — variante SC, 2 zonas\n- **NC-PF4-SC** — variante SC, 4 zonas\n- **NC-PF8-SC** — variante SC, 8 zonas\n\nCaracterísticas generales de la Serie NC [F1]:\n- Hasta **32 dispositivos por zona** [F6]\n- **2 salidas de relé supervisadas** para sirenas y enrutamiento de incendios\n- **2 salidas de relé convencionales** para condiciones comunes de incendio y falla\n- **2 entradas configurables** por el usuario\n- Ampliable con placas de relés auxiliares (4 relés estándar o 4 relés supervisados) [F1]\n- Conectable en red hasta **64 zonas** [F1]\n- Aprobación **EN54:2, EN54:4 y CE** [F1]\n\n---\n\n## Serie 2X-A — Centrales direccionables\n\nLos modelos disponibles son [F10]:\n\n- **2X-A**\n- **2X-AT-F2** — con pantalla táctil de 7 pulgadas, 2 lazos\n- **2X-AT-F2-FB**\n- **2X-AT-F2-S** — versión en caja pequeña [F2]\n\nCaracterísticas generales de la Serie 2X-A [F2]:\n- **2 lazos** con hasta **256 dispositivos** en **512 zonas**\n- **4 salidas supervisadas** de sirena/enrutamiento de incendios (programables libremente)\n- **2 salidas de relé convencionales** y **2 salidas supervisadas**\n- **2 entradas configurables** por el usuario\n- Red máxima de **64 nodos / 256 lazos**\n- Pantalla táctil de **7 pulgadas** (modelos AT) [F2]\n- Conectividad **USB y Ethernet** [F2]\n- Firmware **5.0 o posterior** [F10]\n\n---\n\n¿Sobre cuál de estas centrales necesitas información? Dime el modelo concreto y qué aspecto te interesa (instalación, programación, conexionado, mantenimiento...).\n\nFuentes: nc-pf2-161721-es (sin revisión registrada); bcn-3100018-es_r002 (rev. R002, 13MAY25); bcn-3100017-es_r002 (rev. R002, 13MAY25); 2x-at-f2-s-161721-es (sin revisión registrada); 00-3280-505-4009-04 (rev. R004, 08MAY25)"
+      }
+    ]
+  },
+  "fallos": []
+}

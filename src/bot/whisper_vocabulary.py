@@ -15,9 +15,12 @@ Strategy:
 """
 
 import logging
+import os
 import re
 from collections.abc import Callable
 from functools import lru_cache
+
+from ..orchestrator.contracts import Asuncion
 
 logger = logging.getLogger(__name__)
 
@@ -41,33 +44,106 @@ logger = logging.getLogger(__name__)
 # CORTA a propósito): aquí **sólo entra lo OBSERVADO en una transcripción real**.
 # Nada de confusiones hipotéticas: cada entrada inventada es una forma nueva de
 # corromper una pregunta que estaba bien. Al añadir una, se cita dónde se vio.
-_CONFUSIONES_OBSERVADAS: tuple[tuple[str, str], ...] = (
-    # 17-ago-2026, piloto: audio preguntando por Detnov → «Death Knob».
-    (r"death\s+knob", "Detnov"),
+#
+# (s332 §3) Fila = (patron, correcto, modo, case_sensitive, flag, cita).
+#   · `modo`      'reescrito' sustituye el texto; 'aviso' lo deja INTACTO y sólo
+#                 declara la confusión (para confusiones con lectura legítima).
+#   · `case_sensitive`  el IGNORECASE es POR FILA: global cazaría el «id» español
+#                 (imperativo de «ir») en la fila `ID`.
+#   · `flag`      None = fila SIEMPRE activa (la conducta desplegada en s324f);
+#                 'ASR_AVISOS' = fila gobernada por el lever (default off).
+_CONFUSIONES_OBSERVADAS: tuple[tuple[str, str, str, bool, str | None, str], ...] = (
+    (r"death\s+knob", "Detnov", "reescrito", False, None,
+     "17-ago-2026 piloto: audio Detnov→«Death Knob»"),
+    (r"bqide", "Kidde", "reescrito", False, "ASR_AVISOS",
+     "query_logs 02055e5d 21-ago: audio Kidde→«BQide»"),
+    # Sin IGNORECASE y sólo aislada: `\b` no corta ID3000/ID3002/IDNet (letra→dígito
+    # y letra→letra no son frontera), y «id» minúscula queda fuera. Modo `aviso`
+    # porque la familia ID existe de verdad: reescribir sería corromper al legítimo.
+    (r"ID", "Kidde", "aviso", True, "ASR_AVISOS",
+     "query_logs 2b3febb6/838e71a6 21-ago (misma conversación) + testimonio de Alberto"),
 )
 
-_CONFUSIONES = tuple(
-    (re.compile(rf"\b{patron}\b", re.IGNORECASE), correcto)
-    for patron, correcto in _CONFUSIONES_OBSERVADAS
-)
+
+def _compilar(filas) -> tuple[tuple[re.Pattern[str], str, str, str | None], ...]:
+    """Compila la tabla respetando `case_sensitive` POR FILA. `modo` es enum cerrado:
+    un valor no reconocido revienta al importar, no en mitad de un turno."""
+    compiladas = []
+    for patron, correcto, modo, case_sensitive, flag, _cita in filas:
+        if modo not in ("reescrito", "aviso"):
+            raise RuntimeError(
+                f"modo de fila no reconocido: {modo!r} (reescrito|aviso) — fail-fast")
+        banderas = 0 if case_sensitive else re.IGNORECASE
+        compiladas.append((re.compile(rf"\b{patron}\b", banderas), correcto, modo, flag))
+    return tuple(compiladas)
+
+
+_CONFUSIONES = _compilar(_CONFUSIONES_OBSERVADAS)
+
+
+def asr_avisos_on() -> bool:
+    """Lever `ASR_AVISOS` (s332 §5): gatea las filas NUEVAS de la tabla y las líneas
+    🏷/ℹ️ de la confirmación de voz. Default off = conducta servida byte-idéntica (la
+    fila `death knob` de s324f sigue corrigiendo, y sigue muda).
+
+    Se lee en CADA llamada, sin caché de módulo: un flip en Railway togglea sin
+    restart. Parser ESTRICTO (patrón `mismatch_answer_activo`/`_strict_on_off`): un
+    typo no puede dejar el lever a medias EN SILENCIO.
+    """
+    raw = (os.getenv("ASR_AVISOS", "") or "").strip().lower()
+    if raw in ("", "off"):
+        return False
+    if raw == "on":
+        return True
+    raise RuntimeError(f"ASR_AVISOS={raw!r} no reconocido (on|off) — fail-fast")
+
+
+def corregir_transcripcion_con_asunciones(texto: str) -> tuple[str, tuple[Asuncion, ...]]:
+    """Aplica la tabla y DEVUELVE, además del texto, las asunciones que hizo.
+
+    El único llamador es `normalize_voice_query`, así que el contexto `source=voice`
+    es por CONSTRUCCIÓN: un turno ESCRITO no pasa por aquí, y por tanto la fila
+    `ID`→Kidde no puede tocarlo (la restricción «solo voz» de la spec no necesita
+    un parámetro que otro llamador podría rellenar mal).
+
+    Una fila que casa varias veces produce UNA sola asunción, con la PRIMERA
+    aparición como `detectado`: el aviso nombra lo que el técnico oyó decir a
+    Whisper, no un recuento.
+    """
+    if not texto:
+        return texto, ()
+    avisos = asr_avisos_on()
+    asunciones: list[Asuncion] = []
+    for patron, correcto, modo, flag in _CONFUSIONES:
+        if flag is not None and not avisos:
+            continue
+        match = patron.search(texto)
+        if match is None:
+            continue
+        detectado = match.group(0)
+        if modo == "reescrito":
+            texto = patron.sub(correcto, texto)
+        if avisos:
+            asunciones.append(Asuncion(
+                kind="marca_asr", detectado=detectado, asumido=correcto, modo=modo))
+    return texto, tuple(asunciones)
 
 
 def corregir_transcripcion(texto: str) -> str:
     """Repara confusiones fonéticas CONOCIDAS de Whisper sobre nombres del dominio.
 
-    Se aplica a la transcripción antes de que nadie la use, así que la corrección
-    llega tanto a la búsqueda como a lo que se registra: si sólo se arreglara para
-    buscar, el histórico guardaría la pregunta corrupta y el diagnóstico
-    posterior mentiría.
+    Se aplica a la transcripción antes de que nadie la use, así que la forma
+    corregida llega a la búsqueda Y a la columna `query` de `query_logs`; el ASR
+    crudo queda VISIBLE en la confirmación 🎤 y en la columna `transcription`. Las
+    dos mitades son el contrato: se busca por lo corregido y se audita por lo dicho.
 
     Conservadora por construcción: límites de palabra, sin tocar nada que no esté
     en la tabla, y devuelve la entrada tal cual si no hay coincidencia.
+
+    Envoltorio de compatibilidad de `corregir_transcripcion_con_asunciones` (s332):
+    conserva la firma para quien sólo quiere el texto.
     """
-    if not texto:
-        return texto
-    for patron, correcto in _CONFUSIONES:
-        texto = patron.sub(correcto, texto)
-    return texto
+    return corregir_transcripcion_con_asunciones(texto)[0]
 
 
 # Static vocabulary base — manufacturer names + jargon that Whisper-es misreads.

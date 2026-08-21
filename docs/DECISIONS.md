@@ -9772,9 +9772,126 @@ y la línea del juez se imprime como **«PROPUESTO (NO es lo aplicado)»** (fue 
 ids que nunca se aplicaron). El v3 además pre-clasifica las 67 filas vivas por los patrones que él
 ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (suyas, una a una).
 
+## DEC-263 (s331c, 21 ago 2026) — Verificación DEC-099 EN PRODUCCIÓN: la clase amnésica del incidente Kidde está MUERTA; y la mañana deja dos observaciones que activan trabajo diferido
+
+- **Fecha**: 21 ago 2026, mañana. **Impacto**: cierre de s331 (DEC-257/258). Flip ejecutado por
+  Alberto 07:37Z (4 vars: F1_RESOLVE_GOVERNED, F1_MENTION_PRECEDENCE, GENERATOR_NO_REASK,
+  IDENTITY_FETCH — verificadas por sonda a la API de Railway; deploy SUCCESS = interlock de boot
+  pasado; rollback = quitar las 4).
+- **Decide (1) — VERIFICADO**: Alberto repitió la conversación del 18-ago en Telegram REAL
+  (grafía ASR idéntica «2X-AF1-FBS», por VOZ). Resultado, con `turn_identity` estampado en las 3
+  filas (`status=on`, `presence=vigente`): T1 bindea la variante (`resolved_this_turn`) y declara
+  alcance honesto (evidencia de la hermana S, «sin controles de Bomberos, verifica»); T2 «¿cómo
+  la programo?» — EL turno que el 18-ago produjo «¿qué variante exacta tienes instalada? (mira la
+  etiqueta)» — responde con clarify de ASPECTO (`carried`, cero re-pregunta de identidad); T3
+  «el lazo y sus dispositivos» entrega contenido del manual de FAMILIA (128 dispositivos,
+  Excellence, Clase A/B, 500→800 mA) con alcance declarado. Recibo:
+  `evals/s331_dec099_verificacion_prod_v1.md` (ids de query_logs incluidos).
+- **Decide (2) — dos hallazgos de la conversación previa del catálogo (misma mañana)**:
+  (a) **ASR destroza marcas** — «Kidde» llegó como «BQide» (y plausiblemente «ID»): la clase
+  DEC-233, que Alberto adjudicó diferir a «tabla de confusiones OBSERVADAS» con 1 observación;
+  con ≥3 ya hay masa crítica → **activar el fix diferido = GO pendiente de Alberto** (config
+  gobernada consumida en `normalize_voice_query`, ASR crudo siempre visible). NADA de s331 se
+  rompió: el detector nunca vio «Kidde». (b) **gap nuevo: corrección de MARCA sin estado**
+  («me refería a Kidde» tras turno sin producto → standalone sin modelos → retrieval de la
+  meta-frase → plantilla vacía); fix candidato: reconstruir `last_query` con la marca corregida,
+  patrón de la corrección de producto — diseño con mini-gate, GO pendiente.
+- **Pendientes que esta DEC deja armados**: los dos GO de arriba · residuales post-flip de
+  `s331_m4_gates_resultado_v1.md` (se observan con tráfico del piloto) · graduación de las 4
+  flags cuando asienten (patrón DEC-210/211, censo vigila).
+- **Relacionado**: DEC-257·258 (el ciclo) · DEC-233 (la clase ASR y su fix diferido) · DEC-099
+  (el patrón de verificación) · DEC-210/211 (graduación de flags).
+
+## DEC-264 (s332, 21 ago 2026) — Las asunciones se DECLARAN: tabla ASR con modo por fila + red F1 de corrección de marca; y el dúo mató el oráculo antes de nacer
+
+- **Fecha**: 21 ago 2026, mañana (mismo día que el GO). **Impacto**: MEDIO-ALTO en
+  serving/voz/conversación. **Flags default-off** (`ASR_AVISOS`, `F1_MARCA_CORRECCION`) —
+  byte-idéntico probado (GC0 7/7); el flip es de Alberto. Dúo ts=2026-08-21T08:26:35
+  (Sol xhigh 7 + Fable 6, emparejados): **13/13 con sustancia, 0 FP** — adjudicación
+  completa en `evals/s332_correcciones_propuesta_v2.md` §9 (la v2 es la spec vinculante).
+- **El mandato** (Alberto, GO doble): activar la tabla de confusiones ASR (clase DEC-233,
+  ya 3 confusiones distintas observadas en 4 días) **con aviso al usuario** —«estoy
+  incluyendo productos sobre X, que no es lo que detecté; si no es así, dímelo»— y que ese
+  aviso sea **GENERALIZABLE**; y arreglar la corrección-de-marca-sin-estado
+  («me refería a Kidde» → plantilla vacía, fila `576a7ef9`).
+- **Decide (1) — primitiva `Asuncion`** (contracts.py; kind/detectado/asumido/modo, enums
+  cerrados): cualquier mecanismo que sirva algo distinto de lo detectado la emite y la capa
+  BOT la renderiza DETERMINISTA (cero LLM; cubre también rutas de plantilla): confirmación
+  de voz (🏷 reescrito / ℹ️ aviso) y sufijo del answer (corrección, citando la pregunta
+  BASE — un rebuild rancio queda visible, R8). Trace: sección `asunciones` tri-estado
+  REQUERIDA (patrón intent/turn_identity); `detectado` JAMÁS al trace (allowlist s331).
+  De paso, `contracts` deja de importar de la política (anotación diferida) — superficie de
+  contratos sin dependencias, cazado por E1 cuando el import de E2 cerraba ciclo.
+- **Decide (2) — tabla con MODO y CASE por fila**: `bqide→Kidde` reescrito (02055e5d, sin
+  lectura legítima) · `ID↔Kidde` **modo AVISO case-SENSITIVE** (2b3febb6+838e71a6 misma
+  conversación + testimonio; ID3000/ID3002 son familia REAL de Notifier — reescribir
+  corrompería al usuario legítimo, y el «id» minúscula español no dispara) · death-knob
+  intacta. El docstring contradictorio del módulo se corrigió (Fable-1).
+- **Decide (3) — red F1** (`brand_correction_rebuild`): cue-léxico gobernado
+  (`correction_lexicon_v1.yaml`) + regla de PLANTILLA cerrada (el ancla ^…$ es el criterio;
+  «no me refería a…» y «…, ¿y el lazo?» no casan por construcción) + ventana de `last_turn_at`
+  sin exigir modelos; STANDALONE con la pregunta base anotada. `TurnResolution` gana
+  `asunciones` y `state_query_override` (la transición guarda la pregunta ORIGINAL — una
+  meta-frase jamás se vuelve base de rebuilds, Sol-3; espejo MT). **Dos niveles**: la tabla
+  PREVIENE (T1, con atajo de catálogo intacto) y la red RECUPERA lo no tabulado vía RAG con
+  contexto — el «oráculo-de-plan» de la v1 murió en el dúo (dos dueños + no-puro, Sol-1
+  crítico confirmado contra turn_plan.py).
+- **Medido**: GC0 7/7 (off = hoy) · GC1 7/7 ON re-jugando la mañana real — BQide reescrito
+  con aviso, ID intacto con aviso, y «me refería a Kidde» sirve **contenido Kidde real con
+  citas y cero cross-brand** (leído) · GC3 4/4 estable · MT 52/52 off Y on · suite completa
+  verde con exit real (foto E1+E2: 4817/0; final estampada en el commit de cierre). Recibos:
+  `s332_gc_v1.json` + `s332_gc_resultado_v1.md`.
+- **Proceso**: advisor/executor con worktree compartido — E1 (tabla/voz/contracts) y E2
+  (rama F1/léxico/espejo) en PARALELO sobre ficheros disjuntos, coordinados por la spec;
+  E1 cazó y arregló de raíz el ciclo de imports que el comentario de E2 negaba (el analizador
+  cuenta imports lazy), y corrió la suite del árbol CONJUNTO. Ambos con exits reales citados.
+- **Pendientes que deja armados**: flip de las 2 vars (Alberto) + verificación DEC-099 por
+  VOZ (guía en `s332_gc_resultado_v1.md`) · R4 aviso-ID se re-adjudica con tráfico ·
+  graduación DEC-210/211 cuando asienten · R8 (atajos no refrescan estado F1) queda como
+  deuda declarada aparte.
+- **Relacionado**: DEC-233 (la clase ASR y la disciplina de la tabla) · DEC-257/258/263
+  (s331, el canal turn_identity que esto extiende) · DEC-210/211 (graduación) · Sol-3/R8
+  (asimetría de estado en atajos).
+
+## DEC-265 (s332b, 21 ago 2026) — La primera conversación real cazó la invitación sin receptor: «sí, dije Kidde» caía en vacío; el léxico crece por observación y la plantilla gana cabeza de polaridad
+
+- **Fecha**: 21 ago 2026, mediodía. **Impacto**: MEDIO (conducta del lever recién flipado).
+  Flip de Alberto ~10:33Z (2 vars, deploy `5951b64`); primera prueba real 10:40Z.
+- **Lo observado** (`322b4e0a`/`57b8d482`): T1 por voz — Whisper volvió a convertir
+  «Kidde»→«ID» (3ª vez hoy) y el nivel-aviso hizo EXACTAMENTE lo diseñado (respuesta ID
+  intacta + ℹ️ «Si dictaste Kidde, dímelo» + `asunciones` estampada en trace, primera fila
+  en producción). T2 — Alberto respondió a ESA invitación: «sí, dije Kidde» → plantilla
+  vacía. La red no disparó: sin cue «decir»-en-pasado y sin tolerancia al «sí, » inicial.
+  Es la clase R1 DECLARADA en v2 §7 (léxico infra-cubre; crece por observación) — el
+  primer día de tráfico la ejercitó. Meta-lección: la invitación de un aviso DEFINE las
+  respuestas que hay que saber recibir; se diseñó la invitación sin diseñar su receptor.
+- **Decide (1) — léxico**: + `dije` · `he dicho` · `i said`, con cita 57b8d482 en el
+  header (disciplina DEC-233: solo lo observado).
+- **Decide (2) — cabeza de polaridad en la plantilla**: un token del léxico GOBERNADO de
+  confirmación puede preceder al cue — afirmación con separador libre; negación SOLO con
+  corte de cláusula `[,:]` (fuente `_NEGATION_CUES`, la polaridad s331): «no, dije Kidde»
+  corrige; «no dije Kidde» y «no me refería a Kidde» siguen sin casar (casos congelados
+  verdes). El «no» pelado NO entra al léxico compartido (cambiaría la regla 3 del pending).
+- **Verificado**: 5 tests nuevos del caso y sus polaridades (29/29 + pending intacto);
+  replay e2e del hilo exacto ⇒ `brand_correction_rebuild` + respuesta de centrales Kidde
+  sin plantilla ni cross-brand; suite completa verde (exit real en el commit).
+- **Declarado sin construir**: el «sí» PELADO tras el aviso (sin marca) sigue sin receptor
+  — exigiría estado pendiente-de-aviso (patrón pending aplicado al aviso ASR); se diseña
+  con mini-gate si el tráfico lo observa. **Pendiente**: re-verificación DEC-099 por voz
+  (Alberto repite la conversación) → estampará este lever como VERIFICADO.
+- **Relacionado**: DEC-264 (el lote) · DEC-233 (disciplina de observación) · recibo
+  `evals/s332b_fix_invitacion_v1.md`.
+
 ---
 
-## DEC-263 (s331, 21 ago 2026) — La pasada completa de Alberto, medida antes que interpretada: el 40% de su esfuerzo eran filas duplicadas, y el patrón que el packet le vendía como «lo firmaste 9 veces» acertaba el 60%
+> **Nota de numeración (colisión resuelta en el merge, 21-ago).** Estas dos decisiones nacieron como
+> DEC-263 y DEC-264 en la rama `claude/peaceful-heisenberg-3e40m9`, en paralelo a la sesión s332, que
+> mergeó antes usando esos mismos números para otra cosa. Se renumeran aquí a **DEC-266** y
+> **DEC-267**; es la SEGUNDA vez que pasa (la primera fue s331 con 257/258). El commit del merge lo
+> declara y las referencias cruzadas del repo quedan actualizadas.
+---
+
+## DEC-266 (s331d, 21 ago 2026) — La pasada completa de Alberto, medida antes que interpretada: el 40% de su esfuerzo eran filas duplicadas, y el patrón que el packet le vendía como «lo firmaste 9 veces» acertaba el 60%
 
 **Decisión (impacto ALTO)**: convertir las 57 anotaciones de Alberto sobre el packet v3 en (a) diez
 reglas nuevas **R9–R18** con forma legible por máquina, (b) la derivación de sus 34 decisiones en
@@ -9911,7 +10028,7 @@ la MARCA, no sólo sobre la grafía.
 
 ---
 
-## DEC-264 (s331, 21 ago 2026) — La Wiki de modelos es una VISTA del catálogo gobernado, no una segunda base: y su primer censo destapa 245 manuales que no atestan a nadie
+## DEC-267 (s331d, 21 ago 2026) — La Wiki de modelos es una VISTA del catálogo gobernado, no una segunda base: y su primer censo destapa 245 manuales que no atestan a nadie
 
 **Decisión (impacto MEDIO)**: construir la «Wiki de modelos» que Alberto pidió como **pestaña de
 sólo lectura** del panel (`/catalogo`), servida desde `data/catalog/*.jsonl` — la misma estructura
@@ -9947,3 +10064,4 @@ justo el agujero que hay que ver); permitir edición desde el panel (se salta el
 **Verificado**: 15 tests nuevos verdes; el gate de geometría corrido **con navegador real** cubre
 `/catalogo` y la ficha a 390/768/1440 px sin desbordar; 132 tests del panel y 70 de contrato de
 imports y `catalog_store`, verdes.
+

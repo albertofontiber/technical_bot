@@ -26,43 +26,47 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s331 — 21 ago 2026; el packet E1 CERRADO, la Wiki de modelos en pie y el aprendizaje de la adjudicación convertido en reglas)
+## Estado actual (21 ago 2026 — DOS hilos: correcciones/asunciones VISIBLES listas para ship, y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
-**Alberto anotó las 56 filas vivas del packet v3: el packet E1 queda CERRADO.** Su pasada se midió
-antes de interpretarse (`scripts/s331_censo_anotaciones.py`) y el reparto reorienta el trabajo:
-57 anotaciones → **34 decisiones distintas**, **23 duplicadas (40%, `morley:tg` ×15)**, 12 puro «OK»
-y **22 correcciones**. La medida del acierto de lo que el packet le recomendaba **invalidó la
-propuesta de automatización que yo iba a hacer**: P4 acierta 7/7 pero **P1 60% y P3 44%** sobre la
-población del v3 — el «lo firmaste 9 veces» que el packet imprimía era una tasa base heredada del
-v2. Al descomponer los fallos, **3 de 6 eran incompletos, no equivocados**: el juez sabe deletrear y
-no sabe cuándo ha terminado, porque cada fila pregunta UNA cosa donde el documento plantea SEIS.
-El **dúo r40 (Sol crítico ×2 + Fable)** corrigió dos claims mías antes de que salieran: la evidencia
-del K=5 estaba mal leída (`v5/5` son votos VÁLIDOS, no convergencia — el panel se partió 3-2) y
-«mismo id = misma decisión» es falso (3 ids llevan decisiones distintas por documento, así que la
-clave de agrupación es **id × operación**).
 
-**Lo que queda construido** (DEC-263, DEC-264):
-- **Reglas R9–R18** en `data/catalog/reglas_clasificacion.json` — legibles por el generador, cada una
-  anclada en la anotación de Alberto que la hizo nacer. La más cara fue R10 (el software es producto
-  consultable: **18 de sus 57 anotaciones**).
-- **Wiki de modelos** en `/catalogo` del panel: vista de sólo lectura sobre el catálogo gobernado.
-  1.024 modelos consumibles en 36 marcas · 55 sin manual · 601 en cuarentena · **245 manuales
-  huérfanos, 184 de ellos sólo porque todos sus ids siguen en cuarentena**.
-- **Derivación con guardarraíl** (`scripts/s331_derivar_pasada.py`): 34 ids → 29 operaciones listas,
-  2 a la espera de una frase de Alberto, 3 bloqueadas. Falla si una nota suya se queda sin derivar.
-- **Rumbo de automatización** (`evals/s331_automatizacion_propuesta_v2.md`): descomponer la fila en
-  Q1–Q6 con umbral medido por sub-pregunta; Nivel 0 (agrupar por id) se lleva el 40% sin tocar
-  ningún clasificador.
+**s332 (DEC-264) — los dos GO de la mañana, ejecutados y medidos el mismo día**: tabla ASR con
+modo/case/cita por fila (bqide→Kidde reescrito con AVISO; ID↔Kidde solo-aviso case-sensitive —
+ID3000 es familia real de Notifier; el «id» español no dispara) + primitiva `Asuncion`
+generalizable con render DETERMINISTA en bot (confirmación 🏷/ℹ️ + sufijo citando la pregunta
+base) + red F1 `brand_correction_rebuild` («me refería a Kidde» reconstruye la pregunta anterior;
+`state_query_override` evita que la meta-frase sea base) + sección `asunciones` tri-estado en
+trace. Dúo 13/13-0FP mató el oráculo-de-plan (v2 §9 = adjudicación); gates GC0 7/7 (off=hoy) ·
+GC1 7/7 (la mañana re-jugada: contenido Kidde real donde había plantilla vacía) · GC3 4/4 ·
+MT 52/52 off/on. **SHIP LISTO: Railway `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on` (flip de
+Alberto) → verificación DEC-099 por VOZ** (guía: `evals/s332_gc_resultado_v1.md`). Proceso:
+advisor/executor en paralelo sobre worktree compartido (E1 cazó de raíz un ciclo de imports).
 
-**Qué sigue**: (1) las 3 frases de Alberto en `docs/DECISIONES_PENDIENTES_ALBERTO.md` (paraguas 2X-A,
-namespace EFS/EM 8, gama WMSOU); (2) su autorización para añadir `accessory-of` a `relations.jsonl`,
-que bloquea dos filas ya adjudicadas; (3) aplicar las 29 operaciones listas con gate; (4) medir los
-tres detectores deterministas (R9/R11/R14) sobre los 69 documentos sin `doc_map`, que es población
-acotada, antes de enchufar nada.
+**s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
+**las 56 filas vivas** del v3. Su pasada se midió antes de interpretarse
+(`scripts/s331_censo_anotaciones.py`): 57 anotaciones → **34 decisiones distintas**, 23 duplicadas
+(`morley:tg` ×15), 12 puro «OK», 4 «OK + matiz», **18 correcciones**. La medida **invalidó la
+propuesta de automatización que yo iba a hacer** — P4 acierta 7/7 pero **P1 60% y P3 44%** sobre esta
+población; el «lo firmaste 9 veces» del packet era una tasa base heredada del v2. Al descomponer, la
+mayoría de fallos eran **incompletos, no equivocados**: cada fila pregunta UNA cosa donde el
+documento plantea SEIS. **Dúo r40: 12 hallazgos, 12 confirmados, 0 FP, Fable «No SÓLIDO»** — Sol
+atacó la EVIDENCIA (mi lectura del K=5 era falsa: `v5/5` son votos válidos y el panel se partió 3-2;
+y «mismo id = misma decisión» es falso → la clave es **id × operación**) y Fable atacó el INSTRUMENTO
+(mi censo usaba dos definiciones de «acuerdo», inflando las correcciones de 18 a 22 a mi favor).
+Queda: **R9–R18** en `data/catalog/reglas_clasificacion.json` (la más cara, R10: el software es
+producto consultable — 18 de sus 57 anotaciones) · **Wiki de modelos** en `/catalogo` (1.024 modelos
+en 36 marcas · 55 sin manual · **245 manuales huérfanos, 184 sólo por cuarentena**) · **derivación
+con guardarraíl** (34 ids → 29 listas, 2 a la espera de una frase, 3 bloqueadas; falla si una nota
+suya se cae) · **rumbo Q1–Q6** con umbral medido por sub-pregunta (auto-aplicación hoy: ninguna).
+
+**Qué sigue en este hilo**: (1) las 3 frases de `docs/DECISIONES_PENDIENTES_ALBERTO.md` (paraguas
+2X-A, namespace EFS/EM 8, gama WMSOU); (2) su autorización para `accessory-of` en `relations.jsonl`,
+que bloquea dos filas ya adjudicadas; (3) aplicar las 29 operaciones con gate; (4) medir los tres
+detectores (R9/R11/R14) sobre 69 residuo + control limpio + los nuevos, con el coste del ground
+truth presupuestado.
 
 ## Estado anterior (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 
-**s331 (DEC-259) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
+**s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
 entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
 ARRASTRAR —hint solo bindeados—, con la re-pregunta amnésica también en PLANTILLA sin LLM),
 diseño CERRADO en 6 rondas de dúo (v6 = spec vinculante, §11 = checklist B1-B11; corte
@@ -132,15 +136,21 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
-0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-259/258; NO bloquea el
-   piloto): observabilidad + boot CABLEADOS y gates M4 COMPLETOS (G1 PASS todos los brazos con 2
-   bugs cazados y arreglados EN el gate · G2 0 regresiones reales adjudicadas leyendo, ventana
-   sucia declarada · MT 52/52 · G3 ON 6/6+6/6 · G4 prod byte-idéntica verificada). **Lote Railway
-   worker = 4 vars**: `F1_RESOLVE_GOVERNED=on` + `F1_MENTION_PRECEDENCE=on` +
-   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-260).
-   **Tras el flip: verificación DEC-099 = re-lanzar la conversación Kidde real en Telegram.**
-   Rollback = quitar las 4. Residuales post-flip en `evals/s331_m4_gates_resultado_v1.md`;
+0b. **s331 variantes-en-hilo — ✅ SHIPPED Y VERIFICADO EN PRODUCCIÓN** (DEC-257/258/**263**):
+   flip de Alberto 21-ago 07:37Z (4 vars, deploy SUCCESS, interlock pasado) y **verificación
+   DEC-099 CERRADA a las 07:50Z**: la conversación real re-lanzada por VOZ — T2 «¿cómo la
+   programo?» responde con clarify de ASPECTO (cero re-pregunta de identidad) y T3 entrega el
+   manual de FAMILIA; `turn_identity` estampado en producción
+   (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. Residuales
+   post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
+0c. **s332 correcciones/asunciones visibles — FLIP ON (21-ago ~10:33Z) + fix s332b; re-verificación por voz pendiente** (DEC-264/265; los
+   dos GO de la mañana ya EJECUTADOS y con gates PASS): **Railway worker = 2 vars**:
+   `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on`. **Tras el flip: verificación DEC-099 por VOZ**
+   — dictar «¿Qué centrales Kidde tienes?» (si el ASR rompe la marca, la confirmación lleva el
+   aviso), luego «me refería a Kidde» si hiciera falta → contenido Kidde + sufijo ℹ️; filas con
+   `asunciones.status=on`. Rollback = quitar las 2 (GC0 = byte-idéntico probado). Después:
+   R4 (aviso-ID) se re-adjudica con tráfico; graduación DEC-210/211 cuando asienten.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
    cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la

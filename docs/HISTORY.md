@@ -6592,7 +6592,7 @@ declaradas en el repo: los commits intermedios que rompieron el emparejado de Fa
 cero git durante una ronda), y el «suite VERDE» falso de c83c0bff (el exit 0 era del tail — la
 puerta del inventario P1 lo cazó; regla: pipefail + ningún número no visto en un resultado).
 De propina: el flake real del fence IPC (2× en CI, 0/60 local) arreglado con espera acotada,
-adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-259.
+adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-257.
 
 ## s331-packet (20 ago 2026) — El residuo del packet E1: tres preguntas delegadas, y un dúo que corrige la evidencia sin cambiar la conclusión
 
@@ -6760,4 +6760,34 @@ fichero engaña también sobre la MARCA.
 
 Diez reglas nuevas (**R9–R18**), cada una anclada en la anotación que la hizo nacer, viven ahora en
 `data/catalog/reglas_clasificacion.json` — en JSON y junto al catálogo que gobiernan, para que no se
-queden en prosa que la sesión siguiente no lee.
+queden en prosa que la sesión siguiente no lee. DEC-266 y DEC-267 (nacieron como DEC-263/264 y se
+renumeraron al mergear: la sesión s332 llegó antes con esos números).
+
+## s332 (21 ago 2026) — Los dos GO de la mañana, ejecutados antes de comer: lo asumido se declara
+
+Alberto dio el doble GO a media mañana —la tabla de confusiones ASR con un requisito nuevo
+(«avisar que estás incluyendo productos sobre una marca que no es la detectada, y que se pueda
+desmentir; y que sea generalizable») y la corrección de marca sin estado— con la PR #325 aún
+en conflicto por la colisión de numeración con la sesión paralela del packet (resuelta: mis
+DEC-257/258 conservan número en main, el cierre pasa a DEC-263, y dos referencias mías que el
+barrido ajeno pisó vuelven a su sitio). La evidencia se leyó de query_logs VERBATIM antes de
+diseñar: «BQide» no existe en ningún catálogo (reescribible), pero «ID» ES la familia ID3000
+de Notifier — la fila que pedía a gritos ser reescrita habría corrompido a un usuario legítimo,
+y de ahí nació el MODO por fila (reescrito/aviso) y el case-sensitive que deja al «id» español
+en paz. El dúo (Sol xhigh + Fable, 13/13 con sustancia, 0 FP) mató en la v1 el «oráculo-de-plan»
+—re-invocar al planificador sobre texto sintético era volver a los dos dueños que s316e/s324h
+enterraron— y la v2 quedó en dos niveles honestos: la TABLA previene (T1, atajo de catálogo
+intacto) y la RED F1 recupera lo no tabulado reconstruyendo la pregunta anterior, con
+`state_query_override` para que «me refería a Kidde» jamás se vuelva la base de nada. Fable
+además cazó el docstring del módulo contradiciendo su propio contrato y el homógrafo; Sol, la
+laguna de estado y el criterio laxo del gate. Build advisor/executor en PARALELO sobre worktree
+compartido (E1 tabla/voz/contracts; E2 rama F1/léxico/espejo MT) con especificaciones cerradas:
+E1 cazó de raíz un ciclo de imports que el comentario de E2 negaba (el analizador cuenta los
+lazy) y corrió la suite del árbol conjunto: 4817/0. La primitiva `Asuncion` se renderiza
+DETERMINISTA en el bot —confirmación 🏷/ℹ️ y sufijo citando la pregunta base, para que hasta un
+rebuild rancio quede a la vista— y el trace gana la sección `asunciones` tri-estado sin una
+letra de contenido de usuario. Gates sobre la mañana real: GC0 7/7 off=hoy, GC1 7/7 (donde
+había «No he encontrado información relevante» ahora hay Serie NC de Kidde con citas), GC3 4/4.
+Ship listo: 2 vars, flip de Alberto, verificación DEC-099 por voz. La mañana entera —incidente,
+diagnóstico, GO, diseño, dúo, build a cuatro manos, gates y cierre— cupo en una sesión. DEC-264.
+
