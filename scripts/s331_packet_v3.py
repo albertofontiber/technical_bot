@@ -109,16 +109,50 @@ def main() -> int:
         por_prefijo[d["document_family"][:34].lower()].append(d["document_family"])
     homonimos = {n for v in por_prefijo.values() if len(v) > 1 for n in v}
 
-    secciones, sec = defaultdict(list), None
+    # Estado REAL del catálogo — una fila está viva si su efecto NO está aplicado, no si le falta
+    # la marca textual. (Nace del v3 inicial: §0.B se aplicó EN BLOQUE en s324, sin marca fila a
+    # fila, y las 9 filas ya aplicadas salían como «vivas». El packet hacía perder el tiempo justo
+    # en lo que pretendía ahorrarlo — misma lección de siempre: medir la FUENTE, no la anotación.)
+    doc_map_por_fuente, ids_en_doc_map = {}, set()
+    for linea in (ROOT / "data/catalog/doc_map.jsonl").read_text(encoding="utf-8").splitlines():
+        if linea.strip():
+            r = json.loads(linea)
+            doc_map_por_fuente[r["source_file"].lower()] = {e["id"] for e in r["entries"]}
+            ids_en_doc_map.update(e["id"] for e in r["entries"])
+    productos = {}
+    for linea in (ROOT / "data/catalog/products.jsonl").read_text(encoding="utf-8").splitlines():
+        if linea.strip():
+            r = json.loads(linea)
+            productos[r["id"]] = r
+
+    def ya_aplicada(clave: str, bloque: str) -> bool:
+        """¿El efecto que esta fila propone ya está en el catálogo?"""
+        propuestos = set(re.findall(r"`([a-z0-9-]+:[a-z0-9./+-]+)`", bloque))
+        # (a) fila de doc_map: su documento ya tiene fila y cubre lo propuesto
+        for fuente, ids in doc_map_por_fuente.items():
+            if fuente.startswith(clave.lower()[:40]) or clave.lower()[:40] in fuente:
+                return not propuestos or bool(propuestos & ids)
+        # (b) fila de candidate/alta: el id ya existe y salió de `candidate`, o fue retirado
+        if clave in productos:
+            p = productos[clave]
+            return p.get("estado") in ("retirado", "redirect") or not p.get("candidate", False)
+        return False
+
+    secciones, sec, ya = defaultdict(list), None, 0
     for bloque in re.split(r"\n(?=- \[ \] `)", texto):
         for linea in bloque.split("\n"):
             if linea.startswith("### "):
                 sec = linea.strip("# ").strip()
-        if not re.match(r"- \[ \] `", bloque) or RESUELTA.search(bloque):
+        m_clave = re.match(r"- \[ \] `([^`]+)`", bloque)
+        if not m_clave or RESUELTA.search(bloque):
+            continue
+        if ya_aplicada(m_clave.group(1), bloque):
+            ya += 1
             continue
         secciones[sec].append(bloque.rstrip())
 
     vivas = sum(len(v) for v in secciones.values())
+    print(f"filtradas por ESTADO REAL del catálogo (ya aplicadas, sin marca textual): {ya}")
     cuenta = Counter()
     cuerpo = []
     for s, bloques in secciones.items():
