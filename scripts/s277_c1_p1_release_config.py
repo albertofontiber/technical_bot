@@ -180,6 +180,9 @@ ALLOWED_SAFE_VALUES = {
     # s333 §2/§5: clasificador LLM CORRECCION/NUEVO tras el miss de la plantilla
     # (solo con F1_MARCA_CORRECCION=on). Default off (byte-identico).
     "F1_CORRECCION_LLM": frozenset({"on", "off"}),
+    # s334 §2/§3: fuzzy acotado al slot de marca + estado-en-atajos (R8).
+    "F1_CORRECCION_FUZZY": frozenset({"on", "off"}),
+    "F1_ESTADO_ATAJOS": frozenset({"on", "off"}),
     # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
     # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
     "HTTP_RETRIES": frozenset({"on", "off"}),

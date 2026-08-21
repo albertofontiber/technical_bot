@@ -10121,3 +10121,42 @@ imports y `catalog_store`, verdes.
 - **Relacionado**: DEC-264/265 (el lote s332 al que extiende) · DEC-203/204 (el patrón
   INTENT_LLM) · DEC-126 (anti-gate-shopping) · v2 vinculante `evals/s333_correccion_llm_propuesta_v2.md` ·
   resultado `evals/s333_gate_resultado_v1.md`.
+
+## DEC-269 (s334, 21 ago 2026) — La conversación de la tarde paga entera: filas kide/itide, fuzzy acotado con guard-test, y R8 cerrada — el atajo por fin escribe estado
+
+- **Fecha**: 21 ago 2026, tarde. **Impacto**: MEDIO-ALTO (estado conversacional + resolución
+  de marca). GO doble de Alberto tras el diagnóstico de su conversación real (13:26-13:29Z).
+  Dúo pre-build 10/10 con sustancia, 0 FP (ronda ts=13:41:30). PR #331.
+- **Lo observado** (5 filas leídas): «ITIDE» y «KIDE» = 4ª y 5ª corrupciones de «Kidde» en un
+  día; «Quería decir de KIDE» con cue válido pero marca corrupta ⇒ toda la red de corrección
+  inalcanzable; «Ahora quiero Morley» tras atajo ⇒ el clasificador s333 se invocó POR PRIMERA
+  VEZ en producción (mecánica perfecta) pero contra `last_query` rancia — R8 mordiendo.
+- **Decide (1) — filas observadas**: kide/itide → Kidde (reescrito, citas, sin lectura
+  legítima verificada). La vía pre-autorizada.
+- **Decide (2) — fuzzy ACOTADO (`F1_CORRECCION_FUZZY`)**: distancia exacta 1, SOLO en el slot
+  de marca de un turno de corrección (cue del léxico presente, sin marca gobernada casada, un
+  solo candidato→una sola marca), objetivo = fabricantes del catálogo ∪ BRAND_TOKENS,
+  disclosure OBLIGATORIO (`Asuncion(marca_fuzzy)` + sufijo con lo detectado). REFRAME honesto
+  del dúo (Sol-1): apuesta ANTICIPATORIA — lo observado ya está tabulado; la autoridad del
+  desbloqueo es el GO del owner (DEC-233 era mandato de disciplina, no experimento — Fable-3).
+  **GUARD-TEST de invariante en CI sobre el conjunto VIVO** (Fable-1/Sol-4): cero pares d1 y
+  cero vecinos-d1 compartidos — un yaml de fabricante nuevo que rompa la unicidad revienta la
+  suite, no la producción.
+- **Decide (3) — R8 cerrada (`F1_ESTADO_ATAJOS`)**: las 5 rutas terminales de atajo CON
+  contenido (inventario/fabricantes/catalogo/mismatch/marca_no_servida — Sol-2: «solo
+  inventario» era falso) escriben la transición de respuesta vía el helper COMPARTIDO
+  `_estado_tras_respuesta` (extraído de advance_working_state — divergencia imposible por
+  construcción, Fable-5) a través del escritor único `_aplicar_estado`. El pending se CONSUME
+  (cierra «ciclo máximo 1 a través de atajos»). Cortesías fuera.
+- **Decide (4) — plantilla gana «de» preposicional**: el fraseo REAL «quería decir DE Kidde»
+  no casaba la plantilla s332 (descubierto por los tests del fuzzy) — entra al grupo opcional.
+- **Gates**: GA 0 fallos — GA0 off intacto · GA1(a) fuzzy con typo NO tabulado («morlei»→
+  Morley) en matriz ASR on/off + orden de capas medido (lo tabulado lo gana la TABLA) ·
+  **GA1(b) la hipótesis-Morley MEDIDA (Sol-5): con estado fresco el clasificador real dijo
+  `correccion` (1261 ms) y la respuesta e2e sirvió centrales Morley-IAS** — la conversación
+  de la tarde, reparada de raíz. Suite completa verde (números en el commit). 114 dirigidos.
+- **Ship**: merge #331 → 2 vars (`F1_CORRECCION_FUZZY=on` + `F1_ESTADO_ATAJOS=on`) →
+  verificación por voz con typo NO tabulado. Van 9 vars de lotes s331-s334: la graduación
+  DEC-210/211 es el siguiente movimiento estructural sobre la inflación.
+- **Relacionado**: DEC-264/265/268 (la línea de correcciones) · DEC-233 (disciplina) ·
+  v2 vinculante `evals/s334_propuesta_v2.md` · `evals/s334_ga_result_v1.json`.

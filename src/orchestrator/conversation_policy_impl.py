@@ -117,6 +117,77 @@ def correction_enabled() -> bool:
         f"F1_MARCA_CORRECCION={raw!r} no reconocido (on|off) — fail-fast")
 
 
+def fuzzy_correction_enabled() -> bool:
+    """Lever `F1_CORRECCION_FUZZY` (s334 §2): resolución a distancia ≤1 contra las
+    marcas gobernadas, SOLO en el slot de marca de un turno de corrección, con
+    disclosure obligatorio. Default off = byte-idéntico. Parser estricto."""
+    raw = (os.getenv("F1_CORRECCION_FUZZY", "") or "").strip().lower()
+    if raw in ("", "off"):
+        return False
+    if raw == "on":
+        return True
+    raise RuntimeError(
+        f"F1_CORRECCION_FUZZY={raw!r} no reconocido (on|off) — fail-fast")
+
+
+_fuzzy_objetivo_cache: "frozenset[str] | None" = None
+
+
+def _fuzzy_marcas_objetivo() -> "frozenset[str]":
+    """(s334 §2, Sol-3) Conjunto OBJETIVO del fuzzy: fabricantes gobernados del
+    catálogo ∪ BRAND_TOKENS, normalizados a token primario minúscula (la misma
+    tokenización de `_matched_brands`). Cacheado a nivel proceso; fail-open a
+    solo-BRAND_TOKENS si el snapshot del catálogo no está (igual que el resto de
+    lecturas del catálogo). El GUARD-TEST de invariante (Fable-1) audita ESTE
+    conjunto vivo."""
+    global _fuzzy_objetivo_cache
+    if _fuzzy_objetivo_cache is not None:
+        return _fuzzy_objetivo_cache
+    objetivo = set(BRAND_TOKENS)
+    try:
+        from ..rag.catalog import known_manufacturers
+
+        for m in known_manufacturers():
+            primario = re.split(r"[^a-z0-9]+", m.lower())
+            if primario and primario[0] and len(primario[0]) >= 3:
+                objetivo.add(primario[0])
+    except Exception:  # pragma: no cover — snapshot ausente
+        logger.warning("fuzzy: catálogo no disponible — objetivo = BRAND_TOKENS")
+    _fuzzy_objetivo_cache = frozenset(objetivo)
+    return _fuzzy_objetivo_cache
+
+
+def _distancia1(a: str, b: str) -> bool:
+    """¿Distancia de edición EXACTAMENTE 1? (el 0 lo cubre el matching exacto)."""
+    if a == b or abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) == len(b):
+        return sum(x != y for x, y in zip(a, b)) == 1
+    corto, largo = (a, b) if len(a) < len(b) else (b, a)
+    return any(corto == largo[:i] + largo[i + 1:] for i in range(len(largo)))
+
+
+def _fuzzy_marca(ql: str) -> "tuple[str, str] | None":
+    """(s334 §2) Candidatos = tokens alfabéticos ≥4 chars del turno que NO son
+    objetivo exacto. Resuelve SOLO si hay EXACTAMENTE un candidato con match y
+    ese candidato casa con EXACTAMENTE una marca objetivo a distancia 1 —
+    cualquier ambigüedad (dos candidatos, dos marcas) devuelve None y la cascada
+    sigue como hoy. Devuelve (token_detectado, marca_normalizada)."""
+    objetivo = _fuzzy_marcas_objetivo()
+    hallazgos: list[tuple[str, str]] = []
+    for token in re.findall(r"[a-záéíóúüñ]{4,}", ql):
+        if token in objetivo:
+            continue
+        marcas = [m for m in objetivo if _distancia1(token, m)]
+        if len(marcas) == 1:
+            hallazgos.append((token, marcas[0]))
+        elif len(marcas) > 1:
+            return None                    # candidato ambiguo ⇒ nada
+    if len(hallazgos) != 1:
+        return None
+    return hallazgos[0]
+
+
 _CONFIRMATION_LEXICON_PATH = (
     Path(__file__).resolve().parents[2] / "config" / "confirmation_lexicon_v1.yaml"
 )
@@ -516,9 +587,13 @@ class DeterministicConversationPolicy:
         cabeza_opcional = rf"(?:(?:{'|'.join(cabezas)}))?" if cabezas else ""
         for cue in _correction_lexicon():
             for marca in matched_brands:
+                # (s334) «de» preposicional entra al grupo: el fraseo REAL de la
+                # tarde fue «Quería decir de KIDE» (044c584a) y la plantilla lo
+                # perdía — con marca gobernada lo rescataba el clasificador, pero
+                # el fast-path debe casar el fraseo observado.
                 patron = (rf"^[\s¡¿]*{cabeza_opcional}{re.escape(cue)}[\s:,]+"
-                          rf"(?:la\s+|el\s+|los\s+|las\s+)?{re.escape(marca)}"
-                          rf"[\s.!?¡¿]*$")
+                          rf"(?:de\s+)?(?:la\s+|el\s+|los\s+|las\s+)?"
+                          rf"{re.escape(marca)}[\s.!?¡¿]*$")
                 if not re.match(patron, ql):
                     continue
                 return _marca_superficial(query, marca)
@@ -936,6 +1011,68 @@ class DeterministicConversationPolicy:
                     rationale="new_brand_no_state",
                 )
 
+        # (s334 §2) FUZZY acotado al slot de marca — SOLO cuando NO hay marca
+        # gobernada casada (si la hubiera, la rama B de arriba ya corrió) y el turno
+        # tiene forma de CORRECCIÓN (cue del léxico). Apuesta anticipatoria del GO
+        # del owner (Sol-1: lo observado ya está tabulado; esto paga el typo de
+        # MAÑANA sin esperar su fila). Disclosure obligatorio vía `marca_fuzzy`.
+        if (
+            not matched_brands
+            and correction_enabled()
+            and fuzzy_correction_enabled()
+            and not real
+            and working_state.last_query
+            and working_state.within_window(now, self.window_seconds)
+            and _match_phrase(ql, _correction_lexicon())
+        ):
+            hallazgo = _fuzzy_marca(ql)
+            if hallazgo is not None:
+                detectado, marca_norm = hallazgo
+                display = marca_norm.capitalize()
+                # La plantilla juzga con el TOKEN detectado («quería decir de KIDE»
+                # casa con marca=«kide»); la resolución sirve el display gobernado.
+                superficial = self._correction_rebuild(ql, query, [detectado])
+                if superficial is not None:
+                    base = working_state.last_query
+                    return TurnResolution(
+                        route=PolicyRoute.STANDALONE,
+                        query_for_retrieval=(
+                            f"{base} (el usuario corrige: la marca es {display})"),
+                        target_models=(),
+                        available_models=avail,
+                        asunciones=(
+                            Asuncion(kind="marca_fuzzy", detectado=superficial,
+                                     asumido=display, modo="reescrito"),
+                            Asuncion(kind="marca_corregida", detectado=display,
+                                     asumido=display, modo="reescrito"),
+                        ),
+                        state_query_override=base,
+                        rationale="brand_correction_fuzzy",
+                    )
+                if correccion is not None:
+                    decision = None
+                    try:
+                        decision = correccion(query, working_state.last_query, display)
+                    except Exception:  # noqa: BLE001 — fail-open total (espejo s333)
+                        decision = None
+                    if decision == "correccion":
+                        base = working_state.last_query
+                        return TurnResolution(
+                            route=PolicyRoute.STANDALONE,
+                            query_for_retrieval=(
+                                f"{base} (el usuario corrige: la marca es {display})"),
+                            target_models=(),
+                            available_models=avail,
+                            asunciones=(
+                                Asuncion(kind="marca_fuzzy", detectado=detectado,
+                                         asumido=display, modo="reescrito"),
+                                Asuncion(kind="marca_corregida", detectado=display,
+                                         asumido=display, modo="reescrito"),
+                            ),
+                            state_query_override=base,
+                            rationale="brand_correction_fuzzy_llm",
+                        )
+
         # C. Out-of-domain (conservative gas-outside-fire gate). Runs AFTER A/B and
         #    ONLY when NOT an in-window continuation: an in-window follow-up (even
         #    one mentioning gas, e.g. a boiler-cutoff maneuver from a fire panel) is
@@ -1169,20 +1306,61 @@ def advance_working_state(
             # del estado sigue INTACTO (semántica histórica).
             return replace(ws, pending_mention=None, pending_at=None)
         return ws
-    avail_tuple = tuple(available) if available else None
-    models = tuple(resolution.target_models or ())
     # (s331 B3, punto de mutación 2) Las rutas de RESPUESTA reconstruyen el estado:
     # el CONSUME/CLEAR del pending es transición EXPLÍCITA, no omisión implícita.
-    return WorkingState(
-        last_target_models=models,
+    return _estado_tras_respuesta(
         # (s332 §4, Sol-3) El override gana a la query literal: una meta-frase de
         # corrección jamás queda como base de futuros rebuilds.
-        last_query=resolution.state_query_override or query,
+        query=resolution.state_query_override or query,
+        answer_excerpt=answer_excerpt,
+        now=now,
+        available=available,
+        models=tuple(resolution.target_models or ()),
+    )
+
+
+def _estado_tras_respuesta(*, query: str, answer_excerpt: str | None, now: datetime,
+                           available: Sequence[str] | None,
+                           models: tuple = ()) -> WorkingState:
+    """(s334 §3, Fable-5) LA rama-de-respuesta, extraída: `advance_working_state`
+    y `advance_after_shortcut` DELEGAN aquí — la divergencia entre ambas
+    transiciones es imposible por construcción, no por test."""
+    return WorkingState(
+        last_target_models=models,
+        last_query=query,
         last_answer_excerpt=(answer_excerpt or "")[:500] or None,
         last_turn_at=now,
-        available_models=avail_tuple,
+        available_models=tuple(available) if available else None,
         pending_mention=None,
         pending_at=None,
+    )
+
+
+def estado_atajos_enabled() -> bool:
+    """Lever `F1_ESTADO_ATAJOS` (s334 §3): las rutas terminales de atajo CON
+    contenido escriben la transición de respuesta (last_query fresca + pending
+    consumido). Default off = byte-idéntico (el atajo no toca estado, como hoy).
+    Parser estricto, sin caché (patrón `correction_enabled`)."""
+    raw = (os.getenv("F1_ESTADO_ATAJOS", "") or "").strip().lower()
+    if raw in ("", "off"):
+        return False
+    if raw == "on":
+        return True
+    raise RuntimeError(
+        f"F1_ESTADO_ATAJOS={raw!r} no reconocido (on|off) — fail-fast")
+
+
+def advance_after_shortcut(ws: WorkingState, query: str, answer_excerpt: str | None,
+                           now: datetime) -> WorkingState:
+    """(s334 §3, R8) Transición tras una ruta terminal de atajo CON contenido
+    (inventario/fabricantes/catalogo/mismatch/marca_no_servida — cortesías NO).
+    Un atajo ES un turno respondido de verdad: S99 permite refrescar la ventana.
+    `models=()` (el atajo no bindea) y el pending se CONSUME — cierra el hueco
+    «ciclo máximo 1 a través de atajos» (§0 v2). `available` se hereda del
+    estado: el atajo no produce candidatos nuevos ni invalida los previos."""
+    return _estado_tras_respuesta(
+        query=query, answer_excerpt=answer_excerpt, now=now,
+        available=ws.available_models, models=(),
     )
 
 
