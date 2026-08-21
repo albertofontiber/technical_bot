@@ -79,8 +79,9 @@ DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hil
 «quide» tabulada, «quiere» jamás): (0) HECHO 17:00Z: el ship s335 quedó VERIFICADO ENTERO
 en prod (adenda s335b — desiderativa→listado gobernado Kidde; anafórica→correccion/1238ms→Detnov);
 (1) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
-si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (2) GO al lote de clasificación de
-catálogo (Notifier 429/3 — causa del «ninguno casa con central»); (3) re-verificación DEC-099 por voz;
+si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (2) HECHO 21:46Z — lote s336 (DEC-273): vista Notifier
+3→364 clasificados, centrales 0→32, gate 100%, veredicto PASS (residuo 98 parse-fail esperan
+crédito; recibo `evals/s336_resultado_v1.md`); (3) re-verificación DEC-099 por voz;
 (4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars);
 (6) hueco menor declarado: query_logs.response trunca a 4096 (el sufijo ℹ️ no es verificable en log).
 
