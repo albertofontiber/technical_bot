@@ -1,0 +1,1505 @@
+{
+ "que_es": "Población de la sonda multimodal s334: candidates cuyo token NO aparece en el texto de su propio documento y cuyo documento SÍ tiene página renderizada. NADA aplicado.",
+ "hipotesis": "Una lectura de la PÁGINA recupera nombres de modelo que la extracción de texto perdió (Alberto, 21-ago).",
+ "resumen": {
+  "con_documento": 587,
+  "token_presente": 535,
+  "perdido_medible": 52,
+  "perdido_sin_imagen": 0,
+  "controles": 20,
+  "roles_primera_pagina": {
+   "cover": 16,
+   "procedure": 12,
+   "product_photo": 2,
+   "table": 10,
+   "wiring": 11,
+   "null": 1
+  }
+ },
+ "medibles": [
+  {
+   "id": "notifier:afp1020",
+   "canonico": "AFP1020",
+   "source_file": "Tg-Honeywell_Tecnico",
+   "document_id": "e009191b-62e0-445c-b066-258e8787ccb4",
+   "n_paginas": 109,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Tg-Honeywell_Tecnico_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_Tg-Honeywell_Tecnico_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:fs-1",
+   "canonico": "FS-1",
+   "source_file": "FS2-1",
+   "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+   "n_paginas": 26,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:fs-2",
+   "canonico": "FS-2",
+   "source_file": "FS2-1",
+   "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+   "n_paginas": 26,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:fs-4",
+   "canonico": "FS-4",
+   "source_file": "FS2-1",
+   "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+   "n_paginas": 26,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:inspire",
+   "canonico": "INSPIRE",
+   "source_file": "Actualizacion del firmware de INSPIRE a R1.35",
+   "document_id": "49f79dcf-5963-41af-8fe6-fdacf53cbd65",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Actualizacion_del_firmware_de_INSPIRE_a_R1.35_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "notifier:interface-rs485-serie-800",
+   "canonico": "Interface RS485 serie 800",
+   "source_file": "MNDT021",
+   "document_id": "d1ab64d1-86de-4869-a2c3-7778465c6a72",
+   "n_paginas": 17,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "product_photo",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT021_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT021_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:laserstar-repetidor",
+   "canonico": "LaserStar Repetidor",
+   "source_file": "MIDT730",
+   "document_id": "f9e7df1c-cf18-487d-a7d8-152d4378cec3",
+   "n_paginas": 34,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/LaserStar/LaserStar_MIDT730_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 4,
+     "visual_role": "ui",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/LaserStar/LaserStar_MIDT730_p004.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "notifier:lisa-2-eex-d",
+   "canonico": "LISA 2 EEx d",
+   "source_file": "MNDT635",
+   "document_id": "359934f9-c37c-4a86-84bb-9f90a7212667",
+   "n_paginas": 9,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/LISA 2/LISA_2_MNDT635_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT635_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:lisa-2-eex-na",
+   "canonico": "LISA 2 EEx nA",
+   "source_file": "MNDT635",
+   "document_id": "359934f9-c37c-4a86-84bb-9f90a7212667",
+   "n_paginas": 9,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/LISA 2/LISA_2_MNDT635_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT635_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "notifier:nfs4",
+   "canonico": "NFS4",
+   "source_file": "NFS4_NFS8-2PLUS_MANU_ITA",
+   "document_id": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
+   "n_paginas": 3,
+   "paginas": [
+    {
+     "page_index": 7,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/NFS8/NFS8_NFS4_NFS8-2PLUS_MANU_ITA_p007.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 8,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/NFS8/NFS8_NFS4_NFS8-2PLUS_MANU_ITA_p008.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "notifier:nfs8-2plus",
+   "canonico": "NFS8-2PLUS",
+   "source_file": "NFS4_NFS8-2PLUS_MANU_ITA",
+   "document_id": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
+   "n_paginas": 3,
+   "paginas": [
+    {
+     "page_index": 7,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/NFS8/NFS8_NFS4_NFS8-2PLUS_MANU_ITA_p007.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 8,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/NFS8/NFS8_NFS4_NFS8-2PLUS_MANU_ITA_p008.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "notifier:nport-5110",
+   "canonico": "NPort 5110",
+   "source_file": "HLSI_MNDT1410_B",
+   "document_id": "29576607-8f95-4900-acbc-dfb2030d40a0",
+   "n_paginas": 14,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_HLSI_MNDT1410_B_p003.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_HLSI_MNDT1410_B_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "sensitron:smart-2-twin",
+   "canonico": "SMART 2 TWIN",
+   "source_file": "Smart 2_MT251_Ita-Eng",
+   "document_id": "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+   "n_paginas": 9,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/SMART 2/SMART_2_Smart_2_MT251_Ita-Eng_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/SMART 2/SMART_2_Smart_2_MT251_Ita-Eng_p003.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:cmd-500",
+   "canonico": "CMD-500",
+   "source_file": "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+   "document_id": "f1a60b0d-54af-42eb-bb25-d999a174336f",
+   "n_paginas": 30,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/CMD-500/CMD-500_55350005_Manual_Central_Monoxido_CMD-500_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 7,
+     "visual_role": "product_photo",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/CMD-500/CMD-500_55350005_Manual_Central_Monoxido_CMD-500_ES_FR_GB_IT_p008.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:d-1100-4-sounder",
+   "canonico": "D 1100-4 Sounder",
+   "source_file": "D 1100-4 Sounder",
+   "document_id": "fc5d53c5-b08f-461e-b3c1-a1758065c71d",
+   "n_paginas": 2,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_D_1100-4_Sounder_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_D_1100-4_Sounder_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:dmdx-500",
+   "canonico": "DMDX-500",
+   "source_file": "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+   "document_id": "b2a29604-2726-40cd-afb6-9310ddcd24ef",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/DMDX-500/DMDX-500_55350008_Manual_Detectores_Monoxido_DMDX-500_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:ds-5--gl",
+   "canonico": "DS 5 -GL",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "document_id": "d72657df-e074-4cae-bc4f-20abe98f7c4d",
+   "n_paginas": 5,
+   "paginas": [
+    {
+     "page_index": 2,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p003.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 5,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p005.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:ds-5--tas",
+   "canonico": "DS 5 -TAS",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "document_id": "d72657df-e074-4cae-bc4f-20abe98f7c4d",
+   "n_paginas": 5,
+   "paginas": [
+    {
+     "page_index": 2,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p003.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 5,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p005.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:ds-5--tav",
+   "canonico": "DS 5 -TAV",
+   "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+   "document_id": "d72657df-e074-4cae-bc4f-20abe98f7c4d",
+   "n_paginas": 5,
+   "paginas": [
+    {
+     "page_index": 2,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p003.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 5,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_085501821n_DS10_Installation_manual_D-GB_F_IT_p005.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:f3000m",
+   "canonico": "F3000M",
+   "source_file": "F3000M_Spanish User Guide_0044-047-02-ES",
+   "document_id": "efc1fc19-dd5e-411c-8950-3ada56d2b717",
+   "n_paginas": 14,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_F3000M_Spanish_User_Guide_0044-047-02-ES_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_F3000M_Spanish_User_Guide_0044-047-02-ES_p002.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:f5k",
+   "canonico": "F5K",
+   "source_file": "F5K-Additional-Information-Spanish",
+   "document_id": "2c19ad01-0cc6-490d-b1d6-2b20e91e8e3a",
+   "n_paginas": 11,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_F5K-Additional-Information-Spanish_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/F5000/F5000_F5K-Additional-Information-Spanish_p002.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:f5k-2h",
+   "canonico": "F5K-2H",
+   "source_file": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+   "document_id": "65de59c3-094c-4525-84ae-8ba70e17fc66",
+   "n_paginas": 12,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": null,
+     "technical_utility": "uncertain",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_F5K-2H-UserGuide-SPANISH_Manual_F5000_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 4,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/F5000/F5000_F5K-2H-UserGuide-SPANISH_Manual_F5000_p004.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:fad-902",
+   "canonico": "FAD-902",
+   "source_file": "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+   "document_id": "5f7be781-f3ea-4bad-94f1-d310ce267c1c",
+   "n_paginas": 13,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/FAD-905/FAD-905_55393002_Manual_Fuentes_de_Alimentacion_FAD-905_ES_FR_GB_IT_V2_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 7,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/FAD-905/FAD-905_55393002_Manual_Fuentes_de_Alimentacion_FAD-905_ES_FR_GB_IT_V2_p008.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:fad-905",
+   "canonico": "FAD-905",
+   "source_file": "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+   "document_id": "5f7be781-f3ea-4bad-94f1-d310ce267c1c",
+   "n_paginas": 13,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/FAD-905/FAD-905_55393002_Manual_Fuentes_de_Alimentacion_FAD-905_ES_FR_GB_IT_V2_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 7,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/FAD-905/FAD-905_55393002_Manual_Fuentes_de_Alimentacion_FAD-905_ES_FR_GB_IT_V2_p008.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-402",
+   "canonico": "MAD-402",
+   "source_file": "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+   "document_id": "1a1e1521-c589-47df-bb87-cccd61ed4daf",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-402/MAD-402_55340103_Manual_Modulo_1-2_Entradas_Tecnicas_MAD-402_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-412",
+   "canonico": "MAD-412",
+   "source_file": "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+   "document_id": "f7af1d6b-255b-4b32-862f-8454cdca90a3",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55341101_Manual_Modulo_1-2_Reles_libre_de_tensi_n_MAD-412_ES_FR_GB_IT_p001.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-422",
+   "canonico": "MAD-422",
+   "source_file": "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+   "document_id": "821c0406-ebff-41db-b2ee-aafbed9fbe7b",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-422/MAD-422_55342102_Manual_Modulo_1-2_Entradas_1-2_Salidas_MAD-422_ES_FR_GB_IT_v3_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-432",
+   "canonico": "MAD-432",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "document_id": "a6f3d0ae-549a-4e6f-8e60-05385dd46488",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-432/MAD-432_55343101_Manual_Modulo_1-2_Sirenas_Convencionales_MAD-432_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-432-mdulo-1-sirena",
+   "canonico": "MAD-432 Módulo 1 Sirena",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "document_id": "a6f3d0ae-549a-4e6f-8e60-05385dd46488",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-432/MAD-432_55343101_Manual_Modulo_1-2_Sirenas_Convencionales_MAD-432_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-432-mdulo-2-sirenas",
+   "canonico": "MAD-432 Módulo 2 Sirenas",
+   "source_file": "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+   "document_id": "a6f3d0ae-549a-4e6f-8e60-05385dd46488",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-432/MAD-432_55343101_Manual_Modulo_1-2_Sirenas_Convencionales_MAD-432_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-442",
+   "canonico": "MAD-442",
+   "source_file": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+   "document_id": "26c4f513-3e80-4286-8aea-1684190348df",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-442/MAD-442_55344103_Manual_Modulo_1-2_Zonas_MAD-442_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-450",
+   "canonico": "MAD-450",
+   "source_file": "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+   "document_id": "0c7ae4c5-82cb-43c7-a5e0-bf84075fba0b",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-450/MAD-450_55345103_Manual_Pulsador_Analogico_MAD-450_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-461",
+   "canonico": "MAD-461",
+   "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+   "document_id": "f00d814e-666b-4487-a0e9-fdbe01b7c410",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-461/MAD-461_55346102_Manual_Sirena_Analogica_MAD-461_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-471",
+   "canonico": "MAD-471",
+   "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+   "document_id": "15015287-4b41-4623-96a5-e8076641560b",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-471/MAD-471_55347101_Manual_Sirena_Analogica_MAD-471_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-472",
+   "canonico": "MAD-472",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+   "document_id": "43f4091d-1e7c-46b5-a8e9-a767ae3656a9",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-472/MAD-472_55347200_Manual_Sirena_Analogica_MAD-472_ES_GB_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-491",
+   "canonico": "MAD-491",
+   "source_file": "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
+   "document_id": "e4d762dd-0b65-4df0-8d22-9fc6bcfb371f",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/MAD-491/MAD-491_55349102_Manual_Modulo_Aislador_MAD-491_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:pad-10a",
+   "canonico": "PAD-10A",
+   "source_file": "55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)",
+   "document_id": "fe0a3e56-b314-44ad-ab96-8dba45a5880f",
+   "n_paginas": 2,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55320102_Manual_Buzzer_Analogico_PAD-10A_ES_FR_GB_IT__x8__p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55320102_Manual_Buzzer_Analogico_PAD-10A_ES_FR_GB_IT_x8_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:pgd-200",
+   "canonico": "PGD-200",
+   "source_file": "55320002 Manual Programador PGD-200 ES FR GB IT",
+   "document_id": "3a2c783c-e0ca-4808-9481-64fcddd80495",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/PGD-200/PGD-200_55320002_Manual_Programador_PGD-200_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:scd-100",
+   "canonico": "SCD-100",
+   "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+   "document_id": "9d575fc3-bd5a-445c-9b89-6a382216c688",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/SCD-100/SCD-100_55310401_Manual_Sirenas_Convencionales_SCD-100_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:scd-110",
+   "canonico": "SCD-110",
+   "source_file": "55311003 Manual Sirenas Convencionales SCD-110 ES FR GB IT",
+   "document_id": "800b1155-a909-40bb-b32a-21fdc2bbc28d",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/SCD-110/SCD-110_55311003_Manual_Sirenas_Convencionales_SCD-110_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:scd-110-con-flash",
+   "canonico": "SCD-110 con flash",
+   "source_file": "55311003 Manual Sirenas Convencionales SCD-110 ES FR GB IT",
+   "document_id": "800b1155-a909-40bb-b32a-21fdc2bbc28d",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/SCD-110/SCD-110_55311003_Manual_Sirenas_Convencionales_SCD-110_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:scd-120",
+   "canonico": "SCD-120",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
+   "n_paginas": 2,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55312000_SCD-120_Manual_ES_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55312000_SCD-120_Manual_ES_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tbud-150",
+   "canonico": "TBUD-150",
+   "source_file": "55315012 Manual Tarjeta de bucle TBUD-150 Instalacion ES FR GB IT",
+   "document_id": "53d322d7-6834-42ec-9a17-4a4daf3b40a8",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/TBUD-150/TBUD-150_55315012_Manual_Tarjeta_de_bucle_TBUD-150_Instalacion_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tcd-106",
+   "canonico": "TCD-106",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "document_id": "bc163277-ad9e-4ced-950f-c0e63de35a0a",
+   "n_paginas": 9,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "product_photo",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55310600_Manual_TCD-106_kit_ES_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 4,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55310600_Manual_TCD-106_kit_ES_p004.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tmd-100",
+   "canonico": "TMD-100",
+   "source_file": "55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT",
+   "document_id": "ed62f8fb-17c3-471e-9c7f-7a420efecfc4",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55310008_Manual_Tarjeta_Modbus_TMD-100_Instalacion_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:trd-100",
+   "canonico": "TRD-100",
+   "source_file": "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+   "document_id": "10e406a7-7aec-4741-ba18-45e5ef525c9c",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55310007_Manual_Tarjeta_Expansion_TRD-100_TSD-100_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:trmd-50x",
+   "canonico": "TRMD-50X",
+   "source_file": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "document_id": "7f915cdf-68f5-4c17-9668-fca67d65795a",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/TRMD-50X/TRMD-50X_55350007_Manual_Tarjeta_Regulacion_Motores_TRMD-50X_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tsd-100",
+   "canonico": "TSD-100",
+   "source_file": "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+   "document_id": "10e406a7-7aec-4741-ba18-45e5ef525c9c",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_55310007_Manual_Tarjeta_Expansion_TRD-100_TSD-100_ES_FR_GB_IT_p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "unresolved:z-200-r",
+   "canonico": "Z-200-R",
+   "source_file": "55320011 Manual zocalo con relé Z-200-R",
+   "document_id": "f560fd92-586e-42fe-a039-1d021fbd0b34",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55320011_Manual_zocalo_con_rel_Z-200-R_p001.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "xtralis:mgate-mb3270",
+   "canonico": "MGate MB3270",
+   "source_file": "Li-ion_Tamer_User_Manual",
+   "document_id": "c612c605-84d0-4bbe-9c9d-23d26360f592",
+   "n_paginas": 47,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_Li-ion_Tamer_User_Manual_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_Li-ion_Tamer_User_Manual_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "zareba:unipoint-ma",
+   "canonico": "Unipoint mA",
+   "source_file": "Manual Unipoint Esp",
+   "document_id": "68ab15d1-53f6-4bb1-a8d7-fcc69f9787ff",
+   "n_paginas": 18,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/zellweger_analytics/zellweger_analytics_Manual_Unipoint_Esp_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/zellweger_analytics/zellweger_analytics_Manual_Unipoint_Esp_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "zareba:unipoint-mv",
+   "canonico": "Unipoint mV",
+   "source_file": "Manual Unipoint Esp",
+   "document_id": "68ab15d1-53f6-4bb1-a8d7-fcc69f9787ff",
+   "n_paginas": 18,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/zellweger_analytics/zellweger_analytics_Manual_Unipoint_Esp_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/zellweger_analytics/zellweger_analytics_Manual_Unipoint_Esp_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  }
+ ],
+ "controles": [
+  {
+   "id": "aritech:apic",
+   "canonico": "APIC",
+   "source_file": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0",
+   "document_id": "f5224079-3c15-421a-83fe-5506edbc3100",
+   "n_paginas": 4,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "detnov:cad-171-r",
+   "canonico": "CAD-171 (R)",
+   "source_file": "Manual_CAD-171-MI-716-es",
+   "document_id": "6220e267-c513-4683-b199-8f22fe4a7dea",
+   "n_paginas": 45,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_Manual_CAD-171-MI-716-es_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_Manual_CAD-171-MI-716-es_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "detnov:pad-20",
+   "canonico": "PAD-20",
+   "source_file": "Manual_PAD-20 (MU 591 m 2024 a)",
+   "document_id": "fa676e67-1143-45a1-a92f-5782cb6fc2cb",
+   "n_paginas": 1,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Manual_PAD-20__MU_591_m_2024_a__p001.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "detnov:spr_250",
+   "canonico": "SPR_250",
+   "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+   "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+   "n_paginas": 51,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/CAD-250/CAD-250_Manual_instalacion_CAD-250__MI_372_es_2024_e__p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/CAD-250/CAD-250_Manual_instalacion_CAD-250__MI_372_es_2024_e__p004.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "fidegas:00051",
+   "canonico": "00051",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_paginas": 16,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:00052",
+   "canonico": "00052",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_paginas": 16,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:03382",
+   "canonico": "03382",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_paginas": 16,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:03383",
+   "canonico": "03383",
+   "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "n_paginas": 16,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-S3-T2-y-S2-T2_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:cs4",
+   "canonico": "CS4",
+   "source_file": "Manual-de-Usuario-CS4",
+   "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+   "n_paginas": 8,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Manual-de-Usuario-CS4_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-CS4_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:cs4-analgica",
+   "canonico": "CS4 Analógica",
+   "source_file": "Manual-de-Usuario-CS4",
+   "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+   "n_paginas": 8,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Manual-de-Usuario-CS4_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-CS4_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "fidegas:cs4-digital",
+   "canonico": "CS4 Digital",
+   "source_file": "Manual-de-Usuario-CS4",
+   "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+   "n_paginas": 8,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/unknown/unknown_Manual-de-Usuario-CS4_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/fidegas/fidegas_Manual-de-Usuario-CS4_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "firebeam:adaptador",
+   "canonico": "ADAPTADOR",
+   "source_file": "Manual_Firebeam_XTRA_ES",
+   "document_id": "8149de23-48e6-4c37-a318-e979d296e7db",
+   "n_paginas": 11,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Firebeam XTRA/Firebeam_XTRA_Manual_Firebeam_XTRA_ES_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Firebeam XTRA/Firebeam_XTRA_Manual_Firebeam_XTRA_ES_p003.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "firebeam:firebeam-xtra",
+   "canonico": "Firebeam Xtra",
+   "source_file": "Firebeam Xtra User Guide 060619",
+   "document_id": "2515fc32-1108-44c5-8fd4-f96274c2cb8f",
+   "n_paginas": 15,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_Firebeam_Xtra_User_Guide_060619_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_Firebeam_Xtra_User_Guide_060619_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "firebeam:thefirebeam-xtra",
+   "canonico": "thefirebeam Xtra",
+   "source_file": "Manual_Firebeam_XTRA_ES",
+   "document_id": "8149de23-48e6-4c37-a318-e979d296e7db",
+   "n_paginas": 11,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Firebeam XTRA/Firebeam_XTRA_Manual_Firebeam_XTRA_ES_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 3,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Firebeam XTRA/Firebeam_XTRA_Manual_Firebeam_XTRA_ES_p003.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "hosiden:ls-28",
+   "canonico": "LS 28",
+   "source_file": "BANI-G-24_Eng",
+   "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+   "n_paginas": 4,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "product_photo",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/IS 28 Mk 4/IS_28_Mk_4_BANI-G-24_Eng_p001.jpg",
+     "media_type": null
+    },
+    {
+     "page_index": 2,
+     "visual_role": "wiring",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/IS 28 Mk 4/IS_28_Mk_4_BANI-G-24_Eng_p002.jpg",
+     "media_type": null
+    }
+   ]
+  },
+  {
+   "id": "kidde:1x-f8-sc",
+   "canonico": "1X-F8-SC",
+   "source_file": "nc-pf8-sc-161721-es",
+   "document_id": "e9d0d989-7d21-4681-b7f1-1ee88fb45001",
+   "n_paginas": 2,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "product_photo",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_nc-pf8-sc-161721-es_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "table",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_nc-pf8-sc-161721-es_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "kidde:2010-1-nb",
+   "canonico": "2010-1-NB",
+   "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+   "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+   "n_paginas": 102,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "kidde:2010-1-sb",
+   "canonico": "2010-1-SB",
+   "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+   "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+   "n_paginas": 102,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "cover",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 3,
+     "visual_role": "other",
+     "technical_utility": "not_useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual_p003.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "kidde:ke-dm3010rs06",
+   "canonico": "KE-DM3010RS06",
+   "source_file": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+   "document_id": "8c807610-7c75-48a8-acf3-1c50b90b685b",
+   "n_paginas": 12,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  },
+  {
+   "id": "kidde:ke-dm3010rs18",
+   "canonico": "KE-DM3010RS18",
+   "source_file": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+   "document_id": "8c807610-7c75-48a8-acf3-1c50b90b685b",
+   "n_paginas": 12,
+   "paginas": [
+    {
+     "page_index": 1,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml_p001.jpg",
+     "media_type": "image/jpeg"
+    },
+    {
+     "page_index": 2,
+     "visual_role": "procedure",
+     "technical_utility": "useful",
+     "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml_p002.jpg",
+     "media_type": "image/jpeg"
+    }
+   ]
+  }
+ ],
+ "no_medibles_sin_imagen": []
+}

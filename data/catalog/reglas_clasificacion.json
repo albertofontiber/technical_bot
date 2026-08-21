@@ -205,5 +205,13 @@
   "Los retags de `product_model` y `manufacturer` siguen sin ser persistentes (TECH_DEBT #97): una re-ingesta los deshace en silencio. Las altas de catálogo sí persisten. Por eso los detectores de abajo leen el CONTENIDO del documento, nunca su etiqueta.",
   "R9, R11 y R14 tienen detector propuesto y SIN medir. Y el dúo r40 (Sol) precisó su límite: son deterministas en el DISPARO, no en el VEREDICTO — que no encuentren una sección «Descripción general» NO prueba que el documento no enumere variantes. Su salida se redacta «no encontrado por regla, sin comprobar», nunca «no hay»: un falso «no hay» sesga al humano hacia el sí.",
   "Medir esos detectores exige GROUND TRUTH, o sea adjudicar a mano una cohorte — trabajo humano no presupuestado (dúo r40, Fable). «Medir sobre 69 es barato» omitía ese coste."
- ]
+ ],
+ "guardas_de_metodo": {
+  "que_es": "Guardas que NO son sobre clasificar documentos sino sobre cómo mido: nacen de errores REALES de s331d/s334 en los que presenté una cifra como decisiva y medía algo más estrecho. Las tres veces el sesgo empujaba a favor de mi propia conclusión y las tres las cazó otro (el dúo o Alberto), no yo.",
+  "G1_la_tasa_base_es_de_ESTA_poblacion": "Un porcentaje heredado de otra población presentado como confianza es la forma silenciosa de equivocarse en bloque. El packet v3 vendía «P1: lo firmaste 9 veces» — cierto en el v2, y 60% en el v3. Se re-mide sobre la población que se va a aplicar, cada ronda.",
+  "G2_el_fail_open_tiene_que_reproducir_el_fallo_REAL": "Un try/except alrededor de una función que NO LANZA en el caso que te preocupa no es un guardarraíl, es un comentario. `catalog_store.load()` devuelve un catálogo vacío cuando faltan los ficheros; el except nunca saltaba y la Wiki salió con 0 modelos sin avisar. Y su test simulaba el fallo lanzando una excepción: probaba una ficción. TECH_DEBT #98.",
+  "G3_antes_de_estratificar_comprueba_que_cuenta_la_variable": "En la sonda s334 estratifiqué por «1 página = lectura completa» y `n_paginas` contaba ASSETS RENDERIZADOS, no páginas del PDF (`s271_pdf_coverage_v1.json`: MAD-412 tiene pdf_page_count=2 y renderable_pages=[1]). De 24 «completos», 0 lo eran. Antes de estratificar por una variable, comprobar contra la fuente canónica qué cuenta exactamente esa variable.",
+  "G4_control_negativo_o_no_has_arreglado_nada": "Que el test nuevo pase no prueba que cace el fallo. Hay que comprobar que se pone ROJO sin el arreglo. Los dos fallos de la Wiki tenían su test en verde.",
+  "G5_n_independientes": "Contar la misma unidad varias veces infla la n y presupone independencia que no hay: en s334, la misma IMAGEN contaba como 3 ensayos porque atestaba 3 candidates. Contar por unidad observada, no por fila del catálogo."
+ }
 }
