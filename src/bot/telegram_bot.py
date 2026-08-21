@@ -452,7 +452,23 @@ def _inventario_filtrado(nombre: str, filtros: dict) -> str | None:
                 caben = [m for _b, m in rangos if isinstance(m, int) and n <= m]
                 if not caben:
                     return None, []
-                partes.append(f"hasta {max(caben)} {clave}")
+                # (s336, #76b(c)) Entradas con `alcance` DISTINTO (p. ej. 2
+                # lazos docs-ES / 4 docs-US, clase AFP1010) NO se fusionan en
+                # «hasta max»: se sirven POR FUENTE, con su alcance visible.
+                # Hoy 0 filas llevan alcance → esta rama es byte-idéntica hasta
+                # que un lote escriba la primera (test dirigido con fixture).
+                vals = list(at.get(clave) or ())
+                alcances = {json.dumps(v.get("alcance"), sort_keys=True)
+                            for v in vals}
+                if len(alcances) > 1:
+                    partes.append(" / ".join(
+                        f"hasta {v.get('max', v.get('base'))} {clave}"
+                        + (f" ({v['alcance']['valor']})" if v.get("alcance")
+                           else " (alcance sin declarar)")
+                        for v in vals
+                        if isinstance(v.get("max", v.get("base")), int)))
+                else:
+                    partes.append(f"hasta {max(caben)} {clave}")
         return ", ".join(partes), faltantes
 
     evaluados = [(p, *_casa(p)) for p in clasificados]
