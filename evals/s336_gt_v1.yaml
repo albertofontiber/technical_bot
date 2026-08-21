@@ -1,0 +1,70 @@
+# s336 B2 — mini-GT de clasificación (30), etiquetado A MANO leyendo los docs
+# ANTES de la pasada (v3 §1.7). Muestreo determinista (sha256(id), cuotas por
+# namespace + estratos nº-docs — scripts/s336_gt_muestra.py). `duda: true` queda
+# FUERA del gate (límites; la mayoría son HUECOS DEL ENUM que el packet §1
+# propondrá a Alberto). `profundidad`: completo = todos los chunks; secciones =
+# cabecera + secciones R9/definición localizadas por grep sobre el volcado
+# completo (el volcado SIEMPRE es el texto entero — la lectura navegó sobre él).
+version: 1
+etiquetado: "a mano, sesión s336, 21-ago-2026, sobre volcado full-text de chunks_v2"
+filas:
+  - {id: "ada:estela-2", categoria: sirena, profundidad: completo,
+     nota: "«SIRENA EXTERIOR DE INCENDIO 24V» — todo el doc es la sirena"}
+  - {id: "firelite:led-10", categoria: repetidor, duda: true, profundidad: secciones,
+     nota: "«El LED-10 es un led anunciador para 10 zonas» — ANUNCIADOR remoto; el enum no tiene 'anunciador' (¿repetidor?¿modulo?) → hueco de enum al packet"}
+  - {id: "firelite:afm-16atf", categoria: modulo, profundidad: secciones,
+     nota: "«El Módulo Anunciador 16ATF consta de 16 LEDs…» — verbatim 'Módulo'"}
+  - {id: "kac:m700kaci", categoria: pulsador, tecnologia: analogica, profundidad: completo,
+     nota: "«PULSADOR DIRECCIONABLE M700KAC + M700KACI»; direccionable≈analogica (convención s322)"}
+  - {id: "morley:vsn12-2plus", categoria: central, tecnologia: convencional, profundidad: secciones,
+     nota: "«NFS Supra / VSN-2Plus … Conventional Fire Alarm Control Panel»; VSN12 enumerada en models; zonas=12 solo por sufijo → NO se etiqueta (sin verbatim)"}
+  - {id: "pepperl-fuchs:z978", categoria: modulo, duda: true, profundidad: completo,
+     nota: "BARRERA ZENER de seguridad intrínseca (TIDT089 + manual P+F); el enum usa 'barrera' para detectores de haz (firebeam) → colisión semántica; hueco de enum al packet"}
+  - {id: "sensitron:smart-2", categoria: detector, profundidad: secciones,
+     nota: "«DETECTOR DE GAS SMART 2» (catalítico)"}
+  - {id: "spectrex:20-20l", categoria: detector, profundidad: secciones,
+     nota: "«DETECTOR DE LLAMA UV/IR — MODELOS 20/20L, 20/20LB»"}
+  - {id: "spectrex:20-20ub", duda: true, profundidad: completo,
+     nota: "HALLAZGO: su único doc mapeado (MNDT710 B) devuelve 0 CHUNKS en chunks_v2 — inetiquetable; clase 'doc mapeado sin chunks' al packet y al censo del pipeline"}
+  - {id: "systemsensor:dh500acdc-e", categoria: accesorio, profundidad: secciones,
+     nota: "«Intelligent Air Duct Smoke Detector HOUSING» — carcasa para detector de conducto"}
+  - {id: "systemsensor:dh500", categoria: accesorio, profundidad: secciones,
+     nota: "ídem DH500 (housing de conducto)"}
+  - {id: "notifier:nfxi-mm10", categoria: modulo, tecnologia: analogica, profundidad: secciones,
+     nota: "«El Módulo de supervisión de diez entradas NFXI-MM10 … sistemas de alarma inteligentes» (SLC)"}
+  - {id: "notifier:fa457", duda: true, profundidad: completo,
+     nota: "su doc es la INSTALACIÓN DEL ID3008 y solo la menciona como conector («cable de cinta del módulo CFA457 al conector de la FA457») — clase R16 doc-de-otro; probable tarjeta ID3000, sin enunciado propio"}
+  - {id: "notifier:tmp2", categoria: detector, profundidad: completo,
+     nota: "«El detector térmico TMP2…»; 2 hilos sugiere convencional pero sin verbatim → tecnologia no etiquetada"}
+  - {id: "notifier:pl4-e", categoria: modulo, profundidad: secciones,
+     nota: "EL NOMBRE ENGAÑA: «con la ampliación de una tarjeta opcional (PL4-E) se puede expandir hasta 8 zonas» — PL4-E es la TARJETA de ampliación de la central PL4, no la central (R9)"}
+  - {id: "notifier:cpu-2020", categoria: modulo, profundidad: secciones,
+     nota: "«Unidad Central de Procesación CPU-2020 (BE-2020N)» — placa CPU del AM2020 (doc 15088SP)"}
+  - {id: "notifier:hop-405-100", categoria: modulo, profundidad: secciones,
+     nota: "«HOP-405-100 — Módulo de interfaz de comunicación serie (opcional)» del INSPIRE E10/E15"}
+  - {id: "notifier:s876xx", categoria: detector, profundidad: secciones,
+     nota: "detector de gas (MNDT656, gama S876xx; «el detector no detectará fugas de gas…»)"}
+  - {id: "notifier:s1869nd", categoria: detector, profundidad: secciones,
+     nota: "detector de gas (MNDT624; «vapores de gasolina… el detector debe instalarse a 30-50 cm del suelo»)"}
+  - {id: "notifier:prn-4", categoria: accesorio, duda: true, profundidad: secciones,
+     nota: "«impresora PRN-4» — IMPRESORA del sistema; el enum no tiene 'impresora' → hueco de enum al packet"}
+  - {id: "notifier:nrt-net", categoria: modulo, profundidad: secciones,
+     nota: "«Tarjeta Interfaz de la NRT-NET» (doc 15090SP, terminal NRT)"}
+  - {id: "notifier:uds-2n", duda: true, profundidad: secciones,
+     nota: "«Unidad de extinción Modelo UDS-2N» — el enum no tiene categoría de EXTINCIÓN (¿central de extinción?) → hueco de enum al packet"}
+  - {id: "notifier:cpu-5000", categoria: modulo, profundidad: secciones,
+     nota: "«2.1 Módulo de la Unidad Central de Proceso (CPU-5000)» (System 5000, doc 15581)"}
+  - {id: "notifier:nas-1u", categoria: aspiracion, profundidad: secciones,
+     nota: "NAS-1u = equipo de ASPIRACIÓN («señalización remota de avería en el equipo de aspiración», MNDT744I)"}
+  - {id: "notifier:be-xp", duda: true, profundidad: secciones,
+     nota: "«Paquete del Equipo Básico BE-XP … Inventario del Transpondedor XP» — kit/paquete base del transpondedor; ¿accesorio?¿modulo? → límite"}
+  - {id: "notifier:sib-2s", categoria: modulo, profundidad: secciones,
+     nota: "placa del sistema («placa base - lazos 1-4, LIB600 y SIB2S», tabla de compatibilidad de placas, MIDT250)"}
+  - {id: "notifier:atg-2", duda: true, profundidad: secciones,
+     nota: "«El Generador de Tono de Audio (ATG-2)…» — audio/EVAC; el enum no tiene categoría de audio → hueco de enum al packet (predicho en v3 §1.8)"}
+  - {id: "notifier:nfxi-smt2", categoria: detector, profundidad: secciones,
+     nota: "«Detector combinado NFXI-SMT2» (tabla de tipos HW del AM-8100)"}
+  - {id: "notifier:iso-x", categoria: modulo, profundidad: secciones,
+     nota: "«Módulo Aislador de Lazo (ISO-X) … es un interruptor automático que abre la tensión del circuito…» (MIDT250)"}
+  - {id: "notifier:lts-240", categoria: detector, profundidad: secciones,
+     nota: "«DETECTOR LINEAL DE TEMPERATURA POR FIBRA ÓPTICA LTS-240» — verbatim de portada"}
