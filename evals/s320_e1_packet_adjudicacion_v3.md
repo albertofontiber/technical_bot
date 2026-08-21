@@ -1,8 +1,8 @@
-# Packet E1 — adjudicación · **v3** (generado 2026-08-20 23:25Z)
+# Packet E1 — adjudicación · **v3** (generado 2026-08-21 08:00Z)
 
 > **Esta versión SUSTITUYE al v2 para trabajar.** El v2 queda como archivo: allí está la traza de
 > las **125 filas ya resueltas** (con su recibo) y tus anotaciones originales. Aquí solo hay lo que
-> sigue **VIVO: 67 filas**.
+> sigue **VIVO: 56 filas**.
 >
 > **Qué cambia respecto al v2, y por qué** — los dos cambios nacen de errores REALES que tu repaso
 > destapó, no de estética:
@@ -22,64 +22,13 @@
 > | **P1** | el juez propone otra grafía y hay cita ✓ de portada | 15 | seguir al juez (lo firmaste 9×) |
 > | **P2** | fragmento PT/FR de 1 chunk con hermano ES | 0 | baja del corpus (lo firmaste 3×) |
 > | **P3** | artefacto con 0 menciones estrictas | 9 | retirar |
-> | **P4** | nombre real CON barra | 8 | **tuya** — comprueba la grafía del fabricante |
+> | **P4** | nombre real CON barra | 7 | **tuya** — comprueba la grafía del fabricante |
 > | **P5** | el nombre del fichero engaña sobre la familia | 1 | R1': manda el contenido |
 >
 > **Cómo trabajar sobre este fichero**: escribe tu nota debajo de la fila, empezando por `Alberto:`
 > (igual que en el v2). Si el fichero es tuyo en local, súbelo y lo proceso.
 
 ---
-
-### §0.B — `doc_map` tier B, REHECHO con la regla **serie × categoría** (38 limpias + 4 a tu criterio)  ·  10 vivas
-
-- [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?»
-      ALBERTO: este archivo habla también de la ZX-A, ZX-E, ZX-2/5e, ZX2/5SE
-      ⚠️ **HOMÓNIMO** — hay más de un documento activo cuyo nombre empieza igual («Con que Sistema Operativo compatible el prog…»). **Comprueba la CITA antes de anotar**: en s331 una nota acabó en el documento equivocado por esto (DEC-261).
-
-- [ ] `dxc-porque-al-activan-elementos-en-alarma-no-se-enciende-s`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «En la central DXC Connexión con el fin de aprovechar al máximo la corriente del lazo, solo **las cua»
-
-- [ ] `dxc-puedo-anular-la-clave-de-usuario-y-acceder-directament`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «# DXC ¿Puedo anular la clave de usuario y acceder directamente al teclado?»
-
-- [ ] `dxc-conexion-como-solucionar-la-averia-de-estado-inconsist`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «# DXc/Conexion ¿Como solucionar la avería de Estado Inconsistente Anulado?»
-
-- [ ] `dxc-configuracion-de-la-tarjeta-232-aislada-para-comunicar`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «Para que la central DXc, comunique con el TG, deberá activar el protocolo de comunicaciones en las o»
-
-- [ ] `morley-se-pueden-pasar-programaciones-de-zx-y-dimension-a-`
-      → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
-      cita: «¿Se pueden pasar programaciones de ZX y Dimensión a Connexion DXC?»
-      ALBRETO: también habla de las centrales ZX y DX Dimension (que diría que el modelo es "DX", diferente a DXc), ya que el archivo va sobre como pasar de cualquiera de estas dos a la DXC
-
-- [ ] `ucip-como-enviar-datos-de-equipos-y-no-solo-eventos-de-zon`
-      → `notifier:ucip`
-      cita: «# UCIP - Como enviar datos de equipos y no solo eventos de zonas»
-
-- [ ] `bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_qui` · **serie NC × central** (6 ids; la pasada original proponía 6)
-      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
-      cita: «Guía de instalación rápida de las centrales de incendio convencionales de la Serie NC»
-
-- [ ] `bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_qui` · **serie NC × central** (6 ids; la pasada original proponía 6)
-      → `kidde:nc-pf2`, `kidde:nc-pf2-sc`, `kidde:nc-pf4`, `kidde:nc-pf4-sc`, `kidde:nc-pf8`, `kidde:nc-pf8-sc`
-      cita: «Manual de funcionamiento rápido de las centrales de incendio convencionales de la Serie NC»
-
-
-#### §0.B.2 — PIDEN TU OJO: la máquina se para y te lo pasa
-
-- [ ] `00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide`
-      motivo: **documento de SERIE 2X-A (categoria NO declarada)**
-      cita: «Guía de funcionamiento rápido de la serie 2X-A»
-      asignación de la pasada original: `kidde:2x-at-f2`, `kidde:2x-at-f2-fb`
-      → TU DECISIÓN:
-
 
 ### §0.C — Candidates → **ALTA** (32)  ·  1 vivas
 
@@ -92,7 +41,7 @@
       🎯 **Recomendación afinada** (patrón que ya firmaste): [P5] **R1'**: mira el CONTENIDO, no el nombre — validaste 2 veces que los `2x_at` van sobre los NO táctiles
 
 
-### §1.B — Candidates, residuo (84)  ·  55 vivas
+### §1.B — Candidates, residuo (84)  ·  54 vivas
 
 - [ ] `morley:efs-em-8` (EFS/EM 8)
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
@@ -137,14 +86,6 @@
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «CONFIGURACIÓN DEL DETECTOR DE LLAMA 20/20MI»
       doc `MADT696_01` · estrictas doc 5 / global 50 en 3 docs · otros motivos: sospecha:el-termino-es-prefijo-de-un-modelo-mas-largo
-      🎯 **Recomendación afinada** (patrón que ya firmaste): [P4] **tuya**: un «sí» lo da de alta; comprueba que la grafía es la del FABRICANTE (lección DOA: el sufijo del certificado no es parte del modelo)
-
-- [ ] `spectrex:20-20r` (20/20R)
-      ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
-      **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «DETECTOR DE LLAMA DE UN ÚNICO ESPECTRO INFRARROJO ## Modelo «20/20R»»
-      doc `MNDT713.pdf` · estrictas doc 2 / global 5 en 2 docs
-
-**riesgo-lexico:acronimo-corto-sin-digitos** — 17
       🎯 **Recomendación afinada** (patrón que ya firmaste): [P4] **tuya**: un «sí» lo da de alta; comprueba que la grafía es la del FABRICANTE (lección DOA: el sufijo del certificado no es parte del modelo)
 
 - [ ] `morley:miw` (MIW)
