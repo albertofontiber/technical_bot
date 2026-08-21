@@ -64,7 +64,7 @@ from ..rag.retriever import (
 # (from_production) y el seam execute_rag_turn vive en serving_pipeline.
 from .procedencia import Procedencia  # noqa: E402
 from ..rag.runtime_trace import build_rag_serving_trace
-from ..flags import mismatch_answer_activo
+from ..flags import inventario_fraseos_activo, mismatch_answer_activo
 from .acotar import acotar
 from ..logging_db import (
     allowlist_estado,
@@ -1617,6 +1617,7 @@ async def _servir_turno(update: Update, context: ContextTypes.DEFAULT_TYPE,
     # `plan_turn` sigue pura y no lee entorno.
     meta = Meta(es_reply=update.message.reply_to_message is not None,
                 mismatch_answer=mismatch_answer_activo(),
+                inventario_fraseos=inventario_fraseos_activo(),
                 fuente=_FUENTE_META[procedencia.source])
     # (s324h, Fable r49 + hallazgo propio) La guarda de `user_data` protege SÓLO
     # lo que necesita `user_data` —el estado y la invalidación—, no el plan entero.

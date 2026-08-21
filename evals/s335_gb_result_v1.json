@@ -1,0 +1,123 @@
+{
+  "manifest": {
+    "ts": "2026-08-21T15:17:40+00:00",
+    "git_sha": "2e30d416d0eb528f4e93c6805a44778bf37ce063"
+  },
+  "filas": [
+    {
+      "check": "gb1_on_inventario: Quiero ver las centrales de Morley.",
+      "ok": true,
+      "detalle": "inventario"
+    },
+    {
+      "check": "gb1_on_inventario: dime qué centrales de Morley tienes.",
+      "ok": true,
+      "detalle": "inventario"
+    },
+    {
+      "check": "gb1_on_inventario: I want to see Morley panels",
+      "ok": true,
+      "detalle": "inventario"
+    },
+    {
+      "check": "gb1_on_inventario: show me Morley panels",
+      "ok": true,
+      "detalle": "inventario"
+    },
+    {
+      "check": "gb1_on_inventario: I want to see Morley catalogs",
+      "ok": true,
+      "detalle": "inventario"
+    },
+    {
+      "check": "gb1_off_no_cambio",
+      "ok": true,
+      "detalle": "conversacional"
+    },
+    {
+      "check": "gb1_negativo_rag: quiero saber qué centrales Morley tienen sal",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_negativo_rag: quiero saber si las centrales de Morley sopo",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_negativo_rag: necesito ver el esquema de conexión de la ce",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_negativo_rag: dime qué centrales de Morley tienen certific",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_negativo_rag: muéstrame cómo configurar las centrales de M",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_negativo_rag: quiero ver las centrales de Morley conectada",
+      "ok": true,
+      "detalle": "{'conversacional'}"
+    },
+    {
+      "check": "gb1_replay_t1_fraseos_False",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "gb1_replay_t1_fraseos_True",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "gb2a_anaforica_a_cascada_fraseos_False",
+      "ok": true,
+      "detalle": "conversacional/preservar"
+    },
+    {
+      "check": "gb2a_anaforica_a_cascada_fraseos_True",
+      "ok": true,
+      "detalle": "conversacional/preservar"
+    },
+    {
+      "check": "gb2b_cruce_switch_frase_con_modelos",
+      "ok": true,
+      "detalle": "invalidar/Morley"
+    },
+    {
+      "check": "gb2c_clasificador_correccion",
+      "ok": true,
+      "detalle": "brand_correction_llm · {'decision': 'correccion', 'ms': 1576}"
+    },
+    {
+      "check": "gb2d_respuesta_morley_no_vacia",
+      "ok": true,
+      "detalle": "En mi base de documentación tengo los siguientes productos de **Morley-IAS**:\n\n- **ZX50** — Central de control de incend"
+    },
+    {
+      "check": "gb2d_sin_cross_brand",
+      "ok": true,
+      "detalle": "kidde ausente"
+    }
+  ],
+  "cruce_switch_frase": {
+    "con_modelos_bindeados": "INVALIDAR → estado muerto antes de resolve → clasificador SIN población (sin last_query)",
+    "con_estado_r8_models_vacios": "PRESERVAR → last_query viva → clasificador EN población (la vía del caso fabef50b)"
+  },
+  "clasificador_e2e": {
+    "rationale": "brand_correction_llm",
+    "ultima": {
+      "decision": "correccion",
+      "ms": 1576
+    },
+    "qfr": "¿Qué centrales de KIDDE tienes? (el usuario corrige: la marca es Morley)"
+  },
+  "respuesta_morley": "En mi base de documentación tengo los siguientes productos de **Morley-IAS**:\n\n- **ZX50** — Central de control de incendios [F1]\n- **HRZ 2-8** — Central de alarmas contra incendios [F2]\n- **MI-200** — Central convencional, 4 zonas / 2 extinciones [F3]\n- **VSN LT** — Central convencional, configurable para 2, 4, 8 ó 12 zonas [F4][F5]\n- **ZXAE / ZXEE** — Centrales con panel de indicadores de zona (hasta 20 zonas en ZXAE, ampliable hasta 80 en ZXEE) [F6]\n- **ZXHE** — Central analógica direccionable [F7]\n- **MOD.EXP** — Módulo de expansión (compatible con protocolo Morley-IAS) [F8]\n- **VSN 2-4** — Central convencional de 2 zonas (VSN2) o 4 zonas (VSN4) [F9]\n\nSi necesitas información técnica de alguna de estas centrales en concreto (especificaciones, instalación, programación, etc.), indícame el modelo y lo que necesitas.\n\n---\n\nFuentes: MIE-MC-300 (sin revisión); MIE-MI-100 (Rev. 001); MIE-MI-110 (Rev. 005); MIE-MI-580 (sin revisión); MIE-MP-310 (sin revisión); MIE-MI-230 (Rev. 003); MIE-MI-320 (sin revisión); MIEMI120rev05 (Rev. 005)",
+  "limitacion_declarada": "La respuesta de (d) es síntesis RAG sobre la override — NO el listado gobernado del atajo (inalcanzable desde F1, oráculo s333): lista potencialmente PARCIAL (clase s307). La vía gobernada y completa es la pieza A (INVENTARIO_FRASEOS) cuando la petición se formula entera.",
+  "fallos": []
+}

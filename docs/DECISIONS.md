@@ -10160,3 +10160,48 @@ imports y `catalog_store`, verdes.
   DEC-210/211 es el siguiente movimiento estructural sobre la inflación.
 - **Relacionado**: DEC-264/265/268 (la línea de correcciones) · DEC-233 (disciplina) ·
   v2 vinculante `evals/s334_propuesta_v2.md` · `evals/s334_ga_result_v1.json`.
+
+## DEC-270 (s335, 21 ago 2026) — Fraseos de inventario gobernados (pieza A) + la anafórica entra al prompt v3 con fila obligatoria (pieza B)
+
+- **Fecha**: 21 ago 2026, tarde. **Impacto**: MEDIO (superficie de intención del atajo +
+  criterio del clasificador). GO de Alberto («GO al punto (2)») + su adjudicación de
+  «dime qué centrales de Morley tienes» COMO corrección ⇒ la anafórica «las de Morley»
+  es CORRECCION. Dúo pre-build 13/13 con sustancia, 0 FP (ronda ts=14:40:14; v2
+  vinculante `evals/s335_propuesta_v2.md`).
+- **Contexto**: la conversación real de la tarde (fabef50b) murió DOWNSTREAM de un
+  clasificador mecánicamente correcto: «Quiero ver las centrales de Morley.» (con el
+  punto que Whisper añade) no matcheaba el atajo — el ancla `\??$` rompía HASTA las
+  formas interrogativas existentes dichas por voz (la voz alcanza el plan desde s324h);
+  y «Y ahora quiero ver las de Morley.» era `nuevo` para el prompt v2 (el relabel sin
+  prompt NO cambia conducta — Fable-1 mató la analogía falsa con v2.1).
+- **Decide (1) — pieza A, flag `INVENTARIO_FRASEOS` (default off)**: gramática v2 del
+  atajo — (a) tolerancia terminal `[?.!…]*$` sobre las alternancias EXISTENTES (gateada:
+  cambia población real de voz); (b) desiderativas/imperativas ES+EN con sustantivo de
+  inventario; colocación adjudicada (Fable-5): sin-marca al estático `_ENUM_FABRICANTE_V2`,
+  «… de {marca}» a la rama dinámica de `_intencion_inventario`. FRONTERA (Sol-4): ancla
+  terminal + cola SOLO del léxico que `filtros_inventario` extrae; 6 negativos técnicos
+  dirigidos. El flag entra al plan como DATO (`Meta.inventario_fraseos`, patrón
+  MISMATCH_ANSWER — el plan sigue puro) y `marca_destino` comparte el predicado (una
+  sola definición de intención; la mecánica INVALIDAR no se toca).
+- **Decide (2) — pieza B, prompt v3 + cohorte v3**: la regla anafórica explícita entra
+  al PROMPT (criterio del owner completado: pronombre/artículo sin sustantivo propio ⇒
+  no se sostiene solo ⇒ CORRECCION); cohorte re-congelada ENTERA (DEC-126) con la
+  positiva p15 = fabef50b marcada **obligatoria**. **Regla nueva del gate (Sol-2/Fable-2,
+  generalizable): una fila `obligatoria: true` debe pasar su propia mayoría K — no es
+  absorbible por la holgura del umbral agregado.** El runner la aplica (`obligatorias_ok`).
+- **Decide (3) — pieza C acotada**: el «sí» pelado queda CENSADO (aviso-ASR ·
+  pregunta-del-bot · confirmación-tras-respuesta — Fable-7: lo observado es el tercer
+  caso) y NO cableado; irá con dúo propio cuando Alberto dé el GO.
+- **Gates (todo con números en recibos)**: cohorte v3 **GO 15/15 · p15 3/3 · 0 falsas/22
+  · guarda 2/2** (`evals/s335_gate_result_v3.json`) · GB1/GB2 **21/21** — clasificador
+  real `correccion` 1576 ms end-to-end vía resolve + RAG Morley-IAS sin cross-brand +
+  **cruce `_SWITCH_FRASE` MEDIDO** (con modelos bindeados INVALIDAR mata la población
+  del clasificador; la población real es models=() vía R8) (`evals/s335_gb_result_v1.json`)
+  · GB0 suite 4932 passed + MT 52/52. **Limitación DECLARADA (Sol-1)**: el rebuild de una
+  corrección sirve por RAG = lista potencialmente parcial (clase s307); el listado
+  gobernado completo es la pieza A con la petición entera — ninguna vía se vende como la otra.
+- **Huecos declarados**: negación («no quiero ver…») compartida con las formas de HOY;
+  pregate EN-plural (catalogs/lists) para marcas no curadas; relativas fuera de gramática.
+  Detalle: `evals/s335_gate_resultado_v1.md`.
+- **Relacionado**: DEC-268 (clasificador) · DEC-269 (R8/fuzzy) · DEC-126 (anti-gate-
+  shopping) · DEC-210/211 (graduación pendiente — van 10 vars con esta).

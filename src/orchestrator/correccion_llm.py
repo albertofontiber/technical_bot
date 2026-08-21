@@ -35,6 +35,10 @@ from typing import Callable
 CORRECCION_MODEL = "claude-sonnet-4-6"
 
 # EL prompt del gate (v1 §1.C, sin cambios en v2 §3 — una fuente).
+# v3 (21-ago-2026, s335): + REGLA ANAFÓRICA — el owner adjudicó «Y ahora quiero ver
+# las de Morley» (fabef50b, producción) como CORRECCION; el dúo s335 (Fable-1) probó
+# que relabel-sin-prompt no cambia conducta ⇒ el criterio entra al prompt y la
+# cohorte se re-congela ENTERA como v3 (DEC-126).
 # v2 (21-ago-2026): la frontera la adjudicó ALBERTO sobre las 3 etiquetas límite del
 # gate v1 (NO-GO con 3 falsas): una RE-PREGUNTA completa con otra marca se responde
 # tal cual (NUEVO, aunque se parezca a la anterior); CORRECCION exige que el mensaje
@@ -53,6 +57,10 @@ Decide entre dos lecturas:
 - NUEVO: el mensaje se entiende y se puede responder POR SÍ SOLO (una pregunta o
   petición completa sobre «{marca}»), aunque se parezca a la anterior o solo
   cambie la marca.
+
+Regla anafórica: si el mensaje se apoya en un pronombre o artículo SIN sustantivo
+propio para referirse a la petición anterior («las de {marca}», «los de {marca}»,
+«eso de {marca}», «la de {marca}»), NO se sostiene solo ⇒ CORRECCION.
 
 Responde EXACTAMENTE una palabra: CORRECCION o NUEVO."""
 

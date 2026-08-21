@@ -52,8 +52,10 @@ def _correr_brazo(modelo: str, cohorte: dict, api_key: str) -> dict:
         v = _votos(c)
         ok = sum(x == "correccion" for x in v) >= 2       # mayoría pinnada
         pos_pass += ok
-        filas.append({"tipo": "positiva", "q": c["q"], "votos": v, "ok": ok})
-        print(f"  [P{i:2d}] {'OK ' if ok else 'X  '} votos={v} {c['q'][:48]}")
+        filas.append({"tipo": "positiva", "q": c["q"], "votos": v, "ok": ok,
+                      "obligatoria": bool(c.get("obligatoria"))})
+        marca_o = "OBL" if c.get("obligatoria") else "   "
+        print(f"  [P{i:2d}]{marca_o} {'OK ' if ok else 'X  '} votos={v} {c['q'][:44]}")
     for i, c in enumerate(cohorte["negativas"], 1):
         v = _votos(c)
         falsa = any(x == "correccion" for x in v)          # voto dañino pinnado
@@ -65,14 +67,19 @@ def _correr_brazo(modelo: str, cohorte: dict, api_key: str) -> dict:
     lat.sort()
     p50 = lat[len(lat) // 2] if lat else 0
     p95 = lat[int(len(lat) * 0.95)] if lat else 0
+    # (s335 Sol-2/Fable-2) Las filas OBLIGATORIAS no son absorbibles por la
+    # holgura del umbral agregado: cada una debe pasar su propia mayoría K.
+    obligatorias_ok = all(
+        f["ok"] for f in filas if f["tipo"] == "positiva" and f.get("obligatoria"))
     pasa = (falsas <= int(cohorte["umbral_falsas_correccion"])
-            and pos_pass >= int(cohorte["umbral_positivas_pass"]))
+            and pos_pass >= int(cohorte["umbral_positivas_pass"])
+            and obligatorias_ok)
     return {"modelo": modelo, "positivas_pass": pos_pass,
             "positivas_n": len(cohorte["positivas"]),
             "falsas_correccion": falsas,
             "negativas_n": len(cohorte["negativas"]),
             "latencia_ms": {"p50": p50, "p95": p95},
-            "veredicto": "GO" if pasa else "NO-GO", "filas": filas,
+            "veredicto": "GO" if pasa else "NO-GO", "obligatorias_ok": obligatorias_ok, "filas": filas,
             "config_atestada": fn.config}
 
 
@@ -102,7 +109,7 @@ def _guarda_model_token(cohorte: dict) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--haiku", action="store_true")
-    ap.add_argument("--cohorte", default="v2_1", choices=("v1", "v2", "v2_1"))
+    ap.add_argument("--cohorte", default="v3", choices=("v1", "v2", "v2_1", "v3"))
     ap.add_argument("--out", default="")
     args = ap.parse_args()
     out = args.out or str(ROOT / "evals" / f"s333_gate_result_{args.cohorte}.json")
@@ -111,7 +118,8 @@ def main() -> int:
     if not api_key:
         print("ANTHROPIC_API_KEY ausente"); return 2
 
-    crudo = (ROOT / "evals" / f"s333_correccion_cohort_{args.cohorte}.yaml").read_text(encoding="utf-8")
+    _pref = "s335" if args.cohorte == "v3" else "s333"
+    crudo = (ROOT / "evals" / f"{_pref}_correccion_cohort_{args.cohorte}.yaml").read_text(encoding="utf-8")
     cohorte = yaml.safe_load(crudo)
     from src.orchestrator.correccion_llm import CORRECCION_MODEL, PROMPT
 
@@ -133,7 +141,7 @@ def main() -> int:
     commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
                             capture_output=True, text=True).stdout.strip()
     recibo = {
-        "gate": f"s333 correccion cohort {args.cohorte}",
+        "gate": f"{_pref} correccion cohort {args.cohorte}",
         "freeze": {"cohorte_sha256": hashlib.sha256(crudo.encode()).hexdigest()[:16],
                    "prompt_sha256": hashlib.sha256(PROMPT.encode()).hexdigest()[:16],
                    "commit": commit,

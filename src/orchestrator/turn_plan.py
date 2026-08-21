@@ -118,6 +118,57 @@ _PREGATE_INVENTARIO = re.compile(
     r"products?|models?|equipment|panels?|detectors?|list|catalog|inventory)\b",
     re.IGNORECASE,
 )
+
+# --- (s335, DEC-270) Gramática v2 del atajo de inventario — flag INVENTARIO_FRASEOS.
+# Con el flag OFF (default) decide `_ENUM_FABRICANTE` tal cual: byte-idéntico. Con ON:
+# (a) las MISMAS alternancias ancladas admiten puntuación terminal `[?.!…]*` — Whisper
+#     cierra la transcripción con «.» y el ancla `\??$` rompía hasta las formas
+#     interrogativas existentes dichas por voz (la voz alcanza el plan desde s324h);
+# (b) formas desiderativas/imperativas ES+EN con sustantivo de inventario.
+# FRONTERA anti-sobre-disparo: las formas nuevas anclan al FINAL del mensaje y solo
+# admiten de cola el léxico que `filtros_inventario` sabe extraer — una continuación
+# técnica («… tienen salida de relé») no matchea y sigue yendo al RAG. El original se
+# COPIA, no se comparte: la graduación del flag colapsará los dos en uno.
+_TERMINAL_V2 = r"\s*[?.!…]*\s*$"
+_COLA_FILTROS_V2 = (
+    r"(?:\s+(?:anal[oó]gic[ao]s?|convencionales?|algor[ií]tmic[ao]s?|"
+    r"analogue|analog|addressable|"
+    r"(?:de\s+)?(?:\d{1,2}|un|uno|una|dos|tres|cuatro|cinco|seis|ocho|diez|"
+    r"one|two|four|eight)\s+(?:lazos?|loops?|bucles?|zonas?|zones?)))*"
+)
+_SUST_INV_ES = (r"(?:listado|lista|cat[aá]logo|inventario|productos?|modelos?|"
+                r"equipos?|centrales?|detectores?)")
+_SUST_INV_EN = (r"(?:panels?|products?|models?|equipment|detectors?|"
+                r"catalog(?:ue)?s?|list(?:ing)?s?|inventory)")
+_INTRO_DESID_ES = (r"(?:quiero|necesito|quisiera|deseo|me\s+gustar[ií]a)"
+                   r"(?:\s+(?:ver|saber|conocer|consultar|revisar))?")
+_INTRO_IMP_ES = (r"(?:dime|dame|mu[eé]strame|ens[eé][ñn]ame|p[aá]same|"
+                 r"env[ií]ame|m[aá]ndame)")
+_INTRO_EN = (r"(?:i\s+(?:want|need|would\s+like)\s+to\s+(?:see|know|check)|"
+             r"show\s+me|give\s+me|send\s+me)")
+_ART_ES = r"(?:(?:el|la|los|las|un|una|tu|tus|todos?\s+(?:los|las))\s+)?"
+_ART_EN = r"(?:(?:the|all(?:\s+the)?|your)\s+)?"
+_ENUM_FABRICANTE_V2 = re.compile(
+    # (a) alternancias de _ENUM_FABRICANTE con ancla tolerante (superconjunto: todo
+    # lo que matcheaba `\??$` matchea `[?.!…]*$`).
+    r"(qu[eé]|cu[aá]l(?:es)?)\s+(productos?|modelos?|equipos?|centrales?|detectores?|"
+    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]{0,70}"
+    r"\b(tienes|ten[eé]is|tienen|hay|dispones?|dispon[eé]is|disponen|"
+    r"soportas?|cubres?|conoces)" + _TERMINAL_V2 +
+    r"|\b(listado|lista|cat[aá]logo|inventario)\s+de\s+"
+    r"(productos?|modelos?|equipos?|detectores?|centrales?|manuales?|documentaci[oó]n)\b"
+    r"|(what|which)\s+(?:[\w-]+\s+){0,2}(products?|models?|equipment|panels?|detectors?)"
+    r"[^?]{0,40}\b(do\s+you\s+(have|know|support|cover)|are\s+(there|available))"
+    + _TERMINAL_V2 +
+    r"|\b(list|catalog(?:ue)?|inventory)\s+of\s+(?:[\w-]+\s+){0,2}"
+    r"(products?|models?|equipment|detectors?|panels?)\b"
+    # (b) desiderativas/imperativas SIN marca inline (la marca llega por otro tramo
+    # del texto); las variantes «… de {marca}» viven en `_intencion_inventario`.
+    + r"|\b(?:" + _INTRO_DESID_ES + r"|" + _INTRO_IMP_ES + r")\s+" + _ART_ES
+    + _SUST_INV_ES + _COLA_FILTROS_V2 + _TERMINAL_V2
+    + r"|\b" + _INTRO_EN + r"\s+" + _ART_EN + _SUST_INV_EN + _TERMINAL_V2,
+    re.IGNORECASE,
+)
 _FEEDBACK_PATTERNS = re.compile(
     r"(no\s+es\s+correcto|incorrecto|está\s+mal|esta\s+mal|"
     r"eso\s+no\s+es|el\s+manual\s+dice\s+otra\s+cosa|"
@@ -250,16 +301,33 @@ def filtros_inventario(query: str) -> dict | None:
     return filtros or None
 
 
-def _intencion_inventario(query: str, marca: str | None = None) -> bool:
-    """¿La consulta pide el INVENTARIO? Regex estático + la variante con el nombre
-    del fabricante («catálogo de securiton»), que no puede pre-compilarse."""
-    if _ENUM_FABRICANTE.search(query):
+def _intencion_inventario(query: str, marca: str | None = None,
+                          fraseos: bool = False) -> bool:
+    """¿La consulta pide el INVENTARIO? Regex estático + las variantes con el nombre
+    del fabricante («catálogo de securiton»), que no pueden pre-compilarse.
+
+    `fraseos` (s335, flag INVENTARIO_FRASEOS — entra por `Meta`, el plan sigue puro)
+    activa la gramática v2: tolerancia terminal + desiderativas/imperativas ES+EN.
+    Las variantes dinámicas ancladas usan `re.search` con patrón por-marca (la caché
+    LRU del módulo `re` las absorbe, como la variante de catálogo existente)."""
+    if (_ENUM_FABRICANTE_V2 if fraseos else _ENUM_FABRICANTE).search(query):
         return True
-    if marca:
-        return bool(re.search(
-            rf"\b(listado|lista|cat[aá]logo|inventario)\s+(de\s+)?{re.escape(marca)}\b",
-            query, re.IGNORECASE,
-        ))
+    if not marca:
+        return False
+    m = re.escape(marca)
+    if re.search(rf"\b(listado|lista|cat[aá]logo|inventario)\s+(de\s+)?{m}\b",
+                 query, re.IGNORECASE):
+        return True
+    if fraseos and re.search(
+            rf"\b(?:{_INTRO_DESID_ES}|{_INTRO_IMP_ES})\s+{_ART_ES}{_SUST_INV_ES}"
+            rf"(?:\s+de\s+{_SUST_INV_ES})?{_COLA_FILTROS_V2}"
+            rf"\s+(?:de\s+(?:la\s+marca\s+)?)?{m}{_COLA_FILTROS_V2}{_TERMINAL_V2}",
+            query, re.IGNORECASE):
+        return True
+    if fraseos and re.search(
+            rf"\b{_INTRO_EN}\s+{_ART_EN}{m}\s+{_SUST_INV_EN}{_TERMINAL_V2}",
+            query, re.IGNORECASE):
+        return True
     return False
 
 
@@ -302,9 +370,15 @@ def marca_mencionada(texto: str, marcas_db: MarcasDB) -> str | None:
     return None
 
 
-def marca_destino(query: str, marcas_db: MarcasDB) -> str | None:
+def marca_destino(query: str, marcas_db: MarcasDB,
+                  fraseos: bool = False) -> str | None:
     """La marca a la que el usuario DECLARA cambiar, o None. POSICIONAL (dúo s316):
-    «pasemos de Kidde a Morley» resuelve Morley — la cola tras la frase de switch."""
+    «pasemos de Kidde a Morley» resuelve Morley — la cola tras la frase de switch.
+
+    `fraseos` propaga la gramática v2 (s335): la guardia #70 y el atajo comparten
+    UNA definición de intención de inventario — con el flag ON, «quiero ver las
+    centrales de Morley» invalida el contexto de otra marca igual que ya lo hace
+    «listado de Morley»; con OFF, byte-idéntico."""
     m = _SWITCH_FRASE.search(query)
     if m:
         destino = marca_mencionada(query[m.end():], marcas_db)
@@ -318,7 +392,7 @@ def marca_destino(query: str, marcas_db: MarcasDB) -> str | None:
     if unica:
         otras = {mm.group(0).lower() for mm in _MANUFACTURER_NAMES.finditer(query)
                  if mm.group(0).lower() not in _MARCAS_AMBIGUAS}
-        if len(otras) <= 1 and _intencion_inventario(query, unica):
+        if len(otras) <= 1 and _intencion_inventario(query, unica, fraseos):
             return unica
     return None
 
@@ -372,6 +446,10 @@ class Meta:
     es_reply: bool = False
     fuente: str = "texto"          # "texto" | "voz"
     mismatch_answer: bool = False
+    # (s335, DEC-270) Gramática v2 del atajo de inventario, mismo contrato que
+    # `mismatch_answer`: el shell lee `flags.inventario_fraseos_activo()` y lo
+    # mete aquí. Default False = plan byte-idéntico al de hoy en TODA entrada.
+    inventario_fraseos: bool = False
 
 
 # --- el preámbulo TIPADO (s324e) ---------------------------------------------
@@ -528,7 +606,7 @@ def _decidir_transicion(texto: str, estado_modelos: Sequence[str], meta: Meta,
     if True:
         if meta.es_reply or not estado_modelos:
             return PRESERVAR, None
-        destino = marca_destino(texto, marcas_db)
+        destino = marca_destino(texto, marcas_db, meta.inventario_fraseos)
         if not destino or modelos_reales(texto):
             return PRESERVAR, None
         marcas_estado = {_retriever.classify_model_manufacturer(mm)
@@ -612,7 +690,7 @@ def plan_turn(texto: str, estado_modelos: Sequence[str], meta: Meta,
             if not hechos.get(Hecho("marca_servida", mencionada)):
                 return _plan(ruta="marca_no_servida", log_consulta=True,
                              datos={"marca_mencionada": mencionada})
-            if _intencion_inventario(texto, mencionada):
+            if _intencion_inventario(texto, mencionada, meta.inventario_fraseos):
                 return _plan(ruta="inventario", fallback_ruta=_post_marca,
                              log_consulta=True,
                              datos={"marca": mencionada,
@@ -621,7 +699,8 @@ def plan_turn(texto: str, estado_modelos: Sequence[str], meta: Meta,
     elif _PREGATE_INVENTARIO.search(texto) \
             and not _retriever.extract_product_models(texto):
         marca_db = marca_en_texto(texto, lexico)  # type: ignore[arg-type]
-        if marca_db and _intencion_inventario(texto, marca_db):
+        if marca_db and _intencion_inventario(texto, marca_db,
+                                              meta.inventario_fraseos):
             return _plan(ruta="inventario", fallback_ruta=_post_marca,
                          log_consulta=True,
                          datos={"marca": marca_db,

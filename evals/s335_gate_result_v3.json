@@ -1,0 +1,433 @@
+{
+  "gate": "s335 correccion cohort v3",
+  "freeze": {
+    "cohorte_sha256": "62d6926bae464c45",
+    "prompt_sha256": "e297d37b6edd3986",
+    "commit": "2e30d416",
+    "regla_k": "negativa falla con CUALQUIER voto CORRECCION; positiva pasa con mayoria >=2/3; None=NUEVO"
+  },
+  "umbrales_preregistrados": {
+    "falsas_correccion": 0,
+    "positivas_pass": 14
+  },
+  "brazos": [
+    {
+      "modelo": "claude-sonnet-4-6",
+      "positivas_pass": 15,
+      "positivas_n": 15,
+      "falsas_correccion": 0,
+      "negativas_n": 22,
+      "latencia_ms": {
+        "p50": 1420,
+        "p95": 2840
+      },
+      "veredicto": "GO",
+      "obligatorias_ok": true,
+      "filas": [
+        {
+          "tipo": "positiva",
+          "q": "sí, dije Kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "me refería a Kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "que no, que es Kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "KIDDE te digo",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "era kidde, no id",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "te he dicho kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "no no, la marca es Kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "Kidde, he dicho",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "perdona, quería decir Notifier",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "no I said Kidde",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "I meant the Kidde one",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "me refiero a la marca Aguilera",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "vale, pues busca en Notifier",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "mejor dime algo de Morley",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": false
+        },
+        {
+          "tipo": "positiva",
+          "q": "Y ahora quiero ver las de Morley.",
+          "votos": [
+            "correccion",
+            "correccion",
+            "correccion"
+          ],
+          "ok": true,
+          "obligatoria": true
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿qué centrales de la marca Kidde tienes?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "los Kidde fallan mucho",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿Kidde es mejor que la competencia?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿la sirena de Kidde es compatible con mi central?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿tienes manuales de Aguilera?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "ahora quiero ver detectores Notifier",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿qué me recomiendas de Kidde para un parking?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "gracias, ya funciona el Kidde",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿cuánto cuesta el mantenimiento de una central Kidde?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "me han instalado una Kidde nueva",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿Detnov tiene detectores por aspiración?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "pásame el teléfono del soporte de Kidde",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "what Kidde panels do you have?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿y de Aguilera qué tienes?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿las Kidde llevan certificado EN54?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "mi cliente quiere presupuesto para una Kidde",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "la alarma de Kidde no para de sonar",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿Honeywell es el fabricante de esa central?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "oye, ¿tienes fichas técnicas de Kidde Commercial?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "no me gusta Kidde, ¿qué alternativas hay?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "¿me pasas el manual de la central Aguilera?",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        },
+        {
+          "tipo": "negativa",
+          "q": "I want to see Notifier catalogs",
+          "votos": [
+            "nuevo",
+            "nuevo",
+            "nuevo"
+          ],
+          "falsa_correccion": false
+        }
+      ],
+      "config_atestada": {
+        "model": "claude-sonnet-4-6",
+        "timeout_s": 6.0,
+        "max_retries": 0
+      }
+    }
+  ],
+  "guarda_model_token": [
+    {
+      "q": "no, era la Kidde XY-9999",
+      "rationale": "new_brand_switch_model_token",
+      "ok": true
+    },
+    {
+      "q": "dije Kidde QQ-8888",
+      "rationale": "new_brand_switch_model_token",
+      "ok": true
+    }
+  ],
+  "fecha_utc": "2026-08-21T14:55:26+00:00"
+}
