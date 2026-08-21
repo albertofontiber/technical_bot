@@ -97,76 +97,46 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
-## 🟡 Manuales huérfanos: lo que sí pude cerrar solo, y lo que necesita tu firma
+## 🔴 Manuales huérfanos: 245 → 134, y por qué me PARÉ antes de llegar a tus 10
 
-Pediste atacar los manuales sin modelo de forma autónoma. **Hecho: 245 → 193.** 81 productos
-salieron de la cuarentena (601 → 520) y **52 manuales** dejaron de ser inalcanzables por nombre
-de modelo. Todo con cita verificada en su propio documento, dry-run del gate en PASS y el efecto
-comprobado uno a uno con el resolver real. El resto **no lo toco porque no es mecánica, es
-adjudicación tuya**, y son tres preguntas concretas.
+Me dijiste que 193 no era aceptable y que atacara hasta 10. Tenías razón, y encontré dos errores
+míos al mirarlo otra vez:
 
-### 1. Rebrands Morley ↔ Notifier ↔ Sensitron (10 ids, 5 tokens)
+1. **59 de esos 193 nunca fueron huérfanos.** Mi contador no seguía los `redirect` y el resolver
+   sí. Contar con una definición propia en vez de con la del bot se inventa un problema. Corregido
+   en la Wiki, con test y control negativo. **La cifra real era 134.**
+2. **Descarté 181 `unresolved:` diciendo que asignar fabricante era adjudicación.** Cierto, pero
+   irrelevante: **promover no exige asignarlo** — el detector no usa el namespace para nada.
 
-Cinco tokens existen en **dos marcas a la vez** y su fila de homónimos está abierta
-(`candidate: true`, `fail-open`), así que el resolver se planta y el manual no llega. Promover el
-producto no arregla nada mientras el homónimo siga abierto. **¿Son el mismo producto rebrandeado,
-o dos productos distintos?**
+Con eso construí y **medí** un lote que baja de **134 a 18**: dry-run PASS, 0 gold perdidas, 0
+disparos en los 36 negativos, 0 pérdidas de modelo en 156 consultas. **No lo he aplicado**, porque
+el dúo lo tumbó con 10 hallazgos, los 10 verificados, y **dos de ellos son reglas que escribí yo
+mismo esta misma sesión**:
 
-| token | ids | tu decisión |
+- **R21** (`reglas_clasificacion.json`) dice literalmente: «resolver H o G es ADJUDICACIÓN (R8),
+  **nunca mecánica**». Mis 25 redirects resolvían gemelos de forma mecánica.
+- **`TECH_DEBT #99`** dice: pasada de higiene sobre `aliases.jsonl` **antes** del siguiente lote
+  grande cuando uno active >20 alias. Éste activa decenas; el subconjunto más conservador que supe
+  construir todavía activa **85**.
+
+Y dos más que no son míos pero son igual de sólidos: las 43 altas de `doc_map` escribían «el manual
+menciona el producto» **sin haber leído los 43 documentos**, y las «7 ganancias» en gold eran en su
+mayoría ensanche producido por el propio lote — una pregunta sobre la batería de la AM-8200 «ganaba»
+el manual de un gateway. El instrumento de validación lo estaba modificando el cambio que valida.
+
+**Bajar el número aflojando la evidencia es justo lo que esas reglas existen para impedir.** Así que
+paré, y el camino a ≤10 queda ordenado con lo que hace falta en cada paso:
+
+| paso | qué es | de quién |
 |---|---|---|
-| `MCX-55M` | `morley:mcx-55m` · `notifier:mcx-55m` | ¿mismo producto? |
-| `MMX-10M` | `morley:mmx-10m` · `notifier:mmx-10m` | ¿mismo producto? |
-| `NFS8REL` | `morley:nfs8rel` · `notifier:nfs8rel` | ¿mismo producto? |
-| `SP-200` | `morley:sp-200` · `notifier:sp-200` | ¿mismo producto? |
-| `PL4` | `notifier:pl4` · `sensitron:pl4` | ¿mismo producto? |
+| 1 | **Higiene de alias** (`TECH_DEBT #99`), con los casos que dio el dúo: «1 Relay Module» y «2 Relay Module» apuntan LAS DOS a `mad-412` cuando existe `mad-422`; «Caja de central de tamaño 10U» y «Modelo 1 Relé» entran al detector como si fueran modelos | mío, es el prerrequisito |
+| 2 | **Leer los 43 documentos** para que las atestaciones `secondary` sean verificadas, no inferidas | mío |
+| 3 | **Las 3 fusiones Morley↔Notifier** (`NFS8REL`, `MCX-55M`, `MMX-10M`): cada pareja tiene manual huérfano en los dos lados, así que elegir uno deja el otro perdido — **fusionarlas desbloquea los 6 de golpe** | **tuyo** |
+| 4 | **Los 25 redirects** `unresolved:X` → `<marca>:X` (mismo canónico, uno sin marca): R21 dice que esto lo firmas tú | **tuyo** |
 
-Morley es marca del grupo (Honeywell), así que **mi apuesta es que los cuatro primeros son el
-mismo módulo con dos etiquetas** — pero R8 dice que la grafía la manda el fabricante y esto es
-exactamente el caso `D838-1_kac sounders` que ya nos mordió una vez. No lo decido yo.
-
-### 2. Gemelos: dos ids para un mismo token (4 ids)
-
-| candidate | ya resuelve a | qué pasa |
-|---|---|---|
-| `notifier:id-3000` («ID-3000») | `notifier:id3000` («ID3000») | misma marca, **grafía distinta**: ¿cuál es la canónica? |
-| `notifier:st.pl4+` («ST.PL4+») | `notifier:stpl4` («STPL4») | el gemelo **también** está en cuarentena |
-| `notifier:tg-1020` («TG-1020») | **`desico:tg-1020`** | **otra marca**: ¿colisión o rebrand? |
-| `sensitron:pl4+` («PL4+») | homónimo `PL4` abierto | depende de (1) |
-
-### 3. Los 8 que el dúo me hizo retirar del lote
-
-Pasaban mi filtro y aun así salieron. Los tres primeros porque **no son productos**; los cinco
-siguientes porque promoverlos **quitaba fuentes** a las consultas de esos mismos productos:
-
-- `notifier:eia-485` — **EIA-485 es el bus RS-485**, no un producto. Sus 71 menciones son el
-  manual explicando el cableado. Promoverlo habría secuestrado toda consulta de bus. → **retirar**.
-- `notifier:ad-pe` — «Versión Exd (AD-PE)» es un sufijo de variante (1 mención, en una tabla de
-  versiones). El producto real, `notifier:smart-2-exd-ad-pe`, sí entró.
-- `notifier:rhistorico.exe` — el software **sí** es producto (tu R10), pero se llama «Reparación
-  de Históricos»; `RHistorico.exe` es su ejecutable. → **renombrar el canónico**.
-- `notifier:tg-6000`, `notifier:tg-6000-net`, `notifier:tg-notifier` — al promoverlos, la consulta
-  pierde el paraguas `TG` y con él **los 4 manuales genéricos del TG** (Introducción, Usuario,
-  Técnico, requisitos del PC), que son justo los que responden. → hace falta una **relación de
-  catálogo** que ate los TG-xxxx a esos genéricos, no una promoción.
-- `systemsensor:8100e-faast` — igual, pero peor: 14 fuentes → 1. Y toca la atribución
-  **FAAST/Xtralis** que ya tienes pendiente más arriba.
-
-### 4. Lo que queda huérfano y por qué (193)
-
-- **181** son `unresolved:` — sin marca. Asignar fabricante es adjudicación, no mecánica.
-- **53** no tienen ningún candidate: sus ids están retirados o son redirect. Es otro problema.
-- **15** no tienen cita limpia en su propio documento; **7** son acrónimos cortos (`VIEW` sale
-  1.648 veces en el corpus por ser una palabra inglesa).
-- **5** el detector no puede ni verlos: `00051`, `03382`… son referencias puramente numéricas y
-  `EEV(2)` lleva paréntesis.
-
-### 5. Una que te menciono sin bloquear nada
-
-Cuatro productos que entraron llevan namespace `notifier:` y son **Sensitron** en la portada
-(`SMART 3 CC-CD`, `SMART 3 CD`, `SMART3G-D`, `SMART3G`). Los manuales son de Notifier España
-(MN-DT-62x) y el técnico pregunta por el modelo, no por el namespace, así que los dejé dentro
-para no tener 3 manuales huérfanos por una cuestión de contabilidad. Si prefieres moverlos a
-`sensitron:`, es un redirect y es barato.
+**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)`… son
+referencias puramente numéricas o con paréntesis, y el detector las excluye **a propósito**. Su
+manual sólo se alcanza dándoles un nombre de producto de verdad, y eso es leer el PDF y decidir.
 
 ---
 

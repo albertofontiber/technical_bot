@@ -90,15 +90,13 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory() as tmp:
         d = Path(tmp)
-        for _, f in FILES.items():
-            if (CATALOG_DIR / f).exists():
-                shutil.copy(CATALOG_DIR / f, d / f)
-        ruta = d / FILES["products"]
-        filas = [json.loads(l) for l in ruta.read_text("utf-8").splitlines() if l.strip()]
-        for p in filas:
-            if p["id"] in ids:
-                p["candidate"] = False
-        ruta.write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in filas), "utf-8")
+        # El «después» lo construye EL MISMO CÓDIGO que aplicará el gate
+        # (`aplicar_plan`), no una copia mía del efecto. Con sólo `candidate=False`
+        # esta sonda se perdería los `products_redirect`, los `doc_map_altas` y los
+        # `aliases_altas` del plan — es decir, mediría un plan que no es el que se
+        # va a escribir. (s334b: el plan v2 lleva las cuatro cosas.)
+        from scripts.s324_lote_firmado_writer import aplicar_plan
+        aplicar_plan(plan, d, CATALOG_DIR)
         antes = modelos_con(CATALOG_DIR, consultas)
         despues = modelos_con(d, consultas)
 

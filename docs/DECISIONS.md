@@ -10232,3 +10232,54 @@ imports y `catalog_store`, verdes.
   `evals/s334_huerfanos_{propuesta.md,verificacion_v1.json,g4b_v1.json}` · recibos
   `s334_huerfanos_lote_*_aplicar_*.json`.
 
+## DEC-271 (s334b, 21 ago 2026) — El pushback de Alberto destapa un error de definición (59 falsos huérfanos) y el dúo me para con DOS REGLAS QUE ESCRIBÍ HOY
+
+- **Fecha**: 21 ago 2026 (s334b). **Impacto**: ALTO (catálogo + retrieval). **Veredicto: NO-GO.**
+- **Gatillo**: Alberto — «el ataque a huérfanos me parece todavía subóptimo. Que aún queden 193 no
+  me parece correcto, y deberías atacarlo hasta que queden 10 como máximo».
+- **Los dos errores míos que destapó el pushback**:
+  1. **59 de los 193 nunca fueron huérfanos.** Mi contador preguntaba `id in consumibles` con la
+     clasificación de la Wiki, donde un `redirect` cae en la clase «redirects». El resolver, en
+     cambio, hace `follow_redirect` ANTES de indexar (`catalog_resolver.py:187`) y
+     `catalog_store._consumable` lo sigue por diseño («fix dúo s90»). **Reimplementar la definición
+     en vez de usar la del consumidor se inventa un problema.** Corregido en `dashboard/catalogo.py`
+     con 2 tests (uno de ellos control negativo: si el destino sigue en cuarentena, SÍ es huérfano).
+     Cifra real: **134**.
+  2. **Descarté 181 `unresolved:` por prior.** «Asignar fabricante es adjudicación»: cierto e
+     irrelevante — **promover no exige asignarlo**, porque el detector se construye con
+     `canonical_model` y el índice con `norm_token(canonical_model)`: el namespace no interviene.
+- **Lo construido y medido (y NO aplicado)**: lote de 134 promociones + 25 redirects + 43
+  `doc_map_altas` + 3 alias de marca. Dry-run **PASS**; detector 1891→2131 (+240/−0); **0 gold
+  perdidas**, 7 ganancias; 0 disparos en 36 negativos; **0 pérdidas de modelo en 156 consultas**
+  (seam 1 bajo `replace`); **huérfanos 134 → 18**.
+- **Tres mecanismos nuevos, cada uno verificado ANTES de entrar**: promover+`doc_map` convierte el
+  veredicto `DESBLOQUEA_PERO_ESTRECHA` en ganancia (medido en `notifier:tg-6000`: 4 fuentes → 1 con
+  sólo promover, **4 → 5** con el doc_map); redirect de gemelos alcanza el manual **sin añadir
+  término al detector**; alias cualificado por marca alcanza el manual dejando el token homónimo
+  fallando abierto (3 de 4; el cuarto no lleva dígitos).
+- **Por qué NO se aplica — dúo r43, 10 hallazgos, 10 verificados, 0 FP**:
+  · **R21, escrita en DEC-270 esta misma sesión**: «resolver H o G es ADJUDICACIÓN (R8), **nunca
+    mecánica**». Los 25 redirects la incumplen. · **Trigger de TECH_DEBT #99**, también de hoy:
+    higiene de alias **antes** del siguiente lote grande cuando uno active >20; éste activa decenas
+    y **el subconjunto más conservador todavía activa 85**. · Las 43 `doc_map_altas` escriben «el
+    manual lo menciona y sirve como fuente» derivándolo sólo de que el paraguas las traía: son
+    atestaciones **no leídas**, y verdean el mismo gate de fuentes que evalúa el cambio. · Promover
+    los «sin cita literal» apoyándose en su fila de `doc_map` es **circular**: esa fila viene del
+    catálogo candidate que se está graduando. · **Fable**: las «7 ganancias» gold son en buena parte
+    ensanche producido POR el lote (una pregunta de batería de la AM-8200 gana el manual del gateway
+    H-GTW) — **el instrumento de validación lo modifica el lever que valida**. · La excepción
+    nombre-largo-con-dígito deja entrar frases genéricas al detector («1 Relay Module», «Caja de
+    central de tamaño 10U») y mi recuento con frontera de palabra se hizo **sólo sobre los 25
+    términos flageados**. · A favor: Fable verificó que el `doc_map` de un id redirigido NO se pierde.
+- **Un acierto de método que sí vale**: los 25 términos de riesgo se midieron contando en cuántos
+  `source_file` aparecen. Con `ilike *X*` (SUBSTRING) salían 4 palabras; **con FRONTERA DE PALABRA
+  —que es como busca el detector— `ITAC` cae de 270 a 11 documentos (casaba dentro de
+  «capaci*tac*ión») y `NAS` de 231 a 11**. Dos productos legítimos que habría perdido por medir con
+  un operador distinto del que usa el consumidor. Sobreviven sólo `VIEW` (331) e `INDICATOR` (260).
+- **Secuencia adjudicada para llegar a ≤10**: (1) higiene de alias `TECH_DEBT #99` con los casos
+  concretos del dúo; (2) leer los 43 documentos para que las `secondary` sean verificadas; (3)
+  Alberto: 3 fusiones Morley↔Notifier (desbloquean **6 manuales de golpe**) y los 25 redirects.
+  **5 son irreducibles**: digit-only y `EEV(2)`, que el detector excluye a propósito.
+- **Ref**: `evals/adversarial_review_log.jsonl` ts=2026-08-21T15:44:21 (r43) ·
+  `evals/s334b_huerfanos_{propuesta.md,plan.json,radio_explosion.json,seam1.json}` ·
+  `docs/DECISIONES_PENDIENTES_ALBERTO.md`.

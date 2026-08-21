@@ -16,7 +16,7 @@ LAS CLASES, y por qué cada una:
   A — nombrado, con marca resuelta y token distintivo: candidato a promoción.
   B — acrónimo corto sin dígitos: riesgo léxico REAL (`VIEW` sale 1.648 veces en
       el corpus porque es una palabra inglesa). Fuera del lote autónomo.
-  C — `unresolved:`: sin marca. Asignar fabricante es ADJUDICACIÓN, no mecánica.
+  C — (retirada) `unresolved:` ya no es una clase excluida: ver `clase()`.
   D — código de norma (R14): jamás es un producto; se retira, no se promueve.
   E — su nombre no está en el texto de su propio documento (sonda s334): sin cita
       posible, fuera por construcción.
@@ -103,8 +103,23 @@ def main() -> int:
     dm = [json.loads(l) for l in (ROOT / "data/catalog/doc_map.jsonl")
           .read_text("utf-8").splitlines() if l.strip()]
 
-    def consumible(pid: str) -> bool:
+    def sigue(pid: str) -> str:
+        """`follow_redirect` del store. UN ID `redirect` NO ES UN HUÉRFANO: el
+        resolver resuelve el destino (`catalog_resolver.py:187` hace
+        `cat.follow_redirect(e["id"])` ANTES de indexar el doc), así que su manual
+        siempre fue alcanzable. Mi primera versión no seguía el redirect y contó
+        59 documentos como perdidos que nunca lo estuvieron — la misma clase de
+        error que G3 nombra: medir la variable sin comprobar qué cuenta."""
+        visto: set[str] = set()
         p = prod.get(pid)
+        while p and p.get("estado") == "redirect" and p.get("redirect_to") and pid not in visto:
+            visto.add(pid)
+            pid = p["redirect_to"]
+            p = prod.get(pid)
+        return pid
+
+    def consumible(pid: str) -> bool:
+        p = prod.get(sigue(pid))
         return bool(p) and p.get("estado") == "activo" and not p.get("candidate")
 
     huerfanos = []
@@ -130,8 +145,14 @@ def main() -> int:
         tok = p["canonical_model"]
         if NORMA.match(tok):
             return "D"
-        if pid.startswith("unresolved:"):
-            return "C"
+        # `unresolved:` YA NO SE EXCLUYE (Alberto, 21-ago: «que aún queden 193 no
+        # me parece correcto»). Mi motivo era «asignar fabricante es adjudicación»
+        # — cierto, y IRRELEVANTE: promover no exige asignarlo. El detector se
+        # construye con `_add(p["canonical_model"])` y el índice con
+        # `norm_token(canonical_model)` (`catalog_store.build_indexes`): **el
+        # namespace no interviene**. El id sigue siendo `unresolved:` y el manual
+        # se vuelve alcanzable igual. Ponerle marca es mejora de traza, no
+        # requisito de alcance, y va aparte.
         if len(tok) <= 4 and not any(ch.isdigit() for ch in tok):
             return "B"
         return "A" if cita_de(texto.get(sf, ""), tok) else "E"
@@ -147,13 +168,22 @@ def main() -> int:
         for pid in cands:
             cl = clase(pid, sf)
             por_clase[cl] += 1
-            if cl != "A":
-                continue
+            if cl == "D":
+                continue                       # una norma no se promueve, se retira
+            # B y E YA NO SE DESCARTAN AQUÍ (s334b). Mi exclusión era una
+            # PRECAUCIÓN, no una medida: «acrónimo corto = riesgo léxico» y «sin
+            # cita = sin evidencia» son hipótesis que el gate y la sonda G4 saben
+            # comprobar fila a fila (censo de términos, 36 negativos, 52 gold, 131
+            # consultas reales, y el veredicto de estrechamiento). Descartar por
+            # prior lo que un instrumento puede medir es justo lo que dejó 134
+            # manuales fuera. Salen con su clase declarada para que el lote pueda
+            # separarlos y para que la decisión sea del censo, no mía.
             tok = prod[pid]["canonical_model"]
             cuerpo = texto.get(sf, "")
             mejores.append({
                 "id": pid,
                 "canonico": tok,
+                "clase": cl,
                 "marca": pid.split(":", 1)[0],
                 "cita": cita_de(cuerpo, tok),
                 "menciones_en_su_doc": len(re.findall(

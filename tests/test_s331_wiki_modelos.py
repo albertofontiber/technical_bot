@@ -23,6 +23,7 @@ Lo que se fija aquí, y por qué cada cosa:
 """
 from __future__ import annotations
 
+import json
 import pytest
 
 from dashboard import catalogo
@@ -453,6 +454,71 @@ def test_el_autocompletado_no_mete_javascript():
 
 
 # ---------------------------------- 6. el guión largo en un atributo (s334)
+
+
+def test_un_doc_cuyo_id_es_REDIRECT_no_es_huerfano(tmp_path, monkeypatch):
+    """EL fallo que Alberto destapó al no dar por buenos los 193 (s334b).
+
+    Un id `redirect` NO deja huérfano a su documento: el resolver hace
+    `follow_redirect` ANTES de indexarlo (`catalog_resolver.py:187`) y
+    `catalog_store._consumable` sigue el redirect por diseño («fix dúo s90»). La
+    Wiki, en cambio, preguntaba `id in consumibles` con su propia clasificación,
+    donde un redirect cae en la clase «redirects» — y contaba 59 documentos como
+    perdidos que el bot siempre alcanzó.
+
+    Se prueba con un catálogo SINTÉTICO mínimo porque el fallo es de DEFINICIÓN:
+    con el catálogo real se probaría el dato de hoy, no la regla."""
+    def jsonl(nombre, filas):
+        (tmp_path / nombre).write_text(
+            "".join(json.dumps(f, ensure_ascii=False) + "\n" for f in filas), "utf-8")
+
+    jsonl("products.jsonl", [
+        {"id": "marca:vivo", "canonical_model": "VIVO-1", "estado": "activo"},
+        {"id": "marca:viejo", "canonical_model": "VIEJO-1", "estado": "redirect",
+         "redirect_to": "marca:vivo"},
+    ])
+    for f in ("aliases.jsonl", "umbrellas.jsonl", "homonyms.jsonl",
+              "relations.jsonl", "docrel.jsonl"):
+        jsonl(f, [])
+    jsonl("doc_map.jsonl", [{"document_id": "d1", "source_file": "MANUAL-VIEJO",
+                             "entries": [{"id": "marca:viejo", "role": "primary",
+                                          "scope": "doc"}]}])
+    monkeypatch.setattr(catalogo, "CATALOG_DIR", tmp_path)
+    catalogo.indice.cache_clear()
+    try:
+        assert catalogo.indice().docs_huerfanos == (), (
+            "un documento atestado por un id que REDIRIGE a un producto vivo es "
+            "alcanzable: contarlo como huérfano se inventa un problema")
+        assert catalogo.resumen()["docs_huerfanos"] == 0
+    finally:
+        catalogo.indice.cache_clear()
+
+
+def test_un_doc_cuyo_id_redirige_a_un_CANDIDATE_si_es_huerfano(tmp_path, monkeypatch):
+    """Control negativo del anterior: seguir el redirect no puede volverse un
+    fail-open. Si el DESTINO sigue en cuarentena, el manual sigue perdido."""
+    def jsonl(nombre, filas):
+        (tmp_path / nombre).write_text(
+            "".join(json.dumps(f, ensure_ascii=False) + "\n" for f in filas), "utf-8")
+
+    jsonl("products.jsonl", [
+        {"id": "marca:encuarentena", "canonical_model": "VIVO-1",
+         "estado": "activo", "candidate": True},
+        {"id": "marca:viejo", "canonical_model": "VIEJO-1", "estado": "redirect",
+         "redirect_to": "marca:encuarentena"},
+    ])
+    for f in ("aliases.jsonl", "umbrellas.jsonl", "homonyms.jsonl",
+              "relations.jsonl", "docrel.jsonl"):
+        jsonl(f, [])
+    jsonl("doc_map.jsonl", [{"document_id": "d1", "source_file": "MANUAL-VIEJO",
+                             "entries": [{"id": "marca:viejo", "role": "primary",
+                                          "scope": "doc"}]}])
+    monkeypatch.setattr(catalogo, "CATALOG_DIR", tmp_path)
+    catalogo.indice.cache_clear()
+    try:
+        assert catalogo.resumen()["docs_huerfanos"] == 1
+    finally:
+        catalogo.indice.cache_clear()
 
 
 def test_el_buscador_no_sale_pre_relleno_con_un_guion(entorno):

@@ -234,11 +234,22 @@ def indice() -> Indice:
     modelos.sort(key=lambda m: (m.marca, norm_token(m.canonico)))
     categorias = tuple(sorted({m.categoria for m in modelos if m.categoria}))
 
-    consumibles = {m.id for m in modelos if _clase(m) == "consumibles"}
+    # HUÉRFANO = ningún id de su fila del `doc_map` es consumible **PARA EL
+    # RESOLVER**. La definición NO se reimplementa aquí: se usa `cat._consumable`,
+    # que es la que el bot ejecuta en runtime, y que SIGUE LOS REDIRECTS
+    # (`catalog_store.py:101`, «fix dúo s90»).
+    #
+    # EL FALLO QUE ESTO CIERRA (s334b, lo destapó Alberto al no dar por buenos los
+    # 193): la versión anterior preguntaba `i in consumibles`, y un id `redirect`
+    # se clasifica como «redirects», no como «consumibles» — así que 59
+    # documentos salían como huérfanos cuando el resolver SIEMPRE los alcanzó por
+    # el destino del redirect (`catalog_resolver.py:187` hace `follow_redirect`
+    # ANTES de indexar el doc). Contar con una definición propia en vez de con la
+    # del consumidor es la forma silenciosa de inventarse un problema.
     huerfanos: dict[str, int] = {}
     for fila in cat.doc_map:
         ids = [str(e.get("id", "")) for e in fila.get("entries", [])]
-        if ids and not any(i in consumibles for i in ids):
+        if ids and not any(cat._consumable(i) for i in ids):
             huerfanos[str(fila.get("source_file") or "")] = len(ids)
 
     return Indice(

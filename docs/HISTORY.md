@@ -6922,3 +6922,57 @@ automático falló porque el manifiesto derivado del snapshot dejó de coincidir
 las mismas y las dos reviews están guardadas y adjudicadas — falta el sello, no el revisor. No
 volver a commitear entre Sol y Fable.
 
+---
+
+## s334b (21 ago 2026) — «193 no me parece correcto»: dos errores míos, un lote que baja a 18, y las dos reglas que escribí por la mañana parándome por la tarde
+
+Alberto no dio por buenos los 193 huérfanos y me dijo que atacara hasta dejar 10. La primera cosa
+que encontré al volver a mirar fue que **59 de esos 193 nunca fueron huérfanos**: mi contador
+preguntaba `id in consumibles` con la clasificación de la Wiki, donde un `redirect` cae en su propia
+clase, mientras el resolver hace `follow_redirect` **antes** de indexar el documento. Reimplementé
+la definición en vez de usar la del consumidor y me inventé 59 problemas. La cifra real era **134**.
+
+La segunda fue peor de argumentar: había apartado 181 `unresolved:` diciendo que asignarles
+fabricante era adjudicación. Es cierto, y no viene al caso — **promover no exige asignarlo**. El
+detector se construye con el `canonical_model` y el índice con su `norm_token`: el namespace no
+interviene en ningún sitio. Descarté por prior lo que un instrumento sabía medir.
+
+Con las dos cosas corregidas construí un lote que baja de **134 a 18**, con tres mecanismos nuevos
+y cada uno verificado antes de entrar. El que más me gustó: el veredicto
+`DESBLOQUEA_PERO_ESTRECHA` que Fable me había obligado a cablear en r42 **no era un muro, era una
+señal de que al plan le faltaba su acompañamiento** — añadiendo al `doc_map` del producto, como
+`secondary`, las fuentes que la promoción le quitaría, el caso peor (`notifier:tg-6000`) pasa de
+«4 fuentes → 1» a «4 → 5». Y el validador del catálogo, al tumbar mi primera versión con 13
+«canonical_model DUPLICADO», resultó estar señalando el hallazgo: varios `unresolved:X` son
+duplicados de un `<marca>:X` que ya existe, y ahí la operación buena no es promover, es
+**redirigir** — se alcanza el manual sin meter un solo término nuevo en el detector.
+
+Hubo también un acierto de método del que me alegro: los 25 términos de riesgo los medí contando en
+cuántos documentos aparecen. Con `ilike *X*` salían cuatro palabras. Pero el detector usa **frontera
+de palabra**, y con frontera `ITAC` cae de 270 documentos a **11** —casaba dentro de
+«capaci**tac**ión»— y `NAS` de 231 a **11**. Dos productos legítimos que habría tirado por medir con
+un operador distinto del que usa el consumidor. Sobrevivieron sólo `VIEW` (331) e `INDICATOR` (260),
+que sí son palabras inglesas.
+
+**Y entonces el dúo me paró.** Diez hallazgos, diez verificados, cero falsos positivos — y dos de
+ellos son **reglas que yo mismo escribí esta misma sesión**: R21 dice literalmente «resolver H o G
+es ADJUDICACIÓN, nunca mecánica», y mis 25 redirects resolvían gemelos mecánicamente; el trigger de
+`TECH_DEBT #99` dice «higiene de alias antes del siguiente lote grande» cuando uno active más de 20,
+y éste activa decenas — el subconjunto más conservador que supe construir todavía activa 85.
+
+Los otros dos críticos son de la misma familia y duelen más. Las 43 altas de `doc_map` escribían «el
+manual menciona el producto y sirve como fuente» **sin que yo hubiera leído los 43 documentos**:
+inferido de que el paraguas los traía. Y Fable señaló que las «7 ganancias» en gold que yo presentaba
+como prueba eran en buena parte **ensanche producido por el propio lote** — una pregunta sobre la
+capacidad de batería de la AM-8200 «ganaba» el manual de un gateway. El instrumento de validación lo
+estaba modificando el cambio que valida.
+
+Así que **NO-GO**, y creo que es la parte útil de la sesión. Lo que entrego es la corrección de la
+definición (con test y control negativo) y un camino ordenado a ≤10 con el prerrequisito nombrado:
+higiene de alias primero, leer los 43 documentos después, y dos decisiones de Alberto —las 3
+fusiones Morley↔Notifier, que desbloquean 6 manuales de golpe, y los 25 redirects, que R21 dice que
+firma él—. Quedan 5 irreducibles: referencias puramente numéricas y un `EEV(2)`, que el detector
+excluye a propósito.
+
+Bajar el número aflojando la evidencia es exactamente lo que esas reglas existen para impedir. Que
+me hayan parado a mí, el mismo día que las escribí, es la mejor prueba de que sirven.
