@@ -80,18 +80,31 @@ def cita(texto: str, token: str) -> bool:
     return bool(pat) and re.search(pat, _norm(texto)) is not None
 
 
-def pagina(tabla: str, params: dict) -> list[dict]:
+def pagina(tabla: str, params: dict, orden: str = "id") -> list[dict]:
+    """Paginar SIN `order` es un BUG: PostgREST no garantiza orden estable entre
+    rangos, así que la paginación salta y duplica filas. Lo cacé porque dos pases
+    idénticos de la huella de detección dieron `AM-LCD=2` y `AM-LCD=6`, y porque
+    el corpus salía con 954 documentos cuando tiene 1.080. Con `order` explícito
+    es determinista, y se comprueba contra el total de `count=exact` en vez de
+    confiar en que la última página vino corta."""
     out, desde = [], 0
     with httpx.Client(timeout=180) as c:
+        r0 = c.get(f"{SB}/{tabla}", headers={**H, "Prefer": "count=exact"},
+                   params={**params, "limit": "1"})
+        total = int((r0.headers.get("content-range") or "0/0").split("/")[-1] or 0)
         while True:
             r = c.get(f"{SB}/{tabla}", headers={**H, "Range-Unit": "items",
-                      "Range": f"{desde}-{desde+999}"}, params=params)
+                      "Range": f"{desde}-{desde+999}"},
+                      params={**params, "order": orden})
             r.raise_for_status()
             d = r.json()
             out += d
             if len(d) < 1000:
-                return out
+                break
             desde += 1000
+    if len(out) != total:
+        raise SystemExit(f"paginación incompleta en {tabla}: {len(out)} de {total}")
+    return out
 
 
 def huerfanos() -> list[dict]:

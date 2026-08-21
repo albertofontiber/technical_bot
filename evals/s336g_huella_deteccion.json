@@ -1,0 +1,134 @@
+{
+ "que_es": "s336g · huella de detección en el corpus de los 3 términos que promueve s336f. Responde al hallazgo de Fable en el dúo de s336f: el censo del gate flagea `AM-LCD` con [sin_digitos, acronimo_corto] —la clase con la que R19 mata `NAS`— y 137 consultas reales son base fina para un término letters-only. La medida es la misma que zanjó DEC-272 (NAS: 231→11 documentos): ¿en cuántos documentos dispara, y son suyos o ajenos? Y para los ajenos, ¿la aparición es legítima?",
+ "corpus": {
+  "chunks": 26216,
+  "documentos": 1080
+ },
+ "nota_paginacion": "el paginador de este script lleva `order` explícito + verificación contra `count=exact`. Sin `order`, dos pases idénticos daban AM-LCD=2 y AM-LCD=6 y el corpus salía con 954 documentos en vez de 1.080: PostgREST no garantiza orden estable entre rangos.",
+ "filas": [
+  {
+   "termino": "AM-LCD",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "contextos_ajenos": [
+    {
+     "document_id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+     "contexto": "| MENU PROGRAMAZIONE Programmazione<br/>CPU RPT AM-LCD SIB |                 |                       |"
+    },
+    {
+     "document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
+     "contexto": "200N AW70PC0)</ins>  | 6 | LINEA -- 2 | RS-485 PARA AM-LCD                    | | - | ---------- | -----------"
+    },
+    {
+     "document_id": "c8195393-18fa-43b6-87d0-a3069a5127e2",
+     "contexto": "| | AM-LCD                         |   |"
+    },
+    {
+     "document_id": "e3cdd6fa-4d33-4eba-98c1-2f1193fc9130",
+     "contexto": "(22) **Pantalla FM/AM LCD:** Pantalla de visualización FM/AM.  (23) **STANDBY"
+    },
+    {
+     "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+     "contexto": "Perifericos<br/>PRN | Configuracion Perifericos<br/>AM-LCD | Configuracion Perifericos<br/>SIB | ▲◄ ✓ ►▼ ✖ | |"
+    }
+   ]
+  },
+  {
+   "termino": "SDX-751-TEM",
+   "documentos": 14,
+   "suyos": 4,
+   "ajenos": 10,
+   "contextos_ajenos": [
+    {
+     "document_id": "13f1f06c-6405-4ca6-8223-6abda577f7c4",
+     "contexto": "## Multisensores Optiplex, SDX-751TEM  Estos detectores requieren que la sensibilidad de"
+    },
+    {
+     "document_id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+     "contexto": "ilidad 7251 | | OMNI    | Detector combinado \"Omni\" SDX751TEM                |"
+    },
+    {
+     "document_id": "53004592-9a57-4c00-ba0b-f5166a6a5418",
+     "contexto": "ro de la izquierda.  Los sensores MULTI 'Optiplex' (SDX-751TEM) disponen de un nivel adicional para el modo de fun"
+    },
+    {
+     "document_id": "7068d571-5aa5-4908-966b-d9e797ca4d0c",
+     "contexto": "nterfaz es reconocido como un sensor multicriterio, SDX751TEM, al realizar una autoprogramación en la central de"
+    },
+    {
+     "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+     "contexto": "| | SDX-751TEM    | Multisensor OptiPlex"
+    },
+    {
+     "document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
+     "contexto": "| 6,5 mA               |                       | | SDX-751TEM     | 300 μA               | 7 mA                 |"
+    },
+    {
+     "document_id": "8ddcac3f-7884-4345-bf1b-f2bbb3a31ca3",
+     "contexto": "| | SDX-751TEM                                | Detector de humo a"
+    },
+    {
+     "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+     "contexto": "| 6,5 mA               |                       | | SDX-751TEM     | 300 μA               | 7 mA                 |"
+    },
+    {
+     "document_id": "c8195393-18fa-43b6-87d0-a3069a5127e2",
+     "contexto": "| 6,5 mA               |                       | | SDX-751TEM     | 300 μA               | 7 mA                 |"
+    },
+    {
+     "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+     "contexto": "ilidad 7251 | | OMNI    | Detector combinado \"Omni\" SDX751TEM                |"
+    }
+   ]
+  },
+  {
+   "termino": "LPX-751",
+   "documentos": 13,
+   "suyos": 3,
+   "ajenos": 10,
+   "contextos_ajenos": [
+    {
+     "document_id": "13f1f06c-6405-4ca6-8223-6abda577f7c4",
+     "contexto": "ador manual estilo EU                           | | LPX-751      | Sensor de humo láser VIEW (bajo perfil)    |"
+    },
+    {
+     "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+     "contexto": ". FDX-551E h. FDX-551HTE i. FDX-551RE j. IPX-751 k. LPX-751 l. M500KAC m. M500DKM(R) n. M500DKMI o. MMX-1E p. M"
+    },
+    {
+     "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+     "contexto": "| | LPX-751"
+    },
+    {
+     "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+     "contexto": "a - Tipo BS)  l. FDX-551REM (Térmico- Tipo A1R)  m. LPX-751 (VIEW); FSL-751E (VIEW)  ZMX (Fuente alimentación ("
+    },
+    {
+     "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+     "contexto": "| | LPX-751       | Sensor de humo con láser VIEW (perfil bajo)"
+    },
+    {
+     "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+     "contexto": "| | LPX-751                                            | Un det"
+    },
+    {
+     "document_id": "aa1bc380-4c99-41d0-aea3-3f0567bb7347",
+     "contexto": "tral ID2000 es compatible con el sensor láser VIEW (LPX-751). Se deben considerar ciertos aspectos a la hora de"
+    },
+    {
+     "document_id": "bf23f048-5714-401d-b408-0facb3dcbbf6",
+     "contexto": "e 11  Por ejemplo, para sustituir un detector láser LPX-751 en la dirección D101 del lazo (SLC) por uno fotoelé"
+    },
+    {
+     "document_id": "d02cfdd5-dee9-4226-a9e0-38d225d0ff6d",
+     "contexto": "Sensor de humo láser                             | LPX-751               |  \\* Bajo una condición de ALARMA, e"
+    },
+    {
+     "document_id": "ef245515-0c5a-41c0-8454-52bf70c8e4ab",
+     "contexto": "| | VIEW | Sensor de humo láser          | LPX-751 | } |          |  \\* Bajo condiciones de ALARMA est"
+    }
+   ]
+  }
+ ]
+}

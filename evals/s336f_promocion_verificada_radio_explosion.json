@@ -1,0 +1,91 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260821T204459Z",
+ "plan_sha": "1dc547ec2be8e110",
+ "freeze": {
+  "catalog_shas": {
+   "products": "47b5783ea88e3279",
+   "aliases": "78da6ec6a4df7601",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "0c891cee507e6541"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 2,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 2032,
+  "terminos_despues": 2034,
+  "entran": 2,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "LPX-751",
+    "normkey": "lpx751",
+    "core": "lpx[-\\s/.+]*751",
+    "origen": "confirmar notifier:lpx-751",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SDX-751-TEM",
+    "normkey": "sdx751tem",
+    "core": "sdx[-\\s/.+]*751[-\\s/.+]*tem",
+    "origen": "confirmar notifier:sdx-751-tem",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "sdx[-\\s/.+]*751"
+    ]
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "SDX751TEM",
+    "id": "notifier:sdx-751-tem",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Sensores VIEW",
+    "id": "notifier:lpx-751",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 137,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

@@ -10470,3 +10470,60 @@ paga 2 de 84 huérfanos — y aplicado, 1.** · impacto MEDIO · s336 · 21-ago
   paceé contra el eje equivocado — corregido en `s336`, que ahora separa `PerMinute` (esperar y
   reintentar) de `PerDay` (apagar el lector con veredicto propio `CUOTA_DIARIA_AGOTADA`).
 - **Ref**: `docs/DECISIONS.md` DEC-275 · `scripts/s336_sonda_multimodal_v2.py`
+
+## DEC-277
+
+**Los «20 promovibles» eran 2: R19/R21 se comen 17, y el que sobrevivía al filtro lo mató la
+medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
+
+- **Decisión**: promover `notifier:sdx-751-tem` y `notifier:lpx-751`. **Huérfanos 84 → 82.**
+- **`PROMOVIBLE` era una condición de EVIDENCIA, no una adjudicación.** El bucket de s336c
+  significa «el canónico está citado en el PDF y en `chunks_v2`, y ningún id es `unresolved:`».
+  Entre eso y un plan hay tres filtros (`s336e`): R19 (producto-hood), R21 (colisión de marca **o
+  gemelo ya consumible por alias**) y sujeto-vs-referencia-cruzada. **17 paran.**
+- **El gate cazó un fallo de mi filtro**: mi R21 sólo cruzaba canónico↔canónico, y
+  `notifier:notifier-inspire-e10` pasó aunque su nombre ya es alias `variante-tipografica` de
+  `notifier:inspire-e10`, que SÍ es consumible. Lo paró el validador del catálogo («COLISIONA con
+  canonical_model … exact pisaría el alias»). Cableado **R21(b)** para no depender de eso.
+- **Dúo COMPLETO** (Sol xhigh 60 tool-calls + Fable 7): **9 hallazgos, 9 verificados, 0 falsos**.
+  Veredicto de Fable: «defendible y bien gated; NO SÓLIDO en su prosa». Los dos convergieron en
+  que **mi desglose contradecía su propio recibo** — escribí «R19 6 / R21 10 / SUJETO 1» y el JSON
+  dice R21=11, R19=6, **SUJETO=0**: el filtro de página no decidió ni un caso (a `ID-3000` lo paró
+  R21, que va antes en el `elif`) y yo lo presenté como la guarda que lo descartó. Presentar como
+  ejercitado un mecanismo sin probar es el mismo patrón que DEC-275 nombra.
+- **Lo que cambió el lote (Fable, hallazgo material)**: el censo del gate flagea `AM-LCD` con
+  `[sin_digitos, acronimo_corto]` —la clase con la que R19 mata `NAS`, precedente DEC-272
+  (231→11 docs)— y yo declaré «LPX-751 es el más débil» **omitiéndolo**. Medí la huella en corpus
+  (`s336g`) esperando limpiar el flag y lo **CONFIRMÓ**: 1 de sus 6 documentos es un falso
+  positivo real —«**Pantalla FM/AM LCD**» de un manual de radio— porque el core
+  `am[-\s/.+]*lcd` admite el espacio. **`AM-LCD` fuera: 3 → 2 promociones.** No es una baja del
+  producto: arreglarlo es una pregunta de NORMALIZACIÓN del detector (¿un término letters-only
+  debe exigir el separador?) más grande que este lote y con su propia medida. **Queda abierta.**
+- **BUG SISTÉMICO cazado al verificar ese hallazgo**: dos pases idénticos de `s336g` dieron
+  `AM-LCD=2` y `AM-LCD=6`, y el corpus salía con **954** documentos teniendo **1.080**. Mis
+  paginadores no pasaban `order`, y **PostgREST no garantiza orden estable entre rangos**: la
+  paginación saltaba y duplicaba filas. Arreglado en `s336b/c/g` con `order` explícito +
+  verificación contra `count=exact` (falla ruidosamente si faltan filas) en vez de fiarse de que
+  la última página venga corta. **Los dos censos se re-corrieron y salen IDÉNTICOS** (75/6/2/1 y
+  la tabla de buckets): ahí no mordía, pero la clase de fallo estaba viva en todo el aparato.
+- **Correcciones de framing aceptadas**: «dos vías independientes» → `chunks_v2` se deriva del
+  MISMO PDF, así que es una fuente con un check de integridad (corregido en la `provenance_add`,
+  que es permanente); y omití que `sdx-751-tem` estrecha — verificado que **s334f ya lo adjudicó
+  `PRECISION`** (sus 2 pérdidas son `DOC_DE_HERMANO`), así que se arrastra en vez de repetir G4.
+- **Medido**: dry-run PASS · detector 2032 → 2034 (+2/−0) · 0 gold perdidas · 0 disparos en 36
+  negativos · 0 detecciones nuevas en 137 reales · **seam 1: 0 pérdidas de modelo** · suite
+  completa **4.998 passed**, 147 skipped, 2 xfailed · censo post-aplicación PASS.
+- **Gap declarado, y es el que importa**: 84 → 82 no se acerca a los «10 como máximo» que pidió
+  Alberto, y la medida dice por qué: **53 de 84 están gated en sus adjudicaciones** (29 redirects
+  `unresolved:` + 11 colisiones R21 + 15 nº de referencia, con solape). **No hay camino autónomo
+  a 10 sin saltarse R21.** El cuello de botella dejó de ser técnico.
+- **Alternativas descartadas**: promover los 20 tal cual (mete 6 no-productos y pre-empta 11
+  adjudicaciones); aflojar el filtro de sujeto para recuperar `ID-3000` (es referencia cruzada en
+  las páginas 32/38 de un manual de TG — repetiría el mecanismo que dejó 32 de 43 atestaciones sin
+  cita en s334d); redirects mecánicos para los gemelos (es lo que R21 llama adjudicación, y ya me
+  lo cazó el dúo en r43).
+- **Ref**: `evals/s336f_propuesta_dua.md` (corregida, con lo que cazó el dúo) ·
+  `evals/s336e_filtro_promovibles.json` · `evals/s336g_huella_deteccion.json` ·
+  `evals/s336f_promocion_verificada_{plan,seam1,radio_explosion}.json` ·
+  `adversarial_review_log.jsonl` ts=2026-08-21T20:36:12 (`duo_status=complete_adjudicated`,
+  findings 9 / confirmed 9 / false_pos 0).

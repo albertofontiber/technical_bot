@@ -65,9 +65,12 @@ HERRAMIENTA = {
 def texto_en_chunks(c: httpx.Client, did: str) -> str | None:
     out, desde = [], 0
     while True:
+        # `order` explícito: sin él PostgREST no garantiza orden estable entre
+        # rangos y la paginación salta filas (mismo bug que en s336b/s336g).
         r = c.get(f"{SB}/{TABLA}", headers={**H, "Range-Unit": "items",
                   "Range": f"{desde}-{desde+499}"},
-                  params={"select": "content", "document_id": f"eq.{did}"})
+                  params={"select": "content", "document_id": f"eq.{did}",
+                          "order": "id"})
         # 200 **y 206**: PostgREST devuelve 206 cuando el rango trunca.
         if r.status_code not in (200, 206):
             return None
