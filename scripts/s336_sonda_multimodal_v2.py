@@ -80,20 +80,31 @@ PROMPT = (
 
 #: Tres familias. Gemini es la que Alberto observó; las otras dos son el
 #: cross-model que hace del acuerdo una evidencia y no una opinión.
-GEMINI = "gemini-3.6-flash"          # los `pro` dan 429 con esta clave (cuota)
+#: `3.6-flash` gastó su cuota LIBRE del día; los `lite` son los que el free tier
+#: sirve con holgura y leen imagen igual (verificado con un PNG real, no supuesto).
+GEMINI = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 #: Páginas leídas por documento. ACOTADO y DECLARADO: el nombre del modelo vive en
 #: la portada y las primeras páginas, así que 3 basta para el resultado POSITIVO
 #: («la página recupera el nombre»). Para el NEGATIVO no basta —y por eso el
 #: negativo sólo se interpreta en los documentos con cobertura completa, que aquí
 #: son 3 y tienen 1-2 páginas: en ésos se leen TODAS.
 TOPE_PAGINAS = 3
-#: Gemini free tier: 20 peticiones POR MINUTO. La primera corrida disparaba cada
-#: 0,4 s y perdió 58 de 61 llamadas con 429 — un fallo de infraestructura que en el
-#: recibo parecía «Gemini no lo vio». El paso se calcula del límite, y el backoff
-#: respeta el `retry in Ns` que la propia API devuelve en vez de inventarse una
-#: espera más corta que la ventana.
+#: Los dos 429 de Gemini NO son el mismo hecho y confundirlos fue mi error:
+#:   · `...PerMinute...`  → ventana; se espera y se reintenta.
+#:   · `...PerDay...`     → la cuota LIBRE del día se acabó; esperar no sirve de
+#:                          nada y reintentar sólo maquilla el recibo.
+#: La primera corrida perdió 58 de 61 llamadas contra el cap DIARIO (quotaId
+#: `GenerateRequestsPerDayPerProjectPerModel-FreeTier`, quotaValue 20) y yo lo
+#: leí como si fuera por minuto. Aquí se separan por `quotaId`, y el diario
+#: APAGA el lector para el resto de la corrida con un veredicto propio
+#: (`CUOTA_DIARIA_AGOTADA`) que NUNCA puede leerse como «no lo vio».
 GEMINI_RPM = int(os.environ.get("GEMINI_RPM", "20"))
 _ultima_gemini = [0.0]
+_gemini_agotado = [False]
+
+
+class CuotaDiaria(RuntimeError):
+    """La cuota libre del día se agotó: no es un fallo de lectura."""
 CLAUDE = "claude-fable-5"
 GPT = "gpt-5.6-sol"
 
@@ -211,12 +222,32 @@ def _json_de(t: str) -> dict:
     return {"modelos": [], "confianza": "baja", "_crudo": t[:300]}
 
 
+def _violaciones(r: httpx.Response) -> list[dict]:
+    try:
+        det = r.json().get("error", {}).get("details", [])
+    except Exception:                                          # noqa: BLE001
+        return []
+    return [v for x in det if "QuotaFailure" in x.get("@type", "")
+            for v in x.get("violations", [])]
+
+
+def _es_cuota_diaria(r: httpx.Response) -> bool:
+    """`PerDay` en el quotaId: esperar no lo arregla. `PerMinute`: sí."""
+    return any("PerDay" in (v.get("quotaId") or "") for v in _violaciones(r))
+
+
+def _cuota_txt(r: httpx.Response) -> str:
+    return " · ".join(f"{v.get('quotaId')}={v.get('quotaValue')}" for v in _violaciones(r))
+
+
 def lee_gemini(img: bytes, mime: str, esperado: str, fichero: str, url: str) -> dict:
     payload = {"contents": [{"parts": [
         {"inline_data": {"mime_type": mime, "data": base64.b64encode(img).decode()}},
         {"text": PROMPT}]}]}
     sin_fuga(payload, esperado, fichero, url)
-    # Paso derivado del límite, no inventado: 20 req/min → 3,0 s entre llamadas.
+    if _gemini_agotado[0]:
+        raise CuotaDiaria("cuota libre del día agotada antes de esta página")
+    # Paso derivado del límite por minuto, no inventado: 20 rpm → 3,0 s.
     espera = max(0.0, 60.0 / GEMINI_RPM - (time.monotonic() - _ultima_gemini[0]))
     if espera:
         time.sleep(espera)
@@ -226,6 +257,9 @@ def lee_gemini(img: bytes, mime: str, esperado: str, fichero: str, url: str) -> 
             f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI}:generateContent",
             headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"],
                      "Content-Type": "application/json"}, json=payload, timeout=240)
+        if r.status_code == 429 and _es_cuota_diaria(r):
+            _gemini_agotado[0] = True
+            raise CuotaDiaria(f"{GEMINI}: cuota libre DIARIA agotada · {_cuota_txt(r)}")
         if r.status_code not in (429, 503) or intento == 3:
             break
         # La API dice cuánto esperar («Please retry in 35.87s»): se le hace caso.
@@ -259,6 +293,19 @@ def lee_gpt(img: bytes, mime: str, esperado: str, fichero: str, url: str) -> dic
     sin_fuga({"input": entrada}, esperado, fichero, url)
     cli = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     return _json_de(cli.responses.create(model=GPT, store=False, input=entrada).output_text)
+
+
+def estado(respuestas: list[dict], esperado: str) -> str:
+    """Tres estados, no un booleano. El booleano es lo que produjo «gemini 0/37»
+    en la v2a: un documento cuyas llamadas fallaron TODAS puntuaba igual que uno
+    leído entero sin encontrar el nombre. Un fallo de infraestructura no es un
+    dato negativo, y la única forma de que no vuelva a colarse en el recibo es
+    que no comparta celda con él."""
+    if any(acierta(r, esperado) for r in respuestas):
+        return "ACIERTA"
+    if not any("error" not in r for r in respuestas):
+        return "SIN_LECTURA"          # ninguna página se llegó a leer → no interpretable
+    return "NO_LO_VE"
 
 
 def acierta(resp: dict, esperado: str) -> bool:
@@ -314,6 +361,8 @@ def main() -> int:
                     por_lector[nombre].append(fn(im.content, mime, esperado, fich, url))
                 except Fuga:
                     raise
+                except CuotaDiaria as e:
+                    por_lector[nombre].append({"error": f"CUOTA_DIARIA_AGOTADA: {e}"})
                 except Exception as e:                         # noqa: BLE001
                     por_lector[nombre].append({"error": str(e)[:160]})
                 time.sleep(0.4)
@@ -323,20 +372,40 @@ def main() -> int:
                 "cobertura_completa_VERIFICADA": doc["cobertura_completa_VERIFICADA"]}
         for nombre, respuestas in por_lector.items():
             fila[nombre] = respuestas
-            fila[f"{nombre}_acierta"] = any(acierta(r, esperado) for r in respuestas)
-        fila["acuerdan_los_tres"] = all(fila.get(f"{n}_acierta") for n in por_lector)
+            fila[f"{nombre}_estado"] = estado(respuestas, esperado)
+            fila[f"{nombre}_acierta"] = fila[f"{nombre}_estado"] == "ACIERTA"
+        # «De acuerdo» sólo entre los que de verdad LEYERON: si uno no leyó, no
+        # hay acuerdo ni desacuerdo con él, hay ausencia.
+        leyeron = [n for n in por_lector if fila[f"{n}_estado"] != "SIN_LECTURA"]
+        fila["lectores_que_leyeron"] = leyeron
+        fila["acuerdan_los_que_leyeron"] = (
+            bool(leyeron) and all(fila[f"{n}_acierta"] for n in leyeron))
         filas.append(fila)
-        marca = "".join(("GCP"[j] if fila.get(f"{n}_acierta") else "·")
+        # G=acierta · ·=leyó y no lo ve · x=NO llegó a leer (no es un negativo)
+        marca = "".join(("GCP"[j] if fila[f"{n}_estado"] == "ACIERTA"
+                         else ("x" if fila[f"{n}_estado"] == "SIN_LECTURA" else "·"))
                         for j, n in enumerate(("gemini", "claude", "gpt")))
         print(f"  [{i}/{len(objetivo)}] {fich[:38]:40s} esp={esperado[:14]:16s} {marca}")
         PARCIAL.write_text(json.dumps({"filas": filas}, ensure_ascii=False, indent=1), "utf-8")
 
     n = len(filas)
-    res = {k: sum(1 for f in filas if f.get(f"{k}_acierta")) for k in ("gemini", "claude", "gpt")}
-    print(f"\n=== RESULTADO (unidad = DOCUMENTO, n={n}) ===")
+    # El DENOMINADOR es lo que el lector llegó a leer, no la población. Un lector
+    # que no leyó nada sale como «no evaluable», nunca como 0 aciertos.
+    res = {}
+    for k in ("gemini", "claude", "gpt"):
+        leidos = [f for f in filas if f[f"{k}_estado"] != "SIN_LECTURA"]
+        res[k] = {"acierta": sum(1 for f in leidos if f[f"{k}_acierta"]),
+                  "leidos": len(leidos), "sin_lectura": n - len(leidos)}
+    print(f"\n=== RESULTADO (unidad = DOCUMENTO, población={n}) ===")
     for k, v in res.items():
-        print(f"  {k:8s} {v}/{n}")
-    print(f"  los tres de acuerdo: {sum(1 for f in filas if f['acuerdan_los_tres'])}/{n}")
+        if not v["leidos"]:
+            print(f"  {k:8s} NO EVALUABLE · 0 documentos leídos ({v['sin_lectura']} sin lectura)")
+        else:
+            cola = f"  ({v['sin_lectura']} sin lectura, fuera del denominador)" if v["sin_lectura"] else ""
+            print(f"  {k:8s} {v['acierta']}/{v['leidos']} leídos{cola}")
+    coinciden = [f for f in filas if len(f["lectores_que_leyeron"]) >= 2]
+    print(f"  de acuerdo entre los que leyeron (≥2 lectores): "
+          f"{sum(1 for f in coinciden if f['acuerdan_los_que_leyeron'])}/{len(coinciden)}")
     SALIDA.write_text(json.dumps(
         {"que_es": "Sonda multimodal v2 (s336). Arregla los 3 defectos que el dúo r41 señaló en "
                    "la v1: cobertura verificada contra pdf_page_count, unidad = DOCUMENTO (n "
@@ -344,7 +413,12 @@ def main() -> int:
                    "(nombre de fichero, R8 dice que miente). NADA aplicado.",
          "modelos": {"gemini": GEMINI, "claude": CLAUDE, "gpt": GPT},
          "n_documentos": n, "aciertos": res,
-         "acuerdan_los_tres": sum(1 for f in filas if f["acuerdan_los_tres"]),
+         "como_leer_aciertos": "por lector: acierta / leidos. `sin_lectura` son documentos "
+                               "donde NINGUNA llamada devolvió lectura (cuota, crédito, red): "
+                               "quedan FUERA del denominador — no son negativos.",
+         "acuerdan_los_que_leyeron": sum(1 for f in filas
+                                         if len(f["lectores_que_leyeron"]) >= 2
+                                         and f["acuerdan_los_que_leyeron"]),
          "filas": filas}, ensure_ascii=False, indent=1), "utf-8")
     print(f"\n→ {SALIDA}")
     return 0
