@@ -187,6 +187,10 @@ def main() -> int:
             if (i + 1) % 20 == 0:
                 print(f"  {i+1}/{len(censo)} · tokens in={uso['in']} "
                       f"out={uso['out']}", flush=True)
+            if (i + 1) % 50 == 0:      # checkpoint: una pasada de 2 h no se
+                Path(out + ".parcial").write_text(   # pierde por un blip
+                    json.dumps({"hasta": i + 1, "detalle": filas},
+                               ensure_ascii=False), encoding="utf-8")
 
     conf = {"alta": 0, "media": 0, "baja": 0}
     for f in filas:
