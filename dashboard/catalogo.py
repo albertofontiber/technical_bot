@@ -72,6 +72,11 @@ ESTADO_DEFECTO = "consumibles"
 DOCS = ("todos", "con", "sin")
 DOCS_DEFECTO = "todos"
 
+#: Valor del filtro de categoría que aísla lo que NO está clasificado. No es un
+#: hueco a esconder: hoy son 856 de 1.024 consumibles, y verlos es la forma de
+#: saber cuánto falta por clasificar.
+SIN_CATEGORIA = "(sin clasificar)"
+
 #: Tope de filas de la lista. Mismo criterio que el Explorador: el panel busca
 #: lectura y patrones; por encima de esto la respuesta correcta es afinar el
 #: filtro, no una página más larga.
@@ -88,6 +93,7 @@ class Filtros:
     estado: str
     docs: str
     q: str
+    categoria: str | None = None
 
 
 @dataclass(frozen=True)
@@ -97,7 +103,15 @@ class Modelo:
     marca: str
     canonico: str
     familia: str
+    #: `clasificacion.categoria` del catálogo gobernado: vocabulario cerrado
+    #: (central · sirena · detector · accesorio · pulsador · repetidor · modulo ·
+    #: software · aspiracion · pasarela · barrera) y SIEMPRE con cita verbatim en
+    #: la fila. Se prefiere al campo suelto `categoria`, que es texto libre de
+    #: una sola descripción por producto y sólo cubre el 2%.
     categoria: str
+    #: La cita que sostiene la categoría. Se enseña en la ficha: una categoría
+    #: sin su evidencia sería justo lo que el catálogo gobernado no admite.
+    categoria_cita: str
     estado: str
     candidate: bool
     vendido_bajo: tuple[str, ...]
@@ -124,6 +138,9 @@ class Indice:
     """El catálogo ya digerido para pintar. Se construye UNA vez por proceso."""
     modelos: tuple[Modelo, ...]
     marcas: tuple[str, ...]
+    #: Vocabulario CERRADO de categorías, derivado del propio catálogo (no una
+    #: lista escrita a mano que pueda divergir del dato).
+    categorias: tuple[str, ...]
     por_id: dict
     alias_por_id: dict
     docs_por_id: dict
@@ -137,7 +154,7 @@ class Indice:
 
 
 def _vacio(leido: bool) -> Indice:
-    return Indice((), (), {}, {}, {}, {}, {}, {}, (), leido)
+    return Indice((), (), (), {}, {}, {}, {}, {}, {}, (), leido)
 
 
 @lru_cache(maxsize=1)
@@ -154,6 +171,20 @@ def indice() -> Indice:
     try:
         cat = load(CATALOG_DIR)
     except Exception:                                        # noqa: BLE001
+        return _vacio(False)
+
+    # EL FALLO QUE ESTO CIERRA (s331d, encontrado por Alberto en el preview: la
+    # página salió con «0 modelos» y sin un solo aviso). El `except` de arriba NO
+    # basta y era un fail-open que MENTÍA: `catalog_store._read_jsonl` devuelve
+    # `[]` cuando el fichero no existe, así que con `data/catalog/` ausente del
+    # bundle `load()` tiene ÉXITO y entrega un catálogo vacío. `leido=True`, cero
+    # excepciones, y la página pinta ceros plausibles — exactamente la pantalla
+    # que este módulo existía para no enseñar.
+    #
+    # `leido` pasa a significar lo que su nombre promete: **el catálogo estaba
+    # ahí y traía contenido**. Un catálogo gobernado sin un solo producto no es
+    # un estado legítimo de este repo; es un fallo de despliegue, y se dice.
+    if not cat.products:
         return _vacio(False)
 
     alias_por_id: dict[str, list[str]] = {}
@@ -184,12 +215,15 @@ def indice() -> Indice:
     for pid, p in cat.products.items():
         marca = pid.split(":", 1)[0] if ":" in pid else "(sin marca)"
         provenance[pid] = str(p.get("provenance") or "")
+        clas = p.get("clasificacion")
+        clas = clas if isinstance(clas, dict) else {}
         modelos.append(Modelo(
             id=pid,
             marca=marca,
             canonico=str(p.get("canonical_model") or pid),
             familia=str(p.get("familia") or ""),
-            categoria=str(p.get("categoria") or ""),
+            categoria=str(clas.get("categoria") or "").strip().lower(),
+            categoria_cita=str(clas.get("cita") or ""),
             estado=str(p.get("estado") or "activo"),
             candidate=bool(p.get("candidate")),
             vendido_bajo=tuple(str(v) for v in (p.get("vendido_bajo") or ())),
@@ -198,6 +232,7 @@ def indice() -> Indice:
             redirige_a=str(p.get("redirect_to") or ""),
         ))
     modelos.sort(key=lambda m: (m.marca, norm_token(m.canonico)))
+    categorias = tuple(sorted({m.categoria for m in modelos if m.categoria}))
 
     consumibles = {m.id for m in modelos if _clase(m) == "consumibles"}
     huerfanos: dict[str, int] = {}
@@ -209,6 +244,7 @@ def indice() -> Indice:
     return Indice(
         modelos=tuple(modelos),
         marcas=tuple(sorted({m.marca for m in modelos})),
+        categorias=categorias,
         por_id={m.id: m for m in modelos},
         alias_por_id={k: tuple(sorted(v)) for k, v in alias_por_id.items()},
         docs_por_id={k: tuple(sorted(v)) for k, v in docs_por_id.items()},
@@ -242,26 +278,34 @@ def _clase(m: Modelo) -> str:
     return "candidates" if m.candidate else "consumibles"
 
 
-def normalizar(consulta: dict, *, marcas: tuple[str, ...]) -> Filtros:
-    """Los parámetros de la URL → filtros. `marca`, `estado` y `docs` caen a su
-    defecto si no están en su lista cerrada; `q` se recorta."""
+def normalizar(consulta: dict, *, marcas: tuple[str, ...],
+               categorias: tuple[str, ...] = ()) -> Filtros:
+    """Los parámetros de la URL → filtros. `marca`, `estado`, `docs` y
+    `categoria` caen a su defecto si no están en su lista cerrada; `q` se
+    recorta. La lista de categorías se DERIVA del catálogo, así que el filtro y
+    el dato no pueden divergir (mismo criterio que `explorador.marcas_disponibles`)."""
     def _uno(nombre: str) -> str:
         valores = consulta.get(nombre) or [""]
         return str(valores[0])
 
     marca, estado, docs = _uno("marca"), _uno("estado"), _uno("docs")
+    categoria = _uno("categoria")
+    valida = categoria in categorias or categoria == SIN_CATEGORIA
     return Filtros(
         marca=marca if marca in marcas else None,
         estado=estado if estado in ESTADOS else ESTADO_DEFECTO,
         docs=docs if docs in DOCS else DOCS_DEFECTO,
         q=_uno("q").strip()[:_Q_MAX],
+        categoria=categoria if valida else None,
     )
 
 
-def buscar(filtros: Filtros) -> tuple[tuple[Modelo, ...], int]:
+def buscar(filtros: Filtros,
+           tope: int | None = None) -> tuple[tuple[Modelo, ...], int]:
     """(las filas a pintar, cuántas casaban en total). El total se devuelve
     aparte del recorte para poder DECIR que se recortó: una lista muda de 300
     parece la respuesta completa y no lo es."""
+    tope = TOPE_FILAS if tope is None else tope
     ind = indice()
     q = norm_token(filtros.q) if filtros.q else ""
     salida = []
@@ -274,10 +318,43 @@ def buscar(filtros: Filtros) -> tuple[tuple[Modelo, ...], int]:
             continue
         if filtros.docs == "sin" and m.n_docs:
             continue
+        if filtros.categoria == SIN_CATEGORIA and m.categoria:
+            continue
+        if (filtros.categoria and filtros.categoria != SIN_CATEGORIA
+                and m.categoria != filtros.categoria):
+            continue
         if q and not _casa(m, q, ind):
             continue
         salida.append(m)
-    return tuple(salida[:TOPE_FILAS]), len(salida)
+    return tuple(salida[:tope]), len(salida)
+
+
+#: Tope de sugerencias del `<datalist>`. Con 1.024 consumibles el listado
+#: entero son ~25 KB de HTML, asumible; el tope existe para que un catálogo
+#: futuro de 20.000 no convierta la página en una descarga.
+TOPE_SUGERENCIAS = 1500
+
+
+def sugerencias(filtros: Filtros) -> tuple[str, ...]:
+    """Los nombres canónicos que ofrecer como autocompletado del buscador.
+
+    PARA QUÉ (pedido de Alberto, s331d): «que a medida que vas rellenando texto
+    te salgan todos los que cumplen… si empiezo a escribir CAD ya me aparecen
+    CAD-171, CAD-250». Eso lo hace el navegador solo con un `<datalist>`: es
+    MARCADO, no script, así que funciona con la CSP `default-src 'none'` intacta
+    y sin añadir una sola dependencia. El panel sigue sin JavaScript.
+
+    Las sugerencias respetan marca / estado / categoría —para que lo que se
+    sugiere sea lo que una búsqueda devolvería— pero **ignoran `q`**: filtrar por
+    el texto ya escrito es justo lo que hace el navegador, y hacerlo dos veces
+    dejaría la lista vacía en cuanto se escribiera algo que no casa por prefijo.
+    """
+    sin_texto = Filtros(marca=filtros.marca, estado=filtros.estado,
+                        docs=filtros.docs, q="", categoria=filtros.categoria)
+    filas, _ = buscar(sin_texto, tope=TOPE_SUGERENCIAS)
+    # `dict.fromkeys` en vez de `set`: quita duplicados SIN perder el orden
+    # (marca, luego canónico) que `indice()` ya dejó ordenado.
+    return tuple(dict.fromkeys(m.canonico for m in filas if m.canonico))
 
 
 def _casa(m: Modelo, q: str, ind: Indice) -> bool:
@@ -341,6 +418,8 @@ def resumen() -> dict:
     return {
         "modelos": len(consum),
         "marcas": len({m.marca for m in consum}),
+        "clasificados": sum(1 for m in consum if m.categoria),
+        "sin_clasificar": sum(1 for m in consum if not m.categoria),
         "sin_docs": sum(1 for m in consum if not m.n_docs),
         "candidates": sum(1 for m in ind.modelos if _clase(m) == "candidates"),
         "redirects": sum(1 for m in ind.modelos if _clase(m) == "redirects"),

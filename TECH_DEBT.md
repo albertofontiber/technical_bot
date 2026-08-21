@@ -3662,3 +3662,49 @@ real pertenece al catálogo gobernado», DEC-069/074).
 
 **Trigger**: el tercer consumidor del seed fuera de orchestrator; o la sentada de gobernanza de
 léxicos s331 (unidades/normas/confirmación) — mover el seed al mismo régimen en ese momento.
+
+---
+
+## 98. `catalog_store.load()` NO falla cuando el catálogo no está: devuelve uno VACÍO, y los dos consumidores lo tratan como «cargado» (s331d)
+
+**Qué pasa.** `_read_jsonl()` hace `if not path.exists(): return []`. Así que `load()` sobre un
+directorio sin ficheros **tiene éxito** y entrega un `Catalog` con 0 productos, 0 alias y 0 doc_map.
+No lanza. Verificado:
+
+```python
+>>> load(Path(tempfile.mkdtemp())).products
+{}
+```
+
+**Por qué es deuda y no una elección.** Los dos consumidores tienen un `try/except` alrededor de
+`load()` que documenta la intención de detectar «catálogo ausente», y **ninguno de los dos se dispara
+nunca** por esa causa:
+
+- `dashboard/catalogo.py` (la Wiki) — **YA COBRADO, y arreglado en s331d**. `data/catalog/` no viajó
+  al bundle de Vercel, `load()` tuvo éxito con un catálogo vacío, `leido` quedó en `True` y la página
+  salió en el preview con **«0 modelos»** y sin un solo aviso. Lo encontró Alberto mirándola. El
+  arreglo: `leido` pasa a significar «estaba ahí y traía productos» (`if not cat.products`).
+- `src/rag/catalog_resolver.py:172-176` (**el bot**) — **SIN COBRAR, y es el que importa**. Su
+  `except` registra «catálogo no cargable → fail-open total», pero con los ficheros ausentes no hay
+  excepción: construye índices vacíos, deja `_loaded=True` y **`resolve()` devuelve `None` para todos
+  los tokens**. El bot seguiría respondiendo, sin resolución gobernada de modelos, sin un WARNING y
+  sin ninguna señal. Hoy no ha pasado porque Railway despliega el repo entero; el día que alguien
+  afine el empaquetado, pasa.
+
+**Trigger** (cuándo hay que pagarlo): (a) cuando se toque el empaquetado del despliegue del BOT —
+un `.dockerignore`, un `.slugignore` o un build que copie sólo parte del repo; (b) cuando se añada un
+tercer consumidor de `catalog_store`; (c) antes de cualquier cambio en la seam de resolución que
+asuma que un catálogo vacío es imposible.
+
+**Arreglo propuesto** (no cableado: es zona de retrieval y pide dúo). Dar a `load()` un modo
+explícito —`load(..., exigir=True)` que lance si `products.jsonl` no existe o viene vacío— y que el
+bot lo use en el interlock de arranque, donde un catálogo ausente debe ser un fallo EN FRÍO y no una
+degradación muda. El panel ya no lo necesita (comprueba el contenido), pero se beneficiaría de
+compartir el mismo predicado en vez de tener el suyo.
+
+**La lección, que es más general que el bug**: un `try/except` alrededor de una función que **no
+lanza en el caso que te preocupa** no es un guardarraíl, es un comentario. Y el test que lo cubría
+(`test_si_el_catalogo_no_se_lee_la_pagina_lo_dice`) simulaba el fallo **lanzando una excepción** —
+probaba una ficción, daba verde, y por eso el fallo llegó a producción. El test se reescribió para
+simular el fallo REAL (directorio vacío) y se comprobó con control negativo que se pone rojo sin el
+arreglo.

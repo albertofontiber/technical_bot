@@ -752,19 +752,26 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
     en el módulo `dashboard/catalogo.py`.
     """
     ind = catalogo.indice()
-    filtros = catalogo.normalizar(peticion.consulta, marcas=ind.marcas)
+    filtros = catalogo.normalizar(peticion.consulta, marcas=ind.marcas,
+                                  categorias=ind.categorias)
     resumen = catalogo.resumen()
 
     if not resumen["leido"]:
         # No es «no hay modelos»: es «no pude leer el catálogo». La diferencia
         # importa — en Vercel el modo de fallo esperado es que `data/catalog/`
         # no haya viajado al bundle, y eso NO puede parecer un catálogo vacío.
+        # PASÓ DE VERDAD (s331d): la primera versión de esta página salió con
+        # «0 modelos» y sin aviso, porque `catalog_store` devuelve listas vacías
+        # cuando los ficheros no están en vez de lanzar. Ahora `leido` significa
+        # «estaba ahí y traía productos».
         return _pagina(peticion, "Modelos", [render.tarjeta(
             "Modelos",
             render.aviso("No se pudo leer el catálogo gobernado "
-                         "(`data/catalog/*.jsonl`). Si esto pasa en producción, "
-                         "lo más probable es que el directorio no viaje al "
-                         "bundle: revisa `.vercelignore`.", tono="error"),
+                         "(data/catalog/*.jsonl): o no está en el bundle o vino "
+                         "vacío. En producción lo más probable es que el "
+                         "directorio no haya viajado — revisa .vercelignore, y "
+                         "recuerda que gitignore NO deja re-incluir algo dentro "
+                         "de un directorio excluido.", tono="error"),
         )], ruta="/catalogo")
 
     filas, total = catalogo.buscar(filtros)
@@ -778,6 +785,17 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
     docs = _opciones_select(
         [("todos", "con o sin manual"), ("con", "solo con manual"),
          ("sin", "solo SIN manual")], filtros.docs)
+    categoria = _opciones_select(
+        [("", "todas")] + [(c, c) for c in ind.categorias]
+        + [(catalogo.SIN_CATEGORIA, catalogo.SIN_CATEGORIA)],
+        filtros.categoria or "")
+    # El autocompletado del buscador: `<datalist>` es MARCADO, no script, así
+    # que da el pre-filtrado según se teclea con la CSP `default-src 'none'`
+    # intacta y sin una línea de JavaScript (pedido de Alberto, s331d).
+    sugeridos = catalogo.sugerencias(filtros)
+    datalist = ('<datalist id="modelos">'
+                + "".join(f'<option value="{esc(x)}">' for x in sugeridos)
+                + "</datalist>")
 
     cifras = render.rejilla([
         render.cifra(resumen["modelos"], "modelos que el bot usa",
@@ -786,6 +804,9 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
                      detalle="el catálogo los conoce, el corpus no los cubre"),
         render.cifra(resumen["candidates"], "en cuarentena",
                      detalle="propuestos, aún sin adjudicar"),
+        render.cifra(resumen["sin_clasificar"], "sin categoría de producto",
+                     detalle=f"solo {resumen['clasificados']} clasificados "
+                             f"con cita"),
         render.cifra(resumen["docs_huerfanos"], "manuales huérfanos",
                      detalle="no atestan a ningún modelo utilizable"),
     ])
@@ -815,16 +836,23 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
             "Buscar",
             Seguro(
                 '<form method="get" action="/catalogo">'
-                f'<label>Texto<input type="search" name="q" maxlength="{catalogo._Q_MAX}"'
-                f' value="{esc(filtros.q)}" placeholder="modelo, familia o alias"></label>'
+                f'<label>Texto<input type="search" name="q" list="modelos"'
+                f' autocomplete="off" maxlength="{catalogo._Q_MAX}"'
+                f' value="{esc(filtros.q)}" placeholder="escribe CAD, minilaser…">'
+                f"</label>{datalist}"
+                f'<label>Categoría<select name="categoria">{categoria}</select></label>'
                 f'<label>Fabricante<select name="marca">{marca}</select></label>'
                 f'<label>Estado<select name="estado">{estado}</select></label>'
                 f'<label>Manuales<select name="docs">{docs}</select></label>'
                 '<button type="submit" class="principal">Aplicar</button>'
                 "</form>"),
-            pregunta="El texto busca también en los ALIAS: «minilaser» "
+            pregunta="Al escribir salen los modelos que casan (teclea «CAD» y "
+                     "aparecen CAD-171, CAD-250…): eliges uno y pulsas Aplicar. "
+                     "El texto busca también en los ALIAS, así que «minilaser» "
                      "encuentra el modelo cuyo nombre canónico es un código de "
                      "pedido.",
+            pie=f"{len(sugeridos)} modelo(s) sugeridos con los filtros de "
+                f"categoría, fabricante y estado que tengas puestos.",
         ),
         render.tarjeta(
             f"{total} modelo(s){recorte}",
@@ -871,6 +899,7 @@ def pagina_catalogo_ficha(peticion: Peticion) -> Respuesta:
         + [
          ["Familia", esc(m.familia or "—")],
          ["Categoría", esc(m.categoria or "—")],
+         ["Cita de la categoría", esc(f.modelo.categoria_cita or "—")],
          ["Se vende bajo", esc(", ".join(m.vendido_bajo) or "—")],
          ["Alias", esc(", ".join(f.alias) or "—")],
          ["Paraguas que lo contienen", esc(", ".join(f.paraguas) or "—")],

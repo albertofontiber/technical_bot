@@ -44,23 +44,50 @@ def _patrones() -> list[str]:
             if l.strip() and not l.strip().startswith("#")]
 
 
-def _incluido(ruta: str) -> bool:
-    """¿Sobrevive `ruta` a .vercelignore? Semántica gitignore: gana el ÚLTIMO
-    patrón que casa; un patrón de directorio arrastra todo lo que hay dentro."""
+def _casa(cuerpo: str, ruta: str) -> bool:
+    if cuerpo == "*":                          # `/*` = todo lo de la raíz
+        return True
+    if cuerpo.startswith("**/"):               # `**/__pycache__` y similares
+        return cuerpo[3:] in Path(ruta).parts
+    if cuerpo.endswith("/*"):
+        # `/data/*` casa con los HIJOS DIRECTOS de `data`. Basta con comprobar
+        # que la ruta cuelga de ahí: si el hijo directo queda excluido, todo lo
+        # que hay debajo también, y de eso se encarga el recorrido de padres de
+        # `_incluido`.
+        return ruta.startswith(cuerpo[:-2] + "/")
+    return ruta == cuerpo or ruta.startswith(cuerpo + "/")
+
+
+def _incluido_plano(ruta: str) -> bool:
+    """Último patrón que casa gana, SIN la regla del directorio padre."""
     incluido = True
     for patron in _patrones():
         negado = patron.startswith("!")
-        cuerpo = patron[1:] if negado else patron
-        cuerpo = cuerpo.lstrip("/").rstrip("/")
-        if cuerpo == "*":                      # `/*` = todo lo de la raíz
-            casa = True
-        elif cuerpo.startswith("**/"):         # `**/__pycache__` y similares
-            casa = cuerpo[3:] in Path(ruta).parts
-        else:
-            casa = ruta == cuerpo or ruta.startswith(cuerpo + "/")
-        if casa:
+        cuerpo = (patron[1:] if negado else patron).lstrip("/").rstrip("/")
+        if _casa(cuerpo, ruta):
             incluido = negado
     return incluido
+
+
+def _incluido(ruta: str) -> bool:
+    """¿Sobrevive `ruta` a .vercelignore?
+
+    Semántica gitignore COMPLETA, y la palabra que importa es «completa»: gana el
+    último patrón que casa, **pero no se puede re-incluir un fichero si un
+    directorio padre suyo está excluido**. Esa segunda regla es la que faltaba, y
+    su ausencia costó un fallo real (s331d): con `/*` excluyendo `/data`, el
+    patrón `!/data/catalog` NO re-incluye nada —git lo ignora— y sin embargo la
+    versión plana de este comprobador decía «incluido». La Wiki de modelos salió
+    a producción con 0 modelos y este test en verde.
+
+    Así que se comprueba directorio a directorio, de la raíz hacia abajo: si
+    algún padre queda excluido, el hijo no se salva por mucho `!` que lleve.
+    """
+    partes = Path(ruta).parts
+    for i in range(1, len(partes)):
+        if not _incluido_plano("/".join(partes[:i])):
+            return False
+    return _incluido_plano(ruta)
 
 
 def test_los_datos_del_panel_sobreviven_al_vercelignore():
@@ -70,6 +97,34 @@ def test_los_datos_del_panel_sobreviven_al_vercelignore():
             f"{ruta} lo lee el panel en runtime pero .vercelignore lo deja "
             f"FUERA del bundle: en Vercel fallaría al abrirlo. Re-inclúyelo "
             f"(añade `!/<directorio>`) o deja de leerlo desde la superficie.")
+
+
+def test_el_comprobador_aplica_la_regla_del_directorio_padre():
+    """EL control que faltaba, escrito contra el fallo REAL de s331d.
+
+    `!/data/catalog` con `/data` excluido por `/*` NO re-incluye nada: es la
+    regla de gitignore que el comprobador plano se saltaba, y por eso este test
+    daba verde mientras la página salía vacía en producción. Se fija con un
+    `.vercelignore` sintético para que la comprobación no dependa del fichero
+    real (que ya está arreglado y no volvería a destapar el fallo)."""
+    import textwrap
+
+    global _patrones
+    original = _patrones
+    try:
+        _patrones = lambda: ["/*", "!/config", "!/data/catalog"]      # noqa: E731
+        assert not _incluido("data/catalog/products.jsonl"), (
+            "la re-inclusión de un hijo con el padre excluido NO funciona en "
+            "gitignore; si este comprobador dice que sí, miente igual que mintió "
+            "en s331d")
+        assert _incluido("config/taxonomia_preguntas.yaml")
+
+        _patrones = lambda: ["/*", "!/data", "/data/*", "!/data/catalog"]  # noqa: E731
+        assert _incluido("data/catalog/products.jsonl"), (
+            "con el padre re-incluido y vuelto a vaciar, el subdirectorio SÍ entra")
+        assert not _incluido("data/gold/preguntas.yaml")
+    finally:
+        _patrones = original
 
 
 def test_el_comprobador_discrimina():

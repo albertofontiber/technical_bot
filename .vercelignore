@@ -16,6 +16,8 @@
 !/src
 !/scripts
 !/config
+!/data
+/data/*
 !/data/catalog
 !/requirements.txt
 !/vercel.json
@@ -34,6 +36,17 @@
 # jsonl; se re-incluye el directorio entero y no el fichero suelto porque el
 # `load()` abre los SIETE (products, aliases, umbrellas, homonyms, relations,
 # doc_map, docrel) y omitir uno daría un catálogo silenciosamente parcial.
+#
+# POR QUÉ SON TRES LÍNEAS Y NO UNA (s331d, fallo REAL en el preview: la Wiki
+# salió con 0 modelos). `!/data/catalog` a secas NO FUNCIONA. La regla de
+# gitignore —que es la que aplica Vercel— dice que **no se puede re-incluir un
+# fichero si un directorio padre suyo está excluido**, y el `/*` de arriba ya se
+# había llevado `/data` entero. Así que hay que re-incluir `/data`, volver a
+# vaciarlo con `/data/*`, y entonces sí re-incluir el subdirectorio. Verificado
+# con `git check-ignore` sobre un repo de prueba, que aplica la semántica de
+# verdad: con la versión de una línea, `data/catalog/products.jsonl` salía
+# EXCLUIDO; con estas tres, incluido, y `data/gold/` y `data/catalog_portales/`
+# siguen fuera.
 
 # ...y dentro de lo re-incluido, fuera lo que no aporta: caché de bytecode
 # (8,4 MB sólo en `scripts/`), scripts archivados y tests.

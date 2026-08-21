@@ -10054,9 +10054,28 @@ adjudicarlos desbloquea esos manuales. Ese 184 es el argumento de ROI de la adju
 **Sólo lectura, a propósito**: «ajustar» pasa por el lote firmado (dry-run → censo del radio de
 explosión → recibo); un botón se saltaría esa medida. Un test impide añadir un POST sin justificarlo.
 
-**Riesgo de despliegue cerrado de entrada**: `data/catalog` re-incluido en `.vercelignore` — sin eso
-la página saldría VACÍA en producción sin un solo error, que es la clase exacta del fallo de
-`config/` en s326b. El test del bundle cubre ahora los siete ficheros del catálogo, no uno.
+**Riesgo de despliegue que NO quedó cerrado, y cobró el mismo día** (corrección, s331d tarde —
+lo encontró Alberto abriendo el preview): la página salió con **«0 modelos»** y sin un solo aviso.
+Dos fallos encadenados, los dos míos, y los dos con su test en verde:
+
+1. **`.vercelignore` no re-incluía nada.** `!/data/catalog` con `/data` excluido por `/*` **no
+   funciona**: la regla de gitignore dice que no se puede re-incluir un fichero si un directorio
+   padre suyo está excluido. Hacen falta tres líneas (`!/data` · `/data/*` · `!/data/catalog`).
+   Verificado con `git check-ignore`, que aplica la semántica de verdad. **Y el test del bundle dio
+   verde**: su comprobador implementaba «último patrón que casa gana» sin la regla del padre — el
+   `fnmatch` ingenuo contra el que su propio docstring avisaba.
+2. **El fail-open mentía.** `catalog_store._read_jsonl` devuelve `[]` cuando el fichero no existe, así
+   que `load()` **tiene éxito** con el directorio ausente y entrega un catálogo vacío: el `except` no
+   se dispara nunca, `leido` quedaba en `True` y la página pintaba ceros plausibles — exactamente la
+   pantalla que el módulo existía para no enseñar. **Y su test también daba verde**, porque simulaba
+   el fallo lanzando una excepción: probaba una ficción.
+
+**Arreglado y verificado con control negativo en los dos casos** (con el `.vercelignore` viejo, dos
+tests se ponen rojos; sin el guard de `leido`, el test nuevo se pone rojo). La lección se escribe en
+`TECH_DEBT #98`, que además declara que **el bot tiene la misma trampa sin cobrar**:
+`catalog_resolver._build()` registra «catálogo no cargable → fail-open total» y con los ficheros
+ausentes no habría excepción — resolvería nada, en silencio. No se toca aquí: es zona de retrieval y
+pide dúo.
 
 **Alternativas descartadas**: una base aparte (diverge); enseñar sólo los modelos con manual (esconde
 justo el agujero que hay que ver); permitir edición desde el panel (se salta el gate).

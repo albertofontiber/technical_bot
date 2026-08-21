@@ -167,22 +167,50 @@ def test_los_demas_filtros_si_son_cerrados():
 # --------------------------------------------------------- 3. fail-open honesto
 
 
-def test_si_el_catalogo_no_se_lee_la_pagina_lo_dice(monkeypatch, entorno):
-    """El modo de fallo esperado en Vercel es que `data/catalog/` no viaje al
-    bundle. Eso NO puede parecer «no hay modelos»: la página tiene que decir
-    que no pudo leer el catálogo y señalar `.vercelignore`."""
-    def revienta(*_a, **_k):
-        raise FileNotFoundError("data/catalog/products.jsonl")
+def test_el_catalogo_AUSENTE_no_se_pinta_como_catalogo_vacio(tmp_path, monkeypatch,
+                                                              entorno):
+    """EL test que faltaba, y que existe porque el fallo PASÓ DE VERDAD (s331d):
+    la página salió en el preview con «0 modelos» y sin un solo aviso.
 
-    monkeypatch.setattr(catalogo, "load", revienta)
+    La versión anterior de este test simulaba el fallo lanzando una excepción
+    desde `load()`, y ese NO es el modo de fallo real: `catalog_store._read_jsonl`
+    devuelve `[]` cuando el fichero no existe, así que con `data/catalog/` fuera
+    del bundle `load()` tiene ÉXITO y entrega un catálogo vacío. El `except` no
+    se disparaba nunca. Se probaba una ficción y por eso dio verde mientras la
+    página mentía en producción.
+
+    Ahora se simula lo que pasa de verdad: un directorio de catálogo VACÍO."""
+    monkeypatch.setattr(catalogo, "CATALOG_DIR", tmp_path)
     catalogo.indice.cache_clear()
-    assert catalogo.indice().leido is False
+
+    # Control: `load` NO lanza sobre un directorio vacío — es justo el problema.
+    from src.rag.catalog_store import load as load_real
+    assert load_real(tmp_path).products == {}
+
+    assert catalogo.indice().leido is False, (
+        "un catálogo gobernado sin un solo producto no es un estado legítimo de "
+        "este repo: es un fallo de despliegue y `leido` tiene que decirlo")
     assert catalogo.resumen()["modelos"] == 0
 
     respuesta = Cliente(_sesion_valida()).get("/catalogo")
     assert respuesta.estado == 200
-    assert "no se pudo leer el catálogo" in respuesta.texto.lower()
-    assert "vercelignore" in respuesta.texto.lower()
+    texto = respuesta.texto.lower()
+    assert "no se pudo leer el catálogo" in texto
+    assert "vercelignore" in texto
+    # y NO debe quedar ni rastro de la pantalla de ceros plausibles
+    assert "modelos que el bot usa" not in texto
+
+
+def test_si_load_LANZA_tambien_se_avisa(monkeypatch, entorno):
+    """El otro camino (jsonl corrupto → `load` sí lanza) sigue cubierto."""
+    def revienta(*_a, **_k):
+        raise ValueError("products.jsonl:12: JSON inválido")
+
+    monkeypatch.setattr(catalogo, "load", revienta)
+    catalogo.indice.cache_clear()
+    assert catalogo.indice().leido is False
+    assert "no se pudo leer el catálogo" in Cliente(_sesion_valida()).get(
+        "/catalogo").texto.lower()
 
 
 # ------------------------------------------------------------- 4. las rutas
@@ -244,3 +272,97 @@ def test_la_wiki_es_de_SOLO_LECTURA():
               .read_text("utf-8"))
     for prohibido in ("write_jsonl", "requests.post", "datos.escribir"):
         assert prohibido not in fuente
+
+
+# ------------------------------------------- 5. categoría y autocompletado (s331d)
+
+
+def test_el_filtro_de_categoria_usa_clasificacion_y_no_el_campo_suelto():
+    """`clasificacion.categoria` es vocabulario CERRADO y viene con cita; el
+    campo suelto `categoria` es texto libre y cubre el 2%. La Wiki tiene que
+    filtrar por el primero — si algún día alguien lo cambia al segundo, el
+    filtro pasa de 168 modelos útiles a 21 descripciones de una sola fila."""
+    import json
+    from src.rag.catalog_store import CATALOG_DIR as REAL
+
+    ind = catalogo.indice()
+    crudo = [json.loads(l) for l in (REAL / "products.jsonl").read_text(
+        "utf-8").splitlines() if l.strip()]
+    esperado = {p["id"]: (p.get("clasificacion") or {}).get("categoria", "")
+                for p in crudo if isinstance(p.get("clasificacion"), dict)}
+    assert esperado, "el catálogo real no trae `clasificacion`: el test no mide nada"
+    for pid, cat in esperado.items():
+        if cat:
+            assert ind.por_id[pid].categoria == cat.strip().lower()
+
+
+def test_cada_categoria_del_desplegable_devuelve_algo():
+    """El vocabulario se DERIVA del catálogo, así que ninguna opción puede salir
+    vacía — es el fallo del filtro-que-no-filtra."""
+    ind = catalogo.indice()
+    assert ind.categorias, "sin vocabulario el test no mide nada"
+    for cat in ind.categorias:
+        _, total = catalogo.buscar(catalogo.Filtros(
+            marca=None, estado="todos", docs="todos", q="", categoria=cat))
+        assert total > 0, f"la categoría «{cat}» no devuelve ningún modelo"
+
+
+def test_sin_clasificar_es_el_complemento_exacto():
+    """El bucket de los no clasificados + los clasificados = el total. Si no
+    cuadra, alguno se está cayendo entre dos filtros."""
+    todos = len([m for m in catalogo.indice().modelos
+                 if catalogo._clase(m) == "consumibles"])
+    _, sin = catalogo.buscar(catalogo.Filtros(
+        marca=None, estado="consumibles", docs="todos", q="",
+        categoria=catalogo.SIN_CATEGORIA))
+    con = sum(t for t in (catalogo.buscar(catalogo.Filtros(
+        marca=None, estado="consumibles", docs="todos", q="", categoria=c))[1]
+        for c in catalogo.indice().categorias))
+    assert sin + con == todos
+
+
+def test_una_categoria_inventada_cae_al_defecto():
+    f = catalogo.normalizar({"categoria": ["'; DROP"]}, marcas=(),
+                            categorias=("detector",))
+    assert f.categoria is None
+
+
+def test_el_autocompletado_ofrece_los_que_empiezan_por_lo_tecleado(entorno):
+    """El pedido literal de Alberto: «si empiezo a escribir CAD ya me aparecen
+    CAD-171, CAD-250». El filtrado por prefijo lo hace el NAVEGADOR sobre el
+    `<datalist>`; lo que se prueba aquí es que las opciones viajan en el HTML."""
+    respuesta = Cliente(_sesion_valida()).get("/catalogo")
+    assert respuesta.estado == 200
+    assert '<datalist id="modelos">' in respuesta.texto
+    assert 'list="modelos"' in respuesta.texto
+    for modelo in ("CAD-171", "CAD-250"):
+        assert f'<option value="{modelo}">' in respuesta.texto, (
+            f"{modelo} no viaja en el datalist: al teclear «CAD» no aparecería")
+
+
+def test_las_sugerencias_respetan_los_filtros_pero_NO_el_texto():
+    """Respetan categoría/marca/estado —para que sugieran lo que una búsqueda
+    devolvería— e ignoran `q`, porque filtrar por el texto ya escrito es lo que
+    hace el navegador: hacerlo dos veces vaciaría la lista."""
+    base = catalogo.Filtros(marca=None, estado="consumibles", docs="todos",
+                            q="", categoria="detector")
+    con_texto = catalogo.Filtros(marca=None, estado="consumibles", docs="todos",
+                                 q="zzz-no-existe", categoria="detector")
+    assert catalogo.sugerencias(base) == catalogo.sugerencias(con_texto)
+    _, total = catalogo.buscar(base)
+    assert len(catalogo.sugerencias(base)) == total
+
+    otra = catalogo.Filtros(marca=None, estado="consumibles", docs="todos",
+                            q="", categoria="central")
+    assert catalogo.sugerencias(base) != catalogo.sugerencias(otra)
+
+
+def test_el_autocompletado_no_mete_javascript():
+    """`<datalist>` es marcado, no script: la CSP `default-src 'none'` del panel
+    sigue intacta y el panel sigue sin una línea de JS."""
+    fuente = (__import__("pathlib").Path("dashboard/app.py").read_text("utf-8"))
+    i = fuente.index("def pagina_catalogo(")
+    j = fuente.index("def pagina_catalogo_ficha(")
+    bloque = fuente[i:j]
+    for prohibido in ("<script", "oninput", "onkeyup", "onchange", "javascript:"):
+        assert prohibido not in bloque
