@@ -78,8 +78,14 @@ PROMPT = (
     "una referencia de documento (tipo «REF: 55349102») no es un modelo."
 )
 
-#: Tres familias. Gemini es la que Alberto observó; las otras dos son el
-#: cross-model que hace del acuerdo una evidencia y no una opinión.
+#: PREFERENCIA DE ALBERTO (s336e): entre Anthropic y Gemini, **Anthropic**.
+#: Así que el orden de lectura empieza por Claude y Gemini deja de ser un lector
+#: por defecto — se pide explícitamente con `LECTORES=claude,gpt,gemini`. El
+#: cross-model sigue intacto (Claude + GPT ya son dos familias distintas, que es
+#: lo que hace del acuerdo una evidencia y no una opinión); lo que cambia es
+#: cuál se usa cuando hay que elegir, no que haya uno solo.
+LECTORES = [x.strip() for x in
+            os.environ.get("LECTORES", "claude,gpt").split(",") if x.strip()]
 #: `3.6-flash` gastó su cuota LIBRE del día; los `lite` son los que el free tier
 #: sirve con holgura y leen imagen igual (verificado con un PNG real, no supuesto).
 GEMINI = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
@@ -345,7 +351,7 @@ def main() -> int:
     for i, doc in enumerate(objetivo, 1):
         esperado, fich = doc["esperado"], doc["source_file"]
         # UNA fila por DOCUMENTO: se leen TODAS sus páginas y se agrega
-        por_lector = {"gemini": [], "claude": [], "gpt": []}
+        por_lector = {n: [] for n in LECTORES}
         paginas = (doc["paginas"] if doc["cobertura_completa_VERIFICADA"]
                    else doc["paginas"][:TOPE_PAGINAS])
         for pg in paginas:
@@ -356,7 +362,8 @@ def main() -> int:
             except Exception as e:                             # noqa: BLE001
                 continue
             mime = im.headers.get("content-type", "image/jpeg").split(";")[0]
-            for nombre, fn in (("gemini", lee_gemini), ("claude", lee_claude), ("gpt", lee_gpt)):
+            todos = {"claude": lee_claude, "gpt": lee_gpt, "gemini": lee_gemini}
+            for nombre, fn in ((n, todos[n]) for n in LECTORES if n in todos):
                 try:
                     por_lector[nombre].append(fn(im.content, mime, esperado, fich, url))
                 except Fuga:
@@ -382,9 +389,9 @@ def main() -> int:
             bool(leyeron) and all(fila[f"{n}_acierta"] for n in leyeron))
         filas.append(fila)
         # G=acierta · ·=leyó y no lo ve · x=NO llegó a leer (no es un negativo)
-        marca = "".join(("GCP"[j] if fila[f"{n}_estado"] == "ACIERTA"
+        marca = "".join((n[0].upper() if fila[f"{n}_estado"] == "ACIERTA"
                          else ("x" if fila[f"{n}_estado"] == "SIN_LECTURA" else "·"))
-                        for j, n in enumerate(("gemini", "claude", "gpt")))
+                        for n in LECTORES)
         print(f"  [{i}/{len(objetivo)}] {fich[:38]:40s} esp={esperado[:14]:16s} {marca}")
         PARCIAL.write_text(json.dumps({"filas": filas}, ensure_ascii=False, indent=1), "utf-8")
 
@@ -392,7 +399,7 @@ def main() -> int:
     # El DENOMINADOR es lo que el lector llegó a leer, no la población. Un lector
     # que no leyó nada sale como «no evaluable», nunca como 0 aciertos.
     res = {}
-    for k in ("gemini", "claude", "gpt"):
+    for k in LECTORES:
         leidos = [f for f in filas if f[f"{k}_estado"] != "SIN_LECTURA"]
         res[k] = {"acierta": sum(1 for f in leidos if f[f"{k}_acierta"]),
                   "leidos": len(leidos), "sin_lectura": n - len(leidos)}
@@ -411,7 +418,8 @@ def main() -> int:
                    "la v1: cobertura verificada contra pdf_page_count, unidad = DOCUMENTO (n "
                    "independientes) y guardarraíl anti-fuga con auto-test. Patrón de PLATA "
                    "(nombre de fichero, R8 dice que miente). NADA aplicado.",
-         "modelos": {"gemini": GEMINI, "claude": CLAUDE, "gpt": GPT},
+         "lectores": LECTORES,
+         "modelos": {"claude": CLAUDE, "gpt": GPT, "gemini": GEMINI},
          "n_documentos": n, "aciertos": res,
          "como_leer_aciertos": "por lector: acierta / leidos. `sin_lectura` son documentos "
                                "donde NINGUNA llamada devolvió lectura (cuota, crédito, red): "

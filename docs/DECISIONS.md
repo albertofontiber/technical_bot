@@ -10408,3 +10408,65 @@ adjudicación es 100, no 18.**
   DECISIÓN — detectar el estrechamiento es mecánico, decidir si duele exige leer los documentos.
 - **Ref**: `evals/s334f_estrechamiento_util.json` · `evals/s334g_precision_{plan,seam1}.json` +
   recibo de aplicación.
+
+## DEC-275
+
+**La pregunta de la clave de Gemini, contestada leyendo el PDF original: un lector multimodal
+paga 2 de 84 huérfanos — y aplicado, 1.** · impacto MEDIO · s336 · 21-ago
+
+- **Contexto**: Alberto ofreció una clave de Google Gemini para «rascar» los manuales huérfanos
+  que ningún camino de texto alcanza. Monté una sonda multimodal (s336 v2) para medirlo.
+- **La sonda medía otra cosa.** Leía las páginas de `document_visual_assets`, que son una
+  **selección** (mediana: 2 páginas por huérfano, en manuales de 30). Miré dos a mano en vez de
+  teorizar: la portada del FAD-902 dice «GUIDE MANUAL / Power Supplies» y **no nombra el modelo**;
+  su página 8 es «3.4 Descripción de los leds». Los lectores acertaban en todas. Aquel `6/37` no
+  medía qué modelo lee mejor una página — medía **qué páginas habíamos guardado**.
+  (Corrección intermedia que también me debo: llegué a llamarlas «recortes de figura». No lo son:
+  son páginas completas, y `visual_role` describe lo que hay EN la página. El defecto era cuáles.)
+- **Los PDF originales están en Storage** (`documents.source_url`, 83 de 84, `%PDF-` verificado).
+  Así que la pregunta cara va DESPUÉS de una gratis: ¿está el nombre en la capa de texto del PDF?
+- **Dos números míos frenados antes de darlos** (el patrón del día, esta vez cazado por mis
+  propias reglas y no por el dúo ni por Alberto):
+  1. «75 de 84 lo tienen en el PDF» → **R19**: que el token esté en el texto no es producto-hood.
+     `NAS`, `TG`, `RHistorico.exe` y «modelo antideflagrante» pasan la cita y no identifican nada.
+     Contra el CANÓNICO —el string que indexa el detector— son **49**.
+  2. «lo perdimos al extraer» → **falso en 48 de 49**: el canónico YA está en `chunks_v2`. El dato
+     no se perdió; lo que falta es **promover el candidate**.
+- **El matcher de cita, con auto-test de 13 casos y dos controles negativos.** Sin él contaba de
+  MENOS: el separador no es estable (`AM-6000`/`AM6000`, `TG-IP-1-SEC`/`TG-IP1-SEC`), y eso
+  empujaba citas reales al bucket «no está en el PDF» — un falso hallazgo con pinta de dato.
+- **Diagnóstico final de los 84** (`s336c`): 29 redirect pendiente R21 · 20 **promovibles** (cita
+  verificada en PDF y en chunks) · 15 sólo nº de referencia (adjudicación R4) · 13 no nombran su
+  producto · 4 canónico digit-only (irreducible: el detector los excluye a propósito) · 2 PDF
+  escaneado · 1 sin PDF. **44 esperan una ADJUDICACIÓN, no una herramienta.**
+- **Aplicado el lector donde de verdad tocaba** (`s336d`, los 3 sin camino de texto): `SCD-120`
+  dice «SIRENA EXTERIOR DE INCENDIO 24V» y `MAD-472` «SIRENA ANALÓGICA DE ZÓCALO» —descripciones,
+  sin modelo, el lector tiene razón—; **`3466` SÍ se confirma** en la página escaneada. **1 de 3.**
+  Los tres son `unresolved:`, así que esto no promueve nada: es evidencia PARA la adjudicación R21.
+- **Alternativa descartada**: seguir puliendo la sonda multimodal (más lectores, mejor prompt,
+  más páginas). Habría mejorado un instrumento que respondía a una pregunta que no era la nuestra.
+  El coste de la lectura de texto es ~0 y decide el bucket de los 84; el multimodal decide 2.
+- **Gap declarado**: los 13 «no nombran su producto» y los 4 digit-only siguen sin camino. Los 4
+  son irreducibles por diseño del detector; los 13 exigen decidir si el manual atesta o no.
+- **Ref**: `evals/s336b_censo_pdf_huerfanos.json` · `evals/s336c_diagnostico_huerfanos.json` ·
+  `evals/s336d_lectura_escaneados.json` · recibo de la v2 sellado como superado.
+
+## DEC-276
+
+**Entre Anthropic y Gemini, Anthropic.** · impacto MEDIO · s336e · 21-ago (Alberto)
+
+- **Decisión de Alberto, literal**: «prefiero que utilices Anthropic que Gemini en caso de que
+  tengas que elegir uno de los dos».
+- **Cableado, no sólo anotado**: `scripts/s336_sonda_multimodal_v2.py` pasa a `LECTORES` con
+  defecto `claude,gpt`; Gemini deja de ser lector por defecto y se pide explícitamente
+  (`LECTORES=claude,gpt,gemini`). `scripts/s336d_lee_escaneados.py` nace ya con Anthropic.
+- **Lo que NO cambia**: el cross-model. Claude + GPT siguen siendo dos familias distintas, que es
+  lo que hace del acuerdo una evidencia y no una opinión. La preferencia decide **cuál se usa
+  cuando hay que elegir uno**, no que haya uno solo. El dúo adversarial (Sol + Fable) sigue igual
+  de innegociable — ahí la diversidad de familia es el mecanismo, no una comodidad.
+- **Dato que acompaña la decisión, no la sustituye**: la clave de Gemini es free tier y su cuota
+  es **DIARIA** (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`, quotaValue **20** para
+  `gemini-3.6-flash`; los `lite` sí van con holgura). Yo la había leído como «por minuto» y
+  paceé contra el eje equivocado — corregido en `s336`, que ahora separa `PerMinute` (esperar y
+  reintentar) de `PerDay` (apagar el lector con veredicto propio `CUOTA_DIARIA_AGOTADA`).
+- **Ref**: `docs/DECISIONS.md` DEC-275 · `scripts/s336_sonda_multimodal_v2.py`
