@@ -148,7 +148,7 @@ def main() -> int:
         "doc_map_altas": docmap, "doc_map_modificaciones": mods, "retags_db": [],
         "no_aplicar": [
             {"tema": "retag manufacturer de ASD Harsh (Xtralis → System Sensor)",
-             "estado": "FUERA por el dúo r40 (Sol, crítico): sería otro parche efímero de la clase TECH_DEBT #95 — "
+             "estado": "FUERA por el dúo r40 (Sol, crítico): sería otro parche efímero de la clase TECH_DEBT #97 — "
                        "la reingesta re-deriva el fabricante y lo re-estampa. El dato ESTÁ mal (el doc es © 2015 "
                        "System Sensor) y afecta a `_diversify_by_manufacturer`, pero el arreglo es la AUTORIDAD DE "
                        "INGESTA, no un reaplicador hermano. Se amplía #95 a `manufacturer`"},

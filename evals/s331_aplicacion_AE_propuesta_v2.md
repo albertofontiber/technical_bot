@@ -59,6 +59,6 @@ confirmados (0 FP, máx. medio). **Aplicado**: recibo `evals/s331_lote_AE_aplica
 4. **Sesgo declarado en A** (Fable): elegir «los 3 confirmados» es un proxy del estado del catálogo,
    no una razón documental — Alberto habló de GD3/GD2, no de `smart-2` ni `smart3g-c3`. **Plan de
    re-visita**: cuando E1b promueva los 8 candidates SMART, esta fila debe re-evaluarse para no
-   quedar sesgada a 3 sin motivo. Queda anotado en el `no_aplicar` del plan y en DEC-258.
+   quedar sesgada a 3 sin motivo. Queda anotado en el `no_aplicar` del plan y en DEC-260.
 5. No se crea paraguas «20/20»/«S20/20» (47+41 menciones sueltas) ni se mapea MNDT690 (catálogo de
    gama, clase R1): ambos son lote aparte.

@@ -9,7 +9,7 @@
 >
 > 1. ⚠️ **Los documentos homónimos van marcados.** Tu nota «este archivo habla también de la ZX-A,
 >    ZX-E…» acabó aplicada a la FAQ de la **DXc Connexion** en vez de a la de **«ZX y DX»** — se
->    diferencian en tres letras. Costó 6 atestaciones equivocadas (DEC-259). Ahora cada fila con
+>    diferencian en tres letras. Costó 6 atestaciones equivocadas (DEC-261). Ahora cada fila con
 >    riesgo de confusión lleva un aviso y te pide comprobar la cita.
 > 2. 🔍 **«PROPUESTO por el juez» ya no se confunde con lo aplicado.** Criticaste que el documento
 >    «valiera para la ZXce, la ZXhe, ZX50» — y tenías razón, **pero esos ids nunca se aplicaron**:
@@ -36,7 +36,7 @@
       → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`
       cita: «¿Con que Sistema Operativo es compatible el programa de la DXc Connexión?»
       ALBERTO: este archivo habla también de la ZX-A, ZX-E, ZX-2/5e, ZX2/5SE
-      ⚠️ **HOMÓNIMO** — hay más de un documento activo cuyo nombre empieza igual («Con que Sistema Operativo compatible el prog…»). **Comprueba la CITA antes de anotar**: en s331 una nota acabó en el documento equivocado por esto (DEC-259).
+      ⚠️ **HOMÓNIMO** — hay más de un documento activo cuyo nombre empieza igual («Con que Sistema Operativo compatible el prog…»). **Comprueba la CITA antes de anotar**: en s331 una nota acabó en el documento equivocado por esto (DEC-261).
 
 - [ ] `dxc-porque-al-activan-elementos-en-alarma-no-se-enciende-s`
       → `morley:dxc1`, `morley:dxc2`, `morley:dxc4`

@@ -51,7 +51,7 @@
 >    desbloquea la atestación de MNDT701).
 > 3. **VSN2-PLUS / «Plus2»**: no bloquea; se adjudica dentro de la sentada E1b.
 >
-> **Deuda declarada nueva**: `TECH_DEBT #95` — los retags de `product_model` NO sobreviven a una
+> **Deuda declarada nueva**: `TECH_DEBT #97` — los retags de `product_model` NO sobreviven a una
 > re-ingesta (el pipeline re-deriva el pm del filename). Hoy no afecta al serving; el arreglo BP es que
 > `detect_document_metadata` consulte el doc_map antes de derivar.
 >
@@ -623,7 +623,7 @@ Motivos de caída (del recibo, uno por línea):
       **por qué NO entra en bloque**: confianza media
       ALBERTO: baja del corpus.
 - [ ] `asd harsh environments_sp` (Xtralis · 6 chunks · vigente)
-      ↳ **s331:** ⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es «© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo sería otro parche que la re-ingesta deshace → **`TECH_DEBT #95` ampliado a `manufacturer`**, que es donde vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota
+      ↳ **s331:** ⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es «© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo sería otro parche que la re-ingesta deshace → **`TECH_DEBT #97` ampliado a `manufacturer`**, que es donde vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota
       ↳ **s324:** ✅ APLICADO (R1) → 13 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «FAAST» · pm chunks «FAAST» · tokens sin id: —
       ids del packet 12-ago `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7) → resueltos HOY `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7)

@@ -67,6 +67,6 @@ comunicarse con hasta 64 detectores IR3».
    IR³ — no en una lista explícita de compatibilidad.
 3. `20/20I` tiene solo **3 chunks** con el token (los otros 8 modelos van de 8 a 43): es la cita
    más floja del lote, aunque es titular de portada.
-4. Los retags/altas de hoy no protegen contra `TECH_DEBT #95` (una re-ingesta de esos manuales
+4. Los retags/altas de hoy no protegen contra `TECH_DEBT #97` (una re-ingesta de esos manuales
    re-derivaría el pm), pero **las altas de catálogo sí son persistentes** — la deuda solo afecta a
    `product_model`, no al catálogo gobernado.

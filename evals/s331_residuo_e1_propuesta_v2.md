@@ -26,7 +26,7 @@ emparejar: `evals/adversarial_reviews/2026-08-20T19-51-45_claude-fable-5_a2d62a0
 2. **[Sol medio] Los retags DB NO son persistentes**: la re-ingesta re-deriva pm
    (`detect_document_metadata`, filename-first — por eso TI-007 recayó a `TI-007` aunque su
    filename contiene VSN-4REL) y `apply_metadata` lo estampa en los chunks. → Se registra deuda
-   nueva **TECH_DEBT #95** (autoridad de pm gobernada consumida en B5); los retags de hoy arreglan
+   nueva **TECH_DEBT #97** (autoridad de pm gobernada consumida en B5); los retags de hoy arreglan
    el serving VIGENTE y quedan protegidos por la deuda declarada, no por fe.
 3. **[Sol medio + Fable medio] El censo GD2 era circular** (solo docs con pm SMART*). Re-hecho
    **corpus-wide** (1.054 activos — paginado: la 1ª pasada truncaba a 1.000, otro hallazgo del

@@ -62,7 +62,7 @@ machacado con Xtralis; en el peor caso se perdería.
 |---|---|---|---|
 | **A** | retag de los 5 a su marca correcta | bajo | no (pero tampoco vuelve a Xtralis) |
 | **B** | patrón de marca nuevo en `config/manufacturers/` | medio | sí |
-| **C** | que la ingesta lea el `vendido_bajo` del catálogo (**arreglo de raíz de `#95`**) | alto | sí, y para todo el corpus |
+| **C** | que la ingesta lea el `vendido_bajo` del catálogo (**arreglo de raíz de `#97`**) | alto | sí, y para todo el corpus |
 👉 **Mi recomendación: A ahora + C en su sesión.** El dato lleva mal desde abril y la B no basta,
 porque la marca correcta no es la misma para los cinco (depende de bajo qué marca se distribuye cada
 documento). **Lo que necesito de ti**: confirmar que los 5 `Xtralis` pasan a **System Sensor**, o

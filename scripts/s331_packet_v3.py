@@ -7,7 +7,7 @@ mismo detectó al repasarlo:
 
   1. **Homónimos indistinguibles.** «Con que Sistema Operativo … de la DXc Connexion» y «… de la ZX
      y DX» se diferencian en tres letras, y una nota suya acabó aplicada al documento equivocado
-     (6 productos ZX quedaron atados a la FAQ de la DXc → DEC-259). El v3 marca los homónimos con
+     (6 productos ZX quedaron atados a la FAQ de la DXc → DEC-261). El v3 marca los homónimos con
      ⚠️ y añade un discriminador (cita de portada + document_id corto).
   2. **La línea `juez:` se lee como si fuera lo aplicado.** Criticó unos ids (ZXce/ZXhe/ZX50) que
      nunca se aplicaron: eran propuesta del juez que R1 descartó. El v3 separa **PROPUESTO** de
@@ -134,7 +134,7 @@ def main() -> int:
                 if h[:26].lower() in b.lower():
                     aviso = (f"\n      ⚠️ **HOMÓNIMO** — hay más de un documento activo cuyo nombre empieza "
                              f"igual («{h[:44]}…»). **Comprueba la CITA antes de anotar**: en s331 una nota "
-                             f"acabó en el documento equivocado por esto (DEC-259).")
+                             f"acabó en el documento equivocado por esto (DEC-261).")
                     break
             # separar propuesto de aplicado
             b2 = re.sub(r"^(      juez: )", r"      PROPUESTO por el juez (NO es lo aplicado) · ", b, flags=re.M)
@@ -156,7 +156,7 @@ def main() -> int:
 >
 > 1. ⚠️ **Los documentos homónimos van marcados.** Tu nota «este archivo habla también de la ZX-A,
 >    ZX-E…» acabó aplicada a la FAQ de la **DXc Connexion** en vez de a la de **«ZX y DX»** — se
->    diferencian en tres letras. Costó 6 atestaciones equivocadas (DEC-259). Ahora cada fila con
+>    diferencian en tres letras. Costó 6 atestaciones equivocadas (DEC-261). Ahora cada fila con
 >    riesgo de confusión lleva un aviso y te pide comprobar la cita.
 > 2. 🔍 **«PROPUESTO por el juez» ya no se confunde con lo aplicado.** Criticaste que el documento
 >    «valiera para la ZXce, la ZXhe, ZX50» — y tenías razón, **pero esos ids nunca se aplicaron**:

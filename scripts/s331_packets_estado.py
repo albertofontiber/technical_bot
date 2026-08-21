@@ -107,7 +107,7 @@ def main() -> int:
             f"sino markdown degenerado, #87), pero los chunks nuevos volvieron con pm artefacto `TI-007`. Hoy: retag a "
             f"**VSN-4REL** + doc_map `notifier:vsn-4rel` con cita full-text «Instalación del módulo VSN-4REL» — "
             f"la atestación que dejaste pendiente · recibo {ref_lote}"),
-        # §1.A + §1.B — las 30 anotaciones que Alberto escribió en su copia (lote DEC-259)
+        # §1.A + §1.B — las 30 anotaciones que Alberto escribió en su copia (lote DEC-261)
         "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx": (
             "✅ APLICADO (s331, tu repaso) → **+`morley:zxae` +`morley:zxee`**. Validado lo que pediste validar "
             "antes de nada: son **ZXAE/ZXEE**, no «ZXA/ZXE» — prueba en la tabla de equivalencias del TG "
@@ -118,7 +118,7 @@ def main() -> int:
         "asd harsh environments_sp": (
             "⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es "
             "«© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo "
-            "sería otro parche que la re-ingesta deshace → **`TECH_DEBT #95` ampliado a `manufacturer`**, que es donde "
+            "sería otro parche que la re-ingesta deshace → **`TECH_DEBT #97` ampliado a `manufacturer`**, que es donde "
             "vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota"),
         "avotec:doa-fj-cpd": (
             "✅ ALTA APLICADA (s331) → **`avotec:doa-fj` = «DOA FJ»**, tras tu enlace a la ficha del fabricante "
@@ -199,7 +199,7 @@ def main() -> int:
 >    desbloquea la atestación de MNDT701).
 > 3. **VSN2-PLUS / «Plus2»**: no bloquea; se adjudica dentro de la sentada E1b.
 >
-> **Deuda declarada nueva**: `TECH_DEBT #95` — los retags de `product_model` NO sobreviven a una
+> **Deuda declarada nueva**: `TECH_DEBT #97` — los retags de `product_model` NO sobreviven a una
 > re-ingesta (el pipeline re-deriva el pm del filename). Hoy no afecta al serving; el arreglo BP es que
 > `detect_document_metadata` consulte el doc_map antes de derivar.
 >
