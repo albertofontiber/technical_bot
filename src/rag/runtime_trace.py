@@ -347,6 +347,45 @@ def _turn_identity_section(ti_obs: Mapping[str, Any] | None) -> dict[str, Any]:
     }
 
 
+_ALLOWED_AS_KINDS = frozenset({"marca_asr", "marca_corregida"})
+_ALLOWED_AS_MODOS = frozenset({"reescrito", "aviso"})
+_AS_ITEMS_MAX = 8
+
+
+def _asunciones_section(as_obs: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `asunciones` (s332 §2 v2 — patrón tri-estado de `turn_identity`).
+
+    Registra las ASUNCIONES DECLARADAS del turno (una identidad servida distinta
+    de lo literalmente detectado): kind/modo/asumido por ítem. `asumido` es un
+    término GOBERNADO del catálogo y pasa el cedazo de token; `detectado` JAMÁS
+    entra aquí (es contenido de usuario/ASR — la frontera de privacidad de s331
+    aplica idéntica). Ítems inválidos se DESCARTAN uno a uno (el resto de la
+    telemetría del turno no se pierde por un token malformado); el tope acota el
+    tamaño. Cobertura: filas RAG — las rutas direct/1 no llevan esta sección (la
+    superficie visible de esas asunciones es el mensaje de confirmación, v2 §2).
+    Coherencia cerrada: sin `on` no hay ítems."""
+    vacio = {"n": 0, "items": []}
+    if not isinstance(as_obs, Mapping):
+        return {"status": "not_wired", **vacio}
+    status = _safe_enum(as_obs.get("status"), _ALLOWED_TI_STATUSES,
+                        default="not_wired")
+    if status != "on":
+        return {"status": status, **vacio}
+    items: list[dict[str, str]] = []
+    crudo = as_obs.get("items")
+    if isinstance(crudo, list):
+        for item in crudo[:_AS_ITEMS_MAX]:
+            if not isinstance(item, Mapping):
+                continue
+            kind = item.get("kind")
+            modo = item.get("modo")
+            asumido = item.get("asumido")
+            if kind in _ALLOWED_AS_KINDS and modo in _ALLOWED_AS_MODOS \
+                    and _mismatch_token(asumido):
+                items.append({"kind": kind, "modo": modo, "asumido": asumido})
+    return {"status": "on", "n": len(items), "items": items}
+
+
 def _mismatch_section(mismatch_obs: Mapping[str, Any] | None) -> dict[str, str] | None:
     """Sección `mismatch_corrected` (s324e) o None — nunca una sección a medias.
 
@@ -557,6 +596,7 @@ def build_rag_serving_trace(
     intent_obs: Mapping[str, Any] | None = None,
     mismatch_obs: Mapping[str, Any] | None = None,
     turn_identity_obs: Mapping[str, Any] | None = None,
+    asunciones_obs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -580,6 +620,11 @@ def build_rag_serving_trace(
         # (s331 B5) REQUERIDA como `intent` y por el mismo motivo: opcional
         # confundiría «lever apagado» con «telemetría no cableada».
         "turn_identity": _turn_identity_section(turn_identity_obs),
+        # (s332 B6) REQUERIDA por el mismo motivo que las dos de arriba — es el
+        # gate del flip de ASR_AVISOS/F1_MARCA_CORRECCION. Cambio de esquema
+        # versionado y DECLARADO (Sol-6 s332): el criterio byte-idéntico de los
+        # gates es sobre la CONDUCTA SERVIDA, no sobre esta fila.
+        "asunciones": _asunciones_section(asunciones_obs),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -632,8 +677,10 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # `intent` (s316h) también: si fuera opcional, un builder que la omitiera
         # confundiría «lever apagado» con «telemetría no cableada» — la clase de
         # silencio que el gate 1 del flip existe para eliminar.
+        # `asunciones` (s332 B6) REQUERIDA: mismo tri-estado y mismo motivo que
+        # `intent`/`turn_identity` — es el gate de flip de su lote.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
-         "timings", "transport", "intent", "turn_identity"},
+         "timings", "transport", "intent", "turn_identity", "asunciones"},
         # `mismatch_corrected` (s324e) es la única OPCIONAL del nivel raíz: registra
         # un EVENTO, no la medida de un lever (ver la nota del builder). Su ausencia
         # es información completa —no hubo corrección— y es lo que mantiene el trace
@@ -703,6 +750,31 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         if ti["mention_detected"] != (ti["mention_provenance"] != "none"):
             return None
         if ti["route_cut"] and ti["mention_provenance"] != "this_turn":
+            return None
+    asunciones = value["asunciones"]
+    if not exact_keys(asunciones, {"status", "n", "items"}):
+        return None
+    if (
+        asunciones["status"] not in _ALLOWED_TI_STATUSES
+        or not safe_int(asunciones["n"], maximum=_AS_ITEMS_MAX)
+        or not isinstance(asunciones["items"], list)
+        or len(asunciones["items"]) > _AS_ITEMS_MAX
+        or asunciones["n"] != len(asunciones["items"])
+    ):
+        return None
+    # Coherencia CERRADA (s332 B6, espejo de turn_identity): sin `on` no hay
+    # ítems; cada ítem entero o nada (kind/modo del enum, asumido = token
+    # gobernado — `detectado` no existe en este esquema a propósito).
+    if asunciones["status"] != "on" and asunciones["n"] != 0:
+        return None
+    for item in asunciones["items"]:
+        if not exact_keys(item, {"kind", "modo", "asumido"}):
+            return None
+        if (
+            item["kind"] not in _ALLOWED_AS_KINDS
+            or item["modo"] not in _ALLOWED_AS_MODOS
+            or not _mismatch_token(item["asumido"])
+        ):
             return None
     channel_failures = retrieval["channel_failures"]
     if (
