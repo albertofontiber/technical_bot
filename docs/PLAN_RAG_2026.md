@@ -120,7 +120,7 @@ causa de que una VM no la recibiera sigue abierta.
    (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. Residuales
    post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
-0c. **s332 correcciones/asunciones visibles — FLIP ON (21-ago ~10:33Z) + fix s332b; re-verificación por voz pendiente** (DEC-264/265; los
+0c. **s332+s333 correcciones/asunciones visibles + clasificador de corrección — s332 FLIP ON; s333 GO en gate, flip `F1_CORRECCION_LLM=on` tras merge #329; re-verificación por voz pendiente (fraseo NO tabulado)** (DEC-264/265/266; los
    dos GO de la mañana ya EJECUTADOS y con gates PASS): **Railway worker = 2 vars**:
    `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on`. **Tras el flip: verificación DEC-099 por VOZ**
    — dictar «¿Qué centrales Kidde tienes?» (si el ASR rompe la marca, la confirmación lleva el

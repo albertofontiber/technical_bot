@@ -9881,3 +9881,41 @@ ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (
   (Alberto repite la conversación) → estampará este lever como VERIFICADO.
 - **Relacionado**: DEC-264 (el lote) · DEC-233 (disciplina de observación) · recibo
   `evals/s332b_fix_invitacion_v1.md`.
+
+## DEC-266 (s333, 21 ago 2026) — La RED aprende a juzgar: clasificador CORRECCION/NUEVO tras la plantilla, con la frontera adjudicada por Alberto («¿se sostiene solo?») y gate GO en v2.1
+
+- **Fecha**: 21 ago 2026, mediodía-tarde. **Impacto**: ALTO (LLM nuevo en el camino conversacional).
+  GO explícito de Alberto («BP, robusto, escalable») tras su pushback sobre el no-escalado del
+  léxico con 5-10 técnicos sin precisión léxica. Dúo pre-build 10/10 con sustancia y 0 FP
+  (Sol crítico: to_thread solo envolvía con _intent_fn; Fable medio: la población tragaba
+  marca+código-no-resuelto). PR #329.
+- **Decide (1) — arquitectura**: fast-path determinista INTACTO ($0; el léxico deja de tener
+  presión de crecer) + clasificador Sonnet 4.6 SOLO en su miss, población acotada (una marca
+  no-ambigua · sin modelo · sin model-token · sin pending · sin estado bindeado · last_query
+  viva) — espejo completo del patrón INTENT_LLM (seam, celda, fail-open total, parser estricto,
+  atestación; `rationale=brand_correction_llm` para atribución). Trace: sección `correccion`
+  tri-estado. Flag `F1_CORRECCION_LLM` default off (efectivo solo con F1_MARCA_CORRECCION=on).
+- **Decide (2) — la frontera es del OWNER, no del gold**: el gate v1 dio NO-GO con 3 falsas que
+  eran límites de MI gold; Alberto las adjudicó una a una y su criterio quedó CODIFICADO en el
+  prompt v2: re-pregunta completa = NUEVO (se responde tal cual); mensaje que NO se sostiene
+  solo y redirige la petición anterior = CORRECCION. v2 dejó UNA falsa («mejor dime algo de
+  Morley») que era la misma clase que la P13 que él ya había adjudicado → relabel v2.1 →
+  **GO: 14/14 positivas, 0 falsas, guarda 2/2** (regla K pinnada; secuencia entera con recibos
+  y SHAs — no hay gate-shopping cuando cada iteración la adjudica el owner por la vía
+  pre-registrada, precedente hp011#2). Haiku descartado con métrica PROPIA (13 falsas en v1).
+- **Verificado**: e2e del camino LLM real (cue retirado ⇒ `brand_correction_llm` en 1426 ms,
+  respuesta Kidde no-vacía, lectura DEC-092b) · 50/50 dirigidos post-prompt · suite completa
+  verde en el build (4853; +1 censo de proceso con la celda nueva, arreglado y re-corrido) ·
+  MT 52/52 · byte-idéntico flag-off por tests + espejo.
+- **Proceso, dos cicatrices declaradas**: un assert de replace por whitespace tumbó la creación
+  de la cohorte v2.1 y la cadena con `;` dejó correr el gate sobre la v2 vieja (repetición
+  ~$0.03; regla: pasos dependientes SIEMPRE con `&&`); y un backtick en un `-m` con comillas
+  dobles se ejecutó y mutiló una línea del mensaje del commit del build (amend antes de que
+  nadie lo consumiera; regla: sin backticks en mensajes con comillas dobles).
+- **Pendientes que deja armados**: flip de Alberto (`F1_CORRECCION_LLM=on`) tras merge #329 ·
+  verificación DEC-099 con fraseo NO tabulado · `pending_aviso` diseñado y DIFERIDO a
+  observación · residuo R6-adyacencia heredado (raíz = refresco de estado en atajos, deuda
+  aparte).
+- **Relacionado**: DEC-264/265 (el lote s332 al que extiende) · DEC-203/204 (el patrón
+  INTENT_LLM) · DEC-126 (anti-gate-shopping) · v2 vinculante `evals/s333_correccion_llm_propuesta_v2.md` ·
+  resultado `evals/s333_gate_resultado_v1.md`.
