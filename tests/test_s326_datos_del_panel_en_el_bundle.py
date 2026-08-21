@@ -25,6 +25,17 @@ REPO = Path(__file__).resolve().parent.parent
 #: nuevo se apunta aquí; si no está re-incluido en .vercelignore, rojo.
 DATOS_DEL_PANEL = (
     "config/taxonomia_preguntas.yaml",   # dashboard/explorador.py → src.clasificacion
+    # s331 — los SIETE del catálogo gobernado: `dashboard/catalogo.py` (la Wiki
+    # de modelos) llama a `catalog_store.load()`, que los abre todos. Omitir uno
+    # daría un catálogo parcial SIN error: los alias desaparecerían del buscador,
+    # o los paraguas de la ficha, y la página seguiría pintándose entera.
+    "data/catalog/products.jsonl",
+    "data/catalog/aliases.jsonl",
+    "data/catalog/umbrellas.jsonl",
+    "data/catalog/homonyms.jsonl",
+    "data/catalog/relations.jsonl",
+    "data/catalog/doc_map.jsonl",
+    "data/catalog/docrel.jsonl",
 )
 
 
@@ -69,3 +80,7 @@ def test_el_comprobador_discrimina():
     assert _incluido("dashboard/explorador.py")            # re-incluido
     assert _incluido("src/clasificacion.py")               # re-incluido
     assert not _incluido("scripts/__pycache__/x.pyc")      # excluido dentro
+    assert _incluido("data/catalog/products.jsonl")        # re-incluido (s331)
+    # …y el resto de `data/` NO viaja: la re-inclusión es del subdirectorio del
+    # catálogo, no del árbol de datos entero (que lleva corpus y volcados).
+    assert not _incluido("data/gold/preguntas.yaml")
