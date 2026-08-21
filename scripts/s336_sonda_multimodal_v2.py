@@ -271,7 +271,12 @@ def main() -> int:
         return 0
 
     limite = int(sys.argv[sys.argv.index("--limite") + 1]) if "--limite" in sys.argv else 0
-    objetivo = (completos or pob)[:limite] if limite else (completos or pob)
+    # SE LEEN TODOS. La cobertura NO decide qué documentos se leen: decide qué
+    # NEGATIVO es interpretable. El positivo («la página recupera el nombre») vale
+    # en cualquiera — si el modelo lo lee de la portada, lo recuperó y punto.
+    # (Mi primera versión hacía `completos or pob` y la corrida se quedó en 3 de 37:
+    #  restringir la lectura a los completos es justo confundir las dos cosas otra vez.)
+    objetivo = pob[:limite] if limite else pob
     filas = []
     for i, doc in enumerate(objetivo, 1):
         esperado, fich = doc["esperado"], doc["source_file"]

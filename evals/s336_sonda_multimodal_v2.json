@@ -1,24 +1,17 @@
 {
  "filas": [
   {
-   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
-   "source_file": "55312000 SCD-120_Manual_ES",
-   "esperado": "SCD-120",
-   "n_paginas_leidas": 2,
-   "n_paginas_renderizadas": 2,
-   "cobertura_completa_VERIFICADA": true,
+   "document_id": "10e406a7-7aec-4741-ba18-45e5ef525c9c",
+   "source_file": "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+   "esperado": "TRD-100",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
    "gemini": [
-    {
-     "modelos": [
-      "SIRENA EXTERIOR DE INCENDIO 24V"
-     ],
-     "confianza": "alta",
-     "donde": "Título principal en el encabezado del documento"
-    },
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "No se menciona ningún código o nombre de modelo específico en el texto, imagen ni esquemas del documento."
+     "donde": "No se observa ningún modelo de producto específico en el documento; únicamente se describen genéricamente como 'Tarjeta Expansión de relés' / 'Relay Expansion Card' y 'Tarjeta Expansión de Sirenas' / 'Sounder Expansion Card', junto a un número de referencia (REF)."
     }
    ],
    "gemini_acierta": false,
@@ -26,12 +19,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "El documento es un 'Manual de Instalación' de una 'Sirena Exterior de Incendio 24V', pero no aparece ninguna referencia de modelo concreta; 'SW1' es solo el nombre de un conjunto de puentes/selectores, no un modelo"
-    },
-    {
-     "modelos": [],
-     "confianza": "alta",
-     "donde": "El documento es un manual de instalación de una sirena de incendio (secciones: Instalación, Conexionado eléctrico, Opciones de la sirena, Tipo de activación, Mantenimiento, Tiempo y ciclos de activación), pero no aparece ningún nombre o código de modelo; la foto del equipo solo muestra el rótulo 'FUEGO' y los diagramas solo indican terminales (ALIM 24V, +AUT) y puentes (SW1, AUTO), que no son modelos"
+     "donde": "El documento solo describe genéricamente 'Tarjeta Expansión de relés / Relay Expansion Card' y 'Tarjeta Expansión de Sirenas / Sounder Expansion Card' para sistemas convencionales, sin ningún código de modelo; la única referencia visible (REF: 55310007) es del documento, no del producto"
     }
    ],
    "claude_acierta": false,
@@ -39,12 +27,7 @@
     {
      "modelos": [],
      "confianza": "alta",
-     "donde": "La página solo muestra la denominación genérica «SIRENA EXTERIOR DE INCENDIO 24V»; «SW1» identifica un conmutador, no el modelo del producto."
-    },
-    {
-     "modelos": [],
-     "confianza": "alta",
-     "donde": "No aparece ningún modelo en el título, la foto del equipo ni el diagrama; «FUEGO», «ALIM 24V» y «AUT» son rótulos funcionales."
+     "donde": "No aparece ningún modelo; sólo nombres genéricos de tarjetas de expansión y una referencia de documento (REF: 55310007)."
     }
    ],
    "gpt_acierta": false,
