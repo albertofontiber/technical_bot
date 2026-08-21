@@ -10329,3 +10329,48 @@ imports y `catalog_store`, verdes.
   `evals/s334b_huerfanos_{propuesta.md,plan.json,radio_explosion.json,seam1.json}` ·
   `docs/DECISIONES_PENDIENTES_ALBERTO.md`.
 
+## DEC-273 (s334c/d/e, 21 ago 2026) — La higiene invierte su propio orden, las atestaciones se caen 37 de 43, y el «18» que prometí era 100
+
+- **Fecha**: 21 ago 2026. **Impacto**: ALTO (catálogo). **Aplicado**: sí, el subconjunto defendible.
+- **Encadena con DEC-272** (el dúo r43 bloqueó el lote que bajaba a 18). Aquí se ejecutan los dos
+  pasos que eran míos y **los dos devuelven un resultado peor que el prometido** — que es
+  exactamente para lo que sirven.
+
+**PASO 1 · Higiene de alias (TECH_DEBT #99), y el orden que prescribía está mal.** Censo completo
+de los **1.175** alias que la puerta de `_add` deja entrar, con recuento por **frontera de palabra**.
+Mi primera regla marcó 82 y se pasaba de frenada en dos clases enteras: **56 eran alias puramente
+numéricos** que `_add` ya descarta (retirar lo que no puede disparar es ruido y destruye números de
+parte legítimos) y **el nº de fabricantes marcaba CROSS-REFERENCES** como categorías (`AFP400` sale
+en Morley, Notifier y Xtralis porque las centrales de una marca se citan en los manuales de otra).
+Regla corregida: **82 → 18**. Y entonces **R20 mordió: 13 de esos 18 son la ÚNICA vía por la que el
+detector alcanza su producto** — 8 porque su producto está EN CUARENTENA (al promoverlo, el alias
+descriptivo sobra) y 5 porque su canónico es **digit-only** (`kac:2001` se llama literalmente
+`2001`: `Model 2001` es su vía permanente). **Consecuencia: la higiene NO puede ir del todo antes
+del lote de huérfanos, como asumió el dúo — el orden correcto es promover → retirar lo redundante.**
+Aplicados **5** retiros (detector 1891→1886, 0 gold perdidas).
+
+**PASO 2 · Las 43 atestaciones `secondary`: 6 sobreviven.** Sol dijo en r43 que estaban DEDUCIDAS de
+que el paraguas las traía, no leídas. Se leyeron: **32 SIN CITA, 5 sin texto, 6 VERIFICADAS**. El
+caso más claro es `systemsensor:8100e-faast`, con **14 documentos y ni uno** que lo nombre — eran
+docs de la familia FAAST que el paraguas arrastraba, sobre OTROS modelos. Mi inferencia era falsa el
+**86%** de las veces.
+
+**LA CORRECCIÓN QUE ME DEBO**: dije «hay un lote medido que baja de 134 a 18». Era cierto como
+medida del plan, y el plan no sobrevive: **el mecanismo doc_map rescata 0 de 12** ids que estrechan
+una vez verificadas las citas, y los redirects son de Alberto por R21. **El suelo real sin
+adjudicación es 100, no 18.**
+
+- **Aplicado (s334e)**: 65 promociones con cita verificada + las 6 atestaciones leídas. Dry-run
+  PASS, detector 1886→2014 (+128/−0), **0 gold perdidas**, 0 disparos en 36 negativos, 0 detecciones
+  nuevas en 135 consultas reales, **0 pérdidas de modelo en el seam 1**. **Huérfanos 134 → 100**;
+  cuarentena 520 → **455**; consumibles 1.105 → **1.170**.
+- **Por qué NO se re-lanzó el dúo**: el lote aplicado es un **subconjunto estricto** del que r43 ya
+  revisó, con cada objeción resuelta por RETIRADA o por la verificación que ellos exigieron —
+  redirects fuera (R21), clase E fuera (circular), doc_map reducido a lo leído, higiene hecha, y
+  cero ganancias en gold, que era la contaminación que señaló Fable. No hay mecanismo nuevo sin
+  revisar. Se declara la decisión, no se esconde.
+- **Lo que sigue siendo de Alberto**: 3 fusiones Morley↔Notifier (6 manuales de golpe), 25 redirects
+  `unresolved:X`→`<marca>:X`, y la adjudicación Detnov de `1/2 Relay Module` → `mad-412`/`mad-422`
+  (que **no** se arregla retirando el alias: es la única vía de su producto).
+- **Ref**: `evals/s334c_higiene_alias_v1.json` · `evals/s334d_atestaciones_verificadas.json` ·
+  `evals/s334e_suelo_defendible_{plan,seam1}.json` + recibos de aplicación.

@@ -108,10 +108,23 @@ míos al mirarlo otra vez:
 2. **Descarté 181 `unresolved:` diciendo que asignar fabricante era adjudicación.** Cierto, pero
    irrelevante: **promover no exige asignarlo** — el detector no usa el namespace para nada.
 
-Con eso construí y **medí** un lote que baja de **134 a 18**: dry-run PASS, 0 gold perdidas, 0
-disparos en los 36 negativos, 0 pérdidas de modelo en 156 consultas. **No lo he aplicado**, porque
-el dúo lo tumbó con 10 hallazgos, los 10 verificados, y **dos de ellos son reglas que escribí yo
-mismo esta misma sesión**:
+Con eso construí y medí un lote que bajaba de **134 a 18**. **El dúo lo tumbó**, hice los dos
+pasos que eran míos, y los dos devolvieron un resultado PEOR que el prometido:
+
+- La **higiene de alias** encontró que **13 de los 18 alias basura son la ÚNICA vía por la que el
+  detector alcanza su producto** — retirarlos haría desaparecer el producto. Y eso **invierte el
+  orden**: 8 de ellos sólo dejan de ser necesarios DESPUÉS de promover.
+- Las **43 atestaciones** que el lote añadía al `doc_map`: **6 verificadas, 32 sin cita**.
+  `8100e-faast` tenía 14 documentos y **ni uno lo nombra**. Mi inferencia era falsa el 86% de las
+  veces, y con eso el mecanismo **rescata 0 de 12** de los casos que dependían de él.
+
+**Así que te debo una corrección: el «134 → 18» dependía de ese mecanismo (muerto) y de los
+redirects (tuyos). El suelo real sin tus decisiones es 100, y ahí está aplicado** — 65 promociones
+con cita verificada, 0 gold perdidas, 0 pérdidas de modelo. **Tus dos decisiones valen mucho más de
+lo que te dije.**
+
+El detalle de por qué el dúo lo tumbó (10 hallazgos, 10 verificados, **dos son reglas que escribí yo
+mismo esa misma sesión**):
 
 - **R21** (`reglas_clasificacion.json`) dice literalmente: «resolver H o G es ADJUDICACIÓN (R8),
   **nunca mecánica**». Mis 25 redirects resolvían gemelos de forma mecánica.

@@ -7013,3 +7013,45 @@ excluye a propósito.
 Bajar el número aflojando la evidencia es exactamente lo que esas reglas existen para impedir. Que
 me hayan parado a mí, el mismo día que las escribí, es la mejor prueba de que sirven.
 
+---
+
+## s334c/d/e (21 ago 2026) — Los dos pasos que eran míos devuelven peor resultado que el prometido, y por eso valen
+
+El dúo me había parado el lote que bajaba a 18 con cuatro objeciones. Dos eran mías —R21 y el
+trigger de `TECH_DEBT #99`— y dos me pedían trabajo: hacer la higiene de alias y leer los 43
+documentos cuyas atestaciones yo había deducido. Hice los dos. Los dos me dieron la razón a ellos.
+
+**La higiene se pasaba de frenada, y luego invirtió su propio orden.** Censé los 1.175 alias que la
+puerta de `_add` deja entrar. Mi regla marcó 82, y al mirarlos uno a uno dos clases enteras estaban
+mal: **56 eran alias puramente numéricos** —que `_add` ya descarta por diseño, o sea que retirarlos
+es ruido y encima destruye números de parte que un técnico sí escribe— y el criterio del **número de
+fabricantes** estaba marcando **cross-references** como si fueran vocabulario genérico: `AFP400` sale
+en documentos de Morley, Notifier y Xtralis porque las centrales de una marca se citan en los
+manuales de otra. Corregida, la regla dejó 18.
+
+Y ahí mordió R20, la regla que yo mismo había escrito por la mañana: **13 de esos 18 son la única
+vía por la que el detector alcanza su producto.** Ocho porque el producto está en cuarentena —su
+canónico no entra en el detector *porque* es candidate, así que el alias descriptivo es lo único que
+queda— y cinco porque el canónico es digit-only: `kac:2001` se llama literalmente `2001`, que el
+detector nunca podrá ver, de modo que `Model 2001` es su vía permanente. **Eso invierte el orden que
+el propio `TECH_DEBT #99` prescribía**: la higiene no puede ir del todo antes del lote grande, porque
+ocho de los alias «basura» sólo dejan de ser necesarios *después* de promover. Retiré 5.
+
+**Las 43 atestaciones: sobrevivieron 6.** Sol había dicho que estaban deducidas de que el paraguas
+las traía, no leídas, y que así el plan «fabrica atestaciones para hacer verde el mismo gate que
+evalúa el cambio». Las leí: **32 sin cita, 5 sin texto, 6 verificadas**. El caso que lo resume es
+`systemsensor:8100e-faast`, con **catorce documentos y ni uno que lo nombre** — eran manuales de la
+familia FAAST que el paraguas arrastraba, sobre otros modelos. Mi inferencia era falsa el 86% de las
+veces, y con las citas delante el mecanismo **rescata 0 de 12** de los casos que dependían de él.
+
+**Y de ahí sale la corrección que le debo a Alberto.** Le dije que había «un lote medido que baja de
+134 a 18». Era cierto como medida del plan; el plan no sobrevive a su propia verificación. El 18
+descansaba en el `doc_map` (muerto) y en los redirects (suyos por R21). **El suelo real sin
+adjudicación es 100**, y ahí lo dejé aplicado: 65 promociones con cita verificada más las 6
+atestaciones leídas, con 0 gold perdidas, 0 disparos en los negativos y 0 pérdidas de modelo en el
+seam 1. Huérfanos 134 → 100, cuarentena 520 → 455, consumibles 1.105 → 1.170.
+
+Tres veces en un día he dado un número que medía algo más ancho de lo que yo decía, y las tres el
+número bajó al medirlo bien. La diferencia con la mañana es que ahora el que corrige es el
+instrumento, no otro: la regla de R20 saltó sola sobre los alias, y la verificación de citas era un
+paso que el dúo pidió y que yo ejecuté sin regatearlo.
