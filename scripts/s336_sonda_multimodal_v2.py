@@ -87,6 +87,13 @@ GEMINI = "gemini-3.6-flash"          # los `pro` dan 429 con esta clave (cuota)
 #: negativo sólo se interpreta en los documentos con cobertura completa, que aquí
 #: son 3 y tienen 1-2 páginas: en ésos se leen TODAS.
 TOPE_PAGINAS = 3
+#: Gemini free tier: 20 peticiones POR MINUTO. La primera corrida disparaba cada
+#: 0,4 s y perdió 58 de 61 llamadas con 429 — un fallo de infraestructura que en el
+#: recibo parecía «Gemini no lo vio». El paso se calcula del límite, y el backoff
+#: respeta el `retry in Ns` que la propia API devuelve en vez de inventarse una
+#: espera más corta que la ventana.
+GEMINI_RPM = int(os.environ.get("GEMINI_RPM", "20"))
+_ultima_gemini = [0.0]
 CLAUDE = "claude-fable-5"
 GPT = "gpt-5.6-sol"
 
@@ -209,16 +216,21 @@ def lee_gemini(img: bytes, mime: str, esperado: str, fichero: str, url: str) -> 
         {"inline_data": {"mime_type": mime, "data": base64.b64encode(img).decode()}},
         {"text": PROMPT}]}]}
     sin_fuga(payload, esperado, fichero, url)
-    # 503 «high demand» y 429 son transitorios en la API de Gemini: dos reintentos
-    # con espera. Un fallo de infraestructura no es un «no lo vio».
-    for intento in range(3):
+    # Paso derivado del límite, no inventado: 20 req/min → 3,0 s entre llamadas.
+    espera = max(0.0, 60.0 / GEMINI_RPM - (time.monotonic() - _ultima_gemini[0]))
+    if espera:
+        time.sleep(espera)
+    for intento in range(4):
+        _ultima_gemini[0] = time.monotonic()
         r = httpx.post(
             f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI}:generateContent",
             headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"],
                      "Content-Type": "application/json"}, json=payload, timeout=240)
-        if r.status_code not in (429, 503) or intento == 2:
+        if r.status_code not in (429, 503) or intento == 3:
             break
-        time.sleep(4 * (intento + 1))
+        # La API dice cuánto esperar («Please retry in 35.87s»): se le hace caso.
+        m = re.search(r"retry in ([0-9.]+)s", r.text)
+        time.sleep(float(m.group(1)) + 1.0 if m else 8.0 * (intento + 1))
     r.raise_for_status()
     d = r.json()
     return _json_de("".join(p.get("text", "") for c in d.get("candidates", [])
