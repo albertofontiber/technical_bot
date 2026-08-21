@@ -292,6 +292,7 @@ _NAV = (
     ("/", "Resumen"),
     ("/acceso", "Acceso"),
     ("/metricas", "Métricas"),
+    ("/catalogo", "Modelos"),
     ("/explorador", "Explorador"),
     ("/errores", "Errores"),
 )

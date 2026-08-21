@@ -1,98 +1,119 @@
-# Lo que espera tu decisión — cierre de s331 (20-ago-2026, noche)
+# Lo que espera tu decisión — cierre de s331 (21-ago-2026)
 
-> Ordenado por **coste tuyo**, no por importancia mía. Cada punto trae la medida ya hecha, para que
-> decidas con el dato delante y no tengas que abrir nada. Lo que no está aquí, no te bloquea.
+> **Tu pasada del packet v3 lo cerró entero**: anotaste las **56 filas vivas** (34 decisiones
+> distintas). No queda ninguna fila del packet E1 esperándote. Lo que sigue son **cinco cosas**, y
+> tres de ellas son una frase.
+>
+> Cada punto trae la medida ya hecha, para que decidas con el dato delante sin abrir nada.
+> El detalle fila a fila está en `evals/s331_derivacion_pasada_alberto_v1.md`.
 
 ---
 
-## 🟢 Cuatro frases y se desbloquean 33 filas del packet
+## 🟢 Tres frases
 
-### 1. Paraguas «2X-A» — **una frase**
-¿Con los táctiles o sin ellos? (38 modelos incluyendo los 11 `2X-AT`, o 27 sin ellos — los táctiles
-ya tienen su propio paraguas).
-**Medido** (`evals/s331_2xa_sonda_plan_v1.json`): **0 gold perdidas**, **2 golds ganan 12 fuentes cada
-una** —una es «¿El detector KE-DP3020W vale para la central 2X-A?»—, **0 disparos en 111 consultas
-reales**. Lo único que salta es una sonda sintética («2 x a») que yo mismo escribí.
-👉 *Con tu frase lo aplico con recibo, y de paso caen 4 documentos de la serie 2X-A que hoy están sin
+### 1. Paraguas «2X-A» — **con o sin los táctiles**
+
+Tu OK era condicional: *«¿tenemos algún manual que sea "Guía de instalación rápida de la serie
+2X-AT"? si no, OK a 2X-A»*.
+
+**Respuesta: SÍ, tenemos dos, los dos en español.**
+`00 3280 508 4109 06 r006 2x at series quick start guide` y
+`00 3280 508 4209 02 r002 2x at series quick operation gu`.
+
+O sea que la condición **no** se cumple y la pregunta sigue viva: **¿el paraguas «2X-A» lleva dentro
+los 11 modelos táctiles (38 en total) o no (27, porque «2X-AT» ya tiene paraguas propio)?**
+
+**Medido** (`evals/s331_2xa_sonda_plan_v1.json`): 0 gold perdidas · 2 golds ganan 12 fuentes cada una
+—una es «¿El detector KE-DP3020W vale para la central 2X-A?»— · 0 disparos en 111 consultas reales.
+
+👉 *Una frase y lo aplico con recibo; de paso caen 4 documentos de la serie que hoy están sin
 `doc_map` esperando esto.*
 
-### 2. Los 15 «P1» del packet v3 — **un sí en bloque**
-Filas donde el juez propone otra grafía **y hay cita de portada verificada**. Es el patrón que ya
-firmaste **nueve veces** en §1.B con tu «OK con juez».
-👉 *Si me dices «P1 en bloque, sí», las aplico todas juntas con un solo gate y un solo recibo.*
+### 2. EFS/EM 8 — **qué marca es la canónica**
 
-### 3. Los 9 «P3» — **un sí en bloque**
-Artefactos de extracción con **0 menciones estrictas** del token. No son productos.
-👉 *Mismo trato: un sí y se retiran en bloque.*
+Dijiste OK a las dos filas (`morley:efs-em-8` y `notifier:efs-em-8`), que es coherente con **R3**:
+`MS8` y `FS8` son **el mismo manual** (código `997-201-103`, misma edición) archivado bajo las dos
+marcas. Pero un producto tiene **un** id inmutable y el otro se modela como redirect.
 
-### 4. Los 8 «P4» (nombres reales CON barra) — **estos sí son uno a uno**
-Aquí no hay atajo: un «sí» crea un id **INMUTABLE**. La lección de hoy con DOA es la guía —
-comprueba que la grafía es la del **fabricante**, no la del documento (`DOA FJ` era el modelo;
-`/CPD` era el sufijo del certificado).
+**Propongo** canónico `notifier:efs-em-8` (es Notifier quien lo publica hoy, en `manualesobs`) con
+`morley:efs-em-8` → redirect, y `vendido_bajo` = ambas.
 
----
+👉 *Si lo prefieres al revés, dilo y ya está. Si no dices nada, aplico lo propuesto.*
 
-## 🟡 Dos decisiones de fondo, con la evidencia ya reunida
+### 3. WMSOU — **la gama, o esperar a los SKU**
 
-### 5. FAAST atribuido a un competidor — **5 documentos, y tu observación destapó la clase**
-Tenías razón: `ASD Harsh Environments_SP` es de **System Sensor** (logo FAAST, foto del equipo
-—«a black FAAST detection device with transparent front panel»— y «© 2015 System Sensor»), y su
-ficha dice **Xtralis**, que es el fabricante de VESDA, es decir **la competencia**.
+Me pediste confirmar tu hipótesis sobre `D838-1_kac sounders`. **Confirmada, y con margen amplio.**
 
-**El censo dice que no es un caso aislado.** De los 30 documentos activos que mencionan FAAST:
+Las **ocho** especificaciones del documento coinciden **literalmente** con la hoja publicada de la
+gama WMSOU de System Sensor Europe (15-32 VDC sin aislador / 15-28 con aislador · <6,81 mA ·
+100 dB(A) ±3 · −25 a +70 °C · 95% sin condensación · IP24/IP65 · 2,5 mm²), incluido el mismo pie
+«System Sensor Europe, Units 15-19 Trescott Road, Redditch». Y **no** coinciden con las de sus
+hermanos rebrandeados: el KAC `WSO-` y el Notifier Opal `NFX-WS-` dan **95 dB(A)** e **IP21C/IP44**.
+El propio documento cubre las **dos** variantes —imprime los dos rangos de tensión—, que es
+exactamente el corte `P01` (sin aislador) / `P02` (con aislador).
 
-| marca en la ficha | documentos | ¿correcto? |
-|---|---|---|
-| Notifier | 19 | sí — FAAST se vende bajo Notifier |
-| Morley | 5 | sí — y bajo Morley |
-| **Xtralis** | **5** | **no** — Xtralis es VESDA, el competidor |
-| System Sensor | 1 | sí — es el fabricante real |
+**El matiz que tu fuente no traía**: el nombre del fichero dice «kac sounders» y el código del
+documento es `D838 issue 1`, mientras que la hoja WMSOU publicada es `D800 issue 8`. El **hardware**
+es el mismo; el número de documento es de otra tirada. Es tu propia R8 en versión fuerte: **el
+nombre del fichero también miente sobre la marca**, no sólo sobre la grafía.
 
-Y hay incoherencia entre hermanos: la misma serie de folletos de aplicación está repartida entre tres
-marcas (`ASD Cold` → Notifier, `ASD Harsh` → Xtralis, `ASD Custodial` → Xtralis).
+**Lo que no puedo hacer solo**: el documento **no imprime ningún sufijo de color** (`-RR` / `-WW`).
+Dar de alta los cuatro SKU sería inventar cuatro tokens que no aparecen en el corpus.
 
-**Por qué no lo parcheé hoy**: el dúo (Sol, crítico) señaló que un retag es efímero — la re-ingesta
-re-deriva la marca. **Pero al verificarlo aparece un matiz que cambia la decisión**: este documento
-es un *backfill* de abril y `_detect_brand` con su texto real devuelve **`(None, None, None)`**. O
-sea, el pipeline de hoy **no produce ese «Xtralis»**: es un valor heredado. Un retag no sería
-machacado con Xtralis; en el peor caso se perdería.
-
-**Las tres vías, y lo que cuesta cada una:**
-| vía | qué hace | coste | aguanta re-ingesta |
-|---|---|---|---|
-| **A** | retag de los 5 a su marca correcta | bajo | no (pero tampoco vuelve a Xtralis) |
-| **B** | patrón de marca nuevo en `config/manufacturers/` | medio | sí |
-| **C** | que la ingesta lea el `vendido_bajo` del catálogo (**arreglo de raíz de `#97`**) | alto | sí, y para todo el corpus |
-👉 **Mi recomendación: A ahora + C en su sesión.** El dato lleva mal desde abril y la B no basta,
-porque la marca correcta no es la misma para los cinco (depende de bajo qué marca se distribuye cada
-documento). **Lo que necesito de ti**: confirmar que los 5 `Xtralis` pasan a **System Sensor**, o
-decirme cuáles van a Notifier/Morley.
-
-### 6. `EFS/EM 8` y `NX2/R/R` + `NX5/R/R` — **VALIDADOS online, listos para tu firma**
-Los habías dejado en «pending.» y con la anotación vacía; me pediste validarlos. Los dos son
-**productos reales**, con ficha del fabricante. Informe: `evals/s331_validacion_efsem_nx_v1.md`.
-
-- **`EFS/EM 8`** — panel convencional de 8 zonas, **obsoleto** (Notifier lo publica en su carpeta
-  `manualesobs`). **El motivo por el que la fila cayó era, en realidad, la respuesta**: `MS8` y `FS8`
-  son **el mismo manual** (mismo código `997-201-103`, misma edición) archivado bajo **las dos
-  marcas** → es **R3 (OEM)**, se atesta bajo ambas con `vendido_bajo`.
-  👉 **Lo único que decides: el namespace.** Los ids llevan marca y este producto tiene dos. El
-  precedente FAAST es acuñar bajo una y declarar la otra en `vendido_bajo`. **¿`notifier:efs-em-8` o
-  `morley:efs-em-8`?** (el packet propuso Morley; el manual lo publica hoy Notifier).
-- **`NX2/R/R` y `NX5/R/R`** — **dos** dispositivos de aviso: el NX2 es un flash estroboscópico rojo
-  de **2 W**; el NX5 es sirena/estrobo de **14 tonos** con flash de **5 W**. La grafía con barras es
-  la del fabricante, así que **R8 se cumple**. Por **R7**, el id concatenado no se crea: son dos altas.
-  👉 **Un sí y las aplico.** Gap declarado: la cita es 1 mención por modelo, en un documento que es
-  **solo un dibujo** (su PDF tiene 17 caracteres de texto) — pero la ficha del fabricante la respalda.
+👉 **Propongo** dar de alta la **gama** `systemsensor:wmsou` y esperar a un documento que enumere los
+SKU. ¿De acuerdo, o los quieres los cuatro igualmente?
 
 ---
 
-## ⚪ Contexto: dónde estamos y qué NO te bloquea
+## 🟡 Dos decisiones de fondo
 
-- **El packet**: 125 de 192 filas resueltas. Las 67 vivas están en
-  **`evals/s320_e1_packet_adjudicacion_v3.md`** — trabaja sobre esa versión, no sobre el v2.
-- **Fuera del packet** hay una cola mayor que no vive en ningún sitio: **77 documentos activos sin
-  `doc_map`** (Notifier 31, Morley 23, Kidde 13…). Si quieres, te la genero como packet.
-- **E1b (474 confirmaciones) y E2 (1.361 altas)** siguen abiertos: son el grueso, más mecánicos.
-- **Nada de esto bloquea el piloto.** El único bloqueante sigue siendo **enviar el paquete del
-  abogado** (PLAN, punto 1).
+### 4. `accessory-of` — **un cambio de esquema que tú tienes que autorizar**
+
+Dos filas que ya adjudicaste están **bloqueadas por lo mismo**:
+
+- `kidde:ke-dba-sktw` — *«el producto es el KE-DBA-SKTW, pero es un accesorio del producto
+  KE-DB3010W»*
+- `spectrex:40-40-air` — *«esto parece un accesorio (Air shield) del producto 40/40 […] asócialo a
+  la familia 40/40»*
+
+`relations.jsonl` admite hoy `variant-of | rebrand-of | shared-doc | supersedes`. **No tiene
+`accessory-of`.** Sin ese tipo, el alta se puede hacer pero la relación no, y un accesorio suelto no
+sirve para nada: «¿esta falda vale para mi base?» no tiene respuesta sin el padre.
+
+Fíjate además en que los dos casos son **distintos**: uno cuelga de un MODELO y el otro de una
+FAMILIA entera («can be used with all Spectrex 40/40 series flame detectors», tu enlace de Emerson).
+El tipo tiene que admitir las dos cosas.
+
+👉 *¿Lo añado? Es medio/alto → va con dúo y gate. Si dices que sí, lo llevo la próxima sesión.*
+
+### 5. Los 5 documentos FAAST atribuidos a Xtralis — **sigue abierto de anoche**
+
+De los 30 documentos activos que mencionan FAAST: 19 Notifier (bien), 5 Morley (bien),
+1 System Sensor (bien) y **5 Xtralis**, que es el fabricante de VESDA, o sea **la competencia**.
+
+No lo he parcheado a propósito: el dúo señaló que sería otro parche efímero mientras
+`TECH_DEBT #97` siga abierto (los retags de `manufacturer` no son persistentes — una re-ingesta los
+deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión es tuya.
+
+---
+
+## ⚪️ Y lo que ya no te espera
+
+- **La Wiki de modelos está construida**, como pediste, en `/catalogo` del panel. 1.024 modelos,
+  36 marcas, con sus manuales, sus alias y las dos preguntas que el markdown nunca podía contestar:
+  **55 modelos sin ningún manual** y **245 manuales huérfanos** (184 de ellos, sólo porque todos sus
+  ids siguen en cuarentena — adjudicarlos los desbloquea).
+- **Las reglas nuevas están escritas y son legibles por el generador**:
+  `data/catalog/reglas_clasificacion.json`, R9–R18, cada una anclada en la anotación tuya que la hizo
+  nacer. La más cara de tu pasada fue R10 («aunque sea software, los técnicos también deberían poder
+  preguntar sobre ello»): **18 de tus 57 anotaciones** eran esa misma frase.
+- **La propuesta de automatización** está en `evals/s331_automatizacion_propuesta_v1.md`, y empieza
+  reconociendo que **la medida mató mi primera idea**. Iba a proponer auto-aplicar los patrones que
+  ya habías firmado; los números dicen que P1 acierta **60%** y P3 **44%** sobre esta población, así
+  que auto-aplicarlos habría escrito 11 decisiones equivocadas. Lo que sí sale de la medida: el
+  **40%** de tu esfuerzo fueron filas **duplicadas** (`morley:tg` te lo pregunté **15 veces**), y eso
+  no lo arregla ningún modelo mejor — lo arregla agrupar por id.
+- **Tu otra pregunta** (¿el ZLSM_MD está repetido en español?): **no son duplicados**. El español es
+  la **ficha** (`DS_KIDDE_ZLSM_MD…ES`) y el inglés el **manual de instalación**
+  (`MI_KIDDE_ZLSM_MD…ING`). Distinto tipo de documento, los dos se quedan. Mismo patrón en ZLSM_ME y
+  ZLSM_MR.
