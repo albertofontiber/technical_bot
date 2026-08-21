@@ -63,6 +63,14 @@ _CONFUSIONES_OBSERVADAS: tuple[tuple[str, str, str, bool, str | None, str], ...]
      "query_logs 044c584a 21-ago 13:27Z: audio «Quería decir de KIDE»"),
     (r"itide", "Kidde", "reescrito", False, "ASR_AVISOS",
      "query_logs 11469925 21-ago 13:27Z: audio Kidde→«ITIDE»"),
+    # 8ª corrupción observada de «Kidde» (verificado: «quide» no existe como marca,
+    # alias, término gobernado ni token del corpus — 0 hits en chunks_v2). Con esta
+    # fila, «Quería decir quide» recorre la cadena entera tabla→plantilla→rebuild
+    # (la ruta verificada de s334 con KIDE). Su gemela «quiere» (7ª, misma
+    # conversación) NO se tabula JAMÁS: palabra española real con 145 apariciones
+    # en el corpus — reescribirla corrompería texto legítimo. Hueco declarado.
+    (r"quide", "Kidde", "reescrito", False, "ASR_AVISOS",
+     "query_logs f8dcb59a 21-ago 15:54Z: audio «Quería decir quide.»"),
     # Sin IGNORECASE y sólo aislada: `\b` no corta ID3000/ID3002/IDNet (letra→dígito
     # y letra→letra no son frontera), y «id» minúscula queda fuera. Modo `aviso`
     # porque la familia ID existe de verdad: reescribir sería corromper al legítimo.

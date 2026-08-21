@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (4 lotes shipped+verificados, el 5º con gates verdes y PR pendiente), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
+## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (los 5 lotes MERGED+FLIP ON; s335 con verificación prod parcial), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
 **s334c/d/e (DEC-273) — los dos pasos que eran míos devuelven PEOR resultado que el prometido, y por eso valen.** (1) Higiene de alias: censo de los 1.175, mi regla marcó 82 y se pasaba de frenada (56 eran numéricos que `_add` ya descarta; el nº de marcas confundía CROSS-REFERENCES con categorías) → 18; y **R20 mordió: 13 son la ÚNICA vía de su producto**, 8 porque está en cuarentena y 5 porque su canónico es digit-only. **Eso INVIERTE el orden que prescribía TECH_DEBT #99**: promover primero, retirar lo redundante después. (2) Las 43 atestaciones `secondary`: **6 verificadas, 32 sin cita, 5 sin texto** — `8100e-faast` tenía 14 documentos y ni uno lo nombra. **Corrección: el «134 → 18» que di dependía del doc_map (muerto) y de los redirects (de Alberto); el suelo real sin adjudicación es 100.** APLICADO: 65 promociones con cita + 6 atestaciones leídas → **huérfanos 134 → 100**, cuarentena 520 → 455, consumibles 1.105 → 1.170; 0 gold perdidas, 0 pérdidas de modelo en el seam 1.
@@ -70,17 +70,19 @@ polaridad, «de» preposicional); (3) fuzzy d1 acotado al slot de corrección (g
 (4) clasificador Sonnet 4.6 solo en el miss (frontera del owner «¿se sostiene solo?» + regla
 ANAFÓRICA v3). R8: los 5 atajos escriben estado. **s332/s332b/s333/s334: SHIPPED + FLIP ON +
 VERIFICADOS en producción** (KIDE→Serie NC 14:17Z; clasificador real `correccion`/1261ms +
-Morley-IAS e2e). **s335 (hoy tarde): BUILD COMPLETO con gates verdes, PR #333 pendiente de
-merge/flip** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
+Morley-IAS e2e). **s335 (hoy tarde): MERGED (#333 → `f7c514de`) + FLIP ON, verificación prod
+PARCIAL (s335b)** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
 Whisper + desiderativas/imperativas ES+EN con frontera censada; GB1 verde, 6 negativos técnicos)
 y pieza B prompt v3 + cohorte v3 **GO 15/15 con fila OBLIGATORIA p15 3/3 y 0 falsas** (la regla
 fila-obligatoria queda como regla de gate generalizable) + GB2 e2e con clasificador real
 (1576 ms) y RAG Morley sin cross-brand; cruce `_SWITCH_FRASE` MEDIDO; limitación lista-parcial
-DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo**: (1) merge
-#333 + flip `INVENTARIO_FRASEOS=on` (Alberto) → verificación por VOZ con los puntos de Whisper
-(la conversación de la tarde entera); (2) re-verificación DEC-099 por voz con fraseo NO tabulado;
-(3) pieza C («sí» pelado) CENSADA en 3 casos — espera su GO con dúo propio; (4) graduación de
-flags DEC-210/211 (van 10 vars de s331→s335 — el siguiente movimiento estructural).
+DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo** (tras merge #333 + flip, verificación parcial 15:53Z —
+`evals/s335b_verificacion_prod_v1.md`: R8 y población del clasificador EN VERDE en prod;
+«quide» tabulada, «quiere» jamás): (1) VOZ con la desiderativa («Quiero ver las centrales de
+Kidde.») + la anafórica del guion — la conversación post-flip NO ejercitó la gramática nueva;
+(2) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
+si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (3) re-verificación DEC-099 por voz;
+(4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars).
 
 
 **s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
