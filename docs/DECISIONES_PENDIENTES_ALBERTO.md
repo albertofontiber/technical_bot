@@ -1,4 +1,4 @@
-# Lo que espera tu decisión — cierre de s331 (21-ago-2026)
+# Lo que espera tu decisión — al cierre de s336 (21-ago-2026)
 
 > **Tu pasada del packet v3 lo cerró entero**: anotaste las **56 filas vivas** (34 decisiones
 > distintas). No queda ninguna fila del packet E1 esperándote. Lo que sigue son **cinco cosas**, y
@@ -97,59 +97,82 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
-## 🔴 Manuales huérfanos: 245 → 134, y por qué me PARÉ antes de llegar a tus 10
+## 🔴 Manuales huérfanos: 245 → 82, y **5 líneas tuyas los bajan a 65**
 
-Me dijiste que 193 no era aceptable y que atacara hasta 10. Tenías razón, y encontré dos errores
-míos al mirarlo otra vez:
+Me dijiste que atacara hasta 10. Bajé de **245 a 82** y ahí me paré, pero esta vez no me paré por
+prudencia: **medí por qué**, y el resultado es que el cuello de botella dejó de ser técnico.
 
-1. **59 de esos 193 nunca fueron huérfanos.** Mi contador no seguía los `redirect` y el resolver
-   sí. Contar con una definición propia en vez de con la del bot se inventa un problema. Corregido
-   en la Wiki, con test y control negativo. **La cifra real era 134.**
-2. **Descarté 181 `unresolved:` diciendo que asignar fabricante era adjudicación.** Cierto, pero
-   irrelevante: **promover no exige asignarlo** — el detector no usa el namespace para nada.
+### Lo primero: 5 decisiones que valen 17 manuales
 
-Con eso construí y medí un lote que bajaba de **134 a 18**. **El dúo lo tumbó**, hice los dos
-pasos que eran míos, y los dos devolvieron un resultado PEOR que el prometido:
+Son redirects de un `unresolved:X` a su gemelo **que YA es consumible** — mismo canónico, uno con
+la marca puesta y otro sin ella. **R21 dice que esto lo firmas tú**, y por eso no lo he tocado.
 
-- La **higiene de alias** encontró que **13 de los 18 alias basura son la ÚNICA vía por la que el
-  detector alcanza su producto** — retirarlos haría desaparecer el producto. Y eso **invierte el
-  orden**: 8 de ellos sólo dejan de ser necesarios DESPUÉS de promover.
-- Las **43 atestaciones** que el lote añadía al `doc_map`: **6 verificadas, 32 sin cita**.
-  `8100e-faast` tenía 14 documentos y **ni uno lo nombra**. Mi inferencia era falsa el 86% de las
-  veces, y con eso el mecanismo **rescata 0 de 12** de los casos que dependían de él.
+| firma esto | manuales que desbloquea |
+|---|---|
+| `unresolved:id50` → `notifier:id-50` | **12** (`MADT155_*`, `MCDT155/156`, `MFDT155/156`, `MIDT155/156`, `TIDT107`, `BIDT077`) |
+| `unresolved:tg` → `notifier:tg` | 2 |
+| `unresolved:id60` → `notifier:id-60` | 1 |
+| `unresolved:tg-gsm` → `notifier:tg-gsm` | 1 |
+| `unresolved:mad-450` → `detnov:mad-450` | 1 |
 
-**Así que te debo una corrección: el «134 → 18» dependía de ese mecanismo (muerto) y de los
-redirects (tuyos). El suelo real sin tus decisiones es 100, y ahí está aplicado** — 65 promociones
-con cita verificada, 0 gold perdidas, 0 pérdidas de modelo. **Tus dos decisiones valen mucho más de
-lo que te dije.**
+**Simulado sobre una copia del catálogo, no razonado: 82 → 65, y 0 huérfanos nuevos.**
+👉 *Un «ok a las 5» y lo aplico con gate y recibo.*
 
-El detalle de por qué el dúo lo tumbó (10 hallazgos, 10 verificados, **dos son reglas que escribí yo
-mismo esa misma sesión**):
+### Cuatro que no puedo proponerte porque el gemelo existe en DOS marcas
 
-- **R21** (`reglas_clasificacion.json`) dice literalmente: «resolver H o G es ADJUDICACIÓN (R8),
-  **nunca mecánica**». Mis 25 redirects resolvían gemelos de forma mecánica.
-- **`TECH_DEBT #99`** dice: pasada de higiene sobre `aliases.jsonl` **antes** del siguiente lote
-  grande cuando uno active >20 alias. Éste activa decenas; el subconjunto más conservador que supe
-  construir todavía activa **85**.
+| documento | el token lo ocupan |
+|---|---|
+| `HLSI-MN-025-I_NFS Supra Series v05` | `morley:vsn12-2plus` **y** `notifier:vsn12-2plus` |
+| `VSN-CO-Mantenimiento-y-vida-util…` | `morley:vsn-co` **y** `notifier:vsn-co` |
+| `TG-1020-INT` | `desico:tg-1020` **y** `unresolved:tg-1020` (y el candidate de Notifier) |
+| `TG-Honeywell_Usuario_PT` | `notifier:id3000` ya es consumible; `notifier:id-3000` es su gemelo con guion |
 
-Y dos más que no son míos pero son igual de sólidos: las 43 altas de `doc_map` escribían «el manual
-menciona el producto» **sin haber leído los 43 documentos**, y las «7 ganancias» en gold eran en su
-mayoría ensanche producido por el propio lote — una pregunta sobre la batería de la AM-8200 «ganaba»
-el manual de un gateway. El instrumento de validación lo estaba modificando el cambio que valida.
+Los dos últimos los cazó el gate y el dúo cuando intenté promoverlos: no son promociones, son
+gemelos ortográficos. Y siguen las **3 fusiones Morley↔Notifier** de siempre (`NFS8REL`,
+`MCX-55M`, `MMX-10M`), cada una con manual huérfano en los dos lados → **6 más de golpe**.
 
-**Bajar el número aflojando la evidencia es justo lo que esas reglas existen para impedir.** Así que
-paré, y el camino a ≤10 queda ordenado con lo que hace falta en cada paso:
+### Y una pregunta de regla que vale 15 manuales
 
-| paso | qué es | de quién |
-|---|---|---|
-| 1 | **Higiene de alias** (`TECH_DEBT #99`), con los casos que dio el dúo: «1 Relay Module» y «2 Relay Module» apuntan LAS DOS a `mad-412` cuando existe `mad-422`; «Caja de central de tamaño 10U» y «Modelo 1 Relé» entran al detector como si fueran modelos | mío, es el prerrequisito |
-| 2 | **Leer los 43 documentos** para que las atestaciones `secondary` sean verificadas, no inferidas | mío |
-| 3 | **Las 3 fusiones Morley↔Notifier** (`NFS8REL`, `MCX-55M`, `MMX-10M`): cada pareja tiene manual huérfano en los dos lados, así que elegir uno deja el otro perdido — **fusionarlas desbloquea los 6 de golpe** | **tuyo** |
-| 4 | **Los 25 redirects** `unresolved:X` → `<marca>:X` (mismo canónico, uno sin marca): R21 dice que esto lo firmas tú | **tuyo** |
+Los manuales Detnov **no usan el nombre de modelo: usan el número de referencia**. `MAD-491` es
+`55349102`, `MAD-461` es `55346102`. Lo verifiqué leyendo el PDF original: la referencia está en
+el texto, **ya es alias en el catálogo**, y coincide con el nombre del fichero (doble ancla).
 
-**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)`… son
-referencias puramente numéricas o con paréntesis, y el detector las excluye **a propósito**. Su
-manual sólo se alcanza dándoles un nombre de producto de verdad, y eso es leer el PDF y decidir.
+👉 **¿Vale el nº de referencia del fabricante como cita válida bajo R4 cuando el manual no usa el
+nombre de modelo?** Si vale, son **15** de golpe. Si no, se quedan.
+
+### El suelo, y por qué 10 no sale sin ti
+
+Medí los 82 leyendo **el PDF original de cada uno** (`s336b`/`s336c`, los 84 de entonces):
+
+| | n | qué lo desbloquea |
+|---:|---|---|
+| redirect `unresolved:` pendiente | 29 | **tú** (los 17 de arriba + los ambiguos) |
+| promovible con cita verificada | 20 | mío — **hechos los que pasan R19/R21: 2** |
+| sólo nº de referencia | 15 | **tú**, la pregunta de arriba |
+| el manual no nombra su producto | 13 | nada: no lo atesta |
+| canónico digit-only | 4 | irreducible, el detector los excluye a propósito |
+| PDF escaneado | 2 | lector multimodal |
+| sin PDF | 1 | — |
+
+**53 de los 82 están gated en decisiones tuyas.** No hay camino autónomo a 10 sin saltarme R21,
+que es exactamente lo que el dúo me cazó intentando en r43.
+
+### Lo que sí hice solo, y lo que me costó
+
+De los 20 «promovibles», **R19 y R21 se comieron 17**. Y el que mejor pinta tenía, `AM-LCD`, lo
+mató la medida que hice para defenderlo: Fable señaló que el censo del gate lo flagea
+`[sin_digitos, acronimo_corto]` —la clase con la que la regla mata `NAS`—, medí su huella en el
+corpus esperando limpiarlo, y **uno de sus 6 documentos es un falso positivo real**: «Pantalla
+**FM/AM LCD**» de un manual de radio. Quedaron **2**: `SDX-751-TEM` y `LPX-751`.
+
+Eso deja una pregunta abierta que no es de este lote y que arreglaría `AM-LCD` de raíz:
+**¿debe un término sin dígitos exigir el separador en el detector?** (hoy `am[-\s/.+]*lcd` acepta
+el espacio, y por eso «FM/AM LCD» cuela). Tiene que ir con su propia medida.
+
+**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)` —
+referencias puramente numéricas o con paréntesis, que el detector excluye **a propósito**. De
+`3466` te traigo un dato nuevo: leí su PDF escaneado con Claude y **la página sí imprime «3466»**,
+así que la cita existe; lo que no existe es un nombre de producto que el detector pueda ver.
 
 ---
 
@@ -180,8 +203,8 @@ mido, o si prefieres seguir con el backfill a mano. Está en `TECH_DEBT #100` co
 
 - **La Wiki de modelos está construida**, como pediste, en `/catalogo` del panel. 1.024 modelos,
   36 marcas, con sus manuales, sus alias y las dos preguntas que el markdown nunca podía contestar:
-  **55 modelos sin ningún manual** y **245 manuales huérfanos** (184 de ellos, sólo porque todos sus
-  ids siguen en cuarentena — adjudicarlos los desbloquea).
+  **55 modelos sin ningún manual** y los manuales huérfanos, que empezaron en **245** y hoy van por
+  **82** (de los cuales **53 esperan una decisión tuya**, no una herramienta).
 - **Las reglas nuevas están escritas y son legibles por el generador**:
   `data/catalog/reglas_clasificacion.json`, R9–R18, cada una anclada en la anotación tuya que la hizo
   nacer. La más cara de tu pasada fue R10 («aunque sea software, los técnicos también deberían poder
