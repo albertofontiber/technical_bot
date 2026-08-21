@@ -242,3 +242,23 @@ def test_confirmacion_sin_flag_es_la_de_hoy(monkeypatch, flag_off):
     """GC0 en miniatura: con el lever apagado, el mensaje servido no cambia."""
     mensajes, _ = _correr_voz(monkeypatch, "¿Qué centrales BQide tienes?")
     assert mensajes[0] == "🎤 ¿Qué centrales BQide tienes?"
+
+
+# ─────────────────────── s334 · 4ª/5ª corrupciones observadas de «Kidde» (21-ago tarde)
+def test_kide_e_itide_reescriben_con_flag_on(monkeypatch):
+    monkeypatch.setenv("ASR_AVISOS", "on")
+    from src.bot.whisper_vocabulary import corregir_transcripcion_con_asunciones
+    for crudo in ("Quería decir de KIDE.", "ITIDE", "¿qué centrales itide tienes?"):
+        texto, asun = corregir_transcripcion_con_asunciones(crudo)
+        assert "Kidde" in texto, crudo
+        assert [a.modo for a in asun] == ["reescrito"], crudo
+
+
+def test_kide_no_colisiona_con_kidde_ni_con_flag_off(monkeypatch):
+    from src.bot.whisper_vocabulary import corregir_transcripcion_con_asunciones
+    monkeypatch.setenv("ASR_AVISOS", "on")
+    texto, asun = corregir_transcripcion_con_asunciones("¿Qué centrales de KIDDE tienes?")
+    assert texto == "¿Qué centrales de KIDDE tienes?" and not asun  # \b: kidde intacta
+    monkeypatch.delenv("ASR_AVISOS", raising=False)
+    texto, asun = corregir_transcripcion_con_asunciones("Quería decir de KIDE.")
+    assert texto == "Quería decir de KIDE." and not asun            # flag off = hoy
