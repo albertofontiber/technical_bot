@@ -1,0 +1,566 @@
+{
+ "que_es": "Censo de higiene de aliases.jsonl (TECH_DEBT #99). El veredicto GENERICO se MIDE: documentos distintos con FRONTERA DE PALABRA y nº de fabricantes. NADA aplicado.",
+ "umbrales": {
+  "docs": 25,
+  "marcas": 3
+ },
+ "resumen": {
+  "examinados": 40,
+  "genericos": 0,
+  "genericos_ya_en_detector": 0,
+  "senales": {
+   "cadena-de-version": 3
+  }
+ },
+ "filas": [
+  {
+   "alias": "002-467",
+   "id": "notifier:ngu",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "002-629",
+   "id": "notifier:idp-lb1",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "00-3218-501-0000-07",
+   "id": "aritech:2x-lb",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 10,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "0044-047-02-ES",
+   "id": "unresolved:f3000m",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "010-114",
+   "id": "notifier:psu7a",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "020-579",
+   "id": "notifier:psu7a",
+   "tipo": "nombre-largo",
+   "docs_frontera": 3,
+   "docs_substring": 3,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "020-648",
+   "id": "notifier:psu3a",
+   "tipo": "nombre-largo",
+   "docs_frontera": 3,
+   "docs_substring": 3,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "0208-00-01",
+   "id": "notifier:fireray-50r",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "0208-01-01",
+   "id": "notifier:fireray-100r",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "0786-CPD-20644",
+   "id": "notifier:nfx-smt3",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "0786-CPD-20645 09",
+   "id": "notifier:nfx-smt2",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "085 501 949p",
+   "id": "pyra:py-x-s-05",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 4,
+   "marcas": [
+    "Pfannenberg"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "10' Digital Output Cable",
+   "id": "xtralis:lt-acc-dcl",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Xtralis"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "10' Power Cable",
+   "id": "xtralis:lt-acc-pcl",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Xtralis"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "100m Detector",
+   "id": "aritech:fd2705-10r",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 3,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "100R",
+   "id": "notifier:fireray-100r",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 13,
+   "marcas": [
+    "Detnov"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "10-4001-501-1700-06",
+   "id": "aritech:apic",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 3,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "10-5106-501-55NC-05",
+   "id": "aritech:iu2055nc",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 13,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "11-1000002-10-xx",
+   "id": "securiton:art-535-10",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 2,
+   "docs_substring": 2,
+   "marcas": [
+    "Securiton"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "11-2000001-01-XX",
+   "id": "securiton:asd-533-1",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Securiton"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "11-2000002-01-01",
+   "id": "securiton:asd-531",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Securiton"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "11-2000003-01-01",
+   "id": "securiton:asd-532",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Securiton"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "1151EIS Intrinsically-safe Plug-in Ionization Smoke Detector",
+   "id": "systemsensor:1151eis",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "1151EIS ion detector",
+   "id": "systemsensor:1151eis",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "12-0101-360-0005",
+   "id": "kidde:ke-dt3101w-hab",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 3,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "12-0101-360-0006",
+   "id": "kidde:ke-dt3001w-hab",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 3,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "124-065",
+   "id": "notifier:124-065-xxx",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 7,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "124-292",
+   "id": "notifier:lib3000",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 3,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "124-429 LOOP SPLITTER PCB",
+   "id": "notifier:loop-splitter",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "12-LT",
+   "id": "morley:vsn12-lt",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 8,
+   "marcas": [],
+   "n_marcas": 0,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "12NL",
+   "id": "systemsensor:brel12nl",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 3,
+   "marcas": [
+    "Morley"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "12 V 12 Ah",
+   "id": "notifier:np12-12fr",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [
+    "cadena-de-version"
+   ],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "12 V 24 Ah",
+   "id": "notifier:np24-12fr",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 5,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [
+    "cadena-de-version"
+   ],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "12 V 38 Ah",
+   "id": "notifier:np38-12fr",
+   "tipo": "nombre-largo",
+   "docs_frontera": 1,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [
+    "cadena-de-version"
+   ],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "140KIT160 Long Range Reflector",
+   "id": "firebeam:140kit160",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 2,
+   "marcas": [
+    "Detnov",
+    "Xtralis"
+   ],
+   "n_marcas": 2,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": true
+  },
+  {
+   "alias": "15092",
+   "id": "notifier:ina",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 7,
+   "docs_substring": 62,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "1528",
+   "id": "hosiden:is-28-mk-4-banshee",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "Hosiden Besson"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "1551, ionization",
+   "id": "systemsensor:1551",
+   "tipo": "numero-de-parte",
+   "docs_frontera": 1,
+   "docs_substring": 1,
+   "marcas": [
+    "System Sensor"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "170-051",
+   "id": "notifier:prn1000",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  },
+  {
+   "alias": "170-052",
+   "id": "notifier:prn1000",
+   "tipo": "nombre-largo",
+   "docs_frontera": 2,
+   "docs_substring": 2,
+   "marcas": [
+    "Notifier"
+   ],
+   "n_marcas": 1,
+   "senales": [],
+   "veredicto": "identificador",
+   "ya_en_detector": false
+  }
+ ]
+}
