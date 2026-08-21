@@ -306,13 +306,16 @@ def formulario(accion: str, csrf: str, cuerpo, *,
 
 # --------------------------------------------------------------------- página
 
+#: El orden lo fija Alberto (21-ago: «la tab de wiki de manuales ponla después
+#: de "errores", no antes»). No es cosmético: la Wiki es una vista de referencia,
+#: no algo que se mire en cada visita, así que va al final de la barra.
 _NAV = (
     ("/", "Resumen"),
     ("/acceso", "Acceso"),
     ("/metricas", "Métricas"),
-    ("/catalogo", "Modelos"),
     ("/explorador", "Explorador"),
     ("/errores", "Errores"),
+    ("/catalogo", "Modelos"),
 )
 
 _ESTILO = """

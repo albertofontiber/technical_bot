@@ -170,6 +170,29 @@ para no tener 3 manuales huérfanos por una cuestión de contabilidad. Si prefie
 
 ---
 
+## 🟠 Una decisión de despliegue: la categoría del Explorador no se mantiene sola
+
+Preguntaste por qué salía «(sin clasificar)» en todo. **No era el panel.** La categoría y las
+marcas de cada pregunta las escribe un barrido batch que **nunca ha corrido en producción**:
+`requirements.txt` pide `python-telegram-bot` **sin el extra `[job-queue]`**, así que el worker
+no tiene con qué programarlo y degrada a un warning en el log. El flag `CLASIFICADOR_PREGUNTAS`
+además está en `off` por defecto.
+
+La frontera es exacta: todo hasta el **18-ago 21:43** tenía categoría; todo desde el **20-ago
+09:05** no. Las 109 que sí la tenían venían del **backfill manual**, no del barrido.
+
+**Lo he arreglado para hoy** (22 filas clasificadas, $0,03, el Explorador vuelve a enseñar
+categoría y marcas en las 131). Pero es un parche: la próxima pregunta vuelve a entrar sin
+clasificar.
+
+**Lo que necesito de ti**: el arreglo de raíz son dos cosas —`python-telegram-bot[job-queue]` en
+`requirements.txt` y `CLASIFICADOR_PREGUNTAS=on` en Railway— y **no lo he hecho porque cambia la
+imagen de producción y enciende también otro job dormido**: el refresco de presencia del catálogo
+(cada 720 s), que hoy no corre y cuya conducta al despertarse nadie ha medido. Dime si tiro y lo
+mido, o si prefieres seguir con el backfill a mano. Está en `TECH_DEBT #100` con el detalle.
+
+---
+
 ## ⚪️ Y lo que ya no te espera
 
 - **La Wiki de modelos está construida**, como pediste, en `/catalogo` del panel. 1.024 modelos,

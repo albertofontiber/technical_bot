@@ -243,6 +243,90 @@ def test_la_ficha_de_un_modelo_real_pinta_sus_manuales(entorno, monkeypatch):
     assert fuente[:30] in respuesta.texto
 
 
+def _modelo_con_varios_manuales():
+    ind = catalogo.indice()
+    return next(m for m in ind.modelos
+                if catalogo._clase(m) == "consumibles" and m.n_docs >= 3)
+
+
+def test_los_superseded_van_los_ULTIMOS_de_la_lista(entorno, monkeypatch):
+    """Pedido de Alberto (21-ago): los manuales reemplazados no pueden abrir la
+    lista. El fallo que esto cierra es de ORDEN, así que se comprueba sobre las
+    POSICIONES en el HTML, no sobre la presencia de las palabras."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    # el PRIMERO del doc_map se marca superseded a propósito: sin reordenación
+    # saldría el primero de la tabla, que es justo lo que Alberto vio.
+    estados = {d[2]: ("active", "") for d in docs}
+    estados[docs[0][2]] = ("superseded", "")
+    monkeypatch.setattr(catalogo, "estado_de_documentos", lambda _ids: estados)
+    pagina = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    # SOLO la tarjeta de manuales. La primera versión de este test medía sobre la
+    # página entera y fallaba: el nombre del fichero aparece ANTES, dentro del
+    # `provenance` de la tarjeta de identidad, así que `index` devolvía esa
+    # aparición y no la de la tabla. Medir la posición del token equivocado es
+    # exactamente la clase de error que las guardas G1-G6 nombran.
+    html = pagina[pagina.index("manual(es)"):]
+    pos_super = html.index(docs[0][0][:30])
+    otros = [html.index(d[0][:30]) for d in docs[1:] if d[0][:30] in html]
+    assert otros, "el test necesita al menos otro manual en la página"
+    assert pos_super > max(otros), "el superseded no quedó el último"
+
+
+def test_el_nombre_del_manual_ENLAZA_cuando_hay_url(entorno, monkeypatch):
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    url = "https://ejemplo.invalid/storage/manual%20uno.pdf"
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {docs[0][2]: ("active", url)})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert f'href="{url}"' in html
+    assert 'rel="noopener noreferrer"' in html
+    assert 'target="_blank"' in html
+
+
+def test_un_manual_SIN_url_no_pinta_un_enlace_roto(entorno, monkeypatch):
+    """La clase de fallo de `render.esc("")` → «—» dentro de un atributo (s334):
+    un documento sin `source_url` tiene que quedarse en TEXTO, no en un `href`
+    vacío ni en un `href="—"` que el técnico pincharía para nada."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {d[2]: ("active", "") for d in docs})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert 'href=""' not in html
+    assert 'href="—"' not in html
+    assert docs[0][0][:30] in html          # el manual SIGUE apareciendo
+
+
+def test_una_url_que_no_sea_http_NO_se_convierte_en_enlace(entorno, monkeypatch):
+    """`source_url` viene de la DB, no del teclado de un visitante — pero es dato
+    externo igual. Un `javascript:` en esa columna no puede acabar en un `href`
+    del panel: la puerta es el esquema, no el escapado."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {docs[0][2]: ("active", "javascript:alert(1)")})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert "javascript:" not in html.lower()
+
+
+def test_el_orden_de_manual_entierra_lo_reemplazado_y_no_lo_desconocido():
+    """El rango es una decisión, no un detalle: `active` primero, lo reemplazado
+    al final, y un estado que no reconocemos EN MEDIO — no sabemos que esté
+    muerto, así que no se entierra."""
+    o = catalogo.orden_de_manual
+    assert o("active") < o("needs_review") < o("superseded") < o("retired")
+    assert o("active") < o("loquesea") < o("superseded")
+
+
+def test_la_pestana_de_modelos_va_DESPUES_de_errores():
+    """Pedido de Alberto (21-ago). Se comprueba el ORDEN, no la pertenencia."""
+    from dashboard.render import _NAV
+    rutas = [r for r, _ in _NAV]
+    assert rutas.index("/catalogo") > rutas.index("/errores")
+
+
 def test_un_id_inventado_es_404_no_una_consulta(entorno):
     """El sufijo de la ruta NUNCA se usa como nombre de recurso: se busca en el
     dict del catálogo. Mismo criterio que `/metricas/<clave>`."""

@@ -3740,3 +3740,42 @@ higiene sobre `aliases.jsonl` con reglas mecánicas (códigos de edición, caden
 frases con artículo) + gate propio, **antes** del siguiente lote grande.
 
 **Descubierto por**: Fable 5, dúo r42 (`evals/adversarial_review_log.jsonl` ts=2026-08-21T14:13:43).
+
+---
+
+## 100. La corrida periódica del clasificador NO puede correr en producción: falta el extra `[job-queue]` (s334)
+
+**Qué pasa.** El Explorador enseñaba **«(sin clasificar)» en todas** las preguntas nuevas
+(pantallazo de Alberto, 21-ago). No era el panel: la categoría y las marcas las escribe un
+barrido batch (`schedule_clasificacion`, `src/bot/telegram_bot.py:3060`) que **nunca se
+programa**, porque:
+
+1. `CLASIFICADOR_PREGUNTAS` tiene default `off` (`src/flags.py:109`); y
+2. aunque se encendiera, `requirements.txt:20` pide `python-telegram-bot>=20.0` **sin el extra
+   `[job-queue]`**, así que `app.job_queue` es `None`, el seam degrada a un `logger.warning` y
+   no registra nada. Verificado en este entorno: `apscheduler` no está instalado.
+
+**La frontera es limpia y está medida**: todas las filas hasta `2026-08-18T21:43` tienen
+categoría; **todas desde `2026-08-20T09:05` no la tenían**. Las 109 clasificadas venían del
+**backfill manual** (`python -m scripts.clasificar_preguntas`), no del barrido.
+
+**Qué se hizo ahora.** Backfill manual de las 22 pendientes (22 escritas, 0 fallos de LLM,
+$0,03 — recibo en `evals/s334_clasificacion_backfill_v1.json`). El Explorador vuelve a enseñar
+categoría y marcas en las 131 filas. **Es un parche: la próxima pregunta vuelve a entrar sin
+clasificar.**
+
+**El mismo fallo afecta a otro job.** `_s331_presence_refresh_job` (refresco de presencia cada
+720 s, `telegram_bot.py:3211`) tiene el mismo guard y el mismo destino: con `job_queue` a `None`
+la presencia sólo se refresca por retrieval, y el código lo declara como degradación.
+
+**Por qué no se arregló aquí.** Añadir el extra cambia la imagen de producción y **enciende
+también el refresco de presencia**, que hoy no corre — un cambio de conducta en Railway que
+nadie ha medido, dentro de un PR que iba de manuales huérfanos. Es decisión de despliegue.
+
+**Trigger.** Cuando Alberto quiera la categoría al día sin acordarse del backfill. Entonces:
+`python-telegram-bot[job-queue]>=20.0` en `requirements.txt` + `CLASIFICADOR_PREGUNTAS=on` en
+Railway, midiendo antes qué hace el refresco de presencia al despertarse.
+
+**Mientras tanto**, la cadencia real de la clasificación es **cuando alguien corre el script**.
+Los datos crudos del Explorador (pregunta, canal, ruta, feedback) **sí son en vivo**: el panel
+lee PostgREST en cada petición y sirve `cache-control: no-store`.
