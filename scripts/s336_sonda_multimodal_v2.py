@@ -60,6 +60,11 @@ from src.rag import catalog_store as cs                        # noqa: E402
 H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
 COBERTURA = ROOT / "evals/s271_pdf_coverage_v1.json"
 SALIDA = ROOT / "evals/s336_sonda_multimodal_v2.json"
+#: El progreso EN VUELO va a un fichero temporal, no al recibo versionado. Escribir
+#: cada fila directamente en `evals/` deja el árbol de git sucio durante toda la
+#: corrida y obliga a commitear instantáneas a medias que no son un resultado.
+#: El recibo de `evals/` se escribe UNA vez, al final.
+PARCIAL = Path(os.environ.get("TMPDIR", "/tmp")) / "s336_sonda_parcial.json"
 
 PROMPT = (
     "Esta es una página de un documento técnico de protección contra incendios "
@@ -312,7 +317,7 @@ def main() -> int:
         marca = "".join(("GCP"[j] if fila.get(f"{n}_acierta") else "·")
                         for j, n in enumerate(("gemini", "claude", "gpt")))
         print(f"  [{i}/{len(objetivo)}] {fich[:38]:40s} esp={esperado[:14]:16s} {marca}")
-        SALIDA.write_text(json.dumps({"filas": filas}, ensure_ascii=False, indent=1), "utf-8")
+        PARCIAL.write_text(json.dumps({"filas": filas}, ensure_ascii=False, indent=1), "utf-8")
 
     n = len(filas)
     res = {k: sum(1 for f in filas if f.get(f"{k}_acierta")) for k in ("gemini", "claude", "gpt")}

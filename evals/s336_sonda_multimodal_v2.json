@@ -32,6 +32,74 @@
    ],
    "gpt_acierta": false,
    "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "ed62f8fb-17c3-471e-9c7f-7a420efecfc4",
+   "source_file": "55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT",
+   "esperado": "TMD-100",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No se especifica ningún modelo de producto en el documento (solo se incluye la descripción genérica 'Tarjeta de expansión Modbus del sistema convencional' y una referencia de catálogo REF: 55310008)."
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [
+      "Tarjeta de Expansión Modbus (Modbus Expansion Card)"
+     ],
+     "confianza": "media",
+     "donde": "Título del documento ('TARJETA DE EXPANSIÓN MODBUS DEL SISTEMA CONVENCIONAL' / 'CONVENTIONAL SYSTEM MODBUS EXPANSION CARDS') y etiquetas de las fotos ('Tarjeta Modbus' / 'Modbus Card'). No aparece ningún código de modelo específico; solo la referencia de documento REF: 55310008, que no es un modelo."
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo identificable; sólo la denominación genérica «Tarjeta Modbus / Modbus Card» y la referencia documental «REF: 55310008»."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  },
+  {
+   "document_id": "9d575fc3-bd5a-445c-9b89-6a382216c688",
+   "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+   "esperado": "SCD-100",
+   "n_paginas_leidas": 1,
+   "n_paginas_renderizadas": 1,
+   "cobertura_completa_VERIFICADA": false,
+   "gemini": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún código o nombre de modelo específico en el documento; únicamente se indica la denominación genérica 'Sirena Convencional / Conventional Sounder' y la referencia 'REF: 55310400'."
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El título y las etiquetas solo indican el tipo genérico de producto ('Sirena Convencional' / 'Conventional Sounder'); la única referencia visible (REF: 55310400) es una referencia de documento, no un modelo, y los rótulos del diagrama (SND 1, SND 2, 24V IN/OUT) son bornes de conexión"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El título y la etiqueta de la foto sólo indican «Sirena Convencional / Conventional Sounder»; no aparece ningún modelo específico."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
   }
  ]
 }
