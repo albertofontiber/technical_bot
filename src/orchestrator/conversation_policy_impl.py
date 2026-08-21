@@ -485,10 +485,26 @@ class DeterministicConversationPolicy:
         exigiría un léxico de funcionales por cue). Dos consecuencias DECLARADAS y
         testeadas: «no me refería a Kidde» NO casa (el `^` no admite el «no» previo) y
         «me refería a Kidde, ¿y el lazo?» tampoco (la coma y la sustancia extra quedan
-        fuera de la cola de puntuación)."""
+        fuera de la cola de puntuación).
+
+        Cabeza opcional (57b8d482, la respuesta real a la invitación del aviso ASR:
+        «sí, dije Kidde»): se admite UN token del léxico GOBERNADO de confirmación
+        delante del cue — afirmación con separador libre; negación SOLO con corte de
+        cláusula `[,:]` (la polaridad s331: «no, dije Kidde» corrige, «no dije Kidde»
+        y «no me refería a Kidde» siguen sin casar porque la negación pega al cue en
+        la misma cláusula)."""
+        af, ng = _confirmation_lists()
+        cabezas = [rf"{re.escape(a)}[\s:,]+" for a in af]
+        # La negación pelada («no,») viene de _NEGATION_CUES —la fuente de polaridad
+        # s331—, NO del léxico de confirmación: añadir «no» a ESA lista cambiaría la
+        # regla 3 de la gramática de pending (negación⇒etiqueta), que hoy manda el
+        # «no» a secas a cambio-de-tema. Aquí el corte [,:] es OBLIGATORIO.
+        cabezas += [rf"{re.escape(n)}\s*[,:]\s*"
+                    for n in tuple(ng) + tuple(sorted(_NEGATION_CUES))]
+        cabeza_opcional = rf"(?:(?:{'|'.join(cabezas)}))?" if cabezas else ""
         for cue in _correction_lexicon():
             for marca in matched_brands:
-                patron = (rf"^[\s¡¿]*{re.escape(cue)}[\s:,]+"
+                patron = (rf"^[\s¡¿]*{cabeza_opcional}{re.escape(cue)}[\s:,]+"
                           rf"(?:la\s+|el\s+|los\s+|las\s+)?{re.escape(marca)}"
                           rf"[\s.!?¡¿]*$")
                 if not re.match(patron, ql):

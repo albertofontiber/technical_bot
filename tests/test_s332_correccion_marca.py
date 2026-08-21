@@ -239,3 +239,38 @@ def test_lexico_gobernado_carga_los_cues_declarados():
     assert all(c == c.lower().strip() for c in cues)
     assert len(cues) == len(set(cues))
     assert "me refiero era" not in cues      # errata de la spec: NO entra
+
+
+# ─────────────────────────── s332b · la respuesta REAL a la invitación del aviso
+# (query_logs 57b8d482, 21-ago 10:40Z: el aviso ID↔Kidde dice «Si dictaste Kidde,
+# dímelo» y Alberto respondió «sí, dije Kidde» → plantilla vacía. El cue natural de
+# esa invitación es «decir» en pasado, y llega con afirmación delante.)
+def test_si_dije_kidde_dispara_el_rebuild(flag_on):
+    res, _ = resolve_conversational_turn("sí, dije Kidde", _ws(), NOW)
+    assert res.rationale == "brand_correction_rebuild"
+    assert "Kidde" in res.query_for_retrieval
+    assert PREGUNTA_BASE in res.query_for_retrieval
+
+
+def test_dije_kidde_a_secas_dispara(flag_on):
+    res, _ = resolve_conversational_turn("dije Kidde", _ws(), NOW)
+    assert res.rationale == "brand_correction_rebuild"
+
+
+def test_negacion_con_corte_de_clausula_dispara(flag_on):
+    # Polaridad s331: la coma corta el alcance de la negación — «no, dije Kidde»
+    # ES la corrección («no [lo que oíste]; dije Kidde»).
+    res, _ = resolve_conversational_turn("no, dije Kidde", _ws(), NOW)
+    assert res.rationale == "brand_correction_rebuild"
+
+
+def test_negacion_pegada_al_cue_NO_dispara(flag_on):
+    # Sin corte de cláusula la negación niega el cue: «no dije Kidde» afirma lo
+    # contrario de la corrección.
+    res, _ = resolve_conversational_turn("no dije Kidde", _ws(), NOW)
+    assert res.rationale == "new_brand_no_state"
+
+
+def test_afirmacion_con_sustancia_extra_NO_dispara(flag_on):
+    res, _ = resolve_conversational_turn("sí, dije Kidde, ¿y el lazo?", _ws(), NOW)
+    assert res.rationale != "brand_correction_rebuild"
