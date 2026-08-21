@@ -9771,3 +9771,33 @@ marcados con ⚠️ y un discriminador (fue lo que hizo que una nota cayera en e
 y la línea del juez se imprime como **«PROPUESTO (NO es lo aplicado)»** (fue lo que le hizo criticar
 ids que nunca se aplicaron). El v3 además pre-clasifica las 67 filas vivas por los patrones que él
 ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (suyas, una a una).
+
+## DEC-263 (s331c, 21 ago 2026) — Verificación DEC-099 EN PRODUCCIÓN: la clase amnésica del incidente Kidde está MUERTA; y la mañana deja dos observaciones que activan trabajo diferido
+
+- **Fecha**: 21 ago 2026, mañana. **Impacto**: cierre de s331 (DEC-257/258). Flip ejecutado por
+  Alberto 07:37Z (4 vars: F1_RESOLVE_GOVERNED, F1_MENTION_PRECEDENCE, GENERATOR_NO_REASK,
+  IDENTITY_FETCH — verificadas por sonda a la API de Railway; deploy SUCCESS = interlock de boot
+  pasado; rollback = quitar las 4).
+- **Decide (1) — VERIFICADO**: Alberto repitió la conversación del 18-ago en Telegram REAL
+  (grafía ASR idéntica «2X-AF1-FBS», por VOZ). Resultado, con `turn_identity` estampado en las 3
+  filas (`status=on`, `presence=vigente`): T1 bindea la variante (`resolved_this_turn`) y declara
+  alcance honesto (evidencia de la hermana S, «sin controles de Bomberos, verifica»); T2 «¿cómo
+  la programo?» — EL turno que el 18-ago produjo «¿qué variante exacta tienes instalada? (mira la
+  etiqueta)» — responde con clarify de ASPECTO (`carried`, cero re-pregunta de identidad); T3
+  «el lazo y sus dispositivos» entrega contenido del manual de FAMILIA (128 dispositivos,
+  Excellence, Clase A/B, 500→800 mA) con alcance declarado. Recibo:
+  `evals/s331_dec099_verificacion_prod_v1.md` (ids de query_logs incluidos).
+- **Decide (2) — dos hallazgos de la conversación previa del catálogo (misma mañana)**:
+  (a) **ASR destroza marcas** — «Kidde» llegó como «BQide» (y plausiblemente «ID»): la clase
+  DEC-233, que Alberto adjudicó diferir a «tabla de confusiones OBSERVADAS» con 1 observación;
+  con ≥3 ya hay masa crítica → **activar el fix diferido = GO pendiente de Alberto** (config
+  gobernada consumida en `normalize_voice_query`, ASR crudo siempre visible). NADA de s331 se
+  rompió: el detector nunca vio «Kidde». (b) **gap nuevo: corrección de MARCA sin estado**
+  («me refería a Kidde» tras turno sin producto → standalone sin modelos → retrieval de la
+  meta-frase → plantilla vacía); fix candidato: reconstruir `last_query` con la marca corregida,
+  patrón de la corrección de producto — diseño con mini-gate, GO pendiente.
+- **Pendientes que esta DEC deja armados**: los dos GO de arriba · residuales post-flip de
+  `s331_m4_gates_resultado_v1.md` (se observan con tráfico del piloto) · graduación de las 4
+  flags cuando asienten (patrón DEC-210/211, censo vigila).
+- **Relacionado**: DEC-257·258 (el ciclo) · DEC-233 (la clase ASR y su fix diferido) · DEC-099
+  (el patrón de verificación) · DEC-210/211 (graduación de flags).

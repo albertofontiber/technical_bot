@@ -6592,7 +6592,7 @@ declaradas en el repo: los commits intermedios que rompieron el emparejado de Fa
 cero git durante una ronda), y el «suite VERDE» falso de c83c0bff (el exit 0 era del tail — la
 puerta del inventario P1 lo cazó; regla: pipefail + ningún número no visto en un resultado).
 De propina: el flake real del fence IPC (2× en CI, 0/60 local) arreglado con espera acotada,
-adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-259.
+adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-257.
 
 ## s331-packet (20 ago 2026) — El residuo del packet E1: tres preguntas delegadas, y un dúo que corrige la evidencia sin cambiar la conclusión
 

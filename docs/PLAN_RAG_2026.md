@@ -28,7 +28,7 @@
 <a id="estado-actual-s327"></a>
 ## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 
-**s331 (DEC-259) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
+**s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
 entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
 ARRASTRAR —hint solo bindeados—, con la re-pregunta amnésica también en PLANTILLA sin LLM),
 diseño CERRADO en 6 rondas de dúo (v6 = spec vinculante, §11 = checklist B1-B11; corte
@@ -98,14 +98,16 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
-0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-259/258; NO bloquea el
-   piloto): observabilidad + boot CABLEADOS y gates M4 COMPLETOS (G1 PASS todos los brazos con 2
-   bugs cazados y arreglados EN el gate · G2 0 regresiones reales adjudicadas leyendo, ventana
-   sucia declarada · MT 52/52 · G3 ON 6/6+6/6 · G4 prod byte-idéntica verificada). **Lote Railway
-   worker = 4 vars**: `F1_RESOLVE_GOVERNED=on` + `F1_MENTION_PRECEDENCE=on` +
-   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-260).
-   **Tras el flip: verificación DEC-099 = re-lanzar la conversación Kidde real en Telegram.**
-   Rollback = quitar las 4. Residuales post-flip en `evals/s331_m4_gates_resultado_v1.md`;
+0b. **s331 variantes-en-hilo — ✅ SHIPPED Y VERIFICADO EN PRODUCCIÓN** (DEC-257/258/**263**):
+   flip de Alberto 21-ago 07:37Z (4 vars, deploy SUCCESS, interlock pasado) y **verificación
+   DEC-099 CERRADA a las 07:50Z**: la conversación real re-lanzada por VOZ — T2 «¿cómo la
+   programo?» responde con clarify de ASPECTO (cero re-pregunta de identidad) y T3 entrega el
+   manual de FAMILIA; `turn_identity` estampado en producción
+   (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. **Quedan dos GO
+   de Alberto, nacidos de la misma mañana**: (a) activar la tabla de confusiones ASR de DEC-233
+   (≥3 observaciones: Death Knob/BQide/ID←Kidde); (b) fix de corrección-de-marca-sin-estado
+   («me refería a Kidde» → reconstruir `last_query` con la marca corregida). Residuales
+   post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
