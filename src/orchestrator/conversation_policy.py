@@ -234,6 +234,18 @@ class TurnResolution:
     # (s331 §3.D) Identidad estructurada del turno para generación/plantillas/trace.
     # None = sin identidad (o levers apagados) ⇒ conducta de hoy byte-idéntica.
     turn_identity: "TurnIdentity | None" = None
+    # (s332 §2/§4) Asunciones DECLARADAS del turno — `tuple[Asuncion, ...]` de
+    # ``contracts`` (sin anotar el tipo real: `contracts` importa ESTE módulo y el
+    # import inverso cerraría el ciclo). Vacía = el turno no asumió nada.
+    asunciones: tuple = ()
+    # (s332 §4, Sol-3) Qué guardar como `last_query` en la transición de RESPUESTA en
+    # vez de la query literal del usuario. Existe para que una meta-frase de corrección
+    # («me refería a Kidde») NUNCA se convierta en la base de futuros rebuilds: el
+    # encadenado («me refería a Notifier») reconstruye sobre la PREGUNTA original. None
+    # = conducta de hoy. Matiz s331 ya existente y ahora DECLARADO: tras
+    # `pending_confirmed_family` el `last_query` queda «sí», inocuo solo porque el
+    # siguiente SET lo refresca — no porque la transición lo gobierne.
+    state_query_override: str | None = None
 
     def __post_init__(self) -> None:
         # Enforce the $0 invariant at construction so a mis-built resolution

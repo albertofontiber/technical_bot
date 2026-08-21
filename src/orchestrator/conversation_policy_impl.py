@@ -69,6 +69,9 @@ from .conversation_policy import (
     TurnResolution,
     WorkingState,
 )
+# (s332 §2) La primitiva de asunción vive en `contracts` (que importa la INTERFAZ,
+# no este módulo): impl -> contracts -> conversation_policy, sin ciclo.
+from .contracts import Asuncion
 
 WINDOW_SECONDS = 3600  # carry-forward-1h (telegram_bot SESSION_TIMEOUT); design §8
 
@@ -86,6 +89,27 @@ def mention_precedence_enabled() -> bool:
         raise RuntimeError(
             f"F1_MENTION_PRECEDENCE={raw!r} no reconocido (on|off) — fail-fast")
     return raw in ("1", "true", "yes", "on")
+
+
+# ---------------------------------------------------------------------------
+# (s332 §4/§5) F1_MARCA_CORRECCION — la RED: rama de corrección de marca
+# ---------------------------------------------------------------------------
+def correction_enabled() -> bool:
+    """Lever `F1_MARCA_CORRECCION` (s332 §5): gatea la rama de corrección de marca,
+    su `state_query_override` y el sufijo de asunción. Default off = conducta servida
+    byte-idéntica (sin la rama, «me refería a Kidde» cae en `new_brand_no_state`,
+    exactamente como hoy).
+
+    Se lee en CADA llamada, SIN caché de módulo: un flip en Railway togglea sin
+    restart (patrón `asr_avisos_on`/`mismatch_answer_activo`). Parser ESTRICTO: un
+    typo no puede dejar el lever a medias EN SILENCIO."""
+    raw = (os.getenv("F1_MARCA_CORRECCION", "") or "").strip().lower()
+    if raw in ("", "off"):
+        return False
+    if raw == "on":
+        return True
+    raise RuntimeError(
+        f"F1_MARCA_CORRECCION={raw!r} no reconocido (on|off) — fail-fast")
 
 
 _CONFIRMATION_LEXICON_PATH = (
@@ -121,6 +145,34 @@ def _match_phrase(ql: str, phrases: "tuple[str, ...]") -> bool:
         if re.search(rf"(?<![a-záéíóúüñ0-9]){re.escape(p)}(?![a-záéíóúüñ0-9])", ql):
             return True
     return False
+
+
+_CORRECTION_LEXICON_PATH = (
+    Path(__file__).resolve().parents[2] / "config" / "correction_lexicon_v1.yaml"
+)
+_correction_cache: "tuple[str, ...] | None" = None
+
+
+def _correction_lexicon() -> "tuple[str, ...]":
+    """(s332 §4) Cues de corrección de marca del léxico gobernado, minúsculas,
+    cacheados a nivel de módulo. Fail-open a tupla vacía con warning (la rama no
+    dispara y la cascada sigue: statu quo, jamás rompe el turno), patrón EXACTO de
+    `_confirmation_lists`."""
+    global _correction_cache
+    if _correction_cache is not None:
+        return _correction_cache
+    try:
+        import yaml
+
+        data = yaml.safe_load(_CORRECTION_LEXICON_PATH.read_text(encoding="utf-8")) or {}
+        _correction_cache = tuple(
+            str(x).strip().lower() for x in (data.get("correccion") or []) if str(x).strip()
+        )
+    except Exception:  # pragma: no cover - IO/formato
+        logger.warning("correction_lexicon_v1.yaml no legible — rama de corrección de "
+                       "marca inerte (fail-open declarado s332)")
+        _correction_cache = ()
+    return _correction_cache
 
 
 _CLAUSE_CUTS = ",.;:¿?¡!"
@@ -417,6 +469,33 @@ class DeterministicConversationPolicy:
         return [b for b in BRAND_TOKENS if re.search(rf"\b{re.escape(b)}\b", ql)]
 
     @staticmethod
+    def _correction_rebuild(ql: str, query: str,
+                            matched_brands: Sequence[str]) -> str | None:
+        """(s332 §4) ¿Es el turno ENTERO una corrección de marca —«{cue} [artículo]
+        {marca}» y nada más— ? Devuelve la forma SUPERFICIAL de la marca tal como el
+        usuario la escribió (para que «Kidde» conserve su grafía), o None.
+
+        Regla de PLANTILLA CERRADA, sin léxico de stopwords: el ancla `^…$` ES el
+        criterio de «turno solo-corrección» (nada de contar tokens residuales, que
+        exigiría un léxico de funcionales por cue). Dos consecuencias DECLARADAS y
+        testeadas: «no me refería a Kidde» NO casa (el `^` no admite el «no» previo) y
+        «me refería a Kidde, ¿y el lazo?» tampoco (la coma y la sustancia extra quedan
+        fuera de la cola de puntuación)."""
+        for cue in _correction_lexicon():
+            for marca in matched_brands:
+                patron = (rf"^[\s¡¿]*{re.escape(cue)}[\s:,]+"
+                          rf"(?:la\s+|el\s+|los\s+|las\s+)?{re.escape(marca)}"
+                          rf"[\s.!?¡¿]*$")
+                if not re.match(patron, ql):
+                    continue
+                # La forma superficial se lee de la query ORIGINAL (case-insensible):
+                # `marca` es el token del catálogo de marcas y viene en minúscula.
+                m = re.search(rf"\b{re.escape(marca)}\b", query, re.IGNORECASE)
+                superficial = (m.group(0) if m else marca).strip(" .,;:!?¡¿«»\"'")
+                return superficial or marca
+        return None
+
+    @staticmethod
     def _is_out_of_domain(ql: str) -> bool:
         return any(term in ql for term in _OUT_OF_DOMAIN_LEXICON)
 
@@ -701,6 +780,35 @@ class DeterministicConversationPolicy:
         # B. Brand gate (deterministic split — S99 / fable-F3 + sol-S7).
         matched_brands = self._matched_brands(ql)
         if matched_brands:
+            # (s332 §4) NIVEL 2, la RED: recupera las confusiones de marca que la
+            # tabla ASR aún NO tiene tabuladas («me refería a Kidde» tras un turno que
+            # respondió de otra marca). El nivel 1 —la tabla— previene las tabuladas
+            # ya en T1; esta rama recupera las que se escapan y deja la observación.
+            # PRECEDENCIA por ORDEN, no por re-chequeos: la gramática de pending ya
+            # corrió arriba (si había pending vivo, resolvió o lo limpió) y la rama A
+            # ya retornó si el turno traía modelo explícito — de ahí que `not real`
+            # sea una guarda DECLARADA, no un empate que decidir aquí.
+            if (correction_enabled() and not real
+                    and working_state.last_query
+                    and working_state.within_window(now, self.window_seconds)):
+                marca = self._correction_rebuild(ql, query, matched_brands)
+                if marca:
+                    # La base es la pregunta ORIGINAL, y viaja en
+                    # `state_query_override` para que una SEGUNDA corrección
+                    # reconstruya desde ELLA — nunca desde la meta-frase ni desde la
+                    # query ya anotada (Sol-3).
+                    base = working_state.last_query
+                    return TurnResolution(
+                        route=PolicyRoute.STANDALONE,
+                        query_for_retrieval=(
+                            f"{base} (el usuario corrige: la marca es {marca})"),
+                        target_models=(),
+                        available_models=avail,
+                        asunciones=(Asuncion(kind="marca_corregida", detectado=marca,
+                                             asumido=marca, modo="reescrito"),),
+                        state_query_override=base,
+                        rationale="brand_correction_rebuild",
+                    )
             same_mfr = in_window and self._same_manufacturer(
                 matched_brands, working_state.last_target_models
             )
@@ -991,7 +1099,9 @@ def advance_working_state(
     # el CONSUME/CLEAR del pending es transición EXPLÍCITA, no omisión implícita.
     return WorkingState(
         last_target_models=models,
-        last_query=query,
+        # (s332 §4, Sol-3) El override gana a la query literal: una meta-frase de
+        # corrección jamás queda como base de futuros rebuilds.
+        last_query=resolution.state_query_override or query,
         last_answer_excerpt=(answer_excerpt or "")[:500] or None,
         last_turn_at=now,
         available_models=avail_tuple,
