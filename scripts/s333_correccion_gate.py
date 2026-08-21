@@ -102,7 +102,7 @@ def _guarda_model_token(cohorte: dict) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--haiku", action="store_true")
-    ap.add_argument("--cohorte", default="v2", choices=("v1", "v2"))
+    ap.add_argument("--cohorte", default="v2_1", choices=("v1", "v2", "v2_1"))
     ap.add_argument("--out", default="")
     args = ap.parse_args()
     out = args.out or str(ROOT / "evals" / f"s333_gate_result_{args.cohorte}.json")
