@@ -10527,3 +10527,52 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   `evals/s336f_promocion_verificada_{plan,seam1,radio_explosion}.json` ·
   `adversarial_review_log.jsonl` ts=2026-08-21T20:36:12 (`duo_status=complete_adjudicated`,
   findings 9 / confirmed 9 / false_pos 0).
+
+## DEC-278
+
+**Resolución MULTICANAL: leía R8 al revés, y el nombre del fichero rescata 30 de 84.**
+· impacto MEDIO · s338 · 21-ago (pushback de Alberto)
+
+- **El pushback**: Alberto trajo tres manuales que mi censo había mandado al suelo y que son
+  resolubles. `55320002 Manual Programador PGD-200` — el modelo está **literal en el nombre del
+  fichero**. `Manual-de-Usuario-S3-T2-y-S2-T2` — `S/3-T2` y `S/2-T2`, deducibles del nombre y
+  legibles en portada. `55350005 Manual Central Monoxido CMD-500` — la **referencia buscada en la
+  web** devuelve el propio PDF publicado por Detnov, con `CMD-500` en la URL.
+- **Dónde me equivoqué**: leía **R8** («el fichero miente») como «el fichero no vale». R8 protege
+  de **INVENTARSE** un producto que el catálogo no tiene; **no** dice que un nombre de fichero no
+  pueda **CONFIRMAR** uno que el `doc_map` ya enlaza. **Medido: el canal del fichero rescata 30
+  de 84.** Un mes de censos apoyados en una lectura demasiado gruesa de mi propia regla.
+- **Mecanismo (`s338`)**: cinco canales independientes — `FICHERO`, `PDF`, `CHUNKS`,
+  `URL_FABRICANTE`, `CATALOGO_FABRICANTE` (+ `VISION` de s336d) — con **contrato explícito**:
+  `RESUELTO` exige **≥2 canales INDEPENDIENTES**, y `CHUNKS` **no cuenta como segundo** porque se
+  deriva del PDF. El fichero solo tampoco basta: sería creerse R8 al revés.
+- **El canal que más pesa no es un modelo**: `URL_FABRICANTE` y `CATALOGO_FABRICANTE` son el
+  FABRICANTE publicando el producto — `detnov.com/…/55350005-Manual-Central-Monoxido-CMD-500-…pdf`
+  y su catálogo 2025 (44 págs.), que **con una sola descarga confirma 16 modelos** con la
+  descripción impresa. Más barato y más completo que buscar referencia a referencia.
+- **Resultado: 34 RESUELTOS, 31 que antes no lo estaban** (17 por `FICHERO`+`PDF`, el resto con
+  canal de fabricante). El suelo del packet baja de 20 a **13**.
+- **Canal inesperado — el fabricante nombra lo que nosotros no tenemos**: `MAD-401` y `MAD-411`
+  (¡el manual cubre DOS modelos, R9!), `MAD-451-I`, `CMD-503`, y los **`S/3-T2`/`S/2-T2`** que en
+  el catálogo son `00051`/`00052`. **Se PROPONEN, no se aplican**: bautizar es adjudicación (R21).
+- **Dos fallos míos cazados en el propio trabajo**:
+  1. El descubrimiento colaba `MI-635` — el código de **DOCUMENTO** de Detnov, no un producto
+     (R19 otra vez). Filtrado.
+  2. **Mi visor de contexto enseñaba evidencia que no probaba lo que decía**: buscaba el prefijo
+     de 3 letras, así que mostraba «MAD-401-I» como prueba de «MAD-402» y «CMD-501» como prueba de
+     «CMD-500». La cita era correcta —está en otra parte de la página— pero un recibo cuya
+     evidencia no señala la coincidencia real no vale. Reescrito para mapear la coincidencia de
+     vuelta al texto original: **16 de 16 verificados, 0 sospechosas**.
+- **Gemini**: la llamada normal devuelve **200** y con `google_search` devuelve **429 sin detalle
+  de cuota** — patrón de «grounding no disponible en este tier». Los $10 que añadió Alberto no
+  están en el proyecto de esta clave. El canal web va mientras tanto por otra vía y el script
+  acepta `--gemini` para cuando se active: **adicional, no sustitutivo** (DEC-276 intacta).
+- **Alternativa descartada**: seguir buscando referencia a referencia. 20+ búsquedas para lo que
+  una descarga del catálogo resuelve mejor, y con más ruido de reventas y foros.
+- **Gap declarado**: el descubrimiento cuela vecinos de contexto (`CCD-100` es la serie de central
+  donde se enchufa el TRD-100, no el producto de ese manual). Por eso el packet los propone en su
+  propia sección y con el aviso escrito, en vez de mezclarlos con lo resuelto.
+- **NADA aplicado**: s338 es resolución, no promoción. Un lote construido sobre esto pasa por el
+  dúo y el gate como cualquier otro, y 24 de los 34 siguen siendo adjudicación de Alberto (R21).
+- **Ref**: `scripts/s338_resolucion_multicanal.py` · `evals/s338_resolucion_multicanal.json` ·
+  `evals/s338_{web_resultados,catalogo_fabricante}.json` · `docs/REVISION_ALBERTO_HUERFANOS.md`
