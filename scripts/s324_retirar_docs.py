@@ -94,15 +94,26 @@ BAJAS_S324C = [   # §0.D revisado por Alberto (16-ago): «retira también el do
 ]
 
 
+BAJAS_S331 = [   # §1.A del packet E1 v2, firmada por Alberto («ALBERTO: baja del corpus.»)
+    ("996-130-000-3 Manuel d'utilisation ZX_hlsi", "adjudicacion-alberto", 1, None,
+     "Alberto (packet E1 v2, fila §1.A): «baja del corpus» — fragmento FR de 1 chunk (páginas finales de "
+     "notas y contacto) del manual de usuario ZX 996-130-000-3. Declarado: NO hay hermano ES del mismo "
+     "manual en el corpus; la política de idiomas (RULER_DESIGN: answer ES+EN) deja el FR fuera igualmente"),
+]
+
+
 def main() -> int:
-    global BAJAS
+    global BAJAS, SESION
     ap = argparse.ArgumentParser(); ap.add_argument("--aplicar", action="store_true")
-    ap.add_argument("--lote", default="s324", choices=["s324", "s324b", "s324c"])
+    ap.add_argument("--lote", default="s324", choices=["s324", "s324b", "s324c", "s331"])
     args = ap.parse_args(); modo = "aplicar" if args.aplicar else "dry-run"
     if args.lote == "s324b":
         BAJAS = BAJAS_S324B
     if args.lote == "s324c":
         BAJAS = BAJAS_S324C
+    if args.lote == "s331":
+        BAJAS = BAJAS_S331
+    SESION = args.lote          # la nota del documento retirado lleva la sesión REAL del lote
     doc_map = _read_jsonl(CATALOG_DIR / "doc_map.jsonl")
     dm_por_doc = {r["document_id"]: r for r in doc_map}
     dm_por_sf = {r["source_file"].lower(): r for r in doc_map}

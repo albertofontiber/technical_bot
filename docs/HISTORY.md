@@ -6593,3 +6593,112 @@ cero git durante una ronda), y el «suite VERDE» falso de c83c0bff (el exit 0 e
 puerta del inventario P1 lo cazó; regla: pipefail + ningún número no visto en un resultado).
 De propina: el flake real del fence IPC (2× en CI, 0/60 local) arreglado con espera acotada,
 adjudicado por Alberto. PRs: #322 mergeada en vivo; #323 draft con el ciclo entero. DEC-257.
+
+## s331-packet (20 ago 2026) — El residuo del packet E1: tres preguntas delegadas, y un dúo que corrige la evidencia sin cambiar la conclusión
+
+Alberto abrió la review de los packets pendientes y, sobre el E1 v2, hizo lo contrario de lo
+habitual: en vez de contestar las tres preguntas ⏳ que le esperaban, me las devolvió («las 3
+preguntas son para ti»), pidió atacar los no-bloqueantes y preguntó si quedaba algo en §1.A.
+
+Las tres se adjudicaron leyendo la FUENTE, no la ficha: los PDF originales viven en el bucket
+público, así que `MADT015_01`, `MNDT600` y `MNDT701` se decidieron con el manual delante.
+
+Lo interesante fue el dúo. Mi propuesta descartaba la hipótesis de Alberto («¿puede ser de la serie
+FS, por el esquema de bornes?») con un censo de grafía: no hay ids `fs2-*`. **Sol lo cazó como
+crítico**: el catálogo tiene `notifier:fs-1/fs-2/fs-4` y el corpus el manual `FS2-1` activo, con
+doc_map adjudicado. Mi censo era ciego a la grafía, no una prueba. La respuesta correcta exigía la
+comparación al píxel, y esa es la que zanja: las FS son de 1/2/4 zonas, con final de línea solo
+resistivo, sin entradas digitales ni retardos; la guía tiene 8 zonas, condensador como EFL
+alternativo, dos entradas digitales configurables y retardos — y su árbol de configuración es
+idéntico, opción por opción, al del anexo hermano que se titula «Anexo al manual de instalación de
+la central **NFS 2-8**». La conclusión sobrevivió; la evidencia que la sostenía, no. Lo mismo pasó
+con el censo del «SMART3 GD2»: era circular (miraba solo docs con pm `SMART*`, justo la clase que el
+plan estaba corrigiendo) y encima truncaba a 1.000 filas. Re-hecho corpus-wide sobre los 1.054
+activos, el veredicto se puede dar cerrado: ese documento no está, y los seis «hits» eran el
+programador «PGD-200».
+
+Fable aportó el hallazgo de instrumento: la findability que iba a validar el retag de `MADT015_01`
+la satisfacía **la fila que el propio plan añadía**. Un gate que no puede fallar es un ritual, así
+que el writer ganó modos explícitos: cuando la entry viene del plan, se exige además que el modelo
+ya resolviera en el catálogo previo, y el recibo lo imprime (`autosatisfecha_por_el_plan: true`).
+
+Se aplicó con la puerta de siempre: dry-run PASS (detector +0/−0, 0 gold perdidas, 0 disparos en 111
+consultas reales), CAS por chunk, recibo y verificación posterior. Cuatro retags, dos filas de
+doc_map, y la baja del fragmento FR que Alberto ya había firmado. Con TI-007 atestado —la
+re-ingesta de s324d había traído el texto pero devuelto el pm al artefacto— **§1.A queda completa**.
+
+Y quedó una deuda que solo aparece cuando miras dos veces el mismo documento: **#94**. Los retags de
+`product_model` no sobreviven a una re-ingesta, porque el pipeline vuelve a derivar el modelo del
+nombre del fichero. TI-007 es la prueba: es la segunda vez que se corrige a mano. El arreglo bueno no
+es re-aplicar parches, es que la detección pregunte al doc_map antes de inventar.
+
+De lo que Alberto tenía pendiente en este fichero queda una frase: si el paraguas «2X-A» incluye o no
+los once táctiles. La medida ya está hecha —no pierde ninguna gold, dos golds ganan doce fuentes cada
+una, y lo único que dispara es una sonda de tokens sintética que ningún técnico escribiría—, así que
+la decisión es de alcance de producto, que es suya, no de riesgo, que era mía.
+
+## s331b (20 ago 2026) — Alberto cuestiona mis dos «unknown», y la serie 20/20 aparece entera
+
+Cerrado el residuo del packet, Alberto no aceptó dos de mis adjudicaciones y preguntó por qué:
+«MNDT600: ¿por qué unknown?» y «MNDT701: es el software del modelo IR3, ¿no tiene sentido asociar el
+manual a ese modelo?».
+
+En la primera tenía razón sobre mi criterio: yo había aplicado la regla estricta (sin cita, sin
+doc_map) justo donde tenía su adjudicación explícita y un anclaje real —la portada descrita en el
+chunk dice «smart GASDETECTOR» y «sensitron», y la tabla imprime las células «S1096/2096»—, mientras
+que a MADT015_01 le había concedido evidencia documental de una hermana. Doble rasero.
+
+En la segunda el hallazgo fue mayor que la pregunta. Al censar el corpus buscando dónde enganchar el
+software apareció que **la serie 20/20 SharpEye entera no estaba en el catálogo**: ocho documentos
+activos, cero productos, mientras la serie hermana 40/40 sí estaba desde s324b. El manual del
+software no estaba huérfano por ser software; lo estaba porque su detector no existía.
+
+Alberto pidió medirlo antes de decidir, así que se montaron cinco sondas —tres alcances para el gas,
+dos para la llama— y se pasaron por el gate real. Las cinco pasaban, y ahí estuvo lo útil: **el
+veredicto no decidía nada, el detalle sí**. Promover los candidates SMART metía doce alias
+descriptivos que son basura de extracción («SMART 3 con pantalla», «SMART 4 (COPTIR) Multi-sensor»,
+y un «serie 3G» que colisiona con la red móvil de los documentos UCIP). Las altas de la serie 20/20,
+en cambio, eran once términos de modelo sin un solo alias sucio. Firmó «A + E».
+
+El dúo r39 —emparejado esta vez, tras el drift que rompió el anterior— cambió el lote antes de
+escribirlo. Sol pidió el plan combinado con su propio dry-run (dos recibos separados contra el mismo
+estado inicial se invalidan entre sí) y señaló que atar el software a los tres detectores afirmaba
+más de lo que la evidencia decía. Al verificarlo aparecieron dos datos que no estaban en la
+propuesta: RS-485 no distingue a los IR³ (también lo lleva el 20/20R single-IR, y los UV se
+configuran con microinterruptores), y **el software es de 1997, anterior a los tres manuales**, uno
+de ellos de 2011. Así que las tres entradas del software se escribieron como `secondary`: el
+documento entra en las fuentes del producto —eso se verificó en el resolver— pero no reclama el
+scope gobernado. Fable añadió que mi lista de gaps nombraba la fila equivocada (la cita más floja es
+20/20R con dos chunks, no 20/20I con tres) y que uno de los ocho «huérfanos» ya tenía fila.
+
+Y de la pregunta final de Alberto —dónde seguir asignando modelos— salió el dato que faltaba: la
+cola real no vive en ningún packet. Son **85 documentos activos sin doc_map**, que tras este lote
+quedan en 77, y se obtienen cruzando `documents` contra el catálogo.
+
+
+## s331c (20 ago 2026, noche) — el packet devuelve el favor: el feedback humano encuentra lo que el gate no miraba
+
+El cierre de la sesión lo marcó una pregunta de Alberto que parecía menor: «¿me puedes recordar las
+reglas R1, R2…? ¿Deberíamos ajustarlas? ¿Mi feedback ha sido útil?».
+
+Al hacer el balance salió un patrón que merece quedar escrito: de sus 30 anotaciones, **las 5
+preguntas produjeron más hallazgos que las 11 confirmaciones**, y las 3 notas que estaban
+equivocadas no costaron nada porque ninguna se aplicó sin verificar. Su «¿por qué unknown?» destapó
+que faltaba una serie entera del catálogo. Una nota suya *mal ubicada* —cayó en el documento
+homónimo— destapó seis atestaciones equivocadas y, con ellas, un hueco del gate que llevaba
+bloqueando por diseño cualquier limpieza de contaminación. Un enlace de una línea evitó acuñar un id
+inmutable equivocado. Y su «son los modelos de System Sensor, se ve en la foto» destapó que **cinco
+documentos de FAAST están atribuidos a Xtralis, que es el competidor**.
+
+Las reglas salieron tocadas en tres sitios. **R3** tenía un hueco que nadie había visto: gobierna el
+`vendido_bajo` del producto y no decía nada del `manufacturer` del documento, que es otra autoridad
+—y es justo la que está mal en los cinco FAAST—. **R5** llevaba cinco días esperando ejemplos y ya
+los tenía vividos, con un matiz nuevo: antes de atestar por ficha hay que mirar si el documento es un
+fragmento con hermano completo, porque entonces la respuesta es la baja. Y nació **R8**: la grafía
+canónica es la del fabricante, no la del documento, porque los ids son inmutables. Eso ya se había
+hecho de facto con `S20/20MI`; DOA lo convirtió en regla.
+
+Dos de los errores, sin embargo, no eran de las reglas sino del instrumento. El packet presentaba los
+documentos homónimos sin distinguirlos y imprimía la propuesta del juez al lado de lo aplicado. Los
+dos defectos costaron tiempo real —uno de ellos, seis atestaciones equivocadas— y los dos están
+corregidos en el **v3**, que además solo arrastra lo vivo: 67 filas en vez de 192.

@@ -96,7 +96,8 @@
     "verificacion_online_16_ago": "notifier.es lista bajo Notifier tanto «Sistemas de aspiración FAAST» como «Sistemas de aspiración VESDA / Vesda-E» — coherente.",
     "conclusion": "Lo que dice Alberto coincide con el repo: los de aspiración «solo Notifier» son VESDA (Xtralis) y los NFXI-ASD; los FAAST LT-200 FL01xx/FL20xx van bajo Notifier Y Morley. La sospecha del autor sobre las 3 filas FL01xx se RETIRA: están según su propio gt. Nada que corregir en el catálogo por R3."
    },
-   "dato_del_doc_faast": "asd harsh environments_sp (Xtralis/System Sensor, 6 chunks): menciones ilike de cualquier modelo FL*/MI-FL*/NFXI*/8100E = 0; «FAAST» = 5 chunks; «System Sensor» = 1; Notifier/Morley/Xtralis = 0. Es un documento de FAMILIA → R1 (paraguas FAAST), no una decisión OEM por documento."
+   "dato_del_doc_faast": "asd harsh environments_sp (Xtralis/System Sensor, 6 chunks): menciones ilike de cualquier modelo FL*/MI-FL*/NFXI*/8100E = 0; «FAAST» = 5 chunks; «System Sensor» = 1; Notifier/Morley/Xtralis = 0. Es un documento de FAMILIA → R1 (paraguas FAAST), no una decisión OEM por documento.",
+   "extension_s331": "s331 (DEC-260): R3 gobierna el `vendido_bajo` del PRODUCTO, pero NO decía nada del `manufacturer` del DOCUMENTO — autoridad distinta y hasta hoy sin gobernar (5 documentos FAAST cuelgan de Xtralis, que es el COMPETIDOR). Adjudicado: la marca de un documento de producto OEM se decide por bajo qué marca se DISTRIBUYE ese documento (portada/copyright), no por quién fabrica el aparato; si el documento es del fabricante (© System Sensor), la marca es el fabricante. Sin gate todavía: el arreglo de raíz es TECH_DEBT #95."
   },
   "R4": {
    "enunciado": "Token de PORTADA/título que NO está en catálogo + cita verificada a texto completo que lo nombra como sujeto → alta + doc_map en un movimiento, pasando por el gate del detector. La ficha (nombre de fichero / product_model) sola NUNCA da un alta: solo el contenido.",
@@ -146,7 +147,7 @@
   },
   "R5": {
    "enunciado": "Documento cuyo contenido ingestado no nombra al sujeto (una sola página, portada) pero cuyo nombre de fichero y product_model son coherentes con un id activo del catálogo → atestación por FICHA aceptada. Alternativa: se quedan sin atestar (siguen sirviéndose, sin identidad en must_preserve).",
-   "alberto": "pidió ejemplos (16-ago) — pendiente",
+   "alberto": "CERRADA POR USO en s331 (DEC-260). Los dos ejemplos que pidió el 16-ago ya están vividos: HLSI-TI-007_VSN-4REL (ficha coherente + contenido que no nombra al sujeto → atestado tras la re-ingesta) y MNDT730P (ficha coherente PERO fragmento PT con hermano ES completo → BAJA, no atestación). Matiz que añaden: antes de atestar por ficha, comprobar si el documento es un FRAGMENTO con hermano completo; si lo es, la respuesta es la baja.",
    "ejemplos_con_datos_reales": [
     {
      "doc": "HLSI-TI-007_VSN-4REL (Morley, 1 chunk)",
@@ -217,8 +218,16 @@
     "MU_KIDDE_2X_AT_FR_FB_S_6c31.pdf → 26 de 38 (ídem)"
    ],
    "aplicacion": "evals/s324b_r1prima_plan_v1.json vía scripts/s324_lote_firmado_writer.py --plan (misma mecánica T3: dry-run + censo + freeze + verificación posterior)"
+  },
+  "R8": {
+   "enunciado": "La grafía CANÓNICA de un alta es la que publica el FABRICANTE, no la que imprime el documento. Como los ids son INMUTABLES, cuando hay ficha pública del fabricante se acuña su grafía y la del corpus entra como ALIAS.",
+   "alberto": "Nace de su enlace del 20-ago (avotec.it/en/products/series-doa-78): el documento imprime «DOA FJ/CPD» y el fabricante publica «DOA FJ» — el «/CPD» es el sufijo del certificado (Construction Products Directive), no parte del modelo.",
+   "origen": "Ya se había aplicado de facto en DEC-258 (S20/20MI canónico / 20/20MI alias); DOA la convierte en regla.",
+   "corolario_operativo": "Ante un nombre con barra o con sufijo, la pregunta «¿qué publica el fabricante?» se le hace a Alberto ANTES del alta, no después: un id mal acuñado solo se arregla con un merge.",
+   "filas_que_desbloquea": "E1 v3: los 8 «P4» (nombres reales CON barra) se adjudican con este criterio"
   }
  },
  "siguiente_paso_del_autor": "Con R1/R6/R7 firmadas: dry-run de las tres reglas sobre el residuo (sin escribir), censo del radio de explosión por fila para toda alta/confirmación implicada, predicado de reconstruibilidad validado contra el doble control (positivos MM-82/TO-3200M/OF-48V/LOCAL-360/EN-54-25; negativos VSN 2Plus/PL4-E/34110400), y todo ello al dúo Sol+Fable ANTES de aplicar (Protocolo 3, zona de dolor catálogo).",
- "verificacion": "Menciones contadas HOY (16-ago) sobre chunks_v2 en Supabase con regex de token exacto (frontera [^A-Za-z0-9-]) e ilike; catálogo leído de data/catalog/products.jsonl vía catalog_store._read_jsonl."
+ "verificacion": "Menciones contadas HOY (16-ago) sobre chunks_v2 en Supabase con regex de token exacto (frontera [^A-Za-z0-9-]) e ilike; catálogo leído de data/catalog/products.jsonl vía catalog_store._read_jsonl.",
+ "actualizado_s331": "20-ago-2026 (DEC-260): R3 extendida al `manufacturer` del documento · R5 cerrada por uso · R8 nueva (grafía del fabricante). R1, R1', R2, R4, R6 y R7 sin cambios: el feedback de Alberto las ejercitó y ninguna falló."
 }

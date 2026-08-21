@@ -1,0 +1,124 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260820T203214Z",
+ "plan_sha": "7bb621433ef83373",
+ "freeze": {
+  "catalog_shas": {
+   "products": "d1561ba7d51aa44f",
+   "aliases": "8fea56e9bd00c3be",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "9a931f953ed1038c"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 3,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 5,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 2
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1749,
+  "entran": 5,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "20/20I",
+    "normkey": "2020i",
+    "core": "20[-\\s/.+]*20[-\\s/.+]*i",
+    "origen": "alta spectrex:20-20i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "20/20MI",
+    "normkey": "2020mi",
+    "core": "20[-\\s/.+]*20[-\\s/.+]*mi",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "20/20SI",
+    "normkey": "2020si",
+    "core": "20[-\\s/.+]*20[-\\s/.+]*si",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S20/20MI",
+    "normkey": "s2020mi",
+    "core": "s[-\\s/.+]*20[-\\s/.+]*20[-\\s/.+]*mi",
+    "origen": "alta spectrex:s20-20mi",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S20/20SI",
+    "normkey": "s2020si",
+    "core": "s[-\\s/.+]*20[-\\s/.+]*20[-\\s/.+]*si",
+    "origen": "alta spectrex:s20-20si",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "spectrex:20-20i": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT700 C",
+     "MNDT701"
+    ]
+   },
+   "spectrex:s20-20mi": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MADT696_01",
+     "MNDT696",
+     "MNDT701"
+    ]
+   },
+   "spectrex:s20-20si": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT694",
+     "MNDT701"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

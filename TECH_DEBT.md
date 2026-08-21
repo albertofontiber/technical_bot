@@ -3607,6 +3607,43 @@ el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta q
 el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
 tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
 
+## 97. Los retags de metadatos (`product_model` y `manufacturer`) NO son persistentes: una re-ingesta los deshace en silencio (s331)
+
+> **Nota de numeración (s331)**: esta deuda nació como «#94» y se renumeró en el acto: el **#94 ya se había
+> usado en s328** (el gate de geometría del CSS del panel, DEC-249/250) y, al cerrarse, su bloque se borró de
+> este fichero — así que el número parecía libre. Es la clase de fallo de `#92` (números duplicados por
+> reutilización) aplicada a TECH_DEBT: **el siguiente número no se deduce del fichero, se busca también en
+> `docs/DECISIONS.md`**.
+
+**Estado: DECLARADA (dúo r38, Sol xhigh, severidad medio, confirmada contra el código).** Todo
+retag de `product_model` que se aplica por DB (los de s324, s324b/c y los 4 de s331) es una
+corrección del ESTADO, no de la AUTORIDAD: si el documento se re-ingesta, `pipeline.process_file`
+llama a `detect_document_metadata(source_path, sample)` (`src/reingest/metadata.py`), que deriva el
+modelo del **filename primero** y del contenido después, y `apply_metadata` lo estampa en todos los
+chunks. El pm adjudicado se pierde sin aviso.
+
+**La recaída ya ocurrió y está medida**: `HLSI-TI-007_VSN-4REL` se re-ingestó en s324d (#87) y sus
+2 chunks nuevos volvieron con pm `TI-007` —el artefacto del código de documento— aunque el
+filename contiene `VSN-4REL` y `documents.product_model` ya decía `VSN-4REL`. s331 lo vuelve a
+corregir a mano: es la segunda pasada sobre el mismo documento.
+
+**Alcance**: 4 docs en s331 (`MADT015_01` → NFS 2-8, `MNDT600` → unknown, `MNDT701` → unknown,
+TI-007 → VSN-4REL) + todos los retags de los lotes de s324. Hoy NO afecta al serving (el retriever
+usa el pm del chunk y el estado es correcto); el riesgo se materializa en la próxima re-ingesta de
+uno de esos documentos.
+
+**Qué hacer (BP, estructural)**: una **autoridad de pm gobernada** que B5 consuma — el doc_map ya
+es esa autoridad para la identidad, así que `detect_document_metadata` debería consultar la entry
+primaria del documento (por sha/filename) ANTES de derivar del nombre, y derivar solo cuando no
+haya adjudicación. Con eso el retag deja de ser un parche y pasa a ser un dato. Alternativa pobre
+(no recomendada): re-aplicar los retags tras cada re-ingesta desde un recibo — mantiene la deuda.
+
+**Trigger**: cualquier re-ingesta de un documento con pm adjudicado (o el siguiente lote de retags,
+que debería nacer ya contra la autoridad). Verificación al cerrar: re-ingestar TI-007 y comprobar
+que el pm sigue siendo `VSN-4REL` sin intervención.
+
+
+**AMPLIADO en s331 a `manufacturer`** (dúo r40, Sol crítico): la deuda no es solo de `product_model`. El mismo pipeline re-deriva **`manufacturer`** del filename y lo estampa en `documents` y en cada chunk (`src/reingest/metadata.py`), así que un retag de marca tampoco sobrevive a una re-ingesta. Caso vivo sin arreglar: `ASD Harsh Environments_SP` está como `Xtralis` cuando el documento es «© 2015 System Sensor» (gama FAAST) — Alberto lo detectó al revisar §1.A. **NO se parcheó a propósito**: crear un reaplicador hermano sería repetir el error que esta deuda describe. El campo NO es cosmético — `_diversify_by_manufacturer` (`src/rag/retriever.py:2207`) reparte resultados por marca y `get_available_manufacturers`/`get_manufacturers_by_docs` alimentan lo que el bot enseña. **Arreglo BP (único)**: que `detect_document_metadata` consulte la fuente gobernada (doc_map/catálogo) antes de derivar, para pm y para marca.
 ---
 
 ## 96. `NON_PRODUCT_CODES` vive en la capa orchestrator y `rag/` no puede importarlo: espejo con test de deriva como puente (s331)
