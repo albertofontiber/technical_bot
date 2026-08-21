@@ -274,6 +274,14 @@ RewriteFn = Callable[[str, WorkingState], str]
 # orchestrator/intent_llm.py y todo valor fuera de el se trata como None.
 IntentFn = Callable[[str, "WorkingState"], str | None]
 
+# (s333) El clasificador de corrección de marca del lever F1_CORRECCION_LLM: mismo
+# patrón que IntentFn, con una DESVIACIÓN declarada (v2 §3, minimización) — recibe
+# `(query, last_query, marca)` explícitos en vez del WorkingState entero, porque
+# solo eso viaja al proveedor. Devuelve "correccion" | "nuevo" | None; el contrato
+# del parser vive en orchestrator/correccion_llm.py y todo valor fuera de él se
+# trata como None.
+CorreccionFn = Callable[[str, str, str], str | None]
+
 
 class PolicyNotImplemented(NotImplementedError):
     """Raised by the stub so the eval reports PENDING instead of crashing."""
@@ -298,6 +306,7 @@ class ConversationPolicy(Protocol):
         rewrite: RewriteFn | None = None,
         intent: "IntentFn | None" = None,
         unresolved_mention: str | None = None,
+        correccion: "CorreccionFn | None" = None,
     ) -> TurnResolution:
         """Resolve one turn into a route + retrieval inputs.
 
@@ -309,6 +318,9 @@ class ConversationPolicy(Protocol):
         ``unresolved_mention`` (s331 §3.C.1) is the model-shaped mention the
         governed detection could NOT bind, computed at the COMPOSITION seam
         (never inside the policy); None = today's behaviour, byte-identical.
+        ``correccion`` (s333) is the brand-correction classifier the transport
+        injects when ``F1_CORRECCION_LLM`` is on; None = today's behaviour,
+        byte-identical (the deterministic template alone).
         """
         ...
 
@@ -332,6 +344,7 @@ class StubConversationPolicy:
         rewrite: RewriteFn | None = None,
         intent: "IntentFn | None" = None,
         unresolved_mention: str | None = None,
+        correccion: "CorreccionFn | None" = None,
     ) -> TurnResolution:
         raise PolicyNotImplemented(
             "ConversationPolicy is not implemented yet (MT-1a). MT-1b ships the "

@@ -351,6 +351,36 @@ _ALLOWED_AS_KINDS = frozenset({"marca_asr", "marca_corregida"})
 _ALLOWED_AS_MODOS = frozenset({"reescrito", "aviso"})
 _AS_ITEMS_MAX = 8
 
+# (s333 B4) Sección `correccion`: el clasificador de la RED por turno — espejo
+# EXACTO del contrato de `intent` (mismos estados; decisiones propias del enum
+# del parser de `correccion_llm`). Mismo timeout servido (6 s, retries 0).
+_ALLOWED_CORRECCION_DECISIONS = frozenset({"none", "correccion", "nuevo", "fail_open"})
+
+
+def _correccion_section(corr_obs: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `correccion` (s333 B4): espejo de `_intent_section` — ver su
+    docstring para el contrato de coherencia (not_wired ≠ off; decisión solo con
+    invocación real; `fail_open` ES una decisión del seam)."""
+    if not isinstance(corr_obs, Mapping):
+        return {"status": "not_wired", "decision": "none", "latency_ms": 0}
+    status = _safe_enum(
+        corr_obs.get("status"), _ALLOWED_INTENT_STATUSES, default="not_wired"
+    )
+    if status != "invoked":
+        return {"status": status, "decision": "none", "latency_ms": 0}
+    decision = _safe_enum(
+        corr_obs.get("decision"),
+        _ALLOWED_CORRECCION_DECISIONS - {"none"},
+        default="fail_open",
+    )
+    return {
+        "status": "invoked",
+        "decision": decision,
+        "latency_ms": _bounded_int(
+            corr_obs.get("latency_ms"), maximum=_INTENT_LATENCY_MAX_MS
+        ),
+    }
+
 
 def _asunciones_section(as_obs: Mapping[str, Any] | None) -> dict[str, Any]:
     """Sección `asunciones` (s332 §2 v2 — patrón tri-estado de `turn_identity`).
@@ -597,6 +627,7 @@ def build_rag_serving_trace(
     mismatch_obs: Mapping[str, Any] | None = None,
     turn_identity_obs: Mapping[str, Any] | None = None,
     asunciones_obs: Mapping[str, Any] | None = None,
+    correccion_obs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -625,6 +656,8 @@ def build_rag_serving_trace(
         # versionado y DECLARADO (Sol-6 s332): el criterio byte-idéntico de los
         # gates es sobre la CONDUCTA SERVIDA, no sobre esta fila.
         "asunciones": _asunciones_section(asunciones_obs),
+        # (s333 B4) REQUERIDA — gate del flip de F1_CORRECCION_LLM; mismo trato.
+        "correccion": _correccion_section(correccion_obs),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -679,8 +712,10 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # silencio que el gate 1 del flip existe para eliminar.
         # `asunciones` (s332 B6) REQUERIDA: mismo tri-estado y mismo motivo que
         # `intent`/`turn_identity` — es el gate de flip de su lote.
+        # `correccion` (s333 B4) REQUERIDA: ídem para F1_CORRECCION_LLM.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
-         "timings", "transport", "intent", "turn_identity", "asunciones"},
+         "timings", "transport", "intent", "turn_identity", "asunciones",
+         "correccion"},
         # `mismatch_corrected` (s324e) es la única OPCIONAL del nivel raíz: registra
         # un EVENTO, no la medida de un lever (ver la nota del builder). Su ausencia
         # es información completa —no hubo corrección— y es lo que mantiene el trace
@@ -776,6 +811,21 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
             or not _mismatch_token(item["asumido"])
         ):
             return None
+    # (s333 B4) `correccion`: mismo contrato de coherencia que `intent`.
+    correccion = value["correccion"]
+    if not exact_keys(correccion, {"status", "decision", "latency_ms"}):
+        return None
+    if (
+        correccion["status"] not in _ALLOWED_INTENT_STATUSES
+        or correccion["decision"] not in _ALLOWED_CORRECCION_DECISIONS
+        or not safe_int(correccion["latency_ms"], maximum=_INTENT_LATENCY_MAX_MS)
+    ):
+        return None
+    if correccion["status"] != "invoked":
+        if correccion["decision"] != "none" or correccion["latency_ms"] != 0:
+            return None
+    elif correccion["decision"] == "none":
+        return None
     channel_failures = retrieval["channel_failures"]
     if (
         not isinstance(channel_failures, list)

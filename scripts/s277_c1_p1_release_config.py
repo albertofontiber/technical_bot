@@ -177,6 +177,9 @@ ALLOWED_SAFE_VALUES = {
     # s332 §5: rama F1 de correccion de marca + sufijo de asuncion +
     # state_query_override. Default off (byte-identico). Valores on/off.
     "F1_MARCA_CORRECCION": frozenset({"on", "off"}),
+    # s333 §2/§5: clasificador LLM CORRECCION/NUEVO tras el miss de la plantilla
+    # (solo con F1_MARCA_CORRECCION=on). Default off (byte-identico).
+    "F1_CORRECCION_LLM": frozenset({"on", "off"}),
     # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
     # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
     "HTTP_RETRIES": frozenset({"on", "off"}),

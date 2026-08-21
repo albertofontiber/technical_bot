@@ -387,6 +387,9 @@ def run_contract(flows: list[dict[str, Any]], policy: Any | None = None) -> dict
                 available_models=available,
                 working_state=ws,
                 now=now,
+                # (s333) El modo contrato es $0: el clasificador de corrección NO se
+                # inyecta nunca aquí — None explícito = camino byte-idéntico.
+                correccion=None,
                 **kwargs_intent,
             )
             fails = assert_resolution(resolution, expect)

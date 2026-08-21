@@ -220,6 +220,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/orchestrator/conversation_policy_impl.py',),
     },
+    "F1_CORRECCION_LLM": {
+        # (s333 §2/§5) La RED aprende a juzgar: clasificador CORRECCION/NUEVO tras el
+        # miss de la plantilla determinista. Default off = byte-idéntico. Solo tiene
+        # efecto con F1_MARCA_CORRECCION=on (la rama LLM vive dentro de su guard —
+        # dependencia declarada, sin interlock).
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/bot/telegram_bot.py',),
+    },
     "F1_MENTION_PRECEDENCE": {
         # (s331 §3.C.1) Precedencia de mención no-resuelta + gramática de confirmación
         # en la política F1. Default off = byte-idéntico; no exige F1_RESOLVE_GOVERNED

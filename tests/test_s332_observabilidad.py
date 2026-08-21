@@ -88,3 +88,33 @@ def test_validador_rechaza_shapes_rotos():
     assert validate_rag_serving_trace(roto_coherencia) is None
     sin_seccion = {k: v for k, v in base.items() if k != "asunciones"}
     assert validate_rag_serving_trace(sin_seccion) is None
+
+
+# ─────────────────────────── s333 B4 · sección `correccion` (espejo de `intent`)
+def test_correccion_tri_estado_y_coherencia():
+    assert _trace()["correccion"] == {"status": "not_wired", "decision": "none",
+                                      "latency_ms": 0}
+    off = _trace(correccion_obs={"status": "off"})["correccion"]
+    assert off == {"status": "off", "decision": "none", "latency_ms": 0}
+    on = _trace(correccion_obs={"status": "invoked", "decision": "correccion",
+                                "latency_ms": 1234})["correccion"]
+    assert on == {"status": "invoked", "decision": "correccion", "latency_ms": 1234}
+    # decisión fuera de enum con invocación ⇒ fail_open (nunca cuela un token nuevo)
+    raro = _trace(correccion_obs={"status": "invoked", "decision": "quiza",
+                                  "latency_ms": 10})["correccion"]
+    assert raro["decision"] == "fail_open"
+
+
+def test_correccion_validador_rechaza_incoherencias():
+    import json as _json
+    base = _trace(correccion_obs={"status": "invoked", "decision": "nuevo",
+                                  "latency_ms": 5})
+    assert validate_rag_serving_trace(base) == base
+    roto = _json.loads(_json.dumps(base))
+    roto["correccion"]["status"] = "off"          # off con decisión ≠ none
+    assert validate_rag_serving_trace(roto) is None
+    roto2 = _json.loads(_json.dumps(base))
+    roto2["correccion"]["decision"] = "none"      # invocado sin decisión
+    assert validate_rag_serving_trace(roto2) is None
+    sin = {k: v for k, v in base.items() if k != "correccion"}
+    assert validate_rag_serving_trace(sin) is None
