@@ -9881,3 +9881,206 @@ ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (
   (Alberto repite la conversación) → estampará este lever como VERIFICADO.
 - **Relacionado**: DEC-264 (el lote) · DEC-233 (disciplina de observación) · recibo
   `evals/s332b_fix_invitacion_v1.md`.
+
+---
+
+> **Nota de numeración (colisión resuelta en el merge, 21-ago).** Estas dos decisiones nacieron como
+> DEC-263 y DEC-264 en la rama `claude/peaceful-heisenberg-3e40m9`, en paralelo a la sesión s332, que
+> mergeó antes usando esos mismos números para otra cosa. Se renumeran aquí a **DEC-266** y
+> **DEC-267**; es la SEGUNDA vez que pasa (la primera fue s331 con 257/258). El commit del merge lo
+> declara y las referencias cruzadas del repo quedan actualizadas.
+---
+
+## DEC-266 (s331d, 21 ago 2026) — La pasada completa de Alberto, medida antes que interpretada: el 40% de su esfuerzo eran filas duplicadas, y el patrón que el packet le vendía como «lo firmaste 9 veces» acertaba el 60%
+
+**Decisión (impacto ALTO)**: convertir las 57 anotaciones de Alberto sobre el packet v3 en (a) diez
+reglas nuevas **R9–R18** con forma legible por máquina, (b) la derivación de sus 34 decisiones en
+operaciones concretas sobre el catálogo, y (c) un rumbo de automatización — **con la medida delante
+en los tres casos, y no con la lectura cualitativa de sus notas**.
+
+**Por qué la medida primero.** La tentación era leer sus notas y escribir lecciones que suenan bien;
+es el ritual vacío que DEC-072 prohíbe. `scripts/s331_censo_anotaciones.py` clasifica sus anotaciones
+de forma determinista y devuelve un reparto que **ninguna lectura cualitativa daba**:
+
+| | |
+|---|---|
+| anotaciones escritas | 57 |
+| decisiones **distintas** | 34 |
+| **duplicadas** | **23 (40%)** — `morley:tg` ×15 |
+| distintas que son puro «OK» | 12 |
+| distintas que son «OK» **+ matiz** | 4 |
+| distintas que son **corrección** | **18** |
+
+Las tres clases piden cosas DISTINTAS y confundirlas lleva a atacar el problema equivocado: las
+duplicadas no las arregla ningún clasificador, las confirmaciones dicen que no hay que tocar lo que
+funciona, y **sólo las correcciones justifican regla nueva**.
+
+**Segundo matiz que el dúo obligó a medir** (r40, Fable medio): el propio censo usaba **DOS
+definiciones incompatibles de «acuerdo»** en sus dos mitades —`censar` exigía que la nota fuese SÓLO
+un asentimiento y `acierto_de_patrones` sólo que EMPEZARA por uno—, así que «OK con juez. este doc va
+sobre la familia FAAST LT» salía a la vez como corrección y como acierto. **El numerador que
+justificaba escribir reglas estaba inflado en la dirección que favorecía mi propuesta.** Reconciliado
+a una escala de tres: **14 confirmaciones puras · 7 confirmaciones CON MATIZ · 36 correcciones**
+(por ids distintos: **12 · 4 · 18**). Las «22 correcciones» eran **18**. Y la clase intermedia no es
+un artefacto contable: es **donde nace una regla sin que se haya tomado ninguna decisión
+equivocada** — R13 y R17 salen casi enteras de ahí, y ahora lo declaran en el fichero de reglas.
+
+**Matiz que el dúo obligó a medir** (r40, Sol crítico): «mismo id = misma decisión» es FALSO, así que
+el 40% no es todo eliminable. De los 9 ids repetidos, **3 llevan decisiones DISTINTAS por documento**
+y agrupar por id a secas las perdería: `notifier:nfs-32-001` (D1056 → NFXI-BS/BSF · D838 → WMSOU),
+`xtralis:vesda` (uno se re-atesta al software TG, el otro es BAJA del corpus) y `notifier:airsense`
+(MADT731_04 → HSSD-2 · TIDT109 → software Classifire). Otros 2 son COMPLEMENTARIOS (la segunda nota
+añade dato: `kidde:ke-dba-sktw`, `kidde:zlsm-md`) y exigen preservar la unión, no colapsar. El reparto
+honesto: **17 anotaciones eliminables sin riesgo** (14 de ellas, `morley:tg`), **2 que exigen unión**
+y **3 que NO se pueden agrupar**. La clave de agrupación es **(id × operación)**, no el id.
+
+**El hallazgo que invalidó mi propia propuesta.** Iba a proponer auto-aplicar los patrones que
+Alberto ya había firmado. La medida del acierto **sobre la población del v3** lo prohíbe:
+
+| patrón | acierto | lo que el packet le decía |
+|---|---|---|
+| P4 | **7/7 (100%)** | «tuya» |
+| P1 | **9/15 (60%)** | «es el patrón que firmaste **9 veces**» |
+| P3 | **4/9 (44%)** | «sin menciones, no es un producto» |
+
+El «9 veces» era cierto en §1.B del **v2** y se presentó como confianza sobre las filas del **v3**:
+una **tasa base heredada de otra población**. Es la clase de error que el gate existe para impedir,
+cometida en la capa de arriba, donde no hay gate. Queda como guarda escrita: *el umbral de
+auto-aplicación se mide sobre la población que se va a aplicar, cada ronda*.
+
+**Y el hallazgo que reorienta el diseño**: al descomponer los 6 fallos de P1 fila a fila, la
+propuesta del juez era correcta **en lo que proponía** en 4 de 6 — lo que faltaba era el resto del
+documento (1 equivocada, 1 con la grafía corregida, 3 **incompletas**, 1 sobre otra pregunta). El
+juez sabe deletrear; no sabe cuándo ha terminado. La causa es estructural: **cada fila pregunta UNA
+cosa cuando el documento plantea SEIS independientes**. De ahí sale la recomendación de descomponer
+en Q1–Q6 con umbral propio por sub-pregunta (`evals/s331_automatizacion_propuesta_v2.md`).
+
+**Las reglas R9–R18** (`data/catalog/reglas_clasificacion.json`), cada una anclada en la anotación
+que la hizo nacer:
+
+- **R9** — el sujeto se enumera en el CUERPO, no en la portada (4 correcciones, la clase mayor:
+  40/40L en «1.1 Descripción general», Serie PS en la tabla de la P2, NFXI-BS/BSF en el pie de una
+  tabla, HRZ en el documento hermano).
+- **R10** — el software es un producto consultable de primera clase (**18 de las 57 anotaciones**:
+  «aunque sea software, los técnicos también deberían poder preguntar sobre ello»).
+- **R11** — documento sin contenido técnico → baja, y **por clase**: «aplica esto a documentos del
+  mismo estilo».
+- **R12** — una portada lleva más de un identificador; se extraen todos.
+- **R13** — un accesorio es un producto, pero cuelga de su padre (modelo **o** familia).
+- **R14** — una norma nunca es un producto (EN 54, NF S, BS 5839, ISO 8201…).
+- **R15** — un nombre genérico necesita su sistema en el alias y en la relación.
+- **R16** — un documento de compatibilidad atesta a varios; el token más repetido no es el sujeto.
+- **R17** — no partas una familia por un sufijo de capacidad; desempata el catálogo del fabricante.
+- **R18** — valida en la web del fabricante, y **nunca retires por obsoleto** («igual hay
+  instalaciones que lo tienen»).
+
+**Dónde viven, y por qué ahí.** En `data/catalog/`, junto al catálogo que gobiernan y en JSON que el
+generador de packets puede leer. Si se quedaran en prosa, la sesión siguiente no las leería — que es
+el fallo que el propio CLAUDE.md avisa en su START HERE.
+
+**Alternativas descartadas**: (1) un juez mejor **sin cambiar la rúbrica** — el re-juicio K=5
+cross-model de `spectrex:40-40l` se PARTIÓ 3-2 (Sonnet-5 ARTEFACTO ×3 / GPT PRODUCTO ×2) y ninguno
+de los dos bandos podía acertar, porque la respuesta correcta —«son cuatro modelos, enumerados en la
+§1.1»— **no era expresable en una rúbrica producto-vs-artefacto**. Lo vinculante es la pregunta, no
+el modelo. [CORRECCIÓN, dúo r40, Sol crítico: la primera versión de esta línea decía «convergió 5/5
+en el veredicto equivocado»; el `v5/5` de `s324c_rejuicio_k5_v1.md:81` son los votos VÁLIDOS, no la
+convergencia — el propio packet imprime «NO convergente». La conclusión sobrevive por otro mecanismo
+y más honesto, pero la evidencia citada era falsa y no autoriza a descartar un juez mejor una vez las
+preguntas Q1-Q6 SÍ se hagan]; (2) afinar un modelo con sus 34 decisiones — no son un
+conjunto de entrenamiento, son un conjunto de reglas, y un afinado no se audita fila a fila;
+(3) auto-aplicar los patrones firmados — lo mata su propia medida; (4) automatizar sin humano —
+contra el encargo explícito y contra DEC-261; (5) atacar primero los 601 candidates — los 69
+documentos sin `doc_map` son población acotada, y **184 de los 245 documentos huérfanos** se
+desbloquean solos al adjudicar candidates.
+
+**Gaps declarados**: cinco de las seis sub-preguntas no tienen acierto medido (sólo Q1, y con n=15);
+las tasas P1/P3/P4 salen de poblaciones diminutas; **R13 no se puede cablear** porque
+`relations.jsonl` no tiene tipo `accessory-of` (cambio de esquema, pendiente de Alberto);
+`TECH_DEBT #97` sigue abierto; **no está medido el coste marginal de un documento nuevo**, que es la
+magnitud que de verdad importa para «a medida que añadimos fabricantes»; y la clasificación de
+«acuerdo» del censo es generosa con el sistema a propósito (cuenta como acuerdo cualquier nota que
+empiece por «OK», y Alberto escribió «casi OK con juez» seguido de una corrección) — la tasa real es
+igual o peor que la medida, nunca mejor.
+
+**El dúo r40, y lo que dio** (`evals/adversarial_review_log.jsonl`, ts 11:08:03 y 11:12:23): Sol
+xhigh **2 críticos + 4 medios**, Fable **3 medios + 3 menores**; **12 hallazgos, 12 confirmados, 0
+falsos positivos**, veredicto de Fable **«No SÓLIDO»**. El reparto del trabajo entre los dos fue
+exactamente el que justifica el cross-model: **Sol atacó la EVIDENCIA** (la lectura falsa del K=5, el
+supuesto id=decisión) y **Fable atacó el INSTRUMENTO** (las dos varas de medir dentro de mi propio
+script, y un ejemplo falso en mi propio gap declarado). Los dos hallazgos que más cambiaron la
+propuesta son errores míos que ninguna auto-revisión había cazado en tres pasadas. *Traza incompleta
+declarada*: la review de Fable quedó SIN emparejar porque edité otros ficheros del repo entre las dos
+corridas y el manifiesto contra HEAD dejó de coincidir — el contenido es válido, la traza no. Lección
+operativa: lanzar las dos corridas seguidas, sin tocar el repo entre medias.
+
+**Derivación con guardarraíl**: `scripts/s331_derivar_pasada.py` mapea los 34 ids anotados a
+operaciones (29 listas, 2 a la espera de una frase suya, 3 bloqueadas) y **falla si alguna nota suya
+se queda sin derivar o si aparece una derivación que él no escribió**. La cobertura no es una
+afirmación, es una comprobación.
+
+**Caso cerrado por el camino (R14 + R18)**: `D838-1_kac sounders` estaba etiquetado
+`notifier:nfs-32-001` — la norma francesa AFNOR de su tabla de tonos. El sujeto real es la gama de
+sirenas de pared **WMSOU de System Sensor Europe**: las ocho especificaciones del documento coinciden
+literalmente con la hoja publicada del fabricante y **no** con las de sus hermanos rebrandeados
+(KAC `WSO-`, Notifier Opal `NFX-WS-`, que dan 95 dB(A) e IP21C/IP44 frente a 100 dB(A) e IP24/IP65).
+El nombre del fichero dice «kac» y miente: es R8 en versión fuerte — el fichero engaña también sobre
+la MARCA, no sólo sobre la grafía.
+
+---
+
+## DEC-267 (s331d, 21 ago 2026) — La Wiki de modelos es una VISTA del catálogo gobernado, no una segunda base: y su primer censo destapa 245 manuales que no atestan a nadie
+
+**Decisión (impacto MEDIO)**: construir la «Wiki de modelos» que Alberto pidió como **pestaña de
+sólo lectura** del panel (`/catalogo`), servida desde `data/catalog/*.jsonl` — la misma estructura
+que el bot consulta en runtime — y no como un almacén nuevo.
+
+**Por qué una vista y no un CMS.** El catálogo gobernado YA es la base de datos de modelos. Una
+segunda copia divergiría del dato que el bot usa, y la Wiki existe precisamente para adjudicar sobre
+lo que el bot hace. La única lectura remota es `documents.status` en la ficha de un modelo, porque
+«¿sigue activo este manual?» es dato vivo y no dato de repo.
+
+**El invariante que sostiene la página**: nada que la Wiki pinte como «el bot lo usa» puede ser algo
+que `catalog_store._consumable` rechace. Un test lo mide id a id sobre el catálogo real. Al
+escribirlo cazó una divergencia verdadera: los **81 `redirect`** son consumibles para el resolver
+(los sigue hasta su destino) y **cruzan de marca** (`morley:b501ap` → `systemsensor:b501ap`), así que
+no son ni «utilizables» ni «retirados» — son el mismo equipo bajo otra marca. Van a clase propia, que
+resulta ser **la vista OEM que no estaba en ningún sitio**.
+
+**Lo que el primer censo destapa**, y que el markdown de adjudicación nunca podía contestar: 1.024
+modelos consumibles en 36 marcas · **55 sin ningún manual** · 601 en cuarentena · **245 manuales
+huérfanos**, de los cuales **184 lo son únicamente porque todos sus ids siguen en cuarentena** —
+adjudicarlos desbloquea esos manuales. Ese 184 es el argumento de ROI de la adjudicación pendiente.
+
+**Sólo lectura, a propósito**: «ajustar» pasa por el lote firmado (dry-run → censo del radio de
+explosión → recibo); un botón se saltaría esa medida. Un test impide añadir un POST sin justificarlo.
+
+**Riesgo de despliegue que NO quedó cerrado, y cobró el mismo día** (corrección, s331d tarde —
+lo encontró Alberto abriendo el preview): la página salió con **«0 modelos»** y sin un solo aviso.
+Dos fallos encadenados, los dos míos, y los dos con su test en verde:
+
+1. **`.vercelignore` no re-incluía nada.** `!/data/catalog` con `/data` excluido por `/*` **no
+   funciona**: la regla de gitignore dice que no se puede re-incluir un fichero si un directorio
+   padre suyo está excluido. Hacen falta tres líneas (`!/data` · `/data/*` · `!/data/catalog`).
+   Verificado con `git check-ignore`, que aplica la semántica de verdad. **Y el test del bundle dio
+   verde**: su comprobador implementaba «último patrón que casa gana» sin la regla del padre — el
+   `fnmatch` ingenuo contra el que su propio docstring avisaba.
+2. **El fail-open mentía.** `catalog_store._read_jsonl` devuelve `[]` cuando el fichero no existe, así
+   que `load()` **tiene éxito** con el directorio ausente y entrega un catálogo vacío: el `except` no
+   se dispara nunca, `leido` quedaba en `True` y la página pintaba ceros plausibles — exactamente la
+   pantalla que el módulo existía para no enseñar. **Y su test también daba verde**, porque simulaba
+   el fallo lanzando una excepción: probaba una ficción.
+
+**Arreglado y verificado con control negativo en los dos casos** (con el `.vercelignore` viejo, dos
+tests se ponen rojos; sin el guard de `leido`, el test nuevo se pone rojo). La lección se escribe en
+`TECH_DEBT #98`, que además declara que **el bot tiene la misma trampa sin cobrar**:
+`catalog_resolver._build()` registra «catálogo no cargable → fail-open total» y con los ficheros
+ausentes no habría excepción — resolvería nada, en silencio. No se toca aquí: es zona de retrieval y
+pide dúo.
+
+**Alternativas descartadas**: una base aparte (diverge); enseñar sólo los modelos con manual (esconde
+justo el agujero que hay que ver); permitir edición desde el panel (se salta el gate).
+
+**Verificado**: 15 tests nuevos verdes; el gate de geometría corrido **con navegador real** cubre
+`/catalogo` y la ficha a 390/768/1440 px sin desbordar; 132 tests del panel y 70 de contrato de
+imports y `catalog_store`, verdes.
+

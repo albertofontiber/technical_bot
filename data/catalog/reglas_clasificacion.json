@@ -1,0 +1,209 @@
+{
+ "version": "v1",
+ "nacido": "s331 (21-ago-2026)",
+ "que_es": "Las REGLAS VIVAS con que se decide, ante un documento, qué producto(s) del catálogo gobernado atesta y con qué grafía. Es el fichero que lee el generador de packets para escribir su «Recomendación afinada»: si una regla nueva no entra aquí, no cambia nada de lo que se le pregunta a Alberto mañana — se queda en prosa que la siguiente sesión no lee (el fallo que CLAUDE.md avisa en su propio START HERE).",
+ "canonicidad": "R1-R8 nacieron en `evals/s324_reglas_residuo_adjudicacion_v1.json`, que es el RECIBO de su adjudicación y está congelado. Aquí viven en su forma vigente; el recibo sigue siendo la traza de quién las firmó y por qué. R9-R18 nacen de la pasada completa de Alberto sobre el packet v3 (`evals/s331_packet_v3_anotado_alberto.md`), censada por `scripts/s331_censo_anotaciones.py`.",
+ "medida_que_las_justifica": {
+  "fuente": "evals/s331_packet_v3_anotado_alberto.md",
+  "anotaciones_escritas": 57,
+  "decisiones_distintas": 34,
+  "distintas_puro_ok": 12,
+  "distintas_ok_con_matiz": 4,
+  "distintas_correccion": 18,
+  "anotaciones_duplicadas": 23,
+  "duplicadas_eliminables": 17,
+  "duplicadas_que_exigen_union": 2,
+  "duplicadas_NO_agrupables": 3,
+  "lectura": "Cuatro clases, no dos. (1) Las 12 confirmaciones puras dicen que la recomendación ya acertaba: no se toca lo que funciona. (2) Las 4 «OK + matiz» son donde nace una regla SIN que se haya tomado ninguna decisión equivocada. (3) Las 18 correcciones son donde hubo error de verdad, y son las que obligan. (4) Las 23 duplicadas NO son todas eliminables: 17 sí, 2 exigen preservar la unión de las dos notas, y 3 llevan decisiones DISTINTAS por documento (notifier:nfs-32-001, xtralis:vesda, notifier:airsense) — agrupar por id a secas las perdería, así que la clave de agrupación es (id × operación).",
+  "correccion_del_duo_r40": "La v1 de esta medida decía «22 correcciones» y «40% eliminable». Las dos cifras estaban infladas en la dirección que favorecía mi propuesta: el script usaba DOS definiciones incompatibles de «acuerdo» en sus dos mitades (Fable), y «mismo id = misma decisión» es falso (Sol). Reconciliado a una escala de tres clases y una clave de agrupación que lleva la operación dentro.",
+  "regenerar": "python scripts/s331_censo_anotaciones.py evals/s331_packet_v3_anotado_alberto.md"
+ },
+ "principio_rector": "El SUJETO de un documento es lo que el documento dice que es, con las palabras del FABRICANTE. Ni el nombre del fichero, ni el token más repetido, ni el código del documento, ni la etiqueta que dejó una ingesta anterior. Cada regla de abajo es un sitio concreto donde esos cuatro engañaron.",
+ "reglas": {
+  "R1": {
+   "enunciado": "«serie × categoría»: un manual o FAQ que nombra una FAMILIA y no un modelo atesta a los productos de esa serie Y esa categoría (las centrales de la serie X, no «todo lo que lleve X»).",
+   "estado": "vigente desde s324 (Alberto: «OK»)"
+  },
+  "R1p": {
+   "enunciado": "Si el documento SÍ nombra modelos, manda lo nombrado: no se extiende a la familia entera.",
+   "estado": "vigente desde s324",
+   "afinada_por": "R9 — «lo nombrado» incluye el CUERPO, no sólo la portada"
+  },
+  "R2": {
+   "enunciado": "Un doc_map puede promover un candidate si el documento lo nombra como SUJETO con cita verificada a texto completo. Las ETIQUETAS DE FAMILIA (2X-AT, VSN-Plus, FAAST LT) nunca se confirman como producto: se modelan como paraguas y el doc_map apunta a los miembros.",
+   "estado": "vigente desde s324 (Alberto: «R2 en limpio: correcto»)",
+   "reconfirmada_en_s331": [
+    "morley:vsn → «familia VSN Plus»",
+    "notifier:faast-lt → «FAAST LT es la familia»"
+   ]
+  },
+  "R3": {
+   "enunciado": "OEM: un documento cuyo sujeto se vende bajo dos marcas atesta bajo ambas (`vendido_bajo`), no elige una. R3 NUNCA crea ni amplía `vendido_bajo` desde un documento: eso vive en la fila del catálogo.",
+   "estado": "vigente desde s324, con el matiz de Alberto («hay FAAST que sólo se venden bajo Notifier»)"
+  },
+  "R4": {
+   "enunciado": "Token de portada + cita verificada → alta + doc_map.",
+   "estado": "vigente desde s324"
+  },
+  "R5": {
+   "enunciado": "Atestación por ficha técnica: una ficha (DS/HD) atesta a su modelo aunque no sea un manual de instalación.",
+   "estado": "vigente desde s324"
+  },
+  "R6": {
+   "enunciado": "Un candidate cuya ÚNICA fuente es un documento retirado se retira con él.",
+   "estado": "vigente desde s324"
+  },
+  "R7": {
+   "enunciado": "Un id concatenado del tipo `A/B` que en realidad son dos productos se parte en componentes, cada uno con su cita propia.",
+   "estado": "vigente desde s324",
+   "aplicada_en_s331": "notifier:nx2-r-r-y-nx5-r-r → dos altas (NX2/R/R y NX5/R/R), validado en la ficha del fabricante"
+  },
+  "R8": {
+   "enunciado": "La grafía canónica es la del FABRICANTE, no la del documento. Un sufijo de certificado, un código de pedido o una abreviatura del redactor no son parte del nombre del modelo.",
+   "estado": "vigente desde s331 (lección DOA)",
+   "confirmada_por_alberto": "7 de 7 filas del patrón P4 («nombre real CON barra») las firmó tal cual"
+  },
+  "R9": {
+   "enunciado": "EL SUJETO SE ENUMERA EN EL CUERPO, NO EN LA PORTADA. Antes de decidir qué modelos atesta un documento hay que leer su sección de enumeración —«Descripción general», «Modelos», «MODELS», «Ordering Information», el pie de una tabla— y no sólo el título. Si esa sección lista variantes, TODAS son modelos; la portada suele nombrar sólo una.",
+   "nace_de": [
+    "spectrex:40-40l — el juez propuso `S40/40L`; Alberto: «varios modelos: 40/40L, S40/40LB, S40/40L4 y S40/40L4B; fíjate que en la P9, en 1.1 Descripción general, los diferencia»",
+    "notifier:serie-ps — «los modelos concretos, según la tabla de la P2, parecen PS-12 y PS-24»",
+    "notifier:nfs-32-001 (D1056) — «Parece aplicar a NFXI-BS y NFXI-BSF, según Table 1 - VERSION 8 … for NFX*-BS-* - NXF*-BSF-* models»",
+    "morley:mie-ma-100 — «familia Morley HRZ, cuyos modelos son HRZ-2, HRZ-4, HRZ-8»"
+   ],
+   "es_la_clase_mas_grande": "4 de las 18 correcciones (22%)",
+   "detector": {
+    "tipo": "secciones_de_enumeracion",
+    "patrones": [
+     "descripci[oó]n general",
+     "\\bmodelos\\b",
+     "\\bmodels\\b",
+     "ordering information",
+     "informaci[oó]n de pedido",
+     "referencias?( comerciales)?",
+     "gama\\b",
+     "\\bversiones\\b",
+     "table \\d+[^\\n]{0,60}models"
+    ],
+    "accion": "si el documento tiene una de estas secciones, la propuesta DEBE citarla; si no la tiene, decláralo — «no enumera modelos» es un dato, no un silencio"
+   },
+   "corolario": "Un sufijo enumerado en esa sección ES un modelo distinto, y su significado suele estar ahí mismo: «el sufijo B se refiere a que llevan función de Prueba incorporada (BIT)» (Alberto, 40/40L). Ese significado va al campo `atributos`, no se tira."
+  },
+  "R10": {
+   "enunciado": "EL SOFTWARE ES UN PRODUCTO CONSULTABLE DE PRIMERA CLASE. Un programa de gestión, configuración o diagnóstico se da de alta como producto (`categoria: software`) y sus documentos se le atestan igual que a un equipo físico. No se manda a cuarentena por «no ser un producto».",
+   "nace_de": [
+    "morley:tg — «el TG es el software. AUNQUE SEA SOFTWARE, LOS TÉCNICOS TAMBIÉN DEBERÍAN PODER PREGUNTAR SOBRE ELLO» (repetido en 15 filas)",
+    "notifier:securnet-plus-02 — «OK con el juez. esto es un software, no un producto físico»",
+    "notifier:airsense (TIDT109) — «software Classifire»",
+    "xtralis:vesda (HSLI_IN_020) — «no es sobre Vesda, sino que trata sobre el software TG… post 2021 pasa a llamarse TG-Base»"
+   ],
+   "es_la_clase_mas_cara": "18 de las 57 anotaciones (32% del esfuerzo de Alberto)",
+   "por_que_fallaba": "el predicado de cuarentena por «acrónimo corto» trataba TG, HSSD y VESDA igual: como siglas sospechosas. Para un token de software la sigla ES el nombre del producto.",
+   "guarda": "El software se atesta con el MISMO rigor que un equipo: si el manual del software no nombra los modelos con que se usa, el vínculo software→equipo es `secondary`, no `primary` (precedente MNDT701, s331: el software era de 1997 y anterior a los tres manuales, así que no podía atestar compatibilidad individual)."
+  },
+  "R11": {
+   "enunciado": "UN DOCUMENTO SIN CONTENIDO TÉCNICO SE RETIRA DEL CORPUS, y la decisión es de CLASE, no de fila. Cuatro clases: (a) fragmento en otro idioma con hermano en ES; (b) documento que sólo es un enlace o un QR; (c) material comercial o formativo sin detalle técnico; (d) documento que nunca imprime el modelo del que habla y no se puede adjudicar.",
+   "nace_de": [
+    "morley:fl-20 — «esto es documentación en portugués. retíralo del corpus»",
+    "morley:morley-ias-max — «elimínalo del corpus, porque solo es un QR que además no funciona»",
+    "xtralis:vesda (Cursos formacion) — «va sobre información de cursos… no contiene información técnica de detalle. APLICA ESTO A DOCUMENTOS DEL MISMO ESTILO»",
+    "997-493-002-2 — «retira este manual del corpus»"
+   ],
+   "instruccion_explicita_de_alberto": "«aplica esto a documentos del mismo estilo» — o sea: NO le preguntes fila a fila por la misma clase. Censar la clase y proponerla en bloque, con la lista visible.",
+   "detector": {
+    "tipo": "higiene_de_corpus",
+    "señales": [
+     "idioma != es Y existe hermano con mismo código de documento en es",
+     "el documento entero cabe en < 2 chunks Y su contenido es mayoritariamente un enlace o una imagen",
+     "título o contenido con 'curso', 'formación', 'catálogo comercial', 'tarifa', 'índice de documentos'",
+     "ningún modelo comercial impreso en el texto completo (censo regex vacío) y el juez no converge"
+    ],
+    "accion": "proponer la BAJA en bloque por clase, listando los documentos; NUNCA borrar sin lista visible"
+   }
+  },
+  "R12": {
+   "enunciado": "UNA PORTADA LLEVA MÁS DE UN IDENTIFICADOR: hay que extraerlos TODOS. Típicamente un código de pedido y un nombre comercial, uno encima del otro. Uno es el canónico y el resto son ALIAS — nunca se descarta el que no se eligió.",
+   "nace_de": [
+    "kidde:zlsm-md — «en la portada del documento sale 9-30501-KID, pero justo debajo pone kidde Minilaser, por lo que debería ser accesible por 9-30501-KID Y por minilaser. AQUÍ EXTRAYENDO EL NOMBRE DEL DOC DE LA PORTADA DEBERÍAS HABER DETECTADO TAMBIÉN LO DE 9-30501-KID»",
+    "spectrex:40-40-air — el juez propuso «40/40 Air Shield (P/N 777650)» y Alberto añadió «el product number concreto es TM777650»"
+   ],
+   "guarda": "OJO AL HOMÓNIMO ENTRE MARCAS: el mismo nombre comercial puede existir en dos fabricantes. Alberto lo señaló en la misma nota — «Notifier también tiene un modelo Minilaser (minilaser100)». Un alias comercial genérico se da de alta sólo con su marca resuelta, o va a `homonyms.jsonl` con política `clarify`."
+  },
+  "R13": {
+   "enunciado": "UN ACCESORIO ES UN PRODUCTO, PERO CUELGA DE SU PADRE. Se da de alta con su propio id y su propia cita, y además se declara la relación con el modelo o la familia a la que pertenece. Un accesorio suelto no se puede recomendar («¿vale para mi central?» no tiene respuesta sin el padre).",
+   "nace_de": [
+    "kidde:ke-dba-sktw — «el producto es el KE-DBA-SKTW, pero es un accesorio del producto KE-DB3010W»",
+    "spectrex:40-40-air — «esto parece un accesorio (Air shield) del producto 40/40 … así que asócialo a la FAMILIA 40/40»"
+   ],
+   "el_padre_puede_ser_una_familia": "40-40-AIR cuelga de la familia 40/40 entera, no de un modelo: «The air shield can be used with all Spectrex 40/40 series flame detectors» (ficha del fabricante que Alberto citó).",
+   "gap_de_esquema_declarado": "`relations.jsonl` admite hoy `variant-of|rebrand-of|shared-doc|supersedes`. NO tiene `accessory-of`. La regla no se puede cablear entera sin añadir ese tipo — es un cambio de esquema, va con dúo y gate.",
+   "origen_de_la_evidencia": "Las dos notas de `kidde:ke-dba-sktw` son «OK + MATIZ», no correcciones: no se tomó ninguna decisión equivocada, Alberto añadió el padre. `spectrex:40-40-air` sí es corrección. Declarado por el dúo r40 (Fable): una regla nacida de un matiz es igual de válida, pero no debe contarse como un fallo del sistema."
+  },
+  "R14": {
+   "enunciado": "UNA NORMA NUNCA ES UN PRODUCTO. Los códigos de normativa (EN 54, NF S 32-001, BS 5839, ISO 8201, AS 2220, UL, VdS) aparecen en tablas de tonos, de certificación y de cumplimiento, y el extractor los confunde con modelos. Se retiran siempre, y además son PISTA: el documento que los lista suele ser el manual de una sirena, un panel o un detector cuyo modelo hay que buscar en otro sitio del documento.",
+   "nace_de": [
+    "notifier:nfs-32-001 — «incorrecto. la NF S 32-001 es una norma» (dos filas: D1056 y D838)",
+    "997-493-002-2 — pm «EN54 2-8 Zone», donde EN54 es la norma y «2-8 zone» una descripción funcional"
+   ],
+   "detector": {
+    "tipo": "codigos_de_norma",
+    "patrones": [
+     "^EN\\s?-?54",
+     "^NFS?[\\s-]?32",
+     "^NF\\s?S\\s",
+     "^BS\\s?5839",
+     "^ISO\\s?8201",
+     "^AS\\s?2220",
+     "^UL\\s?\\d",
+     "^VdS",
+     "^EN\\s?\\d{3,5}$"
+    ],
+    "accion": "retirar el candidate SIEMPRE, y marcar el documento como «sujeto por identificar» en vez de darlo por resuelto"
+   },
+   "caso_resuelto_con_esta_regla": "D838-1_kac sounders: `notifier:nfs-32-001` era la norma francesa AFNOR de la tabla de tonos. El sujeto real es la gama de sirenas de pared WMSOU de System Sensor Europe (verificado en s331 contra la hoja publicada del fabricante: las ocho especificaciones coinciden literalmente)."
+  },
+  "R15": {
+   "enunciado": "UN NOMBRE GENÉRICO NECESITA SU SISTEMA. Un producto cuyo nombre canónico no identifica nada por sí solo («Repetidor de la Serie 1000», «Serie PS») se da de alta igual, pero OBLIGA a: (a) un alias que incluya la central o el sistema al que pertenece, y (b) una relación declarada con ese sistema.",
+   "nace_de": [
+    "notifier:repetidor-serie-1000 — «debería ser detectable también como repetidor central ID1000, que igual solo como serie 1000 es misleading (puedes ver en la P5 cómo se refiere a documentos de la central ID1000), así que debería estar relacionado con la ID1000»"
+   ],
+   "por_que_importa": "sin el alias, un técnico que pregunta «el repetidor de la ID1000» no lo encuentra; con el alias suelto pero sin la relación, el bot no sabe que responder de la ID1000 puede necesitar este manual."
+  },
+  "R16": {
+   "enunciado": "UN DOCUMENTO DE COMPATIBILIDAD O DE INCIDENCIA ATESTA A VARIOS, NO A UNO. Los boletines de incompatibilidad, las notas técnicas y las tablas de equivalencia no tienen «un modelo»: tienen los equipos afectados MÁS el sistema donde ocurre. Se mapean todos, y el sistema anfitrión suele ser el más importante.",
+   "nace_de": [
+    "notifier:id1000 (TIDT066) — «este doc no va sobre ningún modelo en particular, sino sobre incompatibilidades de módulos en la central ID1000 con tarjetas de lazo con software 15.3 o 16.5. los modelos sobre los que habla son los SC-6, CZ-6, IM-10, CR-6, y ESPECIALMENTE sobre la central ID1000»",
+    "xtralis:vesda (HSLI_IN_020) — una tabla de equivalencia de denominaciones: nombra muchos productos y no va sobre ninguno, va sobre el renombrado"
+   ],
+   "trampa_que_cierra": "en estos documentos el token MÁS REPETIDO no es el sujeto. La tabla de equivalencia de TG nombra VESDA 91 veces y no trata de VESDA."
+  },
+  "R17": {
+   "enunciado": "NO PARTAS UNA FAMILIA POR UN SUFIJO DE CAPACIDAD. Un sufijo que denota tamaño, alcance o número de zonas dentro de una gama (FAAST LT / FAAST LT-200) no crea una familia nueva. El discriminador es el catálogo del FABRICANTE: si él los lista como una gama, es una gama.",
+   "nace_de": [
+    "notifier:lt-200 — «Va sobre la familia FAAST LT (los equipos de System Sensor), no diferenciaría entre FAAST LT y FAAST LT-200, porque creo que es la misma familia» + enlace al catálogo de Notifier"
+   ],
+   "tension_declarada_con_R9": "R9 dice que los sufijos enumerados SÍ son modelos distintos (40/40L vs 40/40LB) y R17 dice que a veces NO (FAAST LT vs LT-200). No se contradicen: R9 habla de MODELOS dentro de una familia (van al catálogo como productos hermanos), R17 habla de FAMILIAS (no se crean dos paraguas donde el fabricante tiene uno). Ante la duda, el desempate es la web del fabricante (R18), no la intuición.",
+   "origen_de_la_evidencia": "`notifier:lt-200` es corrección; las dos de `notifier:faast-lt` y la de `xtralis:lt-200` son «OK + MATIZ». Misma nota que R13: la regla es válida, el fallo no existió."
+  },
+  "R18": {
+   "enunciado": "VALIDA CONTRA LA WEB DEL FABRICANTE, Y NUNCA RETIRES POR OBSOLETO. Antes de dar por bueno un modelo dudoso se comprueba en la ficha o el catálogo del fabricante. Y un modelo descatalogado se mantiene con todo su alcance: hay instalaciones que lo llevan y son justo las que generan preguntas.",
+   "nace_de": [
+    "notifier:airsense — «aquí diría que pertenecen a HSSD-2, ya que es un documento que está en esta web […]. A FUTURO, UTILIZA LAS WEBS PARA VALIDAR LOS MODELOS. AUNQUE EL MODELO SE CONSIDERE OBSOLETO, IGUAL HAY INSTALACIONES QUE LO TIENEN, POR LO QUE HABRÁ QUE CONSIDERARLOS IGUALMENTE»",
+    "morley:miw — Alberto validó la gama con tres enlaces del fabricante antes de opinar"
+   ],
+   "ya_aplicada_en_s331": [
+    "morley:efs-em-8 — panel convencional de 8 zonas, obsoleto, publicado por Notifier en `manualesobs`: se da de alta IGUAL",
+    "notifier:nx2-r-r / nx5-r-r — la ficha del fabricante confirmó que son dos productos y que la grafía con barras es la suya",
+    "D838 → WMSOU — las ocho especificaciones del documento coinciden literalmente con la hoja publicada de System Sensor Europe"
+   ],
+   "corolario_operativo": "Cuando el fabricante nombra una gama que NO tenemos ingestada, eso no es un callejón sin salida: es una entrada para la cola de manuales que faltan (Alberto, sobre MIW: «no sé si tenemos los manuales ingestados, pero podríamos añadirlos a la cola para incluirlos»)."
+  }
+ },
+ "lo_que_estas_reglas_NO_arreglan": [
+  "De las 23 anotaciones duplicadas, 17 son eliminables agrupando y 3 NO lo son: llevan decisiones distintas por documento (`notifier:nfs-32-001`, `xtralis:vesda`, `notifier:airsense`). La clave de agrupación tiene que ser (id × operación) — agrupar por id a secas PIERDE decisiones.",
+  "R13 necesita un tipo `accessory-of` que `relations.jsonl` no tiene: la regla está escrita y NO cableada. Y el padre puede ser un modelo O una familia — el tipo debe admitir las dos cosas.",
+  "Los retags de `product_model` y `manufacturer` siguen sin ser persistentes (TECH_DEBT #97): una re-ingesta los deshace en silencio. Las altas de catálogo sí persisten. Por eso los detectores de abajo leen el CONTENIDO del documento, nunca su etiqueta.",
+  "R9, R11 y R14 tienen detector propuesto y SIN medir. Y el dúo r40 (Sol) precisó su límite: son deterministas en el DISPARO, no en el VEREDICTO — que no encuentren una sección «Descripción general» NO prueba que el documento no enumere variantes. Su salida se redacta «no encontrado por regla, sin comprobar», nunca «no hay»: un falso «no hay» sesga al humano hacia el sí.",
+  "Medir esos detectores exige GROUND TRUTH, o sea adjudicar a mano una cohorte — trabajo humano no presupuestado (dúo r40, Fable). «Medir sobre 69 es barato» omitía ese coste."
+ ]
+}

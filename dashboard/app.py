@@ -49,7 +49,8 @@ from datetime import datetime, timezone
 
 from src.bot import access
 
-from . import auth, cerrojo, datos, errores, explorador, gestion, render, sesion
+from . import (auth, catalogo, cerrojo, datos, errores, explorador, gestion,
+               render, sesion)
 from .render import Seguro, esc
 
 #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
@@ -649,13 +650,7 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
                                     categorias=categorias, marcas=marcas)
     resultado = explorador.leer(filtros)
 
-    def _opciones(pares, elegido: str) -> str:
-        return "".join(
-            f'<option value="{esc(valor)}"'
-            + (" selected" if valor == elegido else "")
-            + f">{esc(texto)}</option>"
-            for valor, texto in pares
-        )
+    _opciones = _opciones_select
 
     dias = _opciones(
         [(str(d), "todo" if d == 0 else f"{d} días")
@@ -734,6 +729,220 @@ def pagina_explorador(peticion: Peticion) -> Respuesta:
                 si_falta="falta aplicar migrations/021_query_clasificacion.sql"),
         ))
     return _pagina(peticion, "Explorador", tarjetas, ruta="/explorador")
+
+
+def _opciones_select(pares, elegido: str) -> str:
+    """`[(valor, texto)]` → `<option>`s, con el elegido marcado. Estaba escrito
+    dos veces (Explorador y Catálogo) y es exactamente el mismo HTML."""
+    return "".join(
+        f'<option value="{esc(valor)}"'
+        + (" selected" if valor == elegido else "")
+        + f">{esc(texto)}</option>"
+        for valor, texto in pares
+    )
+
+
+def pagina_catalogo(peticion: Peticion) -> Respuesta:
+    """La **Wiki de modelos**: qué modelos conoce el bot y con qué manuales
+    responde de cada uno (s331, pedido de Alberto en el packet de adjudicación).
+
+    Filtros de listas CERRADAS como el resto del panel, con UNA excepción
+    declarada: `q` es texto libre porque el catálogo se filtra EN MEMORIA —
+    ese parámetro no viaja a ninguna consulta. El razonamiento completo está
+    en el módulo `dashboard/catalogo.py`.
+    """
+    ind = catalogo.indice()
+    filtros = catalogo.normalizar(peticion.consulta, marcas=ind.marcas,
+                                  categorias=ind.categorias)
+    resumen = catalogo.resumen()
+
+    if not resumen["leido"]:
+        # No es «no hay modelos»: es «no pude leer el catálogo». La diferencia
+        # importa — en Vercel el modo de fallo esperado es que `data/catalog/`
+        # no haya viajado al bundle, y eso NO puede parecer un catálogo vacío.
+        # PASÓ DE VERDAD (s331d): la primera versión de esta página salió con
+        # «0 modelos» y sin aviso, porque `catalog_store` devuelve listas vacías
+        # cuando los ficheros no están en vez de lanzar. Ahora `leido` significa
+        # «estaba ahí y traía productos».
+        return _pagina(peticion, "Modelos", [render.tarjeta(
+            "Modelos",
+            render.aviso("No se pudo leer el catálogo gobernado "
+                         "(data/catalog/*.jsonl): o no está en el bundle o vino "
+                         "vacío. En producción lo más probable es que el "
+                         "directorio no haya viajado — revisa .vercelignore, y "
+                         "recuerda que gitignore NO deja re-incluir algo dentro "
+                         "de un directorio excluido.", tono="error"),
+        )], ruta="/catalogo")
+
+    filas, total = catalogo.buscar(filtros)
+
+    marca = _opciones_select(
+        [("", "todas")] + [(m, m) for m in ind.marcas], filtros.marca or "")
+    estado = _opciones_select(
+        [("consumibles", "los que el bot usa"), ("candidates", "en cuarentena"),
+         ("redirects", "el mismo equipo con otra marca"),
+         ("retirados", "retirados"), ("todos", "todos")], filtros.estado)
+    docs = _opciones_select(
+        [("todos", "con o sin manual"), ("con", "solo con manual"),
+         ("sin", "solo SIN manual")], filtros.docs)
+    categoria = _opciones_select(
+        [("", "todas")] + [(c, c) for c in ind.categorias]
+        + [(catalogo.SIN_CATEGORIA, catalogo.SIN_CATEGORIA)],
+        filtros.categoria or "")
+    # El autocompletado del buscador: `<datalist>` es MARCADO, no script, así
+    # que da el pre-filtrado según se teclea con la CSP `default-src 'none'`
+    # intacta y sin una línea de JavaScript (pedido de Alberto, s331d).
+    sugeridos = catalogo.sugerencias(filtros)
+    datalist = ('<datalist id="modelos">'
+                + "".join(f'<option value="{esc(x)}">' for x in sugeridos)
+                + "</datalist>")
+
+    cifras = render.rejilla([
+        render.cifra(resumen["modelos"], "modelos que el bot usa",
+                     detalle=f"{resumen['marcas']} fabricantes"),
+        render.cifra(resumen["sin_docs"], "sin ningún manual",
+                     detalle="el catálogo los conoce, el corpus no los cubre"),
+        render.cifra(resumen["candidates"], "en cuarentena",
+                     detalle="propuestos, aún sin adjudicar"),
+        render.cifra(resumen["sin_clasificar"], "sin categoría de producto",
+                     detalle=f"solo {resumen['clasificados']} clasificados "
+                             f"con cita"),
+        render.cifra(resumen["docs_huerfanos"], "manuales huérfanos",
+                     detalle="no atestan a ningún modelo utilizable"),
+    ])
+
+    def _fila(m: catalogo.Modelo) -> list:
+        marcas_venta = ", ".join(m.vendido_bajo) or "—"
+        return [
+            Seguro(f'<a href="/catalogo/{esc(m.id)}">{esc(m.canonico)}</a>'),
+            esc(m.marca),
+            esc(m.familia or "—"),
+            esc(m.categoria or "—"),
+            esc(marcas_venta),
+            esc(m.n_docs) if m.n_docs else Seguro('<strong>0</strong>'),
+            esc(m.n_alias),
+        ]
+
+    recorte = ("" if total <= catalogo.TOPE_FILAS else
+               f" — se pintan {len(filas)}, afina el filtro para ver el resto")
+    tarjetas = [
+        render.tarjeta(
+            "El catálogo de un vistazo", cifras,
+            pregunta="Lo que el bot PUEDE usar hoy para responder: modelo "
+                     "activo y ya adjudicado. Un modelo en cuarentena existe "
+                     "en el catálogo pero el bot no lo consume.",
+        ),
+        render.tarjeta(
+            "Buscar",
+            Seguro(
+                '<form method="get" action="/catalogo">'
+                f'<label>Texto<input type="search" name="q" list="modelos"'
+                f' autocomplete="off" maxlength="{catalogo._Q_MAX}"'
+                f' value="{esc(filtros.q)}" placeholder="escribe CAD, minilaser…">'
+                f"</label>{datalist}"
+                f'<label>Categoría<select name="categoria">{categoria}</select></label>'
+                f'<label>Fabricante<select name="marca">{marca}</select></label>'
+                f'<label>Estado<select name="estado">{estado}</select></label>'
+                f'<label>Manuales<select name="docs">{docs}</select></label>'
+                '<button type="submit" class="principal">Aplicar</button>'
+                "</form>"),
+            pregunta="Al escribir salen los modelos que casan (teclea «CAD» y "
+                     "aparecen CAD-171, CAD-250…): eliges uno y pulsas Aplicar. "
+                     "El texto busca también en los ALIAS, así que «minilaser» "
+                     "encuentra el modelo cuyo nombre canónico es un código de "
+                     "pedido.",
+            pie=f"{len(sugeridos)} modelo(s) sugeridos con los filtros de "
+                f"categoría, fabricante y estado que tengas puestos.",
+        ),
+        render.tarjeta(
+            f"{total} modelo(s){recorte}",
+            render.tabla(
+                ["Modelo", "Fabricante", "Familia", "Categoría",
+                 "Se vende como", "Manuales", "Alias"],
+                [_fila(m) for m in filas],
+                vacio="Ningún modelo casa con esos filtros.",
+                cards=True,
+            ),
+            pie="Fuente: el catálogo gobernado del repo — la MISMA estructura "
+                "que el bot consulta para resolver un modelo. Para cambiar "
+                "algo hace falta un lote firmado con recibo, no un botón.",
+        ),
+    ]
+    return _pagina(peticion, "Modelos", tarjetas, ruta="/catalogo")
+
+
+def pagina_catalogo_ficha(peticion: Peticion) -> Respuesta:
+    """La ficha de UN modelo: sus alias, sus manuales, sus relaciones y los
+    paraguas que lo contienen. El id viaja en la ruta y se busca en el dict del
+    catálogo — lo que no existe es un 404, nunca un nombre de recurso hacia
+    PostgREST (mismo criterio que `/metricas/<clave>`)."""
+    pid = urllib.parse.unquote(peticion.ruta[len("/catalogo/"):]).strip("/")
+    f = catalogo.ficha(pid)
+    if f is None:
+        return _error(404, "No hay ningún modelo con ese identificador.",
+                      peticion.nonce)
+
+    m = f.modelo
+    estados = catalogo.estado_de_documentos(tuple(d[2] for d in f.documentos))
+    clase = {"consumibles": "el bot lo usa", "candidates": "en cuarentena",
+             "redirects": "el mismo equipo con otra marca",
+             "retirados": "retirado"}[catalogo._clase(m)]
+
+    identidad = render.tabla(
+        ["Campo", "Valor"],
+        [["Identificador", Seguro(f"<code>{esc(m.id)}</code>")],
+         ["Nombre canónico", esc(m.canonico)],
+         ["Estado", esc(f"{clase} ({m.estado})")]]
+        + ([["Es el mismo equipo que",
+             Seguro(f'<a href="/catalogo/{esc(m.redirige_a)}">'
+                    f'{esc(m.redirige_a)}</a>')]] if m.redirige_a else [])
+        + [
+         ["Familia", esc(m.familia or "—")],
+         ["Categoría", esc(m.categoria or "—")],
+         ["Cita de la categoría", esc(f.modelo.categoria_cita or "—")],
+         ["Se vende bajo", esc(", ".join(m.vendido_bajo) or "—")],
+         ["Alias", esc(", ".join(f.alias) or "—")],
+         ["Paraguas que lo contienen", esc(", ".join(f.paraguas) or "—")],
+         ["Origen de la fila", esc(f.provenance or "—")]],
+        cards=True,
+    )
+
+    def _doc(d) -> list:
+        fuente, rol, did = d
+        est = estados.get(did, "")
+        return [esc(fuente), esc(rol),
+                esc(est or "—") if est == "active" else
+                Seguro(f"<strong>{esc(est or '?')}</strong>")]
+
+    documentos = render.tabla(
+        ["Manual", "Rol", "Estado"], [_doc(d) for d in f.documentos],
+        vacio="Este modelo no tiene ningún manual asociado: el bot lo conoce "
+              "pero no tiene con qué responder sobre él.",
+        cards=True,
+    )
+
+    relaciones = render.tabla(
+        ["Relación", "Con", ""],
+        [[esc(t), Seguro(f'<a href="/catalogo/{esc(o)}">{esc(o)}</a>'), esc(d)]
+         for t, o, d in f.relaciones],
+        vacio="Sin relaciones declaradas.", cards=True,
+    )
+
+    tarjetas = [
+        Seguro('<p class="migas"><a href="/catalogo">← Modelos</a></p>'),
+        render.tarjeta(m.canonico, identidad,
+                       pregunta="Los identificadores son INMUTABLES: un modelo "
+                                "mal nombrado se corrige con un alias o un "
+                                "redirect, nunca renombrando el id."),
+        render.tarjeta(f"{len(f.documentos)} manual(es)", documentos,
+                       pregunta="`primary` = el manual reclama el modelo como "
+                                "sujeto. `secondary` = lo menciona y sirve como "
+                                "fuente, sin reclamarlo.",
+                       pie="El estado sale de Supabase; si no se pudo leer, la "
+                           "columna queda en «?»."),
+        render.tarjeta("Relaciones", relaciones),
+    ]
+    return _pagina(peticion, m.canonico, tarjetas, ruta="/catalogo")
 
 
 def pagina_errores(peticion: Peticion) -> Respuesta:
@@ -1019,6 +1228,10 @@ RUTAS = {
     # `/metricas/<clave>`: el prefijo es la clave de enrutado (ver `despachar`);
     # NO está en RUTAS_PUBLICAS, así que pasa por la puerta como cualquier otra.
     ("GET", "/metricas/"): pagina_metrica_detalle,
+    ("GET", "/catalogo"): pagina_catalogo,
+    # Ficha de un modelo. Segunda ruta con parámetro del panel: se
+    # normaliza a su clave ANTES de la puerta, igual que /metricas/.
+    ("GET", "/catalogo/"): pagina_catalogo_ficha,
     ("GET", "/explorador"): pagina_explorador,
     ("GET", "/errores"): pagina_errores,
     ("GET", "/entrar"): pagina_entrar,
@@ -1052,14 +1265,17 @@ def despachar(peticion: Peticion) -> Respuesta:
     ninguna puerta."""
     clave = (peticion.metodo, peticion.ruta)
     manejador = RUTAS.get(clave)
-    if manejador is None and peticion.metodo == "GET" \
-            and peticion.ruta.startswith("/metricas/"):
-        # Única ruta con parámetro del panel (s327). Se normaliza a su clave
-        # ANTES de la puerta, así que hereda TODAS sus comprobaciones — y el
-        # sufijo no se usa como nombre de recurso: el manejador lo resuelve
-        # contra la lista cerrada `VISTAS_POR_CLAVE` o devuelve 404.
-        clave = ("GET", "/metricas/")
-        manejador = RUTAS.get(clave)
+    if manejador is None and peticion.metodo == "GET":
+        # Las rutas CON PARÁMETRO del panel (s327, s331). Se normalizan a su
+        # clave ANTES de la puerta, así que heredan TODAS sus comprobaciones —
+        # y el sufijo no se usa como nombre de recurso: cada manejador lo
+        # resuelve contra su lista cerrada (`VISTAS_POR_CLAVE`, el dict de
+        # productos del catálogo) o devuelve 404.
+        for prefijo in ("/metricas/", "/catalogo/"):
+            if peticion.ruta.startswith(prefijo):
+                clave = ("GET", prefijo)
+                manejador = RUTAS.get(clave)
+                break
     if manejador is None:
         return _error(404, "No hay nada en esa dirección.", peticion.nonce)
 

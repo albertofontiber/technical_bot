@@ -26,7 +26,8 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s332 — 21 ago 2026; correcciones/asunciones VISIBLES: build+gates COMPLETOS el mismo día del GO, ship listo con 2 vars)
+## Estado actual (21 ago 2026 — DOS hilos: correcciones/asunciones VISIBLES listas para ship, y el packet E1 CERRADO con su aprendizaje convertido en reglas)
+
 
 **s332 (DEC-264) — los dos GO de la mañana, ejecutados y medidos el mismo día**: tabla ASR con
 modo/case/cita por fila (bqide→Kidde reescrito con AVISO; ID↔Kidde solo-aviso case-sensitive —
@@ -39,6 +40,29 @@ GC1 7/7 (la mañana re-jugada: contenido Kidde real donde había plantilla vací
 MT 52/52 off/on. **SHIP LISTO: Railway `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on` (flip de
 Alberto) → verificación DEC-099 por VOZ** (guía: `evals/s332_gc_resultado_v1.md`). Proceso:
 advisor/executor en paralelo sobre worktree compartido (E1 cazó de raíz un ciclo de imports).
+
+**s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
+**las 56 filas vivas** del v3. Su pasada se midió antes de interpretarse
+(`scripts/s331_censo_anotaciones.py`): 57 anotaciones → **34 decisiones distintas**, 23 duplicadas
+(`morley:tg` ×15), 12 puro «OK», 4 «OK + matiz», **18 correcciones**. La medida **invalidó la
+propuesta de automatización que yo iba a hacer** — P4 acierta 7/7 pero **P1 60% y P3 44%** sobre esta
+población; el «lo firmaste 9 veces» del packet era una tasa base heredada del v2. Al descomponer, la
+mayoría de fallos eran **incompletos, no equivocados**: cada fila pregunta UNA cosa donde el
+documento plantea SEIS. **Dúo r40: 12 hallazgos, 12 confirmados, 0 FP, Fable «No SÓLIDO»** — Sol
+atacó la EVIDENCIA (mi lectura del K=5 era falsa: `v5/5` son votos válidos y el panel se partió 3-2;
+y «mismo id = misma decisión» es falso → la clave es **id × operación**) y Fable atacó el INSTRUMENTO
+(mi censo usaba dos definiciones de «acuerdo», inflando las correcciones de 18 a 22 a mi favor).
+Queda: **R9–R18** en `data/catalog/reglas_clasificacion.json` (la más cara, R10: el software es
+producto consultable — 18 de sus 57 anotaciones) · **Wiki de modelos** en `/catalogo` (1.024 modelos
+en 36 marcas · 55 sin manual · **245 manuales huérfanos, 184 sólo por cuarentena**) · **derivación
+con guardarraíl** (34 ids → 29 listas, 2 a la espera de una frase, 3 bloqueadas; falla si una nota
+suya se cae) · **rumbo Q1–Q6** con umbral medido por sub-pregunta (auto-aplicación hoy: ninguna).
+
+**Qué sigue en este hilo**: (1) las 3 frases de `docs/DECISIONES_PENDIENTES_ALBERTO.md` (paraguas
+2X-A, namespace EFS/EM 8, gama WMSOU); (2) su autorización para `accessory-of` en `relations.jsonl`,
+que bloquea dos filas ya adjudicadas; (3) aplicar las 29 operaciones con gate; (4) medir los tres
+detectores (R9/R11/R14) sobre 69 residuo + control limpio + los nuevos, con el coste del ground
+truth presupuestado.
 
 ## Estado anterior (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 

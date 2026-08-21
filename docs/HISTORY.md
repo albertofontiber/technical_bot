@@ -6703,6 +6703,66 @@ documentos homónimos sin distinguirlos y imprimía la propuesta del juez al lad
 dos defectos costaron tiempo real —uno de ellos, seis atestaciones equivocadas— y los dos están
 corregidos en el **v3**, que además solo arrastra lo vivo: 67 filas en vez de 192.
 
+## s331d (21 ago 2026) — La pasada completa de Alberto: el aprendizaje se mide antes de escribirse, y el dúo caza dos errores míos que tres pasadas propias no vieron
+
+Alberto subió su repaso íntegro del packet v3 y pidió tres cosas: que «aprendiese» de la
+clasificación, que construyese la **Wiki de modelos** que había propuesto en una anotación, y que
+propusiera **automatizar la asignación de manuales** manteniendo siempre a alguien que valide.
+
+**Lo primero fue no hacerle caso a mis propias impresiones.** Sus notas se prestan a leerlas y sacar
+lecciones que suenan bien —el ritual que DEC-072 prohíbe—, así que primero un censo determinista.
+El reparto no lo daba ninguna lectura cualitativa: **57 anotaciones → 34 decisiones distintas**, con
+**23 duplicadas** (`morley:tg` se le preguntó **quince veces**) y una minoría de correcciones. Y la
+medida del acierto de lo que el packet le recomendaba **mató la propuesta que yo iba a hacer**: iba a
+proponer auto-aplicar los patrones que él ya había firmado, y resultó que P1 acierta **60%** y P3
+**44%** sobre esta población. El «lo firmaste 9 veces» que el packet imprimía era cierto… en el v2.
+Una **tasa base heredada de otra población**, presentada como confianza, en la única capa donde no
+hay gate.
+
+Al descomponer los fallos apareció el diagnóstico bueno: **no son errores, son incompletitudes**. En
+4 de 6 casos lo que el juez proponía era correcto y parcial. La causa es estructural — cada fila
+pregunta UNA cosa donde el documento plantea SEIS — y de ahí sale la recomendación: descomponer en
+Q1–Q6 con umbral medido por sub-pregunta.
+
+**Y entonces el dúo hizo su trabajo, que es el motivo de que exista.** Doce hallazgos, doce
+confirmados, cero falsos positivos, veredicto de Fable **«No SÓLIDO»**. El reparto entre los dos
+revisores fue el que justifica el cross-model:
+
+- **Sol atacó la evidencia.** Yo había escrito que el re-juicio K=5 «convergió 5/5 en el veredicto
+  equivocado». **Falso**: el `v5/5` del recibo son los votos VÁLIDOS, y el panel se partió **3-2**.
+  El propio packet imprimía «NO convergente» al lado. La conclusión sobrevive por un mecanismo mejor
+  —ninguno de los dos bandos podía acertar porque la respuesta no cabía en la rúbrica— pero la
+  evidencia que cité era falsa, y con un panel partido **ya no puedo descartar que un juez mejor
+  ayude**. Su segundo crítico: «mismo id = misma decisión» es falso, y 3 de los 9 ids repetidos
+  llevan decisiones distintas por documento — agrupar por id a secas **perdería** decisiones.
+- **Fable atacó el instrumento.** Mi propio script de censo usaba **dos definiciones incompatibles de
+  «acuerdo»** en sus dos mitades, y eso inflaba las «correcciones» de 18 a 22 **en la dirección que
+  favorecía mi propuesta**. También destapó que un ejemplo de mi propio gap declarado era falso.
+
+Los dos hallazgos que más cambiaron la propuesta son errores míos que tres pasadas propias no habían
+visto. Quedó una traza incompleta declarada: la review de Fable no emparejó porque edité otros
+ficheros del repo entre las dos corridas.
+
+**La Wiki de modelos** quedó construida y probada: una vista de sólo lectura sobre el catálogo
+gobernado, en `/catalogo`. Su invariante —nada que la Wiki llame «utilizable» puede ser algo que el
+resolver rechace— cazó una divergencia real al escribirse: los **81 `redirect`** cruzan de marca
+(`morley:b501ap` → `systemsensor:b501ap`) y no son ni utilizables ni retirados; son el mismo equipo
+bajo otra marca, y en clase propia resultan ser **la vista OEM que no estaba en ningún sitio**. Su
+primer censo destapó **245 manuales huérfanos**, **184 de ellos únicamente porque todos sus ids
+siguen en cuarentena**.
+
+**Por el camino se cerró el caso que Alberto pidió confirmar**: `D838-1_kac sounders` estaba
+etiquetado con la norma francesa AFNOR de su tabla de tonos. El sujeto real es la gama de sirenas
+**WMSOU de System Sensor Europe** — las ocho especificaciones coinciden literalmente con la hoja
+publicada del fabricante y **no** con las de sus hermanos rebrandeados, que dan 95 dB(A) e IP21C/IP44
+en vez de 100 dB(A) e IP24/IP65. El nombre del fichero dice «kac» y miente: R8 en versión fuerte, el
+fichero engaña también sobre la MARCA.
+
+Diez reglas nuevas (**R9–R18**), cada una anclada en la anotación que la hizo nacer, viven ahora en
+`data/catalog/reglas_clasificacion.json` — en JSON y junto al catálogo que gobiernan, para que no se
+queden en prosa que la sesión siguiente no lee. DEC-266 y DEC-267 (nacieron como DEC-263/264 y se
+renumeraron al mergear: la sesión s332 llegó antes con esos números).
+
 ## s332 (21 ago 2026) — Los dos GO de la mañana, ejecutados antes de comer: lo asumido se declara
 
 Alberto dio el doble GO a media mañana —la tabla de confusiones ASR con un requisito nuevo
@@ -6730,3 +6790,4 @@ letra de contenido de usuario. Gates sobre la mañana real: GC0 7/7 off=hoy, GC1
 había «No he encontrado información relevante» ahora hay Serie NC de Kidde con citas), GC3 4/4.
 Ship listo: 2 vars, flip de Alberto, verificación DEC-099 por voz. La mañana entera —incidente,
 diagnóstico, GO, diseño, dúo, build a cuatro manos, gates y cierre— cupo en una sesión. DEC-264.
+

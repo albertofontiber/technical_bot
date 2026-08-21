@@ -49,7 +49,8 @@ RAIZ = Path(__file__).resolve().parents[1]
 CHROMIUM_DEL_ENTORNO = Path(os.getenv("PANEL_CHROMIUM",
                                       "/opt/pw-browsers/chromium"))
 ANCHOS = (390, 768, 1440)
-RUTAS = ("/", "/metricas", "/metricas/bot_health_daily", "/explorador", "/entrar")
+RUTAS = ("/", "/metricas", "/metricas/bot_health_daily", "/explorador",
+         "/catalogo", "/catalogo/notifier:id1000", "/entrar")
 DESALINEO_MAX_PX = 3.0
 ESCALA_MAX = 1.01                      # 1 + holgura de redondeo del navegador
 
