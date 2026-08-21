@@ -23,6 +23,7 @@ Lo que se fija aquí, y por qué cada cosa:
 """
 from __future__ import annotations
 
+import json
 import pytest
 
 from dashboard import catalogo
@@ -243,6 +244,90 @@ def test_la_ficha_de_un_modelo_real_pinta_sus_manuales(entorno, monkeypatch):
     assert fuente[:30] in respuesta.texto
 
 
+def _modelo_con_varios_manuales():
+    ind = catalogo.indice()
+    return next(m for m in ind.modelos
+                if catalogo._clase(m) == "consumibles" and m.n_docs >= 3)
+
+
+def test_los_superseded_van_los_ULTIMOS_de_la_lista(entorno, monkeypatch):
+    """Pedido de Alberto (21-ago): los manuales reemplazados no pueden abrir la
+    lista. El fallo que esto cierra es de ORDEN, así que se comprueba sobre las
+    POSICIONES en el HTML, no sobre la presencia de las palabras."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    # el PRIMERO del doc_map se marca superseded a propósito: sin reordenación
+    # saldría el primero de la tabla, que es justo lo que Alberto vio.
+    estados = {d[2]: ("active", "") for d in docs}
+    estados[docs[0][2]] = ("superseded", "")
+    monkeypatch.setattr(catalogo, "estado_de_documentos", lambda _ids: estados)
+    pagina = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    # SOLO la tarjeta de manuales. La primera versión de este test medía sobre la
+    # página entera y fallaba: el nombre del fichero aparece ANTES, dentro del
+    # `provenance` de la tarjeta de identidad, así que `index` devolvía esa
+    # aparición y no la de la tabla. Medir la posición del token equivocado es
+    # exactamente la clase de error que las guardas G1-G6 nombran.
+    html = pagina[pagina.index("manual(es)"):]
+    pos_super = html.index(docs[0][0][:30])
+    otros = [html.index(d[0][:30]) for d in docs[1:] if d[0][:30] in html]
+    assert otros, "el test necesita al menos otro manual en la página"
+    assert pos_super > max(otros), "el superseded no quedó el último"
+
+
+def test_el_nombre_del_manual_ENLAZA_cuando_hay_url(entorno, monkeypatch):
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    url = "https://ejemplo.invalid/storage/manual%20uno.pdf"
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {docs[0][2]: ("active", url)})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert f'href="{url}"' in html
+    assert 'rel="noopener noreferrer"' in html
+    assert 'target="_blank"' in html
+
+
+def test_un_manual_SIN_url_no_pinta_un_enlace_roto(entorno, monkeypatch):
+    """La clase de fallo de `render.esc("")` → «—» dentro de un atributo (s334):
+    un documento sin `source_url` tiene que quedarse en TEXTO, no en un `href`
+    vacío ni en un `href="—"` que el técnico pincharía para nada."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {d[2]: ("active", "") for d in docs})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert 'href=""' not in html
+    assert 'href="—"' not in html
+    assert docs[0][0][:30] in html          # el manual SIGUE apareciendo
+
+
+def test_una_url_que_no_sea_http_NO_se_convierte_en_enlace(entorno, monkeypatch):
+    """`source_url` viene de la DB, no del teclado de un visitante — pero es dato
+    externo igual. Un `javascript:` en esa columna no puede acabar en un `href`
+    del panel: la puerta es el esquema, no el escapado."""
+    m = _modelo_con_varios_manuales()
+    docs = catalogo.indice().docs_por_id[m.id]
+    monkeypatch.setattr(catalogo, "estado_de_documentos",
+                        lambda _ids: {docs[0][2]: ("active", "javascript:alert(1)")})
+    html = Cliente(_sesion_valida()).get(f"/catalogo/{m.id}").texto
+    assert "javascript:" not in html.lower()
+
+
+def test_el_orden_de_manual_entierra_lo_reemplazado_y_no_lo_desconocido():
+    """El rango es una decisión, no un detalle: `active` primero, lo reemplazado
+    al final, y un estado que no reconocemos EN MEDIO — no sabemos que esté
+    muerto, así que no se entierra."""
+    o = catalogo.orden_de_manual
+    assert o("active") < o("needs_review") < o("superseded") < o("retired")
+    assert o("active") < o("loquesea") < o("superseded")
+
+
+def test_la_pestana_de_modelos_va_DESPUES_de_errores():
+    """Pedido de Alberto (21-ago). Se comprueba el ORDEN, no la pertenencia."""
+    from dashboard.render import _NAV
+    rutas = [r for r, _ in _NAV]
+    assert rutas.index("/catalogo") > rutas.index("/errores")
+
+
 def test_un_id_inventado_es_404_no_una_consulta(entorno):
     """El sufijo de la ruta NUNCA se usa como nombre de recurso: se busca en el
     dict del catálogo. Mismo criterio que `/metricas/<clave>`."""
@@ -366,3 +451,132 @@ def test_el_autocompletado_no_mete_javascript():
     bloque = fuente[i:j]
     for prohibido in ("<script", "oninput", "onkeyup", "onchange", "javascript:"):
         assert prohibido not in bloque
+
+
+# ---------------------------------- 6. el guión largo en un atributo (s334)
+
+
+def test_un_doc_cuyo_id_es_REDIRECT_no_es_huerfano(tmp_path, monkeypatch):
+    """EL fallo que Alberto destapó al no dar por buenos los 193 (s334b).
+
+    Un id `redirect` NO deja huérfano a su documento: el resolver hace
+    `follow_redirect` ANTES de indexarlo (`catalog_resolver.py:187`) y
+    `catalog_store._consumable` sigue el redirect por diseño («fix dúo s90»). La
+    Wiki, en cambio, preguntaba `id in consumibles` con su propia clasificación,
+    donde un redirect cae en la clase «redirects» — y contaba 59 documentos como
+    perdidos que el bot siempre alcanzó.
+
+    Se prueba con un catálogo SINTÉTICO mínimo porque el fallo es de DEFINICIÓN:
+    con el catálogo real se probaría el dato de hoy, no la regla."""
+    def jsonl(nombre, filas):
+        (tmp_path / nombre).write_text(
+            "".join(json.dumps(f, ensure_ascii=False) + "\n" for f in filas), "utf-8")
+
+    jsonl("products.jsonl", [
+        {"id": "marca:vivo", "canonical_model": "VIVO-1", "estado": "activo"},
+        {"id": "marca:viejo", "canonical_model": "VIEJO-1", "estado": "redirect",
+         "redirect_to": "marca:vivo"},
+    ])
+    for f in ("aliases.jsonl", "umbrellas.jsonl", "homonyms.jsonl",
+              "relations.jsonl", "docrel.jsonl"):
+        jsonl(f, [])
+    jsonl("doc_map.jsonl", [{"document_id": "d1", "source_file": "MANUAL-VIEJO",
+                             "entries": [{"id": "marca:viejo", "role": "primary",
+                                          "scope": "doc"}]}])
+    monkeypatch.setattr(catalogo, "CATALOG_DIR", tmp_path)
+    catalogo.indice.cache_clear()
+    try:
+        assert catalogo.indice().docs_huerfanos == (), (
+            "un documento atestado por un id que REDIRIGE a un producto vivo es "
+            "alcanzable: contarlo como huérfano se inventa un problema")
+        assert catalogo.resumen()["docs_huerfanos"] == 0
+    finally:
+        catalogo.indice.cache_clear()
+
+
+def test_un_doc_cuyo_id_redirige_a_un_CANDIDATE_si_es_huerfano(tmp_path, monkeypatch):
+    """Control negativo del anterior: seguir el redirect no puede volverse un
+    fail-open. Si el DESTINO sigue en cuarentena, el manual sigue perdido."""
+    def jsonl(nombre, filas):
+        (tmp_path / nombre).write_text(
+            "".join(json.dumps(f, ensure_ascii=False) + "\n" for f in filas), "utf-8")
+
+    jsonl("products.jsonl", [
+        {"id": "marca:encuarentena", "canonical_model": "VIVO-1",
+         "estado": "activo", "candidate": True},
+        {"id": "marca:viejo", "canonical_model": "VIEJO-1", "estado": "redirect",
+         "redirect_to": "marca:encuarentena"},
+    ])
+    for f in ("aliases.jsonl", "umbrellas.jsonl", "homonyms.jsonl",
+              "relations.jsonl", "docrel.jsonl"):
+        jsonl(f, [])
+    jsonl("doc_map.jsonl", [{"document_id": "d1", "source_file": "MANUAL-VIEJO",
+                             "entries": [{"id": "marca:viejo", "role": "primary",
+                                          "scope": "doc"}]}])
+    monkeypatch.setattr(catalogo, "CATALOG_DIR", tmp_path)
+    catalogo.indice.cache_clear()
+    try:
+        assert catalogo.resumen()["docs_huerfanos"] == 1
+    finally:
+        catalogo.indice.cache_clear()
+
+
+def test_el_buscador_no_sale_pre_relleno_con_un_guion(entorno):
+    """EL fallo que encontró Alberto: `/catalogo` servía
+    `<input ... value="—">` con el texto vacío, así que el primer «Aplicar»
+    buscaba «—» y devolvía 0 modelos mientras la línea de sugerencias decía 72.
+
+    Causa: `render.esc` pinta `''` como raya —convención de PRESENTACIÓN, buena
+    en una celda— y esa raya dentro de `value="…"` deja de ser adorno y pasa a
+    ser DATO. Se arregla con `render.atributo`, que escapa igual pero deja el
+    vacío vacío."""
+    import re
+
+    texto = Cliente(_sesion_valida()).get("/catalogo").texto
+    campo = re.search(r'<input type="search"[^>]*>', texto)
+    assert campo, "no se encontró el buscador"
+    assert 'value=""' in campo.group(0), (
+        f"el buscador sale pre-relleno: {campo.group(0)}")
+    assert "—" not in campo.group(0)
+
+
+def test_ningun_select_manda_un_guion_como_valor():
+    """La misma clase, en TODOS los desplegables del panel: la opción «todas»
+    llevaba `value="—"`. Los filtros de lista cerrada lo sobrevivían por
+    accidente (valor inválido → defecto), pero es dato equivocado viajando."""
+    from dashboard.app import _opciones_select
+
+    html = _opciones_select([("", "todas"), ("notifier", "notifier")], "")
+    assert '<option value="" selected>todas</option>' in html
+    assert 'value="—"' not in html
+
+
+def test_buscar_y_sugerencias_no_pueden_contradecirse_con_el_texto_vacio():
+    """Con el texto vacío, la lista y las sugerencias miran la MISMA población,
+    así que no pueden contradecirse: o las dos tienen algo o las dos están
+    vacías. Es exactamente lo que se veía roto (72 sugeridos, 0 resultados).
+
+    NO se exige igualdad numérica: las sugerencias deduplican por nombre
+    canónico (1.709 productos → 1.448 nombres únicos), que es lo correcto —
+    ofrecer el mismo texto dos veces en un desplegable no ayuda a nadie."""
+    for estado in ("consumibles", "candidates", "todos"):
+        for docs in ("todos", "sin", "con"):
+            f = catalogo.Filtros(marca=None, estado=estado, docs=docs, q="",
+                                 categoria=None)
+            _, total = catalogo.buscar(f)
+            sug = catalogo.sugerencias(f)
+            assert bool(sug) == bool(total), (
+                f"estado={estado} docs={docs}: {total} resultados pero "
+                f"{len(sug)} sugerencias — la página se contradice")
+            assert len(sug) <= min(total, catalogo.TOPE_SUGERENCIAS)
+
+
+def test_render_distingue_lo_que_se_lee_de_lo_que_se_envia():
+    """El contrato de los dos helpers, fijado: `esc` es para lo que se LEE
+    (vacío → raya), `atributo` para lo que se ENVÍA (vacío → vacío). Los dos
+    escapan igual de fuerte."""
+    from dashboard import render
+
+    assert render.esc("") == "—" and render.esc(None) == "—"
+    assert render.atributo("") == "" and render.atributo(None) == ""
+    assert render.atributo('a"b<c') == render.esc('a"b<c')

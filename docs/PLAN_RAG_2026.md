@@ -29,6 +29,38 @@
 ## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (los 5 lotes MERGED+FLIP ON; s335 con verificación prod parcial), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
+**s334b — Alberto no dio por buenos los 193 y tenía razón: la cifra real era 134, y el camino a ≤10 está BLOQUEADO por dos reglas mías.** (a) Mi contador de huérfanos **no seguía los `redirect`** y el resolver sí (`catalog_resolver.py:187`): 59 de los 193 nunca estuvieron perdidos. Wiki corregida a `cat._consumable` + 2 tests con control negativo. (b) Descarté los `unresolved:` por «adjudicación» cuando **promover no exige asignar fabricante** (el detector no usa el namespace). Con eso hay un lote MEDIDO que baja **134 → 18** (dry-run PASS, 0 gold perdidas, 7 ganancias, 0 pérdidas de modelo en 156 consultas) — **NO APLICADO**: el dúo r43 lo tumbó con 10 hallazgos / 10 verificados / 0 FP, y dos son reglas de esta misma sesión: **R21** («resolver H o G es adjudicación, nunca mecánica») contra los 25 redirects, y el trigger de **TECH_DEBT #99** («higiene de alias ANTES del siguiente lote grande» con >20 activados; éste activa 85 hasta en su versión más conservadora). Además: las 43 `doc_map_altas` eran atestaciones NO leídas, y las «7 ganancias» gold son en buena parte ensanche producido por el propio lote (Fable: el instrumento lo modifica el lever que valida). **Secuencia para ≤10**: higiene de alias → leer los 43 docs → 3 fusiones Morley↔Notifier (6 manuales) + 25 redirects, ambos de Alberto. 5 son irreducibles (digit-only y `EEV(2)`: el detector los excluye a propósito).
+
+**s334 (DEC-271) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
+Alberto con su reencuadre («la unidad es el MANUAL, no el candidate»). Dos lotes firmados de
+`products_confirmar` **aplicados** por el gate de s324: **81 productos** salen de la cuarentena
+(601 → 520; consumibles 1.024 → **1.105**) y **52 manuales** dejan de ser inalcanzables por nombre
+de modelo. Dry-run PASS en los dos, 0 gold perdidas, 0 disparos en 36 negativos; ganan
+`fidegas:cs4` (el fallo documentado del FOCO 1) y `notifier:nfs-supra` **+9 fuentes**.
+**El método es lo que hay que retener: «el token está en el texto» NO es criterio de promoción.**
+601 → 245 huérfanos → 157 pares clase A → 118 ids → 110 → **89 verificados con el resolver** →
+**81 tras el dúo** → 52 manuales. Guardas nuevas mecánicas y agnósticas de marca (**H** homónimo
+abierto · **G** gemelo · **N** no detectable · **G4** desbloqueo verificado). Dúo r42 (Sol+Fable):
+**11 hallazgos, 11 verificados, 0 FP**, y dos tumbaron lote — «clase A» no prueba producto-hood
+(`notifier:eia-485` **es el bus RS-485**) y **promover puede ESTRECHAR** (`8100E FAAST` 14 fuentes
+→ 1; los TG pierden sus 4 manuales genéricos) = mecanismo hp009/DEC-091b, ahora **cableado como
+veredicto `DESBLOQUEA_PERO_ESTRECHA`**. Tapado además un hueco del gate: medía `allowed_sources`
+(sólo añade) y no `models` (resta bajo `replace`) → `scripts/s334_huerfanos_seam1.py`, 0 pérdidas
+en 156 consultas. Residuo a Alberto: 5 rebrands Morley↔Notifier↔Sensitron, 4 gemelos, 8 retirados
+por el dúo (`docs/DECISIONES_PENDIENTES_ALBERTO.md`).
+
+**s332 (DEC-264) — los dos GO de la mañana, ejecutados y medidos el mismo día**: tabla ASR con
+modo/case/cita por fila (bqide→Kidde reescrito con AVISO; ID↔Kidde solo-aviso case-sensitive —
+ID3000 es familia real de Notifier; el «id» español no dispara) + primitiva `Asuncion`
+generalizable con render DETERMINISTA en bot (confirmación 🏷/ℹ️ + sufijo citando la pregunta
+base) + red F1 `brand_correction_rebuild` («me refería a Kidde» reconstruye la pregunta anterior;
+`state_query_override` evita que la meta-frase sea base) + sección `asunciones` tri-estado en
+trace. Dúo 13/13-0FP mató el oráculo-de-plan (v2 §9 = adjudicación); gates GC0 7/7 (off=hoy) ·
+GC1 7/7 (la mañana re-jugada: contenido Kidde real donde había plantilla vacía) · GC3 4/4 ·
+MT 52/52 off/on. **SHIP LISTO: Railway `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on` (flip de
+Alberto) → verificación DEC-099 por VOZ** (guía: `evals/s332_gc_resultado_v1.md`). Proceso:
+advisor/executor en paralelo sobre worktree compartido (E1 cazó de raíz un ciclo de imports).
+
 **s332→s335 (DEC-264/265/268/269/270) — el día entero de conversaciones reales, pagado por capas.**
 CUATRO capas vivas, cada una con su población: (1) tabla ASR observada (bqide/kide/itide→Kidde;
 ID↔Kidde aviso case-sensitive); (2) plantilla determinista F1 (cue gobernado, rebuild de la BASE,
@@ -49,6 +81,7 @@ Kidde.») + la anafórica del guion — la conversación post-flip NO ejercitó 
 (2) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
 si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (3) re-verificación DEC-099 por voz;
 (4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars).
+
 
 **s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
 **las 56 filas vivas** del v3. Su pasada se midió antes de interpretarse

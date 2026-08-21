@@ -234,11 +234,22 @@ def indice() -> Indice:
     modelos.sort(key=lambda m: (m.marca, norm_token(m.canonico)))
     categorias = tuple(sorted({m.categoria for m in modelos if m.categoria}))
 
-    consumibles = {m.id for m in modelos if _clase(m) == "consumibles"}
+    # HUÉRFANO = ningún id de su fila del `doc_map` es consumible **PARA EL
+    # RESOLVER**. La definición NO se reimplementa aquí: se usa `cat._consumable`,
+    # que es la que el bot ejecuta en runtime, y que SIGUE LOS REDIRECTS
+    # (`catalog_store.py:101`, «fix dúo s90»).
+    #
+    # EL FALLO QUE ESTO CIERRA (s334b, lo destapó Alberto al no dar por buenos los
+    # 193): la versión anterior preguntaba `i in consumibles`, y un id `redirect`
+    # se clasifica como «redirects», no como «consumibles» — así que 59
+    # documentos salían como huérfanos cuando el resolver SIEMPRE los alcanzó por
+    # el destino del redirect (`catalog_resolver.py:187` hace `follow_redirect`
+    # ANTES de indexar el doc). Contar con una definición propia en vez de con la
+    # del consumidor es la forma silenciosa de inventarse un problema.
     huerfanos: dict[str, int] = {}
     for fila in cat.doc_map:
         ids = [str(e.get("id", "")) for e in fila.get("entries", [])]
-        if ids and not any(i in consumibles for i in ids):
+        if ids and not any(cat._consumable(i) for i in ids):
             huerfanos[str(fila.get("source_file") or "")] = len(ids)
 
     return Indice(
@@ -387,14 +398,32 @@ def ficha(pid: str) -> Ficha | None:
     )
 
 
-def estado_de_documentos(ids: tuple[str, ...]) -> dict[str, str]:
-    """`document_id` → `status`, para los documentos de UNA ficha. Es la única
-    lectura remota de esta página y es deliberadamente pequeña (los docs de un
-    modelo, no la tabla): saber si un manual sigue activo es dato vivo.
+#: Orden en que los manuales le sirven a un técnico. Lo pidió Alberto (21-ago):
+#: «que los superseded aparezcan los últimos de la lista, no los primeros». Se
+#: generaliza al resto de estados con el mismo criterio —lo vigente primero, lo
+#: reemplazado al final— porque un `retired` no es más útil que un `superseded`.
+#: Un estado desconocido queda EN MEDIO a propósito: no sabemos que esté muerto,
+#: así que no se entierra.
+_ORDEN_ESTADO = {"active": 0, "needs_review": 1, "": 2,
+                 "superseded": 3, "retired": 4}
 
-    FAIL-OPEN a `{}` — sin el estado la ficha se pinta igual, sólo que sin la
-    marca de «retirado». Un panel que se cae porque Supabase tarda sería peor
-    que un panel que enseña el catálogo sin adornos."""
+
+def orden_de_manual(estado: str) -> int:
+    """Rango de un `documents.status` para ordenar los manuales de una ficha."""
+    return _ORDEN_ESTADO.get(estado, 2)
+
+
+def estado_de_documentos(ids: tuple[str, ...]) -> dict[str, tuple[str, str]]:
+    """`document_id` → `(status, source_url)`, para los documentos de UNA ficha.
+    Es la única lectura remota de esta página y es deliberadamente pequeña (los
+    docs de un modelo, no la tabla): saber si un manual sigue activo, y poder
+    abrirlo, es dato vivo que el catálogo del repo no tiene.
+
+    FAIL-OPEN a `{}` — sin esto la ficha se pinta igual, sólo que sin la marca
+    de «retirado» y sin enlaces. Un panel que se cae porque Supabase tarda sería
+    peor que un panel que enseña el catálogo sin adornos. Y `source_url` puede
+    venir vacía para un documento concreto (876 de 1.000 la tienen): ese manual
+    se pinta como texto, no como un enlace roto."""
     ids = tuple(i for i in ids if i)
     if not ids:
         return {}
@@ -403,11 +432,13 @@ def estado_de_documentos(ids: tuple[str, ...]) -> dict[str, str]:
     # romper la sintaxis del filtro (misma cautela que `explorador.parametros`).
     lista = ",".join('"%s"' % i.replace("\\", "\\\\").replace('"', '\\"')
                      for i in ids[:100])
-    res = datos.leer("documents", {"select": "id,status", "id": f"in.({lista})",
-                                   "limit": "100"})
+    res = datos.leer("documents", {"select": "id,status,source_url",
+                                   "id": f"in.({lista})", "limit": "100"})
     if res.estado != datos.OK:
         return {}
-    return {str(f.get("id")): str(f.get("status") or "") for f in res.filas}
+    return {str(f.get("id")): (str(f.get("status") or ""),
+                               str(f.get("source_url") or ""))
+            for f in res.filas}
 
 
 def resumen() -> dict:

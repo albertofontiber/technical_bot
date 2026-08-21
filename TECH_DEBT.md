@@ -3708,3 +3708,122 @@ lanza en el caso que te preocupa** no es un guardarraíl, es un comentario. Y el
 probaba una ficción, daba verde, y por eso el fallo llegó a producción. El test se reescribió para
 simular el fallo REAL (directorio vacío) y se comprobó con control negativo que se pone rojo sin el
 arreglo.
+
+---
+
+## 99. La promoción de un candidate ENCIENDE sus alias en el detector, y nadie los ha adjudicado (s334)
+
+**Qué pasa.** Quitar `candidate` a un producto no sólo mete su canónico en el detector: mete
+también **todos sus alias**, que ya estaban en `aliases.jsonl` sin revisar. En los dos lotes de
+s334 se activaron 70 alias, y entre ellos hay basura que no identifica ningún producto:
+
+- `MU 591 m 2024 a` (`detnov:pad-20`) — **código de edición del documento**. Retirado en el lote.
+- `Versión de Unipoint con entrada 4-20 mA` (`zareba:2306b1000`), `La central AM-200`,
+  `Programa Fuera Linea Version 2.1`, `Securnet v1.00b36`, `TG-6000 VER 3.2`,
+  `TGNOTIFIER VERSION 3.2` — frases descriptivas y **cadenas de versión**.
+- `FAAST LT 5.5m 304 Series` colgando de `notifier:nxfi-copt22` — atribución dudosa.
+
+**Por qué no se arregló ya.** Retirar alias tiene su propio radio de explosión y su propia
+adjudicación: `Versión de Unipoint con entrada 4-20 mA` **discrimina** el 2306B1000 del
+2306B2000 y un técnico podría escribir justo eso. En el lote s334 se retiró sólo lo
+indefendible (un código de edición) para no convertir un lote de promoción en una limpieza de
+alias sin medir.
+
+**Por qué importa.** El censo del gate lista `alias_activados` con `entra_en_detector`, así que
+el dato está delante — pero **no es criterio de STOP**. Un alias basura que entra al detector es
+un término más que puede disparar en prosa, con el agravante de que nadie lo eligió: llegó de
+rebote al promover otra cosa.
+
+**Trigger.** Cuando (a) un lote de promoción active >20 alias de golpe, o (b) el censo de tráfico
+real muestre una detección nueva causada por un alias y no por un canónico. Entonces: pasada de
+higiene sobre `aliases.jsonl` con reglas mecánicas (códigos de edición, cadenas de versión,
+frases con artículo) + gate propio, **antes** del siguiente lote grande.
+
+---
+
+### PASADA HECHA (s334c, 21-ago) — y el resultado INVIERTE el orden que este trigger prescribía
+
+Censo completo de los **1.175** alias que la puerta de `catalog_resolver._add` deja entrar, midiendo
+para cada uno en cuántos `source_file` aparece **con frontera de palabra** (que es como lo busca el
+detector) y en cuántos fabricantes. Recibo: `evals/s334c_higiene_alias_v1.json`.
+
+**La primera versión de la regla marcó 82 y se pasaba de frenada en dos clases enteras** —el mismo
+error que las guardas G1–G6 nombran, esta vez en mi instrumento de higiene:
+
+- **56 de los 82 eran alias PURAMENTE NUMÉRICOS** (`020-579`, `55347200`, `7251`). Los marcaba «sin
+  token con forma de modelo» y **ninguno entra hoy al detector**: `_add` descarta los digit-only a
+  propósito. Retirar lo que no puede disparar es ruido, y destruye números de parte legítimos.
+- **El nº de fabricantes marcaba CROSS-REFERENCES como si fueran categorías.** `AFP400` sale en
+  documentos de Morley, Notifier y Xtralis porque las centrales de una marca se citan en los
+  manuales de otra. Lo mismo `AM2000`, `8100E`, `TG-ID3000`.
+
+Regla corregida (**82 → 18**): se retira sólo lo que es una DESCRIPCIÓN —varias palabras, ninguna
+con forma de modelo, ninguna propia— **y puede llegar al detector**. Dispersión y nº de marcas se
+miden y publican como corroboración, no como gatillo.
+
+**Y entonces R20 mordió: de esos 18, 13 son la ÚNICA vía por la que el detector alcanza su
+producto.** Retirarlos haría desaparecer el producto — lo contrario del objetivo. Se parten en dos
+por motivos distintos:
+
+- **8 porque su producto está EN CUARENTENA** (`1 Relay Module` → `unresolved:mad-412`,
+  `2 Zones Module` → `unresolved:mad-442`, `Expansion card with 4 supervised siren outputs` →
+  `unresolved:tsd-100`). Su canónico (`MAD-412`…) no entra en el detector **porque es candidate**;
+  en cuanto se promueva, el alias descriptivo sobra y se puede retirar.
+- **5 porque su canónico es DIGIT-ONLY** (`kac:2001` canónico `2001`, `kac:2004`, `kac:2061`,
+  `kac:2072`, `kac:2101`). El detector nunca podrá verlo, así que `Model 2001` es su vía
+  **permanente**. Estos no se retiran jamás.
+
+**Consecuencia para el orden**: la higiene **no puede ir del todo antes** del lote de huérfanos,
+como asumió el dúo r43 — 8 de los alias «basura» sólo dejan de ser necesarios DESPUÉS de promover
+sus productos. El orden correcto es **promover → retirar lo que queda redundante**.
+
+**Aplicado**: 5 alias retirados (`Serie 4000`, `Series 01/02/11`, `modelo 6424`), todos con su
+producto alcanzable por otra vía. Detector 1891 → 1886 (+0/−5), 0 gold perdidas, dry-run PASS.
+Recibo: `evals/s334c_higiene_alias_aplicar_20260821T162547Z.json`.
+
+**Lo que sigue abierto**: los 8 portadores en cuarentena, que se resuelven con el lote de huérfanos;
+y la atribución equivocada que destapó Fable —`1 Relay Module` y `2 Relay Module` apuntando LAS DOS
+a `unresolved:mad-412` existiendo `mad-422`, y `Single/Double Input Unit` LAS DOS a
+`unresolved:mad-402`— que **no se arregla retirando** (son la única vía) sino adjudicando cuál es
+cuál con el catálogo de Detnov delante.
+
+**Descubierto por**: Fable 5, dúo r42 (`evals/adversarial_review_log.jsonl` ts=2026-08-21T14:13:43).
+
+---
+
+## 100. La corrida periódica del clasificador NO puede correr en producción: falta el extra `[job-queue]` (s334)
+
+**Qué pasa.** El Explorador enseñaba **«(sin clasificar)» en todas** las preguntas nuevas
+(pantallazo de Alberto, 21-ago). No era el panel: la categoría y las marcas las escribe un
+barrido batch (`schedule_clasificacion`, `src/bot/telegram_bot.py:3060`) que **nunca se
+programa**, porque:
+
+1. `CLASIFICADOR_PREGUNTAS` tiene default `off` (`src/flags.py:109`); y
+2. aunque se encendiera, `requirements.txt:20` pide `python-telegram-bot>=20.0` **sin el extra
+   `[job-queue]`**, así que `app.job_queue` es `None`, el seam degrada a un `logger.warning` y
+   no registra nada. Verificado en este entorno: `apscheduler` no está instalado.
+
+**La frontera es limpia y está medida**: todas las filas hasta `2026-08-18T21:43` tienen
+categoría; **todas desde `2026-08-20T09:05` no la tenían**. Las 109 clasificadas venían del
+**backfill manual** (`python -m scripts.clasificar_preguntas`), no del barrido.
+
+**Qué se hizo ahora.** Backfill manual de las 22 pendientes (22 escritas, 0 fallos de LLM,
+$0,03 — recibo en `evals/s334_clasificacion_backfill_v1.json`). El Explorador vuelve a enseñar
+categoría y marcas en las 131 filas. **Es un parche: la próxima pregunta vuelve a entrar sin
+clasificar.**
+
+**El mismo fallo afecta a otro job.** `_s331_presence_refresh_job` (refresco de presencia cada
+720 s, `telegram_bot.py:3211`) tiene el mismo guard y el mismo destino: con `job_queue` a `None`
+la presencia sólo se refresca por retrieval, y el código lo declara como degradación.
+
+**Por qué no se arregló aquí.** Añadir el extra cambia la imagen de producción y **enciende
+también el refresco de presencia**, que hoy no corre — un cambio de conducta en Railway que
+nadie ha medido, dentro de un PR que iba de manuales huérfanos. Es decisión de despliegue.
+
+**Trigger.** Cuando Alberto quiera la categoría al día sin acordarse del backfill. Entonces:
+`python-telegram-bot[job-queue]>=20.0` en `requirements.txt` + `CLASIFICADOR_PREGUNTAS=on` en
+Railway, midiendo antes qué hace el refresco de presencia al despertarse.
+
+**Mientras tanto**, la cadencia real de la clasificación es **cuando alguien corre el script**.
+Los datos crudos del Explorador (pregunta, canal, ruta, feedback) **sí son en vivo**: el panel
+lee PostgREST en cada petición y sirve `cache-control: no-store`.

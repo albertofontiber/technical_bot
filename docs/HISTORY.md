@@ -6889,3 +6889,127 @@ pelado) quedó censada en 3 casos y NO cableada — irá con su GO y su dúo.
 Suite 4932 verde + MT 52/52. Recibos: `evals/s335_gate_resultado_v1.md`,
 `s335_gate_result_v3.json`, `s335_gb_result_v1.json`. DEC-270. Pendiente al cierre: merge
 #333 + flip + verificación por voz con los puntos de Whisper.
+
+---
+
+## s334 (21 ago 2026) — «¿puedes atacarlo de forma autónoma?»: 52 manuales rescatados, y las tres veces que el número que yo daba no era el número que había
+
+Alberto reencuadró el problema y el reencuadre era el trabajo: «sobre los 535 —aunque lo mejor
+creo que es enfocarlo desde el punto de vista de *manuales huérfanos*— ¿puedes atacarlo de forma
+autónoma?». Un candidate en cuarentena no le importa a nadie. Un **manual que no puede servir a
+nadie** sí: es un PDF pagado, ingerido, troceado y embebido que el bot no alcanza cuando el
+técnico pregunta por su modelo. Había 245.
+
+Empecé con 157 filas de «clase A» —token nombrado, marca resuelta, cita verificada con frontera
+de palabra en su propio documento— y la sensación de tener el trabajo hecho. Lo que pasó después
+fue que **cada vez que medí en vez de razonar, el número bajó**:
+
+- 157 no eran ids: eran **pares `(id × manual)`**. Ids distintos: **118**. Yo había escrito 149 en
+  la sesión anterior contando pares y llamándolos ids.
+- De los 110 que quedaban tras apartar riesgos declarados, la verificación con el resolver real
+  dejó **89**. Los 21 que se cayeron no eran ruido: eran tres fallos con nombre que **no se ven
+  desde el texto del documento**. Homónimos abiertos (`morley:sp-200` y `notifier:sp-200`
+  comparten token y su fila está `candidate:true/fail-open`, así que promover deja el término EN
+  el detector y el manual FUERA). Gemelos (`ID-3000` ya resuelve a `notifier:id3000`; `TG-1020`
+  resuelve a **`desico:tg-1020`**, que ni siquiera es la misma marca). Y no-detectables (`00051`
+  es digit-only y el detector los excluye a propósito; `EEV(2)` lleva paréntesis).
+- Y de los 89, el dúo tumbó **8 más**.
+
+**Lo que encontró el dúo r42 es lo mejor de la sesión.** Once hallazgos, once verificados contra
+el código y los recibos, cero falsos positivos.
+
+Sol atacó la raíz: **«clase A» no prueba que la fila sea un producto.** Prueba que el token está
+en el texto, y ya. `notifier:eia-485` estaba en mi lote con 71 menciones en su manual — porque
+**EIA-485 es el bus RS-485** y el manual explica cómo cablearlo. Promoverlo habría convertido
+cualquier consulta de bus, de cualquier fabricante, en una consulta sobre un documento de
+Notifier. Yo había escrito en la propuesta, con todas las letras, «ninguna fila entra porque
+parece un modelo». Era falso.
+
+Fable encontró la otra mitad, y es la que más me costó ver: **promover puede ESTRECHAR.** Mi
+instrumento preguntaba «¿llega su manual?» y nunca «¿se pierde alguna otra fuente?». Al medirlo:
+`8100E FAAST` pasaba de 14 fuentes a 1 y de 14 modelos a 2; `TG-6000`, `TG-6000 Net` y
+`TG-NOTIFIER` perdían el paraguas `TG` y con él **los 4 manuales genéricos del TG**, que son
+justo los que responden las consultas TG. Es el mecanismo hp009/DEC-091b, el mismo que hizo
+regresar a LEVER2, reapareciendo por una puerta que yo no estaba mirando. Uno de los cinco,
+`M710-CZ`, tenía saldo positivo (−2 fuentes, +4) y me tentó dejarlo dentro; lo saqué porque la
+regla que aplico a `TG-6000` no puede tener excepciones según me convenga el saldo.
+
+Ese veredicto ahora **está cableado en el instrumento** (`DESBLOQUEA_PERO_ESTRECHA`, con el peor
+caso mandando sobre el mejor), así que la próxima tanda lo caza sin que nadie tenga que acordarse.
+
+Por el camino apareció un hueco del gate que llevaba ahí desde s324: su censo mide
+`allowed_sources` —que sólo **añade**, porque la unión es protectora— y **no mide `models`**, que
+**resta** bajo la política de producción (`replace`). O sea que el gate no podía ver la clase de
+regresión que más nos ha costado históricamente. Nace `s334_huerfanos_seam1.py`: 0 pérdidas de
+modelo en 156 consultas, los dos lotes.
+
+**Resultado aplicado:** huérfanos 245 → **193**, cuarentena 601 → **520**, consumibles 1.024 →
+**1.105**. Y dos ganancias que no son estadística: la gold de `CS4` —el fallo que `HISTORY.md`
+documentaba como «CS4 es candidate → ni uno ni otro la reconoce»— y la de la resistencia de fin
+de línea del **NFS Supra**, que gana **9 fuentes**.
+
+**El patrón que se repite y que ya tiene nombre** (G1–G5, escritas la sesión anterior): valido el
+número y no la definición del número. Tres veces en dos sesiones, siempre sesgado hacia mi propia
+conclusión, siempre cazado por otro. La diferencia esta vez es que el instrumento se quedó
+arreglado, no sólo la cifra.
+
+**Nota de proceso:** commiteé entre la ejecución de Sol y la de Fable, y el emparejamiento
+automático falló porque el manifiesto derivado del snapshot dejó de coincidir. Las semillas eran
+las mismas y las dos reviews están guardadas y adjudicadas — falta el sello, no el revisor. No
+volver a commitear entre Sol y Fable.
+
+---
+
+## s334b (21 ago 2026) — «193 no me parece correcto»: dos errores míos, un lote que baja a 18, y las dos reglas que escribí por la mañana parándome por la tarde
+
+Alberto no dio por buenos los 193 huérfanos y me dijo que atacara hasta dejar 10. La primera cosa
+que encontré al volver a mirar fue que **59 de esos 193 nunca fueron huérfanos**: mi contador
+preguntaba `id in consumibles` con la clasificación de la Wiki, donde un `redirect` cae en su propia
+clase, mientras el resolver hace `follow_redirect` **antes** de indexar el documento. Reimplementé
+la definición en vez de usar la del consumidor y me inventé 59 problemas. La cifra real era **134**.
+
+La segunda fue peor de argumentar: había apartado 181 `unresolved:` diciendo que asignarles
+fabricante era adjudicación. Es cierto, y no viene al caso — **promover no exige asignarlo**. El
+detector se construye con el `canonical_model` y el índice con su `norm_token`: el namespace no
+interviene en ningún sitio. Descarté por prior lo que un instrumento sabía medir.
+
+Con las dos cosas corregidas construí un lote que baja de **134 a 18**, con tres mecanismos nuevos
+y cada uno verificado antes de entrar. El que más me gustó: el veredicto
+`DESBLOQUEA_PERO_ESTRECHA` que Fable me había obligado a cablear en r42 **no era un muro, era una
+señal de que al plan le faltaba su acompañamiento** — añadiendo al `doc_map` del producto, como
+`secondary`, las fuentes que la promoción le quitaría, el caso peor (`notifier:tg-6000`) pasa de
+«4 fuentes → 1» a «4 → 5». Y el validador del catálogo, al tumbar mi primera versión con 13
+«canonical_model DUPLICADO», resultó estar señalando el hallazgo: varios `unresolved:X` son
+duplicados de un `<marca>:X` que ya existe, y ahí la operación buena no es promover, es
+**redirigir** — se alcanza el manual sin meter un solo término nuevo en el detector.
+
+Hubo también un acierto de método del que me alegro: los 25 términos de riesgo los medí contando en
+cuántos documentos aparecen. Con `ilike *X*` salían cuatro palabras. Pero el detector usa **frontera
+de palabra**, y con frontera `ITAC` cae de 270 documentos a **11** —casaba dentro de
+«capaci**tac**ión»— y `NAS` de 231 a **11**. Dos productos legítimos que habría tirado por medir con
+un operador distinto del que usa el consumidor. Sobrevivieron sólo `VIEW` (331) e `INDICATOR` (260),
+que sí son palabras inglesas.
+
+**Y entonces el dúo me paró.** Diez hallazgos, diez verificados, cero falsos positivos — y dos de
+ellos son **reglas que yo mismo escribí esta misma sesión**: R21 dice literalmente «resolver H o G
+es ADJUDICACIÓN, nunca mecánica», y mis 25 redirects resolvían gemelos mecánicamente; el trigger de
+`TECH_DEBT #99` dice «higiene de alias antes del siguiente lote grande» cuando uno active más de 20,
+y éste activa decenas — el subconjunto más conservador que supe construir todavía activa 85.
+
+Los otros dos críticos son de la misma familia y duelen más. Las 43 altas de `doc_map` escribían «el
+manual menciona el producto y sirve como fuente» **sin que yo hubiera leído los 43 documentos**:
+inferido de que el paraguas los traía. Y Fable señaló que las «7 ganancias» en gold que yo presentaba
+como prueba eran en buena parte **ensanche producido por el propio lote** — una pregunta sobre la
+capacidad de batería de la AM-8200 «ganaba» el manual de un gateway. El instrumento de validación lo
+estaba modificando el cambio que valida.
+
+Así que **NO-GO**, y creo que es la parte útil de la sesión. Lo que entrego es la corrección de la
+definición (con test y control negativo) y un camino ordenado a ≤10 con el prerrequisito nombrado:
+higiene de alias primero, leer los 43 documentos después, y dos decisiones de Alberto —las 3
+fusiones Morley↔Notifier, que desbloquean 6 manuales de golpe, y los 25 redirects, que R21 dice que
+firma él—. Quedan 5 irreducibles: referencias puramente numéricas y un `EEV(2)`, que el detector
+excluye a propósito.
+
+Bajar el número aflojando la evidencia es exactamente lo que esas reglas existen para impedir. Que
+me hayan parado a mí, el mismo día que las escribí, es la mejor prueba de que sirven.
+

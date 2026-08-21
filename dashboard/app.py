@@ -51,7 +51,7 @@ from src.bot import access
 
 from . import (auth, catalogo, cerrojo, datos, errores, explorador, gestion,
                render, sesion)
-from .render import Seguro, esc
+from .render import Seguro, atributo, esc
 
 #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
 #: existe para que nadie ocupe memoria mandando un POST de 2 GB.
@@ -735,7 +735,7 @@ def _opciones_select(pares, elegido: str) -> str:
     """`[(valor, texto)]` → `<option>`s, con el elegido marcado. Estaba escrito
     dos veces (Explorador y Catálogo) y es exactamente el mismo HTML."""
     return "".join(
-        f'<option value="{esc(valor)}"'
+        f'<option value="{atributo(valor)}"'
         + (" selected" if valor == elegido else "")
         + f">{esc(texto)}</option>"
         for valor, texto in pares
@@ -838,7 +838,7 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
                 '<form method="get" action="/catalogo">'
                 f'<label>Texto<input type="search" name="q" list="modelos"'
                 f' autocomplete="off" maxlength="{catalogo._Q_MAX}"'
-                f' value="{esc(filtros.q)}" placeholder="escribe CAD, minilaser…">'
+                f' value="{atributo(filtros.q)}" placeholder="escribe CAD, minilaser…">'
                 f"</label>{datalist}"
                 f'<label>Categoría<select name="categoria">{categoria}</select></label>'
                 f'<label>Fabricante<select name="marca">{marca}</select></label>'
@@ -909,13 +909,28 @@ def pagina_catalogo_ficha(peticion: Peticion) -> Respuesta:
 
     def _doc(d) -> list:
         fuente, rol, did = d
-        est = estados.get(did, "")
-        return [esc(fuente), esc(rol),
+        est, url = estados.get(did, ("", ""))
+        # El nombre del manual es un ENLACE cuando Supabase tiene su `source_url`
+        # (pedido de Alberto, 21-ago). `target="_blank"` con `rel="noopener
+        # noreferrer"`: la pestaña nueva no puede tocar la del panel ni recibir
+        # el referer. Sin url se pinta como texto — un enlace roto sería peor que
+        # no ofrecerlo, y el pie de la tarjeta dice por qué puede faltar.
+        nombre = (Seguro(f'<a href="{render.atributo(url)}" target="_blank" '
+                         f'rel="noopener noreferrer">{esc(fuente)}</a>')
+                  if url.startswith(("http://", "https://")) else esc(fuente))
+        return [nombre, esc(rol),
                 esc(est or "—") if est == "active" else
                 Seguro(f"<strong>{esc(est or '?')}</strong>")]
 
+    # Lo vigente primero y lo reemplazado al final (Alberto: «que los superseded
+    # aparezcan los últimos»). `sorted` es ESTABLE, así que dentro de cada estado
+    # se conserva el orden del `doc_map` — no se inventa un criterio secundario.
+    docs_ordenados = sorted(
+        f.documentos,
+        key=lambda d: catalogo.orden_de_manual(estados.get(d[2], ("", ""))[0]))
+
     documentos = render.tabla(
-        ["Manual", "Rol", "Estado"], [_doc(d) for d in f.documentos],
+        ["Manual", "Rol", "Estado"], [_doc(d) for d in docs_ordenados],
         vacio="Este modelo no tiene ningún manual asociado: el bot lo conoce "
               "pero no tiene con qué responder sobre él.",
         cards=True,
@@ -938,8 +953,11 @@ def pagina_catalogo_ficha(peticion: Peticion) -> Respuesta:
                        pregunta="`primary` = el manual reclama el modelo como "
                                 "sujeto. `secondary` = lo menciona y sirve como "
                                 "fuente, sin reclamarlo.",
-                       pie="El estado sale de Supabase; si no se pudo leer, la "
-                           "columna queda en «?»."),
+                       pie="El estado y el enlace salen de Supabase; si no se "
+                           "pudo leer, la columna queda en «?» y los nombres no "
+                           "enlazan. Lo vigente va primero y lo reemplazado "
+                           "(`superseded`, `retired`) al final. Un manual sin "
+                           "enlace es uno al que no le consta la URL de origen."),
         render.tarjeta("Relaciones", relaciones),
     ]
     return _pagina(peticion, m.canonico, tarjetas, ruta="/catalogo")

@@ -1,0 +1,513 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260821T143405Z",
+ "plan_sha": "a4007c785dd87c94",
+ "freeze": {
+  "catalog_shas": {
+   "products": "54fe205454767648",
+   "aliases": "69b56a8baac494b1",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "28cd85a0345b48c7"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 27,
+  "retiradas": 0,
+  "aliases_quitados": 1,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1759,
+  "terminos_despues": 1792,
+  "entran": 33,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "2306B1000",
+    "normkey": "2306b1000",
+    "core": "2306[-\\s/.+]*b[-\\s/.+]*1000",
+    "origen": "confirmar zareba:2306b1000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "2306B2000",
+    "normkey": "2306b2000",
+    "core": "2306[-\\s/.+]*b[-\\s/.+]*2000",
+    "origen": "confirmar zareba:2306b2000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AgileIQ",
+    "normkey": "agileiq",
+    "core": "agileiq",
+    "origen": "confirmar systemsensor:agileiq",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4",
+    "normkey": "cs4",
+    "core": "cs[-\\s/.+]*4",
+    "origen": "confirmar fidegas:cs4",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CS4 V1.1",
+    "normkey": "cs4v1.1",
+    "core": "cs[-\\s/.+]*4[-\\s/.+]*v[-\\s/.+]*1[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Honeywell SmartConfig App",
+    "normkey": "honeywellsmartconfigapp",
+    "core": "honeywell[-\\s/.+]*smartconfig[-\\s/.+]*app",
+    "origen": "confirmar xtralis:honeywell-smartconfig-app",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICAM IAS",
+    "normkey": "icamias",
+    "core": "icam[-\\s/.+]*ias",
+    "origen": "confirmar xtralis:icam-ias",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICAM IAS-1",
+    "normkey": "icamias1",
+    "core": "icam[-\\s/.+]*ias[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICAM IFT",
+    "normkey": "icamift",
+    "core": "icam[-\\s/.+]*ift",
+    "origen": "confirmar xtralis:icam-ift",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICAM IFT-15",
+    "normkey": "icamift15",
+    "core": "icam[-\\s/.+]*ift[-\\s/.+]*15",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ICAM ILS",
+    "normkey": "icamils",
+    "core": "icam[-\\s/.+]*ils",
+    "origen": "confirmar xtralis:icam-ils",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "IFT-15",
+    "normkey": "ift15",
+    "core": "ift[-\\s/.+]*15",
+    "origen": "confirmar xtralis:ift-15",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-200",
+    "normkey": "mi200",
+    "core": "mi[-\\s/.+]*200",
+    "origen": "confirmar morley:mi-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-CMO",
+    "normkey": "micmo",
+    "core": "mi[-\\s/.+]*cmo",
+    "origen": "confirmar morley:mi-cmo",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PAD-20",
+    "normkey": "pad20",
+    "core": "pad[-\\s/.+]*20",
+    "origen": "confirmar detnov:pad-20",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Ref. CS4",
+    "normkey": "ref.cs4",
+    "core": "ref[-\\s/.+]*cs[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SM21",
+    "normkey": "sm21",
+    "core": "sm[-\\s/.+]*21",
+    "origen": "confirmar sense-ware:sm21",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SW1131",
+    "normkey": "sw1131",
+    "core": "sw[-\\s/.+]*1131",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Versión de Unipoint con entrada 4-20 mA",
+    "normkey": "versiondeunipointconentrada420ma",
+    "core": "version[-\\s/.+]*de[-\\s/.+]*unipoint[-\\s/.+]*con[-\\s/.+]*entrada[-\\s/.+]*4[-\\s/.+]*20[-\\s/.+]*ma",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VESDA VLI",
+    "normkey": "vesdavli",
+    "core": "vesda[-\\s/.+]*vli",
+    "origen": "confirmar xtralis:vesda-vli",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD20EN",
+    "normkey": "wfd20en",
+    "core": "wfd[-\\s/.+]*20[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd20en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD20N",
+    "normkey": "wfd20n",
+    "core": "wfd[-\\s/.+]*20[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd20n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD25EN",
+    "normkey": "wfd25en",
+    "core": "wfd[-\\s/.+]*25[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd25en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD25N",
+    "normkey": "wfd25n",
+    "core": "wfd[-\\s/.+]*25[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd25n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD30EN",
+    "normkey": "wfd30en",
+    "core": "wfd[-\\s/.+]*30[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd30en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD30N",
+    "normkey": "wfd30n",
+    "core": "wfd[-\\s/.+]*30[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd30n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD40EN",
+    "normkey": "wfd40en",
+    "core": "wfd[-\\s/.+]*40[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd40en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD40N",
+    "normkey": "wfd40n",
+    "core": "wfd[-\\s/.+]*40[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd40n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD60EN",
+    "normkey": "wfd60en",
+    "core": "wfd[-\\s/.+]*60[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd60en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD60N",
+    "normkey": "wfd60n",
+    "core": "wfd[-\\s/.+]*60[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd60n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD80EN",
+    "normkey": "wfd80en",
+    "core": "wfd[-\\s/.+]*80[-\\s/.+]*en",
+    "origen": "confirmar systemsensor:wfd80en",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WFD80N",
+    "normkey": "wfd80n",
+    "core": "wfd[-\\s/.+]*80[-\\s/.+]*n",
+    "origen": "confirmar systemsensor:wfd80n",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "WinHost",
+    "normkey": "winhost",
+    "core": "winhost",
+    "origen": "confirmar spectrex:winhost",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "3244",
+    "id": "fidegas:cs4",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "3270",
+    "id": "fidegas:cs4",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ACTION REMOTE INDICATOR",
+    "id": "detnov:pad-20",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Agile IQ",
+    "id": "systemsensor:agileiq",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AgilelQ",
+    "id": "systemsensor:agileiq",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "aplicacion Bluetooth FAAST FLEX",
+    "id": "xtralis:honeywell-smartconfig-app",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Bluetooth FAAST FLEX App",
+    "id": "xtralis:honeywell-smartconfig-app",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Controlador Unipoint",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Controlador Unipoint (versión entrada mA)",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Controlador Unipoint (versión entrada mV)",
+    "id": "zareba:2306b2000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "CS4 V1.1",
+    "id": "fidegas:cs4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ICAM IAS-1",
+    "id": "xtralis:icam-ias",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ICAM IFT-15",
+    "id": "xtralis:ift-15",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PILOTO INDICADOR DE ACCIÓN",
+    "id": "detnov:pad-20",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Ref. CS4",
+    "id": "fidegas:cs4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "serie ICAM IFT",
+    "id": "xtralis:icam-ift",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "setup_agileiq_v.XXX.exe",
+    "id": "systemsensor:agileiq",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "SharpEye WinHost",
+    "id": "spectrex:winhost",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "SW1131",
+    "id": "sense-ware:sm21",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Unipoint",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Unipoint (versión entrada mA)",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Unipoint (versión entrada mV)",
+    "id": "zareba:2306b2000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Versión de Unipoint con entrada 4-20 mA",
+    "id": "zareba:2306b1000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Versión de Unipoint con entrada mV",
+    "id": "zareba:2306b2000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?": {
+    "antes": [],
+    "despues": [
+     "cs4"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 131,
+  "trafico_real_detecciones_nuevas": {
+   "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4?": [
+    "cs4"
+   ]
+  },
+  "avisos_muy_corto": [
+   "CS4"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?": {
+    "allowed_sources_nuevas": [
+     "Manual-de-Usuario-CS4"
+    ],
+    "ids_nuevos": [
+     "fidegas:cs4"
+    ],
+    "detected": [
+     "cs4"
+    ]
+   }
+  },
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}
