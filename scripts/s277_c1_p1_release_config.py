@@ -183,6 +183,9 @@ ALLOWED_SAFE_VALUES = {
     # s334 §2/§3: fuzzy acotado al slot de marca + estado-en-atajos (R8).
     "F1_CORRECCION_FUZZY": frozenset({"on", "off"}),
     "F1_ESTADO_ATAJOS": frozenset({"on", "off"}),
+    # s335 (DEC-270): gramática v2 del atajo de inventario (tolerancia terminal
+    # de Whisper + desiderativas/imperativas ES+EN con cola censada).
+    "INVENTARIO_FRASEOS": frozenset({"on", "off"}),
     # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
     # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
     "HTTP_RETRIES": frozenset({"on", "off"}),
