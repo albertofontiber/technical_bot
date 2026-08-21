@@ -51,7 +51,7 @@ from src.bot import access
 
 from . import (auth, catalogo, cerrojo, datos, errores, explorador, gestion,
                render, sesion)
-from .render import Seguro, esc
+from .render import Seguro, atributo, esc
 
 #: Tope del cuerpo de una petición. Los formularios del panel pesan bytes; esto
 #: existe para que nadie ocupe memoria mandando un POST de 2 GB.
@@ -735,7 +735,7 @@ def _opciones_select(pares, elegido: str) -> str:
     """`[(valor, texto)]` → `<option>`s, con el elegido marcado. Estaba escrito
     dos veces (Explorador y Catálogo) y es exactamente el mismo HTML."""
     return "".join(
-        f'<option value="{esc(valor)}"'
+        f'<option value="{atributo(valor)}"'
         + (" selected" if valor == elegido else "")
         + f">{esc(texto)}</option>"
         for valor, texto in pares
@@ -838,7 +838,7 @@ def pagina_catalogo(peticion: Peticion) -> Respuesta:
                 '<form method="get" action="/catalogo">'
                 f'<label>Texto<input type="search" name="q" list="modelos"'
                 f' autocomplete="off" maxlength="{catalogo._Q_MAX}"'
-                f' value="{esc(filtros.q)}" placeholder="escribe CAD, minilaser…">'
+                f' value="{atributo(filtros.q)}" placeholder="escribe CAD, minilaser…">'
                 f"</label>{datalist}"
                 f'<label>Categoría<select name="categoria">{categoria}</select></label>'
                 f'<label>Fabricante<select name="marca">{marca}</select></label>'

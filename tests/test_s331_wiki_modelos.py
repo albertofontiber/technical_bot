@@ -366,3 +366,67 @@ def test_el_autocompletado_no_mete_javascript():
     bloque = fuente[i:j]
     for prohibido in ("<script", "oninput", "onkeyup", "onchange", "javascript:"):
         assert prohibido not in bloque
+
+
+# ---------------------------------- 6. el guión largo en un atributo (s334)
+
+
+def test_el_buscador_no_sale_pre_relleno_con_un_guion(entorno):
+    """EL fallo que encontró Alberto: `/catalogo` servía
+    `<input ... value="—">` con el texto vacío, así que el primer «Aplicar»
+    buscaba «—» y devolvía 0 modelos mientras la línea de sugerencias decía 72.
+
+    Causa: `render.esc` pinta `''` como raya —convención de PRESENTACIÓN, buena
+    en una celda— y esa raya dentro de `value="…"` deja de ser adorno y pasa a
+    ser DATO. Se arregla con `render.atributo`, que escapa igual pero deja el
+    vacío vacío."""
+    import re
+
+    texto = Cliente(_sesion_valida()).get("/catalogo").texto
+    campo = re.search(r'<input type="search"[^>]*>', texto)
+    assert campo, "no se encontró el buscador"
+    assert 'value=""' in campo.group(0), (
+        f"el buscador sale pre-relleno: {campo.group(0)}")
+    assert "—" not in campo.group(0)
+
+
+def test_ningun_select_manda_un_guion_como_valor():
+    """La misma clase, en TODOS los desplegables del panel: la opción «todas»
+    llevaba `value="—"`. Los filtros de lista cerrada lo sobrevivían por
+    accidente (valor inválido → defecto), pero es dato equivocado viajando."""
+    from dashboard.app import _opciones_select
+
+    html = _opciones_select([("", "todas"), ("notifier", "notifier")], "")
+    assert '<option value="" selected>todas</option>' in html
+    assert 'value="—"' not in html
+
+
+def test_buscar_y_sugerencias_no_pueden_contradecirse_con_el_texto_vacio():
+    """Con el texto vacío, la lista y las sugerencias miran la MISMA población,
+    así que no pueden contradecirse: o las dos tienen algo o las dos están
+    vacías. Es exactamente lo que se veía roto (72 sugeridos, 0 resultados).
+
+    NO se exige igualdad numérica: las sugerencias deduplican por nombre
+    canónico (1.709 productos → 1.448 nombres únicos), que es lo correcto —
+    ofrecer el mismo texto dos veces en un desplegable no ayuda a nadie."""
+    for estado in ("consumibles", "candidates", "todos"):
+        for docs in ("todos", "sin", "con"):
+            f = catalogo.Filtros(marca=None, estado=estado, docs=docs, q="",
+                                 categoria=None)
+            _, total = catalogo.buscar(f)
+            sug = catalogo.sugerencias(f)
+            assert bool(sug) == bool(total), (
+                f"estado={estado} docs={docs}: {total} resultados pero "
+                f"{len(sug)} sugerencias — la página se contradice")
+            assert len(sug) <= min(total, catalogo.TOPE_SUGERENCIAS)
+
+
+def test_render_distingue_lo_que_se_lee_de_lo_que_se_envia():
+    """El contrato de los dos helpers, fijado: `esc` es para lo que se LEE
+    (vacío → raya), `atributo` para lo que se ENVÍA (vacío → vacío). Los dos
+    escapan igual de fuerte."""
+    from dashboard import render
+
+    assert render.esc("") == "—" and render.esc(None) == "—"
+    assert render.atributo("") == "" and render.atributo(None) == ""
+    assert render.atributo('a"b<c') == render.esc('a"b<c')

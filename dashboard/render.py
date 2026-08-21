@@ -42,6 +42,24 @@ def esc(valor: object) -> str:
     return html.escape(str(valor), quote=True)
 
 
+def atributo(valor: object) -> str:
+    """Como `esc`, pero para el VALOR DE UN ATRIBUTO: el vacío se queda vacío.
+
+    POR QUÉ EXISTE (s334, fallo real que encontró Alberto en `/catalogo`): `esc`
+    pinta `None` y `''` como raya —convención de PRESENTACIÓN, correcta en una
+    celda de tabla— y esa misma raya, metida en `value="…"`, deja de ser un
+    adorno y pasa a ser DATO. El buscador de la Wiki salía con un guión largo
+    dentro, así que el primer «Aplicar» buscaba «—» y devolvía 0 modelos
+    mientras la línea de sugerencias decía 72. Y no era sólo ahí: la opción
+    «todas» de TODOS los desplegables del panel emitía `value="—"`; los filtros
+    de lista cerrada lo sobrevivían por accidente (valor inválido → defecto),
+    el texto libre no.
+
+    La distinción que este helper nombra: `esc` es para lo que se LEE, `atributo`
+    para lo que se ENVÍA. Escapa igual de fuerte (`quote=True`)."""
+    return "" if valor is None else html.escape(str(valor), quote=True)
+
+
 def _pintar(valor: object) -> str:
     return str(valor) if isinstance(valor, Seguro) else esc(valor)
 
