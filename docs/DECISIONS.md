@@ -9852,3 +9852,32 @@ ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (
 - **Relacionado**: DEC-233 (la clase ASR y la disciplina de la tabla) · DEC-257/258/263
   (s331, el canal turn_identity que esto extiende) · DEC-210/211 (graduación) · Sol-3/R8
   (asimetría de estado en atajos).
+
+## DEC-265 (s332b, 21 ago 2026) — La primera conversación real cazó la invitación sin receptor: «sí, dije Kidde» caía en vacío; el léxico crece por observación y la plantilla gana cabeza de polaridad
+
+- **Fecha**: 21 ago 2026, mediodía. **Impacto**: MEDIO (conducta del lever recién flipado).
+  Flip de Alberto ~10:33Z (2 vars, deploy `5951b64`); primera prueba real 10:40Z.
+- **Lo observado** (`322b4e0a`/`57b8d482`): T1 por voz — Whisper volvió a convertir
+  «Kidde»→«ID» (3ª vez hoy) y el nivel-aviso hizo EXACTAMENTE lo diseñado (respuesta ID
+  intacta + ℹ️ «Si dictaste Kidde, dímelo» + `asunciones` estampada en trace, primera fila
+  en producción). T2 — Alberto respondió a ESA invitación: «sí, dije Kidde» → plantilla
+  vacía. La red no disparó: sin cue «decir»-en-pasado y sin tolerancia al «sí, » inicial.
+  Es la clase R1 DECLARADA en v2 §7 (léxico infra-cubre; crece por observación) — el
+  primer día de tráfico la ejercitó. Meta-lección: la invitación de un aviso DEFINE las
+  respuestas que hay que saber recibir; se diseñó la invitación sin diseñar su receptor.
+- **Decide (1) — léxico**: + `dije` · `he dicho` · `i said`, con cita 57b8d482 en el
+  header (disciplina DEC-233: solo lo observado).
+- **Decide (2) — cabeza de polaridad en la plantilla**: un token del léxico GOBERNADO de
+  confirmación puede preceder al cue — afirmación con separador libre; negación SOLO con
+  corte de cláusula `[,:]` (fuente `_NEGATION_CUES`, la polaridad s331): «no, dije Kidde»
+  corrige; «no dije Kidde» y «no me refería a Kidde» siguen sin casar (casos congelados
+  verdes). El «no» pelado NO entra al léxico compartido (cambiaría la regla 3 del pending).
+- **Verificado**: 5 tests nuevos del caso y sus polaridades (29/29 + pending intacto);
+  replay e2e del hilo exacto ⇒ `brand_correction_rebuild` + respuesta de centrales Kidde
+  sin plantilla ni cross-brand; suite completa verde (exit real en el commit).
+- **Declarado sin construir**: el «sí» PELADO tras el aviso (sin marca) sigue sin receptor
+  — exigiría estado pendiente-de-aviso (patrón pending aplicado al aviso ASR); se diseña
+  con mini-gate si el tráfico lo observa. **Pendiente**: re-verificación DEC-099 por voz
+  (Alberto repite la conversación) → estampará este lever como VERIFICADO.
+- **Relacionado**: DEC-264 (el lote) · DEC-233 (disciplina de observación) · recibo
+  `evals/s332b_fix_invitacion_v1.md`.
