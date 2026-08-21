@@ -26,12 +26,12 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (21 ago 2026 — DOS hilos: correcciones/asunciones VISIBLES listas para ship, y el packet E1 CERRADO con su aprendizaje convertido en reglas)
+## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (4 lotes shipped+verificados, el 5º con gates verdes y PR pendiente), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
 **s334b — Alberto no dio por buenos los 193 y tenía razón: la cifra real era 134, y el camino a ≤10 está BLOQUEADO por dos reglas mías.** (a) Mi contador de huérfanos **no seguía los `redirect`** y el resolver sí (`catalog_resolver.py:187`): 59 de los 193 nunca estuvieron perdidos. Wiki corregida a `cat._consumable` + 2 tests con control negativo. (b) Descarté los `unresolved:` por «adjudicación» cuando **promover no exige asignar fabricante** (el detector no usa el namespace). Con eso hay un lote MEDIDO que baja **134 → 18** (dry-run PASS, 0 gold perdidas, 7 ganancias, 0 pérdidas de modelo en 156 consultas) — **NO APLICADO**: el dúo r43 lo tumbó con 10 hallazgos / 10 verificados / 0 FP, y dos son reglas de esta misma sesión: **R21** («resolver H o G es adjudicación, nunca mecánica») contra los 25 redirects, y el trigger de **TECH_DEBT #99** («higiene de alias ANTES del siguiente lote grande» con >20 activados; éste activa 85 hasta en su versión más conservadora). Además: las 43 `doc_map_altas` eran atestaciones NO leídas, y las «7 ganancias» gold son en buena parte ensanche producido por el propio lote (Fable: el instrumento lo modifica el lever que valida). **Secuencia para ≤10**: higiene de alias → leer los 43 docs → 3 fusiones Morley↔Notifier (6 manuales) + 25 redirects, ambos de Alberto. 5 son irreducibles (digit-only y `EEV(2)`: el detector los excluye a propósito).
 
-**s334 (DEC-270) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
+**s334 (DEC-271) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
 Alberto con su reencuadre («la unidad es el MANUAL, no el candidate»). Dos lotes firmados de
 `products_confirmar` **aplicados** por el gate de s324: **81 productos** salen de la cuarentena
 (601 → 520; consumibles 1.024 → **1.105**) y **52 manuales** dejan de ser inalcanzables por nombre
@@ -60,6 +60,26 @@ GC1 7/7 (la mañana re-jugada: contenido Kidde real donde había plantilla vací
 MT 52/52 off/on. **SHIP LISTO: Railway `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on` (flip de
 Alberto) → verificación DEC-099 por VOZ** (guía: `evals/s332_gc_resultado_v1.md`). Proceso:
 advisor/executor en paralelo sobre worktree compartido (E1 cazó de raíz un ciclo de imports).
+
+**s332→s335 (DEC-264/265/268/269/270) — el día entero de conversaciones reales, pagado por capas.**
+CUATRO capas vivas, cada una con su población: (1) tabla ASR observada (bqide/kide/itide→Kidde;
+ID↔Kidde aviso case-sensitive); (2) plantilla determinista F1 (cue gobernado, rebuild de la BASE,
+polaridad, «de» preposicional); (3) fuzzy d1 acotado al slot de corrección (guard-test en CI);
+(4) clasificador Sonnet 4.6 solo en el miss (frontera del owner «¿se sostiene solo?» + regla
+ANAFÓRICA v3). R8: los 5 atajos escriben estado. **s332/s332b/s333/s334: SHIPPED + FLIP ON +
+VERIFICADOS en producción** (KIDE→Serie NC 14:17Z; clasificador real `correccion`/1261ms +
+Morley-IAS e2e). **s335 (hoy tarde): BUILD COMPLETO con gates verdes, PR #333 pendiente de
+merge/flip** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
+Whisper + desiderativas/imperativas ES+EN con frontera censada; GB1 verde, 6 negativos técnicos)
+y pieza B prompt v3 + cohorte v3 **GO 15/15 con fila OBLIGATORIA p15 3/3 y 0 falsas** (la regla
+fila-obligatoria queda como regla de gate generalizable) + GB2 e2e con clasificador real
+(1576 ms) y RAG Morley sin cross-brand; cruce `_SWITCH_FRASE` MEDIDO; limitación lista-parcial
+DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo**: (1) merge
+#333 + flip `INVENTARIO_FRASEOS=on` (Alberto) → verificación por VOZ con los puntos de Whisper
+(la conversación de la tarde entera); (2) re-verificación DEC-099 por voz con fraseo NO tabulado;
+(3) pieza C («sí» pelado) CENSADA en 3 casos — espera su GO con dúo propio; (4) graduación de
+flags DEC-210/211 (van 10 vars de s331→s335 — el siguiente movimiento estructural).
+
 
 **s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
 **las 56 filas vivas** del v3. Su pasada se midió antes de interpretarse
@@ -164,7 +184,7 @@ causa de que una VM no la recibiera sigue abierta.
    (`evals/s331_dec099_verificacion_prod_v1.md`). Rollback = quitar las 4 vars. Residuales
    post-flip se observan con tráfico; graduación de las 4 flags cuando asienten (DEC-210/211);
    **packet Alberto**: paraguas «2X-A» diferido.
-0c. **s332+s333 correcciones/asunciones visibles + clasificador de corrección — s332 FLIP ON; s333 GO en gate, flip `F1_CORRECCION_LLM=on` tras merge #329; re-verificación por voz pendiente (fraseo NO tabulado)** (DEC-264/265/268/269 — s334: fuzzy+R8 GO en gates, flip de 2 vars pendiente tras merge #331; los
+0c. **s332+s333 correcciones/asunciones visibles + clasificador de corrección — s332 FLIP ON; s333 GO en gate, flip `F1_CORRECCION_LLM=on` tras merge #329; re-verificación por voz pendiente (fraseo NO tabulado)** (DEC-264/265/268/269 — s334: fuzzy+R8 VERIFICADOS en prod 14:17Z; quedan 2 GO nuevos — «sí»-pelado (1ª observación) y fraseos de inventario del atajo; los
    dos GO de la mañana ya EJECUTADOS y con gates PASS): **Railway worker = 2 vars**:
    `ASR_AVISOS=on` + `F1_MARCA_CORRECCION=on`. **Tras el flip: verificación DEC-099 por VOZ**
    — dictar «¿Qué centrales Kidde tienes?» (si el ASR rompe la marca, la confirmación lleva el

@@ -6854,6 +6854,42 @@ centrales Morley-IAS — la conversación de la tarde, reparada de raíz y con r
 los tests del fuzzy descubrieron que la plantilla s332 no toleraba el «de» preposicional del
 fraseo real de Alberto. Suite 4900 en verde. DEC-269.
 
+## s335 (21 ago 2026, tarde) — La anafórica entra al prompt (con fila obligatoria) y el atajo aprende los fraseos del técnico
+
+La tarde dejó dos cabos del mismo hilo de la conversación real `fabef50b`: «Quiero ver las
+centrales de Morley.» moría con plantilla vacía (el punto que Whisper añade rompía el ancla
+`\??$` del atajo — un hueco que afectaba HASTA a las formas interrogativas existentes dichas
+por voz, porque la voz alcanza el plan desde s324h), y «Y ahora quiero ver las de Morley.»
+era `nuevo` para el clasificador (correcto bajo el prompt v2 — la anáfora no estaba en el
+criterio). Alberto adjudicó la segunda como CORRECCION («es una corrección i.e. "dime qué
+centrales de Morley tienes"») y dio GO a los fraseos.
+
+El dúo (Sol 6 + Fable 7 = 13/13 con sustancia, 0 FP) mató la v1 por dos críticos gemelos:
+relabel-sin-prompt no cambia conducta (la analogía con v2.1 era FALSA — allí el gold se alineó
+con el modelo; aquí el modelo dijo `nuevo` en producción), y la barra agregada podía dar GO
+nominal con el caso motivador en rojo. El rediseño honesto: prompt v3 con la regla anafórica
+explícita, cohorte v3 re-congelada ENTERA (DEC-126) y **fila OBLIGATORIA que debe pasar su
+propia mayoría K** — regla de gate nueva y generalizable. Resultado: **GO 15/15, p15 3/3,
+0 falsas/22** — y las negativas con sustantivo propio («ahora quiero ver detectores Notifier»)
+siguen `nuevo`: la regla discrimina exactamente anáfora vs petición completa.
+
+La pieza A (`INVENTARIO_FRASEOS`, default off) es la gramática v2 del atajo: tolerancia
+terminal gateada + desiderativas/imperativas ES+EN con la frontera de Sol-4 (ancla terminal,
+cola SOLO de filtros censados — «quiero saber qué centrales Morley tienen salida de relé»
+sigue al RAG). El flag entra al plan como dato (`Meta`, patrón MISMATCH_ANSWER) y
+`marca_destino` comparte el predicado: UNA definición de intención de inventario. GB1/GB2
+21/21: el e2e completo (atajo→R8→clasificador real 1576 ms→RAG Morley-IAS sin cross-brand)
+quedó medido, incluido el cruce `_SWITCH_FRASE` que Fable-3 exigió no presumir: con modelos
+bindeados la guardia INVALIDA y mata la población del clasificador ANTES de resolve; la
+población real del cue anafórico son los estados con `models=()` — exactamente los que R8
+crea. Limitación DECLARADA (Sol-1): el rebuild sirve por RAG = lista potencialmente parcial
+(clase s307); el listado gobernado es la pieza A con la petición entera. La pieza C («sí»
+pelado) quedó censada en 3 casos y NO cableada — irá con su GO y su dúo.
+
+Suite 4932 verde + MT 52/52. Recibos: `evals/s335_gate_resultado_v1.md`,
+`s335_gate_result_v3.json`, `s335_gb_result_v1.json`. DEC-270. Pendiente al cierre: merge
+#333 + flip + verificación por voz con los puntos de Whisper.
+
 ---
 
 ## s334 (21 ago 2026) — «¿puedes atacarlo de forma autónoma?»: 52 manuales rescatados, y las tres veces que el número que yo daba no era el número que había
@@ -6976,3 +7012,4 @@ excluye a propósito.
 
 Bajar el número aflojando la evidencia es exactamente lo que esas reglas existen para impedir. Que
 me hayan parado a mí, el mismo día que las escribí, es la mejor prueba de que sirven.
+

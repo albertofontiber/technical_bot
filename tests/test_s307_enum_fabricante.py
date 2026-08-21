@@ -241,7 +241,10 @@ def test_dec059_intacto_el_fallthrough_de_modelo_no_se_toca():
     fuente = inspect.getsource(turn_plan)
     # el inventario se sirve únicamente en la rama SIN modelo: su llamada aparece
     # DESPUÉS del fall-through de misma-marca de la rama con-modelo
-    idx_enum = fuente.index("_intencion_inventario(texto, mencionada)")
+    # (s335) el call-site ganó el arg del flag INVENTARIO_FRASEOS — misma rama,
+    # mismo invariante; el ancla sigue al call-site.
+    idx_enum = fuente.index(
+        "_intencion_inventario(texto, mencionada, meta.inventario_fraseos)")
     # ancla UNICA (Fable r-build, m4: "misma marca" a secas ligaba al docstring del
     # predicado, no al fall-through de la rama con-modelo, y el assert era vacuo)
     idx_rama_con_modelo = fuente.index("misma marca → sigue la cascada")

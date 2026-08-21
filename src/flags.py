@@ -346,6 +346,17 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/bot/telegram_bot.py',),
     },
+    # s335 (DEC-270) — gramática v2 del atajo de inventario: tolerancia a la
+    # puntuación terminal (Whisper cierra con «.» y el ancla `\??$` rompía las
+    # formas interrogativas dichas por voz) + desiderativas/imperativas ES+EN con
+    # frontera de cola censada. Entra al planificador como dato
+    # (`Meta.inventario_fraseos`) — `plan_turn` es PURA y no lee entorno. OFF
+    # (default) = byte-idéntico; el flip lo decide Alberto tras el smoke.
+    "INVENTARIO_FRASEOS": {
+        "default_fuente": '"off"',
+        "via": ['getenv'],
+        "lectores": ('src/flags.py',),
+    },
     "IDENTITY_FETCH": {
         "default_fuente": '""',
         "via": ['getenv'],
@@ -702,6 +713,23 @@ def mismatch_answer_activo() -> bool:
     if raw == "off":
         return False
     raise RuntimeError(f"MISMATCH_ANSWER={raw!r} no reconocido (on|off) — fail-fast")
+
+
+def inventario_fraseos_activo() -> bool:
+    """Lever INVENTARIO_FRASEOS (s335, DEC-270): gramática v2 del atajo de
+    inventario — tolerancia a la puntuación terminal (Whisper cierra la
+    transcripción con «.») + formas desiderativas/imperativas ES+EN con cola
+    censada. MISMO contrato que `mismatch_answer_activo`: se lee en RUNTIME (un
+    flip en Railway togglea sin restart), entra al plan por `Meta` (el plan es
+    puro), parser ESTRICTO que revienta RUIDOSO ante un typo, y el default "off"
+    hace que la ausencia de la variable sea la conducta de hoy byte a byte."""
+    raw = os.getenv("INVENTARIO_FRASEOS", "off").strip().lower()
+    if raw == "on":
+        return True
+    if raw == "off":
+        return False
+    raise RuntimeError(
+        f"INVENTARIO_FRASEOS={raw!r} no reconocido (on|off) — fail-fast")
 
 
 def snapshot() -> dict[str, str]:
