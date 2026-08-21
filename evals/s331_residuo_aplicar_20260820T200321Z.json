@@ -1,0 +1,406 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260820T200321Z",
+ "plan_sha": "dd0dd193ab52763f",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "d1561ba7d51aa44f",
+   "aliases": "8fea56e9bd00c3be",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "d1be949caf423213"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "4df2f1dee93f8e03"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 2,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1744,
+  "entran": 0,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "notifier:nfs-2-8": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MADT015_01"
+    ]
+   },
+   "notifier:vsn-4rel": {
+    "fuentes_antes": 7,
+    "fuentes_despues": 8,
+    "ganadas": [
+     "HLSI-TI-007_VSN-4REL"
+    ]
+   }
+  },
+  "findability_retags": [
+   {
+    "doc": "MADT015_01",
+    "pm_nuevo": "NFS 2-8",
+    "modo": "modelo_independiente",
+    "entries_primarias": [
+     "notifier:nfs-2-8"
+    ],
+    "casan": [
+     "notifier:nfs-2-8"
+    ],
+    "aportadas_por_este_plan": [
+     "notifier:nfs-2-8"
+    ],
+    "autosatisfecha_por_el_plan": true,
+    "pm_resuelve_en_catalogo_previo": true,
+    "ok": true,
+    "declarado": "la entry que satisface el gate la añade ESTE plan; el gate se apoya en que el pm nuevo ya resolvía en el catálogo previo (evidencia independiente del plan)"
+   },
+   {
+    "doc": "MNDT600",
+    "pm_nuevo": "unknown",
+    "modo": "na_unknown",
+    "entries_primarias": [],
+    "casan": [],
+    "ok": true,
+    "declarado": "pm 'unknown' a propósito: doc sin producto citable, no lleva doc_map (clase §0.E MANTENER-unknown) → la findability por modelo NO aplica"
+   },
+   {
+    "doc": "MNDT701",
+    "pm_nuevo": "unknown",
+    "modo": "na_unknown",
+    "entries_primarias": [],
+    "casan": [],
+    "ok": true,
+    "declarado": "pm 'unknown' a propósito: doc sin producto citable, no lleva doc_map (clase §0.E MANTENER-unknown) → la findability por modelo NO aplica"
+   },
+   {
+    "doc": "HLSI-TI-007_VSN-4REL",
+    "pm_nuevo": "VSN-4REL",
+    "modo": "modelo_independiente",
+    "entries_primarias": [
+     "notifier:vsn-4rel"
+    ],
+    "casan": [
+     "notifier:vsn-4rel"
+    ],
+    "aportadas_por_este_plan": [
+     "notifier:vsn-4rel"
+    ],
+    "autosatisfecha_por_el_plan": true,
+    "pm_resuelve_en_catalogo_previo": true,
+    "ok": true,
+    "declarado": "la entry que satisface el gate la añade ESTE plan; el gate se apoya en que el pm nuevo ya resolvía en el catálogo previo (evidencia independiente del plan)"
+   }
+  ],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [
+   {
+    "doc": "MADT015_01",
+    "chunks": 18,
+    "documents": 1
+   },
+   {
+    "doc": "MNDT600",
+    "chunks": 16,
+    "documents": 1
+   },
+   {
+    "doc": "MNDT701",
+    "chunks": 6,
+    "documents": 1
+   },
+   {
+    "doc": "HLSI-TI-007_VSN-4REL",
+    "chunks": 2,
+    "documents": 1
+   }
+  ],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [
+   {
+    "source_file": "MADT015_01",
+    "document_id": "38f10bdb-1047-450f-b020-279f921b5e19",
+    "pm_prev": "MADT-015",
+    "pm_nuevo": "NFS 2-8",
+    "documents_pm_actual": "MADT-015",
+    "chunks_censados": 18,
+    "findability": "modelo_independiente",
+    "motivo": "artefacto CODIGO_DE_DOCUMENTO; identidad probada por la hermana MADT015_03 («Anexo al manual de instalación de la central NFS 2-8, ref.: MI-DT-015») + árbol de configuración Nivel 3 idéntico; hipótesis FS descartada AL PÍXEL contra FS2-1.pdf (dúo r38 F1: las FS-1/2/4 no tienen condensador EFL, ni entradas digitales configurables, ni retardos, y llegan a 4 zonas; la guía muestra 8 zonas y todo lo anterior)",
+    "chunks_doc": 18,
+    "chunks_pm_prev": 18,
+    "documents_status": "active"
+   },
+   {
+    "source_file": "MNDT600",
+    "document_id": "f7916fe4-6416-4c34-95d7-8587416c1da6",
+    "pm_prev": "MNDT-600",
+    "pm_nuevo": "unknown",
+    "documents_pm_actual": "MNDT-600",
+    "chunks_censados": 16,
+    "findability": "na_unknown",
+    "motivo": "doc genérico (notas de calibración/mantenimiento/instalación de detectores de GAS) sin un solo modelo citable en el texto; clase §0.E MANTENER-unknown (como la FAQ Notifier↔Morley); el paraguas SMART 3 es decisión aparte",
+    "chunks_doc": 16,
+    "chunks_pm_prev": 16,
+    "documents_status": "active"
+   },
+   {
+    "source_file": "MNDT701",
+    "document_id": "d13de411-46dd-463a-97fe-7c9fab9c6a5a",
+    "pm_prev": "MNDT-701",
+    "pm_nuevo": "unknown",
+    "documents_pm_actual": "MNDT-701",
+    "chunks_censados": 6,
+    "findability": "na_unknown",
+    "motivo": "guía del software (sin nombre) del detector de llamas Triple IR/IR3 (SharpEye); la familia 20/20 no tiene ids aún (pende del ítem 3 «nombres con barra»: 20/20MI, 20/20R); doc_map diferido a ese lote",
+    "chunks_doc": 6,
+    "chunks_pm_prev": 6,
+    "documents_status": "active"
+   },
+   {
+    "source_file": "HLSI-TI-007_VSN-4REL",
+    "document_id": "956319e4-e914-4df0-8228-651dd34f669c",
+    "pm_prev": "TI-007",
+    "pm_nuevo": "VSN-4REL",
+    "documents_pm_actual": "VSN-4REL",
+    "solo_chunks": true,
+    "chunks_censados": 2,
+    "findability": "modelo_independiente",
+    "motivo": "la re-ingesta s324d (#87) re-introdujo el artefacto TI-007 en los pm de los 2 chunks nuevos mientras documents.pm ya era VSN-4REL; cita full-text del contenido re-ingestado: «Instalación del módulo VSN-4REL»",
+    "chunks_doc": 2,
+    "chunks_pm_prev": 2,
+    "documents_status": "active"
+   }
+  ],
+  "backup_chunks": [
+   {
+    "doc": "MADT015_01",
+    "document_id": "38f10bdb-1047-450f-b020-279f921b5e19",
+    "documents_pm_prev": "MADT-015",
+    "chunks": [
+     {
+      "id": "e67a7f5c-5caf-49b1-94ad-e8acc1e00694",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "98c04030-c688-4b86-9357-7eb41d1633f7",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "5b8a1046-8e83-4759-8b63-bb207d8b449d",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "4b5f16e8-695b-49f0-8126-f5faae1c373d",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "9fecd440-ba8e-4535-b7ae-f0bf857e6317",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "798de976-cb70-4751-b578-abcbc6db84d0",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "9718ee3e-0117-4ac7-a177-a7e2d2958dbb",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "12324f13-9e33-4dbe-93ca-e96a76735d5c",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "6bb553ce-c5eb-4e84-9641-7c934b634625",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "07306393-f15b-432c-92bb-d81d31a6cbfb",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "b0e66d92-2d81-4f55-92c9-573f0cdf41d2",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "600811eb-72bb-4dcf-a5db-f9dd909857ac",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "ddb7c5d9-56a5-47f3-b8a9-30b2051f6ea2",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "a0b06a63-c2f1-4960-bbb4-efc87219f509",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "f39b3a3c-2eea-4096-b889-b8fdc5a2c3cf",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "3ad76509-2148-4c94-a7c6-c5112636c034",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "54e0e0ea-27a4-4920-9913-38c799c9ad7f",
+      "product_model_prev": "MADT-015"
+     },
+     {
+      "id": "7bb8adaf-80f8-4d4e-b48c-5399f14176f6",
+      "product_model_prev": "MADT-015"
+     }
+    ]
+   },
+   {
+    "doc": "MNDT600",
+    "document_id": "f7916fe4-6416-4c34-95d7-8587416c1da6",
+    "documents_pm_prev": "MNDT-600",
+    "chunks": [
+     {
+      "id": "d074e08e-2cc1-4de4-8cf0-a8e7dd5628d6",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "16c14c7d-6a96-4461-ac7c-ad1a1c97cbfe",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "cb1ee462-3bb4-42b2-a3a2-010875a9204d",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "9d2f2c33-a1fc-40bb-b1be-810c98b719ae",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "05c19e90-5b75-4d82-8293-ce6b8239edc6",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "fb9276bc-4e68-43d5-802f-cb50cb71f3e8",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "3203ed18-7a8a-4308-82cd-a972265bb8d0",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "71604538-63ab-4934-bbde-59da31de2bae",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "29e31c0c-682d-4bb1-b290-8873bbc65b3b",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "aa4516dd-965f-4968-9fc8-22944eceada7",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "9a347cd1-4256-4dec-bdf2-ca99db182a14",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "1f252647-087d-4b65-bfb5-420fa6bc79aa",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "1e9eb9ef-4c41-4384-98ac-b775ff25d7ae",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "0d692cb5-aae6-4093-9a79-1d4372fab1c7",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "443dd663-44fa-46e3-bbdc-33c4ffb89216",
+      "product_model_prev": "MNDT-600"
+     },
+     {
+      "id": "a1d86599-b238-4bef-b453-ae958d7ab7f5",
+      "product_model_prev": "MNDT-600"
+     }
+    ]
+   },
+   {
+    "doc": "MNDT701",
+    "document_id": "d13de411-46dd-463a-97fe-7c9fab9c6a5a",
+    "documents_pm_prev": "MNDT-701",
+    "chunks": [
+     {
+      "id": "3ff1c2e8-ed8b-4f2d-b5e6-3eb9fadbd836",
+      "product_model_prev": "MNDT-701"
+     },
+     {
+      "id": "dc7816a6-1e1c-4dca-9654-2d066deaa791",
+      "product_model_prev": "MNDT-701"
+     },
+     {
+      "id": "88c5c2b1-02df-4ef6-8a1f-2eb92f150667",
+      "product_model_prev": "MNDT-701"
+     },
+     {
+      "id": "3b68257d-9ed3-4540-a928-b9ec01e6dcf7",
+      "product_model_prev": "MNDT-701"
+     },
+     {
+      "id": "eabe144d-e77c-4d50-bcd4-7ea5d26bc833",
+      "product_model_prev": "MNDT-701"
+     },
+     {
+      "id": "78cf1ea8-4370-4926-b884-2e46fae0cac5",
+      "product_model_prev": "MNDT-701"
+     }
+    ]
+   },
+   {
+    "doc": "HLSI-TI-007_VSN-4REL",
+    "document_id": "956319e4-e914-4df0-8228-651dd34f669c",
+    "documents_pm_prev": "VSN-4REL",
+    "chunks": [
+     {
+      "id": "883baae0-bc02-4941-b457-dd7de3e0fb9d",
+      "product_model_prev": "TI-007"
+     },
+     {
+      "id": "d53b6ff9-de91-41eb-9982-b3fc6f43cd78",
+      "product_model_prev": "TI-007"
+     }
+    ]
+   }
+  ]
+ },
+ "backup_dir": "evals/s331_residuo_backup_20260820T200321Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

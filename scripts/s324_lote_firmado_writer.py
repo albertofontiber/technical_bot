@@ -299,9 +299,18 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
                            "ganadas": sorted(set(v1["docs_by_id"].get(pid, [])) - set(v0["docs_by_id"].get(pid, [])))[:8]}
                      for pid in ids_plan}
     # (4) findability de los retags: pm_nuevo casa con ≥1 entry primaria del doc_map del doc
+    # Modos por fila (OPT-IN vía `findability`; sin la clave = comportamiento histórico):
+    #   ausente / "modelo"        → basta que case una entry primaria del catálogo DESPUÉS.
+    #   "modelo_independiente"    → si la ÚNICA entry que casa la añade este mismo plan, el gate
+    #       sería autosatisfecho (dúo r38, Fable): se exige además que el pm nuevo YA resuelva en
+    #       el catálogo ANTES del plan (producto/alias/paraguas preexistente).
+    #   "na_unknown"              → solo válido con pm_nuevo == "unknown"; se declara, no se exige.
     dm1 = {r["document_id"]: r for r in despues.doc_map}
+    ids_del_plan = {(row["document_id"], e["id"]) for row in plan["doc_map_altas"] for e in row["entries"]}
+    terminos_antes = set(t0)                     # normkeys resolubles ANTES del plan
     findability = []
     for rt in plan["retags_db"]:
+        modo = rt.get("findability", "modelo")
         row = dm1.get(rt["document_id"])
         pats = []
         for e in (row or {}).get("entries", []):
@@ -311,7 +320,27 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
                 if p:
                     pats.append((pid, re.compile(model_to_imatch_pattern(p["canonical_model"]).replace(r"\y", r"\b"), re.I)))
         casa = [pid for pid, rx in pats if rx.search(rt["pm_nuevo"])]
-        findability.append({"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "entries_primarias": [pid for pid, _ in pats], "casan": casa, "ok": bool(casa)})
+        fila = {"doc": rt["source_file"], "pm_nuevo": rt["pm_nuevo"], "modo": modo,
+                "entries_primarias": [pid for pid, _ in pats], "casan": casa}
+        if modo == "na_unknown":
+            fila["ok"] = rt["pm_nuevo"] == "unknown"
+            fila["declarado"] = ("pm 'unknown' a propósito: doc sin producto citable, no lleva doc_map "
+                                 "(clase §0.E MANTENER-unknown) → la findability por modelo NO aplica")
+            if not fila["ok"]:
+                fila["declarado"] = f"MODO INVÁLIDO: na_unknown exige pm_nuevo 'unknown', llegó {rt['pm_nuevo']!r}"
+        elif modo == "modelo_independiente":
+            aportadas = [pid for pid in casa if (rt["document_id"], pid) in ids_del_plan]
+            autosat = bool(casa) and len(aportadas) == len(casa)
+            resuelve_antes = C.normkey(rt["pm_nuevo"]) in terminos_antes
+            fila.update({"aportadas_por_este_plan": aportadas, "autosatisfecha_por_el_plan": autosat,
+                         "pm_resuelve_en_catalogo_previo": resuelve_antes,
+                         "ok": bool(casa) and (resuelve_antes if autosat else True)})
+            if autosat:
+                fila["declarado"] = ("la entry que satisface el gate la añade ESTE plan; el gate se apoya en que "
+                                     "el pm nuevo ya resolvía en el catálogo previo (evidencia independiente del plan)")
+        else:
+            fila["ok"] = bool(casa)
+        findability.append(fila)
     stop_terminos = sorted({x for v in disparos_negativos.values() for x in v["nuevos"]})
     # Términos ADJUDICADOS por Alberto explícitamente (plan.adjudicados_por_alberto_para_el_gate):
     # un disparo en un negativo SINTÉTICO (escrito por el autor) se declara como aviso, no como STOP.
@@ -332,7 +361,21 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
         nuevos = [x for x in b if C.normkey(x) not in {C.normkey(y) for y in a}]
         if nuevos:
             disparos_reales[q[:120]] = nuevos
-    veredicto = "PASS" if (not perdidas and not disparos_no_adjudicados and not resolver_perdidas
+    # Pérdidas de FUENTE adjudicadas (plan.perdidas_de_fuente_adjudicadas): retirar una atestación
+    # equivocada ES perder fuentes de gold a propósito, y sin este canal el gate bloquea toda limpieza
+    # de contaminación (nace s331: la FAQ de la DXc atestaba 6 productos ZX que no nombra). Simétrico a
+    # `adjudicados_por_alberto_para_el_gate` (negativos sintéticos) y con las mismas cautelas:
+    #   · exige coincidencia EXACTA de (gold, source_file) — no hay comodines;
+    #   · una fuente perdida que NO esté declarada sigue siendo STOP;
+    #   · `ids_perdidos` NUNCA se adjudica por aquí: perder un PRODUCTO es otra clase de daño.
+    adj_perdidas = {(str(a.get("gold", "")).strip(), str(a.get("source_file", "")).strip())
+                    for a in (plan.get("perdidas_de_fuente_adjudicadas") or [])}
+    resolver_perdidas_no_adj = {}
+    for q, v in resolver_perdidas.items():
+        restantes = [s for s in v["allowed_sources_perdidas"] if (q.strip(), s.strip()) not in adj_perdidas]
+        if restantes or v["ids_perdidos"]:
+            resolver_perdidas_no_adj[q] = {**v, "allowed_sources_perdidas": restantes}
+    veredicto = "PASS" if (not perdidas and not disparos_no_adjudicados and not resolver_perdidas_no_adj
                           and all(f["ok"] for f in findability)
                           and not any("palabra_comun" in r["riesgo"] for r in por_termino)) else "STOP"
     return {"terminos_antes": len(t0), "terminos_despues": len(t1), "entran": len(entran), "salen": len(salen),
@@ -344,6 +387,9 @@ def censo(antes_dir: Path, despues_dir: Path, plan: dict) -> dict:
             "trafico_real_consultas": len(reales), "trafico_real_detecciones_nuevas": disparos_reales,
             "avisos_muy_corto": [r["termino"] for r in por_termino if "muy_corto" in r["riesgo"]],
             "resolver_gold_perdidas": resolver_perdidas, "resolver_gold_ganancias": resolver_ganancias,
+            "resolver_gold_perdidas_no_adjudicadas": resolver_perdidas_no_adj,
+            "resolver_gold_perdidas_adjudicadas": {q: v for q, v in resolver_perdidas.items()
+                                                   if q not in resolver_perdidas_no_adj},
             "efecto_docmap": efecto_docmap, "findability_retags": findability,
             "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
             "veredicto": veredicto}
@@ -453,12 +499,12 @@ def main() -> int:
                   "veredicto": veredicto}
         CENSO.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"dry-run · validador PASS en copia · {stats}")
-        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos sintéticos {len(cz['disparos_en_negativos'])} (adjudicados {len(cz['disparos_sinteticos_adjudicados_por_alberto'])}) · tráfico real {cz['trafico_real_consultas']} consultas / {len(cz['trafico_real_detecciones_nuevas'])} detecciones nuevas · resolver: gold que pierden {len(cz['resolver_gold_perdidas'])}, ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
+        print(f"detector {cz['terminos_antes']}→{cz['terminos_despues']} (+{cz['entran']}/−{cz['salen']}) · gold perdidas {len(cz['gold_perdidas'])} · negativos sintéticos {len(cz['disparos_en_negativos'])} (adjudicados {len(cz['disparos_sinteticos_adjudicados_por_alberto'])}) · tráfico real {cz['trafico_real_consultas']} consultas / {len(cz['trafico_real_detecciones_nuevas'])} detecciones nuevas · resolver: gold que pierden {len(cz['resolver_gold_perdidas_no_adjudicadas'])} (+{len(cz['resolver_gold_perdidas_adjudicadas'])} adjudicadas), ganan {len(cz['resolver_gold_ganancias'])} · findability retags {[f['ok'] for f in cz['findability_retags']]} · VEREDICTO {veredicto}")
         for q, v in list(cz["trafico_real_detecciones_nuevas"].items())[:8]:
             print("   tráfico real detecta ahora:", q[:70], "→", v)
         for q, v in list(cz["resolver_gold_ganancias"].items())[:6]:
             print("   gold gana:", q[:60], "→ ids", v["ids_nuevos"][:4], "fuentes +", len(v["allowed_sources_nuevas"]))
-        for q, v in cz["resolver_gold_perdidas"].items():
+        for q, v in cz["resolver_gold_perdidas_no_adjudicadas"].items():
             print("   GOLD PIERDE (resolver):", q[:70], v)
         for q, v in cz["disparos_en_negativos"].items():
             print("   NEG DISPARA:", q, v)

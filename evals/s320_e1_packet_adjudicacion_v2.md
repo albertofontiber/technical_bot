@@ -20,19 +20,43 @@
 > Marcas fila a fila: `↳ s324:` bajo cada casilla (✅ = no decides nada · ⏳ = tuya).
 <!-- s324-estado:fin -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- s331-estado:inicio -->
+> ## 🟢 ESTADO s331 (2026-08-20 22:54Z) — el residuo de este fichero, CERRADO salvo una frase tuya
+> Encargo tuyo de hoy: «las 3 preguntas son para ti» + atacar los no-bloqueantes + ¿queda algo en §1.A?
+>
+> **Hecho y aplicado** (dúo r38 Sol+Fable ANTES de escribir; dry-run PASS: detector +0/−0 términos,
+> 0 gold perdidas, findability 4/4; recibos `s331_residuo_aplicar_20260820T200321Z.json` y `s331_retirar_docs_aplicar_20260820T200406Z.json`):
+> - **MADT015_01 → NFS 2-8** (retag + doc_map). Tu hipótesis FS se comprobó al píxel contra el manual
+>   `FS2-1` y NO cuadra (1/2/4 zonas, sin condensador EFL, sin entradas digitales ni retardos).
+> - **MNDT600 → `unknown` + doc_map a los 3 SMART confirmados** (alcance A, firmado por ti tras la
+>   medición). Tu sub-pregunta: el **SMART3 GD2 no está en el corpus**; el GD3 (`SMART3G-D3`) sí, por
+>   el doc MTEX4805.
+> - **MNDT701 → `unknown` + doc_map a la familia IR³** (alcance E). Al preguntar tú por el modelo IR3
+>   apareció que **la serie 20/20 SharpEye entera faltaba del catálogo**: 9 altas con cita de portada
+>   (`S20/20MI`, `S20/20SI`, `20/20I` = los Triple IR, + R/U/UB/L/LB/ML) y 7 documentos huérfanos
+>   enganchados. El vínculo del software es `secondary` (el manual es de 1997 y no enumera modelos).
+> - **TI-007**: retag a VSN-4REL + doc_map con cita full-text → la atestación pendiente de #87, cerrada.
+> - **§1.A: COMPLETA.** De sus 13 filas, 11 ya estaban resueltas; hoy caen las 2 últimas (la baja del
+>   fragmento FR `996-130` que firmaste, y TI-007).
+> - **VSN2-PLUS**: censado (18 grafías en ~20 docs Supra/UCIP) y DIFERIDO a la sentada E1b a propósito —
+>   es rebrand multi-marca (NFS Supra ↔ VSN-2Plus/Vision Plus2 ↔ ESS-2Plus): `evals/s331_vsn2plus_censo_v1.md`.
+> - **STRATOS**: tu OK cierra la fila (ya estaba aplicado como paraguas en s324b).
+>
+> **LO ÚNICO QUE SIGUE SIENDO TUYO en este fichero:**
+> 1. **2X-A**: una frase — «con táctiles» (38) o «sin táctiles» (27). La medida ya está hecha: 0 gold
+>    perdidas, +2 golds ganan fuentes, 0 disparos en 111 consultas reales (solo salta la sonda
+>    sintética «2 x a»). Ver la fila marcada de `aritech:2x-a`.
+> 2. **Nombres reales con barra (10)**: DOA FJ/CPD, EFS/EM 8, CONV232/485, PUL-D/EXT, PUL-P/EXT,
+>    STS/CKD+, 20/20MI, 20/20R, NX2/R/R, NX5/R/R — un «sí» y se dan de alta (y con 20/20MI + 20/20R se
+>    desbloquea la atestación de MNDT701).
+> 3. **VSN2-PLUS / «Plus2»**: no bloquea; se adjudica dentro de la sentada E1b.
+>
+> **Deuda declarada nueva**: `TECH_DEBT #97` — los retags de `product_model` NO sobreviven a una
+> re-ingesta (el pipeline re-deriva el pm del filename). Hoy no afecta al serving; el arreglo BP es que
+> `detect_document_metadata` consulte el doc_map antes de derivar.
+>
+> Marcas fila a fila: `↳ **s331:**` bajo cada casilla tocada hoy.
+<!-- s331-estado:fin -->
 **SUPERSEDE a `evals/s320_e1_packet_adjudicacion_v1.md`.**
 Aquel packet te pedía **253 casillas** una a una (§1 colisiones, §2 tier B,
 §3 candidates, §4 product_model sucio). Cuatro pasadas hermanas han refrescado cada
@@ -310,6 +334,7 @@ No son altas duplicadas: es el mismo producto atestado dos veces.
 En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 filas.
 
 - [ ] `aritech:2x-a` (2X-A) → **ALTA** · rol TITULO · doc `00-3280-507-4009-03_r003_2x-a_series_quick_installation_g…`
+      ↳ **s331:** ⏳ SIGUE SIENDO TUYA, pero ya con la MEDIDA hecha (s331, sonda `evals/s331_2xa_sonda_plan_v1.json`): crear el paraguas «2X-A» **no pierde ninguna gold** y hace GANAR 2 golds (12 fuentes cada una, entre ellas «¿El detector KE-DP3020W vale para la central 2X-A?»). Lo único que dispara es la sonda de tokens sintética «2 x a» del gate — **0 disparos en las 111 consultas reales**. Lo que necesito de ti es UNA frase: «2X-A sí, con los táctiles» (38 modelos, incluidos los 11 2X-AT) o «2X-A sí, sin táctiles» (27; los táctiles ya tienen su propio paraguas 2X-AT). Con eso lo aplico con recibo.
       ↳ **s324:** ⏳ PENDIENTE DE TI — paraguas «2X-A» (familia): el revisor señaló que tu nota adjudica el ALCANCE, no el riesgo léxico del gate («2 x a» con espacios lo dispararía; 0 casos en 96 consultas reales) ni si incluye la sub-serie táctil 2X-AT (11 de 38). ¿Lo quieres igualmente, con 2X-AT dentro?
       menciones estrictas doc 1 / global 43 en 18 docs · cita ✓ «Guía de instalación rápida de la serie 2X-A»
       ALBERTO: aplica a todos los modelos de la serie 2x-A
@@ -408,6 +433,7 @@ En el lote entero (bloque+residuo) el recibo cuenta 99 ids únicos sobre 133 fil
       ↳ **s324:** ✅ ALTA aplicada (lote §0.C, tu revisión del 16-ago) como `notifier:nfxi-bsf-wch` · cita verificada en HOP-138-9ES issue 5_11-2025_In · recibo `s324b_lote_0c_aplicar_20260816T193507Z.json`
       menciones estrictas doc 0 / global 3 en 3 docs · cita ✓ «BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estroboscópica»
 - [ ] `notifier:stratos` (STRATOS) → **ALTA** · rol TITULO · doc `MADT731_02`
+      ↳ **s331:** ✅ CONFIRMADO por ti (s331: «OK a Stratos… parece de verdad que es una familia», con el enlace de sensetek). Ya estaba aplicado en s324b como paraguas de familia (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); tu OK cierra la fila.
       ↳ **s324:** ✅ RESUELTO (tu «este doc es paraguas»): STRATOS = paraguas de familia con sus modelos ya catalogados bajo nombre Notifier (LaserStar-HSSD-2 = Stratos HSSD-2, MINILÁSER25 = Stratos Micra 25, MINILASER 100 = Stratos Micra 100); MADT731_02 → doc_map a los 3; retirados 2 alias erróneos (Stratos-HSSD→SenseNET, Stratos-HSSD detector→MiniLáser25) · recibo `s324b_stratos_aplicar_*.json`
       menciones estrictas doc 18 / global 54 en 11 docs · cita ✓ «Stratos instalado en un almacén o hipermercado»
 - [ ] `spectrex:40-40m` (40-40M) → **ALTA** · rol REFERENCIA_COMERCIAL · doc `MNDT725_40-40M`
@@ -469,6 +495,7 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
       razón: «ET-DT-314» es la referencia del documento en la cabecera; el manual trata de etiquetas del NAS-1u, no de un producto ETDT-314.
       ALBERTO: OK a retirar. retira también el documento del corpus.
 - [ ] `notifier:madt-015` (MADT-015) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MADT015_01`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → **NFS 2-8**, no la serie FS. Comparé los dos PDF: el manual `FS2-1` (que SÍ existe, con `notifier:fs-1/2/4` en catálogo — mi «no existe» de s324 era falso, lo cazó el dúo) es de centrales de **1/2/4 zonas**, con EFL solo resistivo, sin entradas digitales ni retardos; la guía MADT015_01 tiene **8 zonas**, EFL resistencia **o** condensador, 2 entradas digitales y retardos — y su árbol de configuración es idéntico al del anexo MADT015_03 («Anexo al manual de instalación de la central **NFS 2-8**, ref.: MI-DT-015»). Aplicado: retag pm + doc_map `notifier:nfs-2-8` · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — el texto no nombra el modelo; sus hermanas MADT015_02/_03 ya están mapeadas a NFS8REL/NFS2-8 ⇒ ¿NFS2-8 (no FS2)? FS2-1/2/4 no existen en catálogo
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «MA-DT-015_01_C (997-502) 27/07/04 NOTIFIER ESPAÑA»
       razón: «MADT-015» deriva del código de documento MA-DT-015 en la cabecera del manual; nunca aparece como modelo comercial.
@@ -489,11 +516,13 @@ Retirar = no darlos de alta. Es la mitad barata del sí: quita ruido del detecto
       razón: MNDT-1202 no aparece en el texto; deriva del nombre del fichero MNDT1202, un código de documento como MNDT690.
       ALBERTO: elimína el doc del corpus.
 - [ ] `notifier:mndt-600` (MNDT-600) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT600`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a los 3 SMART confirmados** (alcance **A**, que firmaste al leer la medición). ⚠️ **SUPERSEDE** a mi marca anterior de esta misma sesión («sin doc_map»): tú preguntaste por qué `unknown` y tenías razón — el doc SÍ ancla la familia en su contenido indexado (portada: «smart GASDETECTOR»/«sensitron») y las células «S1096/2096… S1097.2097…», y yo había sido más estricto aquí que con MADT015_01. El pm sigue `unknown` a propósito: no hay un modelo citado, el vínculo vive en el doc_map. **Tu sub-pregunta, con censo corpus-wide** (1.054 activos): el doc del **SMART3 GD2 NO está en el corpus** (los 6 hits de «GD2/GD3» son «P**GD-2**00», el programador Detnov); el **GD3 = `SMART3G-D3`** sí está atestado (MTEX4805 Zona 2). **Pendiente declarado**: cuando E1b promueva los 8 candidates SMART, esta fila se re-visita para no quedar sesgada a 3 · recibo `s331_lote_AE_aplicar_20260820T204701Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — texto genérico (notas de calibración de detectores de gas), sin modelos; en corpus NO hay «SMART3 GD3/GD2» con esa grafía, SÍ la familia SMART 3 (EXPLOSIVOS/TOXICOS/3G ZONA 2, MNDT646) y en catálogo SMART3G-D3 (¿= GD3?). ¿MNDT600 → familia SMART 3 (paraguas nuevo)?
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-600_A** 06 ABRIL 2011»
       razón: «MNDT-600» deriva del código de manual MN-DT-600_A; es un documento genérico de notas de mantenimiento, no un modelo.
       ALBERTO: aplica a los detectores de gas smart (sensitron). viendo la portada del doc, parece que uno de los modelos es el Smart3 GD3, y el otro "SMART3 GD2", utilizado para Butano. ¿puedes revisar en el corpus si tenemos el documento?
 - [ ] `notifier:mndt-701` (MNDT-701) → **RETIRAR** · ARTEFACTO_EXTRACCION / CODIGO_DE_DOCUMENTO · doc `MNDT701.pdf`
+      ↳ **s331:** ✅ RESUELTO (delegado por ti, s331) → pm **`unknown`** + **doc_map a la familia IR³** (alcance **E**). ⚠️ **SUPERSEDE** a mi marca anterior («doc_map diferido»): preguntaste si no tenía sentido asociarlo al modelo IR3 y lo tenía — el censo destapó que **la serie 20/20 SharpEye entera faltaba en el catálogo** (8 docs activos, 0 productos), así que se dieron de alta los 9 modelos con cita de portada. Los Triple IR (IR³) son tres: `S20/20MI`, `S20/20SI` y `20/20I`. **El vínculo del software es `secondary`, no `primary`**, por el dúo r39: el manual no enumera modelos («hasta 64 detectores IR3») y es de **1997**, anterior a los tres manuales (1999-2011) — así el doc se sirve al preguntar por esos detectores sin afirmar compatibilidad individual · recibo `s331_lote_AE_aplicar_20260820T204701Z.json`
       ↳ **s324:** ⏳ PENDIENTE — «Software del detector de llamas Triple IR — SPECTRONIX (sharpEye)»: el software no tiene nombre en el texto y la familia SharpEye 20/20 (IR3) no está en catálogo → sin atestar hasta que exista el id
       estrictas 0 · mayúsculas 0 · como fragmento 0 · cita ✓ «**MN-DT-701**<br/>**13 OCTUBRE 1997**<br/>**Versión 1.0**»
       razón: MNDT-701 no aparece verbatim; deriva de MN-DT-701, referencia del manual (como MA-DT-015), no un modelo de producto.
@@ -584,6 +613,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 0
       **por qué NO entra en bloque**: confianza media; cita no verificada full-text; la cita verifica pero NO nombra al sujeto: la entrada se apoyaría sólo en la ficha del documento, no en su contenido
 - [ ] `996-130-000-3 manuel d'utilisation zx_hlsi` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ BAJA APLICADA (tu «baja del corpus» de este packet) · `status=retired`, chunks intactos (reversible)
       ↳ **s324:** ⏳ PENDIENTE DE TI — fragmento FR de 1 chunk (mismo caso que los PT retirados): ¿BAJA? (no se atesta hasta decidirlo)
       pm doc «ZX» · pm chunks «ZX» · tokens sin id: —
       ids del packet 12-ago `morley:zx2e`, `morley:zx2se`, `morley:zx50`, `morley:zxae`, `morley:zxce`, `morley:zxhe` → resueltos HOY — · **deriva**
@@ -593,6 +623,7 @@ Motivos de caída (del recibo, uno por línea):
       **por qué NO entra en bloque**: confianza media
       ALBERTO: baja del corpus.
 - [ ] `asd harsh environments_sp` (Xtralis · 6 chunks · vigente)
+      ↳ **s331:** ⏳ TU NOTA ES CORRECTA pero el arreglo NO se aplicó, a propósito (dúo r40, Sol crítico): el doc es «© 2015 **System Sensor**» (22 menciones de FAAST, 0 de Xtralis) y su ficha dice `Xtralis`. Retaguearlo sería otro parche que la re-ingesta deshace → **`TECH_DEBT #97` ampliado a `manufacturer`**, que es donde vive el arreglo de raíz. Los 13 ids atestados ya son todos FAAST, así que el doc_map ya cumple tu nota
       ↳ **s324:** ✅ APLICADO (R1) → 13 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «FAAST» · pm chunks «FAAST» · tokens sin id: —
       ids del packet 12-ago `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7) → resueltos HOY `morley:mi-fl2011ei`, `morley:mi-fl2012ei`, `morley:mi-fl2022ei`, `notifier:faast-8100e`, `notifier:fl0111e-hs`, `notifier:fl0112e-hs` …(+7)
@@ -601,6 +632,7 @@ Motivos de caída (del recibo, uno por línea):
       menciones máximas del sujeto en el documento: 5
       **por qué NO entra en bloque**: ambigüedad estructural: la entrada atestaría productos de 2 marcas ['morley', 'notifier'] — clase rebrand/OEM, decisión entre marcas
 - [ ] `con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ APLICADO (s331, tu repaso) → **+`morley:zxae` +`morley:zxee`**. Validado lo que pediste validar antes de nada: son **ZXAE/ZXEE**, no «ZXA/ZXE» — prueba en la tabla de equivalencias del TG «TG-ZXA | PROGRAMA GRAFICO **ZXAE**» (corpus: ZXAE 197 menciones/12 docs, ZXEE 224/13; «ZX-A» y «ZX-E» 1 vez cada una y solo en esta FAQ). Sobre «no sé de dónde sacas ZXce/ZXhe/ZX50»: **tienes razón y NO estaban aplicados** — son la línea `juez:` que R1 descartó; el packet los imprime al lado de lo aplicado y eso induce a error. zx5e, zx2se y la DX-Dimension ya estaban
       ↳ **s324:** ✅ APLICADO (R1) → 10 id(s) · recibo `s324_lote_firmado_aplicar_20260816T113215Z.json`
       pm doc «ZX/DX» · pm chunks «ZX/DX» · tokens sin id: `DX`
       ids del packet 12-ago `morley:zx2e`, `morley:zx2se`, `morley:zx50`, `morley:zxae`, `morley:zxce`, `morley:zxhe` → resueltos HOY — · **deriva**
@@ -627,6 +659,7 @@ Motivos de caída (del recibo, uno por línea):
       **por qué NO entra en bloque**: ids CANDIDATE ['kidde:2x-at']: el producto existe pero está pendiente de QA humana — atestarlo con un documento es promoverlo de hecho, y esa es una decisión de Alberto, no un efecto colateral
       ids NO consumibles (candidate/retirado): `kidde:2x-at`
 - [ ] `hlsi-ti-007_vsn-4rel` (Morley · 1 chunk · vigente)
+      ↳ **s331:** ✅ CERRADO (s331): la re-ingesta de s324d ya trajo el texto (2 chunks, 3.600 chars — la causa NO era OCR sino markdown degenerado, #87), pero los chunks nuevos volvieron con pm artefacto `TI-007`. Hoy: retag a **VSN-4REL** + doc_map `notifier:vsn-4rel` con cita full-text «Instalación del módulo VSN-4REL» — la atestación que dejaste pendiente · recibo `s331_residuo_aplicar_20260820T200321Z.json`
       ↳ **s324:** ⏳ re-ingesta OCR primero (tu adjudicación: modelo VSN-4REL); atestación después
       pm doc «VSN-4REL» · pm chunks «VSN-4REL» · tokens sin id: —
       ids del packet 12-ago `notifier:vsn-4rel` → resueltos HOY `notifier:vsn-4rel`
@@ -694,6 +727,7 @@ hay que adjudicar.
 **ambiguedad:termino-multi-modelo** — 23
 
 - [ ] `avotec:doa-fj-cpd` (DOA FJ/CPD)
+      ↳ **s331:** ✅ ALTA APLICADA (s331) → **`avotec:doa-fj` = «DOA FJ»**, tras tu enlace a la ficha del fabricante (avotec.it/en/products/series-doa-78). Lo que resolvió: **DOA es la SERIE** de Avotec (paneles de señalización de alarma), y sus modelos son DOA FJ, DOA FJ/A, DOA FJ/WP y DOA FJ/WP/A ⇒ el modelo de este documento es **DOA FJ**, y el «/CPD» es el sufijo de la **certificación** (Construction Products Directive), como confirma la otra mención del doc: «CERTIFICATION DOA FJ/CPD 12 0051-CPD-0384». Por eso el canónico es el del fabricante y «DOA FJ/CPD» —única grafía del corpus— queda como **alias**, igual que hicimos con S20/20MI. NO se crea paraguas «DOA»: de los 4 modelos solo uno está atestado · recibo `s331_alta_doa_aplicar_20260820T225428Z.json`
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «**DOA FJ/CPD** – Fire alarm sounding device for fire signalling conform to regulatio…»
       doc `Manual Rotulo REXD-103_EN` · estrictas doc 2 / global 2 en 1 doc
@@ -708,6 +742,7 @@ hay que adjudicar.
       doc `G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf` · estrictas doc 0 / global 0 en 0 docs
       el juez propone otra grafía: `KE-DBA-ADPW-KIL y KE-DBA-ADPW-ZIT (serie KE-DBA-ADPW)`
 - [ ] `kidde:ke-dba-labw-l1s-ke-dba-labw-l2s-ke-dba-labw-l3s-ke-dba-labw-l4s` (KE-DBA-LABW-L1S/KE-DBA-LABW-L2S/KE-DBA-LABW-L3S/KE-DBA-LABW-L4S)
+      ↳ **s331:** ✅ ALTA APLICADA (s331, tu «OK con juez») → `kidde:ke-dba-labw-s`, cita de portada «# **KE-DBA-LABW-S** Accesorio detector inteligente direccionable - etiqueta en blanco (pequeña)»
       ↳ **s324:** ✅ RESUELTO por R7: ningún componente L1S..L4S aparece como token → no se da de alta (el juez propone KE-DBA-LABW-S: si quieres ese alta, dilo)
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✓ «El KE-DBA-LABW-S es un juego de etiquetas adhesivas de la serie Excellence de format…»
       doc `HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
@@ -738,26 +773,31 @@ hay que adjudicar.
       doc `MI_KE_IU3111_ZME_202407_ES_fde1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media
       el juez propone otra grafía: `KE-IU3111-ZME`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s331:** ✅ CONTESTADO (s331): R7 partió el concatenado y **creó los dos**, `kidde:n-io-mbx-1` y `n-io-mbx-2`, ambos activos. Que el `DS` nombre solo el `-1` es correcto —es su ficha— y el `MI` cubre la serie entera, que es justo lo que observaste en la segunda fila. No hay nada que corregir
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-MBX-1 Caja para módulos carril DIN»
       doc `DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1`
 - [ ] `kidde:n-io-mbx-1-n-io-mbx-2` (N-IO-MBX-1/N-IO-MBX-2)
+      ↳ **s331:** ✅ CONTESTADO (s331): R7 partió el concatenado y **creó los dos**, `kidde:n-io-mbx-1` y `n-io-mbx-2`, ambos activos. Que el `DS` nombre solo el `-1` es correcto —es su ficha— y el `MI` cubre la serie entera, que es justo lo que observaste en la segunda fila. No hay nada que corregir
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «N-IO-MBX Series DIN Rail Module Box Installation Sheet»
       doc `MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)); ambiguedad:veredictos-discordantes-para-el-mismo-id
       el juez propone otra grafía: `N-IO-MBX-1 y N-IO-MBX-2 (serie N-IO-MBX)`
 - [ ] `kidde:n-io-sbx-1g-n-io-sbx-2g` (N-IO-SBX-1G/N-IO-SBX-2G)
+      ↳ **s331:** ✅ CONTESTADO (s331): sí, es lo mismo que habíamos determinado — `kidde:n-io-sbx-1g` y `n-io-sbx-2g` existen los dos, activos y sin marca de candidate
       ↳ **s324:** ✅ RESUELTO por R7: partido en sus componentes con cita propia (ver altas / doc_map aplicados); el id concatenado no se crea
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «KIDDE COMMERCIAL # N-IO-SBX-1G Caja para 1 módulo con carril DIN (pequeño)»
       doc `DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: contradiccion:producto-real-sin-mencion-estricta-ni-en-mayusculas; juez:propone-otra-grafia(N-IO-SBX-1G)
       el juez propone otra grafía: `N-IO-SBX-1G`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s331:** ✅ RESUELTO (s331, tu «OK con juez») → R7 hizo lo correcto al NO crear ZLSM-ME/ZLSM-MR (0 menciones: son artefactos). El sujeto real del documento es el P/N **9-30520**, «Carcasa de expansión MiniLaser», que hoy queda dado de alta como `kidde:9-30520` con su hoja ES y su MI en inglés
       ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf»
       doc `DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
       el juez propone otra grafía: `9-30520`
 - [ ] `kidde:zlsm-me-zlsm-mr` (ZLSM-ME/ZLSM-MR)
+      ↳ **s331:** ✅ RESUELTO (s331, tu «OK con juez») → R7 hizo lo correcto al NO crear ZLSM-ME/ZLSM-MR (0 menciones: son artefactos). El sujeto real del documento es el P/N **9-30520**, «Carcasa de expansión MiniLaser», que hoy queda dado de alta como `kidde:9-30520` con su hoja ES y su MI en inglés
       ↳ **s324:** ✅ RESUELTO por R7: ZLSM-ME/ZLSM-MR no aparecen como token en sus docs → no se da de alta
       **ARTEFACTO_EXTRACCION** · rol NO_APARECE · confianza media · cita ✗ «MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf»
       doc `MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf` · estrictas doc 0 / global 0 en 0 docs · otros motivos: juez:confianza-media; cita:no-verificada-a-texto-completo
@@ -767,6 +807,7 @@ hay que adjudicar.
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Panel de control de incendios de 8 zonas EFS/EM 8 # Manual de instalación, puesta en…»
       doc `MS8.pdf` · estrictas doc 9 / global 18 en 2 docs · otros motivos: ambiguedad:mismo-termino-propuesto-a-dos-fabricantes
 - [ ] `notifier:conv232-485` (CONV232/485)
+      ↳ **s331:** ✅ ALTA APLICADA (s331, tu nota) → `notifier:conv232-485` = **CONV232/485**, cita «Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. **Ref.: CONV232/485**». Tu matiz aplicado: RS232 y RS485/422 **no** se dan de alta (son esquemas de transmisión, no modelos)
       ↳ **s324:** ⏳ PENDIENTE DE TI — nombre real CON barra (no es concatenación): un «sí» lo da de alta
       **PRODUCTO_REAL** · rol REFERENCIA_COMERCIAL · confianza alta · cita ✓ «Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. Ref.: CONV…»
       doc `TIDT110.pdf` · estrictas doc 3 / global 4 en 2 docs
@@ -1027,11 +1068,13 @@ hay que adjudicar.
 **colision:el-texto-ya-es-alias-de-otro-producto** — 2
 
 - [ ] `notifier:stratos-hssd` (STRATOS HSSD)
+      ↳ **s331:** ✅ APLICADO (s331) → **NO se crea el producto «Stratos-HSSD»** y `MNDT730` se mapea a los **3 miembros del paraguas STRATOS** (R1). Motivo: el paraguas ya existe (s324b) y el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo»); además s324b retiró 2 alias erróneos de esa misma grafía. Tu «versión portuguesa, retirar doc»: **`MNDT730P` retirado** (fragmento PT de 1 chunk; el hermano ES sigue activo con 6)
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «*STRATOS* HSSD® # DETECTOR DE HUMO DE # ALTA SENSIBILIDAD»
       doc `MNDT730.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`
       ALBERTO: modelo que propone el juez
 - [ ] `notifier:stratos-hssd` (STRATOS HSSD)
+      ↳ **s331:** ✅ APLICADO (s331) → **NO se crea el producto «Stratos-HSSD»** y `MNDT730` se mapea a los **3 miembros del paraguas STRATOS** (R1). Motivo: el paraguas ya existe (s324b) y el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo»); además s324b retiró 2 alias erróneos de esa misma grafía. Tu «versión portuguesa, retirar doc»: **`MNDT730P` retirado** (fragmento PT de 1 chunk; el hermano ES sigue activo con 6)
       **PRODUCTO_REAL** · rol TITULO · confianza alta · cita ✓ «Central SENSENET (Stratos-HSSD)»
       doc `MNDT730P.pdf` · estrictas doc 0 / global 0 en 4 docs
       el juez propone otra grafía: `Stratos-HSSD`

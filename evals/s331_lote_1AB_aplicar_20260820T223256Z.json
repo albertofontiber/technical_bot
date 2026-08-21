@@ -1,0 +1,234 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260820T223256Z",
+ "plan_sha": "83536abde154f973",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "b52388ef0ccc819c",
+   "aliases": "0c5580eec2c74cb6",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "6a4e2d2982251f53"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 3,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 5,
+  "doc_map_modificadas": 2,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo_post": {
+  "terminos_antes": 1755,
+  "terminos_despues": 1757,
+  "entran": 2,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "CONV232/485",
+    "normkey": "conv232485",
+    "core": "conv[-\\s/.+]*232[-\\s/.+]*485",
+    "origen": "alta notifier:conv232-485",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "KE-DBA-LABW-S",
+    "normkey": "kedbalabws",
+    "core": "ke[-\\s/.+]*dba[-\\s/.+]*labw[-\\s/.+]*s",
+    "origen": "alta kidde:ke-dba-labw-s",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {
+   "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?": {
+    "allowed_sources_perdidas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ],
+    "ids_perdidos": []
+   },
+   "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?": {
+    "allowed_sources_perdidas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ],
+    "ids_perdidos": []
+   }
+  },
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {
+   "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?": {
+    "allowed_sources_perdidas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ],
+    "ids_perdidos": []
+   },
+   "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?": {
+    "allowed_sources_perdidas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf"
+    ],
+    "ids_perdidos": []
+   }
+  },
+  "efecto_docmap": {
+   "kidde:9-30520": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "ds kidde zlsm me es",
+     "mi kidde zlsm me ing"
+    ]
+   },
+   "kidde:ke-dba-labw-s": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "hd ke dba labw lxs es"
+    ]
+   },
+   "morley:dx1e": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "morley:dx2e": {
+    "fuentes_antes": 4,
+    "fuentes_despues": 4,
+    "ganadas": []
+   },
+   "morley:dx4e": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "morley:dxc1": {
+    "fuentes_antes": 27,
+    "fuentes_despues": 27,
+    "ganadas": []
+   },
+   "morley:dxc2": {
+    "fuentes_antes": 27,
+    "fuentes_despues": 27,
+    "ganadas": []
+   },
+   "morley:dxc4": {
+    "fuentes_antes": 27,
+    "fuentes_despues": 27,
+    "ganadas": []
+   },
+   "morley:zx10se": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "morley:zx1e": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "morley:zx1se": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 3,
+    "ganadas": []
+   },
+   "morley:zx2e": {
+    "fuentes_antes": 10,
+    "fuentes_despues": 9,
+    "ganadas": []
+   },
+   "morley:zx2se": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 4,
+    "ganadas": []
+   },
+   "morley:zx5e": {
+    "fuentes_antes": 10,
+    "fuentes_despues": 9,
+    "ganadas": []
+   },
+   "morley:zx5se": {
+    "fuentes_antes": 5,
+    "fuentes_despues": 4,
+    "ganadas": []
+   },
+   "morley:zxae": {
+    "fuentes_antes": 6,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf"
+    ]
+   },
+   "morley:zxee": {
+    "fuentes_antes": 6,
+    "fuentes_despues": 6,
+    "ganadas": [
+     "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf"
+    ]
+   },
+   "notifier:conv232-485": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "TIDT110"
+    ]
+   },
+   "notifier:laserstar-hssd-2": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MNDT730"
+    ]
+   },
+   "notifier:minilaser-100": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MNDT730"
+    ]
+   },
+   "notifier:minilser25": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 3,
+    "ganadas": [
+     "MNDT730"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals/s331_lote_1AB_backup_20260820T223256Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

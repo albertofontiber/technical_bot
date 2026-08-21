@@ -9493,3 +9493,281 @@ REVOKE y la postcondición 6.1.b lo verifica.
   49b76757→(este).
 - **Relacionado**: DEC-257 · DEC-084/069 (la clase pool-entry y su seam) · DEC-092b (leer antes de
   declarar) · DEC-096 (ruido de rerank) · DEC-099 (verificación en prod) · DEC-126 (re-apertura).
+
+> **Nota de numeración (colisión de sesiones paralelas, 21-ago).** Este bloque de cinco
+> decisiones nació como `DEC-257→260` en la rama del packet E1, mientras **otra sesión de s331**
+> —la de variantes-en-hilo— usaba **los mismos números** en paralelo y **mergeaba antes** (PR #323).
+> Manda lo ya publicado en `main`: sus `DEC-257` y `DEC-258` conservan su número y **estas se
+> renumeran a `DEC-259→262`**. Es la clase de `TECH_DEBT #92` (números reutilizados) aplicada a
+> DECISIONS, y la causa está declarada desde el principio en el aviso de concurrencia `#93`.
+> **Los recibos y ficheros de `evals/` ya emitidos NO se reescriben**: un recibo es traza de lo
+> ejecutado. Las referencias cruzadas en docs sí quedan actualizadas.
+## DEC-259 (s331, 20 ago 2026) — Las 3 preguntas del packet E1, adjudicadas por delegación: la hipótesis FS se comprueba AL PÍXEL y cae; y el dúo destapa que mi «no existe» era ceguera de grafía
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r38
+  INNEGOCIABLE**: Sol xhigh 5/5 confirmados 0 FP severidad máx. crítico + Fable 4/4 confirmados 0 FP
+  máx. medio; pairing roto por drift del árbol en vuelo — el autor escribió plan y censo mientras Sol
+  corría, clase TECH_DEBT #86 — así que la review de Fable quedó guardada SIN emparejar).
+  **Disparador**: Alberto delegó las 3 preguntas ⏳ del packet E1 v2 («las 3 preguntas son para ti»),
+  pidió atacar los no-bloqueantes y preguntó si quedaba algo en §1.A.
+- **Decisión (4 retags + 2 filas de doc_map + 1 baja, aplicados con recibo)**:
+  - `MADT015_01` → pm **`NFS 2-8`** + doc_map `notifier:nfs-2-8`.
+  - `MNDT600` → pm **`unknown`**, sin doc_map (doc genérico de calibración de detectores de gas).
+  - `MNDT701` → pm **`unknown`**; doc_map DIFERIDO al ítem 3 de Alberto (20/20MI, 20/20R).
+  - `HLSI-TI-007_VSN-4REL` → retag de chunks a **`VSN-4REL`** + doc_map `notifier:vsn-4rel` con cita
+    full-text «Instalación del módulo VSN-4REL» (ejecuta la atestación que #87 dejó pendiente).
+  - Baja de corpus del fragmento FR `996-130-000-3 Manuel d'utilisation ZX_hlsi` (firmada por Alberto
+    en la fila §1.A del packet). Recibos: `evals/s331_residuo_aplicar_20260820T200321Z.json` y
+    `evals/s331_retirar_docs_aplicar_20260820T200406Z.json`.
+- **Lo que el dúo cambió (y por qué era necesario)**: mi propuesta v1 descartaba la hipótesis FS de
+  Alberto con un censo de grafía (`fs2-*` en ids/pm) que era **ciego a `notifier:fs-1/fs-2/fs-4`** —
+  productos que SÍ existen, con el manual activo `FS2-1` y doc_map adjudicado. Sol lo cazó como
+  crítico. La comparación **al píxel** (los dos PDF delante) es la que zanja: las FS-1/2/4 son de
+  **1/2/4 zonas**, EFL solo resistivo 4K7, sin entradas digitales configurables ni retardos; la guía
+  `MADT015_01` muestra **8 zonas**, EFL resistencia **o** condensador 0,47µF, 2 entradas digitales
+  (7 tipos) y retardos principal/secundario — y su árbol de Nivel 3 es idéntico al del anexo
+  `MADT015_03`, que se titula «Anexo al manual de instalación de la central **NFS 2-8**, ref.:
+  MI-DT-015». **La conclusión sobrevive; la evidencia que la sostiene, no**: pasó de censo de grafía
+  a comparación de fuentes. Igual con el censo GD2, que era circular (solo docs con pm `SMART*`,
+  justo la clase que este plan corrige) y además truncaba a 1.000 filas: re-hecho **corpus-wide**
+  (1.054 activos), los 6 hits de «GD2/GD3» son «P**GD-2**00» (programador Detnov) ⇒ el doc del
+  **SMART3 GD2 NO está en el corpus**; el GD3 = `SMART3G-D3` sí, atestado por MTEX4805.
+- **Guarda de instrumento, no ritual (hallazgo de Fable)**: la findability de un retag cuya única
+  entry de doc_map la aporta *el propio plan* es **autosatisfecha por construcción** — no podía
+  fallar. El writer gana modos OPT-IN por fila (`findability`, ausente = conducta histórica):
+  `modelo_independiente` exige, cuando la entry es del plan, que el pm nuevo **ya resolviera en el
+  catálogo PREVIO** (evidencia independiente); `na_unknown` solo vale con pm `unknown` y se declara
+  en el recibo. Ambos casos quedan impresos en el recibo con `autosatisfecha_por_el_plan: true`.
+- **Alternativas descartadas**: (a) mapear `MADT015_01` a la serie FS — refutada al píxel;
+  (b) paraguas «SMART 3» para `MNDT600` — mezcla candidates pendientes de QA y no hace falta para
+  limpiar el artefacto: es decisión aparte de Alberto; (c) atestar `MNDT701` a SharpEye — los ids no
+  existen aún (penden del ítem 3), atestar antes sería crear identidad por ficha (R4); (d) fallback
+  «pm-only sin doc_map» para D1 — incoherente con el propio gate, eliminado: D1 es par atómico.
+- **Medida (dry-run + censo posterior, ambos PASS)**: detector **1744→1744 (+0/−0 términos)**, 0 gold
+  perdidas, 0 disparos en negativos sintéticos, 0 detecciones nuevas en 111 consultas reales,
+  findability 4/4, doc_map +2 filas (`notifier:nfs-2-8` 3→4 fuentes, `notifier:vsn-4rel` 7→8).
+- **Deuda nueva `TECH_DEBT #95`** (Sol, medio; nació como «#94» y se renumeró — ese número ya era del gate
+  de CSS de s328, cerrado y borrado del fichero): los retags de `product_model` **no sobreviven a una
+  re-ingesta** — `detect_document_metadata` deriva del filename y `apply_metadata` lo estampa en los
+  chunks; TI-007 es la recaída demostrada (s324d lo devolvió a `TI-007`). Arreglo BP: que la
+  detección consulte la entry primaria del doc_map antes de derivar.
+- **Sonda del paraguas 2X-A (no aplicada, es de Alberto)**: `evals/s331_2xa_sonda_plan_v1.json` mide
+  lo que el gate frenó en s324 — **0 gold perdidas, 2 golds GANAN 12 fuentes cada una** (una de ellas
+  «¿El detector KE-DP3020W vale para la central 2X-A?»), **0 disparos en 111 consultas reales**, y el
+  único disparo es la sonda de tokens sintética «2 x a». Falta una frase suya: con o sin los 11
+  táctiles.
+- **VSN2-PLUS**: censado (18 grafías en ~20 docs Supra/UCIP: 2Plus ×40, Vision Plus2 ×12, ESS-2Plus
+  ×9…) y **diferido a la sentada E1b a propósito** — es rebrand multi-marca (NFS Supra ↔
+  VSN-2Plus/Vision Plus2 ↔ ESS-2Plus) con los homónimos cross-bloque que E1b ya declara. Cero
+  escrituras: `evals/s331_vsn2plus_censo_v1.md`.
+- **Gaps declarados**: la fila de doc_map de `MADT015_01` NO tiene cita full-text del propio doc
+  (evidencia documental de la hermana; clase MADT731_06, con la diferencia declarada de que aquello
+  fue adjudicación explícita de Alberto y esto es delegación); `unknown` en MNDT600/MNDT701 renuncia
+  al vínculo de producto hoy; la baja FR no tiene hermano ES del mismo manual (la política de idiomas
+  —RULER_DESIGN, answer ES+EN— deja el FR fuera igualmente; **la cita DEC-066 de la v1 era errónea**,
+  otro hallazgo de Sol).
+- **Relacionado**: packet `evals/s320_e1_packet_adjudicacion_v2.md` (§0.D/§1.A marcados) ·
+  propuesta post-dúo `evals/s331_residuo_e1_propuesta_v2.md` · TECH_DEBT #87 (cerrada por la vía de
+  la atestación) · #95 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
+  `evals/adversarial_review_log.jsonl`.
+
+## DEC-260 (s331, 20 ago 2026) — El alcance «A + E» firmado por Alberto: la serie 20/20 SharpEye entera faltaba del catálogo, y el software se ata a la familia como `secondary` porque es de 1997
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r39
+  INNEGOCIABLE y esta vez EMPAREJADO**: Sol xhigh 3/3 confirmados + Fable 4/4, 0 FP, máx. medio).
+  **Disparador**: Alberto cuestionó las dos adjudicaciones conservadoras de DEC-259 («MNDT600: ¿por
+  qué unknown?» · «MNDT701: es el software del modelo IR3, ¿no tiene sentido asociar el manual a ese
+  modelo?»), pidió medirlo y firmó **«A + E, aplícalo»**.
+- **Tenía razón en las dos, y en la segunda el agujero era mayor que la fila**: el censo destapó que
+  **la serie 20/20 SharpEye entera faltaba del catálogo** — 8 documentos activos, 0 productos —
+  mientras la serie hermana 40/40 sí estaba (firmada por él en s324b). El software de MNDT701 no
+  estaba huérfano por ser software: lo estaba porque su detector no existía.
+- **Decisión (aplicada con recibo `evals/s331_lote_AE_aplicar_20260820T204701Z.json`)**:
+  - **A** — `MNDT600` → doc_map a los 3 SMART **confirmados** (`notifier:smart3g-c3`,
+    `notifier:smart3g-d3`, `sensitron:smart-2`), **+0 términos** al detector. El `product_model`
+    sigue `unknown` a propósito: no hay modelo citado, el vínculo vive en el doc_map, que es su sitio.
+  - **E** — **9 altas** de la serie 20/20 con cita de portada verificada full-text
+    (`S20/20MI`, `S20/20SI`, `20/20I` = los **Triple IR (IR³)**, más `20/20R`, `20/20U`, `20/20UB`,
+    `20/20L`, `20/20LB`, `20/20ML`), 2 alias (`20/20MI`, `20/20SI`) y 12 filas de doc_map:
+    **+11 términos**, todos de modelo, sin un solo alias descriptivo.
+- **Por qué se descartaron B y C** (familia SMART completa / gama de gas): el gate las pasaba, pero
+  al promover los candidates entraban **12 y 15 alias descriptivos** que son basura de extracción
+  («SMART 3 con pantalla», «SMART 4 (COPTIR) Multi-sensor», «Twin version Smart 2», «serie 3G» —
+  este último colisiona con la red móvil de los documentos UCIP-GPRS). Mismo patrón que el gate cazó
+  en Detnov (s324c). Además esos 8 candidates **ya tienen su sitio en los bloques de E1b**:
+  promoverlos aquí sería adelantar por la puerta de atrás una decisión con puerta propia.
+- **El hallazgo de modelado del dúo (lo que cambió antes de escribir)**: el software **no enumera
+  modelos** —su única evidencia es «El software permite comunicarse con hasta 64 detectores IR3»— y
+  al verificarlo aparecieron dos datos que la propuesta no tenía: **RS-485 no discrimina** (lo tienen
+  los tres IR³ *y* el 20/20R; los UV y UV/IR se configuran por microinterruptores) y **el software es
+  de 1997 v1.0, ANTERIOR a los tres manuales** (20/20I 1999-2003, S20/20SI 2003-06, S20/20MI rev D
+  2010-11). → Sus 3 entries se escriben **`secondary`**, no `primary`: verificado en
+  `catalog_resolver.py:182-191` que una entry `secondary` **sí** mete el documento en las fuentes del
+  producto pero **no** reclama el scope gobernado. El manual se sirve al preguntar por esos
+  detectores **sin afirmar compatibilidad individual**, que es exactamente lo que la evidencia
+  sostiene.
+- **Otras tres correcciones del dúo, todas aplicadas**: (1) A y E tenían recibos separados contra el
+  mismo estado — se generó el **plan combinado** y se corrió un **dry-run del plan exacto** antes de
+  aplicar (freeze-contract); (2) el manual del 20/20ML **no era huérfano** (ya tenía fila con 3
+  entries `secondary`): son 7 huérfanos + 1 fila ampliada, y el writer fusiona por `document_id`
+  (verificado, no duplica); (3) el gap nombraba la fila equivocada — la cita más floja es **20/20R**
+  (2 chunks), no 20/20I (3).
+- **Medida**: dry-run del plan exacto **PASS** — detector 1744→1755 (+11/−0), 0 gold perdidas, 0
+  disparos en negativos sintéticos, 0 detecciones nuevas en 111 consultas reales; censo posterior
+  PASS. 12 vínculos doc→producto nuevos; 9 productos que no existían pasan a tener 1-3 fuentes.
+- **Alternativas descartadas**: mapear el software solo al `S20/20MI` como `primary` (la fecha de
+  1997 no lo sostiene); dejar `SI` y `20/20I` fuera (perdía el vínculo de familia sin ganar
+  precisión: `secondary` expresa exactamente el grado de evidencia); crear paraguas «20/20» (riesgo
+  léxico real con proporciones/fracciones — se mediría aparte, no se presupone).
+- **Gaps declarados**: (1) **ninguna gold se mueve** (0/0): esto es **cobertura de catálogo, NO un
+  delta medido en eval** — no debe contarse como mejora de calidad; (2) **sesgo declarado en A**
+  (hallazgo de Fable): elegir «los 3 confirmados» es un proxy del estado del catálogo, no una razón
+  documental —Alberto habló de GD3/GD2— ⇒ **plan de re-visita**: cuando E1b promueva los 8 candidates
+  SMART, esa fila se re-evalúa; (3) `MNDT690` (catálogo de gama Spectrex) sigue sin mapear, es clase
+  R1 y va en otro lote; (4) «20/20» y «S20/20» a secas (47+41 menciones) no resuelven modelo.
+- **Relacionado**: DEC-259 (las adjudicaciones que Alberto cuestionó) · medición
+  `evals/s331_sondas_alcance_resultado_v1.md` (sondas A-E) · propuesta post-dúo
+  `evals/s331_aplicacion_AE_propuesta_v2.md` · packet E1 (marcas de MNDT600/MNDT701 **supersedidas**
+  explícitamente) · tally r39 en `evals/adversarial_review_log.jsonl`.
+
+## DEC-261 (s331, 20 ago 2026) — Las 30 anotaciones de Alberto en el packet E1, verificadas una a una; y el gate aprende a distinguir una pérdida DESEADA de una regresión
+
+- **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor) + **ALTO en el
+  instrumento** (se toca el GATE). **Dúo r40**: Sol xhigh 5 hallazgos · Fable 4 (veredicto SÓLIDO) →
+  **6 confirmados, 3 falsos positivos**, máx. crítico.
+- **Origen**: Alberto repasó el packet en local y subió su copia con **30 anotaciones nuevas** (11 en
+  §1.A, 19 en §1.B). Encargo: «Revísalo en este lote».
+- **El hallazgo que lo justifica todo**: su nota de §0.B «este archivo habla también de la ZX-A, ZX-E,
+  ZX-2/5e, ZX2/5SE» se había aplicado a la FAQ de la **DXc Connexion**, cuando describe la FAQ
+  **hermana** («ZX y DX») — los nombres son casi idénticos. Resultado: 6 productos ZX tenían como
+  fuente un PDF de una página que solo habla de la DXc, y `zxae`/`zxee` tenían enganchada la respuesta
+  **contraria** (Windows XP/7 + MK-DXc, cuando la ZX-A usa **MS-DOS + FIRE5**).
+- **Validado a petición suya («¿puedes validarlo y me dices antes de hacer nada?»)**: los modelos son
+  **ZXAE y ZXEE**, no «ZXA/ZXE». Prueba directa: la tabla de equivalencias del TG imprime
+  «**TG-ZXA | PROGRAMA GRAFICO ZXAE**». En el corpus, ZXAE 197 menciones/12 docs y ZXEE 224/13,
+  mientras «ZX-A» y «ZX-E» salen **1 vez cada una y solo en esa FAQ**.
+- **Aplicado** (recibos `s331_lote_1AB_aplicar_20260820T223256Z.json` y
+  `s331_retirar_mndt730p_20260820T223336Z.json`): 3 altas con cita de portada verificada
+  (`kidde:ke-dba-labw-s`, `notifier:conv232-485`, `kidde:9-30520`), 5 filas de doc_map, **2
+  modificaciones** (la FAQ de la DXc pierde los 6 ZX; la de «ZX y DX» gana `zxae`+`zxee`), `MNDT730`
+  al paraguas STRATOS por R1 y baja del fragmento PT `MNDT730P`.
+- **EL CAMBIO DE INSTRUMENTO (lo que más vale de la sesión)**: el gate **PARÓ el lote** con `STOP`
+  porque 2 gold perdían una fuente. Tenía razón en avisar y estaba **mal en bloquear**: el
+  instrumento solo sabía adjudicar disparos en negativos sintéticos, así que **bloqueaba por diseño
+  cualquier limpieza de contaminación** — retirar una atestación equivocada *es* perder fuentes a
+  propósito. Se añadió el canal simétrico **`perdidas_de_fuente_adjudicadas`**, con las cautelas que
+  impiden que sea un interruptor de apagado: **coincidencia EXACTA** de (gold, fuente), lo no
+  declarado **sigue en STOP**, y **`ids_perdidos` NUNCA se adjudica** (perder un producto es otra
+  clase de daño). Tests: `tests/test_s331_gate_perdidas_adjudicadas.py` (6 casos, incluidos los tres
+  de no-desactivación).
+  **La adjudicación se verificó, no se afirmó**: la FAQ retirada no dice nada de resistencias de fin
+  de línea ni de sirenas, y a `morley:zx2e`/`zx5e` les quedan **9 fuentes**, entre ellas los cinco
+  manuales reales de la ZXe (MIE-MI-530, MIE-MP-530/535, MIE-MU-530/535).
+- **Lo que el dúo dejó FUERA del lote** (y por qué se acató):
+  - **Retag de `manufacturer`** de `ASD Harsh` (Xtralis → System Sensor, con el documento diciendo
+    «© 2015 System Sensor»): **Sol, crítico** — sería otro parche efímero de la clase `#95`, porque la
+    reingesta re-deriva la marca y la re-estampa. Se **amplía `TECH_DEBT #95` a `manufacturer`** en vez
+    de construir un reaplicador hermano. El dato sigue mal a sabiendas, y declarado.
+  - **Alta `avotec:doa-fj-cpd`**: **Sol, medio** — los ids son INMUTABLES y la identidad sigue abierta.
+    El documento es «© AVOTEC Srl» y **«DOA» no aparece suelta ni una vez en todo el corpus** (sus 2
+    menciones son «DOA FJ/CPD», una dentro de un número de certificado CE, donde `/CPD` apunta a
+    *Construction Products Directive*). Queda **una pregunta para Alberto**, no un id acuñado a ciegas.
+- **Falsos positivos del dúo, verificados antes de acatarlos** (regla C): Sol dijo que `zxae`/`zxee`
+  **ya estaban** en la FAQ y que el lote partía de un estado falso — pero la línea que citó (`888`) es
+  la FAQ de la **DXc**, no la de «ZX y DX» (`928`): **cayó en la misma confusión entre homónimos que
+  causó el error original**. Fable temió que mapear `MNDT730` a los 3 miembros modificara una
+  adjudicación previa, pero la fila que citó (`972`) es `MADT731_02` y **ya tenía los 3** — el lote
+  crea simetría, no asimetría; y su sospecha de mapeo cross-marca no aplica (la FAQ es Morley).
+- **Alternativas descartadas**: crear producto `notifier:stratos-hssd` (el paraguas STRATOS ya existe
+  y `MNDT730` es una miniguía de FAMILIA que dice «el equipamiento puede variar según el modelo»;
+  además s324b **retiró 2 alias erróneos de esa misma grafía**); forzar el lote con un `--force` que
+  saltara el gate (habría cambiado un control por un atajo).
+- **Gaps declarados**: (1) `9-30520` es un número de parte y el precedente limpio en catálogo es
+  **UNO** (`spectrex:777163`), no tres — corregido tras Fable; (2) el gate **no mide retrieval
+  end-to-end**: el único efecto de serving es el buscado, quitar una fuente equivocada; (3) siguen sin
+  decisión `morley:efs-em-8` («pending.») y `notifier:nx2-r-r-y-nx5-r-r` (anotación vacía).
+- **Relacionado**: DEC-259/DEC-260 · `evals/s331_lote_1AB_propuesta_v1.md` · packet E1 · tally r40.
+
+### DEC-261b (s331, 20 ago 2026) — addendum: «DOA» era una SERIE, no una marca — y el modelo es `DOA FJ`
+
+El único punto que DEC-261 dejó abierto («¿DOA es una línea comercial de Avotec o la designación de
+tipo del certificado?») lo cerró Alberto con la **ficha del fabricante**
+(`https://www.avotec.it/en/products/series-doa-78/`): **DOA es la SERIE** de Avotec —paneles de
+señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` y `DOA FJ/WP/A`.
+
+- **Ninguna de las dos lecturas que estaban sobre la mesa era del todo correcta**: ni «marca DOA +
+  producto FJ/CPD» (su nota original) ni `DOA FJ/CPD` como canónico (mi propuesta). El modelo real es
+  **`DOA FJ`**, y el `/CPD` es el sufijo de la **certificación** — lo confirma la segunda mención del
+  propio documento: «CERTIFICATION DOA FJ/CPD **12 0051-CPD-0384**», un número de certificado CE.
+- **Aplicado** (recibo `s331_alta_doa_aplicar_20260820T225428Z.json`, dry-run PASS + censo posterior
+  PASS): alta `avotec:doa-fj` (canónico **DOA FJ**, `familia: DOA`, `vendido_bajo: [Avotec]`), alias
+  **`DOA FJ/CPD`** y su fila de doc_map. Detector 1757→1759 (+2/−0), 0 gold perdidas, 0 disparos en
+  negativos sintéticos y **0 detecciones nuevas en 111 consultas reales**.
+- **Por qué el canónico es el del fabricante y no la grafía del corpus**: los ids son INMUTABLES, así
+  que se acuña el nombre que el fabricante publica y la grafía atestada entra como alias. Es el mismo
+  patrón que `S20/20MI` (canónico) / `20/20MI` (alias) en DEC-260.
+- **NO se crea el paraguas «DOA»**: de los 4 modelos de la serie solo **uno** está atestado en el
+  corpus, y el término «DOA» suelto no aparece nunca. Un paraguas de un miembro no aporta.
+- **Gaps**: el canónico `DOA FJ` **no aparece verbatim** en el corpus —su única grafía atestada es
+  `DOA FJ/CPD`, 2 menciones en 1 documento—, la cita más floja de la sesión; y el término hereda los
+  avisos `sin_digitos` + `acronimo_corto` del gate, que midió **0 disparos** en sintéticos y en
+  tráfico real.
+- **Lo que esto valida del método**: el dúo r40 (Sol, medio) frenó el alta precisamente por no acuñar
+  un id inmutable con la identidad sin cerrar. Esperar a un dato de una línea evitó un id equivocado
+  que habría exigido un merge. **Relacionado**: DEC-261.
+
+## DEC-262 (s331, 20 ago 2026) — Qué le hizo el feedback de Alberto a las reglas R1-R7: una regla nueva (R8), un hueco tapado en R3 y R5 cerrada por uso
+
+- **Fecha**: 20 ago 2026 (s331, cierre). **Impacto**: MEDIO (gobierna cómo se adjudica el residuo).
+  **Origen**: Alberto pidió repasar las reglas a la luz de su feedback («¿deberíamos ajustarlas?»).
+- **El balance del feedback, medido** (30 anotaciones en su copia del packet): **11 confirmaciones**
+  que cerraron filas sin más · **2 correcciones de fondo** · **5 preguntas** que destaparon problemas
+  que yo no había visto · **3 notas incorrectas** que el procedimiento absorbió sin daño porque
+  se verifican antes de aplicar. Lo que produjo:
+  - «MNDT600/MNDT701: ¿por qué unknown?» → destapó que **la serie 20/20 SharpEye entera faltaba del
+    catálogo** (9 altas, DEC-260).
+  - Una nota suya **mal ubicada** → destapó **6 atestaciones equivocadas** en la FAQ de la DXc y, con
+    ellas, un **hueco del gate** que bloqueaba toda limpieza de contaminación (DEC-261).
+  - Un enlace de una línea (`avotec.it/series-doa`) → **evitó acuñar un id inmutable equivocado**
+    (DEC-261b).
+  - «Son los modelos de System Sensor, se ve en la foto» → destapó que **5 documentos FAAST están
+    atribuidos a Xtralis**, que es el competidor.
+  La conclusión operativa: su feedback es más valioso **cuando pregunta que cuando afirma** — sus 5
+  preguntas produjeron más hallazgos que sus 11 confirmaciones, y sus 3 notas erróneas no costaron
+  nada porque ninguna se aplicó sin verificar. **Eso es el sistema funcionando como debe.**
+
+### Los ajustes
+
+- **R3 (OEM) — HUECO TAPADO.** R3 gobierna el `vendido_bajo` del **producto** y su guarda dice que
+  «si la fila está mal, se corrige la fila, no el mapa». Pero **no dice nada del `manufacturer` del
+  DOCUMENTO**, que es una autoridad distinta y hoy no está gobernada por ninguna regla: de ahí que 5
+  documentos FAAST cuelguen de Xtralis sin que ningún gate se queje. **Extensión adjudicada**: la
+  marca de un documento de producto OEM se decide por **bajo qué marca se distribuye ESE documento**
+  (portada/copyright), no por quién fabrica el aparato ni por el token del modelo; y cuando el
+  documento es del fabricante (© System Sensor), la marca es el fabricante. **Sin gate todavía** —
+  el arreglo de raíz es `TECH_DEBT #95` (que la ingesta lea la fuente gobernada).
+- **R5 — CERRADA POR USO.** Llevaba desde el 16-ago con «alberto: pidió ejemplos — pendiente». Ya
+  tiene sus dos ejemplos vividos: `HLSI-TI-007_VSN-4REL` (ficha coherente, contenido que no nombra al
+  sujeto → atestado tras la re-ingesta) y `MNDT730P` (ficha coherente pero fragmento PT → **baja**,
+  no atestación). **Matiz que añaden**: antes de atestar por ficha hay que comprobar si el documento
+  es un **fragmento con hermano completo**; si lo es, la respuesta es la baja, no la atestación.
+- **R8 (NUEVA) — la grafía canónica es la del FABRICANTE, no la del documento.** Nace de DOA: el
+  documento imprime «DOA FJ/CPD» y el fabricante publica «DOA FJ» (el `/CPD` es el sufijo del
+  certificado). Como **los ids son INMUTABLES**, cuando el fabricante tiene ficha pública accesible
+  se acuña su grafía y la del corpus entra como **alias**. Ya se había aplicado de facto en DEC-260
+  (`S20/20MI` canónico / `20/20MI` alias); ahora es regla. **Corolario operativo**: ante un nombre
+  con barra o sufijo, la pregunta correcta antes de acuñar es «¿qué publica el fabricante?», y esa
+  pregunta se le hace a Alberto **antes** del alta, no después.
+- **R1' — VALIDADA dos veces más**, sin cambios: los documentos `MI_KIDDE_2X_AT_*` y `MU_KIDDE_2X_AT_*`
+  van sobre los **no táctiles** (0 tokens `2X-AT` frente a 183 y 65 de la serie `2X-A`), tal como él
+  leyó en las páginas 7-9. El nombre del fichero engaña y **manda el contenido**.
+- **R1, R2, R4, R6, R7 — sin cambios**: su feedback las ejercitó y ninguna falló.
+
+### Lo que NO es una regla, sino el instrumento
+
+Dos de los errores no vinieron de las reglas sino de **cómo el packet presenta las filas**, y ambos
+están corregidos en el **v3** (`evals/s320_e1_packet_adjudicacion_v3.md`): los **homónimos** van
+marcados con ⚠️ y un discriminador (fue lo que hizo que una nota cayera en el documento equivocado),
+y la línea del juez se imprime como **«PROPUESTO (NO es lo aplicado)»** (fue lo que le hizo criticar
+ids que nunca se aplicaron). El v3 además pre-clasifica las 67 filas vivas por los patrones que él
+ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (suyas, una a una).

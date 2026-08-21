@@ -1,0 +1,79 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260820T203206Z",
+ "plan_sha": "cc9fed961d8605be",
+ "freeze": {
+  "catalog_shas": {
+   "products": "d1561ba7d51aa44f",
+   "aliases": "8fea56e9bd00c3be",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "9a931f953ed1038c"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 1,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1744,
+  "entran": 0,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "notifier:smart3g-c3": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart3g-d3": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "sensitron:smart-2": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MNDT600"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

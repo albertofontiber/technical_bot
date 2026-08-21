@@ -28,7 +28,7 @@
 <a id="estado-actual-s327"></a>
 ## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 
-**s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
+**s331 (DEC-259) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
 entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
 ARRASTRAR —hint solo bindeados—, con la re-pregunta amnésica también en PLANTILLA sin LLM),
 diseño CERRADO en 6 rondas de dúo (v6 = spec vinculante, §11 = checklist B1-B11; corte
@@ -98,12 +98,12 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
-0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-257/258; NO bloquea el
+0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-259/258; NO bloquea el
    piloto): observabilidad + boot CABLEADOS y gates M4 COMPLETOS (G1 PASS todos los brazos con 2
    bugs cazados y arreglados EN el gate · G2 0 regresiones reales adjudicadas leyendo, ventana
    sucia declarada · MT 52/52 · G3 ON 6/6+6/6 · G4 prod byte-idéntica verificada). **Lote Railway
    worker = 4 vars**: `F1_RESOLVE_GOVERNED=on` + `F1_MENTION_PRECEDENCE=on` +
-   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-258).
+   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-260).
    **Tras el flip: verificación DEC-099 = re-lanzar la conversación Kidde real en Telegram.**
    Rollback = quitar las 4. Residuales post-flip en `evals/s331_m4_gates_resultado_v1.md`;
    **packet Alberto**: paraguas «2X-A» diferido.
@@ -136,6 +136,25 @@ causa de que una VM no la recibiera sigue abierta.
 6. **Del frente paralelo (s325h-e)**: sigue **sin medirse el AHORRO** de la caché del environment
    —la huella se movió tres veces ese día, así que la medida limpia solo sale tras un día sin tocar
    el instalador— y la causa de que una VM NO la recibiera sigue abierta.
+7. **Del packet E1 — trabajar sobre el `v3`, NO sobre el v2** (s331/DEC-259→260). El packet va por
+   **125 de 192 filas resueltas**; las **67 vivas** están en `evals/s320_e1_packet_adjudicacion_v3.md`,
+   pre-clasificadas por los patrones que Alberto ya firmó (**15 P1** «seguir al juez», **9 P3**
+   «retirar artefactos», **8 P4** suyas una a una). Lo que espera su decisión está reunido en
+   **`docs/DECISIONES_PENDIENTES_ALBERTO.md`**. Lo que sigue siendo de Alberto del residuo del
+   `s320_e1_packet_adjudicacion_v2.md` quedó cerrado salvo (a) **una frase sobre el paraguas «2X-A»**
+   —con táctiles (38) o sin ellos (27)—, ya con la medida hecha (0 gold perdidas, +2 golds ganan 12
+   fuentes cada una, 0 disparos en 111 consultas reales; solo salta la sonda sintética «2 x a»:
+   `evals/s331_2xa_sonda_plan_v1.json`); (b) los **10 nombres reales con barra** (un «sí» = alta; con
+   20/20MI y 20/20R **ya no** dependen de esto: la serie 20/20 entró entera en DEC-260); (c)
+   **VSN2-PLUS**, censado y diferido a propósito a la sentada E1b por ser rebrand multi-marca
+   (`evals/s331_vsn2plus_censo_v1.md`). **§1.A queda COMPLETA** y las 3 preguntas delegadas están
+   adjudicadas y aplicadas con recibo. Los bloques **E1b (474)** y **E2 (1.361 altas)** siguen
+   abiertos y son el grueso pendiente.
+8. **La cola REAL de «asignar modelo a un documento» son 85 → 77 documentos activos SIN doc_map**
+   (censo s331, tras enganchar los 7 de la serie 20/20): Notifier 31 · Morley 23 · Kidde 13 ·
+   Spectrex 8 → 1 · Aritech 4 · Xtralis 3 · resto 3. **No vive en ningún packet** — es la lista que
+   sale de cruzar `documents` activos contra `doc_map.jsonl`, y es el sitio natural para seguir
+   adjudicando identidad documento a documento cuando E1b/E2 no sean la prioridad.
 
 
 ## Estado anterior (s324b/c — 16-17 ago 2026, misma sesión que s324; noche autónoma)

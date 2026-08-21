@@ -1,0 +1,33 @@
+{
+ "que_es": "s324 — BAJA de corpus (documents.status='retired') de documentos adjudicados por Alberto.",
+ "modo": "aplicar",
+ "utc": "20260820T200406Z",
+ "plan": [
+  {
+   "doc": "996-130-000-3 Manuel d'utilisation ZX_hlsi",
+   "document_id": "564b775d-294d-4d67-97ae-99d9c617b3ee",
+   "clase": "adjudicacion-alberto",
+   "motivo": "Alberto (packet E1 v2, fila §1.A): «baja del corpus» — fragmento FR de 1 chunk (páginas finales de notas y contacto) del manual de usuario ZX 996-130-000-3. Declarado: NO hay hermano ES del mismo manual en el corpus; la política de idiomas (RULER_DESIGN: answer ES+EN) deja el FR fuera igualmente",
+   "chunks": 1,
+   "product_model": "ZX",
+   "hermano_es": null,
+   "doc_map_entries_a_quitar": []
+  }
+ ],
+ "rechazadas": [],
+ "backup": [
+  {
+   "document_id": "564b775d-294d-4d67-97ae-99d9c617b3ee",
+   "status_prev": "active",
+   "notes_prev": "Backfilled from pre-migration chunks (Phase 1 of document-management refactor).",
+   "doc_map_prev": null
+  }
+ ],
+ "aplicado": [
+  {
+   "document_id": "564b775d-294d-4d67-97ae-99d9c617b3ee",
+   "status": "retired"
+  }
+ ],
+ "reversion": "PATCH documents set status=<status_prev> por document_id; doc_map: restaurar doc_map_prev"
+}

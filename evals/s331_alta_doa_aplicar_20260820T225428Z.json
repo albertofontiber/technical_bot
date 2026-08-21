@@ -1,0 +1,96 @@
+{
+ "que_es": "s324 APLICACIÓN del lote firmado (catálogo por la puerta + retags DB con CAS)",
+ "modo": "aplicar",
+ "estado": "APLICADO",
+ "utc": "20260820T225428Z",
+ "plan_sha": "fa771009476ef7db",
+ "freeze_verificado": {
+  "catalog_shas": {
+   "products": "4065cbbb1260f25e",
+   "aliases": "0c5580eec2c74cb6",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "1cc61f93ef3cc126"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 1,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 1,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 1
+ },
+ "censo_post": {
+  "terminos_antes": 1757,
+  "terminos_despues": 1759,
+  "entran": 2,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "DOA FJ",
+    "normkey": "doafj",
+    "core": "doa[-\\s/.+]*fj",
+    "origen": "alta avotec:doa-fj",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOA FJ/CPD",
+    "normkey": "doafjcpd",
+    "core": "doa[-\\s/.+]*fj[-\\s/.+]*cpd",
+    "origen": "?",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {
+   "avotec:doa-fj": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual Rotulo REXD-103_EN"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags": {
+  "aplicados": [],
+  "revertidos": [],
+  "aborts": [],
+  "filas": [],
+  "backup_chunks": []
+ },
+ "backup_dir": "evals/s331_alta_doa_backup_20260820T225428Z",
+ "reversion": "restaurar los 4 .jsonl de backup_dir; chunks: PATCH product_model=product_model_prev por id (retags.backup_chunks); documents.product_model=documents_pm_prev"
+}

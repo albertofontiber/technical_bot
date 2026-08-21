@@ -1,0 +1,170 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260820T195917Z",
+ "plan_sha": "e3ad79292feff0f5",
+ "freeze": {
+  "catalog_shas": {
+   "products": "d1561ba7d51aa44f",
+   "aliases": "8fea56e9bd00c3be",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "d1be949caf423213"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 0,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 1,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1745,
+  "entran": 1,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "2X-A",
+    "normkey": "2xa",
+    "core": "2[-\\s/.+]*x[-\\s/.+]*a",
+    "origen": "paraguas 2X-A (38 ids)",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": [
+     "2[-\\s/.+]*x[-\\s/.+]*a[-\\s/.+]*lb",
+     "2[-\\s/.+]*x[-\\s/.+]*a[-\\s/.+]*lb[-\\s/.+]*loop[-\\s/.+]*board",
+     "2[-\\s/.+]*x[-\\s/.+]*a[-\\s/.+]*tactil",
+     "2[-\\s/.+]*x[-\\s/.+]*ae[-\\s/.+]*1",
+     "2[-\\s/.+]*x[-\\s/.+]*ae[-\\s/.+]*2",
+     "2[-\\s/.+]*x[-\\s/.+]*ae[-\\s/.+]*2[-\\s/.+]*p"
+    ]
+   }
+  ],
+  "alias_activados": [],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {
+   "¿El detector KE-DP3020W vale para la central 2X-A? La instalación exige EN 54-13": {
+    "antes": [
+     "ke-dp3020w"
+    ],
+    "despues": [
+     "ke-dp3020w",
+     "2x-a"
+    ]
+   },
+   "¿Cómo configuro el modo día/noche y los retardos de sirena en la 2X-A?": {
+    "antes": [],
+    "despues": [
+     "2x-a"
+    ]
+   }
+  },
+  "negativos_probados": 36,
+  "disparos_en_negativos": {
+   "2 x a": {
+    "antes": [],
+    "nuevos": [
+     "2 x a"
+    ]
+   }
+  },
+  "terminos_que_disparan_negativos": [
+   "2 x a"
+  ],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [
+   "2X-A"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "¿El detector KE-DP3020W vale para la central 2X-A? La instalación exige EN 54-13": {
+    "allowed_sources_nuevas": [
+     "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+     "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+     "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+     "2x-af1-s-161721-es",
+     "2x-af2-09-161721-es",
+     "2x-af2-fb-161721-es",
+     "2x-af2-fb-s-161721-es",
+     "2x-af2-scfb-161721-es",
+     "2x-af2-scfb-s-161721-es"
+    ],
+    "ids_nuevos": [
+     "kidde:2x-ae1",
+     "kidde:2x-ae2",
+     "kidde:2x-ae2-p",
+     "kidde:2x-af1",
+     "kidde:2x-af1-fb",
+     "kidde:2x-af1-fb-s",
+     "kidde:2x-af1-s",
+     "kidde:2x-af1-scfb",
+     "kidde:2x-af1-scfb-s",
+     "kidde:2x-af2",
+     "kidde:2x-af2-09",
+     "kidde:2x-af2-fb"
+    ],
+    "detected": [
+     "ke-dp3020w",
+     "2x-a"
+    ]
+   },
+   "¿Cómo configuro el modo día/noche y los retardos de sirena en la 2X-A?": {
+    "allowed_sources_nuevas": [
+     "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+     "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+     "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+     "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+     "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+     "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+     "2x-af1-s-161721-es",
+     "2x-af2-09-161721-es",
+     "2x-af2-fb-161721-es",
+     "2x-af2-fb-s-161721-es",
+     "2x-af2-scfb-161721-es",
+     "2x-af2-scfb-s-161721-es"
+    ],
+    "ids_nuevos": [
+     "kidde:2x-ae1",
+     "kidde:2x-ae2",
+     "kidde:2x-ae2-p",
+     "kidde:2x-af1",
+     "kidde:2x-af1-fb",
+     "kidde:2x-af1-fb-s",
+     "kidde:2x-af1-s",
+     "kidde:2x-af1-scfb",
+     "kidde:2x-af1-scfb-s",
+     "kidde:2x-af2",
+     "kidde:2x-af2-09",
+     "kidde:2x-af2-fb"
+    ],
+    "detected": [
+     "2x-a"
+    ]
+   }
+  },
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "STOP"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "STOP"
+}

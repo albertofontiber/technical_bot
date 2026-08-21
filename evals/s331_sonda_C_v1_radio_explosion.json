@@ -1,0 +1,546 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260820T203212Z",
+ "plan_sha": "198a427c1e6a5d56",
+ "freeze": {
+  "catalog_shas": {
+   "products": "d1561ba7d51aa44f",
+   "aliases": "8fea56e9bd00c3be",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "9a931f953ed1038c"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 11,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 1,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1744,
+  "terminos_despues": 1769,
+  "entran": 25,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "LISA 2",
+    "normkey": "lisa2",
+    "core": "lisa[-\\s/.+]*2",
+    "origen": "confirmar notifier:lisa-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 (EEx d)",
+    "normkey": "lisa2(eexd)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 (EEx nA)",
+    "normkey": "lisa2(eexna)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*na",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 (IN EEX-D)",
+    "normkey": "lisa2(ineexd)",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*in[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 EEx d",
+    "normkey": "lisa2eexd",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*d",
+    "origen": "confirmar notifier:lisa-2-eex-d",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "LISA 2 EEx nA",
+    "normkey": "lisa2eexna",
+    "core": "lisa[-\\s/.+]*2[-\\s/.+]*eex[-\\s/.+]*na",
+    "origen": "confirmar notifier:lisa-2-eex-na",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MTX2081",
+    "normkey": "mtx2081",
+    "core": "mtx[-\\s/.+]*2081",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "serie 3G",
+    "normkey": "serie3g",
+    "core": "serie[-\\s/.+]*3[-\\s/.+]*g",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 1",
+    "normkey": "smart1",
+    "core": "smart[-\\s/.+]*1",
+    "origen": "confirmar notifier:smart-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 2 TWIN",
+    "normkey": "smart2twin",
+    "core": "smart[-\\s/.+]*2[-\\s/.+]*twin",
+    "origen": "confirmar sensitron:smart-2-twin",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*2"
+    ]
+   },
+   {
+    "termino": "SMART 3",
+    "normkey": "smart3",
+    "core": "smart[-\\s/.+]*3",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*c[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*version[-\\s/.+]*display"
+    ]
+   },
+   {
+    "termino": "SMART3C",
+    "normkey": "smart3c",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*c",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CC",
+    "normkey": "smart3cc",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc",
+    "origen": "confirmar notifier:smart-3-cc",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CC-CD",
+    "normkey": "smart3cccd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*cd",
+    "origen": "confirmar notifier:smart-3-cc-cd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CC-DC",
+    "normkey": "smart3ccdc",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cc[-\\s/.+]*dc",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 CD",
+    "normkey": "smart3cd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*cd",
+    "origen": "confirmar notifier:smart-3-cd",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3 con pantalla",
+    "normkey": "smart3conpantalla",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*con[-\\s/.+]*pantalla",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 3G",
+    "normkey": "smart3g",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g",
+    "origen": "confirmar notifier:smart-3g",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*c[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3",
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*version[-\\s/.+]*display"
+    ]
+   },
+   {
+    "termino": "SMART3G con pantalla",
+    "normkey": "smart3gconpantalla",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*con[-\\s/.+]*pantalla",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART3G-D",
+    "normkey": "smart3gd",
+    "core": "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d",
+    "origen": "confirmar notifier:smart3g-d",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "smart[-\\s/.+]*3[-\\s/.+]*g[-\\s/.+]*d[-\\s/.+]*3"
+    ]
+   },
+   {
+    "termino": "SMART4",
+    "normkey": "smart4",
+    "core": "smart[-\\s/.+]*4",
+    "origen": "confirmar notifier:smart4",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART4 (abreviado a SMT4)",
+    "normkey": "smart4(abreviadoasmt4)",
+    "core": "smart[-\\s/.+]*4[-\\s/.+]*abreviado[-\\s/.+]*a[-\\s/.+]*smt[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMART 4 (COPTIR) Multi-sensor",
+    "normkey": "smart4(coptir)multisensor",
+    "core": "smart[-\\s/.+]*4[-\\s/.+]*coptir[-\\s/.+]*multi[-\\s/.+]*sensor",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SMT4",
+    "normkey": "smt4",
+    "core": "smt[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Twin version Smart 2",
+    "normkey": "twinversionsmart2",
+    "core": "twin[-\\s/.+]*version[-\\s/.+]*smart[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "EExnA",
+    "id": "notifier:lisa-2-eex-na",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "LISA 2 (EEx d)",
+    "id": "notifier:lisa-2-eex-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LISA 2 (EEx nA)",
+    "id": "notifier:lisa-2-eex-na",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "LISA 2 (IN EEX-D)",
+    "id": "notifier:lisa-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo antideflagrante",
+    "id": "notifier:lisa-2-eex-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "MTX2081",
+    "id": "notifier:smart-3-cc-cd",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "serie 3G",
+    "id": "notifier:smart-3g",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 3",
+    "id": "notifier:smart-3-cc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3C",
+    "id": "notifier:smart-3-cc",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 3 CC-DC",
+    "id": "notifier:smart-3-cc-cd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 3 con pantalla",
+    "id": "notifier:smart-3-cd",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3G",
+    "id": "notifier:smart-3g",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART3G con pantalla",
+    "id": "notifier:smart3g-d",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART4 (abreviado a SMT4)",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMART 4 (COPTIR) Multi-sensor",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SMT4",
+    "id": "notifier:smart4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TWIN version",
+    "id": "sensitron:smart-2-twin",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Twin version Smart 2",
+    "id": "sensitron:smart-2-twin",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "versione TWIN",
+    "id": "sensitron:smart-2-twin",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "VERSIONE TWN (DOPPIA SOGLIA)",
+    "id": "sensitron:smart-2-twin",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 111,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "efecto_docmap": {
+   "notifier:lisa-2": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:lisa-2-eex-d": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:lisa-2-eex-na": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:s264o2gp": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:s317amdp": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:s613amfp": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:sentox-4": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:sentox-idi+": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart-1": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart-3-cc": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart-3-cc-cd": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart-3-cd": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart-3g": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart3g-c3": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart3g-d": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart3g-d3": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:smart4": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:vgs-ad": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:vgs-du": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "notifier:vgs-exp": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "sensitron:smart-2": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MNDT600"
+    ]
+   },
+   "sensitron:smart-2-twin": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT600"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

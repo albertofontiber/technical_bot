@@ -1,0 +1,207 @@
+{
+ "que_es": "s331 — LOTE §1.A+§1.B: las 30 anotaciones que Alberto escribió en su copia del packet E1, verificadas una a una. Post-dúo r40.",
+ "utc": "20260820T000000Z",
+ "firma": "Alberto, 20-ago-2026: «Revísalo en este lote»",
+ "propuesta": "evals/s331_lote_1AB_propuesta_v2.md (dúo r40)",
+ "products_altas": [
+  {
+   "row": {
+    "id": "kidde:ke-dba-labw-s",
+    "canonical_model": "KE-DBA-LABW-S",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Commercial"
+    ],
+    "added_by": "s331",
+    "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «OK con juez» de Alberto: R7 no pudo partir L1S..L4S (no aparecen como token); el sujeto real del documento es KE-DBA-LABW-S, en el título; cita verificada full-text en hd ke dba labw lxs es (2 chunks con el token exacto)"
+   },
+   "doc": "hd ke dba labw lxs es",
+   "document_id": "80d2a866-2507-4d86-8540-092e2d97d768",
+   "cita": "KIDDE COMMERCIAL (logo in white on red background) # KE-DBA-LABW-S Accesorio detector inteligente direccionable - etiqueta en blanco (pequeña) ## General",
+   "n_token": 2,
+   "regla": "alta con cita propia (anotación de Alberto verificada)"
+  },
+  {
+   "row": {
+    "id": "notifier:conv232-485",
+    "canonical_model": "CONV232/485",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Notifier"
+    ],
+    "added_by": "s331",
+    "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «el modelo es CONV232/485» (Alberto): referencia comercial en el título de la TI; RS232 y RS485/422 NO se dan de alta — son esquemas de transmisión, no modelos (matiz suyo); cita verificada full-text en TIDT110 (3 chunks con el token exacto)"
+   },
+   "doc": "TIDT110",
+   "document_id": "bc0c7b5f-95f7-4198-806c-b17dac41d32e",
+   "cita": "R®** # **Convertidor RS232 a RS485/422 para TG a centrales ID3000 - punto a punto. Ref.: CONV232/485** Las conexiones de puerto serie RS-232 no están aconsejadas para longitudes de cableado",
+   "n_token": 3,
+   "regla": "alta con cita propia (anotación de Alberto verificada)"
+  },
+  {
+   "row": {
+    "id": "kidde:9-30520",
+    "canonical_model": "9-30520",
+    "estado": "activo",
+    "candidate": false,
+    "vendido_bajo": [
+     "Kidde Global Solutions"
+    ],
+    "added_by": "s331",
+    "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «OK con juez» de Alberto: ZLSM-ME/ZLSM-MR son artefactos (0 menciones) y R7 no los creó; el sujeto real es el P/N 9-30520, «Carcasa de expansión MiniLaser»; cita verificada full-text en ds kidde zlsm me es (2 chunks con el token exacto)"
+   },
+   "doc": "ds kidde zlsm me es",
+   "document_id": "5fb4587b-a1bd-4212-83a9-4a816696fdd8",
+   "cita": "- geometric design with blue, red, and gray triangular shapes] KIDDE GLOBAL SOLUTIONS # 9-30520 ## Carcasa de expansión MiniLaser ### Descripción El submódulo de expansión MiniLaser",
+   "n_token": 2,
+   "regla": "alta con cita propia (anotación de Alberto verificada)"
+  }
+ ],
+ "products_confirmar": [],
+ "products_retirar": [],
+ "aliases_altas": [],
+ "aliases_quitar": [],
+ "umbrellas_altas": [],
+ "doc_map_altas": [
+  {
+   "document_id": "80d2a866-2507-4d86-8540-092e2d97d768",
+   "source_file": "hd ke dba labw lxs es",
+   "entries": [
+    {
+     "id": "kidde:ke-dba-labw-s",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — documento del propio producto (2 chunks con el token)"
+    }
+   ]
+  },
+  {
+   "document_id": "bc0c7b5f-95f7-4198-806c-b17dac41d32e",
+   "source_file": "TIDT110",
+   "entries": [
+    {
+     "id": "notifier:conv232-485",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — documento del propio producto (3 chunks con el token)"
+    }
+   ]
+  },
+  {
+   "document_id": "5fb4587b-a1bd-4212-83a9-4a816696fdd8",
+   "source_file": "ds kidde zlsm me es",
+   "entries": [
+    {
+     "id": "kidde:9-30520",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — documento del propio producto (2 chunks con el token)"
+    }
+   ]
+  },
+  {
+   "document_id": "4d759502-dff9-4ed3-8af0-ff92b6445733",
+   "source_file": "mi kidde zlsm me ing",
+   "entries": [
+    {
+     "id": "kidde:9-30520",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — hoja de instalación en inglés del mismo accesorio («MiniLaser Expansion Housing»)"
+    }
+   ]
+  },
+  {
+   "document_id": "819f12cc-b75c-4c4f-9f82-4b0b781b8fbe",
+   "source_file": "MNDT730",
+   "entries": [
+    {
+     "id": "notifier:laserstar-hssd-2",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «modelo que propone el juez» (Alberto): NO se crea producto «Stratos-HSSD»; el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo») y el paraguas STRATOS ya existe (s324b) → R1 a sus 3 miembros, en simetría con MADT731_02"
+    },
+    {
+     "id": "notifier:minilser25",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «modelo que propone el juez» (Alberto): NO se crea producto «Stratos-HSSD»; el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo») y el paraguas STRATOS ya existe (s324b) → R1 a sus 3 miembros, en simetría con MADT731_02"
+    },
+    {
+     "id": "notifier:minilaser-100",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s331 §1.A+§1.B — anotaciones de Alberto en el packet E1 (20-ago-2026), verificadas una a una; dúo r40 aplicado antes de escribir — «modelo que propone el juez» (Alberto): NO se crea producto «Stratos-HSSD»; el doc es una miniguía de FAMILIA («El equipamiento puede variar según el modelo») y el paraguas STRATOS ya existe (s324b) → R1 a sus 3 miembros, en simetría con MADT731_02"
+    }
+   ]
+  }
+ ],
+ "doc_map_modificaciones": [
+  {
+   "document_id": "0119436e-4676-4110-a351-9c8da48e472f",
+   "source_file": "Con que Sistema Operativo compatible el programa de la DXc Connexion",
+   "entries_nuevas": [
+    "morley:dxc1",
+    "morley:dxc2",
+    "morley:dxc4"
+   ],
+   "regla": "§1.A anotación de Alberto verificada",
+   "detalle": "QUITAR los 6 ids ZX: el PDF (1 página) trata SOLO de la DXc Connexion (MK-DXc, Windows XP/7) y no nombra ninguna ZX. La nota «este archivo habla también de la ZX-A, ZX-E, ZX-2/5e, ZX2/5SE» describe la FAQ HERMANA (ZX y DX), cuyo nombre es casi idéntico. Hoy zxae/zxee tienen aquí enganchada la respuesta CONTRARIA (la ZX-A usa MS-DOS + FIRE5)"
+  },
+  {
+   "document_id": "9a8054ff-85cb-4a82-a0c2-e36e1b34323a",
+   "source_file": "Con que Sistema Operativo compatible el programa de la ZX y DX",
+   "entries_nuevas": [
+    "morley:zx10se",
+    "morley:zx1e",
+    "morley:zx1se",
+    "morley:zx2e",
+    "morley:zx2se",
+    "morley:zx5e",
+    "morley:zx5se",
+    "morley:dx1e",
+    "morley:dx2e",
+    "morley:dx4e",
+    "morley:zxae",
+    "morley:zxee"
+   ],
+   "regla": "§1.A anotación de Alberto verificada",
+   "detalle": "AÑADIR morley:zxae y morley:zxee: el documento los nombra («Modelos de central ZX-A o ZX-E. Programa FIRE5»). Validado a petición de Alberto: los modelos son ZXAE/ZXEE — prueba en la tabla de equivalencias del TG «TG-ZXA | PROGRAMA GRAFICO ZXAE»; en el corpus ZXAE 197 menciones/12 docs y ZXEE 224/13, mientras «ZX-A»/«ZX-E» salen 1 vez y solo aquí"
+  }
+ ],
+ "retags_db": [],
+ "no_aplicar": [
+  {
+   "tema": "retag manufacturer de ASD Harsh (Xtralis → System Sensor)",
+   "estado": "FUERA por el dúo r40 (Sol, crítico): sería otro parche efímero de la clase TECH_DEBT #95 — la reingesta re-deriva el fabricante y lo re-estampa. El dato ESTÁ mal (el doc es © 2015 System Sensor) y afecta a `_diversify_by_manufacturer`, pero el arreglo es la AUTORIDAD DE INGESTA, no un reaplicador hermano. Se amplía #95 a `manufacturer`"
+  },
+  {
+   "tema": "alta avotec:doa-fj-cpd (nota «marca DOA, producto FJ/CPD»)",
+   "estado": "FUERA por el dúo r40 (Sol, medio): los ids son INMUTABLES y la identidad sigue abierta — el doc es © AVOTEC Srl y «DOA» no aparece suelta ni una vez en todo el corpus (sus 2 menciones son «DOA FJ/CPD», una dentro de un número de certificado CE). Acuñar el id antes de que Alberto aclare si DOA es marca sería escribir una decisión irreversible"
+  },
+  {
+   "tema": "morley:efs-em-8 · notifier:nx2-r-r-y-nx5-r-r",
+   "estado": "sin decisión de Alberto («pending.» y anotación vacía)"
+  }
+ ],
+ "gaps": [
+  "9-30520 es un número de parte: el precedente limpio en catálogo es UNO (spectrex:777163 activo/no-candidate) — 380114-2 y model-787640 son candidate y notifier:777163 es redirect (corregido tras Fable r40). El riesgo léxico del token numérico lo decide el gate",
+  "OBJETIVO y MÉTRICA (Sol r40): esto es identidad de catálogo. El gate es el censo del radio de explosión (detector, 51 gold, negativos sintéticos, 111 consultas reales). NO mide retrieval/generación end-to-end — el writer lo reconoce explícitamente. El único efecto de serving esperado es NEGATIVO por diseño: quitar una fuente equivocada de 6 productos ZX",
+  "CONV232/485 aparece como «Ref.:» (rol REFERENCIA_COMERCIAL), no como título de producto",
+  "El gate PARÓ el lote en el primer dry-run (VEREDICTO STOP) porque estas 2 gold pierden una fuente. El instrumento no tenía canal para pérdidas DESEADAS —solo para negativos sintéticos—, así que bloqueaba por diseño cualquier limpieza de contaminación. Se añadió el canal simétrico `perdidas_de_fuente_adjudicadas` (coincidencia exacta gold+fuente; lo no declarado sigue en STOP; `ids_perdidos` nunca se adjudica) con tests en tests/test_s331_gate_perdidas_adjudicadas.py."
+ ],
+ "perdidas_de_fuente_adjudicadas": [
+  {
+   "gold": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+   "source_file": "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+   "motivo": "PÉRDIDA DESEADA: es la contaminación que este lote retira. La FAQ de la DXc es un PDF de UNA página sobre sistemas operativos (Windows XP/7, programa MK-DXc, cable EXP-080/020-891) y no dice NADA de resistencias de fin de línea ni de conexión de sirenas — no puede responder a esta gold. Verificado que las fuentes que SÍ la responden siguen permitidas: a morley:zx2e y morley:zx5e les quedan 9 fuentes, entre ellas los cinco manuales reales de la ZXe (MIE-MI-530 instalación, MIE-MP-530/535 puesta en marcha, MIE-MU-530/535 usuario). ids_perdidos = [] — no se pierde ningún producto."
+  },
+  {
+   "gold": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+   "source_file": "Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf",
+   "motivo": "PÉRDIDA DESEADA: es la contaminación que este lote retira. La FAQ de la DXc es un PDF de UNA página sobre sistemas operativos (Windows XP/7, programa MK-DXc, cable EXP-080/020-891) y no dice NADA de resistencias de fin de línea ni de conexión de sirenas — no puede responder a esta gold. Verificado que las fuentes que SÍ la responden siguen permitidas: a morley:zx2e y morley:zx5e les quedan 9 fuentes, entre ellas los cinco manuales reales de la ZXe (MIE-MI-530 instalación, MIE-MP-530/535 puesta en marcha, MIE-MU-530/535 usuario). ids_perdidos = [] — no se pierde ningún producto."
+  }
+ ]
+}
