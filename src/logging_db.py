@@ -158,7 +158,10 @@ def log_query(
     try:
         safe_trace = None
         if rag_trace is not None:
-            safe_trace = validate_rag_serving_trace(rag_trace)
+            # (s331 B9) El sink acopla fila↔shape: direct/1 solo en clarify/decline,
+            # el shape RAG solo en filas rag — la validación cruzada vive AQUÍ, el
+            # único punto de escritura (doctrina s306: solo el sink valida).
+            safe_trace = validate_rag_serving_trace(rag_trace, route=route)
             if safe_trace is None:
                 logger.warning("Rejected rag_trace outside the closed storage schema")
         stored_response = response[:_RESPONSE_MAX_CHARS] if response else None

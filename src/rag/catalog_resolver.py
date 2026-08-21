@@ -163,7 +163,12 @@ def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
 def _build() -> None:
     global _loaded, _pattern, _cat, _docs_by_id, _document_scopes_by_id
     global _governed_scope_owners
+    global _mention_term_keys, _mention_term_fabricantes
     _loaded = True
+    # (s331 §3.C.1) los índices del detector de menciones DERIVAN del catálogo: se
+    # invalidan con él, jamás sobreviven a un rebuild.
+    _mention_term_keys = None
+    _mention_term_fabricantes = None
     try:
         cat = catalog_store.load()
     except Exception as e:                      # catálogo ausente/roto → resolver inerte
@@ -542,6 +547,38 @@ def corpus_pm_elements() -> frozenset[str] | None:
         return elements
 
 
+def presence_estado() -> str:
+    """(s331 obs/boot) Estado actual de la caché SIN red: vigente|stale|cold."""
+    return _presence_peek(time.monotonic())[1]
+
+
+_presence_refresh_lock = threading.Lock()
+
+
+def refresh_presence() -> str:
+    """(s331 boot + refresher periódico a 0,8×TTL) Recarga SINGLE-FLIGHT del set de
+    presencia: 'refreshed' | 'in_progress' (otra recarga en vuelo — coalescida, no
+    espera) | 'failed' (fail-open: el set previo sigue sirviendo vía peek hasta su
+    stale, y los drops ya están desactivados en stale/cold). TODA la red del ciclo
+    de vida de la presencia vive aquí y en `corpus_pm_elements` (retrieval); el
+    path de TURNO usa `_presence_peek`, sin red y sin espera de lock."""
+    global _presence
+    if not _presence_refresh_lock.acquire(blocking=False):
+        return "in_progress"
+    try:
+        elements, fp = _load_presence()
+        now = time.monotonic()
+        with _presence_lock:
+            _presence = {"elements": elements, "at": now, "fp": fp, "fp_at": now}
+        return "refreshed" if elements is not None else "failed"
+    except Exception:  # noqa: BLE001 — telemetría/caché jamás rompe el proceso
+        logger.warning(
+            "refresh_presence falló (fail-open: el set previo sigue sirviendo)")
+        return "failed"
+    finally:
+        _presence_refresh_lock.release()
+
+
 def _token_core_absent_in_corpus(token: str) -> bool:
     """True SOLO si estamos SEGUROS de que el core del token NO tiene presencia exact-tag
     POR ELEMENTO en el corpus. Core vacío o DB no consultable ⇒ False = CONSERVAR."""
@@ -554,19 +591,46 @@ def _token_core_absent_in_corpus(token: str) -> bool:
     return core not in elements
 
 
+# (s331 §3.A) Centinela «sin argumento»: distingue el path de RETRIEVAL (consulta la
+# presencia con red/lock, conducta histórica) del path de TURNO (presencia explícita,
+# jamás red — None ⇒ conservar). No usar None como default: None es un VALOR válido.
+_PRESENCE_UNSET = object()
+
+
+def _presence_peek(now: float):
+    """(s331 §3.A) Vista SIN RED y SIN LOCK de la caché de presencia:
+    ``(elements | None, estado)`` con estado ∈ {'vigente','stale','cold'}.
+    A diferencia de ``_presence_lookup``, aquí NO se re-chequea el fingerprint (eso
+    es un GET) ni se dispara ningún scan: el path de TURNO corre síncrono en el event
+    loop del bot y no puede tocar red (Sol-4 r-v2 / Sol-5 r-v4). ``stale`` y ``cold``
+    devuelven ``None`` ⇒ el llamante DESACTIVA la regla monótona corpus-aware y
+    conserva los tokens (Sol-1 r-v5: un set vencido haría parecer AUSENTE una etiqueta
+    recién añadida al corpus y provocaría un drop incorrecto)."""
+    entry = _presence
+    if entry is None or entry.get("elements") is None:
+        return None, "cold"
+    if time.monotonic() - entry["at"] >= _PRESENCE_TTL_S:
+        return None, "stale"
+    return entry["elements"], "vigente"
+
+
 def _replace_policy() -> bool:
     """El brazo del seam 1 (IDENTITY_RESOLVE_POLICY): 'add' (default) | 'replace'."""
     return (os.getenv("IDENTITY_RESOLVE_POLICY", "") or "add").strip().lower() == "replace"
 
 
-def _drop_gates_pass(tok: str, via: str | None, resolved: dict) -> bool:
+def _drop_gates_pass(tok: str, via: str | None, resolved: dict,
+                     presence_elements=_PRESENCE_UNSET) -> bool:
     """¿Puede el token REEMPLAZARSE (entrar en `drop_tokens`)? Puertas, en orden:
     1. solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original (exact ya ES el
        canonical — reemplazarlo sería un no-op);
     2. (s278 §1a GUARD-IMPL) la expansión no filtró miembros (`all_members_consumable`);
     3. (s278 §1a) la unidad no está en la quarantine de pendientes-de-adjudicación;
     4. (s287 P1) el PROPIO core del token NO tiene presencia exact-tag en el corpus.
-    Las cuatro fail-open-a-add (el token se conserva y la expansión se añade igual)."""
+    Las cuatro fail-open-a-add (el token se conserva y la expansión se añade igual).
+    (s331) `presence_elements`: el path de TURNO pasa la presencia EXPLÍCITA de
+    `_presence_peek` (None = stale/cold ⇒ CONSERVAR, sin tocar red); sin argumento,
+    conducta histórica del path de retrieval (consulta con red/lock)."""
     if via not in ("paraguas", "alias", "homonimo"):
         return False
     if not resolved.get("all_members_consumable"):
@@ -582,15 +646,22 @@ def _drop_gates_pass(tok: str, via: str | None, resolved: dict) -> bool:
         # brazo add: `drop_tokens` es inerte (apply_to_models lo ignora) → no se paga la
         # consulta de corpus y el campo conserva su semántica histórica.
         return True
+    if presence_elements is not _PRESENCE_UNSET:
+        if presence_elements is None:
+            return False
+        core = _series.normalize_model(tok or "")
+        return bool(core) and core not in presence_elements
     return _token_core_absent_in_corpus(tok)
 
 
-def resolve_query(query: str) -> dict:
+def resolve_query(query: str, presence_elements=_PRESENCE_UNSET) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
      allowed_sources, resolved_documents[{document_id, source_file}]}.
     expand=False (clarify/candidate/unknown) NO aporta expansión, allowed_sources ni
-    documentos — el contrato `expand` del resolve() se respeta literalmente."""
+    documentos — el contrato `expand` del resolve() se respeta literalmente.
+    (s331) `presence_elements`: ver `_drop_gates_pass` — el path de TURNO la pasa
+    explícita para que las puertas del drop no toquen red."""
     _ensure()
     detected = detect(query)
     records, add_models, drop_tokens, source_groups = [], [], [], []
@@ -632,7 +703,7 @@ def resolve_query(query: str) -> dict:
             # el drop del token original (brazo replace) pasa por las 4 puertas de
             # `_drop_gates_pass` (via-elegible · guard candidate-member s278 · quarantine
             # s278 · regla monótona-segura corpus-aware s287 P1); todas fail-open-a-add.
-            if _drop_gates_pass(tok, rec["via"], r):
+            if _drop_gates_pass(tok, rec["via"], r, presence_elements):
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
             "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
@@ -756,6 +827,410 @@ def fetch_enabled() -> bool:
     if f and mode() != "on":
         raise RuntimeError("IDENTITY_FETCH=on/llm requiere IDENTITY_RESOLVE=on (fail-fast)")
     return f
+
+
+# ---------------------------------------------------------------------------
+# (s331 §3.A) Resolución gobernada de la SEAM DE COMPOSICIÓN de F1
+# ---------------------------------------------------------------------------
+def turn_resolve_enabled() -> bool:
+    """Flag propio de la seam F1 (`F1_RESOLVE_GOVERNED`, default off = byte-idéntico).
+    Requiere IDENTITY_RESOLVE=on: flag-on con el resolver apagado es un error de
+    DESPLIEGUE y revienta (mismo patrón fail-fast que `fetch_enabled`; el chequeo de
+    BOOT del worker aborta el arranque ANTES de servir turnos — este guard runtime es
+    el cinturón que no debe disparar jamás, Fable-3 r-v5)."""
+    raw = (os.getenv("F1_RESOLVE_GOVERNED", "") or "").strip().lower()
+    if raw not in ("", "0", "false", "no", "off", "1", "true", "yes", "on"):
+        raise RuntimeError(f"F1_RESOLVE_GOVERNED={raw!r} no reconocido (on|off) — fail-fast")
+    on = raw in ("1", "true", "yes", "on")
+    if on and mode() != "on":
+        raise RuntimeError(
+            "F1_RESOLVE_GOVERNED=on requiere IDENTITY_RESOLVE=on (interlock s331 — "
+            "corrige el lote de flags)")
+    return on
+
+
+def resolve_for_turn(query: str, base_models: list[str], *,
+                     canonicalize_only: bool = False) -> tuple[list[str], dict | None]:
+    """(s331 §3.A) Punto de entrada del path CONVERSACIONAL (seam de composición de
+    `resolve_conversational_turn` — cubre la rama `detect_turn_signals` Y la rama
+    `resolved_model` del plan). Misma resolución del seam 1 que
+    `resolve_for_retrieval`, con TRES diferencias de contrato:
+
+    1. **SIN RED en el hot-path** (corre síncrono en el event loop del bot): la
+       presencia se lee con `_presence_peek`; en `stale`/`cold` la regla monótona
+       corpus-aware queda DESACTIVADA (None ⇒ conservar, Sol-1 r-v5) y el estado se
+       devuelve en `info["presence"]` para el trace. El fingerprint NO se re-chequea.
+    2. **SIN efectos seam-2**: ni `allowed_sources`, ni fetch, ni shadow-log.
+    3. **`canonicalize_only`** (rama `resolved_model`, ítem B2 §11 v6): se escanean
+       SOLO los strings de `base_models` — jamás la query — así la autoridad del plan
+       se preserva (nunca se añaden modelos de la query por esta rama).
+
+    off (flag o resolver) → passthrough EXACTO (mismo objeto de lista, None).
+    Devuelve `(models, info|None)` con
+    `info = {"presence": estado, "detected": [...], "changed": bool}`."""
+    if not turn_resolve_enabled():
+        return base_models, None
+    _ensure()
+    if _cat is None or _pattern is None:
+        return base_models, None
+    elements, estado = _presence_peek(time.monotonic())
+    scan_text = " ".join(base_models) if canonicalize_only else query
+    if not scan_text.strip():
+        return base_models, {"presence": estado, "detected": [], "changed": False}
+    res = resolve_query(scan_text, presence_elements=elements)
+    if not res["detected"]:
+        return base_models, {"presence": estado, "detected": [], "changed": False}
+    if canonicalize_only:
+        # Sustitución de grafía IN-PLACE (no añadir): apply_to_models dedupe por
+        # normkey y descartaría el canónico como «duplicado» del string del plan.
+        # Solo exact/alias con id ÚNICO canonicalizan; un paraguas dado por el plan
+        # se conserva tal cual (canonicalizarlo a UN miembro sería elegir por él).
+        nt = catalog_store.norm_token
+        canon: dict[str, str] = {}
+        for rec in res["records"]:
+            ids = rec.get("ids") or []
+            if rec.get("via") in ("exact", "alias") and len(ids) == 1:
+                p = _cat.products.get(ids[0])
+                if p and p.get("canonical_model"):
+                    canon[nt(rec["token"])] = p["canonical_model"]
+        out, seen = [], set()
+        for m in base_models:
+            repl = canon.get(nt(m), m)
+            rk = nt(repl)
+            if rk not in seen:
+                seen.add(rk)
+                out.append(repl)
+    else:
+        out = apply_to_models(list(base_models), res)
+    return out, {"presence": estado, "detected": list(res["detected"]),
+                 "changed": out != list(base_models)}
+
+
+# ---------------------------------------------------------------------------
+# (s331 §3.C.1) Detector de mención no-resuelta — puertas 1 y 2
+# ---------------------------------------------------------------------------
+# Dos puertas ASIMÉTRICAS sobre el mismo material (spec v6 §3.C.1, ítems B7/B11 §11):
+#   puerta 1 — CONDUCTA (`detect_unresolved_mentions`): el usuario nombró algo con forma
+#              de modelo que el catálogo gobernado NO resuelve. Daño de un FP = una frase
+#              superflua de reconocimiento ⇒ umbral bajo, pero con TODAS las exclusiones
+#              por fuente GOBERNADA (catálogo · NON_PRODUCT_CODES · quarantine · léxicos
+#              versionados de unidades y normas).
+#   puerta 2 — CORTE-DE-RUTA (`mention_route_cut_eligible`): además, la mención debe ser
+#              EXTENSIÓN de un término gobernado COMPLETO (longest-term-wins, cola ≤6) y
+#              su término no puede mapear a más de un fabricante (veto B7). Daño de un FP =
+#              alto (se corta la ruta) ⇒ 0 FP exigido por G0-b'.
+# NADA aquí toca red ni muta el catálogo: es file-based (data/catalog/*.jsonl vía la puerta
+# `catalog_store`) + dos YAML de config. La presencia de corpus NO interviene.
+_UNITS_LEXICON_PATH = ROOT / "config" / "mention_units_lexicon_v1.yaml"
+_NORMS_LEXICON_PATH = ROOT / "config" / "mention_norms_lexicon_v1.yaml"
+
+_units_lexicon: "frozenset[str] | None" = None          # sufijos de unidad (minúscula)
+_norms_lexicon: "frozenset[str] | None" = None          # prefijos de norma (minúscula)
+_mention_term_keys: "frozenset[str] | None" = None      # normkeys de términos RESOLUBLES
+_mention_term_fabricantes: "dict[str, frozenset[str]] | None" = None   # multimap B7
+_non_product_keys: "frozenset[str] | None" = None       # NON_PRODUCT_CODES en normkey
+
+# Forma-de-modelo, con los MISMOS guardas que las regex del fichero (`_build` usa
+# `\b(...)(?![a-z0-9])`; `_score_chunk` usa `(?<![a-z0-9])...(?![a-z0-9])`): run
+# alfanumérico con separadores INTERNOS '-', '/' y '.' opcionales, jamás pegado a otro
+# alfanumérico. `[^\W_]` = alfanumérico unicode sin el '_' (la query llega SIN foldear —
+# las formas devueltas son las SUPERFICIALES del usuario).
+# El ESPACIO no es separador interno (decisión de build M2, declarada): admitirlo haría
+# que "tengo la 2X-AF1-XQ2 instalada" colapsara en UN token gigante; los términos
+# multi-palabra del catálogo ya los cubre `detect()` por su propio core `_SEP`.
+_MENTION_TOKEN_RX = re.compile(r"(?<![^\W_])[^\W_]+(?:[-/.][^\W_]+)*(?![^\W_])")
+_MENTION_SEP_RX = re.compile(r"[\s\-_/.]+")        # los mismos separadores que norm_token
+_MENTION_LEAD_NUM_RX = re.compile(r"^[\d\s\-_/.,]+")   # dígitos+separadores INICIALES
+_MENTION_NORM_RX = re.compile(r"^([a-z]+)([\d\s\-_/.]+)$")   # 'une' + '-23007'
+# La 'Ω' se normaliza a 'ohm' para que '24kΩ' caiga en el léxico como 'kohm'. Con
+# la minúscula griega basta: tanto Ω (U+03A9) como el signo de ohmio (U+2126) bajan
+# a ω (U+03C9) al pasar por `.lower()`.
+_OHM_CHARS = ("ω",)
+
+
+def _load_mention_lexicon(path: Path, clave: str) -> frozenset[str]:
+    """Carga un léxico de exclusión del detector (config versionada, gobernanza §C.1).
+    A DIFERENCIA de la quarantine (fail-FAST: sin ella el drop bajo replace queda sin
+    gobierno) aquí el fallo es FAIL-OPEN a lista VACÍA con warning — un léxico ausente
+    solo produce falsos positivos de puerta 1, cuyo daño es una frase superflua."""
+    import yaml
+    try:
+        raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except Exception as e:                                   # noqa: BLE001
+        logger.warning(f"léxico de menciones no cargable ({path.name}: {e}) — FAIL-OPEN a "
+                       f"lista vacía: la puerta 1 perderá esta exclusión")
+        return frozenset()
+    rows = raw.get(clave) if isinstance(raw, dict) else None
+    if not isinstance(rows, list):
+        logger.warning(f"léxico de menciones MALFORMADO ({path.name}): se espera un dict con "
+                       f"la lista '{clave}' — FAIL-OPEN a lista vacía")
+        return frozenset()
+    entradas = ((str(r) or "").strip().lower() for r in rows if r is not None)
+    return frozenset(v for v in entradas if v)
+
+
+def _units_tokens() -> frozenset[str]:
+    """Sufijos de unidad gobernados (`config/mention_units_lexicon_v1.yaml`). Cache de
+    módulo: se carga UNA vez por proceso (patrón `_quarantine_tokens`)."""
+    global _units_lexicon
+    if _units_lexicon is None:
+        _units_lexicon = _load_mention_lexicon(_UNITS_LEXICON_PATH, "unidades")
+    return _units_lexicon
+
+
+def _norms_prefixes() -> frozenset[str]:
+    """Prefijos de norma gobernados (`config/mention_norms_lexicon_v1.yaml`)."""
+    global _norms_lexicon
+    if _norms_lexicon is None:
+        _norms_lexicon = _load_mention_lexicon(_NORMS_LEXICON_PATH, "prefijos_norma")
+    return _norms_lexicon
+
+
+# (s331 §3.C.1 — CONFLICTO DE CAPAS, declarado en el build M2 y PENDIENTE de adjudicación)
+# La spec manda excluir `NON_PRODUCT_CODES`, el seed declarado de la política conversacional
+# (`src/orchestrator/conversation_policy.py:112-114`). Importarlo DESDE AQUÍ es imposible sin
+# romper el contrato de imports: `ALLOWED["rag"] = {raiz, ingestion, rag}`
+# (`tests/test_import_contract.py`) — y sus excepciones exigen dúo, o sea decisión de RUMBO,
+# no de build (M2 tampoco puede tocar `src/orchestrator/*` para re-hogar el seed).
+# Bridge MÍNIMO y reversible en una línea: ESPEJO literal del seed + test de DERIVA
+# (`tests/test_s331_mention_detector.py::test_espejo_non_product_codes_sin_deriva`) que
+# revienta si las dos listas divergen. El test vive en `tests/`, capa que el contrato NO
+# mira, así que la fuente ÚNICA se preserva operacionalmente (CI), no por disciplina.
+# Adjudicación posible: (a) aceptar el espejo, (b) excepción nueva en el contrato con dúo,
+# (c) re-hogar el seed a una capa baja en M3.
+_NON_PRODUCT_CODES_ESPEJO: "frozenset[str]" = frozenset(
+    {"RS-485", "RS485", "RS-232", "RS232", "IP54", "IP55", "IP66", "EN-54", "EN54"}
+)
+
+
+def _non_product_code_keys() -> frozenset[str]:
+    """`NON_PRODUCT_CODES` (seed declarado, `conversation_policy.py:112-114`) en el keying
+    del resolver (`catalog_store.norm_token`) — vía el ESPEJO de arriba, ver el porqué."""
+    global _non_product_keys
+    if _non_product_keys is None:
+        _non_product_keys = frozenset(
+            k for k in (catalog_store.norm_token(c) for c in _NON_PRODUCT_CODES_ESPEJO) if k)
+    return _non_product_keys
+
+
+def _governed_term_keys() -> frozenset[str]:
+    """normkeys (`catalog_store.norm_token`) de TODOS los términos resolubles del catálogo
+    — la MISMA fuente que alimenta el detector (`_resolvable_terms`), no una lista aparte.
+    Catálogo no cargable ⇒ set vacío (fail-open: la puerta 1 propondrá de más, la puerta 2
+    no encontrará prefijo gobernado y nunca cortará)."""
+    global _mention_term_keys
+    if _mention_term_keys is None:
+        _ensure()
+        keys: set[str] = set()
+        if _cat is not None:
+            for term in _resolvable_terms(_cat).values():
+                k = catalog_store.norm_token(term)
+                if k:
+                    keys.add(k)
+        _mention_term_keys = frozenset(keys)
+    return _mention_term_keys
+
+
+def _governed_term_manufacturers() -> dict[str, frozenset[str]]:
+    """(ítem B7 §11) MULTIMAP normkey(término) → FABRICANTES, para el veto de ambigüedad de
+    la puerta 2. Se construye APARTE de los índices del catálogo A PROPÓSITO: `_by_canonical`
+    /`_by_alias` colapsan cada normkey a UN id y OCULTARÍAN precisamente la colisión que el
+    veto busca (dos marcas con el mismo término). Fuentes: producto → `vendido_bajo`; alias,
+    paraguas y homónimo → fabricantes de sus ids (tras redirect).
+    Cobertura DELIBERADAMENTE máxima (también candidates/retirados): el veto solo puede
+    SUPRIMIR cortes de ruta — la dirección segura."""
+    global _mention_term_fabricantes
+    if _mention_term_fabricantes is None:
+        _ensure()
+        nt = catalog_store.norm_token
+        mm: dict[str, set[str]] = {}
+
+        def _fab(ids) -> set[str]:
+            out: set[str] = set()
+            for pid in ids or ():
+                if not pid:
+                    continue
+                p = _cat.products.get(_cat.follow_redirect(str(pid)))
+                if p:
+                    out |= {str(v) for v in (p.get("vendido_bajo") or []) if v}
+            return out
+
+        if _cat is not None:
+            for pid, p in _cat.products.items():
+                k = nt(p.get("canonical_model") or "")
+                if k:
+                    mm.setdefault(k, set()).update(_fab([pid]))
+            for a in _cat.aliases:
+                k = nt(a.get("alias") or "")
+                if k:
+                    mm.setdefault(k, set()).update(_fab([a.get("id")]))
+            for u in _cat.umbrellas:
+                k = nt(u.get("termino") or "")
+                if k:
+                    mm.setdefault(k, set()).update(_fab(u.get("ids")))
+            for h in _cat.homonyms:
+                k = nt(h.get("termino") or "")
+                if k:
+                    mm.setdefault(k, set()).update(_fab(h.get("ids")))
+        _mention_term_fabricantes = {k: frozenset(v) for k, v in mm.items()}
+    return _mention_term_fabricantes
+
+
+def _mention_shape_ok(token: str) -> bool:
+    """FORMA DE MODELO: mezcla de letras Y dígitos y ≥4 alfanuméricos (los separadores NO
+    cuentan). Excluye de paso el solo-dígitos ('2026') y el solo-letras ('instalada')."""
+    alnum = _MENTION_SEP_RX.sub("", token)
+    if len(alnum) < 4:
+        return False
+    return any(c.isdigit() for c in alnum) and any(c.isalpha() for c in alnum)
+
+
+def _is_unit_token(token: str) -> bool:
+    """UNIDAD: quitando los dígitos y separadores INICIALES, el resto (minúscula, sin
+    separadores) está en el léxico gobernado — '230VAC' → 'vac', '24VDC' → 'vdc',
+    '24kΩ' → 'kohm'."""
+    rest = _MENTION_LEAD_NUM_RX.sub("", token)
+    key = _MENTION_SEP_RX.sub("", rest).lower()
+    for ch in _OHM_CHARS:
+        key = key.replace(ch, "ohm")
+    return bool(key) and key in _units_tokens()
+
+
+def _is_norm_token(token: str) -> bool:
+    """NORMA: segmento alfabético INICIAL en el léxico gobernado y el resto solo dígitos y
+    separadores — 'EN-54', 'UNE-23007', 'ISO9001'. `C._fold` quita diacríticos y baja a
+    minúscula conservando los separadores."""
+    m = _MENTION_NORM_RX.match(C._fold(token))
+    return bool(m) and m.group(1) in _norms_prefixes()
+
+
+def _mention_intrinsic_ok(token: str) -> bool:
+    """Exclusiones que dependen SOLO del token (las comparten ambas puertas — la puerta 2
+    es «puerta 1 Y extensión de término gobernado», §3.C.1): forma de modelo · solo-dígitos ·
+    `NON_PRODUCT_CODES` · quarantine · léxico de unidades · léxico de normas."""
+    if not _mention_shape_ok(token):
+        return False
+    nk = catalog_store.norm_token(token)
+    if not nk or nk in _non_product_code_keys() or nk in _quarantine_tokens():
+        return False
+    return not (_is_unit_token(token) or _is_norm_token(token))
+
+
+def detect_unresolved_mentions(query: str, resolved_models: list[str]) -> list[str]:
+    """(s331 §3.C.1, PUERTA 1) Tokens con FORMA DE MODELO que el catálogo gobernado NO
+    resuelve y que el turno no tiene ya bindeados — la materia prima del reconocimiento en
+    generación (`turn_identity`), NUNCA una decisión de ruta por sí sola (para eso, la
+    puerta 2 `mention_route_cut_eligible`).
+
+    Exclusiones, TODAS por fuente gobernada y keyed por `catalog_store.norm_token`:
+      (a) `resolved_models` del turno · cualquier término RESOLUBLE del catálogo ·
+          lo que `detect(query)` ya encontró en ESTA query (si el catálogo lo resuelve, no
+          es una mención no-resuelta);
+      (b) `NON_PRODUCT_CODES` (seed de la política, 'RS-485'…);
+      (c) quarantine de identidad (`config/identity_quarantine_v1.yaml`);
+      (d) solo-dígitos ('2026') — vía la forma de modelo;
+      (e) UNIDADES (`config/mention_units_lexicon_v1.yaml`): '230VAC', '24VDC', '24kΩ';
+      (f) NORMAS (`config/mention_norms_lexicon_v1.yaml`): 'EN-54', 'UNE-23007', 'ISO9001'.
+
+    Devuelve las formas SUPERFICIALES tal como aparecen en la query, deduplicadas por
+    normkey y en ORDEN DE APARICIÓN. SIN red y sin mutar el catálogo."""
+    if not (query or "").strip():
+        return []
+    _ensure()
+    nt = catalog_store.norm_token
+    excluidos: set[str] = set(_governed_term_keys())
+    for m in resolved_models or ():
+        k = nt(m or "")
+        if k:
+            excluidos.add(k)
+    for t in detect(query):
+        k = nt(t)
+        if k:
+            excluidos.add(k)
+    out: list[str] = []
+    seen: set[str] = set()
+    for m in _MENTION_TOKEN_RX.finditer(query):
+        token = m.group(0)
+        nk = nt(token)
+        if not nk or nk in seen or nk in excluidos:
+            continue
+        if not _mention_intrinsic_ok(token):
+            continue
+        seen.add(nk)
+        out.append(token)
+    return out
+
+
+# Cola de sufijo de variante: 1-6 alfanuméricos tras el término gobernado ('2X-AF1' + 'XQ2').
+_MENTION_TAIL_MAX = 6
+
+
+def mention_route_cut_eligible(mention: str) -> bool:
+    """(s331 §3.C.1, PUERTA 2 · ítems B7 §11) ¿Puede esta mención CORTAR RUTA (clarify
+    dirigido) en vez de limitarse al reconocimiento de la puerta 1?
+
+    True SOLO si la mención es EXTENSIÓN DE UN TÉRMINO GOBERNADO COMPLETO:
+    `norm_token(mención) == norm_token(término resoluble del catálogo) + cola`, con cola de
+    1 a 6 alfanuméricos (forma de sufijo de variante). NO es un prefijo textual arbitrario
+    (v4 descartada, Sol-2 r-v4: colisiones cross-brand/OEM a 30+ fabricantes): el prefijo es
+    un TÉRMINO ENTERO del catálogo, y si varios matchean gana el MÁS LARGO.
+
+    VETO DE AMBIGÜEDAD (B7): si el término ganador mapea a MÁS DE UN FABRICANTE ⇒ False
+    (cae a puerta 1). El veto lee el MULTIMAP `_governed_term_manufacturers`, no el índice
+    del catálogo — que colapsa a un producto y ocultaría la colisión. Un término SIN
+    fabricante conocido tampoco corta (no es verificable ⇒ dirección segura; la puerta 2 es
+    la de alto daño). Sin red.
+
+    Ejemplos: '2X-AF1-XQ2' → True (extiende '2X-AF1', Kidde, cola 'XQ2');
+    '230VAC'/'SLC1'/'UNE-23007' → False (no extienden término gobernado)."""
+    if not (mention or "").strip() or not _mention_intrinsic_ok(mention):
+        return False
+    nk = catalog_store.norm_token(mention)
+    terms = _governed_term_keys()
+    fabricantes_por_termino = _governed_term_manufacturers()
+    for tail_len in range(1, _MENTION_TAIL_MAX + 1):     # cola más corta = término MÁS LARGO
+        if tail_len >= len(nk):
+            break
+        prefijo, cola = nk[:-tail_len], nk[-tail_len:]
+        if not cola.isalnum() or prefijo not in terms:
+            continue
+        # longest-term-wins: el PRIMER término que matchea decide (incluido su veto); no se
+        # cae a un término más corto — sería elegir el prefijo menos específico.
+        return len(fabricantes_por_termino.get(prefijo, frozenset())) == 1
+    return False
+
+
+def mention_governed_base(mention: str) -> str | None:
+    """(s331 M3b, regla 2 de la gramática + texto del CLARIFY dirigido) El modelo
+    CANÓNICO del término gobernado que la mención extiende — el «término ganador» de
+    `mention_route_cut_eligible`, con las MISMAS puertas (longest-term-wins + veto
+    multi-fabricante + cola 1-6 alnum). None si la mención no corta ruta. Es la base
+    de la FAMILIA con la que se procede cuando el usuario confirma sin que la cadena
+    binde (`models_provenance='pending_derived'`). Sin red."""
+    if not (mention or "").strip() or not _mention_intrinsic_ok(mention):
+        return None
+    _ensure()
+    if _cat is None:
+        return None
+    nk = catalog_store.norm_token(mention)
+    terms = _governed_term_keys()
+    fabricantes_por_termino = _governed_term_manufacturers()
+    for tail_len in range(1, _MENTION_TAIL_MAX + 1):
+        if tail_len >= len(nk):
+            break
+        prefijo, cola = nk[:-tail_len], nk[-tail_len:]
+        if not cola.isalnum() or prefijo not in terms:
+            continue
+        if len(fabricantes_por_termino.get(prefijo, frozenset())) != 1:
+            return None                      # mismo corte que la puerta 2: sin fallback
+        r = _cat.resolve(prefijo)
+        ids = (r or {}).get("ids") or []
+        if len(ids) == 1:
+            p = _cat.products.get(ids[0])
+            if p and p.get("canonical_model"):
+                return p["canonical_model"]
+        return None                          # término ambiguo/paraguas: no elegir por él
+    return None
 
 
 # F6 dúo s93: stopwords mínimas — sin ellas 'para'/'como'/'que' puntúan y queman el cap

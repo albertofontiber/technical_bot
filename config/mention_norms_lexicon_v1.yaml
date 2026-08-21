@@ -1,0 +1,35 @@
+# config/mention_norms_lexicon_v1.yaml — léxico de PREFIJOS DE NORMA del detector de
+# mención no-resuelta (s331 §3.C.1, puerta 1 de
+# `catalog_resolver.detect_unresolved_mentions`).
+#
+# GOBERNANZA: ampliación por PR con revisión, s331 §C.1 (misma disciplina que el resto de
+# la config versionada del catálogo; NUNCA se edita en caliente ni se genera).
+#
+# SEMÁNTICA (la aplica `_is_norm_token`): un token cuyo SEGMENTO ALFABÉTICO INICIAL
+# pertenece a esta lista y cuyo RESTO son solo dígitos y separadores es una NORMA / una
+# referencia normativa, NO un producto — y por tanto jamás se propone como mención al
+# usuario ni corta ruta:
+#   'EN-54' → 'en' + '54' · 'UNE-23007' → 'une' + '23007' · 'ISO9001' → 'iso' + '9001'
+#   'IEC 60849' → 'iec' + '60849' · 'NFPA72' → 'nfpa' + '72'
+#
+# COSTE DECLARADO: un modelo real cuya grafía sea «prefijo-normativo + dígitos» ('CE100')
+# queda excluido (falso NEGATIVO deliberado). Dirección segura, igual que el léxico de
+# unidades: el término que SÍ resuelve contra el catálogo gobernado ya está excluido por su
+# propia vía (exclusión (a) del detector), así que aquí solo caen códigos NO gobernados.
+#
+# Entradas en MINÚSCULA, sin separadores, una por línea.
+version: 1
+prefijos_norma:
+  - en                # EN 54 (la norma europea de PCI)
+  - une               # UNE 23007, UNE-EN…
+  - iso
+  - nfpa
+  - iec
+  - ce                # marcado CE
+  - ul
+  - din
+  - era
+  - ip                # grado de estanqueidad IP65/IP20… — misma FORMA que una norma
+                      # (prefijo alfabético + dígitos). Adjudicación advisor M2: aquí y
+                      # no en unidades (la regla de unidades quita dígitos INICIALES y
+                      # nunca alcanzaba 'IP65'); verificado 0 términos gobernados 'ipNN*'

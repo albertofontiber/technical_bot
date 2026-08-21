@@ -1047,14 +1047,28 @@ def test_lost_terminal_response_is_recovered_exactly_without_second_end(
         live_manifest_contract_sha256=operator.manifest_contract_sha256,
     )
 
+    def _respuesta_terminal_descartada() -> dict[str, object]:
+        # (flake-fix s331, adjudicado por Alberto 20-ago) El cliente puede RECUPERAR
+        # el payload por el journal terminal ANTES de que el hilo del server ejecute
+        # el intento de escritura descartado (visto 2× en CI — [close] y [abort]—;
+        # 0/30 en local): la aserción sobre dropped[0] corría en carrera con el
+        # append. Espera acotada: el server SIEMPRE intenta esa escritura antes de
+        # salir (el worker.join de abajo lo garantiza), así que esto solo cierra la
+        # ventana de scheduling — no cambia lo que el test protege.
+        deadline = time.monotonic() + 5.0
+        while not dropped and time.monotonic() < deadline:
+            time.sleep(0.005)
+        assert dropped, "el server nunca intentó escribir la respuesta terminal"
+        return dropped[0]
+
     if terminal_action == "close":
         result = client.close()
-        assert result == dropped[0]["payload"]
+        assert result == _respuesta_terminal_descartada()["payload"]
         assert connection.commits == 1
         assert connection.rollbacks == 0
     else:
         result = client.abort(reason_code="HOLD_ORIGINAL_ABORT_REASON")
-        assert result == dropped[0]["payload"]
+        assert result == _respuesta_terminal_descartada()["payload"]
         assert result["fence_abort_receipt"]["reason_code"] == (
             "HOLD_ORIGINAL_ABORT_REASON"
         )

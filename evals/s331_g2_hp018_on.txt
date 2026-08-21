@@ -1,0 +1,64 @@
+# Conexionado de sirenas convencionales en salidas de sirena — Familia ZXe
+
+## Número de salidas disponibles
+
+La cantidad de salidas depende del modelo [F3][F4]:
+
+- **ZX2e**: 2 salidas supervisadas para sirenas convencionales (**Sirena A** y **Sirena B**), terminales `A+ A- B+ B-` en el bloque `SOUNDERS` [F4]
+- **ZX5e**: 4 salidas supervisadas para sirenas convencionales (**Sirena A, B, C y D**), terminales `A- A+ B- B+ C- C+ D- D+` en bloque **TB7** [F4]
+
+---
+
+## Requisitos de conexionado
+
+### 1. Polaridad y diodo en cada sirena
+Cada sirena debe tener un **diodo integrado** para impedir el consumo en polarización inversa durante la supervisión [F4]. El circuito se polariza en inverso en reposo (supervisión) y cambia a polarización normal al dispararse [F4].
+
+### 2. Dispositivos no polarizados (campanas sin polaridad)
+Si se conectan dispositivos **no polarizados**, deben usarse **diodos de polarización y protección en cada uno** [F4].
+
+### 3. Resistencia Final de Línea (RFL)
+- Valor: **6.800 Ω** [F3]
+- Se instala entre `+` y `-` de la **última sirena** de la línea [F1]
+- Si no se instala ninguna sirena en la salida, conectar la RFL directamente en los terminales de la central [F1]
+
+### 4. Topología: sin ramales
+**No se deben realizar ramales** en la conexión de sirenas convencionales. La supervisión se realiza sobre la línea directa hasta la RFL; los ramales paralelos no pueden ser supervisados [F2].
+
+### 5. Corriente máxima por circuito
+Cada circuito tiene un consumo máximo de **1 A** [F1]. Tener en cuenta el consumo total de la central con todas las sirenas activadas [F1].
+
+### 6. Cableado
+- Sección mínima recomendada: **1,5 mm²** [F1]
+- Longitud máxima recomendada: **1 km**; por encima de esta longitud, la capacitancia e inductancia del lazo pueden afectar al funcionamiento [F3]
+
+---
+
+## Supervisión de la línea
+
+La supervisión se realiza con una **corriente inversa** que lee la RFL de **6.800 Ω** [F1]. En reposo, la tensión tiene polaridad inversa a la de activación. Al dispararse la salida, la corriente circula en sentido normal [F1].
+
+Cualquier fallo en la línea (apertura o cortocircuito) se mostrará en pantalla y quedará registrado en el sistema. Ejemplo de mensaje de avería [F5]:
+
+```
+!ATENCION!  CIRCUITO ABIERTO SIRENA B
+```
+
+---
+
+## Advertencia importante
+
+> ✓ **No enrolle el cable en los terminales. Corte y empalme las conexiones adecuadamente para mantener la supervisión de la línea** [F3].
+
+---
+
+## Referencia a diagramas
+
+Para el esquema exacto de conexionado, consulta la **Figura 15** del documento MIE-MI-530 (circuito de sirenas convencionales ZX2e/ZX5e) [F3] y la **Figura 13** (terminales ZX2e) y **Figura 14** (terminales ZX5e) del mismo documento [F4].
+
+---
+
+**Fuentes:**
+- Manual de Instalación ZX2e/ZX5e — Documento No. MIE-MI-530, Revisión: 001
+- Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)
+- Manual de Configuración ZX2e/ZX5e — Documento No. MIE-MP-530, Revisión: 001

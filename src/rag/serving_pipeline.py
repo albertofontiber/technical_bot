@@ -25,6 +25,10 @@ class RagServingAdapters:
     retrieve: Callable[..., list[dict[str, Any]]]
     rerank: Callable[..., list[dict[str, Any]]]
     observe_structural_shadow: Callable[[str, list[dict[str, Any]]], None]
+    # (s331 §3.D) El protocolo de `generate` es
+    # ``(query, chunks, *, available_models=None, turn_identity=None) -> dict``:
+    # desde s331 recibe SIEMPRE `turn_identity` (default `None` en cada
+    # implementación, que es la conducta de hoy).
     generate: Callable[..., dict[str, Any]]
     structural_fetcher: Callable[..., tuple[list[dict], list[dict], dict]] | None = None
     document_local_fetcher: Callable[..., tuple[
@@ -41,12 +45,18 @@ def execute_rag_turn(
     retrieval_top_k: int,
     rerank_top_k: int,
     adapters: RagServingAdapters,
+    turn_identity: Any | None = None,
 ) -> dict[str, Any]:
     """Execute retrieval -> rerank -> coverage -> generation once.
 
     Shadow and coverage failures remain fail-open per request. Retrieval,
     reranking, and generation failures are intentionally left to the transport
     handler's existing error boundary.
+
+    (s331 §3.D) ``turn_identity`` (``TurnIdentity | None``, tipado ``Any`` aquí
+    para no invertir la dependencia rag -> orchestrator) es identidad YA resuelta
+    aguas arriba: este seam no la interpreta, solo la reenvía a ``generate``.
+    ``None`` = sin identidad ⇒ generación con la conducta de hoy.
     """
     # (s306/#63) Salud del retrieval: el dict viaja al seam `_trace` del retriever y
     # recoge los fail-opens de canal (VECTOR/enunciados/hyq). Se pasa SOLO si el adapter
@@ -166,6 +176,11 @@ def execute_rag_turn(
         query,
         served,
         available_models=available_models,
+        # (s331 §3.D) Último tramo del threading. Se pasa SIEMPRE (no por firma,
+        # a diferencia de `_trace`): el kwarg forma parte del protocolo `generate`
+        # desde s331, así que un adapter que no lo acepte es un adapter obsoleto y
+        # debe romper alto, no degradarse en silencio a «turno sin identidad».
+        turn_identity=turn_identity,
     )
     stage_timings["generate_ms"] = int((time.perf_counter() - _t0) * 1000)
     return {

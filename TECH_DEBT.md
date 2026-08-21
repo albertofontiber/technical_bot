@@ -3606,3 +3606,22 @@ segundo bot (staging, otro fabricante, marca blanca) y el default deja de ser ú
 el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta que el enlace no abre
 el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
 tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
+
+---
+
+## 96. `NON_PRODUCT_CODES` vive en la capa orchestrator y `rag/` no puede importarlo: espejo con test de deriva como puente (s331)
+
+**Estado**: el detector de mención (s331 M2, `src/rag/catalog_resolver.py`) necesita el seed
+`NON_PRODUCT_CODES` (`src/orchestrator/conversation_policy.py:112-114`), pero el contrato de
+imports (`tests/test_import_contract.py`, matriz `rag: {raiz, ingestion, rag}`) prohíbe
+rag→orchestrator y exige dúo para excepciones. Puente cableado: `_NON_PRODUCT_CODES_ESPEJO`
+(espejo literal) + `test_espejo_non_product_codes_sin_deriva` (importa el seed real desde
+`tests/`, capa que el contrato no mira) — la fuente única se preserva por CI, no por disciplina.
+
+**Solución de raíz** (elige una, con dúo): (a) re-hogar el seed a una capa baja importable por
+ambos (¿`src/` raíz? ¿config gobernada tipo léxicos s331?); (b) excepción explícita en la matriz
+del contrato. La dirección (a)-config es la que el propio docstring del seed apunta («el guard
+real pertenece al catálogo gobernado», DEC-069/074).
+
+**Trigger**: el tercer consumidor del seed fuera de orchestrator; o la sentada de gobernanza de
+léxicos s331 (unidades/normas/confirmación) — mover el seed al mismo régimen en ese momento.

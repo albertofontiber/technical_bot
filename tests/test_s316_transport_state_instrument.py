@@ -132,7 +132,7 @@ def transporte(monkeypatch):
     monkeypatch.setattr(retriever, "get_category_models", lambda cat: [])
     monkeypatch.setattr(bot, "extract_product_models", detect)
 
-    def _generate(query, chunks, *, available_models=None):
+    def _generate(query, chunks, *, available_models=None, turn_identity=None):
         rec["generate_queries"].append(query)
         return {"answer": "Respuesta técnica canned.", "diagrams": []}
 

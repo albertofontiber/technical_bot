@@ -1,0 +1,163 @@
+{
+  "manifest": {
+    "ts": "2026-08-20T23:44:24+00:00",
+    "git_sha": "0625a9ab52965d1e033819b8c2c5a7257def54cb",
+    "reps": 6,
+    "on_flags": {
+      "F1_RESOLVE_GOVERNED": "on",
+      "F1_MENTION_PRECEDENCE": "on",
+      "GENERATOR_NO_REASK": "on",
+      "IDENTITY_FETCH": "on"
+    }
+  },
+  "casos": {
+    "kidde_t3": {
+      "off": {
+        "pass": 6,
+        "n": 6,
+        "reps": [
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La consulta menciona \"2X-AF1\" de forma genérica, sin especificar el modelo exacto (por ejemplo, 2X-AF1-S u otras variantes).\n\n¿Qué modelo concreto del 2X-AF1 tienes instalado? ¿Y qué aspecto de la programación necesitas — configuración de zonas, salidas, red, usuarios, o algo específico?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La consulta es sobre programación del **2X-AF1**, pero el modelo exacto no está especificado (puede ser 2X-AF1-S u otra variante), y los fragmentos disponibles son una ficha de especificaciones técnicas del **2X-AF1-S**, no un manual de programación.\n\nLos fragmentos no contienen procedimientos de programación, menús, pasos de configuración ni descripción del software. Lo que sí indican sobre las capacidades de programación/configuración es:\n\n- **Autoconfiguración, asistentes de configuración y modos de configuración regional predeterminados** [F1]\n- **Puerto Ethernet con TCP/IP** para diagnóstico remoto, mantenimiento y programación [F1]\n- **3 puertos USB** con soporte para memoria USB, y **RS232** para soporte de impresora [F1]\n- **Estructura de menú de 3 niveles de operador** con 20 nombres de usuario y contraseñas [F1]\n- **Integración en el software de gestión ATS8600** [F1]\n- **Historial de eventos** para 9999 eventos [F1]\n\nPara la programación detallada (zonas, grupos de salida, lógicas, configuración de dispositivos, etc.) necesitarías el **manual de instalación y programación** del 2X-AF1-S, que no está entre los fragmentos disponibles.\n\n¿Puedes confirmar el modelo exacto que tienes instalado y qué aspecto concreto de la programación necesitas (zonas, salidas, red, usuarios, etc.)? Así puedo orientarte mejor si tengo documentación adicional.\n\nFuente: 2x-af1-s-161721-es (sin revisión registrada)"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La query menciona \"2X-AF1\" (raíz de familia) sin especificar el sufijo completo del modelo, y pregunta sobre \"programación\" de forma genérica.\n\nPara darte información precisa, necesito dos aclaraciones:\n\n1. **¿Qué modelo exacto tienes?** (por ejemplo, ¿es el 2X-AF1-S u otra variante?)\n2. **¿Qué aspecto de la programación necesitas?** Por ejemplo: configuración de zonas, grupos de salida, entradas/salidas programables, red de paneles, usuarios y contraseñas, configuración vía USB/Ethernet, etc.\n\nCon eso te doy la respuesta directa y útil."
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La consulta menciona \"2X-AF1\" de forma genérica, sin especificar el modelo exacto ni el aspecto concreto de programación que necesitas.\n\n¿Qué modelo exacto estás usando y qué aspecto de la programación necesitas? Por ejemplo: configuración de zonas, salidas, entradas, red, usuarios, etc."
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La consulta menciona \"2X-AF1\" como contexto, pero no especifica el modelo exacto ni el aspecto de programación que necesitas.\n\n¿Qué modelo concreto estás usando (por ejemplo, 2X-AF1-S u otra variante) y qué aspecto de la programación necesitas: configuración de zonas, entradas/salidas, red, usuarios, o algo específico?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La consulta menciona \"2X-AF1\" como contexto, pero no especifica el modelo exacto (puede ser 2X-AF1-S u otra variante). Antes de responderte, necesito confirmarlo.\n\n¿Qué modelo exacto tienes instalado? ¿Y qué aspecto concreto de la programación necesitas: configuración de zonas, salidas, entradas, red, usuarios, u otro?"
+          }
+        ]
+      },
+      "on": {
+        "pass": 6,
+        "n": 6,
+        "reps": [
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" es amplia. Para darte información precisa sobre la 2X-AF1 / 2X-AF1-FB-S, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración inicial / asistente de puesta en marcha?\n- ¿Programación de zonas, grupos de salida o lógicas?\n- ¿Configuración de red (nodos)?\n- ¿Gestión de usuarios y contraseñas?\n- ¿Programación vía USB, Ethernet o software ATS8600?\n- ¿Otro aspecto concreto?\n\n¿Qué necesitas exactamente?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" de la familia **2X-AF1 / 2X-AF1-FB-S** es amplia. Para darte información precisa y útil, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración inicial / auto-configuración del lazo?\n- ¿Programación de zonas, grupos de salida o lógicas?\n- ¿Configuración de entradas/salidas programables?\n- ¿Acceso por niveles de usuario (contraseñas)?\n- ¿Conexión vía Ethernet / USB para programación remota o con software?\n- ¿Otro aspecto?\n\n¿Qué necesitas exactamente?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" es amplia. Para darte información precisa sobre la 2X-AF1 / 2X-AF1-FB-S, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración de zonas y dispositivos del lazo?\n- ¿Programación de salidas y grupos de salida?\n- ¿Configuración de la red (nodos)?\n- ¿Gestión de usuarios y contraseñas?\n- ¿Configuración vía USB/Ethernet o software externo?\n- ¿Otro aspecto específico?\n\n¿Qué necesitas exactamente?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" de la familia **2X-AF1 / 2X-AF1-FB-S** es amplia. Para darte información precisa y útil, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración de zonas, grupos de salida o lógicas de activación?\n- ¿Programación de dispositivos en el lazo (auto-configuración, asignación de direcciones)?\n- ¿Configuración de la red de paneles (nodos)?\n- ¿Gestión de usuarios y contraseñas?\n- ¿Programación vía USB/Ethernet o software ATS8600?\n- ¿Otro aspecto?\n\n¿Qué necesitas exactamente?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" de la familia **2X-AF1 / 2X-AF1-FB-S** es amplia. Para darte información precisa y útil, necesito saber qué aspecto concreto de la programación necesitas:\n\n- **Configuración inicial / asistente de puesta en marcha**\n- **Programación de zonas**\n- **Programación de salidas / grupos de salida**\n- **Configuración de red (nodos)**\n- **Usuarios y contraseñas**\n- **Configuración vía software / Ethernet / USB**\n- **Otro aspecto específico**\n\n¿Qué necesitas exactamente?"
+          },
+          {
+            "ok": true,
+            "detalle": "",
+            "answer": "La pregunta sobre \"programación\" de la familia **2X-AF1 / 2X-AF1-FB-S** es amplia. Para darte una respuesta precisa y útil, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración de zonas, lazos o dispositivos?\n- ¿Programación de salidas o grupos de salida?\n- ¿Acceso al menú de usuario/contraseñas?\n- ¿Configuración de red (nodos)?\n- ¿Uso del software de programación (vía USB, Ethernet o ATS8600)?\n- ¿Otro aspecto específico?\n\n¿Qué necesitas exactamente?"
+          }
+        ]
+      }
+    },
+    "mixto_c1": {
+      "off": {
+        "pass": 6,
+        "n": 6,
+        "reps": [
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación específica de ese equipo en mi base.\n\n¿Puedes indicarme el fabricante y la familia de producto a la que pertenece? Con esa información podré orientarte mejor si tengo documentación relacionada."
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación técnica específica de ese equipo en mi base.\n\nPara responderte con precisión, ¿de qué fabricante es la EMA1224B4RW-XQ y qué tipo de equipo es (fuente de alimentación, central, módulo...)?\n\nCon esa información puedo orientarte mejor, o si el equipo no está en mi base, al menos indicarte el procedimiento general de diagnóstico de fallo de tierra que aplique a su fabricante."
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación técnica de ese equipo en mi base.\n\n¿Puedes confirmar el fabricante y el modelo exacto? Es posible que haya un error tipográfico o que sea un equipo cuya documentación no está en mi corpus actual."
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación técnica de ese equipo en mi base.\n\n¿Puedes confirmar el fabricante y el tipo de equipo (central convencional, analógica, fuente de alimentación, etc.)? Con esa información puedo orientarte mejor si tengo documentación relacionada."
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación técnica de ese equipo en mi base.\n\n¿Puedes confirmar el fabricante y el tipo de equipo? Con esa información puedo orientarte mejor, o si se trata de una central de incendios de alguno de los fabricantes que manejo (Notifier, Morley-IAS, Detnov), dime el modelo exacto del panel que muestra el fallo de tierra."
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "El modelo **EMA1224B4RW-XQ** no aparece en ninguno de los fragmentos disponibles. No tengo documentación técnica de ese equipo en mi base.\n\n¿Puedes confirmar el fabricante y el tipo de equipo (central convencional, analógica, fuente de alimentación, etc.)? Con esa información puedo orientarte mejor o indicarte si tengo documentación relacionada."
+          }
+        ]
+      },
+      "on": {
+        "pass": 6,
+        "n": 6,
+        "reps": [
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "Reconozco que mencionas el código **EMA1224B4RW-XQ** — el sufijo **-XQ** no aparece en mi documentación. El modelo que tengo documentado es el **EMA1224B4R/W** [F1]. Si tu equipo es una variante de ese modelo, los datos de instalación y conexionado aplican; si es un modelo distinto, necesitarás la documentación específica.\n\n---\n\n## Fallo de tierra en la EMA1224B4R/W\n\nEl manual del **EMA1224B4R/W** [F1] **no incluye ningún apartado de resolución de fallos de tierra** para el sireno en sí. El fragmento disponible cubre únicamente especificaciones eléctricas y configuración de tonos.\n\nLo que sí puedo decirte es que el fallo de tierra **no lo genera el sireno**, sino que lo detecta y reporta la **central** a la que está conectado. El sireno es un elemento pasivo en ese circuito.\n\n---\n\n## Procedimiento general de localización\n\nEl fallo de tierra indica que algún punto del cableado o dispositivo tiene contacto con tierra. Para localizarlo:\n\n1. **Desconecta el cableado del sireno en la central** (o en el módulo de salida que lo alimenta).\n2. **Observa si el fallo desaparece** en la central.\n   - Si desaparece → el fallo está en el cableado hacia el sireno o en el propio sireno.\n   - Si persiste → el fallo está en otro circuito; el sireno no es la causa.\n3. Si el fallo apunta al cableado del sireno, **revisa el recorrido del cable** buscando:\n   - Rozaduras del cable contra estructura metálica.\n   - Humedad en cajas o empalmes.\n   - Conductor pelado en contacto con tierra.\n4. Usa un **multímetro** para medir resistencia entre cada conductor (+/−) y tierra. Un valor bajo indica el punto de fallo [F4].\n\n> ⚠️ Mientras exista derivación a tierra, **no conectes más equipos** al circuito afectado para evitar daños en la placa de la central [F10].\n\n---\n\n**Nota:** El procedimiento detallado de localización depende de la central a la que está conectado el sireno. Si me indicas qué central tienes, puedo darte el procedimiento específico de esa central.\n\nFuentes:\n- D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]\n- MIDT180 — ID2000, rev. MI-DT-180, 2003-03-31 [F4]\n- MIE-MA-300_01 — ZX50 (sin revisión registrada) [F10]"
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "Entiendo que mencionas \"EMA1224B4RW-XQ\" — el código más cercano en mi documentación es la **EMA1224B4R/W**. Si el sufijo \"-XQ\" corresponde a una variante específica, confirma el código exacto de la etiqueta del equipo.\n\n---\n\nDicho esto, la **EMA1224B4R/W** es una **sirena de pared** [F1]. Los fragmentos de su manual **no describen ningún mecanismo de supervisión de fallo de tierra** en este dispositivo — es un elemento pasivo de notificación, no una central.\n\nEsto significa que el **fallo de tierra lo está detectando la central** a la que está conectada la sirena, no la sirena en sí misma.\n\n---\n\n## Procedimiento para localizar la deriva a tierra\n\nEl método depende de qué central tienes. Los fragmentos disponibles describen el procedimiento general así:\n\n**Paso 1 — Aislar si el fallo es interno o externo a la central** [F5]:\n1. Desconecta **todo el cableado externo** que llega a la central, incluida la alimentación de 220 Vac. La central quedará solo con baterías.\n2. Si el fallo **persiste** → el problema está en una placa interna de la central. Envía a reparar.\n3. Si el fallo **desaparece** → el problema está en el cableado o dispositivos externos (como la sirena).\n\n**Paso 2 — Reconectar líneas una a una** [F5]:\n- Conecta línea a línea (zonas, lazos, sirenas, etc.) y comprueba tras cada conexión si reaparece el fallo.\n- Cuando reaparezca, la última línea conectada es la causante.\n\n**Paso 3 — Localizar el punto exacto en esa línea** [F4]:\nLas causas más habituales son:\n- Elemento conectado (sirena, módulo, retenedor, etc.) con derivación a tierra.\n- Filtración de líquido.\n- Cambios en la instalación que hayan dañado el cableado.\n- Degradación del cableado.\n- Mala terminación en conectores.\n- Positivo o negativo tocando algo aterrado.\n\n**Paso 4 — Verificar con multímetro** [F4]:\n- Abre el circuito de sirenas en diferentes tramos hasta encontrar el punto de fallo.\n- Mide continuidad entre los cables (desconectados del panel) y tierra.\n\n---\n\n## Identificación del fallo según la central\n\nSi necesito darte el método exacto de lectura del fallo de tierra (LED, display, valores de tensión), necesito saber **qué central gestiona esta sirena**. Los fragmentos disponibles cubren:\n\n- **ID3000**: LED *LD1* (central nueva) o *D39* (central antigua), esquina superior derecha de placa base [F4].\n- **ID2000**: LED en parte superior derecha de la placa [F2].\n- **ZXe/ZX2e/ZX5e**: LED \"Fallo Tierra\" + medición de tensión entre negativo de baterías y tierra (valor correcto: **1 V**) [F6].\n- **ZX50**: LED amarillo de Fallo de Tierra; valor de tierra en menú Tensiones, rango normal **175 a 450** [F7].\n- **DXC Connexion**: Menú 5 → Programación 7 → clave 9898 → Ver 4 → Voltajes 7; valor \"Tierra\" debe estar entre **240-300** [F4].\n- **Flexes**: Info (F6) → opción 6 F. Alimentación → \"Tierra\" debe estar entre **10-18** [F4].\n\n¿Qué central tienes instalada?\n\n---\n\nFuente: D686 EMA1224B4R_W NS4R (sin revisión registrada); Como-solucionar-una-deriva-a-tierra (sin revisión registrada); MIDT180 (rev. MI-DT-180, 2003-03-31); MIE-MP-530rv001 (sin revisión registrada); MIE-MA-300_01 (sin revisión registrada)"
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "## Fallo de tierra en EMA1224B4R/W\n\nAntes de continuar, quiero señalar que el código exacto que mencionas (**EMA1224B4RW-XQ**) no aparece en mi documentación — los fragmentos disponibles cubren el modelo **EMA1224B4R/W** [F1]. Si el sufijo **-XQ** identifica una variante específica, confirma el código exacto de la etiqueta del equipo.\n\n---\n\nDicho esto, el fallo de tierra **no es un diagnóstico que aparezca en el manual de la EMA1224B4R/W** [F1]. La EMA1224B4R/W es un **sirena de pared** (wall mount sounder) y su documentación solo cubre especificaciones eléctricas, tonos y conexionado [F1].\n\nEl **fallo de tierra lo detecta y reporta la central**, no la sirena en sí. Por tanto, el diagnóstico y la resolución dependen de qué central tienes instalada.\n\n---\n\n## Procedimiento general de localización (desde la central)\n\nDado que la sirena está conectada a un circuito de sirenas de la central, el fallo de tierra puede estar en el **cableado de sirenas o en la propia sirena**. El procedimiento a seguir desde la central es:\n\n1. **Desconecta el cableado externo de uno en uno** y observa si el fallo desaparece. El último cable desconectado al desaparecer el fallo es el causante [F2][F3].\n\n2. **Usa un multímetro** para localizar la derivación: mide continuidad entre los conductores desconectados y el punto de tierra [F2][F3].\n\n3. Si al conectar la línea de sirenas se activa la avería, **conecta únicamente ese circuito** y abre el recorrido en diferentes tramos hasta encontrar el punto de derivación [F5]. Las causas más frecuentes son [F5]:\n   - Filtración de líquido\n   - Daño en el cableado por cambios en la instalación\n   - Degradación del cableado\n   - Mala terminación en conectores\n   - Positivo o negativo tocando con algo aterrado\n\n4. **Verifica que no existan tensiones externas** superiores a **50 V** entre polos o entre líneas y tierra antes de reconectar, ya que pueden dañar componentes de la central [F4].\n\n---\n\n## ⚠️ Advertencia importante\n\n> **No conectes ni desconectes ningún circuito con el panel alimentado**, ya que puede dañar seriamente los circuitos y el sistema [F6].\n\n---\n\n**¿Qué central tienes instalada?** El procedimiento exacto de identificación del fallo de tierra (LED indicador, menú, valores de tensión) varía según el modelo de central. Con ese dato puedo darte el procedimiento específico.\n\n---\n\nFuente: D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]; Como-solucionar-una-deriva-a-tierra (sin revisión registrada) [F4][F5]; MIDT190 (sin revisión registrada) [F3]; MIE-MP-530rv001 (sin revisión registrada) [F6]"
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "Reconozco que mencionas el código **EMA1224B4RW-XQ**. En mi base tengo documentación del **EMA1224B4R/W** — es posible que el sufijo \"-XQ\" identifique una variante o mercado específico, pero no tengo documentación con ese código exacto. Te respondo con lo que tengo del EMA1224B4R/W; si tu equipo es significativamente distinto, confírmamelo.\n\n---\n\n## Fallo de tierra en EMA1224B4R/W\n\nEl fragmento disponible del **EMA1224B4R/W** [F1] cubre únicamente especificaciones eléctricas y de conexionado (terminales, tonos, tensión, corriente). **No contiene ninguna sección de resolución de averías ni procedimiento específico para fallo de tierra** en este sirena.\n\nLo que sí puedo decirte del equipo [F1]:\n\n- **Tensión de trabajo:** 12 VDC (10 V a 14 V) / 24 VDC (21 V a 27 V)\n- **Terminales de conexión:** +, 1−, 2−, ⊕ (tierra/shield)\n- **Sección máxima de cable:** 2,5 mm²\n\n---\n\n## Qué hacer ante un fallo de tierra en este tipo de dispositivo\n\nLos fragmentos de otros equipos del corpus describen el procedimiento general de localización de deriva a tierra [F6]:\n\n1. **Desconecta todo el cableado externo** que llega al panel (zonas, lazos, sirenas, alimentación 220 Vac). El panel queda solo con baterías [F6].\n2. **Si el fallo desaparece** → el problema está en el cableado externo o en los dispositivos conectados (en este caso, la sirena EMA o su cableado).\n3. **Si el fallo persiste** → el problema está en la propia central (circuito interno) [F6].\n\nPara localizar la deriva en el cableado externo [F6]:\n- Reconecta **una a una** las líneas (zonas, lazos, sirenas...).\n- Tras cada conexión, comprueba si reaparece el fallo.\n- La línea que provoque la reaparición del fallo es la afectada.\n- ⚠️ Verifica que no haya tensiones externas superiores a **50 V** entre polos o entre líneas y tierra antes de reconectar — pueden dañar componentes del sistema [F6].\n\nUna vez identificada la línea de la sirena como origen:\n- Revisa el cableado de la EMA buscando contacto entre el conductor positivo o negativo y la malla/tierra del cable o estructura metálica.\n- Comprueba especialmente el terminal **⊕** (tierra/shield) [F1] — una conexión incorrecta de este terminal puede generar deriva.\n- Usa un **multímetro** para medir resistencia entre cada conductor y tierra [F4].\n\n---\n\n⚠️ **Nota importante:** El procedimiento detallado de localización de fallo de tierra corresponde a la documentación de otros equipos del corpus (ID-3000 [F6], ID2000 [F4]), no al manual específico de la EMA1224B4R/W. Aplícalo con criterio y consulta al fabricante KAC si necesitas confirmación para este modelo concreto.\n\n---\n\n**Fuentes:**\n- D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]\n- Como-solucionar-una-deriva-a-tierra — ID-3000 (sin revisión registrada) [F6]\n- MIDT180 — ID2000 (rev. MI-DT-180, 2003-03-31) [F4]"
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "Reconozco que mencionas el código **EMA1224B4RW-XQ**. El sufijo **-XQ** no aparece en mi documentación; lo que sí tengo es el manual del **EMA1224B4R/W** [F1]. Puede que sea una variante de mercado o un código de pedido ampliado — te pido que confirmes el código exacto de la etiqueta del equipo.\n\n---\n\nDicho esto, el fallo de tierra que describes **no es un diagnóstico que cubra el manual del EMA1224B4R/W** [F1]: ese documento solo recoge especificaciones eléctricas y opciones de tono/volumen del sirena, sin ninguna sección de resolución de averías ni mención a supervisión de tierra.\n\n**El fallo de tierra lo estará reportando la central a la que está conectada la sirena, no la sirena en sí.** El procedimiento de localización depende de qué central tienes instalada.\n\n---\n\n### ¿Qué necesito saber para ayudarte?\n\n1. **¿Qué central/panel de incendios controla esta sirena?** (fabricante y modelo exacto)\n2. **¿El fallo aparece solo cuando conectas esta sirena, o ya existía antes?**\n\nCon esos datos puedo darte el procedimiento de localización de derivación a tierra específico para tu central.\n\n---\n\nFuente: D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]"
+          },
+          {
+            "ok": true,
+            "detalle": "reconoce",
+            "answer": "Reconozco que mencionas el código **EMA1224B4RW-XQ**. El sufijo **-XQ** no aparece en mi documentación; lo que tengo es el modelo **EMA1224B4R/W** [F1]. Puede ser una variante de mercado o un código de pedido ampliado — te pido que confirmes el código exacto de la etiqueta del equipo.\n\n---\n\nDicho esto, sobre el **fallo de tierra en la EMA1224B4R/W**: los fragmentos disponibles de este equipo [F1] contienen únicamente la hoja de instrucciones de instalación (especificaciones eléctricas, terminales de conexión y selección de tono), **sin ninguna sección de resolución de averías ni referencia a fallo de tierra**.\n\nPor tanto, **no tengo en los fragmentos recuperados el procedimiento específico de diagnóstico de fallo de tierra para la EMA1224B4R/W**.\n\n---\n\nLo que sí puedo decirte es que la EMA1224B4R/W es una **sirena de pared** [F1], no una central. El fallo de tierra que ves probablemente lo está reportando la **central a la que está conectada**, no la propia sirena. En ese caso:\n\n1. Identifica qué central está indicando el fallo (fabricante y modelo).\n2. Consulta el procedimiento de diagnóstico de esa central.\n\nSi me dices qué central tienes, puedo ayudarte con el procedimiento de localización de la derivación a tierra desde ese lado.\n\n---\n\nFuente: D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]"
+          }
+        ]
+      }
+    }
+  }
+}

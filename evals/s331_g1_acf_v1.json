@@ -1,0 +1,399 @@
+{
+  "manifest": {
+    "arm": "acf",
+    "ts": "2026-08-20T22:44:40+00:00",
+    "git_sha": "49b76757461823227f1d559342d775456f6dbf13",
+    "catalog_commit": "c6522ff3",
+    "corpus_fingerprint": [
+      "26216",
+      "2026-08-17T09:36:29.408577+00:00"
+    ],
+    "llm_model": "claude-sonnet-4-6",
+    "presence_precondicion": "vigente",
+    "flags": {
+      "IDENTITY_RESOLVE": "on",
+      "IDENTITY_RESOLVE_POLICY": "replace",
+      "F1_RESOLVE_GOVERNED": "on",
+      "F1_MENTION_PRECEDENCE": "on",
+      "GENERATOR_NO_REASK": "on",
+      "CHUNKS_TABLE": "chunks_v2",
+      "GENERATOR_PROMPT_VARIANT": "",
+      "RERANK_TOP_K": ""
+    }
+  },
+  "kidde": {
+    "turns": [
+      {
+        "label": "T2",
+        "query": "Sobre la 2X-AF1-FBS.",
+        "route": "standalone",
+        "rationale": "explicit_product",
+        "query_for_retrieval": "Sobre la 2X-AF1-FBS.",
+        "target_models": [
+          "2X-AF1",
+          "2X-AF1-FB-S"
+        ],
+        "turn_identity": {
+          "resolved_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "models_provenance": "resolved_this_turn",
+          "mention_detected": false,
+          "mention_provenance": "none",
+          "route_cut": false,
+          "presence": null
+        },
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "pending_mention": null
+        },
+        "answer": "La pregunta es sobre la **2X-AF1-FBS**, pero los fragmentos recuperados corresponden únicamente a la **2X-AF1-S**.\n\n¿Puedes confirmar si tu equipo es la **2X-AF1-S** (armario pequeño) o si efectivamente tienes una variante distinta? ¿Y qué información concreta necesitas sobre ella (especificaciones, conexionado, programación, mantenimiento...)?",
+        "served": [
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 12026,
+          "rerank_ms": 2334,
+          "coverage_ms": 3,
+          "generate_ms": 3870
+        },
+        "channel_failures": [],
+        "elapsed_ms": 18259
+      },
+      {
+        "label": "T3",
+        "query": "Programación principalmente.",
+        "route": "carry_forward",
+        "rationale": "carry_forward:within_window_followup",
+        "query_for_retrieval": "Programación principalmente. (contexto: 2X-AF1, 2X-AF1-FB-S)",
+        "target_models": [
+          "2X-AF1",
+          "2X-AF1-FB-S"
+        ],
+        "turn_identity": {
+          "resolved_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "models_provenance": "carried",
+          "mention_detected": false,
+          "mention_provenance": "none",
+          "route_cut": false,
+          "presence": null
+        },
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "pending_mention": null
+        },
+        "answer": "La pregunta sobre \"programación\" en la familia **2X-AF1 / 2X-AF1-FB-S** es amplia. Para darte una respuesta precisa y útil, necesito saber qué aspecto concreto de la programación necesitas:\n\n- ¿Configuración de zonas, grupos de salida o lógicas de activación?\n- ¿Asignación de dispositivos al lazo?\n- ¿Configuración de entradas/salidas programables?\n- ¿Acceso por niveles de usuario (contraseñas)?\n- ¿Programación vía USB, Ethernet o software ATS8600?\n- ¿Otro aspecto?\n\n¿Qué necesitas exactamente?",
+        "served": [
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 18221,
+          "rerank_ms": 1842,
+          "coverage_ms": 7,
+          "generate_ms": 5323
+        },
+        "channel_failures": [],
+        "elapsed_ms": 25395
+      }
+    ],
+    "checks": [
+      {
+        "check": "t2_bindea_la_variante_canonica",
+        "ok": true,
+        "detail": "['2X-AF1', '2X-AF1-FB-S']"
+      },
+      {
+        "check": "t3_hint_lleva_la_variante",
+        "ok": true,
+        "detail": "Programación principalmente. (contexto: 2X-AF1, 2X-AF1-FB-S)"
+      },
+      {
+        "check": "t3_sirve_manual_de_familia",
+        "ok": true,
+        "detail": "servidos=['00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0', '00-3280-501-4009-05_r005_2x-a_series_installation_manual_es', '00-3280-505-4009-04_r004_2x-a_series_operation_manual_es', '2x-af1-s-161721-es']"
+      }
+    ]
+  },
+  "g1c": {
+    "turns": [
+      {
+        "label": "C1",
+        "query": "La EMA1224B4RW-XQ me da fallo de tierra.",
+        "route": "standalone",
+        "rationale": "explicit_product",
+        "query_for_retrieval": "La EMA1224B4RW-XQ me da fallo de tierra.",
+        "target_models": [
+          "EMA1224B4R/W"
+        ],
+        "turn_identity": {
+          "resolved_models": [
+            "EMA1224B4R/W"
+          ],
+          "models_provenance": "resolved_this_turn",
+          "mention_detected": true,
+          "mention_provenance": "this_turn",
+          "route_cut": false,
+          "presence": null
+        },
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "EMA1224B4R/W"
+          ],
+          "pending_mention": null
+        },
+        "answer": "## Fallo de tierra en EMA1224B4RW-XQ\n\nAntes de continuar, quiero señalar que el código exacto que mencionas (**EMA1224B4RW-XQ**) no aparece en mi documentación. El modelo más cercano que tengo es el **EMA1224B4R/W** [F1]. Si el sufijo \"-XQ\" identifica una variante específica, confirma el código exacto de la etiqueta del equipo.\n\n---\n\nDicho esto, el **EMA1224B4R/W** es una **sirena de pared** [F1]. Los fragmentos disponibles **no contienen ningún procedimiento de diagnóstico de fallo de tierra específico para este dispositivo**.\n\nLo que sí puedo decirte es lo siguiente:\n\n---\n\n### ¿Dónde está indicando el fallo de tierra?\n\nEl fallo de tierra **no lo genera la sirena en sí misma** — lo detecta y reporta la **central** a la que está conectada. La sirena puede ser la **causa** (derivación en su cableado o en el propio dispositivo), pero el diagnóstico parte desde la central.\n\nEl procedimiento general para localizar la causa es [F5]:\n\n1. **Desconecta todo el cableado externo** de la central, incluida la alimentación de 220 Vca. La central queda solo con baterías.\n   - Si el fallo **desaparece** → el problema está en el cableado o dispositivos externos (la sirena puede ser la causa).\n   - Si el fallo **persiste** → hay un problema interno en la central.\n\n2. Si el fallo desaparece al desconectar todo, **reconecta línea a línea** (zonas, lazos, sirenas, etc.) hasta que al conectar una línea concreta vuelva a aparecer el fallo [F4][F5].\n\n3. Una vez identificada la línea de sirenas como causante [F4]:\n   - Comprueba si hay **filtración de líquido**, **daño en el cableado**, **degradación del aislamiento**, o **mala terminación en bornes** [F4].\n   - Verifica que el positivo o negativo de la línea no esté tocando algún elemento aterrizado [F4].\n\n4. Usa un **multímetro** para medir continuidad entre los cables (desconectados del panel) y el punto de tierra [F6].\n\n---\n\n### ⚠️ Advertencia importante\n\n> **No conectes equipos adicionales mientras exista el fallo de tierra** — puede dañar los circuitos internos de la central [F5].\n\n---\n\n### Para el diagnóstico en la central (depende del modelo de central)\n\nEl procedimiento de lectura del valor de tierra varía según la central instalada. Dime qué central tienes y te indico cómo leer el valor de tierra en pantalla para saber si la derivación está en positivo o negativo.\n\n---\n\nFuente: D686 EMA1224B4R_W NS4R (sin revisión registrada) [F1]; Como-solucionar-una-deriva-a-tierra (sin revisión registrada) [F4][F5]; MIE-MP-530rv001 (sin revisión registrada) [F6]",
+        "served": [
+          {
+            "source_file": "D686 EMA1224B4R_W NS4R",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT180",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT190",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Como-solucionar-una-deriva-a-tierra",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Como-solucionar-una-deriva-a-tierra",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIE-MP-530rv001",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIEMI120rev05",
+            "chunk_index": 13
+          },
+          {
+            "source_file": "MIE-MA-300_01",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MADT155_01",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MIDT156",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 14432,
+          "rerank_ms": 2400,
+          "coverage_ms": 4,
+          "generate_ms": 20274
+        },
+        "channel_failures": [],
+        "elapsed_ms": 37113
+      },
+      {
+        "label": "C2",
+        "query": "Sí.",
+        "route": "carry_forward",
+        "rationale": "carry_forward:within_window_followup",
+        "query_for_retrieval": "Sí. (contexto: EMA1224B4R/W)",
+        "target_models": [
+          "EMA1224B4R/W"
+        ],
+        "turn_identity": {
+          "resolved_models": [
+            "EMA1224B4R/W"
+          ],
+          "models_provenance": "carried",
+          "mention_detected": false,
+          "mention_provenance": "none",
+          "route_cut": false,
+          "presence": null
+        },
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "EMA1224B4R/W"
+          ],
+          "pending_mention": null
+        },
+        "answer": "El contexto indica que el técnico confirmó que tiene el **EMA1224B4R/W**, pero no veo una pregunta concreta en este turno — solo \"Sí.\" como respuesta de confirmación.\n\n¿Qué necesitas saber sobre el **EMA1224B4R/W**? Por ejemplo:\n\n- Conexionado y terminales\n- Selección de tono\n- Especificaciones eléctricas\n- Montaje e instalación\n\nDime qué aspecto necesitas y te respondo directamente.",
+        "served": [
+          {
+            "source_file": "D686 EMA1224B4R_W NS4R",
+            "chunk_index": null
+          },
+          {
+            "source_file": "MI_KIDDE_KE_IO3144_631e",
+            "chunk_index": 27
+          },
+          {
+            "source_file": "MI_KIDDE_KE_IO3144_631e",
+            "chunk_index": 11
+          },
+          {
+            "source_file": "MI_KIDDE_KE_IO3144_631e",
+            "chunk_index": 32
+          },
+          {
+            "source_file": "MI_KE_IU3111_ZME_202407_ES_fde1",
+            "chunk_index": 33
+          },
+          {
+            "source_file": "15088SP",
+            "chunk_index": 326
+          },
+          {
+            "source_file": "DS_KIDDE_2X_AT_FR_FB_S_202602_ES_4276",
+            "chunk_index": 4
+          },
+          {
+            "source_file": "HD_KE_DBA_LABW_LxS_202407_ES_2fc1",
+            "chunk_index": 1
+          },
+          {
+            "source_file": "Manual_CAD-171-MI-716-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+            "chunk_index": 81
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 8741,
+          "rerank_ms": 1871,
+          "coverage_ms": 4,
+          "generate_ms": 5504
+        },
+        "channel_failures": [],
+        "elapsed_ms": 16122
+      }
+    ],
+    "checks": [
+      {
+        "check": "c1_clarify_dirigido",
+        "ok": false,
+        "detail": "route=standalone rationale=explicit_product"
+      },
+      {
+        "check": "c1_reconoce_la_mencion_VISIBLE",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "check": "c1_pending_set",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "check": "c2_familia_pending_derived",
+        "ok": false,
+        "detail": "rationale=carry_forward:within_window_followup models=['EMA1224B4R/W']"
+      },
+      {
+        "check": "c2_responde_la_pregunta_guardada",
+        "ok": false,
+        "detail": "Sí. (contexto: EMA1224B4R/W)"
+      },
+      {
+        "check": "c2_pending_consumido",
+        "ok": true,
+        "detail": ""
+      }
+    ]
+  }
+}

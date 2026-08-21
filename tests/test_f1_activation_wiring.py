@@ -74,7 +74,7 @@ def _recording_adapters(record):
     """Replay adapters whose generate records every served query (the exact
     string the writer sees) and returns a canned answer."""
 
-    def _generate(query, chunks, *, available_models=None):
+    def _generate(query, chunks, *, available_models=None, turn_identity=None):
         record["generate_queries"].append(query)
         return {"answer": "La tensión del lazo es 24 V CC.", "diagrams": []}
 
@@ -151,7 +151,7 @@ def test_orchestrator_path_on_but_policy_off_keeps_mt0d_path(monkeypatch):
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
     monkeypatch.setattr(bot, "extract_product_models", lambda q: [])
 
-    def _gen(query, chunks, *, available_models=None):
+    def _gen(query, chunks, *, available_models=None, turn_identity=None):
         return {"answer": "MT0D-ANSWER", "diagrams": []}
 
     monkeypatch.setattr(

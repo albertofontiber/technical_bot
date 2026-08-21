@@ -18,6 +18,7 @@ from collections.abc import Sequence
 
 from ..config import RERANK_TOP_K, RETRIEVAL_TOP_K
 from .contracts import TurnRequest
+from .conversation_policy import TurnIdentity
 
 
 def _to_tuple(models: Sequence[str] | None) -> tuple[str, ...] | None:
@@ -38,11 +39,17 @@ def build_turn_request(
     transcription: str | None = None,
     retrieval_top_k: int = RETRIEVAL_TOP_K,
     rerank_top_k: int = RERANK_TOP_K,
+    turn_identity: "TurnIdentity | None" = None,
 ) -> TurnRequest:
     """Construct the ``TurnRequest`` for one Telegram turn from resolved handler
     values. ``update_id``/``chat_id`` become the effectively-once dedup + chat
     keys (stringified). ``query_for_retrieval`` is the handler's already-resolved
-    retrieval query (equal to ``query`` when nothing was carried forward)."""
+    retrieval query (equal to ``query`` when nothing was carried forward).
+
+    (s331 §3.D) ``turn_identity`` es la identidad estructurada que ya resolvió la
+    política (``TurnResolution.turn_identity``): el ingress la COPIA, nunca la
+    deriva del texto. Omitirla (o pasar ``None``) deja el request byte-idéntico
+    al de antes del threading — es el caso del régimen sin F1."""
     return TurnRequest(
         query=query,
         query_for_retrieval=query_for_retrieval,
@@ -55,4 +62,5 @@ def build_turn_request(
         conversation_id=str(chat_id),
         source=source,
         transcription=transcription,
+        turn_identity=turn_identity,
     )

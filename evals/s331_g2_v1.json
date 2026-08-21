@@ -1,0 +1,3893 @@
+{
+  "manifest": {
+    "ts": "2026-08-20T23:40:50+00:00",
+    "git_sha": "0625a9ab52965d1e033819b8c2c5a7257def54cb",
+    "on_flags": {
+      "F1_RESOLVE_GOVERNED": "on",
+      "F1_MENTION_PRECEDENCE": "on",
+      "GENERATOR_NO_REASK": "on",
+      "IDENTITY_FETCH": "on"
+    },
+    "n_golds": 40
+  },
+  "noise_offvsoff": [
+    "cat001",
+    "cat007",
+    "cat008",
+    "cat011",
+    "cat016",
+    "cat019",
+    "cat021",
+    "cat022",
+    "cat024",
+    "hp001",
+    "hp002",
+    "hp003",
+    "hp005",
+    "hp006",
+    "hp007",
+    "hp009",
+    "hp010",
+    "hp011",
+    "hp012",
+    "hp013",
+    "hp017",
+    "hp020",
+    "hp021"
+  ],
+  "diffs_onvsoff": [
+    "cat007",
+    "cat008",
+    "cat009",
+    "cat013",
+    "cat016",
+    "cat017",
+    "cat018",
+    "cat021",
+    "cat022",
+    "cat024",
+    "hp001",
+    "hp002",
+    "hp003",
+    "hp005",
+    "hp006",
+    "hp007",
+    "hp009",
+    "hp010",
+    "hp011",
+    "hp012",
+    "hp013",
+    "hp017",
+    "hp018",
+    "hp020",
+    "hp021"
+  ],
+  "signal": [
+    "cat009",
+    "cat013",
+    "cat017",
+    "cat018",
+    "hp018"
+  ],
+  "sentinels": {
+    "hp009": {
+      "off": [
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-310#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MP-310#None"
+      ],
+      "on": [
+        "MIE-MI-310#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-310#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-310#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MI-530rv001#None",
+        "MIE-MP-310#None"
+      ],
+      "igual": false
+    },
+    "hp001": {
+      "off": [
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#28",
+        "Manual instalacion CAD-250 (MI_372_es_2024 e)#53",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#43",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#40",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+      ],
+      "on": [
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#28",
+        "Manual instalacion CAD-250 (MI_372_es_2024 e)#53",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#43",
+        "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+        "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+      ],
+      "igual": false
+    }
+  },
+  "latency_ms": {
+    "off": [
+      9213,
+      9910,
+      10733,
+      12116,
+      12195,
+      12278,
+      12953,
+      13774,
+      14415,
+      14432,
+      14463,
+      14816,
+      14844,
+      14899,
+      14935,
+      15098,
+      15141,
+      15393,
+      15668,
+      15803,
+      15897,
+      16026,
+      16270,
+      16285,
+      17022,
+      17125,
+      17479,
+      19973,
+      20095,
+      21068,
+      21215,
+      21544,
+      21595,
+      21663,
+      21804,
+      23667,
+      24333,
+      25870,
+      31293,
+      70216
+    ],
+    "off2": [
+      9661,
+      10539,
+      12009,
+      12534,
+      12869,
+      13095,
+      13303,
+      13848,
+      14292,
+      14370,
+      14547,
+      14736,
+      14813,
+      14815,
+      14834,
+      14986,
+      15090,
+      15132,
+      15253,
+      15364,
+      15426,
+      15693,
+      15698,
+      16227,
+      16547,
+      17070,
+      18128,
+      19260,
+      19722,
+      19943,
+      20919,
+      21025,
+      21362,
+      21540,
+      22455,
+      23278,
+      26696,
+      27658,
+      27744,
+      70100
+    ],
+    "on": [
+      9133,
+      10872,
+      10907,
+      11654,
+      11942,
+      12325,
+      12643,
+      12967,
+      13302,
+      13946,
+      14000,
+      14272,
+      14923,
+      15157,
+      15420,
+      15431,
+      15709,
+      15779,
+      15872,
+      16148,
+      16484,
+      16701,
+      17103,
+      17254,
+      17480,
+      17861,
+      18205,
+      20037,
+      20078,
+      20461,
+      20587,
+      21781,
+      21805,
+      22379,
+      22947,
+      23475,
+      24012,
+      26511,
+      28751,
+      84789
+    ]
+  },
+  "detalle_signal": {
+    "cat009": {
+      "off": {
+        "served": [
+          "HLSI-MN-025-I_NFS Supra Series#30",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series#45",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MA-025 Guia Rapida NFS_Supra_ES#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#55",
+          "HLSI-MN-025_NFS Supra#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "NFS-Supra"
+        ],
+        "failures": [],
+        "ms": 14816
+      },
+      "on": {
+        "served": [
+          "HLSI-MN-025-I_NFS Supra Series#30",
+          "HLSI-MN-025-I_NFS Supra Series#45",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#55",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MA-025 Guia Rapida NFS_Supra_ES#None",
+          "HLSI-MN-025_NFS Supra#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "NFS-Supra"
+        ],
+        "failures": [],
+        "ms": 15157
+      }
+    },
+    "cat013": {
+      "off": {
+        "served": [
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "MNDT150#None",
+          "MNDT120#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150",
+          "SDX-751"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 31293
+      },
+      "on": {
+        "served": [
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "MNDT150#None",
+          "MNDT120#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "SDX-751",
+          "CAD-150-1",
+          "CAD-150-2",
+          "CAD-150-2-MB",
+          "CAD-150-4",
+          "CAD-150-8",
+          "CAD-150-8-PLUS"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 28751
+      }
+    },
+    "cat017": {
+      "off": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-9ES issue 5_11-2025_In#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 19973
+      },
+      "on": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-9ES issue 5_11-2025_In#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#10",
+          "HOP-138-8ES  issue 6_01-2026_Co#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE",
+          "INSPIRE E10",
+          "INSPIRE E15"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 22379
+      }
+    },
+    "cat018": {
+      "off": {
+        "served": [
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#61",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#104",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15141
+      },
+      "on": {
+        "served": [
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#61",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#104",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15872
+      }
+    },
+    "hp018": {
+      "off": {
+        "served": [
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#None",
+          "MIE-MU-310#None",
+          "MIE-MU-530rv001#None",
+          "MIE-MP-310#38"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE"
+        ],
+        "failures": [],
+        "ms": 17125
+      },
+      "on": {
+        "served": [
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-530rv001#None",
+          "MIE-MP-310#None",
+          "MIE-MU-310#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#38",
+          "MIE-MI-530rv001#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE",
+          "ZX1e",
+          "ZX2e",
+          "ZX5e"
+        ],
+        "failures": [],
+        "ms": 20461
+      }
+    }
+  },
+  "runs": {
+    "off": {
+      "hp001": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#28",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#53",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#43",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#40",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 20095
+      },
+      "hp002": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#231",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#93",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#170"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535"
+        ],
+        "failures": [],
+        "ms": 12116
+      },
+      "hp003": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#12",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#16",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#34"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 24333
+      },
+      "hp004": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 9213
+      },
+      "hp005": {
+        "served": [
+          "MCDT190#None",
+          "MCDT191#86",
+          "MPDT190#None",
+          "MCDT191#None",
+          "MCDT191#None",
+          "MCDT191#None",
+          "MADT190_14#None",
+          "MPDT190#78",
+          "MADT190_14#None",
+          "MPDT190#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 12195
+      },
+      "hp006": {
+        "served": [
+          "MFDT170#None",
+          "MIDT170#71",
+          "50253SP#100",
+          "50253SP#99",
+          "MFDT170#None",
+          "MFDT170#None",
+          "15090SP#106",
+          "MFDT170#None",
+          "50253SP#116",
+          "MIDT170#98"
+        ],
+        "route": "standalone",
+        "models": [
+          "AFP-400"
+        ],
+        "failures": [],
+        "ms": 15897
+      },
+      "hp007": {
+        "served": [
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#56",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "VESDA-E-VEP"
+        ],
+        "failures": [],
+        "ms": 12953
+      },
+      "hp008": {
+        "served": [
+          "MPDT190#None",
+          "MPDT190#None",
+          "MIDT190#None",
+          "MPDT190#4",
+          "MPDT190#None",
+          "MCDT191#None",
+          "MPDT190#None",
+          "MCDT190#None",
+          "MCDT191#None",
+          "MPDT190#53"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 16285
+      },
+      "hp009": {
+        "served": [
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-310#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE"
+        ],
+        "failures": [],
+        "ms": 21215
+      },
+      "hp010": {
+        "served": [
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc"
+        ],
+        "failures": [],
+        "ms": 21068
+      },
+      "hp011": {
+        "served": [
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#69",
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MN-103_RP1r-Supra_lr#68",
+          "HLSI-MN-103I_RP1r-Supra_lr#66",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MA-103_Quick start guide RP1r_Supra_GB#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#72"
+        ],
+        "route": "standalone",
+        "models": [
+          "RP1r"
+        ],
+        "failures": [],
+        "ms": 14432
+      },
+      "hp012": {
+        "served": [
+          "15088SP#186",
+          "15088SP#108",
+          "15088SP#None",
+          "MPDT280#3",
+          "15088SP#None",
+          "MADT370#13",
+          "15088SP#None",
+          "BTDT032#None",
+          "15088SP#216",
+          "15088SP#43"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-2020",
+          "AFP1010"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21804
+      },
+      "hp013": {
+        "served": [
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#177",
+          "ADW535_TD_T140358es_e#178",
+          "ADW535_TD_T140358es_e#132",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#41",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#118"
+        ],
+        "route": "standalone",
+        "models": [
+          "ADW535"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 17479
+      },
+      "hp014": {
+        "served": [
+          "MIDT180#53",
+          "MIDT180#52",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID2000"
+        ],
+        "failures": [],
+        "ms": 16270
+      },
+      "hp015": {
+        "served": [
+          "CCD-103_Manual_ES_FR_GB_IT#34",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CCD-103"
+        ],
+        "failures": [],
+        "ms": 15803
+      },
+      "hp017": {
+        "served": [
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-671-005-3_Configuration_ES#29",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#22",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-671-005-3_Configuration_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 14935
+      },
+      "hp018": {
+        "served": [
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#None",
+          "MIE-MU-310#None",
+          "MIE-MU-530rv001#None",
+          "MIE-MP-310#38"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE"
+        ],
+        "failures": [],
+        "ms": 17125
+      },
+      "hp019": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21595
+      },
+      "hp020": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#10",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#None",
+          "4188-1125-ES issue 5_11-2025_Li#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE"
+        ],
+        "failures": [],
+        "ms": 14899
+      },
+      "cat001": {
+        "served": [
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#26",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 15668
+      },
+      "cat005": {
+        "served": [
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-S3-2#None",
+          "MNDT515#None",
+          "MNDT512#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 12278
+      },
+      "cat007": {
+        "served": [
+          "I56-6577-006_ES FAAST Notifier LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG#None",
+          "I56-6575-005_EN-FAAST-LT-200-Loop-QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-3947-202_FAAST LT_MULTI#None",
+          "I56-3956-201_ES Morley Loop FAAST LT QIG#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "FAAST LT-200",
+          "FAAST LT"
+        ],
+        "failures": [],
+        "ms": 70216
+      },
+      "cat008": {
+        "served": [
+          "Conexionado-del-modulo-M710-MI-DMMI#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#2",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "M710",
+          "MI-DMMI"
+        ],
+        "failures": [],
+        "ms": 14844
+      },
+      "cat009": {
+        "served": [
+          "HLSI-MN-025-I_NFS Supra Series#30",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series#45",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MA-025 Guia Rapida NFS_Supra_ES#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#55",
+          "HLSI-MN-025_NFS Supra#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "NFS-Supra"
+        ],
+        "failures": [],
+        "ms": 14816
+      },
+      "cat010": {
+        "served": [
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "IS-mA1"
+        ],
+        "failures": [],
+        "ms": 9910
+      },
+      "cat011": {
+        "served": [
+          "I56-1306-002_SDX-751EM#5",
+          "I56-1320-001 SDX-751TEM#None",
+          "MNDT1020#None",
+          "I56-0790-003_CPX-751E#None",
+          "I56-1320-001 SDX-751TEM#None",
+          "MIDT230#None",
+          "MIDT156#None",
+          "MIDT170#224",
+          "MIDT260#None",
+          "MIDT250_A#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 14415
+      },
+      "cat012": {
+        "served": [
+          "AM-8200 Manual Instalacion#16",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#63",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15393
+      },
+      "cat013": {
+        "served": [
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "MNDT150#None",
+          "MNDT120#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150",
+          "SDX-751"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 31293
+      },
+      "cat014": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 10733
+      },
+      "cat015": {
+        "served": [
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [],
+        "ms": 21544
+      },
+      "cat016": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#8",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#11",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#7",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 25870
+      },
+      "cat017": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-9ES issue 5_11-2025_In#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 19973
+      },
+      "cat018": {
+        "served": [
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#61",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#104",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15141
+      },
+      "cat019": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#93",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#61",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#85",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#95",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#94"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 14463
+      },
+      "cat020": {
+        "served": [
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual de configuracion#None",
+          "DXc-Tipos-Abreviaturas-de-equipos#None",
+          "DXc_Guia de usuario_multiling#None",
+          "Rearme-remoto-en-central-DXc-Connexion#None",
+          "DXc_Guia de instalacion_multiling#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Guia de usuario_multiling#None",
+          "DXc_Guia de instalacion_multiling#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21663
+      },
+      "cat021": {
+        "served": [
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT721_40-40I#None",
+          "MNDT722_40-40L#None",
+          "MNDT724_40-40R#None",
+          "MNDT725_40-40M#None",
+          "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812#None",
+          "MNDT724_40-40R#None",
+          "MNDT723_40-40U#None",
+          "MNDT723_40-40U#None",
+          "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40"
+        ],
+        "failures": [],
+        "ms": 16026
+      },
+      "cat022": {
+        "served": [
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT722_40-40L#None",
+          "MNDT723_40-40U#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#4",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40",
+          "40-40L"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 23667
+      },
+      "cat023": {
+        "served": [
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#162",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD532"
+        ],
+        "failures": [],
+        "ms": 13774
+      },
+      "cat024": {
+        "served": [
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#93",
+          "Manual_MAD-465-I (55346500 MI 620 m 2024 c)#None",
+          "Manual MAD-567_569 (55356900 Mi 535 m 2022 b)#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "MAD-472"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 17022
+      },
+      "hp021": {
+        "served": [
+          "Manual_CAD-171-MI-716-es#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-171"
+        ],
+        "failures": [],
+        "ms": 15098
+      }
+    },
+    "off2": {
+      "hp001": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#53",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#28",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#43",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#40",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 18128
+      },
+      "hp002": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#231",
+          "ASD535_TD_T131192es_h#93",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#226"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535"
+        ],
+        "failures": [],
+        "ms": 12534
+      },
+      "hp003": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#12",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#16",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#34",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [],
+        "ms": 23278
+      },
+      "hp004": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 9661
+      },
+      "hp005": {
+        "served": [
+          "MCDT190#None",
+          "MCDT191#86",
+          "MPDT190#None",
+          "MCDT191#None",
+          "MCDT191#None",
+          "MCDT191#None",
+          "MPDT190#None",
+          "MPDT190#78",
+          "MADT190_14#None",
+          "MADT190_14#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 14986
+      },
+      "hp006": {
+        "served": [
+          "MFDT170#None",
+          "MIDT170#71",
+          "50253SP#100",
+          "50253SP#99",
+          "MFDT170#None",
+          "MFDT170#None",
+          "15090SP#106",
+          "MFDT170#None",
+          "50253SP#116",
+          "MIDT170#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AFP-400"
+        ],
+        "failures": [],
+        "ms": 15698
+      },
+      "hp007": {
+        "served": [
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#56",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "VESDA-E-VEP"
+        ],
+        "failures": [],
+        "ms": 12869
+      },
+      "hp008": {
+        "served": [
+          "MPDT190#None",
+          "MPDT190#None",
+          "MIDT190#None",
+          "MPDT190#4",
+          "MPDT190#None",
+          "MCDT191#None",
+          "MPDT190#None",
+          "MCDT190#None",
+          "MCDT191#None",
+          "MPDT190#53"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 16547
+      },
+      "hp009": {
+        "served": [
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#38",
+          "MIE-MI-530rv001#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21362
+      },
+      "hp010": {
+        "served": [
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXC-Connexion-Como-programar-una-salida-de-averia-general#None",
+          "DXC-Connexion-Averia-F-Alimentacion-externa#None",
+          "DXc_Connexion Averia-de-resistencia-de-baterias#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 22455
+      },
+      "hp011": {
+        "served": [
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#69",
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MN-103_RP1r-Supra_lr#68",
+          "HLSI-MN-103I_RP1r-Supra_lr#66",
+          "HLSI-MA-103_Quick start guide RP1r_Supra_GB#None",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#72"
+        ],
+        "route": "standalone",
+        "models": [
+          "RP1r"
+        ],
+        "failures": [],
+        "ms": 14813
+      },
+      "hp012": {
+        "served": [
+          "15088SP#186",
+          "MPDT280#3",
+          "15088SP#108",
+          "15088SP#None",
+          "BTDT032#None",
+          "15088SP#None",
+          "15088SP#None",
+          "MADT370#13",
+          "15088SP#43",
+          "15088SP#216"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-2020",
+          "AFP1010"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 19260
+      },
+      "hp013": {
+        "served": [
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#177",
+          "ADW535_TD_T140358es_e#178",
+          "ADW535_TD_T140358es_e#132",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#41",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ADW535"
+        ],
+        "failures": [],
+        "ms": 16227
+      },
+      "hp014": {
+        "served": [
+          "MIDT180#53",
+          "MIDT180#52",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID2000"
+        ],
+        "failures": [],
+        "ms": 15090
+      },
+      "hp015": {
+        "served": [
+          "CCD-103_Manual_ES_FR_GB_IT#34",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CCD-103"
+        ],
+        "failures": [],
+        "ms": 14292
+      },
+      "hp017": {
+        "served": [
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-671-005-3_Configuration_ES#29",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#22",
+          "997-671-005-3_Configuration_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 15426
+      },
+      "hp018": {
+        "served": [
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#None",
+          "MIE-MU-310#None",
+          "MIE-MU-530rv001#None",
+          "MIE-MP-310#38"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE"
+        ],
+        "failures": [],
+        "ms": 19722
+      },
+      "hp019": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 20919
+      },
+      "hp020": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#10",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#None",
+          "HOP-138-8PT-issue 5_01-2026_Co-#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE"
+        ],
+        "failures": [],
+        "ms": 17070
+      },
+      "cat001": {
+        "served": [
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-671-005-3_Configuration_ES#26",
+          "997-670-005-3_Operating_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 15364
+      },
+      "cat005": {
+        "served": [
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-S3-2#None",
+          "MNDT515#None",
+          "MNDT512#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 12009
+      },
+      "cat007": {
+        "served": [
+          "I56-6577-006_ES FAAST Notifier LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG#None",
+          "I56-6575-005_EN-FAAST-LT-200-Loop-QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None",
+          "I56-3947-202_FAAST LT_MULTI#None",
+          "I56-3956-201_ES Morley Loop FAAST LT QIG#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "FAAST LT-200",
+          "FAAST LT"
+        ],
+        "failures": [],
+        "ms": 70100
+      },
+      "cat008": {
+        "served": [
+          "Conexionado-del-modulo-M710-MI-DMMI#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#2"
+        ],
+        "route": "standalone",
+        "models": [
+          "M710",
+          "MI-DMMI"
+        ],
+        "failures": [],
+        "ms": 13848
+      },
+      "cat009": {
+        "served": [
+          "HLSI-MN-025-I_NFS Supra Series#30",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series#45",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MA-025 Guia Rapida NFS_Supra_ES#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#55",
+          "HLSI-MN-025_NFS Supra#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "NFS-Supra"
+        ],
+        "failures": [],
+        "ms": 15132
+      },
+      "cat010": {
+        "served": [
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "IS-mA1"
+        ],
+        "failures": [],
+        "ms": 13303
+      },
+      "cat011": {
+        "served": [
+          "I56-1306-002_SDX-751EM#5",
+          "I56-1320-001 SDX-751TEM#None",
+          "I56-1320-001 SDX-751TEM#None",
+          "MNDT1020#None",
+          "I56-0790-003_CPX-751E#None",
+          "MIDT230#None",
+          "MIDT156#None",
+          "MIDT170#224",
+          "I56-1732-002_SD-851TE#None",
+          "MNDT1025#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 14547
+      },
+      "cat012": {
+        "served": [
+          "AM-8200 Manual Instalacion#16",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#63",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 14815
+      },
+      "cat013": {
+        "served": [
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "MNDT150#None",
+          "MNDT120#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150",
+          "SDX-751"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 27658
+      },
+      "cat014": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 10539
+      },
+      "cat015": {
+        "served": [
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 27744
+      },
+      "cat016": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#8",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#11",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#7",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 26696
+      },
+      "cat017": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-9ES issue 5_11-2025_In#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 19943
+      },
+      "cat018": {
+        "served": [
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#61",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#104",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15253
+      },
+      "cat019": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#93",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#61",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#85",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#94",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 14834
+      },
+      "cat020": {
+        "served": [
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual de configuracion#None",
+          "DXc-Tipos-Abreviaturas-de-equipos#None",
+          "DXc_Guia de usuario_multiling#None",
+          "Rearme-remoto-en-central-DXc-Connexion#None",
+          "DXc_Guia de instalacion_multiling#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Guia de usuario_multiling#None",
+          "DXc_Guia de instalacion_multiling#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21540
+      },
+      "cat021": {
+        "served": [
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT721_40-40I#None",
+          "MNDT722_40-40L#None",
+          "MNDT724_40-40R#None",
+          "MNDT725_40-40M#None",
+          "MNDT723_40-40U#None",
+          "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812#None",
+          "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942#None",
+          "MNDT723_40-40U#None",
+          "MNDT724_40-40R#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40"
+        ],
+        "failures": [],
+        "ms": 14370
+      },
+      "cat022": {
+        "served": [
+          "MNDT722_40-40L#None",
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT723_40-40U#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#4",
+          "MNDT722_40-40L#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40",
+          "40-40L"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21025
+      },
+      "cat023": {
+        "served": [
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#162",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD532"
+        ],
+        "failures": [],
+        "ms": 13095
+      },
+      "cat024": {
+        "served": [
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#93",
+          "Manual_MAD-465-I (55346500 MI 620 m 2024 c)#None",
+          "I56-1671-003 LPB-620 ManualES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "MAD-472"
+        ],
+        "failures": [],
+        "ms": 15693
+      },
+      "hp021": {
+        "served": [
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-171"
+        ],
+        "failures": [],
+        "ms": 14736
+      }
+    },
+    "on": {
+      "hp001": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#28",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#53",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#42",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#43",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 18205
+      },
+      "hp002": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#231",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#93",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#226"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535",
+          "ASD 535-1"
+        ],
+        "failures": [],
+        "ms": 11654
+      },
+      "hp003": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#12",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#16",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#34",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150-1",
+          "CAD-150-2",
+          "CAD-150-2-MB",
+          "CAD-150-4",
+          "CAD-150-8",
+          "CAD-150-8-PLUS"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 22947
+      },
+      "hp004": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 9133
+      },
+      "hp005": {
+        "served": [
+          "MCDT190#None",
+          "MCDT191#86",
+          "MPDT190#None",
+          "MADT190_14#None",
+          "MCDT191#None",
+          "MADT190_14#None",
+          "MCDT191#None",
+          "MPDT190#78",
+          "MCDT191#None",
+          "MPDT190#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 17861
+      },
+      "hp006": {
+        "served": [
+          "MFDT170#None",
+          "MIDT170#71",
+          "50253SP#99",
+          "50253SP#100",
+          "MFDT170#None",
+          "MADT380_01#None",
+          "MIDT170#None",
+          "15090SP#106",
+          "50253SP#116",
+          "MFDT170#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AFP-400"
+        ],
+        "failures": [],
+        "ms": 17254
+      },
+      "hp007": {
+        "served": [
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#None",
+          "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores#None",
+          "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores#72"
+        ],
+        "route": "standalone",
+        "models": [
+          "VESDA-E-VEP"
+        ],
+        "failures": [],
+        "ms": 12325
+      },
+      "hp008": {
+        "served": [
+          "MPDT190#None",
+          "MPDT190#None",
+          "MIDT190#None",
+          "MPDT190#4",
+          "MPDT190#None",
+          "MCDT191#None",
+          "MPDT190#None",
+          "MCDT190#None",
+          "MCDT191#None",
+          "MPDT190#53"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID3000"
+        ],
+        "failures": [],
+        "ms": 16484
+      },
+      "hp009": {
+        "served": [
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-310#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE",
+          "ZX1e",
+          "ZX2e",
+          "ZX5e"
+        ],
+        "failures": [],
+        "ms": 24012
+      },
+      "hp010": {
+        "served": [
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None",
+          "DXC-Connexion-Averia-F-Alimentacion-externa#None",
+          "DXC-Connexion-Como-programar-una-salida-de-averia-general#None",
+          "DXc_Connexion Averia-de-resistencia-de-baterias#None",
+          "DXc_Manual de configuracion#None",
+          "DXc_Manual de configuracion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc",
+          "DXc1",
+          "DXc2",
+          "DXc4"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21805
+      },
+      "hp011": {
+        "served": [
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#69",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MN-103_RP1r-Supra_lr#None",
+          "HLSI-MN-103_RP1r-Supra_lr#68",
+          "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr#None",
+          "HLSI-MA-103_Quick start guide RP1r_Supra_GB#None",
+          "HLSI-MN-103I_RP1r-Supra_lr#72",
+          "HLSI-MN-103I_RP1r-Supra_lr#54"
+        ],
+        "route": "standalone",
+        "models": [
+          "RP1r-Supra"
+        ],
+        "failures": [],
+        "ms": 13302
+      },
+      "hp012": {
+        "served": [
+          "MPDT280#3",
+          "15088SP#None",
+          "MADT370#13",
+          "MFDT280#None",
+          "15088SP#None",
+          "BTDT032#None",
+          "15088SP#216",
+          "MFDT280#None",
+          "15088SP#None",
+          "15088SP#215"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-2020",
+          "AFP1010"
+        ],
+        "failures": [],
+        "ms": 20078
+      },
+      "hp013": {
+        "served": [
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#132",
+          "ADW535_TD_T140358es_e#177",
+          "ADW535_TD_T140358es_e#178",
+          "ADW535_TD_T140358es_e#41",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None",
+          "ADW535_TD_T140358es_e#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ADW535",
+          "ADW 535-1"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 16701
+      },
+      "hp014": {
+        "served": [
+          "MIDT180#53",
+          "MIDT180#52",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None",
+          "MIDT180#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ID2000"
+        ],
+        "failures": [],
+        "ms": 14923
+      },
+      "hp015": {
+        "served": [
+          "CCD-103_Manual_ES_FR_GB_IT#34",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None",
+          "CCD-103_Manual_ES_FR_GB_IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CCD-103"
+        ],
+        "failures": [],
+        "ms": 14272
+      },
+      "hp017": {
+        "served": [
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-671-005-3_Configuration_ES#29",
+          "997-671-005-3_Configuration_ES#22",
+          "997-671-005-3_Configuration_ES#None",
+          "997-670-005-3_Operating_ES#None",
+          "997-670-007-3_Operating_PT#None",
+          "997-670-005-3_Operating_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 17103
+      },
+      "hp018": {
+        "served": [
+          "MIE-MI-310#None",
+          "MIE-MI-310#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MI-530rv001#None",
+          "MIE-MP-530rv001#None",
+          "MIE-MP-310#None",
+          "MIE-MU-310#None",
+          "MIE-MP-310#None",
+          "MIE-MP-310#38",
+          "MIE-MI-530rv001#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ZXE",
+          "ZX1e",
+          "ZX2e",
+          "ZX5e"
+        ],
+        "failures": [],
+        "ms": 20461
+      },
+      "hp019": {
+        "served": [
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None",
+          "ASD535_TD_T131192es_h#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD535",
+          "ASD 535-1"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 20037
+      },
+      "hp020": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#10",
+          "HOP-338-9ES issue 4_01-2026_Op#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1122-ES issue 4_04-2025_Cyb#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE",
+          "INSPIRE E10",
+          "INSPIRE E15"
+        ],
+        "failures": [],
+        "ms": 15431
+      },
+      "cat001": {
+        "served": [
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#None",
+          "997-671-005-3_Configuration_ES#26",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None",
+          "997-669-005-3_Instal-Comm_ES#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "Pearl"
+        ],
+        "failures": [],
+        "ms": 16148
+      },
+      "cat005": {
+        "served": [
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-CS4#None",
+          "Manual-de-Usuario-S3-2#None",
+          "MNDT515#None",
+          "MNDT512#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 11942
+      },
+      "cat007": {
+        "served": [
+          "I56-6577-006_ES FAAST Notifier LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG#None",
+          "I56-6575-005_EN-FAAST-LT-200-Loop-QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None",
+          "I56-3947-202_FAAST LT_MULTI#None",
+          "I56-6577-006_EN Notifier FAAST LT-200 QIG#None",
+          "I56-3947-202_FAAST LT_MULTI#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "FAAST LT-200",
+          "FAAST LT",
+          "FL0111E-HS",
+          "FL0112E-HS",
+          "FL0122E-HS",
+          "FL2011EI-HS",
+          "FL2012EI-HS",
+          "FL2022EI-HS",
+          "NFXI-ASD11-HS",
+          "NFXI-ASD12-HS",
+          "NFXI-ASD22-HS",
+          "MI-FL2011EI",
+          "MI-FL2012EI",
+          "MI-FL2022EI"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 84789
+      },
+      "cat008": {
+        "served": [
+          "Conexionado-del-modulo-M710-MI-DMMI#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-2005-002 M710 M720 M721 M701#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#None",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None",
+          "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE#2",
+          "I56-2006-004 MI-DMMI_DMM2I_D2ICMO#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "M710",
+          "MI-DMMI"
+        ],
+        "failures": [],
+        "ms": 17480
+      },
+      "cat009": {
+        "served": [
+          "HLSI-MN-025-I_NFS Supra Series#30",
+          "HLSI-MN-025-I_NFS Supra Series#45",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#None",
+          "HLSI-MN-025-I_NFS Supra Series v05#55",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MN-025_NFS Supra#None",
+          "HLSI-MA-025 Guia Rapida NFS_Supra_ES#None",
+          "HLSI-MN-025_NFS Supra#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "NFS-Supra"
+        ],
+        "failures": [],
+        "ms": 15157
+      },
+      "cat010": {
+        "served": [
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "IS5001-F_IS-mA1_EN#None",
+          "manual IS MA1#None",
+          "manual IS MA1#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "IS-mA1"
+        ],
+        "failures": [],
+        "ms": 12967
+      },
+      "cat011": {
+        "served": [
+          "I56-1306-002_SDX-751EM#5",
+          "I56-1320-001 SDX-751TEM#None",
+          "MNDT1020#None",
+          "I56-0790-003_CPX-751E#None",
+          "I56-1320-001 SDX-751TEM#None",
+          "MIDT230#None",
+          "MIDT156#None",
+          "MIDT170#224",
+          "MIDT260#None",
+          "MIDT250_A#None"
+        ],
+        "route": "standalone",
+        "models": [],
+        "failures": [],
+        "ms": 14000
+      },
+      "cat012": {
+        "served": [
+          "AM-8200 Manual Instalacion#16",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#63",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None",
+          "AM-8200 Manual Instalacion#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15709
+      },
+      "cat013": {
+        "served": [
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "I56-1306-002_SDX-751EM#None",
+          "MNDT150#None",
+          "MNDT120#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "SDX-751",
+          "CAD-150-1",
+          "CAD-150-2",
+          "CAD-150-2-MB",
+          "CAD-150-4",
+          "CAD-150-8",
+          "CAD-150-8-PLUS"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 28751
+      },
+      "cat014": {
+        "served": [
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None",
+          "55360004 Manual Detector Gas DGD-600 ES EN IT FR#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DGD-600"
+        ],
+        "failures": [],
+        "ms": 10872
+      },
+      "cat015": {
+        "served": [
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#21"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150-1",
+          "CAD-150-2",
+          "CAD-150-2-MB",
+          "CAD-150-4",
+          "CAD-150-8",
+          "CAD-150-8-PLUS"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 21781
+      },
+      "cat016": {
+        "served": [
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#8",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#11",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#7",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT#None",
+          "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-150-1",
+          "CAD-150-2",
+          "CAD-150-2-MB",
+          "CAD-150-4",
+          "CAD-150-8",
+          "CAD-150-8-PLUS"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 26511
+      },
+      "cat017": {
+        "served": [
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-9ES issue 5_11-2025_In#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#None",
+          "4188-1132-ES issue 3_04_2025_Qref#None",
+          "HOP-138-8ES  issue 6_01-2026_Co#10",
+          "HOP-138-8ES  issue 6_01-2026_Co#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "INSPIRE",
+          "INSPIRE E10",
+          "INSPIRE E15"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 22379
+      },
+      "cat018": {
+        "served": [
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#61",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#104",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None",
+          "AM-8200-manu-prog-spa#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "AM-8200"
+        ],
+        "failures": [],
+        "ms": 15872
+      },
+      "cat019": {
+        "served": [
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#93",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#61",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#85",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#95",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#94"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-250"
+        ],
+        "failures": [],
+        "ms": 15420
+      },
+      "cat020": {
+        "served": [
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual variaciones de mercado#None",
+          "DXc_Manual de configuracion#None",
+          "DXc-Tipos-Abreviaturas-de-equipos#None",
+          "DXc_Guia de usuario_multiling#None",
+          "Rearme-remoto-en-central-DXc-Connexion#None",
+          "DXc_Guia de instalacion_multiling#None",
+          "DXc_Manual de usuario#None",
+          "DXc_Guia de usuario_multiling#None",
+          "DXc_Guia de instalacion_multiling#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "DXc",
+          "DXc1",
+          "DXc2",
+          "DXc4"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 23475
+      },
+      "cat021": {
+        "served": [
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT721_40-40I#None",
+          "MNDT722_40-40L#None",
+          "MNDT724_40-40R#None",
+          "MNDT725_40-40M#None",
+          "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812#None",
+          "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942#None",
+          "MNDT723_40-40U#None",
+          "MNDT723_40-40U#None",
+          "MNDT725_40-40M#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40"
+        ],
+        "failures": [],
+        "ms": 13946
+      },
+      "cat022": {
+        "served": [
+          "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694#None",
+          "MNDT722_40-40L#None",
+          "MNDT723_40-40U#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#4",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None",
+          "MNDT722_40-40L#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "40-40",
+          "40-40L"
+        ],
+        "failures": [],
+        "ms": 20587
+      },
+      "cat023": {
+        "served": [
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#162",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None",
+          "ASD532_TD_T140421es_a#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "ASD532"
+        ],
+        "failures": [],
+        "ms": 10907
+      },
+      "cat024": {
+        "served": [
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2#None",
+          "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#None",
+          "CAD-250_Manual-Configuracion-MC-380-es-2026-c#None",
+          "CAD-250_Manual-software-configuracion-MS-416-es-2026-b#None",
+          "Manual instalacion CAD-250 (MI_372_es_2024 e)#93",
+          "I56-1671-003 LPB-620 ManualES#None",
+          "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "MAD-472"
+        ],
+        "failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          },
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "ms": 15779
+      },
+      "hp021": {
+        "served": [
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None",
+          "Manual_CAD-171-MI-716-es#None"
+        ],
+        "route": "standalone",
+        "models": [
+          "CAD-171"
+        ],
+        "failures": [],
+        "ms": 12643
+      }
+    }
+  },
+  "mt_contract_on": {
+    "exit": 0,
+    "tail": "================\nMT-1b eval — modo contract\n  flujos=22  turnos=52  clases=13/13\n  clases: cambio_producto_explicito, carry_forward_1h, clarify_solo_si_diverge, codigos_tecnicos, compatibilidad_marca, continuacion_dominio_limitrofe, correccion, dos_conversaciones_aisladas, followup_detalle, no_contestable_admit, pronombre, reinicio_tema, standalone_autocontenida\n\n  PASS=52  FAIL=0  plumbing_ok=48\n"
+  }
+}

@@ -1,0 +1,54 @@
+# Conexionado de sirena convencional en salidas de sirena de la ZXe
+
+## Identificación de terminales
+
+Los terminales de sirena en la ZXe varían según el modelo de placa [F2]:
+
+- **ZX2e**: terminales etiquetados **A+, A-, B+, B-** en el bloque "SOUNDERS" [F2]
+- **ZX5e**: terminales etiquetados **S,A+ / S,A- / S,B+ / S,B- / S,C+ / S,C- / S,D+ / S,D-** en el bloque **TB7** [F2]
+
+---
+
+## Requisitos previos obligatorios
+
+**1. Sirenas polarizadas (con diodo integrado)**
+Cada sirena debe tener un diodo integrado para impedir el consumo en polarización inversa durante la supervisión [F2]. Conecta respetando la polaridad indicada en los terminales (+/-).
+
+**2. Sirenas no polarizadas (campanas sin polaridad)**
+Si el dispositivo no tiene polaridad, debes instalar un diodo de polarización y protección en cada uno de ellos [F2]. Sin este diodo, la corriente de supervisión inversa provocará consumo en reposo.
+
+**3. Resistencia Final de Línea (RFL)**
+Instala siempre una **RFL de 6.800 Ω, 0,5 W mínimo** entre el terminal + y - de la **última sirena** del circuito [F1][F3]. Esta resistencia permite la supervisión de apertura y cierre de la línea.
+
+> Si no se instala ninguna sirena en la salida, conecta la RFL directamente en los terminales de la central [F3].
+
+---
+
+## Reglas de cableado
+
+- **No realices ramales (derivaciones paralelas)**: la supervisión se realiza en la línea directa hasta la RFL; los ramales no quedan supervisados [F4]
+- **No enrolles el cable en los terminales**: corta y empalma adecuadamente para mantener la supervisión [F1]
+- **Sección mínima de cable**: no inferior a **1,5 mm²** [F3]
+- **Longitud máxima recomendada**: no superior a **1 km**; longitudes mayores pueden afectar al funcionamiento por capacitancia e inductancia del lazo [F1]
+- Verifica que la sección de cable garantiza la tensión recomendada por el fabricante de la sirena tanto en alimentación principal como en condiciones de mínima tensión de baterías (consulta las tablas 10 y 11 del manual) [F1]
+
+---
+
+## Capacidad de corriente por circuito
+
+- Corriente máxima por circuito de sirena: **1 A** [F3]
+- Ten en cuenta el consumo total de la central con todas las sirenas activadas para no exceder el límite [F3]
+
+---
+
+## Principio de supervisión
+
+El circuito se polariza en **inverso en reposo** para supervisar la línea. Al activarse la alarma, la corriente circula en sentido normal y la tensión adopta la polaridad expresada en los terminales [F2][F3].
+
+---
+
+> ⚠️ **Para el esquema de conexionado exacto**, consulta la **Figura 15** del manual de instalación, que muestra el circuito completo con la disposición de sirenas y la RFL [F1].
+
+---
+
+**Fuente:** MIE-MI-530rv001 – Manual de Instalación Paneles de Incendio ZX2e / ZX5e (Rev. 001); MIE-MI-310 – Manual de Instalación ZXAE/ZXEE (sin revisión registrada)
