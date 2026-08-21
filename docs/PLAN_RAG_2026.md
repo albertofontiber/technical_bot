@@ -26,7 +26,41 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
+## Estado actual (s331 — 21 ago 2026; el packet E1 CERRADO, la Wiki de modelos en pie y el aprendizaje de la adjudicación convertido en reglas)
+
+**Alberto anotó las 56 filas vivas del packet v3: el packet E1 queda CERRADO.** Su pasada se midió
+antes de interpretarse (`scripts/s331_censo_anotaciones.py`) y el reparto reorienta el trabajo:
+57 anotaciones → **34 decisiones distintas**, **23 duplicadas (40%, `morley:tg` ×15)**, 12 puro «OK»
+y **22 correcciones**. La medida del acierto de lo que el packet le recomendaba **invalidó la
+propuesta de automatización que yo iba a hacer**: P4 acierta 7/7 pero **P1 60% y P3 44%** sobre la
+población del v3 — el «lo firmaste 9 veces» que el packet imprimía era una tasa base heredada del
+v2. Al descomponer los fallos, **3 de 6 eran incompletos, no equivocados**: el juez sabe deletrear y
+no sabe cuándo ha terminado, porque cada fila pregunta UNA cosa donde el documento plantea SEIS.
+El **dúo r40 (Sol crítico ×2 + Fable)** corrigió dos claims mías antes de que salieran: la evidencia
+del K=5 estaba mal leída (`v5/5` son votos VÁLIDOS, no convergencia — el panel se partió 3-2) y
+«mismo id = misma decisión» es falso (3 ids llevan decisiones distintas por documento, así que la
+clave de agrupación es **id × operación**).
+
+**Lo que queda construido** (DEC-263, DEC-264):
+- **Reglas R9–R18** en `data/catalog/reglas_clasificacion.json` — legibles por el generador, cada una
+  anclada en la anotación de Alberto que la hizo nacer. La más cara fue R10 (el software es producto
+  consultable: **18 de sus 57 anotaciones**).
+- **Wiki de modelos** en `/catalogo` del panel: vista de sólo lectura sobre el catálogo gobernado.
+  1.024 modelos consumibles en 36 marcas · 55 sin manual · 601 en cuarentena · **245 manuales
+  huérfanos, 184 de ellos sólo porque todos sus ids siguen en cuarentena**.
+- **Derivación con guardarraíl** (`scripts/s331_derivar_pasada.py`): 34 ids → 29 operaciones listas,
+  2 a la espera de una frase de Alberto, 3 bloqueadas. Falla si una nota suya se queda sin derivar.
+- **Rumbo de automatización** (`evals/s331_automatizacion_propuesta_v2.md`): descomponer la fila en
+  Q1–Q6 con umbral medido por sub-pregunta; Nivel 0 (agrupar por id) se lleva el 40% sin tocar
+  ningún clasificador.
+
+**Qué sigue**: (1) las 3 frases de Alberto en `docs/DECISIONES_PENDIENTES_ALBERTO.md` (paraguas 2X-A,
+namespace EFS/EM 8, gama WMSOU); (2) su autorización para añadir `accessory-of` a `relations.jsonl`,
+que bloquea dos filas ya adjudicadas; (3) aplicar las 29 operaciones listas con gate; (4) medir los
+tres detectores deterministas (R9/R11/R14) sobre los 69 documentos sin `doc_map`, que es población
+acotada, antes de enchufar nada.
+
+## Estado anterior (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
 
 **s331 (DEC-259) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
 entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al

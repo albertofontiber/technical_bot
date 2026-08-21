@@ -17,6 +17,15 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s331d (21 ago 2026) — EL PANEL GANA LA WIKI DE MODELOS.** `/catalogo` es una vista de
+> **sólo lectura** sobre el catálogo gobernado (`data/catalog/*.jsonl`), la misma estructura que el
+> bot consulta en runtime: no hay segunda copia que pueda divergir. Enseña **1.024 modelos que el bot
+> usa** en 36 marcas, con sus manuales, sus alias y sus paraguas, más las dos preguntas que hasta
+> ahora no se veían en ningún sitio: **55 modelos sin ningún manual** y **245 manuales huérfanos**
+> (184 de ellos sólo porque todos sus ids siguen en cuarentena). Los **81 `redirect` entre marcas**
+> son clase propia — la vista OEM. Cambiar el catálogo sigue pasando por el lote firmado con recibo;
+> la Wiki es donde se VE el problema, no donde se arregla (DEC-264).
+>
 > **Estado s327–s330 (20 ago 2026) — EL PANEL MIDE CALIDAD DE USO, Y LA RETENCIÓN ALCANZA A TODO.**
 > Un solo bloque para todo el día: seis sub-sesiones encadenadas, cuya narración vive en
 > `HISTORY.md` y cuyo *por qué* en DEC-248→DEC-256.
