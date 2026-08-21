@@ -262,3 +262,29 @@ def test_kide_no_colisiona_con_kidde_ni_con_flag_off(monkeypatch):
     monkeypatch.delenv("ASR_AVISOS", raising=False)
     texto, asun = corregir_transcripcion_con_asunciones("Quería decir de KIDE.")
     assert texto == "Quería decir de KIDE." and not asun            # flag off = hoy
+
+# ───────────────────── s335b · 8ª corrupción observada de «Kidde» (21-ago 15:54Z)
+def test_quide_reescribe_con_flag_on_y_quiere_jamas(monkeypatch):
+    """«quide» (f8dcb59a) se tabula — 0 hits en corpus, sin lectura legítima; con la
+    fila, «Quería decir quide.» recorre tabla→plantilla→rebuild como KIDE en s334.
+    Su gemela «quiere» (4c868ab7, misma conversación) NO se tabula JAMÁS: palabra
+    española real (145 apariciones en chunks_v2) — este test la PINNA fuera."""
+    monkeypatch.setenv("ASR_AVISOS", "on")
+    from src.bot.whisper_vocabulary import (
+        _CONFUSIONES_OBSERVADAS,
+        corregir_transcripcion_con_asunciones,
+    )
+    texto, asun = corregir_transcripcion_con_asunciones("Quería decir quide.")
+    assert "Kidde" in texto and [a.modo for a in asun] == ["reescrito"]
+    assert asun[0].detectado.lower() == "quide"
+    # la palabra legítima pasa INTACTA, y ninguna fila la tiene como patrón
+    texto, asun = corregir_transcripcion_con_asunciones("El cliente quiere dos centrales.")
+    assert texto == "El cliente quiere dos centrales." and not asun
+    assert all("quiere" not in fila[0] for fila in _CONFUSIONES_OBSERVADAS)
+
+
+def test_quide_flag_off_no_cambia(monkeypatch):
+    monkeypatch.delenv("ASR_AVISOS", raising=False)
+    from src.bot.whisper_vocabulary import corregir_transcripcion_con_asunciones
+    texto, asun = corregir_transcripcion_con_asunciones("Quería decir quide.")
+    assert texto == "Quería decir quide." and not asun

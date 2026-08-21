@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (4 lotes shipped+verificados, el 5º con gates verdes y PR pendiente), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
+## Estado actual (21 ago 2026 — DOS hilos: la línea de correcciones/asunciones s332→s335 (los 5 lotes MERGED+FLIP ON; s335 con verificación prod parcial), y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
 **s334b — Alberto no dio por buenos los 193 y tenía razón: la cifra real era 134, y el camino a ≤10 está BLOQUEADO por dos reglas mías.** (a) Mi contador de huérfanos **no seguía los `redirect`** y el resolver sí (`catalog_resolver.py:187`): 59 de los 193 nunca estuvieron perdidos. Wiki corregida a `cat._consumable` + 2 tests con control negativo. (b) Descarté los `unresolved:` por «adjudicación» cuando **promover no exige asignar fabricante** (el detector no usa el namespace). Con eso hay un lote MEDIDO que baja **134 → 18** (dry-run PASS, 0 gold perdidas, 7 ganancias, 0 pérdidas de modelo en 156 consultas) — **NO APLICADO**: el dúo r43 lo tumbó con 10 hallazgos / 10 verificados / 0 FP, y dos son reglas de esta misma sesión: **R21** («resolver H o G es adjudicación, nunca mecánica») contra los 25 redirects, y el trigger de **TECH_DEBT #99** («higiene de alias ANTES del siguiente lote grande» con >20 activados; éste activa 85 hasta en su versión más conservadora). Además: las 43 `doc_map_altas` eran atestaciones NO leídas, y las «7 ganancias» gold son en buena parte ensanche producido por el propio lote (Fable: el instrumento lo modifica el lever que valida). **Secuencia para ≤10**: higiene de alias → leer los 43 docs → 3 fusiones Morley↔Notifier (6 manuales) + 25 redirects, ambos de Alberto. 5 son irreducibles (digit-only y `EEV(2)`: el detector los excluye a propósito).
@@ -68,17 +68,19 @@ polaridad, «de» preposicional); (3) fuzzy d1 acotado al slot de corrección (g
 (4) clasificador Sonnet 4.6 solo en el miss (frontera del owner «¿se sostiene solo?» + regla
 ANAFÓRICA v3). R8: los 5 atajos escriben estado. **s332/s332b/s333/s334: SHIPPED + FLIP ON +
 VERIFICADOS en producción** (KIDE→Serie NC 14:17Z; clasificador real `correccion`/1261ms +
-Morley-IAS e2e). **s335 (hoy tarde): BUILD COMPLETO con gates verdes, PR #333 pendiente de
-merge/flip** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
+Morley-IAS e2e). **s335 (hoy tarde): MERGED (#333 → `f7c514de`) + FLIP ON, verificación prod
+PARCIAL (s335b)** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
 Whisper + desiderativas/imperativas ES+EN con frontera censada; GB1 verde, 6 negativos técnicos)
 y pieza B prompt v3 + cohorte v3 **GO 15/15 con fila OBLIGATORIA p15 3/3 y 0 falsas** (la regla
 fila-obligatoria queda como regla de gate generalizable) + GB2 e2e con clasificador real
 (1576 ms) y RAG Morley sin cross-brand; cruce `_SWITCH_FRASE` MEDIDO; limitación lista-parcial
-DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo**: (1) merge
-#333 + flip `INVENTARIO_FRASEOS=on` (Alberto) → verificación por VOZ con los puntos de Whisper
-(la conversación de la tarde entera); (2) re-verificación DEC-099 por voz con fraseo NO tabulado;
-(3) pieza C («sí» pelado) CENSADA en 3 casos — espera su GO con dúo propio; (4) graduación de
-flags DEC-210/211 (van 10 vars de s331→s335 — el siguiente movimiento estructural).
+DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo** (tras merge #333 + flip, verificación parcial 15:53Z —
+`evals/s335b_verificacion_prod_v1.md`: R8 y población del clasificador EN VERDE en prod;
+«quide» tabulada, «quiere» jamás): (1) VOZ con la desiderativa («Quiero ver las centrales de
+Kidde.») + la anafórica del guion — la conversación post-flip NO ejercitó la gramática nueva;
+(2) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
+si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (3) re-verificación DEC-099 por voz;
+(4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars).
 
 
 **s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó
