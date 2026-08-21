@@ -1,0 +1,2490 @@
+{
+ "que_es": "Verificación de la PREMISA del ataque a huérfanos: G3 (qué cuenta la variable) y G4 (control negativo con el resolver real). NADA aplicado.",
+ "aviso_de_alcance": "«Huérfano» = no alcanzable POR NOMBRE DE MODELO. Sin producto detectado el retriever sigue buscando en todo el corpus; lo que se pierde es la consulta por modelo y su `allowed_sources`.",
+ "marca": null,
+ "n": 147,
+ "G3_documentos": {
+  "total": 68,
+  "no_existen": [],
+  "no_active": [
+   "08501678-4602-4dad-96ba-26404bc8c345",
+   "1d4f6e36-0582-42e7-b9c8-62339d5a999d"
+  ],
+  "sin_chunks": []
+ },
+ "G4_veredictos": {
+  "DESBLOQUEA": 125,
+  "YA_ALCANZABLE": 3,
+  "DETECTA_SIN_FUENTE": 14,
+  "NI_DETECTA": 5
+ },
+ "G4_etiquetas": {
+  "DESBLOQUEA": "la consulta por el modelo NO traía su manual y ahora SÍ  ← lo que pagamos",
+  "YA_ALCANZABLE": "su manual ya salía por otra vía: promover no lo desbloquea",
+  "DETECTA_SIN_FUENTE": "el término entra en el detector pero el manual no llega",
+  "NI_DETECTA": "promover no cambia nada: término inerte (riesgo sin beneficio)"
+ },
+ "detalle": [
+  {
+   "id": "notifier:lcd-80",
+   "canonico": "LCD-80",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lcd-80"
+   ],
+   "fuentes_del_id": [
+    "15037SP",
+    "50253SP",
+    "BTDT017",
+    "MIDT170"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 7,
+   "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
+   "doc_status": "active",
+   "doc_chunks": 42
+  },
+  {
+   "id": "notifier:hop-131-206",
+   "canonico": "HOP-131-206",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "hop-131-206"
+   ],
+   "fuentes_del_id": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:hop-133-206",
+   "canonico": "HOP-133-206",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "hop-133-206"
+   ],
+   "fuentes_del_id": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:hop-134-412",
+   "canonico": "HOP-134-412",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "hop-134-412"
+   ],
+   "fuentes_del_id": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:hop-136-412",
+   "canonico": "HOP-136-412",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "hop-136-412"
+   ],
+   "fuentes_del_id": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:hon-cgw-mbb",
+   "canonico": "HON-CGW-MBB",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "hon-cgw-mbb"
+   ],
+   "fuentes_del_id": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:nas-2",
+   "canonico": "NAS-2",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nas-2"
+   ],
+   "fuentes_del_id": [
+    "997-528-000-1",
+    "MNDT742P_F",
+    "MNDT742_G"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+   "doc_status": "active",
+   "doc_chunks": 26
+  },
+  {
+   "id": "notifier:nxfi-copt22",
+   "canonico": "NXFI-COPT22",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nxfi-copt22"
+   ],
+   "fuentes_del_id": [
+    "ASD in Custodial Applications_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "36d2ba3e-d043-43c9-8a4c-dd02837ef08f",
+   "doc_status": "active",
+   "doc_chunks": 7
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonico": "M710-CZ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "m710-cz"
+   ],
+   "fuentes_del_id": [
+    "BTDT075",
+    "Conexionado-del-modulo-M710-CZ-MI-DCZM",
+    "I56-2129-002 M710-CZ",
+    "MADT190_14"
+   ],
+   "allowed_sources_antes": 2,
+   "allowed_sources_despues": 4,
+   "document_id": "263dba79-f674-47bc-b462-d251164c7ec8",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonico": "M710-CZ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "m710-cz"
+   ],
+   "fuentes_del_id": [
+    "BTDT075",
+    "Conexionado-del-modulo-M710-CZ-MI-DCZM",
+    "I56-2129-002 M710-CZ",
+    "MADT190_14"
+   ],
+   "allowed_sources_antes": 2,
+   "allowed_sources_despues": 4,
+   "document_id": "263dba79-f674-47bc-b462-d251164c7ec8",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:mini-vista",
+   "canonico": "Mini Vista",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "mini vista"
+   ],
+   "fuentes_del_id": [
+    "HLSI-MA-202_01_Guia-MiniVista"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "22767771-f64c-4107-97d6-9fde8fe0d342",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "notifier:nfs-supra",
+   "canonico": "NFS Supra",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nfs supra"
+   ],
+   "fuentes_del_id": [
+    "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+    "HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 9,
+   "document_id": "1bc55fe2-3f36-455d-9f7a-3f600200a94f",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:notifier-inspire-e15",
+   "canonico": "Notifier INSPIRE E15",
+   "veredicto": "YA_ALCANZABLE",
+   "detected_despues": [
+    "notifier inspire e15"
+   ],
+   "fuentes_del_id": [
+    "HOP-138-9ES issue 5_11-2025_In",
+    "HOP-138-9PT-issue 6_01-2026_In",
+    "HOP-338-9ES issue 4_01-2026_Op",
+    "HOP-338-9PT-issue 4_01-2026_Op"
+   ],
+   "allowed_sources_antes": 6,
+   "allowed_sources_despues": 4,
+   "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "doc_status": "active",
+   "doc_chunks": 100
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonico": "M710-CZ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "m710-cz"
+   ],
+   "fuentes_del_id": [
+    "BTDT075",
+    "Conexionado-del-modulo-M710-CZ-MI-DCZM",
+    "I56-2129-002 M710-CZ",
+    "MADT190_14"
+   ],
+   "allowed_sources_antes": 2,
+   "allowed_sources_despues": 4,
+   "document_id": "263dba79-f674-47bc-b462-d251164c7ec8",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:idx-751-ae",
+   "canonico": "IDX-751 AE",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "idx-751 ae"
+   ],
+   "fuentes_del_id": [
+    "I56-3383-002 IDX-751 AE EN DE"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "0737509b-69c8-441a-a27a-cf0237e966d4",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "notifier:lcd-8200",
+   "canonico": "LCD-8200",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lcd-8200"
+   ],
+   "fuentes_del_id": [
+    "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+    "LCD-8200-manu-spa"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+   "doc_status": "active",
+   "doc_chunks": 120
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "canonico": "NFS8REL",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "nfs8rel"
+   ],
+   "fuentes_del_id": [
+    "MADT015_02"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "b7706a88-3ca0-4a69-889b-0ec6c2696916",
+   "doc_status": "active",
+   "doc_chunks": 12
+  },
+  {
+   "id": "notifier:cfp-zs4",
+   "canonico": "CFP-ZS4",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "cfp-zs4"
+   ],
+   "fuentes_del_id": [
+    "MADT020"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "47e5f587-10b6-4841-8184-a5b968e9e4c0",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "notifier:pk-id3000",
+   "canonico": "PK-ID3000",
+   "veredicto": "YA_ALCANZABLE",
+   "detected_despues": [
+    "pk-id3000"
+   ],
+   "fuentes_del_id": [
+    "MADT190_07",
+    "MCDT191",
+    "TIDT096"
+   ],
+   "allowed_sources_antes": 21,
+   "allowed_sources_despues": 3,
+   "document_id": "6afb0c2d-49f6-4077-83b9-be1e3e040759",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonico": "M710-CZ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "m710-cz"
+   ],
+   "fuentes_del_id": [
+    "BTDT075",
+    "Conexionado-del-modulo-M710-CZ-MI-DCZM",
+    "I56-2129-002 M710-CZ",
+    "MADT190_14"
+   ],
+   "allowed_sources_antes": 2,
+   "allowed_sources_despues": 4,
+   "document_id": "263dba79-f674-47bc-b462-d251164c7ec8",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:rtu01",
+   "canonico": "RTU01",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "rtu01"
+   ],
+   "fuentes_del_id": [
+    "MADT190_14"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
+   "doc_status": "active",
+   "doc_chunks": 21
+  },
+  {
+   "id": "notifier:securnet-plus",
+   "canonico": "Securnet Plus",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "securnet plus"
+   ],
+   "fuentes_del_id": [
+    "MADT575_01",
+    "MNDT575"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "35380bd3-d118-44a7-992d-65d6c1e38c29",
+   "doc_status": "active",
+   "doc_chunks": 5
+  },
+  {
+   "id": "notifier:eev2",
+   "canonico": "EEV(2)",
+   "veredicto": "NI_DETECTA",
+   "detected_despues": [],
+   "fuentes_del_id": [
+    "MADT608"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "e17a6689-a817-4a21-81e3-dadb58d7256c",
+   "doc_status": "active",
+   "doc_chunks": 5
+  },
+  {
+   "id": "notifier:lisa-2",
+   "canonico": "LISA 2",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lisa 2"
+   ],
+   "fuentes_del_id": [
+    "MADT635_01"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "af1fdc9a-c53b-406f-a683-b575c8627d65",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:rhistorico.exe",
+   "canonico": "RHistorico.exe",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "rhistorico.exe"
+   ],
+   "fuentes_del_id": [
+    "MADT951_04"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "58037512-ab67-45df-9de4-55cf33eb44ca",
+   "doc_status": "active",
+   "doc_chunks": 2
+  },
+  {
+   "id": "notifier:pk-afp200e",
+   "canonico": "PK-AFP200E",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "pk-afp200e"
+   ],
+   "fuentes_del_id": [
+    "MCDT120"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "fbdfa18c-ae97-4800-a66e-f91a625d91bf",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:updl-2020",
+   "canonico": "UPDL-2020",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "updl-2020"
+   ],
+   "fuentes_del_id": [
+    "MCDT280"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "3456a624-aa68-4f81-a261-ffac7481da9a",
+   "doc_status": "active",
+   "doc_chunks": 8
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonico": "LTS-240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lts-240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071",
+    "Tg-Honeywell_Tecnico"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 4,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:dts-240",
+   "canonico": "DTS 240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "dts 240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:cmx-10r",
+   "canonico": "CMX-10R",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "cmx-10r"
+   ],
+   "fuentes_del_id": [
+    "MNDT1001",
+    "MNDT120"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "d8c868af-0221-4071-883e-0b1a165220e6",
+   "doc_status": "active",
+   "doc_chunks": 3
+  },
+  {
+   "id": "notifier:mcx-55m",
+   "canonico": "MCX-55M",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "mcx-55m"
+   ],
+   "fuentes_del_id": [
+    "MNDT1005"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "797aeff7-f43e-491a-8a07-48b86fba4967",
+   "doc_status": "active",
+   "doc_chunks": 5
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "canonico": "MMX-10M",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "mmx-10m"
+   ],
+   "fuentes_del_id": [
+    "MNDT1006"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "c714abc5-36ba-4923-880f-b10b60c55b81",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "notifier:idx-751",
+   "canonico": "IDX-751",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "idx-751"
+   ],
+   "fuentes_del_id": [
+    "MNDT1020"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "89c05a46-a026-44b5-bebe-d7c67d36c588",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "notifier:am-200",
+   "canonico": "AM-200",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "am-200"
+   ],
+   "fuentes_del_id": [
+    "MNDT105_A"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:sp-200",
+   "canonico": "SP-200",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "sp-200"
+   ],
+   "fuentes_del_id": [
+    "MNDT105_A"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonico": "LTS-240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lts-240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071",
+    "Tg-Honeywell_Tecnico"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 4,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:dts-240",
+   "canonico": "DTS 240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "dts 240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:sensortube",
+   "canonico": "SensorTube",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "sensortube"
+   ],
+   "fuentes_del_id": [
+    "MNDT1070"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
+   "doc_status": "active",
+   "doc_chunks": 100
+  },
+  {
+   "id": "notifier:lts-240",
+   "canonico": "LTS-240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lts-240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071",
+    "Tg-Honeywell_Tecnico"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 4,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:dts-240",
+   "canonico": "DTS 240",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "dts 240"
+   ],
+   "fuentes_del_id": [
+    "MFDT1070",
+    "MNDT1070",
+    "MNDT1071"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "doc_status": "active",
+   "doc_chunks": 34
+  },
+  {
+   "id": "notifier:updl-1020",
+   "canonico": "UPDL-1020",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "updl-1020"
+   ],
+   "fuentes_del_id": [
+    "MNDT285"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:lcd-80",
+   "canonico": "LCD-80",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lcd-80"
+   ],
+   "fuentes_del_id": [
+    "15037SP",
+    "50253SP",
+    "BTDT017",
+    "MIDT170"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 7,
+   "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
+   "doc_status": "active",
+   "doc_chunks": 42
+  },
+  {
+   "id": "notifier:aim-200",
+   "canonico": "AIM-200",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "aim-200"
+   ],
+   "fuentes_del_id": [
+    "MNDT060",
+    "MNDT400"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+   "doc_status": "active",
+   "doc_chunks": 107
+  },
+  {
+   "id": "notifier:ccm-1",
+   "canonico": "CCM-1",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "ccm-1"
+   ],
+   "fuentes_del_id": [
+    "MNDT400"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "c604426a-a05e-4c4f-a78a-3a8e5cb24673",
+   "doc_status": "active",
+   "doc_chunks": 49
+  },
+  {
+   "id": "notifier:eia-485",
+   "canonico": "EIA-485",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "eia-485"
+   ],
+   "fuentes_del_id": [
+    "MNDT400"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "c604426a-a05e-4c4f-a78a-3a8e5cb24673",
+   "doc_status": "active",
+   "doc_chunks": 49
+  },
+  {
+   "id": "notifier:lcd-80tm",
+   "canonico": "LCD-80TM",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "lcd-80tm"
+   ],
+   "fuentes_del_id": [
+    "MNDT402"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "3a58b47d-69f4-423a-a476-e1f67ac42725",
+   "doc_status": "active",
+   "doc_chunks": 13
+  },
+  {
+   "id": "notifier:pl4",
+   "canonico": "PL4",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "pl4"
+   ],
+   "fuentes_del_id": [
+    "MNDT515"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "notifier:pl4-e",
+   "canonico": "PL4-E",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "pl4-e"
+   ],
+   "fuentes_del_id": [
+    "MNDT515"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "notifier:stpl4",
+   "canonico": "STPL4",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "stpl4"
+   ],
+   "fuentes_del_id": [
+    "MNDT515"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "notifier:st.pl4+",
+   "canonico": "ST.PL4+",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "st.pl4"
+   ],
+   "fuentes_del_id": [
+    "MNDT516"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "06887ff1-3783-4c29-9f4b-0012facfebb1",
+   "doc_status": "active",
+   "doc_chunks": 56
+  },
+  {
+   "id": "notifier:securnet-plus",
+   "canonico": "Securnet Plus",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "securnet plus"
+   ],
+   "fuentes_del_id": [
+    "MADT575_01",
+    "MNDT575"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "35380bd3-d118-44a7-992d-65d6c1e38c29",
+   "doc_status": "active",
+   "doc_chunks": 5
+  },
+  {
+   "id": "notifier:smart-1",
+   "canonico": "SMART 1",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart 1"
+   ],
+   "fuentes_del_id": [
+    "MNDT607"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f478ca19-0470-4c40-a98f-2f92cd32bd81",
+   "doc_status": "active",
+   "doc_chunks": 5
+  },
+  {
+   "id": "notifier:smart-3-cd",
+   "canonico": "SMART 3 CD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart 3 cd"
+   ],
+   "fuentes_del_id": [
+    "MNDT625"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "7601da55-96b9-4991-b97a-0b0ce9b44030",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:s2138sd",
+   "canonico": "S2138SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2138sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2139sd",
+   "canonico": "S2139SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2139sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2140nd",
+   "canonico": "S2140ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2140nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2141nd",
+   "canonico": "S2141ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2141nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2142cl",
+   "canonico": "S2142CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2142cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2143cl",
+   "canonico": "S2143CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2143cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2147hc",
+   "canonico": "S2147HC",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2147hc"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2170sd",
+   "canonico": "S2170SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2170sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2171sd",
+   "canonico": "S2171SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2171sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2172nd",
+   "canonico": "S2172ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2172nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2173nd",
+   "canonico": "S2173ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2173nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2174cl",
+   "canonico": "S2174CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2174cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2175cl",
+   "canonico": "S2175CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2175cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2311hc",
+   "canonico": "S2311HC",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2311hc"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:smart-3-cc-cd",
+   "canonico": "SMART 3 CC-CD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart 3 cc-cd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2138sd",
+   "canonico": "S2138SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2138sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2139sd",
+   "canonico": "S2139SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2139sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2140nd",
+   "canonico": "S2140ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2140nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2141nd",
+   "canonico": "S2141ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2141nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2142cl",
+   "canonico": "S2142CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2142cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2143cl",
+   "canonico": "S2143CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2143cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2147hc",
+   "canonico": "S2147HC",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2147hc"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2170sd",
+   "canonico": "S2170SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2170sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2171sd",
+   "canonico": "S2171SD",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2171sd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2172nd",
+   "canonico": "S2172ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2172nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2173nd",
+   "canonico": "S2173ND",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2173nd"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2174cl",
+   "canonico": "S2174CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2174cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2175cl",
+   "canonico": "S2175CL",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2175cl"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:s2311hc",
+   "canonico": "S2311HC",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "s2311hc"
+   ],
+   "fuentes_del_id": [
+    "MNDT626",
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "0ef10ac7-fb05-47bd-a85f-de393bbac45e",
+   "doc_status": "active",
+   "doc_chunks": 23
+  },
+  {
+   "id": "notifier:smart-3g",
+   "canonico": "SMART 3G",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart 3g"
+   ],
+   "fuentes_del_id": [
+    "MNDT646_SMART3G toxic_SP-EN",
+    "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+    "SMART 3 TOXICOS MTEX 4749_SP REV 3"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "eb4f831e-80da-452a-b581-d26bbd578710",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:smart3g-d",
+   "canonico": "SMART3G-D",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart3g-d"
+   ],
+   "fuentes_del_id": [
+    "MNDT646_SMART3G toxic_SP-EN"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "eb4f831e-80da-452a-b581-d26bbd578710",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:ad-pe",
+   "canonico": "AD-PE",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "ad-pe"
+   ],
+   "fuentes_del_id": [
+    "MNDT650"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "be99c95b-6693-46f9-892e-0ecbafd8f49d",
+   "doc_status": "active",
+   "doc_chunks": 13
+  },
+  {
+   "id": "notifier:nas-2",
+   "canonico": "NAS-2",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nas-2"
+   ],
+   "fuentes_del_id": [
+    "997-528-000-1",
+    "MNDT742P_F",
+    "MNDT742_G"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+   "doc_status": "active",
+   "doc_chunks": 26
+  },
+  {
+   "id": "notifier:nas-2",
+   "canonico": "NAS-2",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nas-2"
+   ],
+   "fuentes_del_id": [
+    "997-528-000-1",
+    "MNDT742P_F",
+    "MNDT742_G"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+   "doc_status": "active",
+   "doc_chunks": 26
+  },
+  {
+   "id": "notifier:fil-nas-2",
+   "canonico": "FIL-NAS-2",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "fil-nas-2"
+   ],
+   "fuentes_del_id": [
+    "MNDT742_G"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+   "doc_status": "active",
+   "doc_chunks": 31
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-6000",
+   "canonico": "TG-6000",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-6000"
+   ],
+   "fuentes_del_id": [
+    "MNDT954"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 1,
+   "document_id": "a8bb21cf-8bdf-4b2c-b6da-3423543ced26",
+   "doc_status": "active",
+   "doc_chunks": 28
+  },
+  {
+   "id": "notifier:tg-6000-net",
+   "canonico": "TG-6000 Net",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-6000 net"
+   ],
+   "fuentes_del_id": [
+    "MNDT955"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 1,
+   "document_id": "eb273187-51a4-4fc0-97af-6cd6f312a0e9",
+   "doc_status": "active",
+   "doc_chunks": 28
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "tg-notifier"
+   ],
+   "fuentes_del_id": [
+    "MADT951_02",
+    "MI-DT-951_V7.2",
+    "MIDT951_v5-87",
+    "MN-DT-951_v7.2"
+   ],
+   "allowed_sources_antes": 4,
+   "allowed_sources_despues": 9,
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "doc_status": "active",
+   "doc_chunks": 18
+  },
+  {
+   "id": "notifier:nfs-supra",
+   "canonico": "NFS Supra",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nfs supra"
+   ],
+   "fuentes_del_id": [
+    "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+    "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+    "HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 9,
+   "document_id": "1bc55fe2-3f36-455d-9f7a-3f600200a94f",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "notifier:nfs-plus",
+   "canonico": "NFS-PLUS",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "nfs-plus"
+   ],
+   "fuentes_del_id": [
+    "NFS4_NFS8-2PLUS_MANU_ITA"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
+   "doc_status": "active",
+   "doc_chunks": 3
+  },
+  {
+   "id": "notifier:pan-avd1",
+   "canonico": "PAN-AVD1",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "pan-avd1"
+   ],
+   "fuentes_del_id": [
+    "PAN_AVD1"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "7966c099-9a89-481b-a138-d1adc3731939",
+   "doc_status": "active",
+   "doc_chunks": 10
+  },
+  {
+   "id": "notifier:avd-evj",
+   "canonico": "AVD EVJ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "avd evj"
+   ],
+   "fuentes_del_id": [
+    "PAN_AVD1"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "7966c099-9a89-481b-a138-d1adc3731939",
+   "doc_status": "active",
+   "doc_chunks": 10
+  },
+  {
+   "id": "notifier:pk-8200",
+   "canonico": "PK-8200",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "pk-8200"
+   ],
+   "fuentes_del_id": [
+    "PK-8200 manu-spa"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
+   "doc_status": "active",
+   "doc_chunks": 32
+  },
+  {
+   "id": "notifier:smart-3g",
+   "canonico": "SMART 3G",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "smart 3g"
+   ],
+   "fuentes_del_id": [
+    "MNDT646_SMART3G toxic_SP-EN",
+    "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+    "SMART 3 TOXICOS MTEX 4749_SP REV 3"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 3,
+   "document_id": "eb4f831e-80da-452a-b581-d26bbd578710",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "notifier:tg-1020",
+   "canonico": "TG-1020",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "tg-1020"
+   ],
+   "fuentes_del_id": [
+    "TG-1020-INT"
+   ],
+   "allowed_sources_antes": 2,
+   "allowed_sources_despues": 2,
+   "document_id": "ecefafba-3b66-45b1-bdf3-695e53d0f823",
+   "doc_status": "active",
+   "doc_chunks": 28
+  },
+  {
+   "id": "notifier:id-3000",
+   "canonico": "ID-3000",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "id-3000"
+   ],
+   "fuentes_del_id": [
+    "Guia Rapida H_GTW",
+    "TG-Honeywell_Usuario_PT"
+   ],
+   "allowed_sources_antes": 21,
+   "allowed_sources_despues": 21,
+   "document_id": "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+   "doc_status": "active",
+   "doc_chunks": 3
+  },
+  {
+   "id": "notifier:pk-id3000",
+   "canonico": "PK-ID3000",
+   "veredicto": "YA_ALCANZABLE",
+   "detected_despues": [
+    "pk-id3000"
+   ],
+   "fuentes_del_id": [
+    "MADT190_07",
+    "MCDT191",
+    "TIDT096"
+   ],
+   "allowed_sources_antes": 21,
+   "allowed_sources_despues": 3,
+   "document_id": "6afb0c2d-49f6-4077-83b9-be1e3e040759",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "xtralis:vesda-vli",
+   "canonico": "VESDA VLI",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "vesda vli"
+   ],
+   "fuentes_del_id": [
+    "18995_03_VESDA_VLI_Installation_Sheet_lores_A3"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "017af6a2-e90c-4405-a500-0b2bd1a39d63",
+   "doc_status": "active",
+   "doc_chunks": 8
+  },
+  {
+   "id": "xtralis:icam-ias",
+   "canonico": "ICAM IAS",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "icam ias"
+   ],
+   "fuentes_del_id": [
+    "19150_00_ICAM_Commissioning_Guide_A4_Spanish_lores"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "349530b5-c9c2-4b3e-8744-f5039aa9f2cd",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "xtralis:icam-ift",
+   "canonico": "ICAM IFT",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "icam ift"
+   ],
+   "fuentes_del_id": [
+    "19150_00_ICAM_Commissioning_Guide_A4_Spanish_lores"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "349530b5-c9c2-4b3e-8744-f5039aa9f2cd",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "xtralis:icam-ils",
+   "canonico": "ICAM ILS",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "icam ils"
+   ],
+   "fuentes_del_id": [
+    "19150_00_ICAM_Commissioning_Guide_A4_Spanish_lores"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "349530b5-c9c2-4b3e-8744-f5039aa9f2cd",
+   "doc_status": "active",
+   "doc_chunks": 29
+  },
+  {
+   "id": "xtralis:ift-15",
+   "canonico": "IFT-15",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "ift-15"
+   ],
+   "fuentes_del_id": [
+    "19152_00_ICAM_Maintenance_Guide_A4_Spanish_lores"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "ae46ee11-5e8e-4766-a096-3c4b5361254d",
+   "doc_status": "active",
+   "doc_chunks": 38
+  },
+  {
+   "id": "xtralis:honeywell-smartconfig-app",
+   "canonico": "Honeywell SmartConfig App",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "honeywell smartconfig app"
+   ],
+   "fuentes_del_id": [
+    "37430_00_FAAST_FLEX_Bluetooth_User_Guide_(A05-0600-000_ES)_A4_Spanish"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "3c7c5af9-9c87-453b-923c-957cf902b41b",
+   "doc_status": "active",
+   "doc_chunks": 32
+  },
+  {
+   "id": "morley:mi-cmo",
+   "canonico": "MI-CMO",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "mi-cmo"
+   ],
+   "fuentes_del_id": [
+    "DXC-Connexion-Como-programar-una-salida-de-averia-general",
+    "Rearme-remoto-en-central-DXc-Connexion"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "edbcb1ab-eb05-42ba-ba4f-83bfd3a673bc",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "morley:nfs8rel",
+   "canonico": "NFS8REL",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "nfs8rel"
+   ],
+   "fuentes_del_id": [
+    "MIE-MA-100_02"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "08501678-4602-4dad-96ba-26404bc8c345",
+   "doc_status": "needs_review",
+   "doc_chunks": 11
+  },
+  {
+   "id": "morley:mi-200",
+   "canonico": "MI-200",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "mi-200"
+   ],
+   "fuentes_del_id": [
+    "MIE-MI-110"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "39a17062-7c8a-4bc2-ad43-6757043022d8",
+   "doc_status": "active",
+   "doc_chunks": 39
+  },
+  {
+   "id": "morley:sp-200",
+   "canonico": "SP-200",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "sp-200"
+   ],
+   "fuentes_del_id": [
+    "MIE-MI-110"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "39a17062-7c8a-4bc2-ad43-6757043022d8",
+   "doc_status": "active",
+   "doc_chunks": 39
+  },
+  {
+   "id": "morley:mcx-55m",
+   "canonico": "MCX-55M",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "mcx-55m"
+   ],
+   "fuentes_del_id": [
+    "MIE-MI-480"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "fea0ec1d-2f2d-4b88-9b91-3e41a2234e46",
+   "doc_status": "active",
+   "doc_chunks": 7
+  },
+  {
+   "id": "morley:mmx-10m",
+   "canonico": "MMX-10M",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "mmx-10m"
+   ],
+   "fuentes_del_id": [
+    "MIE-MI-490"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1",
+   "doc_status": "active",
+   "doc_chunks": 6
+  },
+  {
+   "id": "morley:mi-cmo",
+   "canonico": "MI-CMO",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "mi-cmo"
+   ],
+   "fuentes_del_id": [
+    "DXC-Connexion-Como-programar-una-salida-de-averia-general",
+    "Rearme-remoto-en-central-DXc-Connexion"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 2,
+   "document_id": "edbcb1ab-eb05-42ba-ba4f-83bfd3a673bc",
+   "doc_status": "active",
+   "doc_chunks": 1
+  },
+  {
+   "id": "systemsensor:8100e-faast",
+   "canonico": "8100E FAAST",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "8100e faast"
+   ],
+   "fuentes_del_id": [
+    "I56-3836-006_FAAST_XM_8100E_ML"
+   ],
+   "allowed_sources_antes": 14,
+   "allowed_sources_despues": 1,
+   "document_id": "9a5791a3-df8f-4311-90fd-1e4468716eca",
+   "doc_status": "active",
+   "doc_chunks": 181
+  },
+  {
+   "id": "systemsensor:agileiq",
+   "canonico": "AgileIQ",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "agileiq"
+   ],
+   "fuentes_del_id": [
+    "I56-3909-010_A_AgileIQ_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "63974306-9990-450c-a786-ffa45fd6bc30",
+   "doc_status": "active",
+   "doc_chunks": 97
+  },
+  {
+   "id": "systemsensor:wfd20en",
+   "canonico": "WFD20EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd20en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd25en",
+   "canonico": "WFD25EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd25en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd30en",
+   "canonico": "WFD30EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd30en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd40en",
+   "canonico": "WFD40EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd40en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd60en",
+   "canonico": "WFD60EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd60en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd80en",
+   "canonico": "WFD80EN",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd80en"
+   ],
+   "fuentes_del_id": [
+    "WFDEN_Manual_I56-4051"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "f763235d-17dc-477e-b736-d45571c7f992",
+   "doc_status": "active",
+   "doc_chunks": 15
+  },
+  {
+   "id": "systemsensor:wfd20n",
+   "canonico": "WFD20N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd20n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "systemsensor:wfd25n",
+   "canonico": "WFD25N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd25n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "systemsensor:wfd30n",
+   "canonico": "WFD30N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd30n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "systemsensor:wfd40n",
+   "canonico": "WFD40N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd40n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "systemsensor:wfd60n",
+   "canonico": "WFD60N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd60n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "systemsensor:wfd80n",
+   "canonico": "WFD80N",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "wfd80n"
+   ],
+   "fuentes_del_id": [
+    "WFDN_i56-4052-000r_ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "97b81324-12ae-4c66-8a82-7ac9b3544007",
+   "doc_status": "active",
+   "doc_chunks": 16
+  },
+  {
+   "id": "sensitron:pl4+",
+   "canonico": "PL4+",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "pl4"
+   ],
+   "fuentes_del_id": [
+    "MNDT516_PL4_ESP-PORT"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "1d4f6e36-0582-42e7-b9c8-62339d5a999d",
+   "doc_status": "retired",
+   "doc_chunks": 26
+  },
+  {
+   "id": "sensitron:pl4",
+   "canonico": "PL4",
+   "veredicto": "DETECTA_SIN_FUENTE",
+   "detected_despues": [
+    "pl4"
+   ],
+   "fuentes_del_id": [
+    "PL4_MT574E_Eng"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+   "doc_status": "active",
+   "doc_chunks": 24
+  },
+  {
+   "id": "zareba:2306b1000",
+   "canonico": "2306B1000",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "2306b1000"
+   ],
+   "fuentes_del_id": [
+    "Manual Unipoint Esp"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "68ab15d1-53f6-4bb1-a8d7-fcc69f9787ff",
+   "doc_status": "active",
+   "doc_chunks": 31
+  },
+  {
+   "id": "zareba:2306b2000",
+   "canonico": "2306B2000",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "2306b2000"
+   ],
+   "fuentes_del_id": [
+    "Manual Unipoint Esp"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "68ab15d1-53f6-4bb1-a8d7-fcc69f9787ff",
+   "doc_status": "active",
+   "doc_chunks": 31
+  },
+  {
+   "id": "fidegas:cs4",
+   "canonico": "CS4",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "cs4"
+   ],
+   "fuentes_del_id": [
+    "Manual-de-Usuario-CS4"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+   "doc_status": "active",
+   "doc_chunks": 11
+  },
+  {
+   "id": "fidegas:00051",
+   "canonico": "00051",
+   "veredicto": "NI_DETECTA",
+   "detected_despues": [],
+   "fuentes_del_id": [
+    "Manual-de-Usuario-S3-T2-y-S2-T2"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "doc_status": "active",
+   "doc_chunks": 24
+  },
+  {
+   "id": "fidegas:00052",
+   "canonico": "00052",
+   "veredicto": "NI_DETECTA",
+   "detected_despues": [],
+   "fuentes_del_id": [
+    "Manual-de-Usuario-S3-T2-y-S2-T2"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "doc_status": "active",
+   "doc_chunks": 24
+  },
+  {
+   "id": "fidegas:03382",
+   "canonico": "03382",
+   "veredicto": "NI_DETECTA",
+   "detected_despues": [],
+   "fuentes_del_id": [
+    "Manual-de-Usuario-S3-T2-y-S2-T2"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "doc_status": "active",
+   "doc_chunks": 24
+  },
+  {
+   "id": "fidegas:03383",
+   "canonico": "03383",
+   "veredicto": "NI_DETECTA",
+   "detected_despues": [],
+   "fuentes_del_id": [
+    "Manual-de-Usuario-S3-T2-y-S2-T2"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 0,
+   "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+   "doc_status": "active",
+   "doc_chunks": 24
+  },
+  {
+   "id": "detnov:pad-20",
+   "canonico": "PAD-20",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "pad-20"
+   ],
+   "fuentes_del_id": [
+    "Manual_PAD-20 (MU 591 m 2024 a)"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "fa676e67-1143-45a1-a92f-5782cb6fc2cb",
+   "doc_status": "active",
+   "doc_chunks": 4
+  },
+  {
+   "id": "sense-ware:sm21",
+   "canonico": "SM21",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "sm21"
+   ],
+   "fuentes_del_id": [
+    "SW_MN_210-Series_CZ_flame_detectors_v1-ES"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "3f41ff57-479a-470a-8b43-544af709bea3",
+   "doc_status": "active",
+   "doc_chunks": 37
+  },
+  {
+   "id": "spectrex:winhost",
+   "canonico": "WinHost",
+   "veredicto": "DESBLOQUEA",
+   "detected_despues": [
+    "winhost"
+   ],
+   "fuentes_del_id": [
+    "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694"
+   ],
+   "allowed_sources_antes": 0,
+   "allowed_sources_despues": 1,
+   "document_id": "511e1109-ca9c-4777-8422-2779df702b8f",
+   "doc_status": "active",
+   "doc_chunks": 27
+  }
+ ]
+}
