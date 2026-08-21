@@ -1,0 +1,54 @@
+{
+ "filas": [
+  {
+   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "esperado": "SCD-120",
+   "n_paginas_leidas": 2,
+   "n_paginas_renderizadas": 2,
+   "cobertura_completa_VERIFICADA": true,
+   "gemini": [
+    {
+     "modelos": [
+      "SIRENA EXTERIOR DE INCENDIO 24V"
+     ],
+     "confianza": "alta",
+     "donde": "Título principal en el encabezado del documento"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No se menciona ningún código o nombre de modelo específico en el texto, imagen ni esquemas del documento."
+    }
+   ],
+   "gemini_acierta": false,
+   "claude": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento es un 'Manual de Instalación' de una 'Sirena Exterior de Incendio 24V', pero no aparece ninguna referencia de modelo concreta; 'SW1' es solo el nombre de un conjunto de puentes/selectores, no un modelo"
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "El documento es un manual de instalación de una sirena de incendio (secciones: Instalación, Conexionado eléctrico, Opciones de la sirena, Tipo de activación, Mantenimiento, Tiempo y ciclos de activación), pero no aparece ningún nombre o código de modelo; la foto del equipo solo muestra el rótulo 'FUEGO' y los diagramas solo indican terminales (ALIM 24V, +AUT) y puentes (SW1, AUTO), que no son modelos"
+    }
+   ],
+   "claude_acierta": false,
+   "gpt": [
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "La página solo muestra la denominación genérica «SIRENA EXTERIOR DE INCENDIO 24V»; «SW1» identifica un conmutador, no el modelo del producto."
+    },
+    {
+     "modelos": [],
+     "confianza": "alta",
+     "donde": "No aparece ningún modelo en el título, la foto del equipo ni el diagrama; «FUEGO», «ALIM 24V» y «AUT» son rótulos funcionales."
+    }
+   ],
+   "gpt_acierta": false,
+   "acuerdan_los_tres": false
+  }
+ ]
+}
