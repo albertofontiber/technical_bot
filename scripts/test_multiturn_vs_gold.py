@@ -241,7 +241,9 @@ def update_working_state(
     # (s331 B3, espejo del punto de mutación 2) CONSUME/CLEAR explícito del pending.
     return WorkingState(
         last_target_models=models,
-        last_query=query,
+        # (s332 §4, espejo de advance_working_state) El override gana a la query
+        # literal: una meta-frase de corrección jamás queda como base de rebuilds.
+        last_query=resolution.state_query_override or query,
         last_answer_excerpt=(answer_excerpt or "")[:500] or None,
         last_turn_at=now,
         available_models=tuple(available) if available else None,

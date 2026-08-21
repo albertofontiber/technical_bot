@@ -171,6 +171,12 @@ ALLOWED_SAFE_VALUES = {
     # s331 §3.C.2: conducta anti-re-pregunta del generador sobre turn_identity
     # (prompt + plantillas). Default off (byte-identico). Valores on/off.
     "GENERATOR_NO_REASK": frozenset({"on", "off"}),
+    # s332 §5: filas nuevas de la tabla de confusiones ASR + avisos 🏷/ℹ️ en la
+    # confirmacion de voz. Default off (byte-identico). Valores on/off.
+    "ASR_AVISOS": frozenset({"on", "off"}),
+    # s332 §5: rama F1 de correccion de marca + sufijo de asuncion +
+    # state_query_override. Default off (byte-identico). Valores on/off.
+    "F1_MARCA_CORRECCION": frozenset({"on", "off"}),
     # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
     # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
     "HTTP_RETRIES": frozenset({"on", "off"}),

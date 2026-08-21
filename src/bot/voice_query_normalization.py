@@ -18,7 +18,8 @@ from functools import lru_cache
 import re
 import unicodedata
 
-from .whisper_vocabulary import corregir_transcripcion
+from ..orchestrator.contracts import Asuncion
+from .whisper_vocabulary import corregir_transcripcion_con_asunciones
 
 
 _TOKEN_SEPARATOR = r"[\s\-/.+]*"
@@ -88,6 +89,10 @@ class VoiceQueryNormalization:
     raw: str
     normalized: str
     substitutions: tuple[ModelSubstitution, ...] = ()
+    # (s332 §2) Asunciones DECLARADAS del turno de voz, para que el transporte las
+    # muestre ANTES de la respuesta. Vacía = ninguna (y es el default, así que los
+    # constructores previos a s332 siguen siendo válidos tal cual).
+    asunciones: tuple[Asuncion, ...] = ()
 
     @property
     def changed(self) -> bool:
@@ -238,9 +243,12 @@ def normalize_voice_query(
     # que Whisper oyó y el histórico sigue guardando la transcripción real.
     # Corregirlo antes habría hecho que el registro mintiera sobre lo producido
     # por el proveedor, y una corrección equivocada sería invisible para todos.
-    trabajo = corregir_transcripcion(raw)
+    trabajo, asunciones = corregir_transcripcion_con_asunciones(raw)
 
     if models is None:
+        # Fail-open SIN catálogo: se devuelve el `raw` intacto, así que descarta
+        # también la corrección de marca y sus asunciones — conducta de HOY, no se
+        # toca aquí (cambiarla movería lo servido con los flags apagados).
         try:
             from ..rag.catalog import all_models, catalog_available
 
@@ -289,7 +297,7 @@ def normalize_voice_query(
     if not selected:
         # Sin modelos que normalizar, pero puede haber una marca corregida: se
         # devuelve como forma de búsqueda, con `raw` intacto.
-        return VoiceQueryNormalization(raw=raw, normalized=trabajo)
+        return VoiceQueryNormalization(raw=raw, normalized=trabajo, asunciones=asunciones)
 
     normalized = trabajo
     for substitution in reversed(selected):
@@ -302,4 +310,5 @@ def normalize_voice_query(
         raw=raw,
         normalized=normalized,
         substitutions=tuple(selected),
+        asunciones=asunciones,
     )

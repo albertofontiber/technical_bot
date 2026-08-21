@@ -9801,3 +9801,54 @@ ya firmó: **15 P1** (seguir al juez), **9 P3** (retirar artefactos), **8 P4** (
   flags cuando asienten (patrón DEC-210/211, censo vigila).
 - **Relacionado**: DEC-257·258 (el ciclo) · DEC-233 (la clase ASR y su fix diferido) · DEC-099
   (el patrón de verificación) · DEC-210/211 (graduación de flags).
+
+## DEC-264 (s332, 21 ago 2026) — Las asunciones se DECLARAN: tabla ASR con modo por fila + red F1 de corrección de marca; y el dúo mató el oráculo antes de nacer
+
+- **Fecha**: 21 ago 2026, mañana (mismo día que el GO). **Impacto**: MEDIO-ALTO en
+  serving/voz/conversación. **Flags default-off** (`ASR_AVISOS`, `F1_MARCA_CORRECCION`) —
+  byte-idéntico probado (GC0 7/7); el flip es de Alberto. Dúo ts=2026-08-21T08:26:35
+  (Sol xhigh 7 + Fable 6, emparejados): **13/13 con sustancia, 0 FP** — adjudicación
+  completa en `evals/s332_correcciones_propuesta_v2.md` §9 (la v2 es la spec vinculante).
+- **El mandato** (Alberto, GO doble): activar la tabla de confusiones ASR (clase DEC-233,
+  ya 3 confusiones distintas observadas en 4 días) **con aviso al usuario** —«estoy
+  incluyendo productos sobre X, que no es lo que detecté; si no es así, dímelo»— y que ese
+  aviso sea **GENERALIZABLE**; y arreglar la corrección-de-marca-sin-estado
+  («me refería a Kidde» → plantilla vacía, fila `576a7ef9`).
+- **Decide (1) — primitiva `Asuncion`** (contracts.py; kind/detectado/asumido/modo, enums
+  cerrados): cualquier mecanismo que sirva algo distinto de lo detectado la emite y la capa
+  BOT la renderiza DETERMINISTA (cero LLM; cubre también rutas de plantilla): confirmación
+  de voz (🏷 reescrito / ℹ️ aviso) y sufijo del answer (corrección, citando la pregunta
+  BASE — un rebuild rancio queda visible, R8). Trace: sección `asunciones` tri-estado
+  REQUERIDA (patrón intent/turn_identity); `detectado` JAMÁS al trace (allowlist s331).
+  De paso, `contracts` deja de importar de la política (anotación diferida) — superficie de
+  contratos sin dependencias, cazado por E1 cuando el import de E2 cerraba ciclo.
+- **Decide (2) — tabla con MODO y CASE por fila**: `bqide→Kidde` reescrito (02055e5d, sin
+  lectura legítima) · `ID↔Kidde` **modo AVISO case-SENSITIVE** (2b3febb6+838e71a6 misma
+  conversación + testimonio; ID3000/ID3002 son familia REAL de Notifier — reescribir
+  corrompería al usuario legítimo, y el «id» minúscula español no dispara) · death-knob
+  intacta. El docstring contradictorio del módulo se corrigió (Fable-1).
+- **Decide (3) — red F1** (`brand_correction_rebuild`): cue-léxico gobernado
+  (`correction_lexicon_v1.yaml`) + regla de PLANTILLA cerrada (el ancla ^…$ es el criterio;
+  «no me refería a…» y «…, ¿y el lazo?» no casan por construcción) + ventana de `last_turn_at`
+  sin exigir modelos; STANDALONE con la pregunta base anotada. `TurnResolution` gana
+  `asunciones` y `state_query_override` (la transición guarda la pregunta ORIGINAL — una
+  meta-frase jamás se vuelve base de rebuilds, Sol-3; espejo MT). **Dos niveles**: la tabla
+  PREVIENE (T1, con atajo de catálogo intacto) y la red RECUPERA lo no tabulado vía RAG con
+  contexto — el «oráculo-de-plan» de la v1 murió en el dúo (dos dueños + no-puro, Sol-1
+  crítico confirmado contra turn_plan.py).
+- **Medido**: GC0 7/7 (off = hoy) · GC1 7/7 ON re-jugando la mañana real — BQide reescrito
+  con aviso, ID intacto con aviso, y «me refería a Kidde» sirve **contenido Kidde real con
+  citas y cero cross-brand** (leído) · GC3 4/4 estable · MT 52/52 off Y on · suite completa
+  verde con exit real (foto E1+E2: 4817/0; final estampada en el commit de cierre). Recibos:
+  `s332_gc_v1.json` + `s332_gc_resultado_v1.md`.
+- **Proceso**: advisor/executor con worktree compartido — E1 (tabla/voz/contracts) y E2
+  (rama F1/léxico/espejo) en PARALELO sobre ficheros disjuntos, coordinados por la spec;
+  E1 cazó y arregló de raíz el ciclo de imports que el comentario de E2 negaba (el analizador
+  cuenta imports lazy), y corrió la suite del árbol CONJUNTO. Ambos con exits reales citados.
+- **Pendientes que deja armados**: flip de las 2 vars (Alberto) + verificación DEC-099 por
+  VOZ (guía en `s332_gc_resultado_v1.md`) · R4 aviso-ID se re-adjudica con tráfico ·
+  graduación DEC-210/211 cuando asienten · R8 (atajos no refrescan estado F1) queda como
+  deuda declarada aparte.
+- **Relacionado**: DEC-233 (la clase ASR y la disciplina de la tabla) · DEC-257/258/263
+  (s331, el canal turn_identity que esto extiende) · DEC-210/211 (graduación) · Sol-3/R8
+  (asimetría de estado en atajos).
