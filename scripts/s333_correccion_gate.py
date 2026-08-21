@@ -102,14 +102,16 @@ def _guarda_model_token(cohorte: dict) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--haiku", action="store_true")
-    ap.add_argument("--out", default=str(ROOT / "evals" / "s333_gate_result_v1.json"))
+    ap.add_argument("--cohorte", default="v2", choices=("v1", "v2"))
+    ap.add_argument("--out", default="")
     args = ap.parse_args()
+    out = args.out or str(ROOT / "evals" / f"s333_gate_result_{args.cohorte}.json")
 
     api_key = os.environ.get("ANTHROPIC_API_KEY") or ""
     if not api_key:
         print("ANTHROPIC_API_KEY ausente"); return 2
 
-    crudo = (ROOT / "evals" / "s333_correccion_cohort_v1.yaml").read_text(encoding="utf-8")
+    crudo = (ROOT / "evals" / f"s333_correccion_cohort_{args.cohorte}.yaml").read_text(encoding="utf-8")
     cohorte = yaml.safe_load(crudo)
     from src.orchestrator.correccion_llm import CORRECCION_MODEL, PROMPT
 
@@ -131,7 +133,7 @@ def main() -> int:
     commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
                             capture_output=True, text=True).stdout.strip()
     recibo = {
-        "gate": "s333 correccion cohort v1",
+        "gate": f"s333 correccion cohort {args.cohorte}",
         "freeze": {"cohorte_sha256": hashlib.sha256(crudo.encode()).hexdigest()[:16],
                    "prompt_sha256": hashlib.sha256(PROMPT.encode()).hexdigest()[:16],
                    "commit": commit,
@@ -143,13 +145,13 @@ def main() -> int:
         "brazos": brazos, "guarda_model_token": guarda,
         "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
-    Path(args.out).write_text(json.dumps(recibo, ensure_ascii=False, indent=2),
+    Path(out).write_text(json.dumps(recibo, ensure_ascii=False, indent=2),
                               encoding="utf-8")
     sonnet = brazos[0]
     guarda_ok = all(g["ok"] for g in guarda)
     print(f"\nSonnet: {sonnet['veredicto']} (positivas {sonnet['positivas_pass']}/"
           f"{sonnet['positivas_n']}, falsas {sonnet['falsas_correccion']}) · "
-          f"guarda: {'OK' if guarda_ok else 'FALLO'} · recibo → {args.out}")
+          f"guarda: {'OK' if guarda_ok else 'FALLO'} · recibo → {out}")
     return 0 if sonnet["veredicto"] == "GO" and guarda_ok else 1
 
 

@@ -35,14 +35,24 @@ from typing import Callable
 CORRECCION_MODEL = "claude-sonnet-4-6"
 
 # EL prompt del gate (v1 §1.C, sin cambios en v2 §3 — una fuente).
+# v2 (21-ago-2026): la frontera la adjudicó ALBERTO sobre las 3 etiquetas límite del
+# gate v1 (NO-GO con 3 falsas): una RE-PREGUNTA completa con otra marca se responde
+# tal cual (NUEVO, aunque se parezca a la anterior); CORRECCION exige que el mensaje
+# NO se sostenga solo — su función es corregir/redirigir la petición ANTERIOR.
+# Cohorte v2 re-congelada con ese criterio (DEC-126: prompt nuevo = cohorte nueva).
 PROMPT = """Eres el enrutador de un asistente técnico de sistemas contra incendios.
 El técnico preguntó antes: «{last_query}»
 Su siguiente mensaje es: «{q}»
 La marca «{marca}» aparece en el mensaje nuevo.
 
-¿El mensaje CORRIGE su pregunta anterior — indica que la marca/nombre que usó
-antes estaba mal y que la correcta es «{marca}» (espera la respuesta a la MISMA
-pregunta, ahora con esa marca)—, o es un TEMA NUEVO sobre «{marca}»?
+Decide entre dos lecturas:
+- CORRECCION: el mensaje NO se sostiene solo; su función es corregir o redirigir
+  la petición ANTERIOR hacia «{marca}» (p. ej. decir que la marca de antes estaba
+  mal, o pedir rehacer la búsqueda con «{marca}» sin formular una petición nueva).
+  El técnico espera la respuesta a su pregunta anterior, ahora con «{marca}».
+- NUEVO: el mensaje se entiende y se puede responder POR SÍ SOLO (una pregunta o
+  petición completa sobre «{marca}»), aunque se parezca a la anterior o solo
+  cambie la marca.
 
 Responde EXACTAMENTE una palabra: CORRECCION o NUEVO."""
 
