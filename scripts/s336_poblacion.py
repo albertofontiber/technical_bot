@@ -107,7 +107,7 @@ def _ventana_repesca(c, docs: list[str], canonical: str) -> str:
 
 def _clasifica(cliente, uso, d, muestra: str, etapa: str) -> dict:
     msg = cliente.messages.create(
-        model=MODELO, max_tokens=500,
+        model=MODELO, max_tokens=1200,  # 500 dejó 98/502 con raw VACÍO (presupuesto agotado sin texto)
         messages=[{"role": "user", "content": PROMPT.format(
             canonical=d["canonical_model"], pid=d["id"],
             muestra=muestra, pista=d.get("pista_legacy"))}])
@@ -146,6 +146,11 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true",
                     help="retoma desde el checkpoint .parcial (la pasada del "
                          "21-ago murió a mitad por crédito de API agotado)")
+    ap.add_argument("--solo-parse-fail", action="store_true",
+                    help="re-corre SOLO las filas razon=parse-fail del recibo "
+                         "(98/502 con raw vacío: max_tokens=500 agotado antes "
+                         "de emitir texto — fallo de instrumento, no de "
+                         "evidencia) y fusiona sobre el recibo")
     ap.add_argument("--solo-categoria", default="",
                     help="re-pasada QUIRÚRGICA con el prompt v2: re-corre SOLO "
                          "las filas del recibo previo cuya llm.categoria sea "
@@ -165,15 +170,20 @@ def main() -> int:
     uso = {"in": 0, "out": 0}
     filas, docs_sin_chunks = [], set()
     hechas: set[str] = set()
-    if args.solo_categoria:
+    if args.solo_categoria or args.solo_parse_fail:
         previo = json.loads(Path(out).read_text(encoding="utf-8"))
-        diana_ids = {f["id"] for f in previo["detalle"]
-                     if f["llm"].get("categoria") == args.solo_categoria}
+        if args.solo_parse_fail:
+            diana_ids = {f["id"] for f in previo["detalle"]
+                         if f["llm"].get("razon") == "parse-fail"}
+        else:
+            diana_ids = {f["id"] for f in previo["detalle"]
+                         if f["llm"].get("categoria") == args.solo_categoria}
         filas = [f for f in previo["detalle"] if f["id"] not in diana_ids]
         hechas = {f["id"] for f in filas}
         docs_sin_chunks = set(previo.get("docs_sin_chunks") or [])
-        print(f"  re-pasada v2 sobre {len(diana_ids)} filas "
-              f"llm.categoria={args.solo_categoria!r}; {len(hechas)} intactas")
+        print(f"  re-pasada sobre {len(diana_ids)} filas "
+              f"({'parse-fail' if args.solo_parse_fail else args.solo_categoria}); "
+              f"{len(hechas)} intactas")
     elif args.resume:
         parcial = Path(out + ".parcial")
         if parcial.exists():
@@ -230,12 +240,12 @@ def main() -> int:
     recibo = {
         "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
         "modelo": MODELO,
-        "re_pasada_v2": ({"solo_categoria": args.solo_categoria,
+        "re_pasada_v2": ({"solo_categoria": args.solo_categoria or "parse-fail",
                           "n_re_corridas": len(censo) - len(hechas),
                           "nota": "las filas re-corridas usaron el prompt v2 "
                                   "(regla R16); las intactas, el v1 — el sha "
                                   "de abajo es el del prompt VIGENTE (v2)"}
-                         if args.solo_categoria else None),
+                         if (args.solo_categoria or args.solo_parse_fail) else None),
         "prompt_sha256": hashlib.sha256(PROMPT.encode()).hexdigest()[:16],
         "prompt_s322_sha256": hashlib.sha256(
             re.search(r'PROMPT = """(.*?)"""',
