@@ -277,7 +277,7 @@ def run_gate() -> dict[str, object]:
 
     original_anthropic = generator.anthropic.Anthropic
 
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         target_fragment = next(
             index for index, chunk in enumerate(chunks, start=1)
             if chunk.get("id") == TARGET_ID

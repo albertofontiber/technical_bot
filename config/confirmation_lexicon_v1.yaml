@@ -1,0 +1,53 @@
+# config/confirmation_lexicon_v1.yaml — gramática CERRADA de confirmación del turno
+# siguiente a un CLARIFY-de-mención (s331 §3.C.1, `pending_mention` presente).
+#
+# GOBERNANZA: ampliación por PR con revisión, s331 §C.1 (config versionada; NUNCA se
+# edita en caliente ni se genera).
+#
+# SEMÁNTICA (la aplica la pre-rama de gramática de `DeterministicConversationPolicy`),
+# PRECEDENCIA DETERMINISTA con la POLARIDAD delante (ítem B1 §11 v6, Sol-1 r-v6 —
+# «No, no es la 2X-AF1-S» JAMÁS debe bindear el modelo negado):
+#   1. token RESOLUBLE presente ⇒ se bindean SOLO los tokens NO-negados. Un token está
+#      NEGADO si un cue de negación lo precede DENTRO DE SU CLÁUSULA (≤3 palabras entre
+#      medias, SIN coma/punto: la puntuación corta el alcance). Así «No es la 2X-AF1-S»
+#      niega el token, pero «No, es la CAD-150» (la corrección común) SÍ bindea CAD-150.
+#      Si TODOS los tokens quedan negados ⇒ `pending` se limpia y se pide la etiqueta
+#      UNA sola vez (ciclo máximo 1). Si alguno sobrevive ⇒ cascada normal (A bindea)
+#      y `pending` se consume/limpia.
+#   2. sin tokens + AFIRMACIÓN ⇒ re-intento de binding de la cadena pendiente; si sigue
+#      sin resolver, se procede con la FAMILIA gobernada del término extendido
+#      (`models_provenance='pending_derived'`) — sin re-preguntar (ciclo máximo 1).
+#   3. sin tokens + NEGACIÓN ⇒ `pending` se limpia y se pide la etiqueta UNA vez.
+#   4. else (cambio de tema) ⇒ `pending` se limpia sin usar; cascada normal.
+#
+# Matching: frase completa por token-boundary sobre la query en minúscula sin acentos;
+# entradas multi-palabra permitidas. ES/EN.
+version: 1
+afirmacion:
+  - si
+  - sí
+  - correcto
+  - correcta
+  - eso es
+  - exacto
+  - exacta
+  - asi es
+  - así es
+  - afirmativo
+  - claro
+  - yes
+  - correct
+  - right
+  - that's it
+negacion:
+  - no
+  - no es
+  - no era
+  - que no
+  - negativo
+  - te confundes
+  - te equivocas
+  - no exactamente
+  - not
+  - nope
+  - wrong

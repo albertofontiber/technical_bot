@@ -17,6 +17,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Union
 
+from .conversation_policy import TurnIdentity
+
 
 class PlanKind(str, Enum):
     SINGLE_HOP = "single_hop"
@@ -58,6 +60,13 @@ class TurnRequest:
     target_models: tuple[str, ...] | None = None
     available_models: tuple[str, ...] | None = None
 
+    # (s331 §3.D) Identidad ESTRUCTURADA del turno (modelos resueltos + mención
+    # no-resuelta, cada uno con su procedencia). Es el canal por el que la
+    # resolución viaja hasta generación SIN pasar por el texto de la query. El
+    # ingress la copia de `TurnResolution.turn_identity`; `None` (el default, y
+    # lo único que produce el régimen sin F1) = conducta de hoy byte-idéntica.
+    turn_identity: "TurnIdentity | None" = None
+
     @property
     def effective_retrieval_query(self) -> str:
         """The retrieval query the pipeline should use (falls back to ``query``)."""
@@ -75,6 +84,10 @@ class SingleHopPlan:
     rerank_top_k: int
     target_models: tuple[str, ...] | None = None
     available_models: tuple[str, ...] | None = None
+    # (s331 §3.D) La identidad del turno viaja del request al plan sin
+    # transformarse: `plan_turn` la COPIA y `run_turn` la entrega al seam. `None`
+    # = sin identidad (o levers apagados) ⇒ byte-idéntico a antes del threading.
+    turn_identity: "TurnIdentity | None" = None
     kind: PlanKind = field(default=PlanKind.SINGLE_HOP, init=False)
 
 

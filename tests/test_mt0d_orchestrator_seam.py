@@ -325,7 +325,7 @@ def test_orchestrator_path_on_real_handler_matches(monkeypatch):
     import src.bot.telegram_bot as bot
     import src.orchestrator as orch
 
-    def _gen(query, chunks, *, available_models=None):
+    def _gen(query, chunks, *, available_models=None, turn_identity=None):
         return {"answer": "ANSWER-ORCH", "diagrams": []}
 
     monkeypatch.setattr(

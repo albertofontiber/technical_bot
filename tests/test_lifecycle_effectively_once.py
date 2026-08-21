@@ -70,7 +70,7 @@ class _Recorder:
 
 
 def _adapters(gen_calls, *, answer_prefix="ANSWER"):
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         gen_calls.append(query)
         return {"answer": f"{answer_prefix}::{query}", "diagrams": []}
 
@@ -259,7 +259,7 @@ def test_compute_exception_records_failure_and_reraises(store):
     rec = _Recorder()
     boom_calls = []
 
-    def boom(query, chunks, *, available_models=None):
+    def boom(query, chunks, *, available_models=None, turn_identity=None):
         boom_calls.append(query)
         raise RuntimeError("writer blew up")
 

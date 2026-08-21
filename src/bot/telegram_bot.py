@@ -1908,6 +1908,40 @@ async def _send_diagrams_individually(update: Update, diagrams: list[dict]):
             logger.warning(f"Failed to send diagram: {e}")
 
 
+async def _s331_presence_refresh_job(_context) -> None:
+    """(s331) Tick del refresher de presencia: single-flight y fuera del event loop
+    (to_thread) — el job NUNCA bloquea el bot; un fallo queda en el log y el set
+    previo sigue sirviendo (stale ⇒ drops off, fail-open declarado)."""
+    import asyncio
+
+    from ..rag.catalog_resolver import refresh_presence
+    try:
+        await asyncio.to_thread(refresh_presence)
+    except Exception:                                    # noqa: BLE001
+        logger.warning("s331: tick de refresh de presencia falló (fail-open)")
+
+
+def _turn_identity_obs(turn_identity) -> dict:
+    """(s331 B5) Vista DERIVADA de la identidad del turno para telemetría — enums y
+    booleanos, JAMÁS el string de la mención (frontera de privacidad del trace).
+    `status`: 'off' = levers s331 apagados · 'on' = canal activo (con o sin evento).
+    El tri-estado 'not_wired' lo produce el BUILDER cuando este obs no llega."""
+    from ..orchestrator.conversation_policy_impl import mention_precedence_enabled
+    from ..rag.catalog_resolver import presence_estado, turn_resolve_enabled
+
+    if not (turn_resolve_enabled() or mention_precedence_enabled()):
+        return {"status": "off"}
+    obs: dict = {"status": "on", "presence": presence_estado()}
+    ti = turn_identity
+    if ti is not None:
+        obs.update(
+            models_provenance=getattr(ti, "models_provenance", "none"),
+            mention_provenance=getattr(ti, "mention_provenance", "none"),
+            route_cut=bool(getattr(ti, "route_cut", False)),
+        )
+    return obs
+
+
 async def _process_query(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -2097,16 +2131,31 @@ async def _process_query(
                 # log → last_query_log_id coherente (o None si el log fallo).
                 _clarify_uuid = str(uuid.uuid4())
                 await update.message.reply_text(direct_reply)
+                _direct_route = ("clarify"
+                                 if f1_resolution.route is PolicyRoute.CLARIFY
+                                 else "decline")
+                # (s331 B9/Sol-1 r-v4) Trace mínimo direct/1: sin él, route_cut sería
+                # inobservable justo en la ruta donde ocurre. Con levers OFF el obs
+                # devuelve status='off' y NO se adjunta nada — filas byte-idénticas
+                # a hoy. La telemetría jamás rompe la respuesta (fail-open).
+                _direct_trace = None
+                try:
+                    _dt_obs = _turn_identity_obs(f1_resolution.turn_identity)
+                    if _dt_obs.get("status") == "on":
+                        from ..rag.runtime_trace import build_direct_route_trace
+                        _direct_trace = build_direct_route_trace(
+                            _direct_route, _dt_obs)
+                except Exception:                       # noqa: BLE001
+                    _direct_trace = None
                 # s301 (dúo): CLARIFY/DECLINE de F1 también son respuestas a consultas
                 # — sin log, «quién usa el bot y cuánto» tenía un agujero por aquí.
                 _clarify_logged = log_query(
                     telegram_user_id=(update.effective_user.id
                                       if update.effective_user else 0),
                     query=query, source=source, transcription=transcription,
-                    route=("clarify"
-                           if f1_resolution.route is PolicyRoute.CLARIFY
-                           else "decline"),
+                    route=_direct_route,
                     response=direct_reply, response_length=len(direct_reply),
+                    rag_trace=_direct_trace,
                     query_log_id=_clarify_uuid,
                 )
                 context.user_data["last_query_log_id"] = (
@@ -2134,6 +2183,11 @@ async def _process_query(
                 chat_id=update.effective_chat.id,
                 source=source,
                 transcription=transcription,
+                # (s331 §3.D) La identidad la resolvió la política; aquí solo se
+                # COPIA al request. Con los levers de s331 apagados vale None y
+                # el request queda byte-idéntico. El régimen sin F1 (`else`) no
+                # tiene resolución, así que ni siquiera pasa el kwarg.
+                turn_identity=f1_resolution.turn_identity,
             )
         else:
             # régimen STUB (env explícito): el request se construye desde la
@@ -2250,6 +2304,10 @@ async def _process_query(
                 retrieval_health=retrieval_health,
                 stage_timings=stage_timings,
                 intent_obs=intent_obs,
+                # (s331 B5) tri-estado: el builder degrada a not_wired si esto
+                # faltara; off = levers apagados; on = canal activo este turno.
+                turn_identity_obs=_turn_identity_obs(
+                    f1_resolution.turn_identity if f1_active else None),
                 mismatch_obs=(
                     {"modelo": preambulo.modelo,
                      "marca_real": preambulo.marca_real,
@@ -2958,4 +3016,32 @@ def run_bot():
         _fabricantes_resumen()
     except Exception:                                    # noqa: BLE001
         pass
+
+    # (s331, Fable-3 r-v5) INTERLOCK de flags EN BOOT, nunca en el hot-path de un
+    # turno de usuario: un lote Railway mal aplicado debe tumbar el arranque con
+    # un mensaje claro, no soltar errores a técnicos hasta que alguien mire logs.
+    # Los tres parsers son estrictos (typo revienta). Con todo apagado (default)
+    # el bloque es un no-op y el arranque queda byte-idéntico.
+    from ..orchestrator.conversation_policy_impl import mention_precedence_enabled
+    from ..rag import catalog_resolver as _cr331
+    from ..rag.generator import _no_reask_on
+    try:
+        _s331_resolve = _cr331.turn_resolve_enabled()
+        mention_precedence_enabled()
+        _no_reask_on()
+    except RuntimeError as exc:
+        raise SystemExit(f"s331 interlock de boot: {exc}") from None
+    if _s331_resolve:
+        # Warm de presencia ANTES del polling (el path de turno no toca red: peek)
+        # + refresher SINGLE-FLIGHT a 0,8×TTL (900s → 720s) en el job queue.
+        estado = _cr331.refresh_presence()
+        logger.info("s331: presencia calentada en boot (%s)", estado)
+        if app.job_queue is not None:
+            app.job_queue.run_repeating(
+                _s331_presence_refresh_job, interval=720, first=720,
+                name="s331_presence_refresh",
+            )
+        else:                                            # pragma: no cover
+            logger.warning("s331: job_queue ausente — la presencia refrescará "
+                           "solo vía retrieval (stale ⇒ drops off, declarado)")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

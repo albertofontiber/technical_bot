@@ -305,6 +305,48 @@ def _intent_section(intent_obs: Mapping[str, Any] | None) -> dict[str, Any]:
     }
 
 
+_ALLOWED_TI_STATUSES = frozenset({"not_wired", "off", "on"})
+_ALLOWED_TI_MODELS_PROV = frozenset(
+    {"resolved_this_turn", "carried", "pending_derived", "none"}
+)
+_ALLOWED_TI_MENTION_PROV = frozenset({"this_turn", "pending_carried", "none"})
+_ALLOWED_TI_PRESENCE = frozenset({"vigente", "stale", "cold", "none"})
+
+
+def _turn_identity_section(ti_obs: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `turn_identity` (s331 §3.D, ítem B5 — patrón sección `intent`).
+
+    TRI-ESTADO obligatorio (Sol-5 r-v6): `not_wired` (el caller no cableó la
+    telemetría — jamás degrada a "off"), `off` (levers s331 apagados de verdad) y
+    `on` (canal activo este turno). Vista DERIVADA y acotada — enums y booleanos,
+    JAMÁS el string de la mención (frontera de privacidad del trace, Sol-2 r-v5:
+    el texto del usuario vive en `query`/`response` bajo su retención, no aquí).
+    Coherencia cerrada: sin `on` no hay procedencias ni flags de evento."""
+    if not isinstance(ti_obs, Mapping):
+        return {"status": "not_wired", "models_provenance": "none",
+                "mention_provenance": "none", "mention_detected": False,
+                "route_cut": False, "presence": "none"}
+    status = _safe_enum(ti_obs.get("status"), _ALLOWED_TI_STATUSES,
+                        default="not_wired")
+    if status != "on":
+        return {"status": status, "models_provenance": "none",
+                "mention_provenance": "none", "mention_detected": False,
+                "route_cut": False, "presence": "none"}
+    mention_prov = _safe_enum(
+        ti_obs.get("mention_provenance"), _ALLOWED_TI_MENTION_PROV, default="none")
+    return {
+        "status": "on",
+        "models_provenance": _safe_enum(
+            ti_obs.get("models_provenance"), _ALLOWED_TI_MODELS_PROV,
+            default="none"),
+        "mention_provenance": mention_prov,
+        "mention_detected": mention_prov != "none",
+        "route_cut": bool(ti_obs.get("route_cut")) and mention_prov == "this_turn",
+        "presence": _safe_enum(
+            ti_obs.get("presence"), _ALLOWED_TI_PRESENCE, default="none"),
+    }
+
+
 def _mismatch_section(mismatch_obs: Mapping[str, Any] | None) -> dict[str, str] | None:
     """Sección `mismatch_corrected` (s324e) o None — nunca una sección a medias.
 
@@ -514,6 +556,7 @@ def build_rag_serving_trace(
     stage_timings: Mapping[str, Any] | None = None,
     intent_obs: Mapping[str, Any] | None = None,
     mismatch_obs: Mapping[str, Any] | None = None,
+    turn_identity_obs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -534,6 +577,9 @@ def build_rag_serving_trace(
         "retrieval": _retrieval_section(retrieval_health),
         "timings": _timings_section(stage_timings),
         "intent": _intent_section(intent_obs),
+        # (s331 B5) REQUERIDA como `intent` y por el mismo motivo: opcional
+        # confundiría «lever apagado» con «telemetría no cableada».
+        "turn_identity": _turn_identity_section(turn_identity_obs),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -587,7 +633,7 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # confundiría «lever apagado» con «telemetría no cableada» — la clase de
         # silencio que el gate 1 del flip existe para eliminar.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
-         "timings", "transport", "intent"},
+         "timings", "transport", "intent", "turn_identity"},
         # `mismatch_corrected` (s324e) es la única OPCIONAL del nivel raíz: registra
         # un EVENTO, no la medida de un lever (ver la nota del builder). Su ausencia
         # es información completa —no hubo corrección— y es lo que mantiene el trace
@@ -632,6 +678,32 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
             return None
     elif intent["decision"] == "none":
         return None
+    ti = value["turn_identity"]
+    if not exact_keys(ti, {"status", "models_provenance", "mention_provenance",
+                           "mention_detected", "route_cut", "presence"}):
+        return None
+    if (
+        ti["status"] not in _ALLOWED_TI_STATUSES
+        or ti["models_provenance"] not in _ALLOWED_TI_MODELS_PROV
+        or ti["mention_provenance"] not in _ALLOWED_TI_MENTION_PROV
+        or ti["presence"] not in _ALLOWED_TI_PRESENCE
+        or type(ti["mention_detected"]) is not bool
+        or type(ti["route_cut"]) is not bool
+    ):
+        return None
+    # Coherencia CERRADA (s331 B5, espejo del bloque intent): sin `on` no hay
+    # procedencias ni eventos; con `on`, mention_detected ⇔ hay procedencia de
+    # mención y route_cut exige mención de ESTE turno (invariante TurnIdentity).
+    if ti["status"] != "on":
+        if (ti["models_provenance"] != "none" or ti["mention_provenance"] != "none"
+                or ti["mention_detected"] or ti["route_cut"]
+                or ti["presence"] != "none"):
+            return None
+    else:
+        if ti["mention_detected"] != (ti["mention_provenance"] != "none"):
+            return None
+        if ti["route_cut"] and ti["mention_provenance"] != "this_turn":
+            return None
     channel_failures = retrieval["channel_failures"]
     if (
         not isinstance(channel_failures, list)
@@ -783,13 +855,77 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
     return json.loads(encoded.decode("utf-8"))
 
 
-def validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
+DIRECT_TRACE_SCHEMA = "direct_route_trace_v1"
+_DIRECT_ROUTES = frozenset({"clarify", "decline"})
+
+
+def build_direct_route_trace(
+    route: str, turn_identity_obs: Mapping[str, Any] | None
+) -> dict[str, Any]:
+    """(s331 §3.D, obs. de rutas directas — Sol-1 r-v4) Trace MÍNIMO para las filas
+    CLARIFY/DECLINE, que hoy retornan sin trace: sin él, `route_cut` sería
+    inobservable PRECISAMENTE en la ruta donde ocurre. Misma frontera de
+    privacidad que el trace RAG (vista derivada, jamás la mención)."""
+    if route not in _DIRECT_ROUTES:
+        raise ValueError(f"direct trace: route {route!r} fuera de {{clarify,decline}}")
+    trace = {
+        "schema": DIRECT_TRACE_SCHEMA,
+        "route": route,
+        "turn_identity": _turn_identity_section(turn_identity_obs),
+    }
+    encoded = json.dumps(
+        trace, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+    ).encode("utf-8")
+    if len(encoded) > TRACE_MAX_BYTES:  # pragma: no cover - shape acotada
+        raise RuntimeError("bounded direct trace unexpectedly exceeds size contract")
+    return trace
+
+
+def _validate_direct_route_trace(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, Mapping) or set(value.keys()) != {
+        "schema", "route", "turn_identity"
+    }:
+        return None
+    if value["schema"] != DIRECT_TRACE_SCHEMA or value["route"] not in _DIRECT_ROUTES:
+        return None
+    # La sección turn_identity pasa por el MISMO cedazo que en el trace RAG:
+    # re-materializa vía builder y exige igualdad exacta (shape + coherencia).
+    section = value["turn_identity"]
+    if not isinstance(section, Mapping):
+        return None
+    canonical = _turn_identity_section(section)
+    if dict(section) != canonical:
+        return None
+    return {"schema": DIRECT_TRACE_SCHEMA, "route": value["route"],
+            "turn_identity": canonical}
+
+
+def validate_rag_serving_trace(
+    value: Any, *, route: str | None = None
+) -> dict[str, Any] | None:
     """Return a detached trace only when it matches the closed storage schema.
 
     Malformed caller input is treated as absent telemetry, never as a reason to
     lose the underlying query log.
+
+    (s331 B9) Dispatch por ``schema`` con ACOPLE fila↔shape cuando el sink pasa
+    ``route``: el shape ``direct_route_trace_v1`` solo es válido en filas
+    clarify/decline, y el shape RAG solo en filas rag — un builder de la ruta RAG
+    no puede esquivar el ``exact_keys`` estricto emitiendo direct/1 (la clase de
+    silencio que s306/#63 eliminó). ``route=None`` (callers legacy/tests) valida
+    solo el shape.
     """
     try:
+        schema = value.get("schema") if isinstance(value, Mapping) else None
+        if schema == DIRECT_TRACE_SCHEMA:
+            if route is not None and route not in _DIRECT_ROUTES:
+                return None
+            out = _validate_direct_route_trace(value)
+            if out is not None and route is not None and out["route"] != route:
+                return None
+            return out
+        if route is not None and route != "rag":
+            return None
         return _validate_rag_serving_trace(value)
-    except (TypeError, ValueError, OverflowError):
+    except (TypeError, ValueError, OverflowError, AttributeError):
         return None

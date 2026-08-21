@@ -82,7 +82,7 @@ def fake_rerank(query, chunks, top_k=10, strict=False, **kwargs):
     return [dict(row) for row in chunks[:top_k]]
 
 
-def fake_generate(query, chunks, available_models=None):
+def fake_generate(query, chunks, available_models=None, turn_identity=None):
     seen["generate"] += 1
     seen["generated_ids"] = [row.get("id") for row in chunks]
     return {"answer": "respuesta", "diagrams": []}

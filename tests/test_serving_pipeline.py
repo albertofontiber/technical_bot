@@ -15,7 +15,7 @@ def _run(monkeypatch, apply_coverage, *, observe=lambda _query, _chunks: None):
         apply_coverage,
     )
 
-    def generate(_query, chunks, *, available_models=None):
+    def generate(_query, chunks, *, available_models=None, turn_identity=None):
         generated["chunks"] = chunks
         return {"answer": "ok", "diagrams": []}
 
@@ -304,7 +304,7 @@ def test_stage_timings_measure_a_slow_adapter(monkeypatch):
         ok,
     )
 
-    def slow_generate(_query, chunks, *, available_models=None):
+    def slow_generate(_query, chunks, *, available_models=None, turn_identity=None):
         _time.sleep(0.05)
         return {"answer": "ok", "diagrams": []}
 

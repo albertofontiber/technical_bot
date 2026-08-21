@@ -3607,7 +3607,7 @@ el valor pasa a ser configuración de verdad y no identidad; (3) un DG reporta q
 el chat. Entonces el arreglo BP es un **chequeo periódico contra `getMe` desde el worker** —que ya
 tiene el token— estampando el resultado donde el panel lo lea, no un `getMe` en la ruta del panel.
 
-## #95 — Los retags de `product_model` NO son persistentes: una re-ingesta los deshace en silencio — s331
+## 97. Los retags de metadatos (`product_model` y `manufacturer`) NO son persistentes: una re-ingesta los deshace en silencio (s331)
 
 > **Nota de numeración (s331)**: esta deuda nació como «#94» y se renumeró en el acto: el **#94 ya se había
 > usado en s328** (el gate de geometría del CSS del panel, DEC-249/250) y, al cerrarse, su bloque se borró de
@@ -3644,3 +3644,21 @@ que el pm sigue siendo `VSN-4REL` sin intervención.
 
 
 **AMPLIADO en s331 a `manufacturer`** (dúo r40, Sol crítico): la deuda no es solo de `product_model`. El mismo pipeline re-deriva **`manufacturer`** del filename y lo estampa en `documents` y en cada chunk (`src/reingest/metadata.py`), así que un retag de marca tampoco sobrevive a una re-ingesta. Caso vivo sin arreglar: `ASD Harsh Environments_SP` está como `Xtralis` cuando el documento es «© 2015 System Sensor» (gama FAAST) — Alberto lo detectó al revisar §1.A. **NO se parcheó a propósito**: crear un reaplicador hermano sería repetir el error que esta deuda describe. El campo NO es cosmético — `_diversify_by_manufacturer` (`src/rag/retriever.py:2207`) reparte resultados por marca y `get_available_manufacturers`/`get_manufacturers_by_docs` alimentan lo que el bot enseña. **Arreglo BP (único)**: que `detect_document_metadata` consulte la fuente gobernada (doc_map/catálogo) antes de derivar, para pm y para marca.
+---
+
+## 96. `NON_PRODUCT_CODES` vive en la capa orchestrator y `rag/` no puede importarlo: espejo con test de deriva como puente (s331)
+
+**Estado**: el detector de mención (s331 M2, `src/rag/catalog_resolver.py`) necesita el seed
+`NON_PRODUCT_CODES` (`src/orchestrator/conversation_policy.py:112-114`), pero el contrato de
+imports (`tests/test_import_contract.py`, matriz `rag: {raiz, ingestion, rag}`) prohíbe
+rag→orchestrator y exige dúo para excepciones. Puente cableado: `_NON_PRODUCT_CODES_ESPEJO`
+(espejo literal) + `test_espejo_non_product_codes_sin_deriva` (importa el seed real desde
+`tests/`, capa que el contrato no mira) — la fuente única se preserva por CI, no por disciplina.
+
+**Solución de raíz** (elige una, con dúo): (a) re-hogar el seed a una capa baja importable por
+ambos (¿`src/` raíz? ¿config gobernada tipo léxicos s331?); (b) excepción explícita en la matriz
+del contrato. La dirección (a)-config es la que el propio docstring del seed apunta («el guard
+real pertenece al catálogo gobernado», DEC-069/074).
+
+**Trigger**: el tercer consumidor del seed fuera de orchestrator; o la sentada de gobernanza de
+léxicos s331 (unidades/normas/confirmación) — mover el seed al mismo régimen en ese momento.

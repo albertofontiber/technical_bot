@@ -224,14 +224,29 @@ def update_working_state(
     ``advance_working_state`` en el bot (S99 / sol-S4 + F2) para que prod y eval
     queden en lock-step."""
     if resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
+        from dataclasses import replace as _replace
+
+        ti = getattr(resolution, "turn_identity", None)
+        if ti is not None and ti.route_cut and ti.mention:
+            # (s331 B3, espejo del punto de mutación 1 de advance_working_state)
+            # SET del pending: solo pending_*/last_query; modelos y last_turn_at
+            # INTACTOS (anti-resurrección S99).
+            return _replace(ws, pending_mention=ti.mention, pending_at=now,
+                            last_query=query)
+        if ws.pending_mention is not None:
+            # CLEAR explícito también en CLARIFY/DECLINE no-mención (s331 B3).
+            return _replace(ws, pending_mention=None, pending_at=None)
         return ws
     models = tuple(resolution.target_models or ())
+    # (s331 B3, espejo del punto de mutación 2) CONSUME/CLEAR explícito del pending.
     return WorkingState(
         last_target_models=models,
         last_query=query,
         last_answer_excerpt=(answer_excerpt or "")[:500] or None,
         last_turn_at=now,
         available_models=tuple(available) if available else None,
+        pending_mention=None,
+        pending_at=None,
     )
 
 
@@ -239,7 +254,7 @@ def update_working_state(
 # Driver del orquestador (contract, $0)
 # ---------------------------------------------------------------------------
 def _recording_generate(record: dict[str, Any]):
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         record["served_query"] = query
         record["n_chunks"] = len(chunks)
         return {"answer": f"[stub] {query}", "diagrams": [], "input_tokens": 0,

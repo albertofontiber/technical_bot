@@ -202,7 +202,7 @@ def run_probe(*, env_file: Path | None = None) -> dict[str, object]:
             )
             return hydrated, candidates, read_trace
 
-        def no_model_generate(_query, _chunks, *, available_models=None):
+        def no_model_generate(_query, _chunks, *, available_models=None, turn_identity=None):
             nonlocal generator_calls
             del available_models
             generator_calls += 1

@@ -20,7 +20,7 @@ _FIXTURE = [
 
 
 def _recording_generate(record):
-    def generate(query, chunks, *, available_models=None):
+    def generate(query, chunks, *, available_models=None, turn_identity=None):
         record["query"] = query
         record["chunks"] = chunks
         record["available_models"] = available_models

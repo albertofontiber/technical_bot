@@ -9386,7 +9386,123 @@ REVOKE y la postcondición 6.1.b lo verifica.
 - El gate de CI no ejercita la rama de programación (el contenedor no trae pg_cron): límite heredado
   de s299, no nuevo.
 
-## DEC-257 (s331, 20 ago 2026) — Las 3 preguntas del packet E1, adjudicadas por delegación: la hipótesis FS se comprueba AL PÍXEL y cae; y el dúo destapa que mi «no existe» era ceguera de grafía
+## DEC-257 (s331, 20 ago 2026) — Variantes-en-hilo (caso real Kidde): diseño CERRADO en 6 rondas de dúo y BUILD M1→M3c flag-off; el corte anti-parálisis lo adjudicó Alberto
+
+- **Fecha**: 20 ago 2026 (sesión s331, arrancada como «synthesis miss» y re-dirigida por el 👎 real
+  del 18-ago). **Impacto**: ALTO en zona de dolor (retrieval/identidad/conversación/generación).
+  **Producción sin cambios** (flags default-off = byte-idéntico; ship = lote Railway pendiente de gates).
+- **El caso**: T2 «Sobre la 2X-AF1-FBS.» → T3 «Programación principalmente.» → el bot re-preguntó
+  «¿qué variante exacta del 2X-AF1 tienes instalada?» (query_logs `e046836f`/`4fbca15f`, 👎 con texto).
+  Diagnóstico mecánico (sondas $0, verificado por 6 revisores): la variante se destruye al LEER
+  (alias de familia `_base_aliases`, `src/rag/catalog.py:75-84`) y al ARRASTRAR (hint solo bindeados,
+  `conversation_policy_impl.py:442-451`), mientras el resolver GOBERNADO la detecta hasta en grafía ASR
+  (`catalog_resolver.detect → '2x-af1-fbs'`) pero solo corre en retrieval; y la re-pregunta amnésica
+  existe TAMBIÉN como plantilla sin LLM (`generator.py`). **TECH_DEBT #49 trigger (c) disparado.**
+- **Decide (1) — diseño por dúo iterativo, CERRADO en r-v6**: propuestas v1→v6
+  (`evals/s331_variantes_hilo_propuesta_v*.md`; traza íntegra en v6 §10, checklist de build §11).
+  6 rondas: 4 dúos EMPAREJADOS limpios (r-v2…r-v6), una incidencia de emparejado (r-v1, commits
+  míos entre Sol y Fable — regla re-aprendida: CERO git durante la ronda) y un `failed_attempt`
+  por 500 del proveedor. Hallazgos-eje que re-dirigieron el diseño: seam de COMPOSICIÓN (no
+  `detect_turn_signals`, no `telegram_bot:1933`), canal ESTRUCTURADO `turn_identity` (jamás parsear
+  el texto), plantillas deterministas también gobernadas, stale⇒sin-drops, mención jamás persistida
+  al trace (allowlist cerrada), corte-de-ruta = extensión-de-término-gobernado + veto multi-fabricante,
+  polaridad de cláusula en la gramática. **Corte anti-parálisis adjudicado por Alberto** («ojo no
+  entres en paralysis by analysis»): r-v6 fue la última ronda; sus hallazgos = ítems de build B1-B11.
+- **Decide (2) — build por milestones con suite verde citada, esquema advisor/executor** (adjudicación
+  Alberto: Fable orquesta/revisa, Opus 5 ejecuta specs cerradas): **M1** `resolve_for_turn` en la seam de
+  composición (`F1_RESOLVE_GOVERNED`+interlock; `_presence_peek` sin red; canonicalize-only para la rama
+  del plan) · **M2** (executor) detector de mención 2-puertas + léxicos gobernados (unidades/normas) +
+  multimap del veto + cohorte G0-b'; bloqueante real cazado: el contrato de imports prohíbe
+  rag→orchestrator → espejo `_NON_PRODUCT_CODES_ESPEJO` con test de deriva (re-hogar = deuda #96) ·
+  **M3a** `TurnIdentity` con provenance POR COMPONENTE + `pending_mention` en `WorkingState` ·
+  **M3b** gramática con POLARIDAD de cláusula («No, no es la X» no bindea; «No, es la Y» sí) +
+  corte-de-ruta (clase medida: mención elegible con extracción VACÍA — cuando la extracción pesca el
+  prefijo, la rama A ya evita el carry del viejo) + lifecycle pending espejado MT-1b; DESVIACIÓN
+  declarada: regla 2 sin re-intento de binding (el rebind parcial era un binding falso) ·
+  **M3c-threading** (executor) canal end-to-end con verificación por MUTACIÓN ·
+  **M3c-conducta** `GENERATOR_NO_REASK` en prompt Y plantillas. Suites completas citadas por hito
+  (última: 4726 passed / 0 failed pre-conducta; conducta con dirigidos 10+53 y suite en curso al cierre).
+- **Decide (3) — flake-fix adjudicado por Alberto**: el test de recovery del fence IPC
+  (`test_lost_terminal_response_is_recovered_exactly_without_second_end`) falló 2× SOLO en CI con
+  params distintos (0/60 local): el cliente recupera por journal ANTES del append del monkeypatch —
+  espera acotada test-side (5 s), 30/30 + 41/41 tras el fix. No cambia lo que el test protege.
+- **Incidencias de proceso DECLARADAS**: (a) commit c83c0bff afirmó «suite verde» con 1 fallo real —
+  el exit 0 era del `tail` sin pipefail; corregido en 6e349d7e y regla nueva: exit real + `pipefail`
+  SIEMPRE; (b) dos erratas de conteo en mensajes de commit (117→126, 4692→4713) — regla: ningún número
+  no visto antes en un resultado. El fallo (a) lo cazó la puerta del inventario env-reads (P1) — las
+  puertas del repo funcionando.
+- **Alternativas descartadas**: 11+ medidas/ancladas en v6 §5 (historia completa al generador ·
+  prompt-only · resolver dentro de extract_product_models · seam telegram_bot:1933 [INVALIDADA POR
+  LECTURA r-v1] · mención en el hint de texto · fetch síncrono · corte por forma-sola y por
+  prefijo-textual · quitar `_base_aliases` · Whisper-prompt [DEC-233] · re-ingesta por variante ·
+  esperar al piloto).
+- **PENDIENTE (próxima sesión)**: observabilidad (sección `turn_identity` tri-estado en el trace +
+  shape `direct/1` ACOPLADO a route∈{clarify,decline} + attach en el log s301) · boot (interlock
+  al arranque + warm/refresher single-flight de presencia) · gates M4 (G1-pre/a/b/c + G2 + G3 e2e +
+  G4 censo Railway) · ship por lote (3 flags) + verificación en prod re-lanzando la conversación real
+  (DEC-099) · B residual de Alberto: paraguas «2X-A» diferido. La cuota-por-defecto de gates NO se
+  paga sin los brazos pre-registrados de v6 §4.
+- **Recibos**: PRs #322 (mergeada por Alberto con v1+Sol-r1) y #323 (draft, todo el ciclo);
+  `evals/adversarial_reviews/2026-08-20T{18-54-58,18-57-37,19-05-09,19-07-20,19-16-54,19-19-15,19-24-54,19-27-10,19-33-13,19-36-45,19-43-59,19-46-12}_*` + tally con `complete_pending_adjudication` ×4;
+  commits eb07aa35→31a5cff6.
+- **Relacionado**: DEC-074 (BP entity-linking — esto ejecuta su mitad turno-side) · DEC-091b (fix
+  aparcado retomado) · DEC-154 (vara MT propia) · DEC-233 · #49 · #96 (nuevo).
+
+## DEC-258 (s331b, 20-21 ago 2026) — Gates M4 COMPLETOS con dos bugs cazados POR el gate; IDENTITY_FETCH entra al lote de ship como 4º flag (re-apertura con métrica propia); ship listo para el lote Railway de Alberto
+
+- **Fecha**: 20-21 ago 2026 (misma sesión que DEC-257, tras el GO de Alberto «solucionado = replay
+  en prod»). **Impacto**: ALTO (cierra la medición pre-ship de s331). Producción sin cambios.
+- **Decide (1) — G1 por brazos, PASS con dos hallazgos que el gate existía para cazar**:
+  (a) **pool-entry loss bajo A-solo** (brazo a): binding/hint perfectos + `allowed_sources` con los
+  7 docs de familia, y aun así T3 sirve SOLO la datasheet hermana (pool=5) — ni vector (query débil)
+  ni keyword (tags `product_model` compuestos `2X-A/...`) meten la familia en el top-50; la clase
+  DEC-084 exacta. **Fix = `IDENTITY_FETCH`** (seam existente s93): su NO-OP fue en famtie-39; la
+  métrica de HOY (este hilo servido) es otra → re-apertura conforme a settled-con-métrica, medida
+  af/acf: los 3 manuales de familia SERVIDOS. (b) **`turn_identity=None` en el flujo principal**:
+  M3b pobló la identidad solo en los paths de mención (anotado «para M3c») y M3c-conducta consumió
+  el canal sin cerrar la población — rama A y carry no construían identidad y `GENERATOR_NO_REASK`
+  jamás disparaba; 95 unit tests verdes por ambos lados NO lo veían, el replay sí. Fix
+  `_build_turn_identity` (A: resolved_this_turn + mixto con mención puerta-1; carry: carried).
+  acf v2 7/7 · brazo c 6/6 (la 1ª pasada del c falló por el harness: estado inicial vacío ⇒
+  in_window=False ⇒ el corte, que POR DISEÑO protege el carry equivocado, no aplica) · centinela
+  hp009-local PASS (la datasheet hermana sigue servida; fetch solo AÑADE).
+- **Decide (2) — G2 composición sweep-39: 0 regresiones reales**, con la adjudicación visible:
+  señal-por-SETS (el comparador por listas contaba churn de ORDEN de rerank como diff — DEC-096) =
+  cat013/cat017 expansión ADITIVA de familia (entra un manual más, nada sale) + hp018 A/B de
+  generación LEÍDO (ON igual-o-mejor: cuantifica 2-vs-4 salidas supervisadas; el doc salido era el
+  comunicador, sin ese contenido). Centinelas hp009/hp001 DENTRO del ruido (23/39 con **ventana
+  sucia declarada**: fallos de canal Supabase en 10-11/39 golds esa noche) → no atribuibles;
+  **confirmación en ventana sana recomendada** (barata, composición). **MT flows 52/52 con los 4
+  flags.** Latencia p50 off≈on (ventana sucia; re-medir post-flip).
+- **Decide (3) — G3 conducta (patrón DEC-162e), 6 reps/brazo**: ON **6/6 sin-amnesia** (kidde_t3)
+  y **6/6 reconocimiento visible** (mixto_c1). Matiz de instrumento DECLARADO: el check
+  determinista no caza variantes de fraseo del OFF («¿qué modelo concreto del 2X-AF1 tienes
+  instalado?», rep0 OFF leído) → el contraste OFF↔ON lo establecen las LECTURAS (G1+G3); el gate
+  pre-registrado era el lado ON. **G4**: sonda dirigida a la API de Railway — worker con
+  `IDENTITY_RESOLVE=on` + `POLICY=replace` (asunción C1/s281 verificada de primera mano) y ninguna
+  flag s331 presente (byte-idéntico en prod confirmado).
+- **SHIP LISTO (decisión de Alberto)**: lote Railway worker = `F1_RESOLVE_GOVERNED=on` +
+  `F1_MENTION_PRECEDENCE=on` + `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on`; verificación en
+  producción patrón DEC-099 = re-lanzar la conversación Kidde real; rollback = quitar las 4.
+  Residuales post-flip (T2 alcance-vs-confirmación con evidencia de hermana; T3 pregunta el
+  aspecto; regex G3; ventana G2) en `evals/s331_m4_gates_resultado_v1.md` — ninguno bloquea.
+- **Proceso**: el pipe-trap del exit reapareció 2× en runners de gates (tail) — la regla queda
+  extendida: TODO runner de gate imprime y se lee su exit REAL; los recibos mandan.
+- **Recibos**: `s331_g1_*` (6) · `s331_g2_v1.json` + `s331_g2_hp018_{off,on}.txt` ·
+  `s331_g3_v1.json` · censo + sonda Railway · `s331_m4_gates_resultado_v1.md` · commits
+  49b76757→(este).
+- **Relacionado**: DEC-257 · DEC-084/069 (la clase pool-entry y su seam) · DEC-092b (leer antes de
+  declarar) · DEC-096 (ruido de rerank) · DEC-099 (verificación en prod) · DEC-126 (re-apertura).
+
+> **Nota de numeración (colisión de sesiones paralelas, 21-ago).** Este bloque de cinco
+> decisiones nació como `DEC-257→260` en la rama del packet E1, mientras **otra sesión de s331**
+> —la de variantes-en-hilo— usaba **los mismos números** en paralelo y **mergeaba antes** (PR #323).
+> Manda lo ya publicado en `main`: sus `DEC-257` y `DEC-258` conservan su número y **estas se
+> renumeran a `DEC-259→262`**. Es la clase de `TECH_DEBT #92` (números reutilizados) aplicada a
+> DECISIONS, y la causa está declarada desde el principio en el aviso de concurrencia `#93`.
+> **Los recibos y ficheros de `evals/` ya emitidos NO se reescriben**: un recibo es traza de lo
+> ejecutado. Las referencias cruzadas en docs sí quedan actualizadas.
+## DEC-259 (s331, 20 ago 2026) — Las 3 preguntas del packet E1, adjudicadas por delegación: la hipótesis FS se comprueba AL PÍXEL y cae; y el dúo destapa que mi «no existe» era ceguera de grafía
 
 - **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r38
   INNEGOCIABLE**: Sol xhigh 5/5 confirmados 0 FP severidad máx. crítico + Fable 4/4 confirmados 0 FP
@@ -9455,11 +9571,11 @@ REVOKE y la postcondición 6.1.b lo verifica.
   la atestación) · #95 (nueva) · #86 (el drift que rompió el pairing) · tally r38 en
   `evals/adversarial_review_log.jsonl`.
 
-## DEC-258 (s331, 20 ago 2026) — El alcance «A + E» firmado por Alberto: la serie 20/20 SharpEye entera faltaba del catálogo, y el software se ata a la familia como `secondary` porque es de 1997
+## DEC-260 (s331, 20 ago 2026) — El alcance «A + E» firmado por Alberto: la serie 20/20 SharpEye entera faltaba del catálogo, y el software se ata a la familia como `secondary` porque es de 1997
 
 - **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor → **dúo r39
   INNEGOCIABLE y esta vez EMPAREJADO**: Sol xhigh 3/3 confirmados + Fable 4/4, 0 FP, máx. medio).
-  **Disparador**: Alberto cuestionó las dos adjudicaciones conservadoras de DEC-257 («MNDT600: ¿por
+  **Disparador**: Alberto cuestionó las dos adjudicaciones conservadoras de DEC-259 («MNDT600: ¿por
   qué unknown?» · «MNDT701: es el software del modelo IR3, ¿no tiene sentido asociar el manual a ese
   modelo?»), pidió medirlo y firmó **«A + E, aplícalo»**.
 - **Tenía razón en las dos, y en la segunda el agujero era mayor que la fila**: el censo destapó que
@@ -9509,12 +9625,12 @@ REVOKE y la postcondición 6.1.b lo verifica.
   documental —Alberto habló de GD3/GD2— ⇒ **plan de re-visita**: cuando E1b promueva los 8 candidates
   SMART, esa fila se re-evalúa; (3) `MNDT690` (catálogo de gama Spectrex) sigue sin mapear, es clase
   R1 y va en otro lote; (4) «20/20» y «S20/20» a secas (47+41 menciones) no resuelven modelo.
-- **Relacionado**: DEC-257 (las adjudicaciones que Alberto cuestionó) · medición
+- **Relacionado**: DEC-259 (las adjudicaciones que Alberto cuestionó) · medición
   `evals/s331_sondas_alcance_resultado_v1.md` (sondas A-E) · propuesta post-dúo
   `evals/s331_aplicacion_AE_propuesta_v2.md` · packet E1 (marcas de MNDT600/MNDT701 **supersedidas**
   explícitamente) · tally r39 en `evals/adversarial_review_log.jsonl`.
 
-## DEC-259 (s331, 20 ago 2026) — Las 30 anotaciones de Alberto en el packet E1, verificadas una a una; y el gate aprende a distinguir una pérdida DESEADA de una regresión
+## DEC-261 (s331, 20 ago 2026) — Las 30 anotaciones de Alberto en el packet E1, verificadas una a una; y el gate aprende a distinguir una pérdida DESEADA de una regresión
 
 - **Fecha**: 20 ago 2026 (s331). **Impacto**: MEDIO (catálogo/corpus, zona de dolor) + **ALTO en el
   instrumento** (se toca el GATE). **Dúo r40**: Sol xhigh 5 hallazgos · Fable 4 (veredicto SÓLIDO) →
@@ -9570,11 +9686,11 @@ REVOKE y la postcondición 6.1.b lo verifica.
   **UNO** (`spectrex:777163`), no tres — corregido tras Fable; (2) el gate **no mide retrieval
   end-to-end**: el único efecto de serving es el buscado, quitar una fuente equivocada; (3) siguen sin
   decisión `morley:efs-em-8` («pending.») y `notifier:nx2-r-r-y-nx5-r-r` (anotación vacía).
-- **Relacionado**: DEC-257/DEC-258 · `evals/s331_lote_1AB_propuesta_v1.md` · packet E1 · tally r40.
+- **Relacionado**: DEC-259/DEC-260 · `evals/s331_lote_1AB_propuesta_v1.md` · packet E1 · tally r40.
 
-### DEC-259b (s331, 20 ago 2026) — addendum: «DOA» era una SERIE, no una marca — y el modelo es `DOA FJ`
+### DEC-261b (s331, 20 ago 2026) — addendum: «DOA» era una SERIE, no una marca — y el modelo es `DOA FJ`
 
-El único punto que DEC-259 dejó abierto («¿DOA es una línea comercial de Avotec o la designación de
+El único punto que DEC-261 dejó abierto («¿DOA es una línea comercial de Avotec o la designación de
 tipo del certificado?») lo cerró Alberto con la **ficha del fabricante**
 (`https://www.avotec.it/en/products/series-doa-78/`): **DOA es la SERIE** de Avotec —paneles de
 señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` y `DOA FJ/WP/A`.
@@ -9589,7 +9705,7 @@ señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` 
   negativos sintéticos y **0 detecciones nuevas en 111 consultas reales**.
 - **Por qué el canónico es el del fabricante y no la grafía del corpus**: los ids son INMUTABLES, así
   que se acuña el nombre que el fabricante publica y la grafía atestada entra como alias. Es el mismo
-  patrón que `S20/20MI` (canónico) / `20/20MI` (alias) en DEC-258.
+  patrón que `S20/20MI` (canónico) / `20/20MI` (alias) en DEC-260.
 - **NO se crea el paraguas «DOA»**: de los 4 modelos de la serie solo **uno** está atestado en el
   corpus, y el término «DOA» suelto no aparece nunca. Un paraguas de un miembro no aporta.
 - **Gaps**: el canónico `DOA FJ` **no aparece verbatim** en el corpus —su única grafía atestada es
@@ -9598,9 +9714,9 @@ señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` 
   tráfico real.
 - **Lo que esto valida del método**: el dúo r40 (Sol, medio) frenó el alta precisamente por no acuñar
   un id inmutable con la identidad sin cerrar. Esperar a un dato de una línea evitó un id equivocado
-  que habría exigido un merge. **Relacionado**: DEC-259.
+  que habría exigido un merge. **Relacionado**: DEC-261.
 
-## DEC-260 (s331, 20 ago 2026) — Qué le hizo el feedback de Alberto a las reglas R1-R7: una regla nueva (R8), un hueco tapado en R3 y R5 cerrada por uso
+## DEC-262 (s331, 20 ago 2026) — Qué le hizo el feedback de Alberto a las reglas R1-R7: una regla nueva (R8), un hueco tapado en R3 y R5 cerrada por uso
 
 - **Fecha**: 20 ago 2026 (s331, cierre). **Impacto**: MEDIO (gobierna cómo se adjudica el residuo).
   **Origen**: Alberto pidió repasar las reglas a la luz de su feedback («¿deberíamos ajustarlas?»).
@@ -9609,11 +9725,11 @@ señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` 
   que yo no había visto · **3 notas incorrectas** que el procedimiento absorbió sin daño porque
   se verifican antes de aplicar. Lo que produjo:
   - «MNDT600/MNDT701: ¿por qué unknown?» → destapó que **la serie 20/20 SharpEye entera faltaba del
-    catálogo** (9 altas, DEC-258).
+    catálogo** (9 altas, DEC-260).
   - Una nota suya **mal ubicada** → destapó **6 atestaciones equivocadas** en la FAQ de la DXc y, con
-    ellas, un **hueco del gate** que bloqueaba toda limpieza de contaminación (DEC-259).
+    ellas, un **hueco del gate** que bloqueaba toda limpieza de contaminación (DEC-261).
   - Un enlace de una línea (`avotec.it/series-doa`) → **evitó acuñar un id inmutable equivocado**
-    (DEC-259b).
+    (DEC-261b).
   - «Son los modelos de System Sensor, se ve en la foto» → destapó que **5 documentos FAAST están
     atribuidos a Xtralis**, que es el competidor.
   La conclusión operativa: su feedback es más valioso **cuando pregunta que cuando afirma** — sus 5
@@ -9638,7 +9754,7 @@ señalización de alarma— y sus modelos son `DOA FJ`, `DOA FJ/A`, `DOA FJ/WP` 
 - **R8 (NUEVA) — la grafía canónica es la del FABRICANTE, no la del documento.** Nace de DOA: el
   documento imprime «DOA FJ/CPD» y el fabricante publica «DOA FJ» (el `/CPD` es el sufijo del
   certificado). Como **los ids son INMUTABLES**, cuando el fabricante tiene ficha pública accesible
-  se acuña su grafía y la del corpus entra como **alias**. Ya se había aplicado de facto en DEC-258
+  se acuña su grafía y la del corpus entra como **alias**. Ya se había aplicado de facto en DEC-260
   (`S20/20MI` canónico / `20/20MI` alias); ahora es regla. **Corolario operativo**: ante un nombre
   con barra o sufijo, la pregunta correcta antes de acuñar es «¿qué publica el fabricante?», y esa
   pregunta se le hace a Alberto **antes** del alta, no después.

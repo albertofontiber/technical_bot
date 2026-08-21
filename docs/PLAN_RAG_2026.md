@@ -26,7 +26,22 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (s330 — 20 ago 2026; el panel mide CALIDAD de uso, y la retención alcanza ya a todo)
+## Estado actual (s331 — 20 ago 2026; variantes-en-hilo: diseño cerrado en 6 dúos y build flag-off completo M1→M3c)
+
+**s331 (DEC-257) — el 👎 real de Alberto (Kidde 2X-AF1-FB-S, 18-ago) se convirtió en el ataque
+entero**: diagnóstico mecánico anclado (la variante muere al LEER —alias de familia— y al
+ARRASTRAR —hint solo bindeados—, con la re-pregunta amnésica también en PLANTILLA sin LLM),
+diseño CERRADO en 6 rondas de dúo (v6 = spec vinculante, §11 = checklist B1-B11; corte
+anti-parálisis adjudicado por Alberto), y **build COMPLETO flag-off** bajo el esquema
+advisor/executor (Fable orquesta, Opus 5 ejecuta specs cerradas): resolución gobernada en la
+seam de COMPOSICIÓN de F1 + detector de mención 2-puertas con veto multi-fabricante + gramática
+de confirmación con POLARIDAD + canal estructurado `turn_identity` end-to-end + conducta
+anti-re-pregunta en prompt Y plantillas. 3 flags default-off = producción byte-idéntica. Suites
+completas citadas por hito. Colaterales: flake del fence IPC arreglado (adjudicado), 2 erratas
+de conteo en commits declaradas, deuda #96 (espejo NON_PRODUCT_CODES). PRs #322 (mergeada) y
+#323 (draft con todo el ciclo).
+
+## Estado anterior (s330 — 20 ago 2026; el panel mide CALIDAD de uso, y la retención alcanza ya a todo)
 
 **Qué es el sistema hoy.** El bot responde en Telegram desde manuales de ~30 fabricantes, con la
 puerta de acceso viva (allowlist + invitación de un solo uso) y el **panel web en
@@ -83,6 +98,15 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
+0b. **s331 variantes-en-hilo — SHIP LISTO, el flip es de Alberto** (DEC-257/258; NO bloquea el
+   piloto): observabilidad + boot CABLEADOS y gates M4 COMPLETOS (G1 PASS todos los brazos con 2
+   bugs cazados y arreglados EN el gate · G2 0 regresiones reales adjudicadas leyendo, ventana
+   sucia declarada · MT 52/52 · G3 ON 6/6+6/6 · G4 prod byte-idéntica verificada). **Lote Railway
+   worker = 4 vars**: `F1_RESOLVE_GOVERNED=on` + `F1_MENTION_PRECEDENCE=on` +
+   `GENERATOR_NO_REASK=on` + `IDENTITY_FETCH=on` (re-abierto con métrica propia — DEC-258).
+   **Tras el flip: verificación DEC-099 = re-lanzar la conversación Kidde real en Telegram.**
+   Rollback = quitar las 4. Residuales post-flip en `evals/s331_m4_gates_resultado_v1.md`;
+   **packet Alberto**: paraguas «2X-A» diferido.
 1. ⛔ **ENVIAR el paquete del abogado.** Es lo ÚNICO que bloquea invitar al primer DG. El documento
    está listo (DEC-252): anexo A con el **v9 generado del código**, anexo B con el delta v8→v9 —y el
    cambio de fondo subido a P1: la mención a las transferencias fuera de la UE **bajó** de la

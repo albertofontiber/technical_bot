@@ -1,0 +1,153 @@
+{
+  "manifest": {
+    "arm": "a",
+    "ts": "2026-08-20T22:37:24+00:00",
+    "git_sha": "49b76757461823227f1d559342d775456f6dbf13",
+    "catalog_commit": "c6522ff3",
+    "corpus_fingerprint": [
+      "26216",
+      "2026-08-17T09:36:29.408577+00:00"
+    ],
+    "llm_model": "claude-sonnet-4-6",
+    "presence_precondicion": "vigente",
+    "flags": {
+      "IDENTITY_RESOLVE": "on",
+      "IDENTITY_RESOLVE_POLICY": "replace",
+      "F1_RESOLVE_GOVERNED": "on",
+      "F1_MENTION_PRECEDENCE": "",
+      "GENERATOR_NO_REASK": "",
+      "CHUNKS_TABLE": "chunks_v2",
+      "GENERATOR_PROMPT_VARIANT": "",
+      "RERANK_TOP_K": ""
+    }
+  },
+  "kidde": {
+    "turns": [
+      {
+        "label": "T2",
+        "query": "Sobre la 2X-AF1-FBS.",
+        "route": "standalone",
+        "rationale": "explicit_product",
+        "query_for_retrieval": "Sobre la 2X-AF1-FBS.",
+        "target_models": [
+          "2X-AF1",
+          "2X-AF1-FB-S"
+        ],
+        "turn_identity": null,
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "pending_mention": null
+        },
+        "answer": "La consulta menciona el modelo **2X-AF1-FBS**, pero todos los fragmentos recuperados corresponden al modelo **2X-AF1-S** [F1][F2][F3][F4][F5].\n\nNo tengo documentación del modelo **2X-AF1-FBS** en mi base. No puedo confirmar si es una variante, un accesorio o un modelo distinto, ya que no aparece en ningún fragmento disponible.\n\n¿Puedes confirmar el modelo exacto que tienes instalado? Si el equipo es el **2X-AF1-S**, puedo responderte con los datos disponibles.",
+        "served": [
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 10542,
+          "rerank_ms": 0,
+          "coverage_ms": 3,
+          "generate_ms": 4187
+        },
+        "channel_failures": [],
+        "elapsed_ms": 14756
+      },
+      {
+        "label": "T3",
+        "query": "Programación principalmente.",
+        "route": "carry_forward",
+        "rationale": "carry_forward:within_window_followup",
+        "query_for_retrieval": "Programación principalmente. (contexto: 2X-AF1, 2X-AF1-FB-S)",
+        "target_models": [
+          "2X-AF1",
+          "2X-AF1-FB-S"
+        ],
+        "turn_identity": null,
+        "clarify_question": null,
+        "state_after": {
+          "last_target_models": [
+            "2X-AF1",
+            "2X-AF1-FB-S"
+          ],
+          "pending_mention": null
+        },
+        "answer": "La consulta sobre \"programación\" del **2X-AF1** / **2X-AF1-FB-S** es ambigua. Para darte información precisa, necesito saber:\n\n**¿Qué aspecto de la programación necesitas?**\n\n- Configuración de zonas, lazos o dispositivos\n- Configuración de salidas o grupos de salida\n- Usuarios, contraseñas y niveles de operador\n- Configuración de red (nodos, Ethernet)\n- Asistentes de configuración / auto-configuración\n- Otro aspecto concreto\n\nAdemás, ¿estás trabajando con el **2X-AF1** (gabinete estándar) o el **2X-AF1-FB-S** (gabinete pequeño con controles de Bomberos)? El modelo exacto puede afectar a las opciones disponibles.",
+        "served": [
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          },
+          {
+            "source_file": "2x-af1-s-161721-es",
+            "chunk_index": null
+          }
+        ],
+        "stage_timings": {
+          "retrieve_ms": 15084,
+          "rerank_ms": 0,
+          "coverage_ms": 3,
+          "generate_ms": 5674
+        },
+        "channel_failures": [
+          {
+            "channel": "CONTENT",
+            "error": "ReadTimeout('The read operation timed out')",
+            "error_type": "ReadTimeout"
+          }
+        ],
+        "elapsed_ms": 20762
+      }
+    ],
+    "checks": [
+      {
+        "check": "t2_bindea_la_variante_canonica",
+        "ok": true,
+        "detail": "['2X-AF1', '2X-AF1-FB-S']"
+      },
+      {
+        "check": "t3_hint_lleva_la_variante",
+        "ok": true,
+        "detail": "Programación principalmente. (contexto: 2X-AF1, 2X-AF1-FB-S)"
+      },
+      {
+        "check": "t3_sirve_manual_de_familia",
+        "ok": false,
+        "detail": "servidos=['2x-af1-s-161721-es']"
+      }
+    ]
+  }
+}
