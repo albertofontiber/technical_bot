@@ -5,19 +5,20 @@
   "H — fuera si su token tiene homónimo abierto (rebrand: adjudicación, R8)",
   "G — fuera si su token ya resuelve a otro id (gemelo)",
   "N — fuera si el detector no puede verlo (digit-only, paréntesis)",
-  "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo"
+  "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo",
+  "dúo r42 — fuera si la fila no es un PRODUCTO (R9/R14) o si promoverla ESTRECHA las fuentes de su propia consulta (mecanismo hp009/DEC-091b)"
  ],
+ "fuera_por_el_duo": {
+  "notifier:eia-485": "R14' — EIA-485 es el bus serie (RS-485), no un producto Notifier. 71 menciones en su doc porque el manual habla del CABLEADO del bus; promoverlo secuestraría toda consulta de bus de cualquier fabricante.",
+  "notifier:ad-pe": "R2 — «Versión Exd (AD-PE)» es un SUFIJO de variante, no un modelo suelto (1 sola mención, dentro de una tabla de versiones). El producto real, `notifier:smart-2-exd-ad-pe`, sí entra.",
+  "notifier:rhistorico.exe": "R10 se cumple (el software ES producto) pero la GRAFÍA no: el producto se llama «Reparación de Históricos»; `RHistorico.exe` es su ejecutable dentro de C:\\NOTIFIER\\Util. Renombrar el canónico es adjudicación (R8), no promoción.",
+  "notifier:tg-6000": "ESTRECHA: la consulta pierde el paraguas `TG` y con él los 4 manuales genéricos del TG (Introducción/Usuario/Técnico/requisitos del PC). 4 fuentes → 1. Arreglarlo es una relación de catálogo, no una promoción.",
+  "notifier:tg-6000-net": "ESTRECHA igual que `tg-6000`: 4 fuentes → 1.",
+  "notifier:tg-notifier": "ESTRECHA igual: pierde los 4 genéricos del paraguas `TG` (gana 9, pero la pérdida es de los manuales que responden las consultas TG).",
+  "notifier:m710-cz": "ESTRECHA: pierde `M710` de `models` y 2 fuentes (la hoja combinada `I56-2005-002 M710 M720 M721 M701` y el conexionado del M710). Gana 4 propias, así que el saldo PARECE bueno — pero la regla que aplico a `tg-6000` no puede tener excepciones según me convenga el saldo: el instrumento marca estrechamiento y sale del lote autónomo."
+ },
  "products_altas": [],
  "products_confirmar": [
-  {
-   "id": "notifier:ad-pe",
-   "canonical_model": "AD-PE",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «| | | Versión Exd (AD-PE) (Antideflagrante)<br/><br/>260 = GASES EXPLOSIVOS<br/>374 = GASES EXPLOSIVOS (GASES ESPECIALES)<br»",
-   "_manuales": [
-    "MNDT650"
-   ],
-   "_menciones_en_su_doc": 1
-  },
   {
    "id": "notifier:aim-200",
    "canonical_model": "AIM-200",
@@ -84,15 +85,6 @@
     "MNDT1071"
    ],
    "_menciones_en_su_doc": 44
-  },
-  {
-   "id": "notifier:eia-485",
-   "canonical_model": "EIA-485",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «NOTIFIER ESPAÑA, S.A. 32 # Apéndice A: Terminaciones del apantallado en el EIA-485 El circuito EIA-485 deberá ser cableado utilizando un cable par tre»",
-   "_manuales": [
-    "MNDT400"
-   ],
-   "_menciones_en_su_doc": 71
   },
   {
    "id": "notifier:fil-nas-2",
@@ -219,18 +211,6 @@
    "_menciones_en_su_doc": 2
   },
   {
-   "id": "notifier:m710-cz",
-   "canonical_model": "M710-CZ",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ía utilizando una salida de sirena configurada como salida de relé de avería, un módulo de entrada (M710-CZ) y una unidad de terminación de transmisió»",
-   "_manuales": [
-    "BTDT075",
-    "Conexionado-del-modulo-M710-CZ-MI-DCZM",
-    "I56-2129-002 M710-CZ",
-    "MADT190_14"
-   ],
-   "_menciones_en_su_doc": 5
-  },
-  {
    "id": "notifier:mini-vista",
    "canonical_model": "Mini Vista",
    "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «# 3. Configuración. Mini Vista puede configurarse desde la **pantalla táctil** o a través de su **Web server**. ## 1 - Configurac»",
@@ -315,15 +295,6 @@
     "MNDT515"
    ],
    "_menciones_en_su_doc": 1
-  },
-  {
-   "id": "notifier:rhistorico.exe",
-   "canonical_model": "RHistorico.exe",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ntra en el directorio de instalación, dentro del subdirectorio *Util*, por ejemplo C:\\NOTIFIER\\Util\\RHistorico.exe. Una vez arranca la aplicación se m»",
-   "_manuales": [
-    "MADT951_04"
-   ],
-   "_menciones_en_su_doc": 2
   },
   {
    "id": "notifier:rtu01",
@@ -548,36 +519,6 @@
     "MNDT515"
    ],
    "_menciones_en_su_doc": 2
-  },
-  {
-   "id": "notifier:tg-6000",
-   "canonical_model": "TG-6000",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # TG-6000 ## *PROGRAMA DE GRÁFICOS Y GESTIÓN PARA CENT»",
-   "_manuales": [
-    "MNDT954"
-   ],
-   "_menciones_en_su_doc": 5
-  },
-  {
-   "id": "notifier:tg-6000-net",
-   "canonical_model": "TG-6000 Net",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 # TG-6000 Net *PROGRAMA DE GRÁFICOS Y GESTIÓN PARA CEN»",
-   "_manuales": [
-    "MNDT955"
-   ],
-   "_menciones_en_su_doc": 1
-  },
-  {
-   "id": "notifier:tg-notifier",
-   "canonical_model": "TG-NOTIFIER",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «ico constituye la ayuda para la modificación y configuración del sistema de Supervisión y Control **TG-NOTIFIER**. La información contenida en este ma»",
-   "_manuales": [
-    "MADT951_02",
-    "MI-DT-951_V7.2",
-    "MIDT951_v5-87",
-    "MN-DT-951_v7.2"
-   ],
-   "_menciones_en_su_doc": 4
   },
   {
    "id": "notifier:updl-1020",

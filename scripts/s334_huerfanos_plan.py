@@ -46,19 +46,77 @@ EVID = ROOT / "evals/s334_huerfanos_evidencia_v1.json"
 #: s324 (que es el recibo de un lote ya aplicado, no un borrador reutilizable).
 DESTINO = ROOT / "evals/s334_huerfanos_lote_{lote}_plan.json"
 
-#: El lote 1 son TODOS los fabricantes menos notifier: 28 ids con radio pequeño,
-#: para probar la maquinaria de punta a punta antes del lote grande (61 de
-#: notifier). El criterio no es «los fáciles»: es acotar el rollback.
+#: El lote 1 son TODOS los fabricantes menos notifier: radio pequeño, para probar
+#: la maquinaria de punta a punta antes del lote grande. El criterio no es «los
+#: fáciles»: es acotar el rollback.
 ORDEN = {"pequenos": lambda m: m != "notifier", "notifier": lambda m: m == "notifier"}
+
+#: FUERA por el dúo r42 (Sol xhigh + Fable 5). Los 7 pasaban G4 —desbloquean su
+#: manual— y aun así no entran: G4 mide que el manual LLEGUE, no que la fila sea
+#: un producto ni que no se pierda nada por el camino. Dos clases distintas:
+#:
+#:  · PRODUCTO-HOOD (Sol #1, Fable #2). «Clase A» sólo prueba que el token está
+#:    en el texto con frontera de palabra. No prueba que el documento trate DE él
+#:    (R9) ni que sea un producto (R14). Yo había afirmado en la propuesta que
+#:    «ninguna fila entra porque parece un modelo»: era falso para estas tres.
+#:  · ESTRECHAMIENTO (Fable #3). Promover puede QUITAR el paraguas de `models`
+#:    bajo la política de producción (`replace`) y dejar la consulta con menos
+#:    fuentes que antes. Es el mecanismo hp009/DEC-091b, medido aquí por primera
+#:    vez: mi G4 sólo preguntaba «¿llega su manual?», nunca «¿se pierde otro?».
+FUERA = {
+    # producto-hood
+    "notifier:eia-485": "R14' — EIA-485 es el bus serie (RS-485), no un producto Notifier. "
+                        "71 menciones en su doc porque el manual habla del CABLEADO del bus; "
+                        "promoverlo secuestraría toda consulta de bus de cualquier fabricante.",
+    "notifier:ad-pe": "R2 — «Versión Exd (AD-PE)» es un SUFIJO de variante, no un modelo suelto "
+                      "(1 sola mención, dentro de una tabla de versiones). El producto real, "
+                      "`notifier:smart-2-exd-ad-pe`, sí entra.",
+    "notifier:rhistorico.exe": "R10 se cumple (el software ES producto) pero la GRAFÍA no: el "
+                               "producto se llama «Reparación de Históricos»; `RHistorico.exe` es "
+                               "su ejecutable dentro de C:\\NOTIFIER\\Util. Renombrar el canónico "
+                               "es adjudicación (R8), no promoción.",
+    # estrechamiento medido
+    "notifier:tg-6000": "ESTRECHA: la consulta pierde el paraguas `TG` y con él los 4 manuales "
+                        "genéricos del TG (Introducción/Usuario/Técnico/requisitos del PC). "
+                        "4 fuentes → 1. Arreglarlo es una relación de catálogo, no una promoción.",
+    "notifier:tg-6000-net": "ESTRECHA igual que `tg-6000`: 4 fuentes → 1.",
+    "notifier:tg-notifier": "ESTRECHA igual: pierde los 4 genéricos del paraguas `TG` (gana 9, "
+                            "pero la pérdida es de los manuales que responden las consultas TG).",
+    "notifier:m710-cz": "ESTRECHA: pierde `M710` de `models` y 2 fuentes (la hoja combinada "
+                        "`I56-2005-002 M710 M720 M721 M701` y el conexionado del M710). Gana 4 "
+                        "propias, así que el saldo PARECE bueno — pero la regla que aplico a "
+                        "`tg-6000` no puede tener excepciones según me convenga el saldo: el "
+                        "instrumento marca estrechamiento y sale del lote autónomo.",
+    "systemsensor:8100e-faast": "ESTRECHA 14 fuentes → 1 y colapsa `models` de 14 a 2. La "
+                                "discriminación puede ser correcta, pero toca la atribución "
+                                "FAAST/Xtralis que YA está pendiente de Alberto.",
+}
+
+#: Alias que la promoción ACTIVARÍA en el detector y que no son identificadores de
+#: producto (Fable #6). No los crea este lote: ya están en `aliases.jsonl`; lo que
+#: hace la promoción es encenderlos. Se quita sólo lo indefendible —un código de
+#: edición documental—; el resto de higiene de alias va a TECH_DEBT, no aquí.
+ALIAS_FUERA = [{"alias": "MU 591 m 2024 a", "id": "detnov:pad-20",
+                "motivo": "s334: código de EDICIÓN del documento (MU 591 m 2024 a), no un "
+                          "identificador de producto; la promoción lo metía en el detector"}]
 
 
 def mejores_por_id(detalle: list[dict]) -> dict[str, dict]:
     """Un id puede atestar varios manuales; se queda con su mejor veredicto."""
-    rango = {"DESBLOQUEA": 0, "YA_ALCANZABLE": 1, "DETECTA_SIN_FUENTE": 2, "NI_DETECTA": 3}
+    rango = {"DESBLOQUEA": 0, "DESBLOQUEA_PERO_ESTRECHA": 1, "YA_ALCANZABLE": 2,
+             "DETECTA_SIN_FUENTE": 3, "NI_DETECTA": 4}
     out: dict[str, dict] = {}
     for d in detalle:
         if d["id"] not in out or rango[d["veredicto"]] < rango[out[d["id"]]["veredicto"]]:
             out[d["id"]] = d
+    # …salvo el ESTRECHAMIENTO, donde manda el PEOR caso: un id que desbloquea un
+    # manual limpiamente y estrecha en otro sigue estrechando. Tomar el mejor
+    # veredicto aquí escondería exactamente el daño que el veredicto existe para
+    # ver (y sería el «valido el número, no la definición del número» otra vez).
+    estrechan = {d["id"] for d in detalle if d["veredicto"] == "DESBLOQUEA_PERO_ESTRECHA"}
+    for pid in estrechan:
+        out[pid] = next(d for d in detalle
+                        if d["id"] == pid and d["veredicto"] == "DESBLOQUEA_PERO_ESTRECHA")
     return out
 
 
@@ -79,7 +137,7 @@ def main() -> int:
     filtro = ORDEN[lote]
     confirmar = []
     for pid, d in sorted(mejores.items()):
-        if d["veredicto"] != "DESBLOQUEA" or not filtro(pid.split(":", 1)[0]):
+        if d["veredicto"] != "DESBLOQUEA" or not filtro(pid.split(":", 1)[0]) or pid in FUERA:
             continue
         it = cita_de.get(pid, {})
         cita = (it.get("cita") or "").replace("\n", " ")[:150]
@@ -103,13 +161,16 @@ def main() -> int:
                     "H — fuera si su token tiene homónimo abierto (rebrand: adjudicación, R8)",
                     "G — fuera si su token ya resuelve a otro id (gemelo)",
                     "N — fuera si el detector no puede verlo (digit-only, paréntesis)",
-                    "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo"],
+                    "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo",
+                    "dúo r42 — fuera si la fila no es un PRODUCTO (R9/R14) o si promoverla "
+                    "ESTRECHA las fuentes de su propia consulta (mecanismo hp009/DEC-091b)"],
+        "fuera_por_el_duo": {k: v for k, v in FUERA.items() if filtro(k.split(":", 1)[0])},
         "products_altas": [],
         "products_confirmar": confirmar,
         "products_retirar": [],
         "products_redirect": [],
         "aliases_altas": [],
-        "aliases_quitar": [],
+        "aliases_quitar": [a for a in ALIAS_FUERA if filtro(a["id"].split(":", 1)[0])],
         "umbrellas_altas": [],
         "doc_map_altas": [],
         "doc_map_modificaciones": [],

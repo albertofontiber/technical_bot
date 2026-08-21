@@ -1,4 +1,47 @@
-# s334 — Ataque autónomo a los MANUALES HUÉRFANOS: 2 lotes firmados (89 ids, 69 manuales)
+# s334 — Ataque autónomo a los MANUALES HUÉRFANOS · v2 POST-DÚO (aplicado)
+
+> **Estado (21-ago, tras el dúo r42):** los dos lotes están **APLICADOS**. Lo que sigue es
+> el documento que fue al dúo, **corregido con lo que el dúo encontró** — no la versión que
+> pedía el GO. Las cifras de abajo son las finales; las de la v1 están tachadas donde
+> cambiaron, porque el recorte que impuso el dúo es lo más útil de todo el ejercicio.
+>
+> | | v1 (lo que yo proponía) | v2 (lo aplicado) |
+> |---|---|---|
+> | ids promovidos | 89 | **81** |
+> | manuales desbloqueados | 89 → luego 69 | **52** |
+> | huérfanos | 245 → 176 | **245 → 193** |
+> | instrumento de aceptación | G4 (agrupada, en bloque) | **G4-B** (aislada, par a par) |
+>
+> **Lo que el dúo cambió, y no es cosmético.** Once hallazgos, once verificados contra el
+> código y los recibos, cero falsos positivos. Dos tumbaron parte del lote:
+>
+> 1. **«Clase A» no prueba que la fila sea un PRODUCTO** (Sol #1 · Fable #2). Prueba que el
+>    token está en el texto con frontera de palabra, nada más. `notifier:eia-485` **es el bus
+>    RS-485**, no un producto Notifier: sus 71 menciones existen porque el manual explica el
+>    cableado del bus. Habría secuestrado toda consulta de bus de cualquier fabricante. Con
+>    él caen `ad-pe` (sufijo de variante) y `rhistorico.exe` (el ejecutable de «Reparación de
+>    Históricos»; R10 se cumple, la grafía no). Mi frase «ninguna fila entra porque parece un
+>    modelo» era **falsa** para esas tres.
+> 2. **Promover puede ESTRECHAR** (Fable #3), y mi instrumento no podía verlo porque sólo
+>    preguntaba «¿llega su manual?», nunca «¿se pierde otra fuente?». Medido:
+>    `8100E FAAST` pasa de 14 fuentes a 1 y de 14 modelos a 2; `TG-6000`, `TG-6000 Net` y
+>    `TG-NOTIFIER` pierden el paraguas `TG` y con él **los 4 manuales genéricos** que
+>    responden las consultas TG; `M710-CZ` pierde `M710`. Es el mecanismo hp009/DEC-091b.
+>    Los cinco fuera. **El veredicto `DESBLOQUEA_PERO_ESTRECHA` queda cableado en el
+>    instrumento**, así que la próxima tanda lo caza sola.
+>
+> Y los que corrigen el método sin mover el lote: la G4 original agrupaba fuentes y promovía
+> en bloque (Sol #2 → rehecha como **G4-B**, aislada par a par, 107/107); los dos dry-run
+> congelaban el mismo sha de `products`, así que el 2.º lote exigía re-dry-run tras aplicar
+> el 1.º (Sol #3 — se hizo así); «no es un lever de retrieval» era framing falso, porque
+> `models` alimenta también `hyq_models` y `keyword_search` (Sol #4); eran **36** negativos y
+> **52** gold, no 34 y 51 (Sol #5 · Fable #5); y la promoción **enciende** alias que ya
+> existían, uno de ellos un código de edición documental (`MU 591 m 2024 a`, Fable #6 →
+> retirado en el mismo lote).
+>
+> Nota de proceso: el emparejamiento automático Sol↔Fable falló porque commiteé entre las dos
+> ejecuciones y el manifiesto derivado dejó de coincidir. Los ficheros semilla sí eran los
+> mismos tres; falta el sello, no el segundo revisor. No volver a commitear entre Sol y Fable.
 
 **Qué se decide aquí:** si aplicar dos lotes `products_confirmar` sobre el catálogo
 gobernado que quitan `candidate` a 89 productos, con el efecto medido de sacar **69

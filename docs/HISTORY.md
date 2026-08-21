@@ -6827,3 +6827,71 @@ tumbado por whitespace cuya cadena con `;` dejó correr un gate repetido sobre l
 vieja, y un backtick ejecutado dentro de un `-m` que mutiló una línea de commit. Declaradas,
 con regla. PRs del día: #325 (cierre s331 + colisión de numeración con la sesión paralela),
 #327 (build s332 entero), #328 (fix s332b), #329 (s333, pendiente de merge). DEC-263→265 y 268 (266/267 son de la sesión paralela).
+
+---
+
+## s334 (21 ago 2026) — «¿puedes atacarlo de forma autónoma?»: 52 manuales rescatados, y las tres veces que el número que yo daba no era el número que había
+
+Alberto reencuadró el problema y el reencuadre era el trabajo: «sobre los 535 —aunque lo mejor
+creo que es enfocarlo desde el punto de vista de *manuales huérfanos*— ¿puedes atacarlo de forma
+autónoma?». Un candidate en cuarentena no le importa a nadie. Un **manual que no puede servir a
+nadie** sí: es un PDF pagado, ingerido, troceado y embebido que el bot no alcanza cuando el
+técnico pregunta por su modelo. Había 245.
+
+Empecé con 157 filas de «clase A» —token nombrado, marca resuelta, cita verificada con frontera
+de palabra en su propio documento— y la sensación de tener el trabajo hecho. Lo que pasó después
+fue que **cada vez que medí en vez de razonar, el número bajó**:
+
+- 157 no eran ids: eran **pares `(id × manual)`**. Ids distintos: **118**. Yo había escrito 149 en
+  la sesión anterior contando pares y llamándolos ids.
+- De los 110 que quedaban tras apartar riesgos declarados, la verificación con el resolver real
+  dejó **89**. Los 21 que se cayeron no eran ruido: eran tres fallos con nombre que **no se ven
+  desde el texto del documento**. Homónimos abiertos (`morley:sp-200` y `notifier:sp-200`
+  comparten token y su fila está `candidate:true/fail-open`, así que promover deja el término EN
+  el detector y el manual FUERA). Gemelos (`ID-3000` ya resuelve a `notifier:id3000`; `TG-1020`
+  resuelve a **`desico:tg-1020`**, que ni siquiera es la misma marca). Y no-detectables (`00051`
+  es digit-only y el detector los excluye a propósito; `EEV(2)` lleva paréntesis).
+- Y de los 89, el dúo tumbó **8 más**.
+
+**Lo que encontró el dúo r42 es lo mejor de la sesión.** Once hallazgos, once verificados contra
+el código y los recibos, cero falsos positivos.
+
+Sol atacó la raíz: **«clase A» no prueba que la fila sea un producto.** Prueba que el token está
+en el texto, y ya. `notifier:eia-485` estaba en mi lote con 71 menciones en su manual — porque
+**EIA-485 es el bus RS-485** y el manual explica cómo cablearlo. Promoverlo habría convertido
+cualquier consulta de bus, de cualquier fabricante, en una consulta sobre un documento de
+Notifier. Yo había escrito en la propuesta, con todas las letras, «ninguna fila entra porque
+parece un modelo». Era falso.
+
+Fable encontró la otra mitad, y es la que más me costó ver: **promover puede ESTRECHAR.** Mi
+instrumento preguntaba «¿llega su manual?» y nunca «¿se pierde alguna otra fuente?». Al medirlo:
+`8100E FAAST` pasaba de 14 fuentes a 1 y de 14 modelos a 2; `TG-6000`, `TG-6000 Net` y
+`TG-NOTIFIER` perdían el paraguas `TG` y con él **los 4 manuales genéricos del TG**, que son
+justo los que responden las consultas TG. Es el mecanismo hp009/DEC-091b, el mismo que hizo
+regresar a LEVER2, reapareciendo por una puerta que yo no estaba mirando. Uno de los cinco,
+`M710-CZ`, tenía saldo positivo (−2 fuentes, +4) y me tentó dejarlo dentro; lo saqué porque la
+regla que aplico a `TG-6000` no puede tener excepciones según me convenga el saldo.
+
+Ese veredicto ahora **está cableado en el instrumento** (`DESBLOQUEA_PERO_ESTRECHA`, con el peor
+caso mandando sobre el mejor), así que la próxima tanda lo caza sin que nadie tenga que acordarse.
+
+Por el camino apareció un hueco del gate que llevaba ahí desde s324: su censo mide
+`allowed_sources` —que sólo **añade**, porque la unión es protectora— y **no mide `models`**, que
+**resta** bajo la política de producción (`replace`). O sea que el gate no podía ver la clase de
+regresión que más nos ha costado históricamente. Nace `s334_huerfanos_seam1.py`: 0 pérdidas de
+modelo en 156 consultas, los dos lotes.
+
+**Resultado aplicado:** huérfanos 245 → **193**, cuarentena 601 → **520**, consumibles 1.024 →
+**1.105**. Y dos ganancias que no son estadística: la gold de `CS4` —el fallo que `HISTORY.md`
+documentaba como «CS4 es candidate → ni uno ni otro la reconoce»— y la de la resistencia de fin
+de línea del **NFS Supra**, que gana **9 fuentes**.
+
+**El patrón que se repite y que ya tiene nombre** (G1–G5, escritas la sesión anterior): valido el
+número y no la definición del número. Tres veces en dos sesiones, siempre sesgado hacia mi propia
+conclusión, siempre cazado por otro. La diferencia esta vez es que el instrumento se quedó
+arreglado, no sólo la cifra.
+
+**Nota de proceso:** commiteé entre la ejecución de Sol y la de Fable, y el emparejamiento
+automático falló porque el manifiesto derivado del snapshot dejó de coincidir. Las semillas eran
+las mismas y las dos reviews están guardadas y adjudicadas — falta el sello, no el revisor. No
+volver a commitear entre Sol y Fable.

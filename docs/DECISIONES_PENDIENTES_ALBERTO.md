@@ -97,6 +97,79 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
+## 🟡 Manuales huérfanos: lo que sí pude cerrar solo, y lo que necesita tu firma
+
+Pediste atacar los manuales sin modelo de forma autónoma. **Hecho: 245 → 193.** 81 productos
+salieron de la cuarentena (601 → 520) y **52 manuales** dejaron de ser inalcanzables por nombre
+de modelo. Todo con cita verificada en su propio documento, dry-run del gate en PASS y el efecto
+comprobado uno a uno con el resolver real. El resto **no lo toco porque no es mecánica, es
+adjudicación tuya**, y son tres preguntas concretas.
+
+### 1. Rebrands Morley ↔ Notifier ↔ Sensitron (10 ids, 5 tokens)
+
+Cinco tokens existen en **dos marcas a la vez** y su fila de homónimos está abierta
+(`candidate: true`, `fail-open`), así que el resolver se planta y el manual no llega. Promover el
+producto no arregla nada mientras el homónimo siga abierto. **¿Son el mismo producto rebrandeado,
+o dos productos distintos?**
+
+| token | ids | tu decisión |
+|---|---|---|
+| `MCX-55M` | `morley:mcx-55m` · `notifier:mcx-55m` | ¿mismo producto? |
+| `MMX-10M` | `morley:mmx-10m` · `notifier:mmx-10m` | ¿mismo producto? |
+| `NFS8REL` | `morley:nfs8rel` · `notifier:nfs8rel` | ¿mismo producto? |
+| `SP-200` | `morley:sp-200` · `notifier:sp-200` | ¿mismo producto? |
+| `PL4` | `notifier:pl4` · `sensitron:pl4` | ¿mismo producto? |
+
+Morley es marca del grupo (Honeywell), así que **mi apuesta es que los cuatro primeros son el
+mismo módulo con dos etiquetas** — pero R8 dice que la grafía la manda el fabricante y esto es
+exactamente el caso `D838-1_kac sounders` que ya nos mordió una vez. No lo decido yo.
+
+### 2. Gemelos: dos ids para un mismo token (4 ids)
+
+| candidate | ya resuelve a | qué pasa |
+|---|---|---|
+| `notifier:id-3000` («ID-3000») | `notifier:id3000` («ID3000») | misma marca, **grafía distinta**: ¿cuál es la canónica? |
+| `notifier:st.pl4+` («ST.PL4+») | `notifier:stpl4` («STPL4») | el gemelo **también** está en cuarentena |
+| `notifier:tg-1020` («TG-1020») | **`desico:tg-1020`** | **otra marca**: ¿colisión o rebrand? |
+| `sensitron:pl4+` («PL4+») | homónimo `PL4` abierto | depende de (1) |
+
+### 3. Los 8 que el dúo me hizo retirar del lote
+
+Pasaban mi filtro y aun así salieron. Los tres primeros porque **no son productos**; los cinco
+siguientes porque promoverlos **quitaba fuentes** a las consultas de esos mismos productos:
+
+- `notifier:eia-485` — **EIA-485 es el bus RS-485**, no un producto. Sus 71 menciones son el
+  manual explicando el cableado. Promoverlo habría secuestrado toda consulta de bus. → **retirar**.
+- `notifier:ad-pe` — «Versión Exd (AD-PE)» es un sufijo de variante (1 mención, en una tabla de
+  versiones). El producto real, `notifier:smart-2-exd-ad-pe`, sí entró.
+- `notifier:rhistorico.exe` — el software **sí** es producto (tu R10), pero se llama «Reparación
+  de Históricos»; `RHistorico.exe` es su ejecutable. → **renombrar el canónico**.
+- `notifier:tg-6000`, `notifier:tg-6000-net`, `notifier:tg-notifier` — al promoverlos, la consulta
+  pierde el paraguas `TG` y con él **los 4 manuales genéricos del TG** (Introducción, Usuario,
+  Técnico, requisitos del PC), que son justo los que responden. → hace falta una **relación de
+  catálogo** que ate los TG-xxxx a esos genéricos, no una promoción.
+- `systemsensor:8100e-faast` — igual, pero peor: 14 fuentes → 1. Y toca la atribución
+  **FAAST/Xtralis** que ya tienes pendiente más arriba.
+
+### 4. Lo que queda huérfano y por qué (193)
+
+- **181** son `unresolved:` — sin marca. Asignar fabricante es adjudicación, no mecánica.
+- **53** no tienen ningún candidate: sus ids están retirados o son redirect. Es otro problema.
+- **15** no tienen cita limpia en su propio documento; **7** son acrónimos cortos (`VIEW` sale
+  1.648 veces en el corpus por ser una palabra inglesa).
+- **5** el detector no puede ni verlos: `00051`, `03382`… son referencias puramente numéricas y
+  `EEV(2)` lleva paréntesis.
+
+### 5. Una que te menciono sin bloquear nada
+
+Cuatro productos que entraron llevan namespace `notifier:` y son **Sensitron** en la portada
+(`SMART 3 CC-CD`, `SMART 3 CD`, `SMART3G-D`, `SMART3G`). Los manuales son de Notifier España
+(MN-DT-62x) y el técnico pregunta por el modelo, no por el namespace, así que los dejé dentro
+para no tener 3 manuales huérfanos por una cuestión de contabilidad. Si prefieres moverlos a
+`sensitron:`, es un redirect y es barato.
+
+---
+
 ## ⚪️ Y lo que ya no te espera
 
 - **La Wiki de modelos está construida**, como pediste, en `/catalogo` del panel. 1.024 modelos,

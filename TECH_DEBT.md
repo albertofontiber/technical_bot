@@ -3708,3 +3708,35 @@ lanza en el caso que te preocupa** no es un guardarraíl, es un comentario. Y el
 probaba una ficción, daba verde, y por eso el fallo llegó a producción. El test se reescribió para
 simular el fallo REAL (directorio vacío) y se comprobó con control negativo que se pone rojo sin el
 arreglo.
+
+---
+
+## 99. La promoción de un candidate ENCIENDE sus alias en el detector, y nadie los ha adjudicado (s334)
+
+**Qué pasa.** Quitar `candidate` a un producto no sólo mete su canónico en el detector: mete
+también **todos sus alias**, que ya estaban en `aliases.jsonl` sin revisar. En los dos lotes de
+s334 se activaron 70 alias, y entre ellos hay basura que no identifica ningún producto:
+
+- `MU 591 m 2024 a` (`detnov:pad-20`) — **código de edición del documento**. Retirado en el lote.
+- `Versión de Unipoint con entrada 4-20 mA` (`zareba:2306b1000`), `La central AM-200`,
+  `Programa Fuera Linea Version 2.1`, `Securnet v1.00b36`, `TG-6000 VER 3.2`,
+  `TGNOTIFIER VERSION 3.2` — frases descriptivas y **cadenas de versión**.
+- `FAAST LT 5.5m 304 Series` colgando de `notifier:nxfi-copt22` — atribución dudosa.
+
+**Por qué no se arregló ya.** Retirar alias tiene su propio radio de explosión y su propia
+adjudicación: `Versión de Unipoint con entrada 4-20 mA` **discrimina** el 2306B1000 del
+2306B2000 y un técnico podría escribir justo eso. En el lote s334 se retiró sólo lo
+indefendible (un código de edición) para no convertir un lote de promoción en una limpieza de
+alias sin medir.
+
+**Por qué importa.** El censo del gate lista `alias_activados` con `entra_en_detector`, así que
+el dato está delante — pero **no es criterio de STOP**. Un alias basura que entra al detector es
+un término más que puede disparar en prosa, con el agravante de que nadie lo eligió: llegó de
+rebote al promover otra cosa.
+
+**Trigger.** Cuando (a) un lote de promoción active >20 alias de golpe, o (b) el censo de tráfico
+real muestre una detección nueva causada por un alias y no por un canónico. Entonces: pasada de
+higiene sobre `aliases.jsonl` con reglas mecánicas (códigos de edición, cadenas de versión,
+frases con artículo) + gate propio, **antes** del siguiente lote grande.
+
+**Descubierto por**: Fable 5, dúo r42 (`evals/adversarial_review_log.jsonl` ts=2026-08-21T14:13:43).

@@ -17,12 +17,15 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s331d (21 ago 2026) — EL PANEL GANA LA WIKI DE MODELOS.** `/catalogo` es una vista de
-> **sólo lectura** sobre el catálogo gobernado (`data/catalog/*.jsonl`), la misma estructura que el
-> bot consulta en runtime: no hay segunda copia que pueda divergir. Enseña **1.024 modelos que el bot
-> usa** en 36 marcas, con sus manuales, sus alias y sus paraguas, más las dos preguntas que hasta
-> ahora no se veían en ningún sitio: **55 modelos sin ningún manual** y **245 manuales huérfanos**
-> (184 de ellos sólo porque todos sus ids siguen en cuarentena). Los **81 `redirect` entre marcas**
+> **Estado s334 (21 ago 2026) — EL PANEL GANA LA WIKI DE MODELOS. Y LA WIKI DESTAPÓ TRABAJO.**
+> `/catalogo` es una vista de **sólo lectura** sobre el catálogo gobernado (`data/catalog/*.jsonl`).
+> la misma estructura que el bot consulta en runtime: no hay segunda copia que pueda divergir.
+> Enseña **1.105 modelos que el bot usa** en 36 marcas. con sus manuales. sus alias y sus
+> paraguas. más las dos preguntas que hasta ahora no se veían en ningún sitio: **55 modelos sin
+> ningún manual** y **193 manuales huérfanos**. La cifra de huérfanos era **245** cuando la Wiki la
+> destapó (s331d): el ataque autónomo de s334 (DEC-269) promovió **81 productos verificados uno a
+> uno con el resolver** y rescató **52 manuales** — cuarentena 520 (era 601). consumibles
+> 1.105 (eran 1.024). Los **81 `redirect` entre marcas**
 > son clase propia — la vista OEM. Cambiar el catálogo sigue pasando por el lote firmado con recibo;
 > la Wiki es donde se VE el problema, no donde se arregla (DEC-267).
 >

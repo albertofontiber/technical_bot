@@ -5,8 +5,12 @@
   "H — fuera si su token tiene homónimo abierto (rebrand: adjudicación, R8)",
   "G — fuera si su token ya resuelve a otro id (gemelo)",
   "N — fuera si el detector no puede verlo (digit-only, paréntesis)",
-  "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo"
+  "G4 — dentro SÓLO si resolve_query pasa de no traer su manual a traerlo",
+  "dúo r42 — fuera si la fila no es un PRODUCTO (R9/R14) o si promoverla ESTRECHA las fuentes de su propia consulta (mecanismo hp009/DEC-091b)"
  ],
+ "fuera_por_el_duo": {
+  "systemsensor:8100e-faast": "ESTRECHA 14 fuentes → 1 y colapsa `models` de 14 a 2. La discriminación puede ser correcta, pero toca la atribución FAAST/Xtralis que YA está pendiente de Alberto."
+ },
  "products_altas": [],
  "products_confirmar": [
   {
@@ -63,15 +67,6 @@
     "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694"
    ],
    "_menciones_en_su_doc": 20
-  },
-  {
-   "id": "systemsensor:8100e-faast",
-   "canonical_model": "8100E FAAST",
-   "provenance_add": "s334 huérfano-desbloqueado: su manual no era alcanzable por nombre de modelo y ahora sí (G4 verificado con resolve_query). Cita en su propio doc: «I56-3836-006 # INSTALLATION AND MAINTENANCE INSTRUCTIONS # ENGLISH # 8100E FAAST # Fire Alarm Aspiration Sensing Technology® **SYSTEM SENSOR** Pittway»",
-   "_manuales": [
-    "I56-3836-006_FAAST_XM_8100E_ML"
-   ],
-   "_menciones_en_su_doc": 4
   },
   {
    "id": "systemsensor:agileiq",
@@ -266,7 +261,13 @@
  "products_retirar": [],
  "products_redirect": [],
  "aliases_altas": [],
- "aliases_quitar": [],
+ "aliases_quitar": [
+  {
+   "alias": "MU 591 m 2024 a",
+   "id": "detnov:pad-20",
+   "motivo": "s334: código de EDICIÓN del documento (MU 591 m 2024 a), no un identificador de producto; la promoción lo metía en el detector"
+  }
+ ],
  "umbrellas_altas": [],
  "doc_map_altas": [],
  "doc_map_modificaciones": [],

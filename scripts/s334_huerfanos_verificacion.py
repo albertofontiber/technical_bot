@@ -42,6 +42,11 @@ from collections import defaultdict
 from pathlib import Path
 
 os.environ.setdefault("CHUNKS_TABLE", "chunks_v2")
+# La política de PRODUCCIÓN (perfil C1, fail-fast en `release_profiles.py`). Bajo
+# `add` el seam 1 no puede restar, así que medir con el default daría un «0
+# pérdidas» tranquilizador y falso.
+os.environ["IDENTITY_RESOLVE"] = "on"
+os.environ["IDENTITY_RESOLVE_POLICY"] = "replace"
 
 import httpx
 from dotenv import load_dotenv
@@ -53,6 +58,7 @@ from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY      # noqa: E402
 from src.rag import catalog_store as cs                        # noqa: E402
 from src.rag import catalog_resolver as R                      # noqa: E402
 from src.rag.catalog_store import CATALOG_DIR, FILES           # noqa: E402
+from src.rag.retriever import extract_product_models           # noqa: E402
 
 H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
 EVIDENCIA = ROOT / "evals/s334_huerfanos_evidencia_v1.json"
@@ -73,6 +79,10 @@ def _paginado(c: httpx.Client, tabla: str, params: dict) -> list[dict]:
         off += 1000
 
 
+def _nt(s: str) -> str:
+    return cs.norm_token(s)
+
+
 def resolver_sobre(catalog_dir: Path, consultas: list[str]) -> dict[str, dict]:
     """`resolve_query` REAL con el catálogo de `catalog_dir` (mismo monkeypatch que el gate)."""
     orig = cs.load
@@ -81,9 +91,14 @@ def resolver_sobre(catalog_dir: Path, consultas: list[str]) -> dict[str, dict]:
         R._loaded = False
         R._pattern = None
         R._build()
-        return {q: {"detected": R.resolve_query(q)["detected"],
-                    "allowed_sources": sorted(R.resolve_query(q)["allowed_sources"])}
-                for q in consultas}
+        out = {}
+        for q in consultas:
+            r = R.resolve_query(q)
+            out[q] = {"detected": r["detected"],
+                      "allowed_sources": sorted(r["allowed_sources"]),
+                      # seam 1: lo que de verdad alimenta `_filter_to_query_models`
+                      "models": R.apply_to_models(extract_product_models(q), r)}
+        return out
     finally:
         cs.load = orig
         R._loaded = False
@@ -189,8 +204,17 @@ def main() -> int:
         b = set(despues[q]["allowed_sources"])
         ya = bool(srcs & a)
         gana = bool(srcs & b)
+        # ESTRECHAMIENTO (dúo r42, Fable #3): promover puede QUITAR el paraguas de
+        # `models` bajo `replace` y dejar la consulta con MENOS fuentes que antes.
+        # Es el mecanismo hp009/DEC-091b. Preguntar sólo «¿llega su manual?» no lo
+        # ve: hay que preguntar además «¿se pierde alguna otra?».
+        perdidas = a - b
+        modelos_perdidos = ({_nt(x) for x in antes[q]["models"]}
+                            - {_nt(x) for x in despues[q]["models"]})
         if ya:
             v = "YA_ALCANZABLE"       # promover no paga: otro id ya lo trae
+        elif gana and (perdidas or modelos_perdidos):
+            v = "DESBLOQUEA_PERO_ESTRECHA"
         elif gana:
             v = "DESBLOQUEA"          # es lo que decimos que hace
         elif despues[q]["detected"]:
@@ -199,6 +223,9 @@ def main() -> int:
             v = "NI_DETECTA"          # promover no cambia nada: término inerte
         veredictos[v].append(f["id"])
         detalle.append({"id": f["id"], "canonico": q, "veredicto": v,
+                        "fuentes_perdidas": sorted(perdidas)[:12],
+                        "modelos_perdidos": sorted(modelos_perdidos),
+                        "models_antes": antes[q]["models"], "models_despues": despues[q]["models"],
                         "detected_despues": despues[q]["detected"],
                         "fuentes_del_id": sorted(srcs)[:4],
                         "allowed_sources_antes": len(a), "allowed_sources_despues": len(b),
@@ -207,11 +234,14 @@ def main() -> int:
                         "doc_chunks": con_chunks.get(docid_de.get(f["id"], ""))})
     etiquetas = {
         "DESBLOQUEA": "la consulta por el modelo NO traía su manual y ahora SÍ  ← lo que pagamos",
+        "DESBLOQUEA_PERO_ESTRECHA": "trae su manual pero PIERDE fuentes o modelos "
+                                    "(mecanismo hp009/DEC-091b) → fuera del lote autónomo",
         "YA_ALCANZABLE": "su manual ya salía por otra vía: promover no lo desbloquea",
         "DETECTA_SIN_FUENTE": "el término entra en el detector pero el manual no llega",
         "NI_DETECTA": "promover no cambia nada: término inerte (riesgo sin beneficio)",
     }
-    for k in ("DESBLOQUEA", "YA_ALCANZABLE", "DETECTA_SIN_FUENTE", "NI_DETECTA"):
+    for k in ("DESBLOQUEA", "DESBLOQUEA_PERO_ESTRECHA", "YA_ALCANZABLE",
+              "DETECTA_SIN_FUENTE", "NI_DETECTA"):
         if veredictos.get(k):
             print(f"  {k:20s} {len(veredictos[k]):4d}  {etiquetas[k]}")
             for pid in veredictos[k][:4]:

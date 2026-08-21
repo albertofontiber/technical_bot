@@ -29,6 +29,24 @@
 ## Estado actual (21 ago 2026 — DOS hilos: correcciones/asunciones VISIBLES listas para ship, y el packet E1 CERRADO con su aprendizaje convertido en reglas)
 
 
+**s334 (DEC-269) — los manuales huérfanos, atacados de forma autónoma: 245 → 193.** Encargo de
+Alberto con su reencuadre («la unidad es el MANUAL, no el candidate»). Dos lotes firmados de
+`products_confirmar` **aplicados** por el gate de s324: **81 productos** salen de la cuarentena
+(601 → 520; consumibles 1.024 → **1.105**) y **52 manuales** dejan de ser inalcanzables por nombre
+de modelo. Dry-run PASS en los dos, 0 gold perdidas, 0 disparos en 36 negativos; ganan
+`fidegas:cs4` (el fallo documentado del FOCO 1) y `notifier:nfs-supra` **+9 fuentes**.
+**El método es lo que hay que retener: «el token está en el texto» NO es criterio de promoción.**
+601 → 245 huérfanos → 157 pares clase A → 118 ids → 110 → **89 verificados con el resolver** →
+**81 tras el dúo** → 52 manuales. Guardas nuevas mecánicas y agnósticas de marca (**H** homónimo
+abierto · **G** gemelo · **N** no detectable · **G4** desbloqueo verificado). Dúo r42 (Sol+Fable):
+**11 hallazgos, 11 verificados, 0 FP**, y dos tumbaron lote — «clase A» no prueba producto-hood
+(`notifier:eia-485` **es el bus RS-485**) y **promover puede ESTRECHAR** (`8100E FAAST` 14 fuentes
+→ 1; los TG pierden sus 4 manuales genéricos) = mecanismo hp009/DEC-091b, ahora **cableado como
+veredicto `DESBLOQUEA_PERO_ESTRECHA`**. Tapado además un hueco del gate: medía `allowed_sources`
+(sólo añade) y no `models` (resta bajo `replace`) → `scripts/s334_huerfanos_seam1.py`, 0 pérdidas
+en 156 consultas. Residuo a Alberto: 5 rebrands Morley↔Notifier↔Sensitron, 4 gemelos, 8 retirados
+por el dúo (`docs/DECISIONES_PENDIENTES_ALBERTO.md`).
+
 **s332 (DEC-264) — los dos GO de la mañana, ejecutados y medidos el mismo día**: tabla ASR con
 modo/case/cita por fila (bqide→Kidde reescrito con AVISO; ID↔Kidde solo-aviso case-sensitive —
 ID3000 es familia real de Notifier; el «id» español no dispara) + primitiva `Asuncion`
