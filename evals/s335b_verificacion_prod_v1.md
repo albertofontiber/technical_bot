@@ -86,9 +86,12 @@ con «centrales» habría ido al atajo.
 **Hueco de observabilidad detectado (menor, declarado):** la columna `response` de
 `query_logs` trunca a 4096 chars; la respuesta de T2 la supera y el sufijo ℹ️ (que se
 aplica ANTES del log, tras las referencias) queda fuera del texto persistido — NO
-verificable desde el log; la traza sí estampa la asunción. Confirmación visual del
-sufijo en el chat pendiente de Alberto. Si molesta, el arreglo natural es loggear el
-answer completo o estampar el sufijo aparte — decisión menor, no urgente.
+verificable desde el log; la traza sí estampa la asunción. **RESUELTO en s335c**: Alberto confirmó
+visualmente la línea ℹ️ al final (19:02, con scroll) y adjudicó moverla a
+CABECERA — el control va ANTES del contenido. Cambiado (`_con_prefijo_asunciones`),
+manteniendo la aplicación DESPUÉS de las escrituras de estado (el orden protege
+`last_answer_excerpt`/`last_response`; test de fuente lo pinna). Bonus: en cabecera
+la nota entra en los primeros 4096 del log y este hueco se cierra.
 
 Con esto, el ship s335 queda **verificado ENTERO en producción**. Siguen pendientes de
 Alberto: etiqueta del límite «¿Y de {marca}?» (v4 si corrección) · GO lote
