@@ -10576,3 +10576,41 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   dúo y el gate como cualquier otro, y 24 de los 34 siguen siendo adjudicación de Alberto (R21).
 - **Ref**: `scripts/s338_resolucion_multicanal.py` · `evals/s338_resolucion_multicanal.json` ·
   `evals/s338_{web_resultados,catalogo_fabricante}.json` · `docs/REVISION_ALBERTO_HUERFANOS.md`
+
+## DEC-279
+
+**Adjudicaciones de Alberto del 21-ago sobre los huérfanos, y dónde vive su cola para que no se
+pierda.** · impacto MEDIO · s339 · 22-ago
+
+- **Lo que zanjó, literal**:
+  1. **«Detnov OK»** → el **nº de referencia del fabricante VALE como cita bajo R4** cuando el
+     manual no usa el nombre de modelo (`MAD-491` ↔ `55349102`, verificado en el texto del PDF, ya
+     alias en el catálogo y coincidente con el nombre del fichero: doble ancla). Afecta a 15
+     manuales. **14 no tienen gemelo**, así que no hay nada más que adjudicar en ellos: son
+     promoción, y quedan del lado mío. El 15º (`unresolved:mad-450` → `detnov:mad-450`) sí tiene
+     gemelo y sigue en su cola.
+  2. **«Ojo que los TG son software»** → la familia TG es software y por **R10** el software ES
+     producto consultable: **no se retiran**. Propuesta acompañante (sin aplicar): marcarlos
+     `categoria: software de configuración`, campo que ya existe y usan 4 productos.
+  3. **Ambiguos 1 y 3**: `HLSI-MN-025-I_NFS Supra` → **`morley:vsn12-2plus`** (el manual es de la
+     serie NFS Supra de Morley) y `TG-1020-INT` → **`notifier:tg-1020`** (coherente con que los TG
+     sean su software). La evidencia de corpus respalda las dos: «VSN12-2Plus» aparece en Morley 2
+     / Notifier 1; «TG-1020» en Notifier 15 / Morley 1 / Xtralis 1.
+- **Por qué existe este DEC** (y es la parte de método): sus respuestas vivían **sólo** en la tabla
+  de cabecera de `docs/REVISION_ALBERTO_HUERFANOS.md`, que es un fichero **que yo genero**. Una
+  adjudicación suya que sólo existe en la salida de un generador mío no es traza: se pierde en
+  cuanto el generador cambie. La traza canónica de una decisión med/alto es `DECISIONS.md`, y aquí
+  está.
+- **Dónde vive la cola, y los dos agujeros que tenía**:
+  - **canónico → `docs/REVISION_ALBERTO_HUERFANOS.md`** (82 huérfanos, 22 decisiones,
+    regenerable con `scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo).
+  - **agujero 1**: el **PLAN no lo mencionaba**, y el PLAN es lo que `CLAUDE.md` manda releer en
+    CADA arranque. Un pendiente que el arranque canónico no ve, no existe. → añadido como punto
+    `0a` de «QUÉ SIGUE».
+  - **agujero 2**: `docs/DECISIONES_PENDIENTES_ALBERTO.md` guardaba una **copia desfasada** de la
+    misma cola (decía «245 → 134» con 82 vivos). Dos documentos con la misma cola y uno mal es
+    peor que uno solo → su bloque de huérfanos pasa a ser un puntero, no una copia.
+- **Alternativa descartada**: mantener la cola en el PLAN. Es lo que DEC-036 ya prohibió (el PLAN
+  se relee cada arranque y llegó a 123KB por acumular estado). El PLAN apunta; el packet detalla.
+- **Ref**: `docs/REVISION_ALBERTO_HUERFANOS.md` · `docs/PLAN_RAG_2026.md` §QUÉ SIGUE 0a ·
+  `docs/DECISIONES_PENDIENTES_ALBERTO.md` · DEC-275/276/277/278

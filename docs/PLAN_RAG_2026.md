@@ -184,6 +184,17 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
+0a. 📋 **COLA DE DECISIONES DE ALBERTO sobre los manuales huérfanos → el canónico es
+   [`docs/REVISION_ALBERTO_HUERFANOS.md`](REVISION_ALBERTO_HUERFANOS.md)** (generado por
+   `scripts/s337_packet_revision_alberto.py`, regenerable). **82 huérfanos en 22 decisiones**, una
+   fila = una decisión, cada una con recomendación y el canal de evidencia a la vista. Ya contestó
+   (DEC-279): «Detnov OK» (R4), «los TG son software» (R10) y los ambiguos 1 y 3. **Lo que más
+   rinde de lo que queda**: los 5 redirects de §1 (**17 manuales**; `unresolved:id50` →
+   `notifier:id-50` vale 12 él solo, simulado 82→65 sin huérfanos nuevos), las 4 fusiones de §4 (7)
+   y el «¿promover sin marca?» de §7 (10). **Del lado mío queda desbloqueado**: los **14 Detnov sin
+   gemelo**, que con su OK sólo necesitan lote + dúo + gate. *Este punto se cierra cuando el packet
+   quede sin casillas sin marcar.*
+
 0b. **s331 variantes-en-hilo — ✅ SHIPPED Y VERIFICADO EN PRODUCCIÓN** (DEC-257/258/**263**):
    flip de Alberto 21-ago 07:37Z (4 vars, deploy SUCCESS, interlock pasado) y **verificación
    DEC-099 CERRADA a las 07:50Z**: la conversación real re-lanzada por VOZ — T2 «¿cómo la

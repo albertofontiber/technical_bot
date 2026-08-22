@@ -97,82 +97,19 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
-## 🔴 Manuales huérfanos: 245 → 82, y **5 líneas tuyas los bajan a 65**
+## 🔴 Manuales huérfanos → **este bloque se mudó**
 
-Me dijiste que atacara hasta 10. Bajé de **245 a 82** y ahí me paré, pero esta vez no me paré por
-prudencia: **medí por qué**, y el resultado es que el cuello de botella dejó de ser técnico.
+El detalle vivía aquí y se quedaba desfasado cada vez que avanzaba el trabajo (llegó a decir
+«245 → 134» cuando ya iban 82). Dos documentos con la misma cola, uno mal, es peor que uno solo.
 
-### Lo primero: 5 decisiones que valen 17 manuales
+👉 **La cola canónica de huérfanos es [`REVISION_ALBERTO_HUERFANOS.md`](REVISION_ALBERTO_HUERFANOS.md)**:
+82 huérfanos en 22 decisiones, una fila = una decisión, con recomendación y evidencia. Se
+**regenera** con `python scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo, así que
+no puede quedarse viejo mientras alguien lo regenere.
 
-Son redirects de un `unresolved:X` a su gemelo **que YA es consumible** — mismo canónico, uno con
-la marca puesta y otro sin ella. **R21 dice que esto lo firmas tú**, y por eso no lo he tocado.
-
-| firma esto | manuales que desbloquea |
-|---|---|
-| `unresolved:id50` → `notifier:id-50` | **12** (`MADT155_*`, `MCDT155/156`, `MFDT155/156`, `MIDT155/156`, `TIDT107`, `BIDT077`) |
-| `unresolved:tg` → `notifier:tg` | 2 |
-| `unresolved:id60` → `notifier:id-60` | 1 |
-| `unresolved:tg-gsm` → `notifier:tg-gsm` | 1 |
-| `unresolved:mad-450` → `detnov:mad-450` | 1 |
-
-**Simulado sobre una copia del catálogo, no razonado: 82 → 65, y 0 huérfanos nuevos.**
-👉 *Un «ok a las 5» y lo aplico con gate y recibo.*
-
-### Cuatro que no puedo proponerte porque el gemelo existe en DOS marcas
-
-| documento | el token lo ocupan |
-|---|---|
-| `HLSI-MN-025-I_NFS Supra Series v05` | `morley:vsn12-2plus` **y** `notifier:vsn12-2plus` |
-| `VSN-CO-Mantenimiento-y-vida-util…` | `morley:vsn-co` **y** `notifier:vsn-co` |
-| `TG-1020-INT` | `desico:tg-1020` **y** `unresolved:tg-1020` (y el candidate de Notifier) |
-| `TG-Honeywell_Usuario_PT` | `notifier:id3000` ya es consumible; `notifier:id-3000` es su gemelo con guion |
-
-Los dos últimos los cazó el gate y el dúo cuando intenté promoverlos: no son promociones, son
-gemelos ortográficos. Y siguen las **3 fusiones Morley↔Notifier** de siempre (`NFS8REL`,
-`MCX-55M`, `MMX-10M`), cada una con manual huérfano en los dos lados → **6 más de golpe**.
-
-### Y una pregunta de regla que vale 15 manuales
-
-Los manuales Detnov **no usan el nombre de modelo: usan el número de referencia**. `MAD-491` es
-`55349102`, `MAD-461` es `55346102`. Lo verifiqué leyendo el PDF original: la referencia está en
-el texto, **ya es alias en el catálogo**, y coincide con el nombre del fichero (doble ancla).
-
-👉 **¿Vale el nº de referencia del fabricante como cita válida bajo R4 cuando el manual no usa el
-nombre de modelo?** Si vale, son **15** de golpe. Si no, se quedan.
-
-### El suelo, y por qué 10 no sale sin ti
-
-Medí los 82 leyendo **el PDF original de cada uno** (`s336b`/`s336c`, los 84 de entonces):
-
-| | n | qué lo desbloquea |
-|---:|---|---|
-| redirect `unresolved:` pendiente | 29 | **tú** (los 17 de arriba + los ambiguos) |
-| promovible con cita verificada | 20 | mío — **hechos los que pasan R19/R21: 2** |
-| sólo nº de referencia | 15 | **tú**, la pregunta de arriba |
-| el manual no nombra su producto | 13 | nada: no lo atesta |
-| canónico digit-only | 4 | irreducible, el detector los excluye a propósito |
-| PDF escaneado | 2 | lector multimodal |
-| sin PDF | 1 | — |
-
-**53 de los 82 están gated en decisiones tuyas.** No hay camino autónomo a 10 sin saltarme R21,
-que es exactamente lo que el dúo me cazó intentando en r43.
-
-### Lo que sí hice solo, y lo que me costó
-
-De los 20 «promovibles», **R19 y R21 se comieron 17**. Y el que mejor pinta tenía, `AM-LCD`, lo
-mató la medida que hice para defenderlo: Fable señaló que el censo del gate lo flagea
-`[sin_digitos, acronimo_corto]` —la clase con la que la regla mata `NAS`—, medí su huella en el
-corpus esperando limpiarlo, y **uno de sus 6 documentos es un falso positivo real**: «Pantalla
-**FM/AM LCD**» de un manual de radio. Quedaron **2**: `SDX-751-TEM` y `LPX-751`.
-
-Eso deja una pregunta abierta que no es de este lote y que arreglaría `AM-LCD` de raíz:
-**¿debe un término sin dígitos exigir el separador en el detector?** (hoy `am[-\s/.+]*lcd` acepta
-el espacio, y por eso «FM/AM LCD» cuela). Tiene que ir con su propia medida.
-
-**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)` —
-referencias puramente numéricas o con paréntesis, que el detector excluye **a propósito**. De
-`3466` te traigo un dato nuevo: leí su PDF escaneado con Claude y **la página sí imprime «3466»**,
-así que la cita existe; lo que no existe es un nombre de producto que el detector pueda ver.
+Estado en una línea: **245 → 82**, de los cuales **13 son suelo real** (no bajan) y el resto se
+reparte entre decisiones tuyas y un lote mío ya desbloqueado (los 14 Detnov sin gemelo). Lo que
+ya contestaste está en **DEC-279**.
 
 ---
 
