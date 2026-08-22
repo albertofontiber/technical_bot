@@ -333,10 +333,18 @@ LECTURA_S3: dict[str, dict] = {
                 "se titula «MÓDULO AISLADOR **Y** ZÓCALO AISLADOR», o sea DOS productos, y nombra "
                 "**MAD-490 (8 apariciones) y MAD-492 (8)**. Su conjetura queda confirmada por el "
                 "documento del fabricante. "
+                "CONTRASTE con el catálogo, declarado porque NO corrobora: el catálogo Detnov "
+                "2025 (el italiano, `TP003-it`) no lista MAD-490, ni 491, ni 492 — su gama de "
+                "módulos es la de sufijo `-I` (MAD-401-I, MAD-411-I, MAD-421-I…). Eso NO es "
+                "evidencia en contra: **R18 dice explícitamente que no se retira por obsoleto, "
+                "«hay instalaciones que lo llevan»**, y el manual que los nombra sigue publicado "
+                "hoy en detnov.com. Manda el manual vivo; el catálogo sólo dice que no es gama "
+                "corriente. "
                 "QUEDA ABIERTO y es otra pregunta: el manual viejo se titula MAD-4**91** y lleva "
                 "esa MISMA referencia 55349102, así que o MAD-491 se renombró a MAD-490/492 o la "
-                "referencia cubre la familia. No hace falta resolverlo para dar de alta los dos "
-                "productos, pero sí para decidir qué pasa con `detnov:mad-491`"},
+                "referencia cubre la familia. El catálogo TAMPOCO lo resuelve (no lista ninguno de "
+                "los tres). No hace falta para dar de alta los dos productos, pero sí para decidir "
+                "qué pasa con `detnov:mad-491`"},
     "55350005 Manual Central Monoxido CMD-500 ES ": {
         "modelos": ["detnov:cmd-501", "detnov:cmd-502", "detnov:cmd-503"],
         "canonicos": {"detnov:cmd-501": "CMD-501", "detnov:cmd-502": "CMD-502",
