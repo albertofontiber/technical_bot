@@ -68,6 +68,11 @@ CATEGORIAS = {
 TECNOLOGIAS = {"analogica", "convencional", "algoritmica", "aspiracion",
                "via_radio"}
 CLAVES_ATRIBUTO = {"tecnologia", "lazos", "zonas", "protocolo"}
+# (s336, #76b) Ejes CERRADOS del marcador `alcance` de un valor de atributo.
+# v1 reclama SOLO el eje derivable mecánicamente del doc atribuido (idioma);
+# mercado/variante exigen adjudicación y quedan declarados abiertos — cualquier
+# divergencia de capacidad entre docs va a packet, jamás write-fusión.
+EJES_ALCANCE = {"idioma_doc"}
 TIPOS_REL = {"variant-of", "rebrand-of", "shared-doc", "supersedes"}
 TIPOS_DOCREL = {"language-variant-of", "revision-of"}
 ROLES = {"primary", "secondary"}
@@ -273,6 +278,14 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
                 errors.append(
                     f"products[{pid}]: clasificacion inválida — exige "
                     f"{{categoria∈enum, cita, provenance}}")
+            # (s336, Sol2-2) `doc` = el source_file que FUNDÓ la categoría —
+            # sin él la cita no es auditable a posteriori. OPCIONAL aquí (las
+            # 171 filas pre-s336 no lo llevan; migración no retroactiva,
+            # declarada), pero si viene, no puede venir vacío. El writer s336
+            # lo escribe SIEMPRE.
+            elif "doc" in cual and not str(cual.get("doc") or "").strip():
+                errors.append(
+                    f"products[{pid}]: clasificacion.doc presente pero vacío")
         if "atributos" in r:
             at = r["atributos"]
             if not isinstance(at, dict) or set(at) - CLAVES_ATRIBUTO:
@@ -324,6 +337,20 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
                         if clave == "protocolo" and not str(v.get("valor") or "").strip():
                             errors.append(
                                 f"products[{pid}]: protocolo sin valor")
+                        # (s336, #76b) `alcance` OPCIONAL por valor: forma
+                        # cerrada {eje∈EJES_ALCANCE, valor}. El display sirve
+                        # POR FUENTE las entradas con alcance distinto (jamás
+                        # el max fusionado) — ver telegram_bot._casa.
+                        if "alcance" in v:
+                            al = v["alcance"]
+                            if (not isinstance(al, dict)
+                                    or al.get("eje") not in EJES_ALCANCE
+                                    or not str(al.get("valor") or "").strip()
+                                    or set(al) - {"eje", "valor"}):
+                                errors.append(
+                                    f"products[{pid}]: atributos.{clave}: "
+                                    "alcance inválido — exige {eje∈"
+                                    f"{sorted(EJES_ALCANCE)}, valor}}")
     # redirects: destino existe + acíclico
     by_id = {r["id"]: r for r in prows}
     for r in prows:
@@ -462,6 +489,45 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
         if dr.get("tipo") not in TIPOS_DOCREL:
             errors.append(f"docrel: tipo inválido {dr.get('tipo')!r}")
     return errors
+
+
+def swap_products_validado(rows: list[dict],
+                           catalog_dir: Path = CATALOG_DIR) -> Path:
+    """(s336, cierre de Sol-5/Sol2-6) Escritura ATÓMICA de products.jsonl: el
+    candidato se valida en un SHADOW COMPLETO del catálogo (los 7 jsonl — las
+    referencias cruzadas cuentan; `validate()` trata ficheros ausentes como
+    vacíos y validar solo products las omitiría), y SOLO si valida se hace
+    backup timestamped del vivo y `os.replace` (atómico en POSIX). Si la
+    validación falla, el vivo queda BYTE-IDÉNTICO (test de rollback lo pinna).
+    Devuelve la ruta del backup."""
+    import os
+    import shutil
+    import tempfile
+    from datetime import datetime, timezone
+
+    serial = "\n".join(json.dumps(r, ensure_ascii=False, sort_keys=True)
+                       for r in rows) + ("\n" if rows else "")
+    with tempfile.TemporaryDirectory(prefix="catalogo_shadow_") as td:
+        shadow = Path(td)
+        for fname in FILES.values():
+            origen = catalog_dir / fname
+            if origen.exists():
+                shutil.copy2(origen, shadow / fname)
+        (shadow / FILES["products"]).write_text(serial, encoding="utf-8")
+        errs = validate(shadow)
+        if errs:
+            raise ValueError(
+                f"swap_products_validado: el candidato deja el catálogo "
+                f"INVÁLIDO ({len(errs)} errores; primero: {errs[0]}) — el "
+                f"fichero vivo NO se ha tocado")
+    vivo = catalog_dir / FILES["products"]
+    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    backup = catalog_dir / f"{FILES['products']}.bak-{ts}"
+    shutil.copy2(vivo, backup)
+    tmp = vivo.with_suffix(vivo.suffix + ".candidato")
+    tmp.write_text(serial, encoding="utf-8")
+    os.replace(tmp, vivo)
+    return backup
 
 
 def write_jsonl(name: str, rows: list[dict], catalog_dir: Path = CATALOG_DIR,

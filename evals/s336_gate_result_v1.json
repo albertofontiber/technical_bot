@@ -1,0 +1,338 @@
+{
+ "gate": {
+  "n": 14,
+  "aciertos": 14,
+  "precision": 1.0,
+  "umbral": 0.95,
+  "pass": true,
+  "detalle": [
+   {
+    "id": "ada:estela-2",
+    "ok": true,
+    "gt": "sirena",
+    "llm": "sirena",
+    "etapa": "pasada"
+   },
+   {
+    "id": "kac:m700kaci",
+    "ok": true,
+    "gt": "pulsador",
+    "llm": "pulsador",
+    "etapa": "pasada"
+   },
+   {
+    "id": "morley:vsn12-2plus",
+    "ok": true,
+    "gt": "central",
+    "llm": "central",
+    "etapa": "pasada"
+   },
+   {
+    "id": "sensitron:smart-2",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   },
+   {
+    "id": "spectrex:20-20l",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   },
+   {
+    "id": "systemsensor:dh500acdc-e",
+    "ok": true,
+    "gt": "accesorio",
+    "llm": "accesorio",
+    "etapa": "pasada"
+   },
+   {
+    "id": "systemsensor:dh500",
+    "ok": true,
+    "gt": "accesorio",
+    "llm": "accesorio",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:nfxi-mm10",
+    "ok": true,
+    "gt": "modulo",
+    "llm": "modulo",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:tmp2",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:pl4-e",
+    "ok": true,
+    "gt": "modulo",
+    "llm": "modulo",
+    "etapa": "repesca"
+   },
+   {
+    "id": "notifier:s876xx",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:s1869nd",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:nas-1u",
+    "ok": true,
+    "gt": "aspiracion",
+    "llm": "aspiracion",
+    "etapa": "pasada"
+   },
+   {
+    "id": "notifier:lts-240",
+    "ok": true,
+    "gt": "detector",
+    "llm": "detector",
+    "etapa": "pasada"
+   }
+  ]
+ },
+ "freeze": {
+  "gt_sha256": "c8bb02620b4ade74",
+  "prompt_sha256": "378992632ac94a5d"
+ },
+ "packet": {
+  "s0_elegibles_en_bloque": {
+   "n": 361,
+   "categorias": {
+    "sirena": 14,
+    "modulo": 92,
+    "fuente": 21,
+    "pulsador": 4,
+    "detector": 85,
+    "accesorio": 54,
+    "barrera": 11,
+    "repetidor": 18,
+    "aspiracion": 15,
+    "pasarela": 10,
+    "software": 5,
+    "central": 32
+   }
+  },
+  "s1_resto": {
+   "alta_sin_fulltext": {
+    "n": 5,
+    "ids": [
+     "notifier:am82-bst-c",
+     "notifier:kit-gas",
+     "notifier:s2173nd",
+     "notifier:s2174cl",
+     "notifier:wa-c-i02"
+    ]
+   },
+   "baja": {
+    "n": 101,
+    "ids": [
+     "firelite:afm-16af",
+     "firelite:afm-16atf",
+     "firelite:afm-16atx",
+     "firelite:led-10",
+     "notifier:124-065-xxx",
+     "notifier:4000ta",
+     "notifier:4xzm",
+     "notifier:aa-100",
+     "notifier:aa-100e",
+     "notifier:aa-120",
+     "notifier:abs-1",
+     "notifier:abs-2",
+     "notifier:aem-32a",
+     "notifier:ais-gald1",
+     "notifier:ais-gals1",
+     "notifier:am-8100",
+     "notifier:am-82-bbmb",
+     "notifier:am-82-mb",
+     "notifier:am-8200-klcd",
+     "notifier:am-8200bb",
+     "notifier:be-600a",
+     "notifier:be3000",
+     "notifier:cfa457",
+     "notifier:cpu-2",
+     "notifier:cpu-2020",
+     "notifier:cpu-400",
+     "notifier:cpu-5000",
+     "notifier:crt-2",
+     "notifier:fft-7s",
+     "notifier:fl2011ei-hs",
+     "notifier:fl2012ei-hs",
+     "notifier:fl2022ei-hs",
+     "notifier:flg2100",
+     "notifier:fr2000ex",
+     "notifier:hon-cgw-mbb",
+     "notifier:hop-131-206",
+     "notifier:hop-133-206",
+     "notifier:hop-134-412",
+     "notifier:hop-136-412",
+     "notifier:hop-404-100",
+     "notifier:hop-405-100",
+     "notifier:hop-433-100",
+     "notifier:ice-4",
+     "notifier:id-50",
+     "notifier:id-60",
+     "notifier:id3000",
+     "notifier:id3002",
+     "notifier:id3004-001",
+     "notifier:id3008-001",
+     "notifier:iso-x",
+     "notifier:lib-200",
+     "notifier:lib-200a",
+     "notifier:lib-400",
+     "notifier:lib-8200g",
+     "notifier:lib-8200n",
+     "notifier:lib3000",
+     "notifier:lib3000s",
+     "notifier:lib600",
+     "notifier:mmx-1",
+     "notifier:mmx-102e",
+     "notifier:nam-232",
+     "notifier:nfs-plus",
+     "notifier:nfxi-asd22-hs",
+     "notifier:nfxi-flx-020",
+     "notifier:nfxi-osi-rie",
+     "notifier:nfxi-smt2",
+     "notifier:park-2000",
+     "notifier:pearl",
+     "notifier:prl-d-1",
+     "notifier:r3-micra",
+     "notifier:rp1r-supra",
+     "notifier:sdx-751",
+     "notifier:sib-2s",
+     "notifier:sk-2sp",
+     "notifier:uds-1n",
+     "notifier:y72221",
+     "pepperl-fuchs:z978",
+     "firelite:cac-10f",
+     "notifier:832",
+     "notifier:afp4016",
+     "notifier:be-5000",
+     "notifier:be-5000aa",
+     "notifier:cpu-300",
+     "notifier:g-100-4",
+     "notifier:g-500-s-32",
+     "notifier:g-500-s-64",
+     "notifier:g-in8",
+     "notifier:g-mtslb1",
+     "notifier:g-mtslb2",
+     "notifier:hop-402-100",
+     "notifier:hop-406-100",
+     "notifier:hop-407-200",
+     "notifier:hop-431-100",
+     "notifier:hop-608-200",
+     "notifier:hop-631-100",
+     "notifier:id1002",
+     "notifier:nf30",
+     "notifier:nf50",
+     "notifier:prl-d-2",
+     "notifier:scu-800",
+     "notifier:vision-plus-2"
+    ]
+   },
+   "media": {
+    "n": 33,
+    "ids": [
+     "notifier:aa-120e",
+     "notifier:aa-30e",
+     "notifier:acm-16at",
+     "notifier:am-82n-top",
+     "notifier:am82-2s2c",
+     "notifier:chs-4m",
+     "notifier:combix-220",
+     "notifier:g-500-2lr",
+     "notifier:ibox-mbs-nid3000",
+     "notifier:ina",
+     "notifier:minilaser-100",
+     "notifier:nap-100",
+     "notifier:nfxi-asd11-hs",
+     "notifier:nrt-net",
+     "notifier:nrx-wcp",
+     "notifier:s290o2gp",
+     "notifier:s540539-cosp",
+     "notifier:tcc-1",
+     "notifier:vcc-1",
+     "notifier:vcc-2",
+     "notifier:vrom-n",
+     "notifier:vtcc-1",
+     "notifier:vtcc-2",
+     "notifier:vtcc-avl",
+     "notifier:xpm-8",
+     "notifier:xpm-8l",
+     "notifier:816",
+     "notifier:am-8200g",
+     "notifier:am2020",
+     "notifier:multiscan++s1",
+     "notifier:nfs-2-8",
+     "notifier:park-5000",
+     "notifier:uds-2n"
+    ]
+   },
+   "sin_evidencia_chunks": {
+    "n": 2,
+    "ids": [
+     "spectrex:20-20u",
+     "spectrex:20-20ub"
+    ]
+   }
+  },
+  "s1_capacidad_a_adjudicar": {
+   "n": 31,
+   "ids": [
+    "notifier:abm-32a",
+    "notifier:crp2000",
+    "notifier:idr-6a",
+    "notifier:lcd-80",
+    "notifier:lcd-8200",
+    "notifier:lib3000m",
+    "notifier:rza-4x",
+    "firelite:ms-5210ud",
+    "firelite:ms-5210ude",
+    "morley:vsn-4-plus",
+    "morley:vsn12-2plus",
+    "notifier:afp-200",
+    "notifier:afp-300",
+    "notifier:afp-400",
+    "notifier:afp1010",
+    "notifier:am-200",
+    "notifier:am-2000",
+    "notifier:am-6000",
+    "notifier:am-8200",
+    "notifier:cfp-600-e",
+    "notifier:ess-2plus",
+    "notifier:id-200",
+    "notifier:id1004",
+    "notifier:id2000",
+    "notifier:inspire-e10",
+    "notifier:inspire-e15",
+    "notifier:nfs-supra",
+    "notifier:rp-1001",
+    "notifier:rp1002e",
+    "notifier:rp1r",
+    "notifier:sentox-4"
+   ]
+  },
+  "docs_sin_chunks": [
+   "Finales-de-linea-de-las-centrales-convencionales.pdf",
+   "MNDT700 C",
+   "MNDT710 B",
+   "enlace entre tg"
+  ]
+ },
+ "fecha_utc": "2026-08-21T21:45:51+00:00"
+}

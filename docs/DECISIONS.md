@@ -10576,3 +10576,50 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   dúo y el gate como cualquier otro, y 24 de los 34 siguen siendo adjudicación de Alberto (R21).
 - **Ref**: `scripts/s338_resolucion_multicanal.py` · `evals/s338_resolucion_multicanal.json` ·
   `evals/s338_{web_resultados,catalogo_fabricante}.json` · `docs/REVISION_ALBERTO_HUERFANOS.md`
+
+## DEC-279 (s336-lote, 21/22 ago 2026) — El catálogo Notifier deja de estar ciego: lote de clasificación por categoría con el método s322b endurecido (2 dúos, gate que mordió, escritura atómica)
+
+- **Fecha**: 21/22 ago 2026, noche. **Impacto**: ALTO (datos servidos del inventario +
+  esquema del catálogo). GO de Alberto («clasificación por categoría de producto → GO»).
+  DOS rondas de dúo (la 1ª rota de emparejamiento por mis commits mid-ronda — lección
+  registrada: el gate pinna `repo_head`; la 2ª LIMPIA y emparejada, ts=18:59:43): 20
+  hallazgos adjudicados, 0 FP. Diseño vinculante `evals/s336_clasificacion_notifier_propuesta_v3.md`.
+- **Contexto**: la fila real `a9ba756a` (la pregunta de Alberto post-flip s335) sirvió
+  «ninguno de los 3 clasificados casa con central» — la vista Notifier tenía 502/505 sin
+  `clasificacion` (los 3 clasificados eran software). Causa raíz de DATO, no de routing.
+- **Decide (1) — método**: el CERRADO de s322b entero (pasada fable-5 con cita verbatim +
+  repesca dirigida a tablas de modelos + verificación FULL-TEXT de la cita ÍNTEGRA contra
+  el doc atribuido ANTES de escribir — el prefijo de 50 chars ya dejó pasar una invención
+  en s322) sobre la diana definida POR EL JOIN REAL de la vista (`_productos_marca` +
+  `follow_redirect`; mi censo a mano con ids crudos inventó «18 sin docs» — G3 dos veces
+  en un día, reconocido). GT 30 congelado ANTES de la pasada (lectura full-text, cuotas
+  por namespace, familias-aparentes como proxy declarado; 22 sin-duda / 8 duda).
+- **Decide (2) — esquema**: `clasificacion.doc` obligatorio en filas nuevas (auditoría);
+  `alcance` {eje: idioma_doc} cerrado en el validador; escritura SOLO por
+  `swap_products_validado` (shadow de los 7 jsonl → validate → backup → os.replace, con
+  test de rollback real) — `write_jsonl` escribía el vivo y validaba después.
+- **Decide (3) — #76b MITIGADO-por-construcción, NO cerrado**: completitud multi-doc
+  (capacidad solo se escribe si TODAS las fuentes con mención quedan atribuidas y sin
+  divergencia de max; si no → packet, jamás write-fusión: 31 a packet, 1 escrita) +
+  display POR FUENTE ante `alcance` divergente (fixture AFP1010; byte-idéntico hoy).
+  Ejes mercado/variante abiertos; cierre contra producción pendiente de la primera
+  divergencia real.
+- **El gate MORDIÓ (traza)**: v1 FAIL 92,9% — el único fallo fue LA trampa del GT
+  (pl4-e: la tarjeta clasificada como su central anfitriona, R16 doc-de-otro) → regla R16
+  al prompt (v2) + re-pasada quirúrgica de las 65 «central» (~$1,5, GT intacto) → **v2
+  PASS 100% (14/14)**, centrales-alta 54→32. Ni gate-shopping ni re-pasada íntegra.
+- **Resultado**: 361 filas escritas (§0 alta+full-text) · vista Notifier 3→364
+  clasificados · centrales 0→32 · replay de `a9ba756a` sirve 32 centrales (suelo
+  pre-registrado en B1 = 11, superado ×3) · cobertura 71,9% ≥60% → **PASS** · suite 4955
+  + MT 52/52 con el catálogo escrito. Recibos en `evals/s336_*`.
+- **Residuo declarado**: 98 parse-fail = INSTRUMENTO (max_tokens=500 agotado sin emitir
+  texto; fix a 1200 + `--solo-parse-fail` listos; recuperación ~$2 BLOQUEADA por crédito
+  agotado — 2ª vez del día) · 33 media/5 baja/5 sin-full-text/2 sin-chunks · huecos de
+  ENUM al packet (anunciador, extinción, audio/EVAC, impresora, barrera-IS, kit).
+- **Relacionado**: DEC-216/217 (s322, el método) · TECH_DEBT #76b · DEC-271 (huérfanos) ·
+  `evals/s336_resultado_v1.md` (el recibo narrado).
+- **Nota de numeración**: esta decisión se acuñó como DEC-273/«s336» en el hilo del lote,
+  en paralelo con la sesión de huérfanos que publicó primero DEC-273→278 y su propio «s336»
+  en `main`. Al fusionar, el lote se renumera a DEC-279 y se rotula «s336-lote»; los
+  artefactos (`evals/s336_*`, `scripts/s336_*`, provenance «s336 método s322b») conservan
+  su nombre — el ancla estable es el contenido y los sha de los recibos, no el rótulo.

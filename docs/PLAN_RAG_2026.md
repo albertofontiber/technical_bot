@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (21 ago 2026 — la línea s332→s335 (5 lotes MERGED+FLIP ON), el packet E1 CERRADO, y los huérfanos 245 → 82 con el cuello de botella ya medido: 53 de 82 son adjudicaciones de Alberto, no herramienta)
+## Estado actual (21/22 ago 2026 — TRES frentes: la línea s332→s335 (5 lotes MERGED+FLIP ON y VERIFICADOS en producción), los huérfanos 245 → 82 con el cuello de botella medido (53 de 82 son adjudicaciones de Alberto, no herramienta; packet E1 CERRADO), y el lote s336-lote: la vista Notifier deja de estar ciega (3→364 clasificados, PASS — PR #336))
 
 
 **s336 (DEC-275/276/277) — la pregunta de la clave de Gemini contestada al revés de lo que yo esperaba: un lector multimodal paga 2 de 84.** Alberto ofreció una clave de Gemini para «rascar» los huérfanos; la sonda que monté **medía otra cosa** (leía las páginas de `document_visual_assets`, una SELECCIÓN: mediana 2 por huérfano en manuales de 30). Mirando dos páginas a mano, los lectores acertaban: la portada del FAD-902 dice «GUIDE MANUAL / Power Supplies» y no nombra el modelo. **Los PDF originales están en Storage (83 de 84)**, así que la pregunta cara va después de una gratis: leerlos. Diagnóstico de los 84 (`s336b/c`): 29 redirect `unresolved:` · 20 promovible · 15 sólo nº de referencia · 13 no nombran su producto · 4 digit-only · **2 escaneados (el multimodal)** · 1 sin PDF. **Dos números míos frenados antes de darlos**: «75 lo tienen en el PDF» cae con R19 (contra el CANÓNICO son 49) y «lo perdimos al extraer» es falso en 48 de 49 (ya está en `chunks_v2`; faltaba promover). **Los 20 «promovibles» eran 2** tras R19/R21/sujeto (`s336e`) — y `AM-LCD` lo mató la medida que hice para defenderlo (1 de sus 6 documentos es «Pantalla FM/AM LCD» de un manual de radio). Dúo COMPLETO: 9 hallazgos, 9 verificados, 0 FP. **APLICADO: 2 promociones → huérfanos 84 → 82.** Preferencia de Alberto cableada: **Anthropic sobre Gemini** (`LECTORES=claude,gpt`), cross-model intacto. **Bug sistémico cazado**: paginar PostgREST sin `order` no es determinista (dos pases daban AM-LCD=2 y 6; el corpus salía con 954 documentos teniendo 1.080) → arreglado con `order` + verificación contra `count=exact`; los censos re-corridos salen idénticos. **Y lo que de verdad cambia el rumbo: 53 de los 82 están gated en adjudicaciones de Alberto** — de ellos, **17 se desbloquean con 5 redirects suyos** (`unresolved:id50`→`notifier:id-50` vale 12 él solo; **simulado sobre copia: 82 → 65, 0 huérfanos nuevos**). **No hay camino autónomo a ≤10 sin saltarse R21.**
@@ -74,19 +74,24 @@ polaridad, «de» preposicional); (3) fuzzy d1 acotado al slot de corrección (g
 (4) clasificador Sonnet 4.6 solo en el miss (frontera del owner «¿se sostiene solo?» + regla
 ANAFÓRICA v3). R8: los 5 atajos escriben estado. **s332/s332b/s333/s334: SHIPPED + FLIP ON +
 VERIFICADOS en producción** (KIDE→Serie NC 14:17Z; clasificador real `correccion`/1261ms +
-Morley-IAS e2e). **s335 (hoy tarde): MERGED (#333 → `f7c514de`) + FLIP ON, verificación prod
-PARCIAL (s335b)** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
+Morley-IAS e2e). **s335 (hoy tarde): MERGED (#333 → `f7c514de`) + FLIP ON + VERIFICADO ENTERO en prod
+(s335b + adenda 17:00Z)** — pieza A `INVENTARIO_FRASEOS` (gramática v2 del atajo: tolerancia al «.» de
 Whisper + desiderativas/imperativas ES+EN con frontera censada; GB1 verde, 6 negativos técnicos)
 y pieza B prompt v3 + cohorte v3 **GO 15/15 con fila OBLIGATORIA p15 3/3 y 0 falsas** (la regla
 fila-obligatoria queda como regla de gate generalizable) + GB2 e2e con clasificador real
 (1576 ms) y RAG Morley sin cross-brand; cruce `_SWITCH_FRASE` MEDIDO; limitación lista-parcial
 DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hilo** (tras merge #333 + flip, verificación parcial 15:53Z —
 `evals/s335b_verificacion_prod_v1.md`: R8 y población del clasificador EN VERDE en prod;
-«quide» tabulada, «quiere» jamás): (1) VOZ con la desiderativa («Quiero ver las centrales de
-Kidde.») + la anafórica del guion — la conversación post-flip NO ejercitó la gramática nueva;
-(2) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
-si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (3) re-verificación DEC-099 por voz;
-(4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars).
+«quide» tabulada, «quiere» jamás): (0) HECHO 17:00Z: el ship s335 quedó VERIFICADO ENTERO
+en prod (adenda s335b — desiderativa→listado gobernado Kidde; anafórica→correccion/1238ms→Detnov);
+(1) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
+si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (2) HECHO 21:46Z — lote s336-lote (DEC-279): vista Notifier
+3→364 clasificados, centrales 0→32, gate 100%, veredicto PASS (residuo 98 parse-fail esperan
+crédito; recibo `evals/s336_resultado_v1.md`); (3) re-verificación DEC-099 por voz;
+(4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars);
+(6) HECHO (s335c, en PR #336): la nota ℹ️ de asunciones va ahora en CABECERA del mensaje
+(adjudicación de Alberto sobre pantallazo) — y con ello entra en los primeros 4096 de
+`query_logs.response`, cerrando el hueco de verificabilidad que estaba declarado aquí.
 
 
 **s331d (DEC-266, DEC-267) — el packet E1 queda CERRADO y su aprendizaje, cableado.** Alberto anotó

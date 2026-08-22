@@ -58,3 +58,41 @@ funcionaba antes. `INVENTARIO_FRASEOS=on` sigue SIN verificación en producción
 falta decir por voz una desiderativa, p. ej. **«Quiero ver las centrales de Kidde.»**
 (mejor Kidde/Morley que Notifier, cuyo catálogo clasificado está fino), y la anafórica
 del guion («Y ahora quiero ver las de Morley.») para ver la fila p15 en prod.
+
+---
+
+## ADENDA (17:00-17:02Z, deploy `a5b612c` = merge #334) — la gramática nueva y la anafórica, VERIFICADAS en producción
+
+Dos filas de voz cierran lo que quedaba pendiente:
+
+**T1 `48337b59` — la DESIDERATIVA (pieza A), en verde.** Whisper volvió a corromper:
+transcripción cruda «Quiero ver las centrales de **Kide**.» → la TABLA reescribió a
+Kidde (fila s334) → la gramática v2 con el punto final matcheó → `catalog_shortcut` →
+**«📦 Kidde — central (36 de 158 productos): 2X-AE1, 2X-AE2, …»** — listado GOBERNADO
+con filtro de categoría, 0 ms, $0. Tres capas en un turno (tabla → gramática → atajo).
+`INVENTARIO_FRASEOS` queda VERIFICADO en producción.
+
+**T2 `59ef06d2` — la ANAFÓRICA (pieza B), end-to-end en verde.** «Ahora enséñame las
+de Detnov.» — sin sustantivo de inventario, marca nueva. R8 había escrito el estado
+desde el ATAJO de T1 (sin R8 no habría last_query); el clasificador con prompt v3 dio
+**`correccion` en 1238 ms**; rebuild «Quiero ver las centrales de Kidde.»→Detnov; el
+RAG sirvió **«Centrales Detnov disponibles… Serie VESTA CAD-171 (analógica)…»** con
+citas (53,6 s el turno entero; el clasificador es 1,2 s de eso). Asunción
+`marca_corregida` estampada en la traza (n=1). GENERALIZACIÓN real: marca y verbo
+DISTINTOS de la fila obligatoria del gate (Morley/«quiero ver» → Detnov/«enséñame»).
+La frontera A/B aguantó en vivo: «las de Detnov» (sin sustantivo) fue al clasificador;
+con «centrales» habría ido al atajo.
+
+**Hueco de observabilidad detectado (menor, declarado):** la columna `response` de
+`query_logs` trunca a 4096 chars; la respuesta de T2 la supera y el sufijo ℹ️ (que se
+aplica ANTES del log, tras las referencias) queda fuera del texto persistido — NO
+verificable desde el log; la traza sí estampa la asunción. **RESUELTO en s335c**: Alberto confirmó
+visualmente la línea ℹ️ al final (19:02, con scroll) y adjudicó moverla a
+CABECERA — el control va ANTES del contenido. Cambiado (`_con_prefijo_asunciones`),
+manteniendo la aplicación DESPUÉS de las escrituras de estado (el orden protege
+`last_answer_excerpt`/`last_response`; test de fuente lo pinna). Bonus: en cabecera
+la nota entra en los primeros 4096 del log y este hueco se cierra.
+
+Con esto, el ship s335 queda **verificado ENTERO en producción**. Siguen pendientes de
+Alberto: etiqueta del límite «¿Y de {marca}?» (v4 si corrección) · GO lote
+clasificación Notifier (429/3) · pieza C.

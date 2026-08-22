@@ -7119,3 +7119,29 @@ desbloquean con 5 firmas**, y `unresolved:id50` → `notifier:id-50` vale 12 man
 Simulado sobre una copia del catálogo, **82 → 65 sin un solo huérfano nuevo**. El cuello de botella
 dejó de ser el corpus y pasó a ser el calendario de Alberto, que es un sitio mucho mejor donde
 tenerlo.
+
+## s336-lote (21/22 ago 2026, noche) — El catálogo Notifier abre los ojos: 3→364 clasificados con un gate que mordió de verdad
+
+La pregunta real de Alberto de las 17:53 («¿Qué centrales de Notifier tienes?» → «ninguno
+de los 3 clasificados casa») destapó que la vista Notifier estaba CIEGA: 502 de 505
+productos sin clasificar. Su GO abrió el lote: el método CERRADO de s322b (pasada con cita
+verbatim + repesca dirigida + full-text) sobre la diana del JOIN REAL — y el camino dejó
+tres lecciones que valen más que el resultado. (1) Mi censo a mano inventó «18 sin docs»
+por contar con ids crudos en vez de `follow_redirect` — la MISMA clase que s334b, G3 dos
+veces en un día. (2) Rompí el emparejamiento de la primera ronda del dúo committeando a
+mitad (el gate pinna `repo_head`): ronda repetida LIMPIA, 20 hallazgos en total, entre
+ellos dos críticos de Sol (la divergencia NO observada escribía fusión; `clasificacion`
+no persistía su doc) y la circularidad del GT que etiqueté leyendo texto completo.
+(3) El gate pre-registrado FALLÓ primero (92,9%) exactamente en la trampa que el GT había
+pinnado — pl4-e, la tarjeta de ampliación clasificada como su central anfitriona — y el
+writer se negó a escribir; la regla R16 al prompt y una re-pasada quirúrgica de las 65
+«central» lo llevaron a 100% sin tocar el GT nunca.
+
+Escritura atómica (shadow de 7 jsonl, backup, os.replace con rollback probado): 361 filas
+con su doc auditable. Efecto: centrales 0→32, el replay sirve 32 (suelo pre-registrado 11),
+cobertura 71,9% → PASS honesto. Suite 4955 + MT 52/52 con el catálogo escrito. La
+capacidad, conservadora por diseño (#76b): 1 escrita, 31 a packet — jamás fusión. Y el
+residuo con nombre: 98 parse-fail que eran INSTRUMENTO (max_tokens agotado sin texto),
+recuperables por ~$2 cuando vuelva el crédito — que se agotó dos veces en el día, la
+segunda a mitad de la recuperación. El enum enseñó sus huecos (anunciador, extinción,
+audio/EVAC, impresora, barrera-IS): packet a Alberto. DEC-279 (acuñada DEC-273 en el hilo; renumerada al fusionar con la línea de huérfanos que publicó DEC-273→278 primero).
