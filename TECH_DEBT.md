@@ -3827,3 +3827,39 @@ Railway, midiendo antes qué hace el refresco de presencia al despertarse.
 **Mientras tanto**, la cadencia real de la clasificación es **cuando alguien corre el script**.
 Los datos crudos del Explorador (pregunta, canal, ruta, feedback) **sí son en vivo**: el panel
 lee PostgREST en cada petición y sirve `cache-control: no-store`.
+
+## 101. Un manual NUEVO entra al corpus CIEGO: la ingesta no clasifica, y la categoría llega sólo cuando alguien corre un lote (s339, apunte de Alberto)
+
+**Trigger**: cada alta de manuales por `scripts/ingest_new.py`. Y, antes que eso: al alinear el
+proceso de asignación de categoría (packet de enum firmado + 2ª marca corrida), implementar la
+clasificación COMO ETAPA de la ingesta.
+
+**El hueco, verificado en el código**: `ingest_new.py` cierra GATES → DRY → COMMIT (extracción
+LlamaParse → alta de la fila `documents` con su sha → contextualize + embed + index → verificación
+en DB) y **no toca el catálogo en ningún punto**: ni `products.jsonl`, ni `doc_map`, ni
+`clasificacion`. El manual queda consultable por RAG desde el minuto uno —esa parte funciona— pero
+su producto no existe para el inventario: no sale en «¿qué centrales de X tienes?» hasta que
+alguien lance el lote de clasificación a mano.
+
+**Por qué importa ahora y no antes**: mientras el catálogo estaba ciego en bloque (502 de 505 en la
+vista Notifier), un manual nuevo más no cambiaba nada. Con el lote hecho (411 filas, 81,9%), la
+deuda se invierte: **cada alta nueva vuelve a abrir el agujero que acabamos de cerrar**, y el
+inventario servido envejece a cada ingesta.
+
+**Lo que YA está listo para engancharse** (DEC-280): el pipeline es parametrizable por marca, con
+provenance derivada, candado de vista, guardas de artefacto y escritura atómica. La etapa de
+ingesta no necesita un método nuevo: necesita invocar el que hay sobre la diana pequeña que ella
+misma crea.
+
+**Lo que NO está decidido y hay que adjudicar antes de cablearlo** (no se pre-supone aquí):
+- **Dónde corta**: ¿la ingesta clasifica automáticamente lo `alta` y manda el resto a packet, o
+  toda alta nueva pasa por revisión? Automatizar sin gate replica el fallo que el gate de s336
+  cazó (pl4-e, la trampa R16).
+- **El gate, con qué gold**: el gate de método se ancla en un GT congelado POR VISTA. Un manual
+  suelto no tiene GT propio; hay que decidir si hereda el de su marca (y entonces qué significa
+  «PASS» con n pequeño) o si el corte es otro.
+- **El coste por alta** (~$0,003–0,004/producto según la pasada de Notifier: 502 productos ≈ $2)
+  y si la clasificación va en `--commit` o en una etapa aparte re-ejecutable.
+
+**Ref**: `scripts/ingest_new.py` · DEC-280 (`scripts/lib_lote_marca.py`) · DEC-279 (el lote) ·
+`docs/PACKET_ENUM_CATEGORIAS.md` (el enum va ANTES).
