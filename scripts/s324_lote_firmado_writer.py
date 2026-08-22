@@ -141,6 +141,31 @@ def aplicar_plan(plan: dict, destino: Path, origen: Path) -> dict:
             p["candidate"] = False
             p["provenance"] = (p.get("provenance") or "") + f" | s324 redirect → {rd['redirect_to']}: {rd['motivo']}"
             stats["redirects"] += 1
+    stats["recanonizados"] = 0
+    for rc in plan.get("products_recanonizar", []):
+        # Cambiar el `canonical_model` de un id EXISTENTE. El id no se toca (es inmutable);
+        # lo que cambia es el nombre por el que el detector lo alcanza, así que el censo del
+        # dry-run lo ve como cualquier otro cambio de término (entra uno, sale otro).
+        p = by_id.get(rc["id"])
+        if not p or p.get("canonical_model") == rc["canonical_model"]:
+            continue
+        p["provenance"] = ((p.get("provenance") or "")
+                           + f" | s324 canónico {p['canonical_model']!r} → "
+                             f"{rc['canonical_model']!r}: {rc['motivo']}")
+        p["canonical_model"] = rc["canonical_model"]
+        stats["recanonizados"] += 1
+    stats["vendido_bajo"] = 0
+    for vb in plan.get("products_vendido_bajo", []):   # R3: el mismo aparato con dos etiquetas comerciales
+        p = by_id.get(vb["id"])
+        if not p:
+            continue
+        ya = list(p.get("vendido_bajo") or [])
+        nuevas = [m for m in vb["marcas"] if m not in ya]
+        if not nuevas:
+            continue
+        p["vendido_bajo"] = ya + nuevas
+        p["provenance"] = (p.get("provenance") or "") + f" | s324 vendido_bajo += {nuevas}: {vb['motivo']}"
+        stats["vendido_bajo"] += 1
     quitar = {(a["alias"], a["id"]) for a in plan["aliases_quitar"]}
     n0 = len(aliases)
     aliases = [a for a in aliases if (a.get("alias"), a.get("id")) not in quitar]

@@ -1,0 +1,709 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260822T170559Z",
+ "plan_sha": "07ff9b98866d0a73",
+ "freeze": {
+  "catalog_shas": {
+   "products": "9a6d578fb0d7f372",
+   "aliases": "78da6ec6a4df7601",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "0c891cee507e6541"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 25,
+  "confirmadas": 7,
+  "retiradas": 0,
+  "aliases_quitados": 1,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 19,
+  "redirects": 15,
+  "recanonizados": 1,
+  "vendido_bajo": 5,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 2034,
+  "terminos_despues": 2066,
+  "entran": 32,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "AM-LCD",
+    "normkey": "amlcd",
+    "core": "am[-\\s/.+]*lcd",
+    "origen": "confirmar notifier:am-lcd",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Caja de central de tamaño 10U",
+    "normkey": "cajadecentraldetamano10u",
+    "core": "caja[-\\s/.+]*de[-\\s/.+]*central[-\\s/.+]*de[-\\s/.+]*tamano[-\\s/.+]*10[-\\s/.+]*u",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMD-501",
+    "normkey": "cmd501",
+    "core": "cmd[-\\s/.+]*501",
+    "origen": "alta detnov:cmd-501",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMD-502",
+    "normkey": "cmd502",
+    "core": "cmd[-\\s/.+]*502",
+    "origen": "alta detnov:cmd-502",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CMD-503",
+    "normkey": "cmd503",
+    "core": "cmd[-\\s/.+]*503",
+    "origen": "alta detnov:cmd-503",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DMD-500",
+    "normkey": "dmd500",
+    "core": "dmd[-\\s/.+]*500",
+    "origen": "alta detnov:dmd-500",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DMDP-500",
+    "normkey": "dmdp500",
+    "core": "dmdp[-\\s/.+]*500",
+    "origen": "alta detnov:dmdp-500",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Expansion card with 4 voltage free relay outputs",
+    "normkey": "expansioncardwith4voltagefreerelayoutputs",
+    "core": "expansion[-\\s/.+]*card[-\\s/.+]*with[-\\s/.+]*4[-\\s/.+]*voltage[-\\s/.+]*free[-\\s/.+]*relay[-\\s/.+]*outputs",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "F3000M",
+    "normkey": "f3000m",
+    "core": "f[-\\s/.+]*3000[-\\s/.+]*m",
+    "origen": "alta notifier:f3000m",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAD-905",
+    "normkey": "fad905",
+    "core": "fad[-\\s/.+]*905",
+    "origen": "alta detnov:fad-905",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC",
+    "normkey": "itac",
+    "core": "itac",
+    "origen": "alta notifier:itac",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": [
+     "itac[-\\s/.+]*2[-\\s/.+]*0",
+     "itac[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0",
+     "itacs[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0"
+    ]
+   },
+   {
+    "termino": "MAD-401",
+    "normkey": "mad401",
+    "core": "mad[-\\s/.+]*401",
+    "origen": "alta detnov:mad-401",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-411",
+    "normkey": "mad411",
+    "core": "mad[-\\s/.+]*411",
+    "origen": "alta detnov:mad-411",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-421",
+    "normkey": "mad421",
+    "core": "mad[-\\s/.+]*421",
+    "origen": "alta detnov:mad-421",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-431",
+    "normkey": "mad431",
+    "core": "mad[-\\s/.+]*431",
+    "origen": "alta detnov:mad-431",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-441",
+    "normkey": "mad441",
+    "core": "mad[-\\s/.+]*441",
+    "origen": "alta detnov:mad-441",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-473",
+    "normkey": "mad473",
+    "core": "mad[-\\s/.+]*473",
+    "origen": "alta detnov:mad-473",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-490",
+    "normkey": "mad490",
+    "core": "mad[-\\s/.+]*490",
+    "origen": "alta detnov:mad-490",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-492",
+    "normkey": "mad492",
+    "core": "mad[-\\s/.+]*492",
+    "origen": "alta detnov:mad-492",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MCX-55",
+    "normkey": "mcx55",
+    "core": "mcx[-\\s/.+]*55",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "mcx[-\\s/.+]*55[-\\s/.+]*m"
+    ]
+   },
+   {
+    "termino": "Notifier Air Sample",
+    "normkey": "notifierairsample",
+    "core": "notifier[-\\s/.+]*air[-\\s/.+]*sample",
+    "origen": "confirmar notifier:nas",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "REF: 55341201",
+    "normkey": "ref:55341201",
+    "core": "ref[-\\s/.+]*55341201",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SCD-120",
+    "normkey": "scd120",
+    "core": "scd[-\\s/.+]*120",
+    "origen": "alta detnov:scd-120",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TCD-106",
+    "normkey": "tcd106",
+    "core": "tcd[-\\s/.+]*106",
+    "origen": "alta detnov:tcd-106",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TG-IP-1-SEC",
+    "normkey": "tgip1sec",
+    "core": "tg[-\\s/.+]*ip[-\\s/.+]*1[-\\s/.+]*sec",
+    "origen": "alta notifier:tg-ip-1-sec",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg",
+     "tg[-\\s/.+]*ip[-\\s/.+]*1"
+    ]
+   },
+   {
+    "termino": "TRD-100",
+    "normkey": "trd100",
+    "core": "trd[-\\s/.+]*100",
+    "origen": "alta detnov:trd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TRMD-501",
+    "normkey": "trmd501",
+    "core": "trmd[-\\s/.+]*501",
+    "origen": "alta detnov:trmd-501",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TRMD-502",
+    "normkey": "trmd502",
+    "core": "trmd[-\\s/.+]*502",
+    "origen": "alta detnov:trmd-502",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TSD-100",
+    "normkey": "tsd100",
+    "core": "tsd[-\\s/.+]*100",
+    "origen": "alta detnov:tsd-100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN4-2Plus",
+    "normkey": "vsn42plus",
+    "core": "vsn[-\\s/.+]*4[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn4-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VSN8-2Plus",
+    "normkey": "vsn82plus",
+    "core": "vsn[-\\s/.+]*8[-\\s/.+]*2[-\\s/.+]*plus",
+    "origen": "confirmar morley:vsn8-2plus",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Z-200",
+    "normkey": "z200",
+    "core": "z[-\\s/.+]*200",
+    "origen": "alta detnov:z-200",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "997-512-000-1",
+    "id": "notifier:nfs8rel",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 138,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {
+   "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?": {
+    "allowed_sources_nuevas": [
+     "Guia Rapida H_GTW",
+     "TG-Honeywell_Usuario_PT"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "id3000"
+    ]
+   },
+   "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?": {
+    "allowed_sources_nuevas": [
+     "Guia Rapida H_GTW",
+     "TG-Honeywell_Usuario_PT"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "id3000"
+    ]
+   },
+   "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?": {
+    "allowed_sources_nuevas": [
+     "HOP-138-9ES issue 5_11-2025_In",
+     "HOP-338-9ES issue 4_01-2026_Op",
+     "HOP-338-9PT-issue 4_01-2026_Op"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "inspire"
+    ]
+   },
+   "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?": {
+    "allowed_sources_nuevas": [
+     "HOP-138-9ES issue 5_11-2025_In",
+     "HOP-338-9ES issue 4_01-2026_Op",
+     "HOP-338-9PT-issue 4_01-2026_Op"
+    ],
+    "ids_nuevos": [],
+    "detected": [
+     "inspire",
+     "e10",
+     "e15"
+    ]
+   }
+  },
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {
+   "detnov:cmd-501": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350005 Manual Central Monoxido CMD-500 ES FR GB IT"
+    ]
+   },
+   "detnov:cmd-502": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350005 Manual Central Monoxido CMD-500 ES FR GB IT"
+    ]
+   },
+   "detnov:cmd-503": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350005 Manual Central Monoxido CMD-500 ES FR GB IT"
+    ]
+   },
+   "detnov:dmd-500": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT"
+    ]
+   },
+   "detnov:dmdp-500": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT"
+    ]
+   },
+   "detnov:fad-905": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2"
+    ]
+   },
+   "detnov:mad-401": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-411": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-421": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3"
+    ]
+   },
+   "detnov:mad-431": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-441": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-473": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+     "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2"
+    ]
+   },
+   "detnov:mad-490": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-492": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT"
+    ]
+   },
+   "detnov:scd-120": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55312000 SCD-120_Manual_ES"
+    ]
+   },
+   "detnov:tcd-106": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55310600 Manual TCD-106 kit_ES"
+    ]
+   },
+   "detnov:trd-100": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT"
+    ]
+   },
+   "detnov:trmd-501": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT"
+    ]
+   },
+   "detnov:trmd-502": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT"
+    ]
+   },
+   "detnov:tsd-100": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT"
+    ]
+   },
+   "detnov:z-200": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55320103 Manual Zocalo Conexion ES FR GB IT_V2"
+    ]
+   },
+   "fidegas:00051": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "fidegas:00052": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "fidegas:03382": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "fidegas:03383": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "fidegas:s2-t2": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-T2-y-S2-T2"
+    ]
+   },
+   "fidegas:s3-t2": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "Manual-de-Usuario-S3-T2-y-S2-T2"
+    ]
+   },
+   "notifier:f3000m": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "F3000M_Spanish User Guide_0044-047-02-ES"
+    ]
+   },
+   "notifier:lisa-2": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "MNDT635"
+    ]
+   },
+   "notifier:lisa-2-eex-d": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "notifier:lisa-2-eex-na": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:34110400": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:34115311": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:55320103": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:55350007": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:cmd-500": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:dmdx-500": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:f3000m": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:fad-902": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:fad-905": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-402": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-412": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-422": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-432": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-432-mdulo-1-sirena": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-432-mdulo-2-sirenas": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-442": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:mad-472": {
+    "fuentes_antes": 2,
+    "fuentes_despues": 2,
+    "ganadas": []
+   },
+   "unresolved:mad-491": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:scd-120": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:tcd-106": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:trd-100": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 0,
+    "ganadas": []
+   },
+   "unresolved:trmd-50x": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   },
+   "unresolved:tsd-100": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
+    "ganadas": []
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}

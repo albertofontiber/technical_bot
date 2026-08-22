@@ -10705,3 +10705,134 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   derivada, candado de vista, guardas de artefacto, escritura atómica. La ingesta no
   necesita método nuevo — necesita invocar el que hay sobre la diana que ella misma crea.
 - **Relacionado**: TECH_DEBT #101 (con su trigger) · DEC-279/280 · `scripts/ingest_new.py`.
+## DEC-282
+
+> **Nota de numeración**: esto se escribió como `DEC-279` y colisionó con el `DEC-279` de
+> la sesión `s336-lote`, que corría en paralelo y llegó hasta `DEC-281`. Renumerado a 282 al
+> resolver el merge; ninguna de las dos decisiones cambia. Es **TECH_DEBT #92** otra vez:
+> con dos sesiones abiertas, el número de DEC se elige contra un `main` que ya se movió.
+
+**Adjudicaciones de Alberto del 21-ago sobre los huérfanos, y dónde vive su cola para que no se
+pierda.** · impacto MEDIO · s339 · 22-ago
+
+- **Lo que zanjó, literal**:
+  1. **«Detnov OK»** → el **nº de referencia del fabricante VALE como cita bajo R4** cuando el
+     manual no usa el nombre de modelo (`MAD-491` ↔ `55349102`, verificado en el texto del PDF, ya
+     alias en el catálogo y coincidente con el nombre del fichero: doble ancla). Afecta a 15
+     manuales. **14 no tienen gemelo**, así que no hay nada más que adjudicar en ellos: son
+     promoción, y quedan del lado mío. El 15º (`unresolved:mad-450` → `detnov:mad-450`) sí tiene
+     gemelo y sigue en su cola.
+  2. **«Ojo que los TG son software»** → la familia TG es software y por **R10** el software ES
+     producto consultable: **no se retiran**. Propuesta acompañante (sin aplicar): marcarlos
+     `categoria: software de configuración`, campo que ya existe y usan 4 productos.
+  3. **Ambiguos 1 y 3**: `HLSI-MN-025-I_NFS Supra` → **`morley:vsn12-2plus`** (el manual es de la
+     serie NFS Supra de Morley) y `TG-1020-INT` → **`notifier:tg-1020`** (coherente con que los TG
+     sean su software). La evidencia de corpus respalda las dos: «VSN12-2Plus» aparece en Morley 2
+     / Notifier 1; «TG-1020» en Notifier 15 / Morley 1 / Xtralis 1.
+- **Por qué existe este DEC** (y es la parte de método): sus respuestas vivían **sólo** en la tabla
+  de cabecera de `docs/REVISION_ALBERTO_HUERFANOS.md`, que es un fichero **que yo genero**. Una
+  adjudicación suya que sólo existe en la salida de un generador mío no es traza: se pierde en
+  cuanto el generador cambie. La traza canónica de una decisión med/alto es `DECISIONS.md`, y aquí
+  está.
+- **Dónde vive la cola, y los dos agujeros que tenía**:
+  - **canónico → `docs/REVISION_ALBERTO_HUERFANOS.md`** (82 huérfanos, 22 decisiones,
+    regenerable con `scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo).
+  - **agujero 1**: el **PLAN no lo mencionaba**, y el PLAN es lo que `CLAUDE.md` manda releer en
+    CADA arranque. Un pendiente que el arranque canónico no ve, no existe. → añadido como punto
+    `0a` de «QUÉ SIGUE».
+  - **agujero 2**: `docs/DECISIONES_PENDIENTES_ALBERTO.md` guardaba una **copia desfasada** de la
+    misma cola (decía «245 → 134» con 82 vivos). Dos documentos con la misma cola y uno mal es
+    peor que uno solo → su bloque de huérfanos pasa a ser un puntero, no una copia.
+- **Alternativa descartada**: mantener la cola en el PLAN. Es lo que DEC-036 ya prohibió (el PLAN
+  se relee cada arranque y llegó a 123KB por acumular estado). El PLAN apunta; el packet detalla.
+- **Ref**: `docs/REVISION_ALBERTO_HUERFANOS.md` · `docs/PLAN_RAG_2026.md` §QUÉ SIGUE 0a ·
+  `docs/DECISIONES_PENDIENTES_ALBERTO.md` · DEC-275/276/277/278
+
+## DEC-283 (s339, 22 ago 2026) — El packet firmado se convierte en lote medido, y el dúo me para dos rondas seguidas
+
+- **Fecha**: 22 ago 2026 (s339). **Impacto**: ALTO (catálogo + retrieval). **Veredicto: lote LISTO,
+  no aplicado** — espera el OK de Alberto y sus 8 adjudicaciones pendientes.
+- **Gatillo**: Alberto terminó `docs/REVISION_ALBERTO_HUERFANOS.md` — 23 de 24 casillas y **46
+  anotaciones de dominio** que no se deducen del catálogo («este también sirve para el MAD-401»,
+  «el pdf está girado», «es la VSN Plus de Morley»).
+
+**La decisión de diseño**: separar lo MECÁNICO de lo INTERPRETADO. `s339` parsea del packet lo que
+él escribió, sin interpretar; mi lectura de esa prosa vive en un mapa aparte, escrito a mano, con
+una **cita literal** por lectura y un test que la verifica contra el fichero. No mezclarlas es lo
+que evita que «lo que Alberto dijo» y «lo que yo entendí» acaben en la misma celda. El test cazó dos
+citas donde yo le había «arreglado» una errata (`manuual`, `sfotware`): una cita corregida deja de
+ser una cita.
+
+**Alternativas descartadas**: (a) interpretar la prosa con un LLM y guardar sólo el resultado —
+pierde la traza, que es justo el activo; (b) aplicar a mano desde el packet — no reproducible ni
+auditable; (c) pedirle que rellene un formulario estructurado — mueve a él el coste de un problema
+mío.
+
+**El dúo, dos rondas, 20 hallazgos, 20 verificados contra el código (regla C).** Lo que cazó:
+
+- **Ronda 1 (Sol 8 · Fable 6).** §3 y §3.b **no generaban ni una mutación** mientras yo afirmaba
+  traducir sus adjudicaciones (Sol, crítico). Borrar un id **viola el contrato** — *«los ids son
+  INMUTABLES: nunca se borran ni se reciclan»*— y mi premisa de que «nada externo lo referenció»
+  era falsa: 4 `doc_map` + 1 alias (Sol, crítico; **Fable lo dio por defendible y se equivocó** —
+  el valor del dúo cross-family es exactamente este desacuerdo). Y «huérfanos» es **doc-side**,
+  ciego al estrechamiento hp009/R20, que es **query-side** (Fable, crítico).
+- **Ronda 2 (Sol 6 · Fable 6).** El plan **no era ejecutable por la puerta** (faltaba `retags_db`,
+  y `products_confirmar` sin `canonical_model`): yo había probado `aplicar_plan` aislado y afirmado
+  que la puerta funcionaba, sin correrla. **ITAC incumplía la R3 que Alberto pidió**: el
+  `vendido_bajo` con Morley aterrizaba en el id que el propio lote convierte en `redirect`, y el
+  inventario sólo mira filas `activo` → habría quedado sin ser consultable como Morley, en
+  silencio. Los **dos paraguas eran inertes** (`TG` lo eclipsa el producto exacto; `divergent:
+  "unknown"` devuelve cero ids). Y **`aplicar_plan` aplica parcialmente sin avisar**, así que una
+  adjudicación firmada puede evaporarse con recibo PASS (Fable, crítico).
+
+**Los tres arreglos de raíz** (no parche op-a-op):
+1. **El lote se emite en el formato de plan de `s324`**, así que el «después» lo construye
+   `aplicar_plan()` —el mismo código que escribirá— y no un intérprete mío. Con eso funcionan sin
+   tocar nada `s334_huerfanos_seam1` y la propia puerta. El writer real cazó entonces tres cosas
+   que mi simulación tapaba, entre ellas 3 ids promovidos **y** redirigidos a la vez.
+2. **El recibo verifica la INTENCIÓN de cada fila contra el estado final**, no contadores.
+   Cuadrar números aceptaría «faltan 1 de 16 redirects, será un no-op» sin comprobar que aplica;
+   verificar la intención hace que un salto silencioso sea inocuo sólo cuando lo que la fila pedía
+   ya se cumple, y letal en cualquier otro caso.
+3. **Batería derivada de los propios términos del lote** (`s339g`), porque seam-1 y el censo miden
+   sobre el vocabulario OBSERVADO y **ninguna de las 163 consultas menciona los términos nuevos**:
+   «0 pérdidas» era no-regresión, no seguridad.
+
+**El hallazgo que esa batería produjo, y que decide sobre NAS.** Alberto adjudicó `notifier:nas`
+como producto (Notifier Air Sample) y **tiene razón** en producto-hood. Pero producto-hood y
+**detectabilidad** son preguntas distintas, y yo las tenía juntas: el token «NAS» dispara en los
+tres negativos —la preposición portuguesa «nas» (literal en el corpus), la misma intercalada en
+español, y «un NAS de red» (Network Attached Storage)—. Es DEC-272 reproducido. `DETECT_STOPWORDS`
+no vale: es lista global y mataría NAS entero. **Resuelto** poniendo como canónico «Notifier Air
+Sample» —que es como ÉL describe el producto— manteniendo el id que él nombró: los manuales dejan
+de ser huérfanos y el token corto ya no dispara. Batería tras el cambio: **32/32 positivos, 5/5
+negativos**.
+
+**La puerta se extendió dos veces, aditivamente y con tests**: `products_vendido_bajo` (sin él la
+fusión no queda findable bajo las dos marcas, que es lo que Alberto pidió) y
+`products_recanonizar` (necesario dos veces: NAS y RHistorico). Planes anteriores sin esas claves
+siguen funcionando.
+
+**Medido** (`evals/s339f_recibo.json`, `s339e_radio_explosion.json`, `s339g_bateria.json`):
+huérfanos **82 → 24** (cierra 58, **abre 0**) · `validate` limpio · **dry-run de la puerta PASS**
+con detector 2034→2066 (+32/−0), **0 gold perdidas**, 0 disparos en negativos sintéticos, 4 golds
+ganan fuentes · seam-1 bajo `replace` 0 pérdidas · R3 14/14 alcanzables · suite verde.
+
+**Gaps declarados**: (a) seam-1 y el censo no tocan los términos nuevos — la batería `s339g` es lo
+que cubre ese hueco, y es sintética, escrita por mí; (b) la grafía de marca del lote es **una
+apuesta sobre deuda viva** (TECH_DEBT #100: 480 de 640 entradas cross-brand son hoy inalcanzables
+porque `Morley-IAS` ≠ `Morley`), no un arreglo — cuando se reconcilie habrá dos convenciones
+coexistiendo; (c) 8 puntos siguen esperando firma de Alberto, listados en
+`docs/DECISIONES_PENDIENTES_ALBERTO.md`.
+
+**Un bloqueo lo cerró la FUENTE, no una respuesta suya** (R18). Escribió «*parece* MAD-490 y
+MAD-492», que es conjetura y no firma, así que estaba fuera del lote. Descargado el manual vivo que
+él mismo enlaza —**misma referencia `55349102`**— y leído: se titula «MÓDULO AISLADOR **Y** ZÓCALO
+AISLADOR» (dos productos) y nombra **MAD-490 8 veces y MAD-492 otras 8**. Confirmado → altas dentro,
+huérfanos 82 → 24. Queda abierta una pregunta menor: el manual viejo se titula MAD-4**91** con esa
+misma referencia, así que o se renombró o la referencia cubre la familia (`detnov:mad-491`).
+
+- **Ref**: `scripts/s339*.py` · `tests/test_s339_ledger_cita_a_alberto.py` ·
+  `tests/test_s324_vendido_bajo.py` · `tests/test_s324_recanonizar.py` ·
+  `evals/adversarial_review_log.jsonl` (Sol 2026-08-22T16:01:42 y T16:34:38 + Fable emparejado) ·
+  DEC-272 · TECH_DEBT #100

@@ -97,82 +97,80 @@ deshace en silencio). Las tres rutas medidas siguen sobre la mesa; la decisión 
 
 ---
 
-## 🔴 Manuales huérfanos: 245 → 82, y **5 líneas tuyas los bajan a 65**
+## 🔴 Manuales huérfanos → **este bloque se mudó**
 
-Me dijiste que atacara hasta 10. Bajé de **245 a 82** y ahí me paré, pero esta vez no me paré por
-prudencia: **medí por qué**, y el resultado es que el cuello de botella dejó de ser técnico.
+El detalle vivía aquí y se quedaba desfasado cada vez que avanzaba el trabajo (llegó a decir
+«245 → 134» cuando ya iban 82). Dos documentos con la misma cola, uno mal, es peor que uno solo.
 
-### Lo primero: 5 decisiones que valen 17 manuales
+👉 **La cola canónica de huérfanos es [`REVISION_ALBERTO_HUERFANOS.md`](REVISION_ALBERTO_HUERFANOS.md)**:
+82 huérfanos en 22 decisiones, una fila = una decisión, con recomendación y evidencia. Se
+**regenera** con `python scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo, así que
+no puede quedarse viejo mientras alguien lo regenere.
 
-Son redirects de un `unresolved:X` a su gemelo **que YA es consumible** — mismo canónico, uno con
-la marca puesta y otro sin ella. **R21 dice que esto lo firmas tú**, y por eso no lo he tocado.
+### Ya lo cerraste — y esto es lo que quedó vivo (s339, 22-ago)
 
-| firma esto | manuales que desbloquea |
-|---|---|
-| `unresolved:id50` → `notifier:id-50` | **12** (`MADT155_*`, `MCDT155/156`, `MFDT155/156`, `MIDT155/156`, `TIDT107`, `BIDT077`) |
-| `unresolved:tg` → `notifier:tg` | 2 |
-| `unresolved:id60` → `notifier:id-60` | 1 |
-| `unresolved:tg-gsm` → `notifier:tg-gsm` | 1 |
-| `unresolved:mad-450` → `detnov:mad-450` | 1 |
+Terminaste el packet: **23 de 24 casillas y 46 anotaciones**. Traducidas a lote, medidas y pasadas
+por la puerta: **huérfanos 82 → 24**, `validate` limpio, **0 gold perdidas**, 0 disparos en
+negativos sintéticos, **4 golds ganan fuentes**, y una batería nueva derivada de los propios
+términos del lote da **32/32 positivos y 5/5 negativos**. El lote NO está aplicado: espera tu OK.
 
-**Simulado sobre una copia del catálogo, no razonado: 82 → 65, y 0 huérfanos nuevos.**
-👉 *Un «ok a las 5» y lo aplico con gate y recibo.*
+**Dos cosas que hice distinto de lo que escribiste, y por qué:**
 
-### Cuatro que no puedo proponerte porque el gemelo existe en DOS marcas
+1. **§5.1 — no puedo BORRAR `notifier:notifier-inspire-e10`.** Pediste llamarlo directamente
+   `notifier:inspire-e10` «para evitar tener los dos nombres en la BD via redirect». El contrato de
+   identidad lo prohíbe en una línea: *«Los ids son INMUTABLES: nunca se borran ni se reciclan»*, y
+   para un merge prescribe `redirect`. Y el id está referenciado en 4 entradas de `doc_map` y 1
+   alias, así que borrarlo rompería lo ya etiquetado. **El redirect te da lo que querías**: deja de
+   existir como producto consultable —no sale en inventarios ni resuelve como fila propia—, sólo
+   reenvía. De cara al bot no hay dos nombres; hay un puntero interno que evita romper el pasado.
 
-| documento | el token lo ocupan |
-|---|---|
-| `HLSI-MN-025-I_NFS Supra Series v05` | `morley:vsn12-2plus` **y** `notifier:vsn12-2plus` |
-| `VSN-CO-Mantenimiento-y-vida-util…` | `morley:vsn-co` **y** `notifier:vsn-co` |
-| `TG-1020-INT` | `desico:tg-1020` **y** `unresolved:tg-1020` (y el candidate de Notifier) |
-| `TG-Honeywell_Usuario_PT` | `notifier:id3000` ya es consumible; `notifier:id-3000` es su gemelo con guion |
+2. **§6.3 NAS — tu adjudicación de producto es correcta y está aplicada; la del NOMBRE la cambié.**
+   NAS existe, es el Notifier Air Sample, y el id es `notifier:nas` como dijiste. Pero
+   *producto-hood* y *detectabilidad* son preguntas distintas y yo las tenía juntas. Medido: el
+   token «NAS» dispara en los tres negativos — «insira os condutores **nas** respectivas portas»
+   (preposición portuguesa, que está literal en el corpus), la misma intercalada en español, y «un
+   **NAS** de red» (Network Attached Storage). Es DEC-272 otra vez. `DETECT_STOPWORDS` no sirve:
+   es una lista global y mataría NAS del todo. Así que el **canónico** pasa a «Notifier Air
+   Sample», que es como TÚ describes el producto; el id no se toca. Los manuales dejan de ser
+   huérfanos igual y el token corto ya no dispara.
+   👉 **Si quieres «NAS» alcanzable pese a los falsos positivos, dilo: es añadir un alias.**
 
-Los dos últimos los cazó el gate y el dúo cuando intenté promoverlos: no son promociones, son
-gemelos ortográficos. Y siguen las **3 fusiones Morley↔Notifier** de siempre (`NFS8REL`,
-`MCX-55M`, `MMX-10M`), cada una con manual huérfano en los dos lados → **6 más de golpe**.
+### 🔴 Lo que sigue esperándote — 8 puntos
 
-### Y una pregunta de regla que vale 15 manuales
+> Eran 9. El de **MAD-490/492** lo cerró la **fuente**, no tú: escribiste «*parece* MAD-490 y MAD-492» y eso era conjetura, así que bajé el manual vivo que enlazas —mismo nº de referencia `55349102`— y lo leí. Se titula «MÓDULO AISLADOR **Y** ZÓCALO AISLADOR» (dos productos) y nombra **MAD-490 8 veces y MAD-492 otras 8**. Confirmado; los doy de alta. *Queda una pregunta menor asociada: el manual viejo se titula MAD-4**91** con esa MISMA referencia, así que o se renombró o la referencia cubre la familia — hay que decidir qué pasa con `detnov:mad-491`.*
 
-Los manuales Detnov **no usan el nombre de modelo: usan el número de referencia**. `MAD-491` es
-`55349102`, `MAD-461` es `55346102`. Lo verifiqué leyendo el PDF original: la referencia está en
-el texto, **ya es alias en el catálogo**, y coincide con el nombre del fichero (doble ancla).
+| # | qué | por qué no lo decido yo |
+|---|---|---|
+| 1 | **`desico:tg-1020`** — ¿atribución equivocada, homónimo, o se queda? | Es la pregunta del final del packet, sin marcar. Ahora **bloquea de verdad**: promover `notifier:tg-1020` choca con él y `validate` lo caza como canónico duplicado. Sin tu línea, TG-1020 se queda fuera del lote |
+| 2 | **§6.5 Serie 800** | Marcaste `[X] déjalo`, y en esas opciones `adelante` era *mi* propuesta de paraguas — así que «déjalo» significa «no hagas eso». «Déjalo como Serie-800» admite dos lecturas: déjalo **quieto**, o déjalo **como producto llamado así**. Y la huella pide prudencia: dispara en 14 documentos, 11 con dueño ya |
+| 3 | **§6.4 `RHistorico.exe`** | Diste OK, pero s334 lo había dejado fuera A PROPÓSITO por riesgo léxico («R10 se cumple, la **grafía** no»), y mi propuesta reintroducía esa grafía como alias indexado. Merece tu re-adjudicación explícita, no colarse dentro de un «renombrar» |
+| 4 | **suelo F5000** (2 manuales) | Dices «el modelo F5000 de **Morley**». El catálogo ya lo tiene como **`ffe:f5000`** consumible — adjudicado por **ti** en s91. FFE fabrica la barrera y Morley la revende. **Propongo** dejar `ffe:f5000` y añadir Morley a `vendido_bajo` (R3), sin duplicar el canónico. ¿OK? |
+| 5 | **suelo `MADT190_10`** (racks Notifier) | Los 9 canónicos que diste son **sólo dígitos** (`020-596`…) y el detector los excluye a propósito. Crearlos no los haría alcanzables. ¿Tienen nombre comercial, o aceptamos que sólo se lleguen por el nombre del rack? |
+| 6 | **suelo `D 1100-4`** (KAC) | `CWSO-xx-S1/S2/W1/W2` donde «xx» es el color: es un patrón, no un modelo instanciable. ¿Qué colores existen de verdad? |
+| 7 | **suelo `FS2-1`** | «La familia **FS** de Notifier, centrales de 1, 2 y 4 zonas». ¿El id es la familia, o son tres modelos? |
+| 8 | **suelo `MNDT021`** | Es la única fila del suelo que no anotaste |
 
-👉 **¿Vale el nº de referencia del fabricante como cita válida bajo R4 cuando el manual no usa el
-nombre de modelo?** Si vale, son **15** de golpe. Si no, se quedan.
+Con 1–3 resueltos entran 3 manuales más; con 4–8, otros 5. El resto del lote no depende de ellos.
 
-### El suelo, y por qué 10 no sale sin ti
+### Las 4 bajas de corpus que firmaste: comprobadas antes de borrar
 
-Medí los 82 leyendo **el PDF original de cada uno** (`s336b`/`s336c`, los 84 de entonces):
+`scripts/s339h_precheck_bajas.py` mide qué se lleva por delante cada baja **antes** de ejecutarla.
+**Ninguna toca un gold** y ninguna deja un producto consumible sin fuente. Resultado:
 
-| | n | qué lo desbloquea |
-|---:|---|---|
-| redirect `unresolved:` pendiente | 29 | **tú** (los 17 de arriba + los ambiguos) |
-| promovible con cita verificada | 20 | mío — **hechos los que pasan R19/R21: 2** |
-| sólo nº de referencia | 15 | **tú**, la pregunta de arriba |
-| el manual no nombra su producto | 13 | nada: no lo atesta |
-| canónico digit-only | 4 | irreducible, el detector los excluye a propósito |
-| PDF escaneado | 2 | lector multimodal |
-| sin PDF | 1 | — |
+| manual | tu frase | qué cuesta |
+|---|---|---|
+| `MNDT740P` (2 chunks, portugués) | «es portugués, deberíamos sacarlo» | **nada**: `notifier:nas` conserva otras fuentes |
+| `MNDT741I` (17 chunks, `language=en`) | «si sólo cambia el idioma, quitaría el de MNDT741I» | **nada**: la condición está verificada — `MNDT741.pdf` es `language=es`, mismo producto y mismo índice |
+| `S3466R_Eng_ital` (1 chunk) | «retira este manual del corpus» | `unresolved:3466` se queda **sin ninguna fuente** |
+| `Indicator Honeywell Manual SP` (1 chunk) | «Elimínalo del corpus» | `unresolved:indicator` se queda **sin ninguna fuente** |
 
-**53 de los 82 están gated en decisiones tuyas.** No hay camino autónomo a 10 sin saltarme R21,
-que es exactamente lo que el dúo me cazó intentando en r43.
+👉 **Lo que sale de ahí y no me invento**: los dos últimos dejan un `unresolved:` en cuarentena
+apuntando a nada. Lo coherente es **retirarlos** (`estado: retirado`, que es el mecanismo del
+contrato), no dejar filas colgando. Lo aplico con las bajas si me dices que sí.
 
-### Lo que sí hice solo, y lo que me costó
-
-De los 20 «promovibles», **R19 y R21 se comieron 17**. Y el que mejor pinta tenía, `AM-LCD`, lo
-mató la medida que hice para defenderlo: Fable señaló que el censo del gate lo flagea
-`[sin_digitos, acronimo_corto]` —la clase con la que la regla mata `NAS`—, medí su huella en el
-corpus esperando limpiarlo, y **uno de sus 6 documentos es un falso positivo real**: «Pantalla
-**FM/AM LCD**» de un manual de radio. Quedaron **2**: `SDX-751-TEM` y `LPX-751`.
-
-Eso deja una pregunta abierta que no es de este lote y que arreglaría `AM-LCD` de raíz:
-**¿debe un término sin dígitos exigir el separador en el detector?** (hoy `am[-\s/.+]*lcd` acepta
-el espacio, y por eso «FM/AM LCD» cuela). Tiene que ir con su propia medida.
-
-**Y hay 5 que no bajan de ninguna manera**: `020-590`, `55320103`, `3466`, `00051`, `EEV(2)` —
-referencias puramente numéricas o con paréntesis, que el detector excluye **a propósito**. De
-`3466` te traigo un dato nuevo: leí su PDF escaneado con Claude y **la página sí imprime «3466»**,
-así que la cita existe; lo que no existe es un nombre de producto que el detector pueda ver.
+> Y un aviso de por qué esto se comprueba: mi primera lista tenía el **fichero equivocado** para
+> «Elimínalo del corpus» — apuntaba a `MIEMA130`, que es el manual de la **VSN Plus** que el lote
+> justamente promueve. Lo cazó este precheck, no yo.
 
 ---
 

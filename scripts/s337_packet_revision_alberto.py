@@ -102,6 +102,52 @@ def marcas_que_lo_nombran(tokens: list[str]) -> dict[str, list[tuple[str, int]]]
     return out
 
 
+
+def anotaciones_previas(path: Path) -> tuple[dict[str, str], dict[str, str]]:
+    """Lo que Alberto ya escribió en el packet, para NO pisarlo al regenerar.
+
+    El packet es un fichero GENERADO sobre el que él anota: marca casillas y
+    añade correcciones de dominio en texto libre («este también sirve para el
+    MAD-401», «hay uno más actual en la web, pon éste superseded»). Eso es
+    conocimiento que yo no puedo deducir del catálogo, así que regenerar sin
+    conservarlo lo DESTRUYE — y sería exactamente el fallo que este packet
+    existe para evitar.
+
+    Devuelve dos mapas:
+      · por SECCIÓN  → la línea de decisión tal cual quedó (casillas + texto)
+      · por MANUAL   → la última celda de su fila de tabla (la anotación)
+    """
+    if not path.exists():
+        return {}, {}
+    from collections import defaultdict
+    seccion, por_seccion = None, {}
+    por_manual: dict[str, list[str]] = defaultdict(list)
+    for l in path.read_text("utf-8").splitlines():
+        if l.startswith("### ") or (l.startswith("## ") and "·" in l):
+            seccion = l.lstrip("#").strip()
+        elif re.match(r"\s*- \[[ Xx]\]", l):
+            # Se conserva si Alberto la TOCÓ, y tocarla es marcar una casilla **o**
+            # escribir en el hueco. La v1 exigía `[X]` y por eso perdió su «OK a lo
+            # que propone (ten en cuenta que es software)», escrito sin marcar nada.
+            marcada = "[x]" in l.lower()
+            escrita = not re.search(r"(______|\bninguno\b|otra cosa)\s*$", l)
+            if seccion and (marcada or escrita):
+                por_seccion[seccion] = l
+        elif l.lstrip().startswith("|"):
+            # Fila de tabla. Sus notas van en la ÚLTIMA celda, y él las escribe SIN
+            # cerrar la fila con `|`, así que la nota es `celdas[-1]`, no `[-2]`:
+            # la v1 se traía «FICHERO + PDF» y tiraba «este es el Z-200».
+            celdas = [c.strip() for c in l.split("|")]
+            if len(celdas) >= 5 and celdas[2].startswith("`"):
+                nota = celdas[-1] if celdas[-1] else (celdas[-2] if len(celdas) > 5 else "")
+                if nota and not nota.startswith(("FICHERO", "ref.", "---")):
+                    # LISTA: dos manuales pueden compartir nombre truncado
+                    # (las filas 16 y 17 son `55347200 …MAD-472 ES `), y con un
+                    # dict la segunda pisaba la nota larga de la primera.
+                    por_manual[celdas[2].strip("`")].append(nota)
+    return por_seccion, por_manual
+
+
 def main() -> int:
     cat = cs.load()
     diag = json.loads(DIAG.read_text("utf-8"))
@@ -161,8 +207,19 @@ def main() -> int:
                 sin_gemelo[(i, cat.products[i]["canonical_model"])].append(sf)
                 break   # una fila = una decisión: el primer id manda
 
+    previas_sec, previas_man = anotaciones_previas(SALIDA)
     L: list[str] = []
     A = L.append
+    _sec_actual = [""]
+
+    def SEC(titulo: str) -> None:
+        """Emite un encabezado y recuerda cuál es, para casar las anotaciones."""
+        _sec_actual[0] = titulo.lstrip("#").strip()
+        A(titulo)
+
+    def DEC(defecto: str) -> None:
+        """Línea de decisión: la CONSERVADA si Alberto ya la tocó, si no la nueva."""
+        A(previas_sec.get(_sec_actual[0], defecto))
     A("# Revisión uno a uno — manuales huérfanos")
     A("")
     A(f"> Generado por `scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo "
@@ -194,7 +251,7 @@ def main() -> int:
     A("")
 
     # ── redirects de una línea ────────────────────────────────────────────
-    A("## 1 · Redirects de una línea — el gemelo YA es consumible")
+    SEC("## 1 · Redirects de una línea — el gemelo YA es consumible")
     A("")
     A("Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firmas tú.** "
       "Simulado sobre una copia del catálogo: **0 huérfanos nuevos**.")
@@ -202,18 +259,18 @@ def main() -> int:
     orden = sorted(redirects.items(), key=lambda kv: -len(kv[1]))
     for n, ((i, c, gem), mans) in enumerate(orden, 1):
         sw = " · **software (R10)**" if _k(c).startswith("tg") else ""
-        A(f"### 1.{n} — `{i}` → `{gem[0]}`  ·  **{len(mans)} manual(es)**{sw}")
+        SEC(f"### 1.{n} — `{i}` → `{gem[0]}`  ·  **{len(mans)} manual(es)**{sw}")
         A("")
         A(f"- **Recomendación: SÍ.** Mismo canónico «{c}»; el destino ya es consumible, así que "
           f"el redirect no crea nada nuevo — sólo deja de perder los manuales.")
         A(f"- Manuales: {', '.join('`'+m[:44]+'`' for m in sorted(mans)[:12])}"
           + (f" … y {len(mans)-12} más" if len(mans) > 12 else ""))
         A("")
-        A("  - [ ] OK  ·  [ ] otra cosa: ______")
+        DEC("  - [ ] OK  ·  [ ] otra cosa: ______")
         A("")
 
     # ── ambiguos ──────────────────────────────────────────────────────────
-    A("## 2 · Ambiguos — el token lo disputan dos ids")
+    SEC("## 2 · Ambiguos — el token lo disputan dos ids")
     A("")
     A("No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece el token**, "
       "que es el único discriminador que no me invento.")
@@ -223,7 +280,7 @@ def main() -> int:
         marcas = ev.get(_k(c)) or []
         pinta = " · ".join(f"**{m}** {k}" for m, k in marcas[:4]) or "sin apariciones"
         dec = YA_DECIDIDO.get(_k(c))
-        A(f"### 2.{n} — «{c}»  ·  {len(mans)} manual(es)"
+        SEC(f"### 2.{n} — «{c}»  ·  {len(mans)} manual(es)"
           + ("  ·  ✅ **YA LO DECIDISTE**" if dec else ""))
         A("")
         A(f"- Ids que se lo disputan: {', '.join('`'+g+'`' for g in gem)} (+ el candidate del manual)")
@@ -234,7 +291,7 @@ def main() -> int:
             A(f"- ✅ Dijiste {palabra} → lo entiendo como **`{destino}`** ({por}). "
               f"La evidencia de arriba lo respalda.")
             A("")
-            A("  - [ ] confirmado  ·  [ ] te leí mal, era: ______")
+            DEC("  - [ ] confirmado  ·  [ ] te leí mal, era: ______")
         else:
             # ¿es de verdad una disputa ENTRE MARCAS, o un gemelo ortográfico de la
             # misma? `unresolved:` no es una marca, así que no cuenta como bando.
@@ -250,7 +307,7 @@ def main() -> int:
                 A(f"- **Recomendación: redirect `{i}` → `{destino}`.** No hay que elegir marca: "
                   f"hay que dejar de tener dos filas para lo mismo. Sigue siendo tuyo por R21.")
                 A("")
-                A("  - [ ] OK al redirect  ·  [ ] otra cosa: ______")
+                DEC("  - [ ] OK al redirect  ·  [ ] otra cosa: ______")
                 A("")
                 continue
             if gana and solo_una:
@@ -262,11 +319,11 @@ def main() -> int:
                   "producto vendido bajo dos marcas, fusión (R3); si son productos distintos que "
                   "comparten nombre, es **homónimo** y hay que declararlo.")
             A("")
-            A("  - [ ] fusionar, canónico `______`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa")
+            DEC("  - [ ] fusionar, canónico `______`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa")
         A("")
 
     # ── Detnov ────────────────────────────────────────────────────────────
-    A("## 3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)")
+    SEC("## 3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)")
     A("")
     A(f"**{len(detnov)} manuales.** Dos orígenes, los dos con la evidencia a la vista:")
     A("")
@@ -277,8 +334,8 @@ def main() -> int:
       "fabricante publica ese PDF con el modelo en la URL) y `CATALOGO_FABRICANTE` (su catálogo "
       "lo lista con descripción impresa). **RESUELTO exige ≥2 canales independientes.**")
     A("")
-    A("| # | manual | producto | evidencia |")
-    A("|---|---|---|---|")
+    A("| # | manual | producto | evidencia | tus notas |")
+    A("|---|---|---|---|---|")
     for n, (sf, ids, refs) in enumerate(sorted(detnov), 1):
         canon = [cat.products[i]["canonical_model"] for i in ids if i in cat.products]
         mf = multi.get(sf)
@@ -288,13 +345,15 @@ def main() -> int:
                 ev += f" · [fuente]({mf['url_fabricante']})"
         else:
             ev = f"ref. `{', '.join((refs or [])[:2])}`"
-        A(f"| {n} | `{sf[:44]}` | {', '.join(canon[:2])} | {ev} |")
+        pend = previas_man.get(sf[:44]) or []
+        nota = pend.pop(0) if pend else ""
+        A(f"| {n} | `{sf[:44]}` | {', '.join(canon[:2])} | {ev} | {nota} |")
     A("")
-    A("- [ ] Adelante con todos  ·  [ ] quita los que marque arriba")
+    DEC("- [ ] Adelante con todos  ·  [ ] quita los que marque arriba")
     A("")
     faltan = sorted(descubiertos.items())
     if faltan:
-        A("### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos")
+        SEC("### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos")
         A("")
         A("El canal web no sólo confirma: **descubre**. Tu ejemplo del `S3-T2` era esto — el "
           "catálogo los tiene como número de referencia y Fidegas los llama por su nombre. "
@@ -310,7 +369,7 @@ def main() -> int:
           "`CCD-100` es la serie de central donde se enchufa el TRD-100, no el producto de ese "
           "manual. Por eso no se aplican solos.")
         A("")
-        A("- [ ] añade los que marque  ·  [ ] ninguno  ·  [ ] otra cosa")
+        DEC("- [ ] añade los que marque  ·  [ ] ninguno  ·  [ ] otra cosa")
         A("")
 
     # ── sin gemelo ────────────────────────────────────────────────────────
@@ -340,39 +399,39 @@ def main() -> int:
             uno_a_uno[(i, c)] += mans
 
     if fusiones:
-        A("## 4 · Fusiones Morley ↔ Notifier — cada una desbloquea los DOS lados")
+        SEC("## 4 · Fusiones Morley ↔ Notifier — cada una desbloquea los DOS lados")
         A("")
         A("El mismo canónico existe **en cuarentena en dos marcas**, y cada lado tiene manual "
           "huérfano. Elegir uno solo deja el otro perdido; **fusionar los desbloquea a la vez**.")
         A("")
         for n, ((_, c, marcas), mans) in enumerate(sorted(fusiones.items(),
                                                           key=lambda kv: -len(kv[1])), 1):
-            A(f"### 4.{n} — «{c}» en {list(marcas)}  ·  **{len(mans)} manual(es)**")
+            SEC(f"### 4.{n} — «{c}» en {list(marcas)}  ·  **{len(mans)} manual(es)**")
             A("")
             A(f"- Manuales: {', '.join('`'+m[:44]+'`' for m in sorted(mans))}")
             A("- **Recomendación: fusionar** — un id canónico, el otro `redirect`, "
               "`vendido_bajo` = ambas (R3). Es el mismo aparato con dos etiquetas comerciales.")
             A("")
-            A("  - [ ] fusionar, canónico `______`  ·  [ ] son distintos  ·  [ ] otra cosa")
+            DEC("  - [ ] fusionar, canónico `______`  ·  [ ] son distintos  ·  [ ] otra cosa")
             A("")
 
     if gemelo_alias:
-        A("## 5 · Gemelos por alias — el nombre YA es alias de un producto vivo")
+        SEC("## 5 · Gemelos por alias — el nombre YA es alias de un producto vivo")
         A("")
         A("Su canónico ya existe como **alias** de un producto consumible: son filas duplicadas, "
           "no productos nuevos. (Este caso me lo cazó el gate cuando intenté promoverlos.)")
         A("")
         for n, ((i, c, gem), mans) in enumerate(sorted(gemelo_alias.items()), 1):
-            A(f"### 5.{n} — `{i}` «{c}» → alias de {list(gem)}  ·  {len(mans)} manual(es)")
+            SEC(f"### 5.{n} — `{i}` «{c}» → alias de {list(gem)}  ·  {len(mans)} manual(es)")
             A("")
             A(f"- Manuales: {', '.join('`'+m[:44]+'`' for m in sorted(mans))}")
             A(f"- **Recomendación: redirect `{i}` → `{gem[0]}`.**")
             A("")
-            A("  - [ ] OK  ·  [ ] otra cosa: ______")
+            DEC("  - [ ] OK  ·  [ ] otra cosa: ______")
             A("")
 
     if uno_a_uno:
-        A("## 6 · Candidates que mi filtro paró — uno a uno, porque cada uno es distinto")
+        SEC("## 6 · Candidates que mi filtro paró — uno a uno, porque cada uno es distinto")
         A("")
         A("Tienen marca y cita, pero **R19 (producto-hood)** los frenó: el token está en el texto "
           "y eso no lo hace producto. Te digo qué frenó a cada uno y qué propongo.")
@@ -397,17 +456,17 @@ def main() -> int:
         for n, ((i, c), mans) in enumerate(sorted(uno_a_uno.items()), 1):
             clave = i.split(":", 1)[1]
             por, prop = MOTIVO.get(clave, ("no pasó R19/R21", "necesita tu criterio"))
-            A(f"### 6.{n} — `{i}` «{c}»  ·  {len(mans)} manual(es)")
+            SEC(f"### 6.{n} — `{i}` «{c}»  ·  {len(mans)} manual(es)")
             A("")
             A(f"- Manuales: {', '.join('`'+m[:44]+'`' for m in sorted(mans))}")
             A(f"- **Qué lo frenó**: {por}.")
             A(f"- **Recomendación**: {prop}.")
             A("")
-            A("  - [ ] adelante  ·  [ ] déjalo  ·  [ ] otra cosa: ______")
+            DEC("  - [ ] adelante  ·  [ ] déjalo  ·  [ ] otra cosa: ______")
             A("")
 
     if sin_marca:
-        A("## 7 · `unresolved:` sin gemelo — ¿promover tal cual?")
+        SEC("## 7 · `unresolved:` sin gemelo — ¿promover tal cual?")
         A("")
         A(f"**{len(sin_marca)} ids**, {sum(len(v) for v in sin_marca.values())} manuales. No "
           "existe ese canónico en ninguna marca, así que no hay redirect posible.")
@@ -417,7 +476,7 @@ def main() -> int:
           "que el bot hace. Si luego aparece el fabricante, se añade sin tocar el id (son "
           "inmutables).")
         A("")
-        A("  - [ ] OK a promover sin marca  ·  [ ] prefiero asignar marca uno a uno")
+        DEC("  - [ ] OK a promover sin marca  ·  [ ] prefiero asignar marca uno a uno")
         A("")
         A("| id | canónico | manuales | nota |")
         A("|---|---|---|---|")
@@ -432,7 +491,7 @@ def main() -> int:
         A("")
 
     # ── suelo ─────────────────────────────────────────────────────────────
-    A("## 8 · El suelo — esto NO baja, y no es cola pendiente")
+    SEC("## 8 · El suelo — esto NO baja, y no es cola pendiente")
     A("")
     A(f"**{len(suelo)} manuales.** Los dejo listados para que se vea que están medidos, no "
       "olvidados.")

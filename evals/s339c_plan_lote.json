@@ -1,0 +1,757 @@
+{
+  "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago)",
+  "operaciones": [
+    {
+      "op": "redirect",
+      "id": "unresolved:id50",
+      "redirect_to": "notifier:id-50",
+      "ref": "§1.1"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg",
+      "redirect_to": "notifier:tg",
+      "ref": "§1.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:tg",
+      "ref": "§1.2",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:mad-450",
+      "redirect_to": "detnov:mad-450",
+      "ref": "§1.3"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:id60",
+      "redirect_to": "notifier:id-60",
+      "ref": "§1.4"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg-gsm",
+      "redirect_to": "notifier:tg-gsm",
+      "ref": "§1.5"
+    },
+    {
+      "op": "familia",
+      "hijo": "notifier:tg-gsm",
+      "paraguas": "notifier:tg",
+      "ref": "§1.5"
+    },
+    {
+      "op": "promover",
+      "id": "morley:vsn4-2plus",
+      "ref": "§2.1",
+      "por": "misma familia, misma marca (adjudicación de Alberto)"
+    },
+    {
+      "op": "promover",
+      "id": "morley:vsn8-2plus",
+      "ref": "§2.1",
+      "por": "misma familia, misma marca (adjudicación de Alberto)"
+    },
+    {
+      "op": "EXCLUIDA",
+      "ref": "§2.2",
+      "por": "promoverlo choca de frente con `desico:tg-1020`, que ya es consumible: `validate` sobre la simulación lo caza como canonical_model DUPLICADO («exact sería last-wins silencioso»). Es LA pregunta abierta del final del packet, que sigue sin responder. Sale del lote hasta que la conteste: ¿atribución equivocada de Desico, homónimo, o se queda como está?"
+    },
+    {
+      "op": "redirect",
+      "id": "notifier:id-3000",
+      "redirect_to": "notifier:id3000",
+      "ref": "§2.3"
+    },
+    {
+      "op": "redirect",
+      "id": "notifier:vsn-co",
+      "redirect_to": "morley:vsn-co",
+      "ref": "§2.4"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "morley:vsn-co",
+      "ref": "§2.4",
+      "marcas": [
+        "Morley",
+        "Notifier"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:nfs8rel",
+      "ref": "§4.1",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:nfs8rel",
+      "redirect_to": "notifier:nfs8rel",
+      "ref": "§4.1"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:nfs8rel",
+      "ref": "§4.1",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:mcx-55m",
+      "ref": "§4.2",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:mcx-55m",
+      "redirect_to": "notifier:mcx-55m",
+      "ref": "§4.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:mcx-55m",
+      "ref": "§4.2",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:mmx-10m",
+      "ref": "§4.3",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:mmx-10m",
+      "redirect_to": "notifier:mmx-10m",
+      "ref": "§4.3"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:mmx-10m",
+      "ref": "§4.3",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "redirect",
+      "id": "notifier:notifier-inspire-e10",
+      "redirect_to": "notifier:inspire-e10",
+      "ref": "§5.1"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg-honeywell",
+      "redirect_to": "notifier:tg",
+      "ref": "§5.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:tg",
+      "ref": "§5.2",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:am-lcd",
+      "ref": "§6.1",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "renombrar_canonico",
+      "id": "notifier:nas",
+      "ref": "§6.3",
+      "canonico_nuevo": "Notifier Air Sample",
+      "quitar_alias": []
+    },
+    {
+      "op": "promover",
+      "id": "notifier:nas",
+      "ref": "§6.3",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "baja_corpus",
+      "manual": "MNDT740P",
+      "ref": "§6.3",
+      "por": "duplicado de idioma (adjudicación de Alberto)"
+    },
+    {
+      "op": "baja_corpus_condicional",
+      "manual": "MNDT741I",
+      "ref": "§6.3",
+      "por": "sólo si 741 y 741I difieren únicamente en idioma"
+    },
+    {
+      "op": "EXCLUIDA",
+      "ref": "§6.4",
+      "por": "dos razones independientes. (a) Fable: s334 dejó `rhistorico.exe` FUERA a propósito por riesgo léxico —«R10 se cumple, la GRAFÍA no»— y esto reintroduce esa grafía como alias INDEXADO; merece re-adjudicación explícita, no colarse dentro de un «renombrar». (b) La puerta `s324` no sabe reescribir un `canonical_model`, así que el renombrado no es expresable en el plan sin tocar el writer por algo que ya está en duda. A favor: la huella medida de «RHistorico.exe» es 2 documentos, 1 suyo, 0 robados — el riesgo de s334 no se materializa en ESTE término"
+    },
+    {
+      "op": "EXCLUIDA",
+      "ref": "§6.5",
+      "por": "mi lectura («rechaza el umbrella, lo quiere como producto») NO se sigue de la casilla: las opciones eran `adelante`/`déjalo`, donde `adelante` era mi propuesta de umbrella — así que `[X] déjalo` significa «no hagas eso», y «déjalo como Serie-800» admite las dos lecturas (déjalo QUIETO, o déjalo COMO producto llamado así). Y la huella de detección la desempata hacia la prudencia: «Serie 800» dispara en 14 documentos y 11 de ellos YA tienen dueño consumible. Promoverlo por una lectura ambigua es justo lo que R20 prohíbe. Preguntárselo."
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:tg-ip-1-sec",
+      "ref": "§7:tg-ip-1-sec",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:tg-ip-1-sec",
+      "marca": "Notifier",
+      "ref": "§7:tg-ip-1-sec"
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:itac",
+      "ref": "§7:itac",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:itac",
+      "marca": "Notifier",
+      "ref": "§7:itac"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "unresolved:itac",
+      "ref": "§7:itac",
+      "marcas": [
+        "Notifier",
+        "Morley"
+      ]
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:trd-100",
+      "redirect_to": "detnov:trd-100",
+      "ref": "§7:trd-100"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:trd-100",
+      "ref": "§7:trd-100",
+      "canonical_model": "TRD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "alta",
+      "id": "detnov:tsd-100",
+      "ref": "§7:trd-100",
+      "canonical_model": "TSD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "baja_corpus",
+      "id": "unresolved:indicator",
+      "ref": "§7:indicator",
+      "por": "«Elimínalo del corpus»"
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:vision-plus",
+      "ref": "§7:vision-plus",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "renombrar_canonico",
+      "id": "unresolved:vision-plus",
+      "ref": "§7:vision-plus",
+      "canonico_nuevo": "VSN Plus",
+      "quitar_alias": []
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:vision-plus",
+      "marca": "Morley",
+      "ref": "§7:vision-plus"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:z-200",
+      "ref": "§3:55320103 Manual Zocalo Conex",
+      "canonical_model": "Z-200",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55320103 Manual Zocalo Conexion ES FR GB IT_",
+      "id": "detnov:z-200",
+      "ref": "§3:55320103 Manual Zocalo Conex"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-401",
+      "ref": "§3:55340103 Manual Modulo 1-2 E",
+      "canonical_model": "MAD-401",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55340103 Manual Modulo 1-2 Entradas Tecnicas",
+      "id": "detnov:mad-401",
+      "ref": "§3:55340103 Manual Modulo 1-2 E"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-411",
+      "ref": "§3:55341101 Manual Modulo 1-2 R",
+      "canonical_model": "MAD-411",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55341101 Manual Modulo 1-2 Reles libre de te",
+      "id": "detnov:mad-411",
+      "ref": "§3:55341101 Manual Modulo 1-2 R"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-421",
+      "ref": "§3:55342102 Manual Modulo 1-2 E",
+      "canonical_model": "MAD-421",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55342102 Manual Modulo 1-2 Entradas 1-2 Sali",
+      "id": "detnov:mad-421",
+      "ref": "§3:55342102 Manual Modulo 1-2 E"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-431",
+      "ref": "§3:55343101 Manual Modulo 1-2 S",
+      "canonical_model": "MAD-431",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55343101 Manual Modulo 1-2 Sirenas Convencio",
+      "id": "detnov:mad-431",
+      "ref": "§3:55343101 Manual Modulo 1-2 S"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-441",
+      "ref": "§3:55344103 Manual Modulo 1-2 Z",
+      "canonical_model": "MAD-441",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES ",
+      "id": "detnov:mad-441",
+      "ref": "§3:55344103 Manual Modulo 1-2 Z"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-473",
+      "ref": "§3:55347200 Manual Sirena Analo",
+      "canonical_model": "MAD-473",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55347200 Manual Sirena Analogica MAD-472 ES ",
+      "id": "detnov:mad-473",
+      "ref": "§3:55347200 Manual Sirena Analo"
+    },
+    {
+      "op": "ingesta_y_superseded",
+      "manual": "55347200 Manual Sirena Analogica MAD-472 ES ",
+      "ref": "§3:55347200 Manual Sirena Analo",
+      "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-490",
+      "ref": "§3:55349102 Manual Modulo Aisla",
+      "canonical_model": "MAD-490",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "id": "detnov:mad-490",
+      "ref": "§3:55349102 Manual Modulo Aisla"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-492",
+      "ref": "§3:55349102 Manual Modulo Aisla",
+      "canonical_model": "MAD-492",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "id": "detnov:mad-492",
+      "ref": "§3:55349102 Manual Modulo Aisla"
+    },
+    {
+      "op": "ingesta_y_superseded",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "ref": "§3:55349102 Manual Modulo Aisla",
+      "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:cmd-501",
+      "ref": "§3:55350005 Manual Central Mono",
+      "canonical_model": "CMD-501",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350005 Manual Central Monoxido CMD-500 ES ",
+      "id": "detnov:cmd-501",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:cmd-502",
+      "ref": "§3:55350005 Manual Central Mono",
+      "canonical_model": "CMD-502",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350005 Manual Central Monoxido CMD-500 ES ",
+      "id": "detnov:cmd-502",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:cmd-503",
+      "ref": "§3:55350005 Manual Central Mono",
+      "canonical_model": "CMD-503",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350005 Manual Central Monoxido CMD-500 ES ",
+      "id": "detnov:cmd-503",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "familia",
+      "hijo": "detnov:cmd-501",
+      "paraguas": "detnov:cmd-500",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "familia",
+      "hijo": "detnov:cmd-502",
+      "paraguas": "detnov:cmd-500",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "familia",
+      "hijo": "detnov:cmd-503",
+      "paraguas": "detnov:cmd-500",
+      "ref": "§3:55350005 Manual Central Mono"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:trmd-501",
+      "ref": "§3:55350007 Manual Tarjeta Regu",
+      "canonical_model": "TRMD-501",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350007 Manual Tarjeta Regulacion Motores T",
+      "id": "detnov:trmd-501",
+      "ref": "§3:55350007 Manual Tarjeta Regu"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:trmd-502",
+      "ref": "§3:55350007 Manual Tarjeta Regu",
+      "canonical_model": "TRMD-502",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350007 Manual Tarjeta Regulacion Motores T",
+      "id": "detnov:trmd-502",
+      "ref": "§3:55350007 Manual Tarjeta Regu"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:dmd-500",
+      "ref": "§3:55350008 Manual Detectores M",
+      "canonical_model": "DMD-500",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350008 Manual Detectores Monoxido DMDX-500",
+      "id": "detnov:dmd-500",
+      "ref": "§3:55350008 Manual Detectores M"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:dmdp-500",
+      "ref": "§3:55350008 Manual Detectores M",
+      "canonical_model": "DMDP-500",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55350008 Manual Detectores Monoxido DMDX-500",
+      "id": "detnov:dmdp-500",
+      "ref": "§3:55350008 Manual Detectores M"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:trd-100",
+      "ref": "§3:55310007 Manual Tarjeta Expa",
+      "canonical_model": "TRD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55310007 Manual Tarjeta Expansion TRD-10",
+      "id": "detnov:trd-100",
+      "ref": "§3:55310007 Manual Tarjeta Expa"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:tsd-100",
+      "ref": "§3:55310007 Manual Tarjeta Expa",
+      "canonical_model": "TSD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55310007 Manual Tarjeta Expansion TRD-10",
+      "id": "detnov:tsd-100",
+      "ref": "§3:55310007 Manual Tarjeta Expa"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:tcd-106",
+      "ref": "suelo:55310600 Manual TCD-106 kit_",
+      "canonical_model": "TCD-106",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55310600 Manual TCD-106 kit_ES",
+      "id": "detnov:tcd-106",
+      "ref": "suelo:55310600 Manual TCD-106 kit_"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:scd-120",
+      "ref": "suelo:55312000 SCD-120_Manual_ES",
+      "canonical_model": "SCD-120",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55312000 SCD-120_Manual_ES",
+      "id": "detnov:scd-120",
+      "ref": "suelo:55312000 SCD-120_Manual_ES"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:fad-905",
+      "ref": "suelo:55393002 Manual Fuentes de A",
+      "canonical_model": "FAD-905",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55393002 Manual Fuentes de Alimentacion FAD-905 ES F",
+      "id": "detnov:fad-905",
+      "ref": "suelo:55393002 Manual Fuentes de A"
+    },
+    {
+      "op": "alta",
+      "id": "notifier:f3000m",
+      "ref": "suelo:F3000M_Spanish User Guide_00",
+      "canonical_model": "F3000M",
+      "vendido_bajo": [
+        "Notifier"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "F3000M_Spanish User Guide_0044-047-02-ES",
+      "id": "notifier:f3000m",
+      "ref": "suelo:F3000M_Spanish User Guide_00"
+    },
+    {
+      "op": "doc_map",
+      "manual": "MNDT635",
+      "id": "notifier:lisa-2",
+      "ref": "suelo:MNDT635"
+    },
+    {
+      "op": "doc_map",
+      "manual": "Manual-de-Usuario-S3-T2-y-S2-T2",
+      "id": "fidegas:s3-t2",
+      "ref": "suelo:Manual-de-Usuario-S3-T2-y-S2"
+    },
+    {
+      "op": "doc_map",
+      "manual": "Manual-de-Usuario-S3-T2-y-S2-T2",
+      "id": "fidegas:s2-t2",
+      "ref": "suelo:Manual-de-Usuario-S3-T2-y-S2"
+    },
+    {
+      "op": "baja_corpus",
+      "manual": "S3466R_Eng_ital",
+      "ref": "suelo:S3466R_Eng_ital",
+      "por": "«retira este manual del corpus»"
+    }
+  ],
+  "por_tipo": {
+    "redirect": 13,
+    "vendido_bajo": 7,
+    "familia": 4,
+    "promover": 10,
+    "EXCLUIDA": 3,
+    "renombrar_canonico": 2,
+    "baja_corpus": 3,
+    "baja_corpus_condicional": 1,
+    "marca": 3,
+    "alta": 24,
+    "doc_map": 25,
+    "ingesta_y_superseded": 2
+  },
+  "simulacion": {
+    "antes": 82,
+    "despues": 26,
+    "cierra": [
+      "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+      "55310600 Manual TCD-106 kit_ES",
+      "55312000 SCD-120_Manual_ES",
+      "55320103 Manual Zocalo Conexion ES FR GB IT_V2",
+      "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+      "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+      "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+      "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+      "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+      "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+      "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
+      "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+      "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+      "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+      "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+      "AM-LCD manual de instalacion y usuario RV 0",
+      "BIDT077",
+      "Como-configurar-correos-en-un-TG-HONEYWELL",
+      "F3000M_Spanish User Guide_0044-047-02-ES",
+      "HLSI_MA-DT-1412_01_TG-IP1-SEC_QG",
+      "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
+      "HLSI_MN1007",
+      "HOP-338-9ES issue 4_01-2026_Op",
+      "HOP-338-9PT-issue 4_01-2026_Op",
+      "ITAC-Como-asignar-la-direccion-en-el-ITAC",
+      "ITAC-no-reconocido-por-la-Central",
+      "LEER PRIMERO_MADT951_10",
+      "MADT015_02",
+      "MADT155_01",
+      "MADT155_02",
+      "MADT155_05_A",
+      "MADT155_07",
+      "MADT155_08",
+      "MCDT155",
+      "MCDT156_A",
+      "MFDT155",
+      "MFDT156",
+      "MIDT155",
+      "MIDT156",
+      "MIE-MA-100_02",
+      "MIE-MI-480",
+      "MIE-MI-490",
+      "MIEMA130",
+      "MNDT1005",
+      "MNDT1006",
+      "MNDT635",
+      "MNDT740P",
+      "MNDT741",
+      "MNDT741I",
+      "Manual-de-Usuario-S3-T2-y-S2-T2",
+      "TG-Como-exportar-el-historico-desde-el-programa-de-gestion-grafica",
+      "TG-GSM-Fallo-al-enviar-SMS-desde-TG",
+      "TG-Honeywell_Usuario_PT",
+      "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+      "TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo",
+      "TIDT107"
+    ],
+    "abre": [],
+    "validate_errores": []
+  }
+}

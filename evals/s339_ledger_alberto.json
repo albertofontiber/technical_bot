@@ -1,0 +1,1056 @@
+{
+  "fuente": "docs/REVISION_ALBERTO_HUERFANOS.md",
+  "aviso": "Las claves `lectura` son MI interpretación de la prosa de Alberto, no sus palabras. Cada una cita el fragmento del que sale. Audítalas contra el packet.",
+  "secciones": [
+    {
+      "seccion": "1",
+      "titulo": "1 · Redirects de una línea — el gemelo YA es consumible",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "1.1",
+      "titulo": "1.1 — `unresolved:id50` → `notifier:id-50`  ·  **12 manual(es)**",
+      "casilla": "- [X] OK  ·  [ ] otra cosa: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "BIDT077",
+        "MADT155_01",
+        "MADT155_05_A",
+        "MADT155_07",
+        "MADT155_08",
+        "MCDT155",
+        "MCDT156_A",
+        "MFDT155",
+        "MFDT156",
+        "MIDT155",
+        "MIDT156",
+        "TIDT107"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect",
+        "de": "unresolved:id50",
+        "a": "notifier:id-50",
+        "cita": "[X] OK",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "1.2",
+      "titulo": "1.2 — `unresolved:tg` → `notifier:tg`  ·  **2 manual(es)** · **software (R10)**",
+      "casilla": "- [ ] OK  ·  [X] otra cosa: Ojo que TG sale tanto para Morley como para Notifier, por lo que debería ser findable para ambas marcas.",
+      "texto_alberto": null,
+      "manuales": [
+        "Como-configurar-correos-en-un-TG-HONEYWELL",
+        "TG-Como-exportar-el-historico-desde-el-progr"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect+vendido_bajo",
+        "de": "unresolved:tg",
+        "a": "notifier:tg",
+        "vendido_bajo": [
+          "notifier",
+          "morley"
+        ],
+        "software": true,
+        "cita": "TG sale tanto para Morley como para Notifier, por lo que debería ser findable para ambas marcas",
+        "listo": true,
+        "nota": "NO es sólo redirect: R3 vendido_bajo, si no queda findable sólo bajo Notifier"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "1.3",
+      "titulo": "1.3 — `unresolved:mad-450` → `detnov:mad-450`  ·  **1 manual(es)**",
+      "casilla": "- [X] OK  ·  [ ] otra cosa: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "55345103 Manual Pulsador Analogico MAD-450 E"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect",
+        "de": "unresolved:mad-450",
+        "a": "detnov:mad-450",
+        "cita": "[X] OK",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "1.4",
+      "titulo": "1.4 — `unresolved:id60` → `notifier:id-60`  ·  **1 manual(es)**",
+      "casilla": "- [X] OK  ·  [ ] otra cosa: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "MADT155_02"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect",
+        "de": "unresolved:id60",
+        "a": "notifier:id-60",
+        "cita": "[X] OK",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "1.5",
+      "titulo": "1.5 — `unresolved:tg-gsm` → `notifier:tg-gsm`  ·  **1 manual(es)** · **software (R10)**",
+      "casilla": "- [ ] OK  ·  [X] otra cosa: OK a lo que propone (ten en cuenta que es software). no obstante, TG-GSM debería pertenecer a la familia de software TG",
+      "texto_alberto": null,
+      "manuales": [
+        "TG-GSM-Fallo-al-enviar-SMS-desde-TG"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect+familia",
+        "de": "unresolved:tg-gsm",
+        "a": "notifier:tg-gsm",
+        "familia": "notifier:tg",
+        "software": true,
+        "cita": "OK a lo que propone (ten en cuenta que es software). no obstante, TG-GSM debería pertenecer a la familia de software TG",
+        "listo": true,
+        "nota": "la pertenencia a familia es `umbrellas`/`relations`, no el redirect"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "2",
+      "titulo": "2 · Ambiguos — el token lo disputan dos ids",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "2.1",
+      "titulo": "2.1 — «VSN12-2Plus»  ·  1 manual(es)  ·  ✅ **YA LO DECIDISTE**",
+      "casilla": "- [ ] confirmado  ·  [X] te leí mal, era: Morley. no obstante, ojo que hay más modelos de la familia VSN-2Plus, en concreto VSN4-2Plus, VSN8-2Plus, y VSN12-2Plus. los 3 son Morley.",
+      "texto_alberto": null,
+      "manuales": [
+        "HLSI-MN-025-I_NFS Supra Series v05"
+      ],
+      "ids": [
+        "morley:vsn12-2plus",
+        "notifier:vsn12-2plus"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "adjudicacion+promocion",
+        "gana": "morley:vsn12-2plus",
+        "promover_tambien": [
+          "morley:vsn4-2plus",
+          "morley:vsn8-2plus"
+        ],
+        "cita": "era: Morley. no obstante, ojo que hay más modelos de la familia VSN-2Plus, en concreto VSN4-2Plus, VSN8-2Plus, y VSN12-2Plus. los 3 son Morley",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "2.2",
+      "titulo": "2.2 — «TG-1020»  ·  1 manual(es)  ·  ✅ **YA LO DECIDISTE**",
+      "casilla": "- [X] confirmado. no obstante, que pertenezca a la familia TG al igual que el TG-GSM.  ·  [ ] te leí mal, era: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "TG-1020-INT"
+      ],
+      "ids": [
+        "desico:tg-1020",
+        "unresolved:tg-1020",
+        "notifier:tg-1020"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "adjudicacion+familia+promocion",
+        "gana": "notifier:tg-1020",
+        "familia": "notifier:tg",
+        "cita": "confirmado. no obstante, que pertenezca a la familia TG al igual que el TG-GSM",
+        "listo": false,
+        "bloqueo": "promoverlo choca de frente con `desico:tg-1020`, que ya es consumible: `validate` sobre la simulación lo caza como canonical_model DUPLICADO («exact sería last-wins silencioso»). Es LA pregunta abierta del final del packet, que sigue sin responder. Sale del lote hasta que la conteste: ¿atribución equivocada de Desico, homónimo, o se queda como está?"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "seccion": "2.3",
+      "titulo": "2.3 — «ID-3000»  ·  1 manual(es)",
+      "casilla": "- [X] OK al redirect  ·  [ ] otra cosa: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "TG-Honeywell_Usuario_PT"
+      ],
+      "ids": [
+        "notifier:id3000",
+        "unresolved:id3000",
+        "unresolved:",
+        "notifier:id-3000"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect",
+        "de": "notifier:id-3000",
+        "a": "notifier:id3000",
+        "cita": "[X] OK al redirect",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "2.4",
+      "titulo": "2.4 — «VSN-CO»  ·  1 manual(es)",
+      "casilla": "- [X] fusionar, canónico `Morley`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa",
+      "texto_alberto": null,
+      "manuales": [
+        "VSN-CO-Mantenimiento-y-vida-util-del-detecto"
+      ],
+      "ids": [
+        "morley:vsn-co",
+        "notifier:vsn-co",
+        "morley"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "fusion+promocion",
+        "gana": "morley:vsn-co",
+        "redirige": "notifier:vsn-co",
+        "vendido_bajo": [
+          "morley",
+          "notifier"
+        ],
+        "cita": "[X] fusionar, canónico `Morley`",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "3",
+      "titulo": "3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)",
+      "casilla": "- [ ] Adelante con todos  ·  [X] mira los ajustes de Alberto: te he hecho los siguientes ajustes arriba.",
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [
+        {
+          "manual": "55310008 Manual Tarjeta Modbus TMD-100 Insta",
+          "nota": "Alberto: OK",
+          "anotada": true
+        },
+        {
+          "manual": "55310401 Manual Sirenas Convencionales SCD-1",
+          "nota": "Alberto: Ok",
+          "anotada": true
+        },
+        {
+          "manual": "55311003 Manual Sirenas Convencionales SCD-1",
+          "nota": "Alberto: Ok",
+          "anotada": true
+        },
+        {
+          "manual": "55315012 Manual Tarjeta de bucle TBUD-150 In",
+          "nota": "Alberto: OK",
+          "anotada": true
+        },
+        {
+          "manual": "55320002 Manual Programador PGD-200 ES FR GB",
+          "nota": "Alberto: OK",
+          "anotada": true
+        },
+        {
+          "manual": "55320011 Manual zocalo con relé Z-200-R",
+          "nota": "Alberto: OK",
+          "anotada": true
+        },
+        {
+          "manual": "55320102 Manual Buzzer Analogico PAD-10A ES ",
+          "nota": "Alberto: OK",
+          "anotada": true
+        },
+        {
+          "manual": "55320103 Manual Zocalo Conexion ES FR GB IT_",
+          "nota": "Alberto: este es el Z-200",
+          "anotada": true
+        },
+        {
+          "manual": "55340103 Manual Modulo 1-2 Entradas Tecnicas",
+          "nota": "Alberto: Este también sirve para el MAD-401.",
+          "anotada": true
+        },
+        {
+          "manual": "55341101 Manual Modulo 1-2 Reles libre de te",
+          "nota": "Alberto: este también sirve para el MAD-411 (1 salida de relé - link: https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-1-salida-mad-411/)",
+          "anotada": true
+        },
+        {
+          "manual": "55342102 Manual Modulo 1-2 Entradas 1-2 Sali",
+          "nota": "Alberto: Este también sirve para el MAD-421.",
+          "anotada": true
+        },
+        {
+          "manual": "55343101 Manual Modulo 1-2 Sirenas Convencio",
+          "nota": "Alberto: este también sirve para el MAD-431",
+          "anotada": true
+        },
+        {
+          "manual": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES ",
+          "nota": "Alberto: este también sirve para el MAD-441",
+          "anotada": true
+        },
+        {
+          "manual": "55346102 Manual Sirena Analogica MAD-461 ES ",
+          "nota": "",
+          "anotada": false
+        },
+        {
+          "manual": "55347101 Manual Sirena Analogica MAD-471 ES ",
+          "nota": "",
+          "anotada": false
+        },
+        {
+          "manual": "55347200 Manual Sirena Analogica MAD-472 ES ",
+          "nota": "Alberto: este también sirve para el MAD-473. no obstante, ojo que este documento y el de la fila 17 son muy similares, y que además parece haber otro más actual (porque es el que está actualmente disponible en la web: https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf). deberíamos descargarnos el del link, ingestarlo, y poner superseded los de las filas 16 y 17.",
+          "anotada": true
+        },
+        {
+          "manual": "55347200 Manual Sirena Analogica MAD-472 ES ",
+          "nota": "Alberto: ver fila 16.",
+          "anotada": true
+        },
+        {
+          "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+          "nota": "Alberto: parece MAD-490 y MAD-492 (de hecho, este link parece más actualizado porque es el que está live en la web, así que deberíamos poner el de la fila 18 como superseded y que el del link (https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf) sea el actual.",
+          "anotada": true
+        },
+        {
+          "manual": "55350005 Manual Central Monoxido CMD-500 ES ",
+          "nota": "Alberto: en realidad, la familia es la CMD-500, pero están la CMD-501, CMD-502, y CMD-503, en función del número de zonas (link de la CMD-503 por ejemplo - https://www.detnov.com/productos/sistema-monoxido/centrales-de-monoxido/central-de-deteccion-de-monoxido-de-carbono-de-3-zonas-cmd-503/).",
+          "anotada": true
+        },
+        {
+          "manual": "55350007 Manual Tarjeta Regulacion Motores T",
+          "nota": "Alberto: es la familia TRMD-500, que incluyela TRMD-501 y la TRMD-502.",
+          "anotada": true
+        },
+        {
+          "manual": "55350008 Manual Detectores Monoxido DMDX-500",
+          "nota": "Alberto: la familia es DMDX-500, pero hay dos modelos: DMD-500 (https://www.detnov.com/productos/sistema-monoxido/detectores-de-monoxido/detector-monoxido-estandard-dmd-500/) y DMDP-500 (https://www.detnov.com/productos/sistema-monoxido/detectores-de-monoxido/detector-monoxido-compacto-dmdp-500/)",
+          "anotada": true
+        }
+      ],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "3.b",
+      "titulo": "3.b — Nombres que el FABRICANTE usa y nosotros no tenemos",
+      "casilla": "- [ ] añade los que marque  ·  [ ] ninguno  ·  [X] otra cosa: Alberto: te he dejado comentarios por cada uno.",
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [
+        {
+          "manual": "55310007 Manual Tarjeta Expansion TRD-10",
+          "nota": "Alberto: son las TSD-100 y TRD-100, que son accesorios para la CCD-100 (TSD-100: https://www.detnov.com/productos/sistema-convencional/accesorios-centrales-convencionales-serie-ccd-100/tarjeta-de-4-salidas-supervisadas-tsd-100/; TRD-100: https://www.detnov.com/productos/sistema-convencional/accesorios-centrales-convencionales-serie-ccd-100/tarjeta-de-4-reles-lt-trd-100/)",
+          "anotada": true
+        },
+        {
+          "manual": "55310008 Manual Tarjeta Modbus TMD-100 I",
+          "nota": "Alberto: es la TMD-100",
+          "anotada": true
+        },
+        {
+          "manual": "55340103 Manual Modulo 1-2 Entradas Tecn",
+          "nota": "Alberto: son ambos modelos, solo que el MAD-401 (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-monitor-de-1-entrada-mad-401/) tiene 1 entrada, y el otro (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-monitor-analogico-de-2-entradas-mad-402/) 2.",
+          "anotada": true
+        },
+        {
+          "manual": "55341101 Manual Modulo 1-2 Reles libre d",
+          "nota": "Alberto: son ambos modelos, solo que MAD-411 (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-1-salida-mad-411/) tiene 1 salida, y el otro (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-2-salidas-mad-412/) 2.",
+          "anotada": true
+        },
+        {
+          "manual": "55345103 Manual Pulsador Analogico MAD-4",
+          "nota": "Alberto: son ambos modelos, solo que el MAD-450 no tiene aislador (https://www.detnov.com/productos/sistema-analogico/pulsadores-analogicos/pulsador-analogico-mad-450/) y el MAD-451-I sí (https://www.detnov.com/productos/sistema-analogico/pulsadores-analogicos/pulsador-de-alarma-analogico-rearmable-con-aislador-incorporado-mad-451-i/).",
+          "anotada": true
+        },
+        {
+          "manual": "55350005 Manual Central Monoxido CMD-500",
+          "nota": "Alberto: en realidad, la familia es la CMD-500, pero están la CMD-501, CMD-502, y CMD-503, en función del número de zonas (link de la CMD-503 por ejemplo - https://www.detnov.com/productos/sistema-monoxido/centrales-de-monoxido/central-de-deteccion-de-monoxido-de-carbono-de-3-zonas-cmd-503/). (mismo mensaje que te he puesto arriba).",
+          "anotada": true
+        },
+        {
+          "manual": "Manual-de-Usuario-S3-T2-y-S2-T2",
+          "nota": "Alberto: los modelos son S3-T2 y S2-T2. Ojo que igual en algún otro sitio lo tenemos como \"S/3-T2\" (mismo modelo que S3-T2) y \"S/2-T2\" (mismo modelo que S2-T2).",
+          "anotada": true
+        }
+      ],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "4",
+      "titulo": "4 · Fusiones Morley ↔ Notifier — cada una desbloquea los DOS lados",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "4.1",
+      "titulo": "4.1 — «NFS8REL» en ['morley', 'notifier']  ·  **2 manual(es)**",
+      "casilla": "- [X] fusionar, canónico `Notifer`, pero es el mismo producto vendido bajo Notifier y Morley.  ·  [ ] son distintos  ·  [ ] otra cosa",
+      "texto_alberto": null,
+      "manuales": [
+        "MADT015_02",
+        "MIE-MA-100_02"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "fusion+promocion",
+        "gana": "notifier:nfs8rel",
+        "redirige": "morley:nfs8rel",
+        "vendido_bajo": [
+          "notifier",
+          "morley"
+        ],
+        "cita": "fusionar, canónico `Notifer`, pero es el mismo producto vendido bajo Notifier y Morley",
+        "listo": true,
+        "nota": "«Notifer» es errata suya por Notifier"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "4.2",
+      "titulo": "4.2 — «MCX-55M» en ['morley', 'notifier']  ·  **2 manual(es)**",
+      "casilla": "- [X] fusionar, canónico `Notifier`, pero es el mismo producto vendido bajo Notifier y Morley   ·  [ ] son distintos  ·  [ ] otra cosa",
+      "texto_alberto": null,
+      "manuales": [
+        "MIE-MI-480",
+        "MNDT1005"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "fusion+promocion",
+        "gana": "notifier:mcx-55m",
+        "redirige": "morley:mcx-55m",
+        "vendido_bajo": [
+          "notifier",
+          "morley"
+        ],
+        "cita": "fusionar, canónico `Notifier`, pero es el mismo producto vendido bajo Notifier y Morley",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "4.3",
+      "titulo": "4.3 — «MMX-10M» en ['morley', 'notifier']  ·  **2 manual(es)**",
+      "casilla": "- [X] fusionar, canónico `Notifier`, pero es el mismo producto vendido bajo Notifier y Morley  ·  [ ] son distintos  ·  [ ] otra cosa",
+      "texto_alberto": null,
+      "manuales": [
+        "MIE-MI-490",
+        "MNDT1006"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "fusion+promocion",
+        "gana": "notifier:mmx-10m",
+        "redirige": "morley:mmx-10m",
+        "vendido_bajo": [
+          "notifier",
+          "morley"
+        ],
+        "cita": "fusionar, canónico `Notifier`, pero es el mismo producto vendido bajo Notifier y Morley",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "4.4",
+      "titulo": "4.4 — «APIC» en ['aritech', 'notifier']  ·  **1 manual(es)**",
+      "casilla": "- [ ] fusionar, canónico `______`  ·  [ ] son distintos  ·  [X] otra cosa. Alberto: la realidad es que parecen el mismo producto pero al ser vendidos por fabricantes que no pertenecen al mismo grupo prefiero tratarlos como productos que se llaman igual pero que son de distinto fabricante, por lo que entiendo que si un técnico pregunta por ello debería clarificar el bot.",
+      "texto_alberto": null,
+      "manuales": [
+        "04-4001-501-1700-06_r006_aritech_apic_instal"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "ya_aplicado",
+        "ids": [
+          "aritech:apic",
+          "notifier:apic"
+        ],
+        "cita": "prefiero tratarlos como productos que se llaman igual pero que son de distinto fabricante, por lo que entiendo que si un técnico pregunta por ello debería clarificar el bot",
+        "listo": true,
+        "cambio_de_catalogo": false,
+        "nota": "RECHAZA la fusión que yo proponía — y RE-CONFIRMA lo que ya está: `homonyms.jsonl` lleva `APIC` con `politica: clarify` desde s91, adjudicado por él (G4 B-clarify: tarjetas INCOMPATIBLES Aritech/ModuLaser vs Notifier/Stratos, ambos productos candidate A PROPÓSITO). Cero cambios. Mi packet proponía fusionar sin haber grepeado homonyms primero. CONSECUENCIA: su manual queda huérfano PERMANENTE y legítimo — el precio de la política clarify es que ningún producto consumible lo posee."
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "5",
+      "titulo": "5 · Gemelos por alias — el nombre YA es alias de un producto vivo",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "5.1",
+      "titulo": "5.1 — `notifier:notifier-inspire-e10` «Notifier INSPIRE E10» → alias de ['notifier:inspire-e10']  ·  2 manual(es)",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [
+        "HOP-338-9ES issue 4_01-2026_Op",
+        "HOP-338-9PT-issue 4_01-2026_Op"
+      ],
+      "ids": [
+        "notifier:notifier-inspire-e10",
+        "notifier:inspire-e10"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect",
+        "de": "notifier:notifier-inspire-e10",
+        "a": "notifier:inspire-e10",
+        "cita": "aquí lo llamaría directamente `notifier:inspire-e10`, para evitar tener los dos nombres en la BD via redirect",
+        "listo": true,
+        "explicar_a_alberto": true,
+        "nota": "Él pide ELIMINAR la fila en vez de redirigirla, y no se puede: el contrato (`docs/IDENTITY_CATALOG_CONTRACT.md`) dice literal «Los ids son INMUTABLES: nunca se borran ni se reciclan», y prescribe que en un merge el perdedor quede en `redirect` (alias-forwarding PERMANENTE). No hay excepción para `candidate`. Mi premisa de que «nada externo lo referenció» era además FALSA: el id está en 4 entradas de `doc_map` y 1 alias. PERO el redirect le da exactamente lo que pide: `notifier:notifier-inspire-e10` deja de existir como producto consultable —no aparece en inventarios ni resuelve como fila propia—, sólo reenvía. No quedan «dos nombres en la BD» de cara al bot; queda un puntero interno que evita que se rompa lo ya etiquetado. Decírselo."
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "5.2",
+      "titulo": "5.2 — `unresolved:tg-honeywell` «TG-HONEYWELL» → alias de ['notifier:tg']  ·  1 manual(es)",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [
+        "LEER PRIMERO_MADT951_10"
+      ],
+      "ids": [
+        "unresolved:tg-honeywell",
+        "notifier:tg"
+      ],
+      "filas": [],
+      "lectura": {
+        "tipo": "redirect+vendido_bajo",
+        "de": "unresolved:tg-honeywell",
+        "a": "notifier:tg",
+        "vendido_bajo": [
+          "notifier",
+          "morley"
+        ],
+        "cita": "no se si tiene sentido que el canónico sea Notifier pero que también sea \"findable\" bajo Morley",
+        "listo": true,
+        "nota": "mismo tratamiento que 1.2 — es el mismo producto"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "6",
+      "titulo": "6 · Candidates que mi filtro paró — uno a uno, porque cada uno es distinto",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    },
+    {
+      "seccion": "6.1",
+      "titulo": "6.1 — `notifier:am-lcd` «AM-LCD»  ·  1 manual(es)",
+      "casilla": "- [ ] adelante  ·  [ ] déjalo  ·  [X] otra cosa: la verdad que esto es un producto en sí \"AM-LCD\", como puedes ver en la portada del manuual que me has indicado (y en el siguiente link aparece como producto - https://www.notifier.es/index.php/producto/category/am-lcd).",
+      "texto_alberto": null,
+      "manuales": [
+        "AM-LCD manual de instalacion y usuario RV 0"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "promover",
+        "id": "notifier:am-lcd",
+        "stopwords": [
+          "fm/am lcd"
+        ],
+        "cita": "esto es un producto en sí \"AM-LCD\", como puedes ver en la portada del manuual que me has indicado",
+        "listo": true,
+        "nota": "confirma el producto Y deja en pie el falso positivo del manual de radio → DETECT_STOPWORDS"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "6.2",
+      "titulo": "6.2 — `notifier:eev2` «EEV(2)»  ·  1 manual(es)",
+      "casilla": "- [ ] adelante  ·  [ ] déjalo  ·  [X] otra cosa: no es un producto, sino una \"TABLA DE APROXIMACIONES A GAS PATRÓN\".",
+      "texto_alberto": null,
+      "manuales": [
+        "MADT608"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "no_es_producto",
+        "id": "notifier:eev2",
+        "cita": "no es un producto, sino una \"TABLA DE APROXIMACIONES A GAS PATRÓN\"",
+        "listo": true,
+        "nota": "MADT608 queda huérfano LEGÍTIMO: su sujeto no es un producto"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "6.3",
+      "titulo": "6.3 — `notifier:nas` «NAS»  ·  3 manual(es)",
+      "casilla": "- [ ] adelante  ·  [ ] déjalo  ·  [X] otra cosa: para empezar, el manual \"MNDT740P\" es portugués, así que deberíamos sacarlo. el modelo existe, es el Notifier Air Sample (equipo de muestreo de aire) - lo puedes ver en la portada del segundo documento, así que diría `notifier:nas`. el tercer documento (MNDT741I), es la versión inglesa, así que si los documentos 2 y 3 son iguales, y solo cambia el idioma, quitaría el de \"MNDT741I\".",
+      "texto_alberto": null,
+      "manuales": [
+        "MNDT740P",
+        "MNDT741",
+        "MNDT741I"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "promover+bajas",
+        "id": "notifier:nas",
+        "canonico_nuevo": "Notifier Air Sample",
+        "evidencia": "evals/s339g_bateria.json",
+        "bajas": [
+          "MNDT740P"
+        ],
+        "bajas_condicionales": [
+          "MNDT741I"
+        ],
+        "cita": "el manual \"MNDT740P\" es portugués, así que deberíamos sacarlo … es el Notifier Air Sample (equipo de muestreo de aire) … si los documentos 2 y 3 son iguales, y solo cambia el idioma, quitaría el de \"MNDT741I\"",
+        "listo": true,
+        "explicar_a_alberto": true,
+        "nota": "Su adjudicación de PRODUCTO-HOOD es correcta y se aplica: NAS existe, es el Notifier Air Sample, y el id es `notifier:nas` como él dijo. Pero producto-hood y DETECTABILIDAD son preguntas distintas y yo las había juntado. Medido en la batería: el token «NAS» dispara en los TRES negativos —«insira os condutores nas respectivas portas» (preposición portuguesa, literal en el corpus), la misma intercalada en español, y «un NAS de red» (Network Attached Storage)—. Es el precedente DEC-272 reproducido. `DETECT_STOPWORDS` no sirve: es una lista global y mataría NAS del todo. SOLUCIÓN: el canónico pasa a «Notifier Air Sample», que es como ÉL describe el producto; el id no se toca. Los manuales dejan de ser huérfanos igual y el token corto ya no dispara. Si quiere «NAS» alcanzable pese a los falsos positivos, es UNA línea: añadirlo como alias. Preguntárselo. La baja de MNDT741I es CONDICIONAL y ya está comprobada: 741 es `language=es` y 741I `language=en`, mismo índice y mismo producto → sólo cambia el idioma"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "6.4",
+      "titulo": "6.4 — `notifier:rhistorico.exe` «RHistorico.exe»  ·  1 manual(es)",
+      "casilla": "- [ ] adelante  ·  [ ] déjalo  ·  [X] otra cosa: es un ejecutable que pertenece al software TG, así que OK a tu recomendación.",
+      "texto_alberto": null,
+      "manuales": [
+        "MADT951_04"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "renombrar_canonico",
+        "id": "notifier:rhistorico.exe",
+        "canonico_nuevo": "Utilidad de Reparación de Históricos",
+        "alias": [
+          "RHistorico.exe"
+        ],
+        "familia": "notifier:tg",
+        "cita": "es un ejecutable que pertenece al software TG, así que OK a tu recomendación",
+        "listo": false,
+        "bloqueo": "dos razones independientes. (a) Fable: s334 dejó `rhistorico.exe` FUERA a propósito por riesgo léxico —«R10 se cumple, la GRAFÍA no»— y esto reintroduce esa grafía como alias INDEXADO; merece re-adjudicación explícita, no colarse dentro de un «renombrar». (b) La puerta `s324` no sabe reescribir un `canonical_model`, así que el renombrado no es expresable en el plan sin tocar el writer por algo que ya está en duda. A favor: la huella medida de «RHistorico.exe» es 2 documentos, 1 suyo, 0 robados — el riesgo de s334 no se materializa en ESTE término",
+        "nota": "NO es un id nuevo: `notifier:rhistorico.exe` ya existe (candidate) y ya lleva «Utilidad de Reparación de Históricos» como alias. Crear una fila aparte colisionaba con ese alias (lo cazó `validate` en la simulación). El id es INMUTABLE y se queda; lo que cambia es el `canonical_model`, que no lo es: el nombre humano pasa a canónico y el ejecutable baja a alias"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "seccion": "6.5",
+      "titulo": "6.5 — `notifier:serie-800` «Serie 800»  ·  1 manual(es)",
+      "casilla": "- [ ] adelante  ·  [X] déjalo. Alberto: déjalo como Serie-800  ·  [ ] otra cosa: ______",
+      "texto_alberto": null,
+      "manuales": [
+        "MNDT020"
+      ],
+      "ids": [],
+      "filas": [],
+      "lectura": {
+        "tipo": "promover",
+        "id": "notifier:serie-800",
+        "nombre": "Serie-800",
+        "cita": "déjalo como Serie-800",
+        "listo": false,
+        "bloqueo": "mi lectura («rechaza el umbrella, lo quiere como producto») NO se sigue de la casilla: las opciones eran `adelante`/`déjalo`, donde `adelante` era mi propuesta de umbrella — así que `[X] déjalo` significa «no hagas eso», y «déjalo como Serie-800» admite las dos lecturas (déjalo QUIETO, o déjalo COMO producto llamado así). Y la huella de detección la desempata hacia la prudencia: «Serie 800» dispara en 14 documentos y 11 de ellos YA tienen dueño consumible. Promoverlo por una lectura ambigua es justo lo que R20 prohíbe. Preguntárselo."
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "seccion": "7",
+      "titulo": "7 · `unresolved:` sin gemelo — ¿promover tal cual?",
+      "casilla": "- [ ] OK a promover sin marca  ·  [X] prefiero asignar marca uno a uno",
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [
+        "unresolved:tg-ip-1-sec",
+        "notifier:",
+        "unresolved:itac",
+        "unresolved:trd-100",
+        "unresolved:indicator",
+        "unresolved:vision-plus"
+      ],
+      "filas": [
+        {
+          "manual": "unresolved:tg-ip-1-sec",
+          "nota": "Alberto: es sfotware de Notifier (aunque este es un producto físico, no meramente un software). en concreto - Módulo IP con encriptación para red - lo puedes ver en la P21 de este link (https://www.notifier.es/documentacion/catalogos/Notifier_analogico2019.pdf)",
+          "anotada": true
+        },
+        {
+          "manual": "unresolved:itac",
+          "nota": "Alberto: es el producto \"Interface de Transmisión Analógica-Convencional\", el modelo debería ser ITAC, y se vende tanto para Morley como para Notifier, así que sigue la misma lógica que con otros productos que se venden bajo las dos marcas.",
+          "anotada": true
+        },
+        {
+          "manual": "unresolved:trd-100",
+          "nota": "Alberto: modelos de Detnov TRD-100 y TSD-100, como ya hemos comentado.",
+          "anotada": true
+        },
+        {
+          "manual": "unresolved:indicator",
+          "nota": "Elimínalo del corpus.",
+          "anotada": true
+        },
+        {
+          "manual": "unresolved:vision-plus",
+          "nota": "Alberto: es la VSN Plus de Morley.",
+          "anotada": true
+        }
+      ],
+      "lectura": {
+        "tipo": "promover_uno_a_uno",
+        "listo": true,
+        "filas": {
+          "unresolved:tg-ip-1-sec": {
+            "marca": "notifier",
+            "producto_fisico": true,
+            "nombre": "Módulo IP con encriptación para red",
+            "cita": "es sfotware de Notifier (aunque este es un producto físico, no meramente un software) … Módulo IP con encriptación para red"
+          },
+          "unresolved:itac": {
+            "marca": "notifier",
+            "vendido_bajo": [
+              "notifier",
+              "morley"
+            ],
+            "nombre": "Interface de Transmisión Analógica-Convencional",
+            "cita": "se vende tanto para Morley como para Notifier, así que sigue la misma lógica que con otros productos que se venden bajo las dos marcas"
+          },
+          "unresolved:trd-100": {
+            "redirect_a": "detnov:trd-100",
+            "modelos": [
+              "detnov:trd-100",
+              "detnov:tsd-100"
+            ],
+            "cita": "modelos de Detnov TRD-100 y TSD-100",
+            "nota": "promoverlo Y crear `detnov:trd-100` dejaría dos filas con el mismo canónico («TRD-100»), que `validate` rechaza. Es un redirect al id con marca. Y el manual atesta DOS productos: el doc_map lleva los dos"
+          },
+          "unresolved:indicator": {
+            "accion": "baja_de_corpus",
+            "cita": "Elimínalo del corpus"
+          },
+          "unresolved:vision-plus": {
+            "marca": "morley",
+            "canonico": "VSN Plus",
+            "cita": "es la VSN Plus de Morley",
+            "nota": "el canónico de hoy es «VISION PLUS» y él lo llama «VSN Plus». El traductor no consumía este campo (Sol), así que la corrección no llegaba a la mutación. Importa además por huella: «VISION PLUS» dispara en 12 documentos y roba 11; «VSN Plus» es otro patrón"
+          }
+        }
+      },
+      "estado": "LISTO"
+    },
+    {
+      "seccion": "8",
+      "titulo": "8 · El suelo — esto NO baja, y no es cola pendiente",
+      "casilla": null,
+      "texto_alberto": null,
+      "manuales": [],
+      "ids": [],
+      "filas": [
+        {
+          "manual": "55310600 Manual TCD-106 kit_ES",
+          "nota": "Alberto: producto TCD-106 de Detnov. para que aprendas para la próxima vez, viene el nombre del modelo en el nombre del documento, y sigue la nomenclatura típica de Detnov.",
+          "anotada": true
+        },
+        {
+          "manual": "55312000 SCD-120_Manual_ES",
+          "nota": "Alberto: el pdf está girado y por eso igual no lo has leído. el modelo es el SCD-120 (que aparece en el nombre del documento), y es una Sirena Exterior de Incendios de 24V.",
+          "anotada": true
+        },
+        {
+          "manual": "55393002 Manual Fuentes de Alimentacion FAD-905 ES F",
+          "nota": "Alberto: modelo FAD-905 (Detnov), que está en el nombre del documento. Es una fuente de alimentación de 24V.",
+          "anotada": true
+        },
+        {
+          "manual": "D 1100-4 Sounder",
+          "nota": "Alberto: el fabricante es KAC alarm (que creo que tenemos algún producto más de ellos), y los modelos son \"CWSO-xx-S1\", \"CWSO-xx-S2\", \"CWSO-xx-W1\", y \"CWSO-xx-W2\", donde la XX \"Indica el color de la sirena y del flash\"",
+          "anotada": true
+        },
+        {
+          "manual": "F3000M_Spanish User Guide_0044-047-02-ES",
+          "nota": "Alberto: el modelo es el F3000M de Notifier, que es un \"detector de humo de haz óptico\".",
+          "anotada": true
+        },
+        {
+          "manual": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+          "nota": "Alberto: es el modelo F5000 de Morley, que es un \"Detector de humos con haz óptico infrarrojo motorizado\". también se denomina al producto como \"F5K\"",
+          "anotada": true
+        },
+        {
+          "manual": "F5K-Additional-Information-Spanish",
+          "nota": "Alberto: es el modelo F5000 de Morley.",
+          "anotada": true
+        },
+        {
+          "manual": "FS2-1",
+          "nota": "Alberto: en realidad es la familia \"FS\" de Notifier, que son centrales antiguas conencionales de 1, 2, y 4 zonas.",
+          "anotada": true
+        },
+        {
+          "manual": "MADT190_10",
+          "nota": "Alberto: es un rack de Notifier para el montaje de centrales i.e. accesorios. son los siguientes racks: 020-596, 020-606, 020-590, 020-591, 020-593, 020-592, 020-598, 020-594, 020-595,",
+          "anotada": true
+        },
+        {
+          "manual": "MNDT021",
+          "nota": "",
+          "anotada": false
+        },
+        {
+          "manual": "MNDT635",
+          "nota": "Alberto: modelo LISA 2, de Notifier. son \"DETECTORES INFRARROJOS PARA GAS\". aquí puedes ver el link con un documento sobre su esquema de conexión (doc: MADT635_01, link: https://www.notifier.es/index.php/productos/sistemas-analogicos/item/anexo-manual-esquema-de-conexion-del-detector-lisa-2)",
+          "anotada": true
+        },
+        {
+          "manual": "Manual-de-Usuario-S3-T2-y-S2-T2",
+          "nota": "Alberto: esto ya lo hemos comentado. Son los modelos \"S/3-T2\" (o S3-T2, es lo mismo) y el \"S/2-T2\" (o S2-T2, es lo mismo).",
+          "anotada": true
+        },
+        {
+          "manual": "S3466R_Eng_ital",
+          "nota": "Albreto: retira este manual del corpus.",
+          "anotada": true
+        }
+      ],
+      "lectura": null,
+      "estado": "SIN_LECTURA"
+    }
+  ],
+  "suelo": [
+    {
+      "manual": "55310600 Manual TCD-106 kit_ES",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: producto TCD-106 de Detnov. para que aprendas para la próxima vez, viene el nombre del modelo en el nombre del documento, y sigue la nomenclatura típica de Detnov.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "detnov:tcd-106",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "55312000 SCD-120_Manual_ES",
+      "motivo_original": "PDF escaneado; leído con Claude, la página no nombra el modelo",
+      "nota": "Alberto: el pdf está girado y por eso igual no lo has leído. el modelo es el SCD-120 (que aparece en el nombre del documento), y es una Sirena Exterior de Incendios de 24V.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "detnov:scd-120",
+        "nombre": "Sirena Exterior de Incendios 24V",
+        "listo": true,
+        "nota": "el PDF está GIRADO — por eso falló la lectura multimodal; rotar antes de releer"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "55393002 Manual Fuentes de Alimentacion FAD-905 ES F",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: modelo FAD-905 (Detnov), que está en el nombre del documento. Es una fuente de alimentación de 24V.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "detnov:fad-905",
+        "nombre": "Fuente de alimentación 24V",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "D 1100-4 Sounder",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: el fabricante es KAC alarm (que creo que tenemos algún producto más de ellos), y los modelos son \"CWSO-xx-S1\", \"CWSO-xx-S2\", \"CWSO-xx-W1\", y \"CWSO-xx-W2\", donde la XX \"Indica el color de la sirena y del flash\"",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "fabricante": "kac",
+        "modelos_patron": "CWSO-xx-{S1,S2,W1,W2}",
+        "listo": false,
+        "bloqueo": "«xx» es el color, no un modelo: hay que enumerar los colores reales antes de crear ids, o el patrón no es instanciable"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "F3000M_Spanish User Guide_0044-047-02-ES",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: el modelo es el F3000M de Notifier, que es un \"detector de humo de haz óptico\".",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "notifier:f3000m",
+        "nombre": "Detector de humo de haz óptico",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: es el modelo F5000 de Morley, que es un \"Detector de humos con haz óptico infrarrojo motorizado\". también se denomina al producto como \"F5K\"",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "ffe:f5000",
+        "alias": [
+          "F5K"
+        ],
+        "vendido_bajo": [
+          "Fire Fighting Enterprises",
+          "Morley-IAS"
+        ],
+        "nombre": "Detector de humos con haz óptico infrarrojo motorizado",
+        "listo": false,
+        "bloqueo": "divergencia declarada: no puede mutar sin confirmarla (Sol). Ver `divergencia`",
+        "divergencia": "Él dice «el modelo F5000 de Morley»; el catálogo ya lo tiene como `ffe:f5000` consumible, adjudicado por ÉL en s91 (gt-s91-alberto-c2). Crear `morley:f5000` duplicaría el canónico y `validate` lo rechaza. FFE fabrica la barrera y Morley la revende → `vendido_bajo` con las dos marcas sirve las dos lecturas sin duplicar. CONFIRMAR con él."
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "F5K-Additional-Information-Spanish",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: es el modelo F5000 de Morley.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "ffe:f5000",
+        "listo": false,
+        "bloqueo": "misma divergencia que la fila anterior",
+        "divergencia": "misma que la fila anterior"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "FS2-1",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: en realidad es la familia \"FS\" de Notifier, que son centrales antiguas conencionales de 1, 2, y 4 zonas.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "familia": "notifier:fs",
+        "listo": false,
+        "bloqueo": "dice «la familia FS … de 1, 2 y 4 zonas», no un modelo. ¿el id es la familia `notifier:fs` o los tres modelos? Necesita una línea suya o una fuente"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "MADT190_10",
+      "motivo_original": "el canónico es sólo dígitos — el detector los excluye a propósito",
+      "nota": "Alberto: es un rack de Notifier para el montaje de centrales i.e. accesorios. son los siguientes racks: 020-596, 020-606, 020-590, 020-591, 020-593, 020-592, 020-598, 020-594, 020-595,",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "fabricante": "notifier",
+        "categoria": "accesorio/rack",
+        "modelos": [
+          "020-596",
+          "020-606",
+          "020-590",
+          "020-591",
+          "020-593",
+          "020-592",
+          "020-598",
+          "020-594",
+          "020-595"
+        ],
+        "listo": false,
+        "bloqueo": "todos los canónicos son SÓLO DÍGITOS y el detector los excluye a propósito. Crearlos no los hace alcanzables: hay que darles un nombre, o aceptar que sólo se alcancen por el nombre del rack"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "MNDT021",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "",
+      "resuelto_por_alberto": false,
+      "lectura": {
+        "listo": false,
+        "bloqueo": "ÚNICA fila del suelo que Alberto no anotó"
+      },
+      "estado": "BLOQUEADO"
+    },
+    {
+      "manual": "MNDT635",
+      "motivo_original": "el manual no nombra su producto (ni por referencia)",
+      "nota": "Alberto: modelo LISA 2, de Notifier. son \"DETECTORES INFRARROJOS PARA GAS\". aquí puedes ver el link con un documento sobre su esquema de conexión (doc: MADT635_01, link: https://www.notifier.es/index.php/productos/sistemas-analogicos/item/anexo-manual-esquema-de-conexion-del-detector-lisa-2)",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "producto": "notifier:lisa-2",
+        "nombre": "Detectores infrarrojos para gas",
+        "listo": true
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "Manual-de-Usuario-S3-T2-y-S2-T2",
+      "motivo_original": "el canónico es sólo dígitos — el detector los excluye a propósito — **pero 3.b propone un nombre del fabricante**: si lo apruebas, sale del suelo",
+      "nota": "Alberto: esto ya lo hemos comentado. Son los modelos \"S/3-T2\" (o S3-T2, es lo mismo) y el \"S/2-T2\" (o S2-T2, es lo mismo).",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "modelos": [
+          "fidegas:s3-t2",
+          "fidegas:s2-t2"
+        ],
+        "listo": true,
+        "nota": "NO hacen falta altas: `fidegas:s3-t2` («S/3-T2») y `fidegas:s2-t2` («S/2-T2») ya existen y son CONSUMIBLES. Y su propio aviso —«igual en algún otro sitio lo tenemos como S/3-T2»— ya está cubierto: el `_core` separator-insensitive hace que «S3-T2» y «S/3-T2» casen el mismo patrón, así que el detector los alcanza desde las dos grafías. Lo que falta es sólo el `doc_map`: hoy el manual cuelga de `fidegas:00051`/`00052`, que son digit-only y por eso el detector no los ve"
+      },
+      "estado": "LISTO"
+    },
+    {
+      "manual": "S3466R_Eng_ital",
+      "motivo_original": "PDF escaneado; leído con Claude, la página no nombra el modelo",
+      "nota": "Albreto: retira este manual del corpus.",
+      "resuelto_por_alberto": true,
+      "lectura": {
+        "accion": "baja_de_corpus",
+        "listo": true
+      },
+      "estado": "LISTO"
+    }
+  ],
+  "pregunta_abierta": {
+    "pregunta": "desico:tg-1020 — ¿atribución equivocada, homónimo, o dejarlo?",
+    "respondida": false,
+    "casilla": "- [ ] es atribución equivocada, quita `desico:tg-1020`  ·  [ ] son distintos, decláralo homónimo  ·  [ ] déjalo como está"
+  },
+  "integridad": {
+    "secciones_sin_lectura": [],
+    "lecturas_sin_seccion": []
+  }
+}
