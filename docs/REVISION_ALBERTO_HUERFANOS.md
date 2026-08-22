@@ -33,7 +33,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «TG»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `Como-configurar-correos-en-un-TG-HONEYWELL`, `TG-Como-exportar-el-historico-desde-el-progr`
 
-  - [ ] OK  ·  [ ] otra cosa: ______
+  - [ ] OK  ·  [X] otra cosa: Ojo que TG sale tanto para Morley como para Notifier, por lo que debería ser findable para ambas marcas.
 
 ### 1.3 — `unresolved:mad-450` → `detnov:mad-450`  ·  **1 manual(es)**
 
@@ -136,17 +136,17 @@ El canal web no sólo confirma: **descubre**. Tu ejemplo del `S3-T2` era esto �
 
 | manual | lo que tenemos | como lo llama el fabricante |
 |---|---|---|
-| `55310007 Manual Tarjeta Expansion TRD-10` | TRD-100, TSD-100 | **CCD-100** |
-| `55310008 Manual Tarjeta Modbus TMD-100 I` | TMD-100 | **TSD100** |
-| `55340103 Manual Modulo 1-2 Entradas Tecn` | MAD-402 | **MAD-401** |
-| `55341101 Manual Modulo 1-2 Reles libre d` | MAD-412 | **MAD-411** |
-| `55345103 Manual Pulsador Analogico MAD-4` | MAD-450 | **MAD-451-I** |
-| `55350005 Manual Central Monoxido CMD-500` | CMD-500 | **CMD-503** |
+| `55310007 Manual Tarjeta Expansion TRD-10` | TRD-100, TSD-100 | **CCD-100** | Alberto: son las TSD-100 y TRD-100, que son accesorios para la CCD-100 (TSD-100: https://www.detnov.com/productos/sistema-convencional/accesorios-centrales-convencionales-serie-ccd-100/tarjeta-de-4-salidas-supervisadas-tsd-100/; TRD-100: https://www.detnov.com/productos/sistema-convencional/accesorios-centrales-convencionales-serie-ccd-100/tarjeta-de-4-reles-lt-trd-100/)
+| `55310008 Manual Tarjeta Modbus TMD-100 I` | TMD-100 | **TSD100** | Alberto: es la TMD-100
+| `55340103 Manual Modulo 1-2 Entradas Tecn` | MAD-402 | **MAD-401** | Alberto: son ambos modelos, solo que el MAD-401 (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-monitor-de-1-entrada-mad-401/) tiene 1 entrada, y el otro (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-monitor-analogico-de-2-entradas-mad-402/) 2.
+| `55341101 Manual Modulo 1-2 Reles libre d` | MAD-412 | **MAD-411** | Alberto: son ambos modelos, solo que MAD-411 (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-1-salida-mad-411/) tiene 1 salida, y el otro (https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-2-salidas-mad-412/) 2.
+| `55345103 Manual Pulsador Analogico MAD-4` | MAD-450 | **MAD-451-I** | Alberto: son ambos modelos, solo que el MAD-450 no tiene aislador (https://www.detnov.com/productos/sistema-analogico/pulsadores-analogicos/pulsador-analogico-mad-450/) y el MAD-451-I sí (https://www.detnov.com/productos/sistema-analogico/pulsadores-analogicos/pulsador-de-alarma-analogico-rearmable-con-aislador-incorporado-mad-451-i/).
+| `55350005 Manual Central Monoxido CMD-500` | CMD-500 | **CMD-503** | Alberto: en realidad, la familia es la CMD-500, pero están la CMD-501, CMD-502, y CMD-503, en función del número de zonas (link de la CMD-503 por ejemplo - https://www.detnov.com/productos/sistema-monoxido/centrales-de-monoxido/central-de-deteccion-de-monoxido-de-carbono-de-3-zonas-cmd-503/). (mismo mensaje que te he puesto arriba).
 | `Manual-de-Usuario-S3-T2-y-S2-T2` | 00051, 00052 | **S2-T2, S3-T2, S/3-T2** |
 
 > Aviso honesto: junto a los hallazgos reales cuela algún vecino de contexto — `CCD-100` es la serie de central donde se enchufa el TRD-100, no el producto de ese manual. Por eso no se aplican solos.
 
-- [ ] añade los que marque  ·  [ ] ninguno  ·  [ ] otra cosa
+- [ ] añade los que marque  ·  [ ] ninguno  ·  [X] otra cosa: Alberto: te he dejado comentarios por cada uno.
 
 ## 4 · Fusiones Morley ↔ Notifier — cada una desbloquea los DOS lados
 
