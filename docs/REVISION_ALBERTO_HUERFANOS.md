@@ -54,7 +54,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «TG-GSM»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `TG-GSM-Fallo-al-enviar-SMS-desde-TG`
 
-  - [ ] OK  ·  [ ] otra cosa: OK a lo que propone (ten en cuenta que es software). no obstante, TG-GSM debería pertenecer a la familia de software TG
+  - [ ] OK  ·  [X] otra cosa: OK a lo que propone (ten en cuenta que es software). no obstante, TG-GSM debería pertenecer a la familia de software TG
 
 ## 2 · Ambiguos — el token lo disputan dos ids
 
@@ -106,16 +106,16 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 
 | # | manual | producto | evidencia | tus notas |
 |---|---|---|---|---|
-| 1 | `55310008 Manual Tarjeta Modbus TMD-100 Insta` | TMD-100 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  |
-| 2 | `55310401 Manual Sirenas Convencionales SCD-1` | SCD-100 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-SCD-100-55310401-MI-635-m-2024-b.pdf) |  |
-| 3 | `55311003 Manual Sirenas Convencionales SCD-1` | SCD-110, SCD-110 con flash | ref. `55311003` |  |
-| 4 | `55315012 Manual Tarjeta de bucle TBUD-150 In` | TBUD-150 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55315012-Manual-Tarjeta-de-bucle-TBUD-150-Instalacion-ES-FR-GB-IT.pdf) |  |
-| 5 | `55320002 Manual Programador PGD-200 ES FR GB` | PGD-200 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55320002-Manual-Programador-PGD-200-ES-FR-GB-IT.pdf) |  |
-| 6 | `55320011 Manual zocalo con relé Z-200-R` | Z-200-R | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  |
-| 7 | `55320102 Manual Buzzer Analogico PAD-10A ES ` | PAD-10A | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  |
+| 1 | `55310008 Manual Tarjeta Modbus TMD-100 Insta` | TMD-100 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  | Alberto: OK
+| 2 | `55310401 Manual Sirenas Convencionales SCD-1` | SCD-100 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-SCD-100-55310401-MI-635-m-2024-b.pdf) |  | Alberto: Ok
+| 3 | `55311003 Manual Sirenas Convencionales SCD-1` | SCD-110, SCD-110 con flash | ref. `55311003` |  | Alberto: Ok
+| 4 | `55315012 Manual Tarjeta de bucle TBUD-150 In` | TBUD-150 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55315012-Manual-Tarjeta-de-bucle-TBUD-150-Instalacion-ES-FR-GB-IT.pdf) |  | Alberto: OK
+| 5 | `55320002 Manual Programador PGD-200 ES FR GB` | PGD-200 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55320002-Manual-Programador-PGD-200-ES-FR-GB-IT.pdf) |  | Alberto: OK
+| 6 | `55320011 Manual zocalo con relé Z-200-R` | Z-200-R | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  | Alberto: OK
+| 7 | `55320102 Manual Buzzer Analogico PAD-10A ES ` | PAD-10A | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |  | Alberto: OK
 | 8 | `55320103 Manual Zocalo Conexion ES FR GB IT_` | 55320103 | FICHERO + PDF | Alberto: este es el Z-200 |
 | 9 | `55340103 Manual Modulo 1-2 Entradas Tecnicas` | MAD-402 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-401-MAD-402-55340103-MI-627-m-2024-b.pdf) | Alberto: Este también sirve para el MAD-401. |
-| 10 | `55341101 Manual Modulo 1-2 Reles libre de te` | MAD-412 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-411_MAD-412-55341101-MI-629-m-2024-b.pdf) |  |
+| 10 | `55341101 Manual Modulo 1-2 Reles libre de te` | MAD-412 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-411_MAD-412-55341101-MI-629-m-2024-b.pdf) |  | Alberto: este también sirve para el MAD-411 (1 salida de relé - link: https://www.detnov.com/productos/sistema-analogico/modulos-analogicos-y-accesorios/modulo-analogico-de-control-de-1-salida-mad-411/)
 | 11 | `55342102 Manual Modulo 1-2 Entradas 1-2 Sali` | MAD-422 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) | Alberto: Este también sirve para el MAD-421. |
 | 12 | `55343101 Manual Modulo 1-2 Sirenas Convencio` | MAD-432, MAD-432 Módulo 1 Sirena | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55343102-Manual-Modulo-1-2-Sirenas-Convencionales-MAD-432-ES-FR-GB-IT.pdf) | Alberto: este también sirve para el MAD-431 |
 | 13 | `55344103 Manual Modulo 1-2 Zonas MAD-442 ES ` | MAD-442 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55344103-Manual-Modulo-1-2-Zonas-MAD-442-ES-FR-GB-IT.pdf) | Alberto: este también sirve para el MAD-441 |
@@ -128,7 +128,7 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 | 20 | `55350007 Manual Tarjeta Regulacion Motores T` | 55350007, TRMD-50X | FICHERO + PDF | Alberto: es la familia TRMD-500, que incluyela TRMD-501 y la TRMD-502. |
 | 21 | `55350008 Manual Detectores Monoxido DMDX-500` | DMDX-500 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350008-Manual-Detectores-Monoxido-DMDX-500-ES-FR-GB-IT.pdf) |  | Alberto: la familia es DMDX-500, pero hay dos modelos: DMD-500 (https://www.detnov.com/productos/sistema-monoxido/detectores-de-monoxido/detector-monoxido-estandard-dmd-500/) y DMDP-500 (https://www.detnov.com/productos/sistema-monoxido/detectores-de-monoxido/detector-monoxido-compacto-dmdp-500/)
 
-- [ ] Adelante con todos  ·  [X] quita los que marque arriba. Alberto: te he hecho los siguientes ajustes arriba.
+- [ ] Adelante con todos  ·  [X] mira los ajustes de Alberto: te he hecho los siguientes ajustes arriba.
 
 ### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos
 
@@ -189,14 +189,14 @@ Su canónico ya existe como **alias** de un producto consumible: son filas dupli
 - Manuales: `HOP-338-9ES issue 4_01-2026_Op`, `HOP-338-9PT-issue 4_01-2026_Op`
 - **Recomendación: redirect `notifier:notifier-inspire-e10` → `notifier:inspire-e10`.**
 
-  - [] OK  ·  [ ] otra cosa: aquí lo llamaría directamente `notifier:inspire-e10`, para evitar tener los dos nombres en la BD via redirect.
+  - [] OK  ·  [X] otra cosa: aquí lo llamaría directamente `notifier:inspire-e10`, para evitar tener los dos nombres en la BD via redirect.
 
 ### 5.2 — `unresolved:tg-honeywell` «TG-HONEYWELL» → alias de ['notifier:tg']  ·  1 manual(es)
 
 - Manuales: `LEER PRIMERO_MADT951_10`
 - **Recomendación: redirect `unresolved:tg-honeywell` → `notifier:tg`.**
 
-  - [] OK  ·  [ ] otra cosa: Como es el software de Notifier y Morley, no se si tiene sentido que el canónico sea Notifier pero que también sea "findable" bajo Morley, entiendo que con la mecánica del "redirect" que decías en 4.2, 4.3, etc.
+  - [] OK  ·  [X] otra cosa: Como es el software de Notifier y Morley, no se si tiene sentido que el canónico sea Notifier pero que también sea "findable" bajo Morley, entiendo que con la mecánica del "redirect" que decías en 4.2, 4.3, etc.
 
 ## 6 · Candidates que mi filtro paró — uno a uno, porque cada uno es distinto
 
@@ -248,7 +248,7 @@ Tienen marca y cita, pero **R19 (producto-hood)** los frenó: el token está en 
 
 - **Recomendación: promoverlos tal cual, sin asignar marca.** El detector **no usa el namespace** para nada, así que asignarla es trabajo de adjudicación que no cambia lo que el bot hace. Si luego aparece el fabricante, se añade sin tocar el id (son inmutables).
 
-  - [ ] OK a promover sin marca  ·  [ ] prefiero asignar marca uno a uno
+  - [ ] OK a promover sin marca  ·  [X] prefiero asignar marca uno a uno
 
 | id | canónico | manuales | nota |
 |---|---|---|---|
