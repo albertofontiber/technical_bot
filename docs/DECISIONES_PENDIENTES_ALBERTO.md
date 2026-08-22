@@ -151,6 +151,26 @@ términos del lote da **30/30 positivos y 5/5 negativos**. El lote NO está apli
 
 Con 1–3 resueltos entran 3 manuales más; con 4–9, otros 6. El resto del lote no depende de ellos.
 
+### Las 4 bajas de corpus que firmaste: comprobadas antes de borrar
+
+`scripts/s339h_precheck_bajas.py` mide qué se lleva por delante cada baja **antes** de ejecutarla.
+**Ninguna toca un gold** y ninguna deja un producto consumible sin fuente. Resultado:
+
+| manual | tu frase | qué cuesta |
+|---|---|---|
+| `MNDT740P` (2 chunks, portugués) | «es portugués, deberíamos sacarlo» | **nada**: `notifier:nas` conserva otras fuentes |
+| `MNDT741I` (17 chunks, `language=en`) | «si sólo cambia el idioma, quitaría el de MNDT741I» | **nada**: la condición está verificada — `MNDT741.pdf` es `language=es`, mismo producto y mismo índice |
+| `S3466R_Eng_ital` (1 chunk) | «retira este manual del corpus» | `unresolved:3466` se queda **sin ninguna fuente** |
+| `Indicator Honeywell Manual SP` (1 chunk) | «Elimínalo del corpus» | `unresolved:indicator` se queda **sin ninguna fuente** |
+
+👉 **Lo que sale de ahí y no me invento**: los dos últimos dejan un `unresolved:` en cuarentena
+apuntando a nada. Lo coherente es **retirarlos** (`estado: retirado`, que es el mecanismo del
+contrato), no dejar filas colgando. Lo aplico con las bajas si me dices que sí.
+
+> Y un aviso de por qué esto se comprueba: mi primera lista tenía el **fichero equivocado** para
+> «Elimínalo del corpus» — apuntaba a `MIEMA130`, que es el manual de la **VSN Plus** que el lote
+> justamente promueve. Lo cazó este precheck, no yo.
+
 ---
 
 ## 🟠 Una decisión de despliegue: la categoría del Explorador no se mantiene sola

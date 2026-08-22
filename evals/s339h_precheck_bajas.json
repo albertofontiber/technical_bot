@@ -1,0 +1,90 @@
+{
+ "bajas": [
+  {
+   "manual": "MNDT740P.pdf",
+   "document_id": "b001f716-1054-46a8-abad-b929817005a1",
+   "cita": "«el manual MNDT740P es portugués, así que deberíamos sacarlo»",
+   "language": null,
+   "status": "active",
+   "chunks": 2,
+   "productos_del_doc_map": [
+    "notifier:nas"
+   ],
+   "se_quedan_sin_fuente": [],
+   "golds_que_lo_mencionan": 0,
+   "gemelo": {
+    "busca": "MNDT741",
+    "encontrados": [
+     "MNDT741",
+     "MNDT741I.pdf",
+     "MNDT741.pdf"
+    ],
+    "language": [
+     null,
+     "en",
+     "es"
+    ]
+   },
+   "riesgo": "bajo"
+  },
+  {
+   "manual": "MNDT741I.pdf",
+   "document_id": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
+   "cita": "«si los documentos 2 y 3 son iguales, y solo cambia el idioma, quitaría el de MNDT741I»",
+   "language": "en",
+   "status": "active",
+   "chunks": 17,
+   "productos_del_doc_map": [
+    "notifier:nas"
+   ],
+   "se_quedan_sin_fuente": [],
+   "golds_que_lo_mencionan": 0,
+   "gemelo": {
+    "busca": "MNDT741",
+    "encontrados": [
+     "MNDT741",
+     "MNDT741.pdf"
+    ],
+    "language": [
+     null,
+     "es"
+    ]
+   },
+   "riesgo": "bajo"
+  },
+  {
+   "manual": "S3466R_Eng_ital.pdf",
+   "document_id": "ca1dfb1e-678b-42ef-9e5c-82d5914b8404",
+   "cita": "«retira este manual del corpus»",
+   "language": "en",
+   "status": "active",
+   "chunks": 1,
+   "productos_del_doc_map": [
+    "unresolved:3466"
+   ],
+   "se_quedan_sin_fuente": [
+    "unresolved:3466"
+   ],
+   "golds_que_lo_mencionan": 0,
+   "gemelo": null,
+   "riesgo": "MEDIO — 1 producto(s) se quedan sin fuente"
+  },
+  {
+   "manual": "Indicator Honeywell Manual SP",
+   "document_id": "24ac9fe2-eb6e-4c9e-be83-61ff09920aeb",
+   "cita": "«Elimínalo del corpus» (§7 `unresolved:indicator`)",
+   "language": null,
+   "status": "active",
+   "chunks": 1,
+   "productos_del_doc_map": [
+    "unresolved:indicator"
+   ],
+   "se_quedan_sin_fuente": [
+    "unresolved:indicator"
+   ],
+   "golds_que_lo_mencionan": 0,
+   "gemelo": null,
+   "riesgo": "MEDIO — 1 producto(s) se quedan sin fuente"
+  }
+ ]
+}
