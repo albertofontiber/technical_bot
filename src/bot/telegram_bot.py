@@ -452,7 +452,23 @@ def _inventario_filtrado(nombre: str, filtros: dict) -> str | None:
                 caben = [m for _b, m in rangos if isinstance(m, int) and n <= m]
                 if not caben:
                     return None, []
-                partes.append(f"hasta {max(caben)} {clave}")
+                # (s336, #76b(c)) Entradas con `alcance` DISTINTO (p. ej. 2
+                # lazos docs-ES / 4 docs-US, clase AFP1010) NO se fusionan en
+                # «hasta max»: se sirven POR FUENTE, con su alcance visible.
+                # Hoy 0 filas llevan alcance → esta rama es byte-idéntica hasta
+                # que un lote escriba la primera (test dirigido con fixture).
+                vals = list(at.get(clave) or ())
+                alcances = {json.dumps(v.get("alcance"), sort_keys=True)
+                            for v in vals}
+                if len(alcances) > 1:
+                    partes.append(" / ".join(
+                        f"hasta {v.get('max', v.get('base'))} {clave}"
+                        + (f" ({v['alcance']['valor']})" if v.get("alcance")
+                           else " (alcance sin declarar)")
+                        for v in vals
+                        if isinstance(v.get("max", v.get("base")), int)))
+                else:
+                    partes.append(f"hasta {max(caben)} {clave}")
         return ", ".join(partes), faltantes
 
     evaluados = [(p, *_casa(p)) for p in clasificados]
@@ -2026,29 +2042,42 @@ async def _s331_presence_refresh_job(_context) -> None:
         logger.warning("s331: tick de refresh de presencia falló (fail-open)")
 
 
-def _con_sufijo_asunciones(answer: str, f1_resolution) -> str:
-    """(s332 §2, B5) Sufijo determinista que declara las asunciones de la
-    resolución F1 en el answer SERVIDO. La cita de la pregunta base sale de
-    `state_query_override` a propósito: si el rebuild partió de una `last_query`
-    rancia (R8), el técnico LO VE y corrige — la visibilidad es el control.
-    Con el flag off la rama no emite asunciones y esto es identidad."""
+def _con_prefijo_asunciones(answer: str, f1_resolution) -> str:
+    """(s332 §2 B5 · s335c, adjudicado por Alberto sobre su chat real) Las
+    asunciones de la resolución F1 se declaran como CABECERA del answer servido,
+    no como sufijo: su función es CONTROL — si la lectura fue errónea, el técnico
+    la ve ANTES de leer un listado largo equivocado (al final, tras el muro de
+    referencias, era decorativa: hizo falta scroll para encontrarla). Coherente
+    con las asunciones de voz (🏷/ℹ️, pre-respuesta) y el preámbulo de mismatch.
+    La cita de la pregunta base sale de `state_query_override` a propósito: si el
+    rebuild partió de una `last_query` rancia (R8), el técnico LO VE y corrige —
+    la visibilidad es el control. Con el flag off no hay asunciones = identidad.
+
+    Se aplica DESPUÉS de las escrituras de estado/feedback (el ORDEN del call
+    site, pinnado por test): la nota jamás entra en `last_answer_excerpt` ni en
+    `last_response` — al mensaje del técnico sí, al estado no. Bonus: en cabecera
+    entra en los primeros 4096 de `query_logs.response` (que trunca) y deja de
+    ser inverificable en el log."""
+    notas = []
     for asuncion in getattr(f1_resolution, "asunciones", ()) or ():
         if asuncion.kind == "marca_fuzzy":
             # (s334 §2) El disclosure ES la condición de existencia del fuzzy:
             # aquí `detectado` (lo que llegó) SÍ es visible para el técnico —
             # la frontera de privacidad aplica al TRACE, no al mensaje.
-            answer += (
-                f"\n\nℹ️ Entiendo que te refieres a {asuncion.asumido} "
+            notas.append(
+                f"ℹ️ Entiendo que te refieres a {asuncion.asumido} "
                 f"(llegó «{asuncion.detectado}»). Si no es así, dímelo."
             )
         if asuncion.kind == "marca_corregida":
             base = f1_resolution.state_query_override
             cita = f" («{base}»)" if base else ""
-            answer += (
-                f"\n\nℹ️ Respondo a tu pregunta anterior{cita} entendiendo "
+            notas.append(
+                f"ℹ️ Respondo a tu pregunta anterior{cita} entendiendo "
                 f"que la marca es {asuncion.asumido}."
             )
-    return answer
+    if not notas:
+        return answer
+    return "\n".join(notas) + "\n\n" + answer
 
 
 def _asunciones_obs(f1_resolution, asunciones_asr) -> dict:
@@ -2428,11 +2457,13 @@ async def _process_query(
                 f1_new_state.available_models,
             ))
 
-        # (s332 §2, B5) Las asunciones de la resolución F1 se DECLARAN como sufijo
-        # del answer servido — determinista, byte-nivel, tras el excerpt de estado
-        # (la nota es meta-conducta, no contenido para la anáfora del rewriter).
+        # (s332 §2 B5 · s335c) Las asunciones de la resolución F1 se DECLARAN como
+        # CABECERA del answer servido — determinista, byte-nivel, y aplicadas AQUÍ,
+        # tras las escrituras de estado/feedback de arriba: la nota es meta-conducta
+        # y jamás entra en la anáfora del rewriter ni en el ancla del 👎 (el ORDEN
+        # es la protección — test de fuente lo pinna).
         if f1_active and f1_resolution is not None:
-            answer = _con_sufijo_asunciones(answer, f1_resolution)
+            answer = _con_prefijo_asunciones(answer, f1_resolution)
 
         # Render once: telemetry records the actual transport split and the
         # send loop consumes these exact same parts. A formatter defect must

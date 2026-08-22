@@ -10577,7 +10577,140 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
 - **Ref**: `scripts/s338_resolucion_multicanal.py` · `evals/s338_resolucion_multicanal.json` ·
   `evals/s338_{web_resultados,catalogo_fabricante}.json` · `docs/REVISION_ALBERTO_HUERFANOS.md`
 
-## DEC-279
+## DEC-279 (s336-lote, 21/22 ago 2026) — El catálogo Notifier deja de estar ciego: lote de clasificación por categoría con el método s322b endurecido (2 dúos, gate que mordió, escritura atómica)
+
+- **Fecha**: 21/22 ago 2026, noche. **Impacto**: ALTO (datos servidos del inventario +
+  esquema del catálogo). GO de Alberto («clasificación por categoría de producto → GO»).
+  DOS rondas de dúo (la 1ª rota de emparejamiento por mis commits mid-ronda — lección
+  registrada: el gate pinna `repo_head`; la 2ª LIMPIA y emparejada, ts=18:59:43): 20
+  hallazgos adjudicados, 0 FP. Diseño vinculante `evals/s336_clasificacion_notifier_propuesta_v3.md`.
+- **Contexto**: la fila real `a9ba756a` (la pregunta de Alberto post-flip s335) sirvió
+  «ninguno de los 3 clasificados casa con central» — la vista Notifier tenía 502/505 sin
+  `clasificacion` (los 3 clasificados eran software). Causa raíz de DATO, no de routing.
+- **Decide (1) — método**: el CERRADO de s322b entero (pasada fable-5 con cita verbatim +
+  repesca dirigida a tablas de modelos + verificación FULL-TEXT de la cita ÍNTEGRA contra
+  el doc atribuido ANTES de escribir — el prefijo de 50 chars ya dejó pasar una invención
+  en s322) sobre la diana definida POR EL JOIN REAL de la vista (`_productos_marca` +
+  `follow_redirect`; mi censo a mano con ids crudos inventó «18 sin docs» — G3 dos veces
+  en un día, reconocido). GT 30 congelado ANTES de la pasada (lectura full-text, cuotas
+  por namespace, familias-aparentes como proxy declarado; 22 sin-duda / 8 duda).
+- **Decide (2) — esquema**: `clasificacion.doc` obligatorio en filas nuevas (auditoría);
+  `alcance` {eje: idioma_doc} cerrado en el validador; escritura SOLO por
+  `swap_products_validado` (shadow de los 7 jsonl → validate → backup → os.replace, con
+  test de rollback real) — `write_jsonl` escribía el vivo y validaba después.
+- **Decide (3) — #76b MITIGADO-por-construcción, NO cerrado**: completitud multi-doc
+  (capacidad solo se escribe si TODAS las fuentes con mención quedan atribuidas y sin
+  divergencia de max; si no → packet, jamás write-fusión: 31 a packet, 1 escrita) +
+  display POR FUENTE ante `alcance` divergente (fixture AFP1010; byte-idéntico hoy).
+  Ejes mercado/variante abiertos; cierre contra producción pendiente de la primera
+  divergencia real.
+- **El gate MORDIÓ (traza)**: v1 FAIL 92,9% — el único fallo fue LA trampa del GT
+  (pl4-e: la tarjeta clasificada como su central anfitriona, R16 doc-de-otro) → regla R16
+  al prompt (v2) + re-pasada quirúrgica de las 65 «central» (~$1,5, GT intacto) → **v2
+  PASS 100% (14/14)**, centrales-alta 54→32. Ni gate-shopping ni re-pasada íntegra.
+- **Resultado**: 361 filas escritas (§0 alta+full-text) · vista Notifier 3→364
+  clasificados · centrales 0→32 · replay de `a9ba756a` sirve 32 centrales (suelo
+  pre-registrado en B1 = 11, superado ×3) · cobertura 71,9% ≥60% → **PASS** · suite 4955
+  + MT 52/52 con el catálogo escrito. Recibos en `evals/s336_*`.
+- **Residuo declarado**: 98 parse-fail = INSTRUMENTO (max_tokens=500 agotado sin emitir
+  texto; fix a 1200 + `--solo-parse-fail` listos; recuperación ~$2 BLOQUEADA por crédito
+  agotado — 2ª vez del día) · 33 media/5 baja/5 sin-full-text/2 sin-chunks · huecos de
+  ENUM al packet (anunciador, extinción, audio/EVAC, impresora, barrera-IS, kit).
+- **Relacionado**: DEC-216/217 (s322, el método) · TECH_DEBT #76b · DEC-271 (huérfanos) ·
+  `evals/s336_resultado_v1.md` (el recibo narrado).
+- **Nota de numeración**: esta decisión se acuñó como DEC-273/«s336» en el hilo del lote,
+  en paralelo con la sesión de huérfanos que publicó primero DEC-273→278 y su propio «s336»
+  en `main`. Al fusionar, el lote se renumera a DEC-279 y se rotula «s336-lote»; los
+  artefactos (`evals/s336_*`, `scripts/s336_*`, provenance «s336 método s322b») conservan
+  su nombre — el ancla estable es el contenido y los sha de los recibos, no el rótulo.
+
+## DEC-280 (s339, 22 ago 2026) — El método del lote se parametriza por marca, y al hacerlo destapa dos fallos que la marca incrustada tapaba
+
+- **Fecha**: 22 ago 2026. **Impacto**: MEDIO (instrumento del catálogo; no toca el bot
+  ni el dato servido). Revisor adversarial Fable 5 standalone — tiering declarado: el
+  cross-model (Sol) se reserva para ALTO. **Veredicto NO SÓLIDO, 6 hallazgos, los 6
+  ciertos** y verificados contra el código antes de actuar (Regla C).
+- **Contexto**: pregunta de Alberto — «¿la lógica de asignación de categoría la estás
+  teniendo en cuenta para el resto de marcas, para que sea BP y escalable?». El método
+  quedó validado sobre Notifier (DEC-279 + adenda); parametrizarlo es el paso que lo
+  convierte en método y no en un arreglo de una vista.
+- **Decide (1) — una lib compartida, no cinco copias**: `scripts/lib_lote_marca.py`
+  concentra rutas de recibo por marca, provenance DERIVADA, candado de vista y
+  normalización. Los 5 scripts aceptan `--marca`.
+- **Decide (2) — dos bugs LATENTES que sólo se ven al mover la marca**: (a) la
+  constante `PROV` del writer llevaba incrustados los sha del GT y del censo de
+  Notifier y habría viajado intacta a las filas de otra marca, prometiendo un gold que
+  no las juzgó → provenance derivada de los artefactos de ESA corrida; (b) el writer
+  escribía todo elegible del recibo sin comprobar de qué vista salía → CANDADO: un id
+  fuera de `_productos_marca(cat, marca)` aborta la escritura entera.
+- **Decide (3) — la asimetría de los recibos es deliberada**: Notifier conserva los
+  nombres históricos (`s336_*_v1.json`) porque están CITADOS en DEC-279; las marcas
+  nuevas llevan sufijo. Renombrarlos rompería la traza de una decisión firmada.
+- **Decide (4) — dos clases de artefacto, dos guardas** (lo que el revisor obligó a
+  distinguir): el censo (PRE-REGISTRA el suelo) y el GT (gold) NO se re-escriben —
+  abortan sin `--force`; el recibo de escritura SÍ se genera en cada corrida porque el
+  writer es incremental por diseño — así que ROTA (`_r2`, `_r3`) en vez de pisar.
+- **El fallo que ya había ocurrido**: la corrida de recuperación del 22-ago machacó el
+  recibo del lote original (361 filas / PASS / desde 3 clasificados) y su antes-después
+  no era recomputable. Recuperado de git a `_r1`. Y lo mismo casi pasa con el censo:
+  re-correrlo hoy recalcula la diana contra el catálogo YA escrito (502 → 99) y pisa el
+  sha `37cc4aa409ab484f` que prometen las 411 filas — me pasó al parametrizar, está
+  restaurado y hay guard-test que lo pinea.
+- **Decide (5) — la cobertura se lee del CATÁLOGO, no del delta**: el veredicto por
+  corrida daba «PARCIAL 10%» con el lote real en PASS 81,9%. La métrica ahora mide lo
+  que el veredicto declara.
+- **Decide (6) — un normalizador, no dos parecidos**: el propio divergía del `_norm_marca`
+  del join en cuanto había guiones o acentos (`Pepperl-Fuchs` → `pepperl-fuchs` vs
+  `pepperlfuchs`), y dos grafías de la misma vista generaban recibos distintos saltándose
+  la guarda. Delega en el del join.
+- **Gap declarado**: una marca sin `--familias-panel` obtiene un proxy menor → suelo
+  menor → gate de efecto MÁS LAXO. Mitigado por VISIBILIDAD (aviso por stdout + campo
+  en el recibo), no por construcción. Y el método está parametrizado, **no probado
+  end-to-end sobre una segunda vista**: eso es el siguiente lote, con su GT propio.
+- **Verificación**: 25 tests nuevos · writer sobre Notifier idempotente (0 escritas,
+  cobertura 81,9% PASS, 46 servidas = 46 en catálogo, catálogo byte-idéntico) · gate
+  re-corrido idéntico salvo fecha · suite completa verde.
+- **Relacionado**: DEC-279 (el lote) · `evals/s339_lote_por_marca_propuesta_v1.md`
+  (propuesta + adjudicación de los 6 hallazgos) · `docs/PACKET_ENUM_CATEGORIAS.md`
+  (el enum, que sigue esperando adjudicación y va ANTES de la segunda marca).
+
+## DEC-281 (s339, 22 ago 2026) — Rumbo apuntado por Alberto: la clasificación de categoría deja de ser un lote post-hoc y pasa a ser ETAPA de la ingesta
+
+- **Fecha**: 22 ago 2026. **Impacto**: ALTO (arquitectura del alta de manuales).
+  **Origen**: apunte explícito de Alberto — «una vez alineado el proceso de asignación de
+  categoría de producto, lo tenemos que implementar como parte del proceso de ingesta de
+  nuevos manuales». **Estado: APUNTADO, no diseñado ni cableado** — se registra el rumbo,
+  no se pre-supone la solución.
+- **El hueco, verificado en el código antes de apuntarlo**: `scripts/ingest_new.py` cierra
+  GATES → DRY → COMMIT (extracción → fila `documents` → contextualize+embed+index →
+  verificación) y **no toca el catálogo**: ni `products.jsonl`, ni `doc_map`, ni
+  `clasificacion`. El manual queda consultable por RAG de inmediato, pero su producto no
+  existe para el inventario hasta que alguien corre el lote a mano.
+- **Por qué el orden importa**: la deuda se INVIERTE con el lote hecho. Con el catálogo
+  ciego en bloque, un manual más daba igual; con 411 filas escritas (81,9% de la vista
+  Notifier), **cada alta nueva vuelve a abrir el agujero recién cerrado** y el inventario
+  servido envejece a cada ingesta.
+- **Secuencia adjudicada** (la que fija el propio apunte con su «una vez alineado»):
+  (1) firmar `docs/PACKET_ENUM_CATEGORIAS.md` — el enum va antes que nada; (2) correr la
+  2ª marca y probar el método end-to-end sobre una vista distinta de Notifier (hoy está
+  parametrizado, DEC-280, pero no probado fuera); (3) ENTONCES cablearlo en la ingesta.
+  Invertir el orden significaría cablear en producción un método validado en una sola vista.
+- **Lo que queda ABIERTO y se adjudica al diseñarlo** (declarado para no pre-suponerlo):
+  dónde corta la automatización (¿auto-escribe lo `alta` y el resto a packet, o toda alta
+  pasa por revisión?); con qué gold se gatea un manual suelto, que no tiene GT propio
+  (¿hereda el de su marca? ¿qué significa PASS con n pequeño?); y si la clasificación va
+  dentro de `--commit` o en etapa aparte re-ejecutable, con su coste (~$2 por 500 productos
+  según la pasada de Notifier).
+- **Lo que ya está listo** (DEC-280): pipeline parametrizable por marca, provenance
+  derivada, candado de vista, guardas de artefacto, escritura atómica. La ingesta no
+  necesita método nuevo — necesita invocar el que hay sobre la diana que ella misma crea.
+- **Relacionado**: TECH_DEBT #101 (con su trigger) · DEC-279/280 · `scripts/ingest_new.py`.
+## DEC-282
+
+> **Nota de numeración**: esto se escribió como `DEC-279` y colisionó con el `DEC-279` de
+> la sesión `s336-lote`, que corría en paralelo y llegó hasta `DEC-281`. Renumerado a 282 al
+> resolver el merge; ninguna de las dos decisiones cambia. Es **TECH_DEBT #92** otra vez:
+> con dos sesiones abiertas, el número de DEC se elige contra un `main` que ya se movió.
 
 **Adjudicaciones de Alberto del 21-ago sobre los huérfanos, y dónde vive su cola para que no se
 pierda.** · impacto MEDIO · s339 · 22-ago

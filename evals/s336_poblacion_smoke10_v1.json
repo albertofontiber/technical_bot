@@ -1,0 +1,195 @@
+{
+ "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
+ "modelo": "claude-fable-5",
+ "prompt_sha256": "93cb58f088a6cc7c",
+ "prompt_s322_sha256": "d6de2164df339c32",
+ "n": 10,
+ "confianzas": {
+  "alta": 8,
+  "media": 0,
+  "baja": 2
+ },
+ "docs_sin_chunks": [],
+ "uso_tokens": {
+  "in": 30346,
+  "out": 6573
+ },
+ "duracion_s": 139.7,
+ "fecha_utc": "2026-08-21T19:18:07+00:00",
+ "detalle": [
+  {
+   "id": "ada:estela-1",
+   "canonical": "ESTELA-1",
+   "docs": [
+    "NSRE24_EXTERNO"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "SIRENA EXTERIOR DE INCENDIO 24V",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Tensión de alimentación..............................22 a 28 Vcc",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena exterior de alarma de incendio de 24V con activación por tensión (22-28 Vcc), típica de sistemas convencionales, sin mención de direccionamiento ni lazo.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "ada:estela-2",
+   "canonical": "ESTELA-2",
+   "docs": [
+    "NSRE24_EXTERNO"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "SIRENA EXTERIOR DE INCENDIO 24V",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Tensión de alimentación..............................22 a 28 Vcc",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es explícitamente una sirena exterior de alarma de incendio alimentada a 24 Vcc con activación directa por tensión, sin direccionamiento, lo que indica tecnología convencional.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "ada:nsre24",
+   "canonical": "NSRE24",
+   "docs": [
+    "NSRE24"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "SIRENA EXTERIOR FUEGO 24 V",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Se activa por falta de positivo (control).",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena exterior autoalimentada de 24V para fuego, con activación por falta de positivo (señal convencional), sin direccionamiento en lazo.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:acm-8rf",
+   "canonical": "ACM-8RF",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El módulo opcional ACM-8RF dispone de 8 relés en Forma-C de 5 amperios cada uno. El Módulo Relé se conecta a un puerto EIA-485 fuera del módulo opcional LED-101M.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El ACM-8RF es un módulo opcional de relés remotos (8 relés Forma-C de 5 A) que se conecta por EIA-485 a la central MS-5210UD, sin lazos propios.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:afm-16af",
+   "canonical": "AFM-16AF",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Los Anunciadores de la Serie AFM indican el estado del sistema desde una ubicación remota.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "El Módulo Anunciador 16AF dispone de 16 LEDs rojos de alarma.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AFM-16AF es un anunciador remoto de zonas (16 LEDs de alarma por zona) conectado vía bus EIA-485, típico de sistemas convencionales zonales, sin lazos analógicos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:afm-16atf",
+   "canonical": "AFM-16ATF",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": null,
+    "confianza": "baja",
+    "razon": "parse-fail",
+    "raw": "",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "firelite:afm-16atx",
+   "canonical": "AFM-16ATX",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": null,
+    "confianza": "baja",
+    "razon": "parse-fail",
+    "raw": "",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "firelite:cac-10f",
+   "canonical": "CAC-10F",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central Convencional de 10 zonas con comunicador MS-5210UD/MS-5210UDE",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Central Convencional de 10 zonas con comunicador MS-5210UD/MS-5210UDE",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el producto como una central convencional de 10 zonas (MS-5210UD), sin lazos analógicos direccionables.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:fcps-24f",
+   "canonical": "FCPS-24F",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "fuente",
+    "categoria_cita": "La FCPS-24F (FCPS-24FE para aplicaciones de 220/240 VAC) es una fuente de alimentación compacta y remota con cargador de baterías.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente el FCPS-24F como fuente de alimentación remota con cargador de baterías y salidas de 24 VDC para circuitos de señalización.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:fcps-24fe",
+   "canonical": "FCPS-24FE",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "fuente",
+    "categoria_cita": "La FCPS-24F (FCPS-24FE para aplicaciones de 220/240 VAC) es una fuente de alimentación compacta y remota con cargador de baterías",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente el producto como una fuente de alimentación remota de 24 VDC con cargador de baterías para circuitos de señalización.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  }
+ ]
+}

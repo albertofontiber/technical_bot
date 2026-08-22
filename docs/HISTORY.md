@@ -7119,3 +7119,74 @@ desbloquean con 5 firmas**, y `unresolved:id50` → `notifier:id-50` vale 12 man
 Simulado sobre una copia del catálogo, **82 → 65 sin un solo huérfano nuevo**. El cuello de botella
 dejó de ser el corpus y pasó a ser el calendario de Alberto, que es un sitio mucho mejor donde
 tenerlo.
+
+## s336-lote (21/22 ago 2026, noche) — El catálogo Notifier abre los ojos: 3→364 clasificados con un gate que mordió de verdad
+
+La pregunta real de Alberto de las 17:53 («¿Qué centrales de Notifier tienes?» → «ninguno
+de los 3 clasificados casa») destapó que la vista Notifier estaba CIEGA: 502 de 505
+productos sin clasificar. Su GO abrió el lote: el método CERRADO de s322b (pasada con cita
+verbatim + repesca dirigida + full-text) sobre la diana del JOIN REAL — y el camino dejó
+tres lecciones que valen más que el resultado. (1) Mi censo a mano inventó «18 sin docs»
+por contar con ids crudos en vez de `follow_redirect` — la MISMA clase que s334b, G3 dos
+veces en un día. (2) Rompí el emparejamiento de la primera ronda del dúo committeando a
+mitad (el gate pinna `repo_head`): ronda repetida LIMPIA, 20 hallazgos en total, entre
+ellos dos críticos de Sol (la divergencia NO observada escribía fusión; `clasificacion`
+no persistía su doc) y la circularidad del GT que etiqueté leyendo texto completo.
+(3) El gate pre-registrado FALLÓ primero (92,9%) exactamente en la trampa que el GT había
+pinnado — pl4-e, la tarjeta de ampliación clasificada como su central anfitriona — y el
+writer se negó a escribir; la regla R16 al prompt y una re-pasada quirúrgica de las 65
+«central» lo llevaron a 100% sin tocar el GT nunca.
+
+Escritura atómica (shadow de 7 jsonl, backup, os.replace con rollback probado): 361 filas
+con su doc auditable. Efecto: centrales 0→32, el replay sirve 32 (suelo pre-registrado 11),
+cobertura 71,9% → PASS honesto. Suite 4955 + MT 52/52 con el catálogo escrito. La
+capacidad, conservadora por diseño (#76b): 1 escrita, 31 a packet — jamás fusión. Y el
+residuo con nombre: 98 parse-fail que eran INSTRUMENTO (max_tokens agotado sin texto),
+recuperables por ~$2 cuando vuelva el crédito — que se agotó dos veces en el día, la
+segunda a mitad de la recuperación. El enum enseñó sus huecos (anunciador, extinción,
+audio/EVAC, impresora, barrera-IS): packet a Alberto. DEC-279 (acuñada DEC-273 en el hilo; renumerada al fusionar con la línea de huérfanos que publicó DEC-273→278 primero).
+
+### s336-lote · adenda 22-ago — los 98 vuelven a casa
+
+Alberto recargó a media mañana y la tesis del residuo se confirmó en 34 minutos: los 98
+parse-fail eran fallo de instrumento (max_tokens), no de evidencia. Re-corridos con el
+prompt v2: 50 nuevas alta (todas full-text), el gate sube a n=17 sin perder el 100%, y la
+escritura incremental deja la vista Notifier en 414 clasificados y 46 centrales servidas
+(cobertura acumulada 81,9%). Antes de esto, la mañana trajo el merge con la línea de
+huérfanos: conflicto en `products.jsonl` resuelto con un three-way por id y por campo que
+demostró 0 solapes reales (361 filas del lote + 75 multicanal), y la colisión de numeración
+DEC-273/«s336» se zanjó renumerando el lote a DEC-279/«s336-lote». La #336 se mergeó a las
+07:40Z; la recuperación va en PR aparte sobre el catálogo ya fusionado.
+
+## s339 (22 ago 2026) — «¿esto escala al resto de marcas?»: la pregunta que convierte un arreglo en un método
+
+Alberto preguntó dos cosas seguidas que resultaron ser la misma: si la lógica de
+clasificación servía para las demás marcas, y de dónde salían las categorías que yo decía
+que faltaban. La segunda tenía respuesta incómoda —el enum es EMPÍRICO, sembrado en s322,
+y el propio código ya lo declaraba adjudicable— y la honesta era medir antes de opinar: las
+411 filas ya escritas se auditaron contra las seis clases sonda y **ninguna estaba mal
+clasificada**. El clasificador clasifica por la función del sujeto, no por las palabras de
+la cita: las cajas y llaves *de* anunciador fueron a accesorio, el anunciador de lazo a
+repetidor, y el «intrinsically safe smoke sensor» a detector y no a barrera. Los huecos de
+enum no producían filas erróneas: producían filas NO escritas. De ahí salió el packet con
+ancla normativa (EN 54-16/24 para audio, EN 12094 para extinción, EN 60079-11 para la
+barrera Zener; y NO crear categoría donde no hay norma) — mergeado y aún sin firmar.
+
+La primera pregunta se contestó parametrizando el pipeline por marca. Y ahí el trabajo se
+puso interesante, porque mover la marca destapó lo que la marca incrustada tapaba: la
+provenance del writer llevaba dentro los sha del GT y del censo de Notifier, lista para
+viajar a las filas de cualquier otra marca prometiendo un gold que no las juzgó; y el
+writer escribía todo lo elegible sin comprobar de qué vista salía. Mientras lo arreglaba me
+pisé yo mismo el censo de Notifier —re-correrlo contra el catálogo ya escrito desploma la
+diana de 502 a 99— y de ese susto salió la guarda.
+
+El revisor adversarial devolvió **NO SÓLIDO** con seis hallazgos, y los seis eran ciertos.
+El crítico dolía: el recibo del lote original (361 filas, PASS) ya había sido machacado por
+la corrida de recuperación, su antes-y-después no era recomputable, y yo acababa de escribir
+una justificación que explicaba por qué gate y población sí lo eran —omitiendo justo el
+artefacto que no lo era. Recuperado de git, y la distinción que faltaba quedó cableada: el
+censo y el gold NO se re-escriben, el recibo de escritura ROTA. También tenía razón en que
+mi normalizador de marca divergía del real en cuanto había un guion, y en que la cobertura
+medía la corrida en vez del acumulado —por eso el recibo en disco decía PARCIAL mientras yo
+declaraba PASS.
+
