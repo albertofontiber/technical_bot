@@ -44,9 +44,17 @@ import anthropic  # noqa: E402
 
 from src.http_pool import abierto  # noqa: E402
 
-SB = os.environ["SUPABASE_URL"].rstrip("/")
-HS = {"apikey": os.environ["SUPABASE_SERVICE_KEY"],
-      "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_KEY']}"}
+def _sb() -> tuple[str, dict]:
+    """URL y cabeceras de Supabase, LEÍDAS AL USARLAS.
+
+    Estaban a nivel de módulo y eso hacía que `--help` exigiese credenciales:
+    importar el script para ver sus flags reventaba con KeyError en cualquier
+    entorno sin secretos (CI incluido). Las credenciales son de la corrida, no
+    del import.
+    """
+    sb = os.environ["SUPABASE_URL"].rstrip("/")
+    clave = os.environ["SUPABASE_SERVICE_KEY"]
+    return sb, {"apikey": clave, "Authorization": f"Bearer {clave}"}
 MODELO = "claude-fable-5"
 
 PROMPT = """Eres el clasificador de productos de un catálogo de protección contra incendios (PCI).
@@ -77,7 +85,8 @@ _RX_R9 = re.compile(
 
 
 def _chunks(c, sf: str, limit: int, offset: int = 0) -> list[dict]:
-    r = c.get(f"{SB}/rest/v1/chunks_v2", headers=HS,
+    sb, hs = _sb()
+    r = c.get(f"{sb}/rest/v1/chunks_v2", headers=hs,
               params={"select": "chunk_index,content",
                       "source_file": f"eq.{sf}",
                       "order": "chunk_index.asc",
