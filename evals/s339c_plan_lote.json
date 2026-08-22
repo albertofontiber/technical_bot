@@ -1,0 +1,471 @@
+{
+  "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago)",
+  "operaciones": [
+    {
+      "op": "redirect",
+      "id": "unresolved:id50",
+      "redirect_to": "notifier:id-50",
+      "ref": "§1.1"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg",
+      "redirect_to": "notifier:tg",
+      "ref": "§1.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:tg",
+      "ref": "§1.2",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:mad-450",
+      "redirect_to": "detnov:mad-450",
+      "ref": "§1.3"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:id60",
+      "redirect_to": "notifier:id-60",
+      "ref": "§1.4"
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg-gsm",
+      "redirect_to": "notifier:tg-gsm",
+      "ref": "§1.5"
+    },
+    {
+      "op": "familia",
+      "hijo": "notifier:tg-gsm",
+      "paraguas": "notifier:tg",
+      "ref": "§1.5"
+    },
+    {
+      "op": "promover",
+      "id": "morley:vsn4-2plus",
+      "ref": "§2.1",
+      "por": "misma familia, misma marca (adjudicación de Alberto)"
+    },
+    {
+      "op": "promover",
+      "id": "morley:vsn8-2plus",
+      "ref": "§2.1",
+      "por": "misma familia, misma marca (adjudicación de Alberto)"
+    },
+    {
+      "op": "EXCLUIDA",
+      "ref": "§2.2",
+      "por": "promoverlo choca de frente con `desico:tg-1020`, que ya es consumible: `validate` sobre la simulación lo caza como canonical_model DUPLICADO («exact sería last-wins silencioso»). Es LA pregunta abierta del final del packet, que sigue sin responder. Sale del lote hasta que la conteste: ¿atribución equivocada de Desico, homónimo, o se queda como está?"
+    },
+    {
+      "op": "redirect",
+      "id": "notifier:id-3000",
+      "redirect_to": "notifier:id3000",
+      "ref": "§2.3"
+    },
+    {
+      "op": "redirect",
+      "id": "notifier:vsn-co",
+      "redirect_to": "morley:vsn-co",
+      "ref": "§2.4"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "morley:vsn-co",
+      "ref": "§2.4",
+      "marcas": [
+        "morley",
+        "notifier"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:nfs8rel",
+      "ref": "§4.1",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:nfs8rel",
+      "redirect_to": "notifier:nfs8rel",
+      "ref": "§4.1"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:nfs8rel",
+      "ref": "§4.1",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:mcx-55m",
+      "ref": "§4.2",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:mcx-55m",
+      "redirect_to": "notifier:mcx-55m",
+      "ref": "§4.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:mcx-55m",
+      "ref": "§4.2",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:mmx-10m",
+      "ref": "§4.3",
+      "por": "destino de redirect/fusión"
+    },
+    {
+      "op": "redirect",
+      "id": "morley:mmx-10m",
+      "redirect_to": "notifier:mmx-10m",
+      "ref": "§4.3"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:mmx-10m",
+      "ref": "§4.3",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "EXCLUIDA",
+      "ref": "§5.1",
+      "por": "pide ELIMINAR la fila, no redirigirla. Los ids son INMUTABLES por contrato. Verificar si `notifier:notifier-inspire-e10` llegó a ser consumible alguna vez: si nació candidate y nunca salió de cuarentena, borrarlo no rompe la inmutabilidad (nada externo lo referenció); si fue consumible, hay que redirigir y explicárselo."
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:tg-honeywell",
+      "redirect_to": "notifier:tg",
+      "ref": "§5.2"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "notifier:tg",
+      "ref": "§5.2",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "promover",
+      "id": "notifier:am-lcd",
+      "ref": "§6.1",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "promover",
+      "id": "notifier:nas",
+      "ref": "§6.3",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "baja_corpus",
+      "manual": "MNDT740P",
+      "ref": "§6.3",
+      "por": "duplicado de idioma (adjudicación de Alberto)"
+    },
+    {
+      "op": "baja_corpus_condicional",
+      "manual": "MNDT741I",
+      "ref": "§6.3",
+      "por": "sólo si 741 y 741I difieren únicamente en idioma"
+    },
+    {
+      "op": "familia",
+      "hijo": "notifier:rhistorico.exe",
+      "paraguas": "notifier:tg",
+      "ref": "§6.4"
+    },
+    {
+      "op": "promover",
+      "id": "notifier:rhistorico.exe",
+      "ref": "§6.4",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "renombrar_canonico",
+      "id": "notifier:rhistorico.exe",
+      "ref": "§6.4",
+      "canonico_nuevo": "Utilidad de Reparación de Históricos",
+      "quitar_alias": [
+        "Utilidad de Reparación de Históricos"
+      ]
+    },
+    {
+      "op": "alias",
+      "id": "notifier:rhistorico.exe",
+      "alias": "RHistorico.exe",
+      "ref": "§6.4"
+    },
+    {
+      "op": "promover",
+      "id": "notifier:serie-800",
+      "ref": "§6.5",
+      "por": "adjudicado producto por Alberto"
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:tg-ip-1-sec",
+      "ref": "§7:tg-ip-1-sec",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:tg-ip-1-sec",
+      "marca": "notifier",
+      "ref": "§7:tg-ip-1-sec"
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:itac",
+      "ref": "§7:itac",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:itac",
+      "marca": "notifier",
+      "ref": "§7:itac"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "unresolved:itac",
+      "ref": "§7:itac",
+      "marcas": [
+        "notifier",
+        "morley"
+      ]
+    },
+    {
+      "op": "redirect",
+      "id": "unresolved:trd-100",
+      "redirect_to": "detnov:trd-100",
+      "ref": "§7:trd-100"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:trd-100",
+      "ref": "§7:trd-100",
+      "canonical_model": "TRD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "alta",
+      "id": "detnov:tsd-100",
+      "ref": "§7:trd-100",
+      "canonical_model": "TSD-100",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "baja_corpus",
+      "id": "unresolved:indicator",
+      "ref": "§7:indicator",
+      "por": "«Elimínalo del corpus»"
+    },
+    {
+      "op": "promover",
+      "id": "unresolved:vision-plus",
+      "ref": "§7:vision-plus",
+      "por": "promovido con marca asignada por Alberto"
+    },
+    {
+      "op": "marca",
+      "id": "unresolved:vision-plus",
+      "marca": "morley",
+      "ref": "§7:vision-plus"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:tcd-106",
+      "ref": "suelo:55310600 Manual TCD-106 kit_",
+      "canonical_model": "TCD-106",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55310600 Manual TCD-106 kit_ES",
+      "id": "detnov:tcd-106",
+      "ref": "suelo:55310600 Manual TCD-106 kit_"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:scd-120",
+      "ref": "suelo:55312000 SCD-120_Manual_ES",
+      "canonical_model": "SCD-120",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55312000 SCD-120_Manual_ES",
+      "id": "detnov:scd-120",
+      "ref": "suelo:55312000 SCD-120_Manual_ES"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:fad-905",
+      "ref": "suelo:55393002 Manual Fuentes de A",
+      "canonical_model": "FAD-905",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55393002 Manual Fuentes de Alimentacion FAD-905 ES F",
+      "id": "detnov:fad-905",
+      "ref": "suelo:55393002 Manual Fuentes de A"
+    },
+    {
+      "op": "alta",
+      "id": "notifier:f3000m",
+      "ref": "suelo:F3000M_Spanish User Guide_00",
+      "canonical_model": "F3000M",
+      "vendido_bajo": [
+        "Notifier"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "F3000M_Spanish User Guide_0044-047-02-ES",
+      "id": "notifier:f3000m",
+      "ref": "suelo:F3000M_Spanish User Guide_00"
+    },
+    {
+      "op": "vendido_bajo",
+      "id": "ffe:f5000",
+      "ref": "suelo:F5K-2H-UserGuide-SPANISH_Man",
+      "marcas": [
+        "Fire Fighting Enterprises",
+        "Morley-IAS"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+      "id": "ffe:f5000",
+      "ref": "suelo:F5K-2H-UserGuide-SPANISH_Man"
+    },
+    {
+      "op": "alias",
+      "id": "ffe:f5000",
+      "alias": "F5K",
+      "ref": "suelo:F5K-2H-UserGuide-SPANISH_Man"
+    },
+    {
+      "op": "doc_map",
+      "manual": "F5K-Additional-Information-Spanish",
+      "id": "ffe:f5000",
+      "ref": "suelo:F5K-Additional-Information-S"
+    },
+    {
+      "op": "doc_map",
+      "manual": "MNDT635",
+      "id": "notifier:lisa-2",
+      "ref": "suelo:MNDT635"
+    },
+    {
+      "op": "baja_corpus",
+      "manual": "S3466R_Eng_ital",
+      "ref": "suelo:S3466R_Eng_ital",
+      "por": "«retira este manual del corpus»"
+    }
+  ],
+  "por_tipo": {
+    "redirect": 12,
+    "vendido_bajo": 8,
+    "familia": 2,
+    "promover": 12,
+    "EXCLUIDA": 2,
+    "baja_corpus": 3,
+    "baja_corpus_condicional": 1,
+    "renombrar_canonico": 1,
+    "alias": 2,
+    "marca": 3,
+    "alta": 6,
+    "doc_map": 7
+  },
+  "simulacion": {
+    "antes": 82,
+    "despues": 35,
+    "cierra": [
+      "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+      "55310600 Manual TCD-106 kit_ES",
+      "55312000 SCD-120_Manual_ES",
+      "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+      "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+      "AM-LCD manual de instalacion y usuario RV 0",
+      "BIDT077",
+      "Como-configurar-correos-en-un-TG-HONEYWELL",
+      "F3000M_Spanish User Guide_0044-047-02-ES",
+      "F5K-2H-UserGuide-SPANISH_Manual F5000",
+      "F5K-Additional-Information-Spanish",
+      "HLSI_MA-DT-1412_01_TG-IP1-SEC_QG",
+      "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
+      "HLSI_MN1007",
+      "ITAC-Como-asignar-la-direccion-en-el-ITAC",
+      "ITAC-no-reconocido-por-la-Central",
+      "LEER PRIMERO_MADT951_10",
+      "MADT015_02",
+      "MADT155_01",
+      "MADT155_02",
+      "MADT155_05_A",
+      "MADT155_07",
+      "MADT155_08",
+      "MADT951_04",
+      "MCDT155",
+      "MCDT156_A",
+      "MFDT155",
+      "MFDT156",
+      "MIDT155",
+      "MIDT156",
+      "MIE-MA-100_02",
+      "MIE-MI-480",
+      "MIE-MI-490",
+      "MIEMA130",
+      "MNDT020",
+      "MNDT1005",
+      "MNDT1006",
+      "MNDT635",
+      "MNDT740P",
+      "MNDT741",
+      "MNDT741I",
+      "TG-Como-exportar-el-historico-desde-el-programa-de-gestion-grafica",
+      "TG-GSM-Fallo-al-enviar-SMS-desde-TG",
+      "TG-Honeywell_Usuario_PT",
+      "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+      "TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo",
+      "TIDT107"
+    ],
+    "abre": [],
+    "validate_errores": []
+  }
+}

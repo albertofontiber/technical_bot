@@ -1,0 +1,76 @@
+{
+  "huerfanos_hoy": 82,
+  "hallazgos": [
+    {
+      "ref": "§2.2",
+      "nivel": "REQUISITO",
+      "problema": "`notifier:tg-1020` está en cuarentena (candidate) → la acción necesita PROMOVERLO además de redirigir el otro id; redirigir hacia un candidate no rescata nada"
+    },
+    {
+      "ref": "§4.1",
+      "nivel": "REQUISITO",
+      "problema": "`notifier:nfs8rel` está en cuarentena (candidate) → la acción necesita PROMOVERLO además de redirigir el otro id; redirigir hacia un candidate no rescata nada"
+    },
+    {
+      "ref": "§4.2",
+      "nivel": "REQUISITO",
+      "problema": "`notifier:mcx-55m` está en cuarentena (candidate) → la acción necesita PROMOVERLO además de redirigir el otro id; redirigir hacia un candidate no rescata nada"
+    },
+    {
+      "ref": "§4.3",
+      "nivel": "REQUISITO",
+      "problema": "`notifier:mmx-10m` está en cuarentena (candidate) → la acción necesita PROMOVERLO además de redirigir el otro id; redirigir hacia un candidate no rescata nada"
+    },
+    {
+      "ref": "§5.1",
+      "nivel": "ADJUDICADO",
+      "problema": "`notifier:notifier-inspire-e10`: candidate=True estado='activo'. Nació y sigue en cuarentena → nada externo lo referenció, borrarlo NO rompe la inmutabilidad (que protege ids publicados)."
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-596»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-606»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-590»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-591»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-593»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-592»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-598»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-594»: sólo dígitos — el detector los excluye a propósito"
+    },
+    {
+      "ref": "suelo:MADT190_10",
+      "nivel": "BLOQUEA",
+      "problema": "canónico «020-595»: sólo dígitos — el detector los excluye a propósito"
+    }
+  ],
+  "bloqueantes": 9
+}
