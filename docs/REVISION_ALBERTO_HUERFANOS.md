@@ -54,7 +54,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «TG-GSM»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `TG-GSM-Fallo-al-enviar-SMS-desde-TG`
 
-  - [ ] OK  ·  [ ] otra cosa: ______
+  - [ ] OK  ·  [ ] otra cosa: OK a lo que propone (ten en cuenta que es software). no obstante, TG-GSM debería pertenecer a la familia de software TG
 
 ## 2 · Ambiguos — el token lo disputan dos ids
 
@@ -67,7 +67,7 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 - Manuales: `HLSI-MN-025-I_NFS Supra Series v05`
 - ✅ Dijiste «1 OK» → lo entiendo como **`morley:vsn12-2plus`** (el manual es de la serie NFS Supra de Morley). La evidencia de arriba lo respalda.
 
-  - [ ] confirmado  ·  [ ] te leí mal, era: ______
+  - [ ] confirmado  ·  [X] te leí mal, era: Morley. no obstante, ojo que hay más modelos de la familia VSN-2Plus, en concreto VSN4-2Plus, VSN8-2Plus, y VSN12-2Plus. los 3 son Morley.
 
 ### 2.2 — «TG-1020»  ·  1 manual(es)  ·  ✅ **YA LO DECIDISTE**
 
@@ -76,7 +76,7 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 - Manuales: `TG-1020-INT`
 - ✅ Dijiste «3 OK» → lo entiendo como **`notifier:tg-1020`** (coherente con que los TG sean software de Notifier). La evidencia de arriba lo respalda.
 
-  - [ ] confirmado  ·  [ ] te leí mal, era: ______
+  - [X] confirmado. no obstante, que pertenezca a la familia TG al igual que el TG-GSM.  ·  [ ] te leí mal, era: ______
 
 ### 2.3 — «ID-3000»  ·  1 manual(es)
 
@@ -95,7 +95,7 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 - Manuales: `VSN-CO-Mantenimiento-y-vida-util-del-detecto`
 - **Recomendación: canónico en `morley`**, y el otro id a `redirect` con `vendido_bajo` = ambas (R3). El corpus es claro: el token vive en documentos de Morley.
 
-  - [ ] fusionar, canónico `______`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa
+  - [X] fusionar, canónico `Morley`  ·  [ ] son distintos (homónimo)  ·  [ ] otra cosa
 
 ## 3 · Resueltos por evidencia — tu «Detnov OK» + el mecanismo nuevo (s338)
 
@@ -113,22 +113,22 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 | 5 | `55320002 Manual Programador PGD-200 ES FR GB` | PGD-200 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55320002-Manual-Programador-PGD-200-ES-FR-GB-IT.pdf) |
 | 6 | `55320011 Manual zocalo con relé Z-200-R` | Z-200-R | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
 | 7 | `55320102 Manual Buzzer Analogico PAD-10A ES ` | PAD-10A | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
-| 8 | `55320103 Manual Zocalo Conexion ES FR GB IT_` | 55320103 | FICHERO + PDF |
-| 9 | `55340103 Manual Modulo 1-2 Entradas Tecnicas` | MAD-402 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-401-MAD-402-55340103-MI-627-m-2024-b.pdf) |
+| 8 | `55320103 Manual Zocalo Conexion ES FR GB IT_` | 55320103 | FICHERO + PDF | Alberto: este es el Z-200
+| 9 | `55340103 Manual Modulo 1-2 Entradas Tecnicas` | MAD-402 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-401-MAD-402-55340103-MI-627-m-2024-b.pdf) | Alberto: Este también sirve para el MAD-401.
 | 10 | `55341101 Manual Modulo 1-2 Reles libre de te` | MAD-412 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-411_MAD-412-55341101-MI-629-m-2024-b.pdf) |
-| 11 | `55342102 Manual Modulo 1-2 Entradas 1-2 Sali` | MAD-422 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
-| 12 | `55343101 Manual Modulo 1-2 Sirenas Convencio` | MAD-432, MAD-432 Módulo 1 Sirena | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55343102-Manual-Modulo-1-2-Sirenas-Convencionales-MAD-432-ES-FR-GB-IT.pdf) |
-| 13 | `55344103 Manual Modulo 1-2 Zonas MAD-442 ES ` | MAD-442 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55344103-Manual-Modulo-1-2-Zonas-MAD-442-ES-FR-GB-IT.pdf) |
-| 14 | `55346102 Manual Sirena Analogica MAD-461 ES ` | MAD-461 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
+| 11 | `55342102 Manual Modulo 1-2 Entradas 1-2 Sali` | MAD-422 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) | Alberto: Este también sirve para el MAD-421.
+| 12 | `55343101 Manual Modulo 1-2 Sirenas Convencio` | MAD-432, MAD-432 Módulo 1 Sirena | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55343102-Manual-Modulo-1-2-Sirenas-Convencionales-MAD-432-ES-FR-GB-IT.pdf) | Alberto: este también sirve para el MAD-431
+| 13 | `55344103 Manual Modulo 1-2 Zonas MAD-442 ES ` | MAD-442 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55344103-Manual-Modulo-1-2-Zonas-MAD-442-ES-FR-GB-IT.pdf) | Alberto: este también sirve para el MAD-441
+| 14 | `55346102 Manual Sirena Analogica MAD-461 ES ` | MAD-461 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) | 
 | 15 | `55347101 Manual Sirena Analogica MAD-471 ES ` | MAD-471 | ref. `55347101` |
-| 16 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
-| 17 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) |
-| 18 | `55349102 Manual Modulo Aislador MAD-491 ES F` | MAD-491 | ref. `55349102` |
-| 19 | `55350005 Manual Central Monoxido CMD-500 ES ` | CMD-500 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350005-Manual-Central-Monoxido-CMD-500-ES-FR-GB-IT.pdf) |
-| 20 | `55350007 Manual Tarjeta Regulacion Motores T` | 55350007, TRMD-50X | FICHERO + PDF |
+| 16 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) | Alberto: este también sirve para el MAD-473. no obstante, ojo que este documento y el de la fila 17 son muy similares, y que además parece haber otro más actual (porque es el que está actualmente disponible en la web: https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf). deberíamos descargarnos el del link, ingestarlo, y poner superseded los de las filas 16 y 17.
+| 17 | `55347200 Manual Sirena Analogica MAD-472 ES ` | MAD-472 | FICHERO + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2025/05/Catalogo-prodotti-Detnov-2025-TP003-it-2025-d.pdf) | Alberto: ver fila 16.
+| 18 | `55349102 Manual Modulo Aislador MAD-491 ES F` | MAD-491 | ref. `55349102` | Alberto: parece MAD-490 y MAD-492 (de hecho, este link parece más actualizado porque es el que está live en la web, así que deberíamos poner el de la fila 18 como superseded y que el del link (https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf) sea el actual.
+| 19 | `55350005 Manual Central Monoxido CMD-500 ES ` | CMD-500 | FICHERO + URL_FABRICANTE + CATALOGO_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350005-Manual-Central-Monoxido-CMD-500-ES-FR-GB-IT.pdf) | Alberto: en realidad, la familia es la CMD-500, pero están la CMD-501, CMD-502, y CMD-503, en función del número de zonas (link de la CMD-503 por ejemplo - https://www.detnov.com/productos/sistema-monoxido/centrales-de-monoxido/central-de-deteccion-de-monoxido-de-carbono-de-3-zonas-cmd-503/).
+| 20 | `55350007 Manual Tarjeta Regulacion Motores T` | 55350007, TRMD-50X | FICHERO + PDF | Alberto: es la familia TRMD-500, que incluyela TRMD-501 y la TRMD-502.
 | 21 | `55350008 Manual Detectores Monoxido DMDX-500` | DMDX-500 | FICHERO + URL_FABRICANTE · [fuente](https://www.detnov.com/wp-content/uploads/2019/04/55350008-Manual-Detectores-Monoxido-DMDX-500-ES-FR-GB-IT.pdf) |
 
-- [ ] Adelante con todos  ·  [ ] quita los que marque arriba
+- [ ] Adelante con todos  ·  [X] quita los que marque arriba. Alberto: te he hecho los siguientes ajustes arriba.
 
 ### 3.b — Nombres que el FABRICANTE usa y nosotros no tenemos
 
