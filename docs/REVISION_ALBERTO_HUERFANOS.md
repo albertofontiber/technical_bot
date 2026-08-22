@@ -40,7 +40,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «MAD-450»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `55345103 Manual Pulsador Analogico MAD-450 E`
 
-  - [ ] OK  ·  [ ] otra cosa: ______
+  - [X] OK  ·  [ ] otra cosa: ______
 
 ### 1.4 — `unresolved:id60` → `notifier:id-60`  ·  **1 manual(es)**
 
@@ -86,7 +86,7 @@ No te doy «mi lectura»: te doy **en cuántos documentos de cada marca aparece 
 - ⚠️ **Esto NO es una disputa entre marcas**: `notifier:id3000` y el candidate del manual son **el mismo producto de notifier, escrito distinto** (el guion). Los `unresolved:` no son un bando.
 - **Recomendación: redirect `notifier:id-3000` → `notifier:id3000`.** No hay que elegir marca: hay que dejar de tener dos filas para lo mismo. Sigue siendo tuyo por R21.
 
-  - [ ] OK al redirect  ·  [ ] otra cosa: ______
+  - [X] OK al redirect  ·  [ ] otra cosa: ______
 
 ### 2.4 — «VSN-CO»  ·  1 manual(es)
 
