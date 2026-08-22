@@ -26,7 +26,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «ID50»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `BIDT077`, `MADT155_01`, `MADT155_05_A`, `MADT155_07`, `MADT155_08`, `MCDT155`, `MCDT156_A`, `MFDT155`, `MFDT156`, `MIDT155`, `MIDT156`, `TIDT107`
 
-  - [ ] OK  ·  [ ] otra cosa: ______
+  - [X] OK  ·  [ ] otra cosa: ______
 
 ### 1.2 — `unresolved:tg` → `notifier:tg`  ·  **2 manual(es)** · **software (R10)**
 
@@ -47,7 +47,7 @@ Mismo canónico, uno con la marca puesta y otro sin ella. **R21 dice que lo firm
 - **Recomendación: SÍ.** Mismo canónico «ID60»; el destino ya es consumible, así que el redirect no crea nada nuevo — sólo deja de perder los manuales.
 - Manuales: `MADT155_02`
 
-  - [ ] OK  ·  [ ] otra cosa: ______
+  - [X] OK  ·  [ ] otra cosa: ______
 
 ### 1.5 — `unresolved:tg-gsm` → `notifier:tg-gsm`  ·  **1 manual(es)** · **software (R10)**
 
