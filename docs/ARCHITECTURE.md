@@ -17,15 +17,19 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s334 (21 ago 2026) — EL PANEL GANA LA WIKI DE MODELOS. Y LA WIKI DESTAPÓ TRABAJO.**
+> **Estado s336 (21 ago 2026) — EL PANEL GANA LA WIKI DE MODELOS. Y LA WIKI DESTAPÓ TRABAJO.**
 > `/catalogo` es una vista de **sólo lectura** sobre el catálogo gobernado (`data/catalog/*.jsonl`).
 > la misma estructura que el bot consulta en runtime: no hay segunda copia que pueda divergir.
-> Enseña **1.105 modelos que el bot usa** en 36 marcas. con sus manuales. sus alias y sus
+> Enseña los **modelos que el bot usa** en 36 marcas. con sus manuales. sus alias y sus
 > paraguas. más las dos preguntas que hasta ahora no se veían en ningún sitio: **55 modelos sin
-> ningún manual** y **193 manuales huérfanos**. La cifra de huérfanos era **245** cuando la Wiki la
+> ningún manual** y **82 manuales huérfanos** (cuarentena 447). La cifra de huérfanos era **245** cuando la Wiki la
 > destapó (s331d): el ataque autónomo de s334 (DEC-271) promovió **81 productos verificados uno a
-> uno con el resolver** y rescató **52 manuales** — cuarentena 520 (era 601). consumibles
-> 1.105 (eran 1.024). Los **81 `redirect` entre marcas**
+> uno con el resolver** y rescató **52 manuales**; los lotes de s334c→s336 siguieron. Hoy:
+> **cuarentena 447** (era 601) y **1.180 productos consumibles propios** (eran 1.024) sobre 1.709
+> filas. *Ojo con la cifra de consumibles: `_consumable()` **sigue los redirects**, así que
+> contando los ids que redirigen salen **1.261**. Las dos son correctas y miden cosas distintas —
+> la que se cita aquí y en los `DEC` es la de productos PROPIOS, sin las filas `redirect`.*
+> Los **81 `redirect` entre marcas**
 > son clase propia — la vista OEM. Cambiar el catálogo sigue pasando por el lote firmado con recibo;
 > la Wiki es donde se VE el problema, no donde se arregla (DEC-267).
 >

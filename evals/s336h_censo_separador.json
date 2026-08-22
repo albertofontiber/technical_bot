@@ -1,0 +1,1546 @@
+{
+ "que_es": "s336h · dimensiona la pregunta que dejó abierta s336f: ¿debe un término SIN DÍGITOS exigir el separador en el detector? Vulnerable = multi-segmento y sin dígitos, que es cuando el separador-espacio puede pegar dos palabras ajenas («Pantalla FM/AM LCD» casando el core de `AM-LCD`). NADA aplicado.",
+ "aviso": "el core documenta «v2.2: '≤3 chars' mataba zxe»: el umbral de sigla corta YA se probó en el core y se revirtió por matar productos reales. Mi R19 (s336e) lo reintrodujo bloqueando siglas de ≤3 letras — queda declarado como pendiente de medir, no como regla buena.",
+ "n_terminos_detector": 2034,
+ "n_vulnerables": 140,
+ "n_con_ajenos": 79,
+ "filas": [
+  {
+   "termino": "AMG-E",
+   "normkey": "amge",
+   "core": "amg[-\\s/.+]*e",
+   "documentos": 7,
+   "suyos": 3,
+   "ajenos": 4,
+   "ejemplos": [
+    "or **AMG-1** Generador de Mensajes de Audio **AMG-E** Generador de Mensajes de Audio **APS-6R** F",
+    "AFM-32A Annunciators    | 15048 | | The AMG-1/AMG-E (VAM-2020)         | 15889 | | The LCD-80 Liq",
+    "AA120_1[\"AA-120Alimentaciónde Audio\"]         AMGE[\"AMG-EAlimentaciónde Audio\"]         AA120_2["
+   ]
+  },
+  {
+   "termino": "AVD EVJ",
+   "normkey": "avdevj",
+   "core": "avd[-\\s/.+]*evj",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "BE-XP",
+   "normkey": "bexp",
+   "core": "be[-\\s/.+]*xp",
+   "documentos": 3,
+   "suyos": 2,
+   "ajenos": 1,
+   "ejemplos": [
+    "EL Complemento de Iniciación del Transponder BE-XP (Alimentación Limitada) ....................."
+   ]
+  },
+  {
+   "termino": "CAB-AA",
+   "normkey": "cabaa",
+   "core": "cab[-\\s/.+]*aa",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "instala en los gabinetes de la Serie CAB-3 y CAB-AA o remotamente en un gabinete ABS-8R. El UDACT",
+    "n block]  **Figura 20. UDACT y AFP-300/400 en CAB-AA**  Instalación interna de un UDACT en una AFP",
+    "| | **DP-400AA** Dress Panel for CAB-AA                   | **DP-400AA** Panel de rev"
+   ]
+  },
+  {
+   "termino": "CALYPSO-II",
+   "normkey": "calypsoii",
+   "core": "calypso[-\\s/.+]*ii",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "# CALYPSO-II-R  Detector autónomo de humo vía radio  [Prod"
+   ]
+  },
+  {
+   "termino": "Calypso-II-R",
+   "normkey": "calypsoiir",
+   "core": "calypso[-\\s/.+]*ii[-\\s/.+]*r",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "CLSS Configuration Tool",
+   "normkey": "clssconfigurationtool",
+   "core": "clss[-\\s/.+]*configuration[-\\s/.+]*tool",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "respetiva explicação  | \\[Screenshot showing CLSS Configuration Tool interface with a \"Synchronization\" dialog dis",
+    "superior do ecrã da Central).  [Screenshot of CLSS Configuration Tool software interface showing:  - Main window wi",
+    "----- | ------- | ------ | ------------ | | ☑ CLSS Configuration Tool     | ☑      | ☑       | ☑      | No"
+   ]
+  },
+  {
+   "termino": "DOA FJ",
+   "normkey": "doafj",
+   "core": "doa[-\\s/.+]*fj",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "DOA FJ/CPD",
+   "normkey": "doafjcpd",
+   "core": "doa[-\\s/.+]*fj[-\\s/.+]*cpd",
+   "documentos": 1,
+   "suyos": 0,
+   "ajenos": 1,
+   "ejemplos": [
+    "-----------------|----------| |           | **DOA FJ/CPD** – Fire alarm sounding device for fire signa"
+   ]
+  },
+  {
+   "termino": "DX Connexion",
+   "normkey": "dxconnexion",
+   "core": "dx[-\\s/.+]*connexion",
+   "documentos": 7,
+   "suyos": 0,
+   "ajenos": 7,
+   "ejemplos": [
+    "[Diagram showing DX Connexion control panel with the following components:",
+    "Honeywell | Fire Safety  DX CONNEXION™  # Manual de usuario  - PÁGINA 2 -  # DX CON",
+    "# Rearme remoto en central DX-Connexion  | **Question** | ¿Cómo hacer un rearme remot"
+   ]
+  },
+  {
+   "termino": "E-SIB-S",
+   "normkey": "esibs",
+   "core": "e[-\\s/.+]*sib[-\\s/.+]*s",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "Firebeam Blue",
+   "normkey": "firebeamblue",
+   "core": "firebeam[-\\s/.+]*blue",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "HON-CGW-MBB",
+   "normkey": "honcgwmbb",
+   "core": "hon[-\\s/.+]*cgw[-\\s/.+]*mbb",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "Honeywell SmartConfig App",
+   "normkey": "honeywellsmartconfigapp",
+   "core": "honeywell[-\\s/.+]*smartconfig[-\\s/.+]*app",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ICAM IAS",
+   "normkey": "icamias",
+   "core": "icam[-\\s/.+]*ias",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ICAM IFT",
+   "normkey": "icamift",
+   "core": "icam[-\\s/.+]*ift",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ICAM ILS",
+   "normkey": "icamils",
+   "core": "icam[-\\s/.+]*ils",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ID-CRA",
+   "normkey": "idcra",
+   "core": "id[-\\s/.+]*cra",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "consulte las características de los equipos **ID-CRA** o **VSN-CRA** o acuda al departamento técni"
+   ]
+  },
+  {
+   "termino": "ISO-X",
+   "normkey": "isox",
+   "core": "iso[-\\s/.+]*x",
+   "documentos": 17,
+   "suyos": 5,
+   "ajenos": 12,
+   "ejemplos": [
+    "ste un módulo aislador no direccionable (tipo ISO-X) que es capaz de aislar secciones del lazo en",
+    "Base con aislador FET                      | ISO-X        | Módulo aislador estándar",
+    "Rf =   |   | | Nº de otros aisladores B524IE, ISO-X"
+   ]
+  },
+  {
+   "termino": "IZE-A",
+   "normkey": "izea",
+   "core": "ize[-\\s/.+]*a",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "---------------------------------- | | IZM-8, IZE-A, and AIM-200"
+   ]
+  },
+  {
+   "termino": "KE-ASA-AUXR",
+   "normkey": "keasaauxr",
+   "core": "ke[-\\s/.+]*asa[-\\s/.+]*auxr",
+   "documentos": 7,
+   "suyos": 1,
+   "ajenos": 6,
+   "ejemplos": [
+    "---------- | | Dispositivo de<br/>detección | KE-ASA-AUXR | Accesorio de notificación direccionable<br/",
+    "-------------- | | Dispositivo de detección | KE-ASA-AUXR | Accesorio de notificación direccionable int",
+    "---------- | | Dispositivo de<br/>detección | KE-ASA-AUXR | Accesorio de notificación direccionable<br/"
+   ]
+  },
+  {
+   "termino": "KE-DBA-ADPW-KIL",
+   "normkey": "kedbaadpwkil",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*kil",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "KE-DBA-ADPW-ZIT",
+   "normkey": "kedbaadpwzit",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*adpw[-\\s/.+]*zit",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "KE-DBA-AUXW",
+   "normkey": "kedbaauxw",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*auxw",
+   "documentos": 5,
+   "suyos": 2,
+   "ajenos": 3,
+   "ejemplos": [
+    "| | Dispositivo de detección | KE-DBA-AUXW     | Accesorio base direccionable inteligent",
+    "de empotrar para base de montaje estándar | | KE-DBA-AUXW | Accesorio profundo para base de montaje est",
+    "tch for exceptional overall performance.  The KE-DBA-AUXW is an Excellence series, surface mount base a"
+   ]
+  },
+  {
+   "termino": "KE-DBA-CAPW",
+   "normkey": "kedbacapw",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*capw",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "-------------- | | Dispositivo de detección | KE-DBA-CAPW     | Accesorio base direccionable inteligent"
+   ]
+  },
+  {
+   "termino": "KE-DBA-IPW",
+   "normkey": "kedbaipw",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*ipw",
+   "documentos": 3,
+   "suyos": 2,
+   "ajenos": 1,
+   "ejemplos": [
+    "| | Dispositivo de detección | KE-DBA-IPW      | Accesorio base direccionable inteligen"
+   ]
+  },
+  {
+   "termino": "KE-DBA-LABW-S",
+   "normkey": "kedbalabws",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*labw[-\\s/.+]*s",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "-128 (pequeña) | | Dispositivo de detección | KE-DBA-LABW-S   | Accesorio detector inteligente direcciona"
+   ]
+  },
+  {
+   "termino": "KE-DBA-RECW",
+   "normkey": "kedbarecw",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*recw",
+   "documentos": 4,
+   "suyos": 2,
+   "ajenos": 2,
+   "ejemplos": [
+    "anco (mediana) | | Dispositivo de detección | KE-DBA-RECW   | Accesorio base direccionable inteligente",
+    "----------------------------------------- | | KE-DBA-RECW | Accesorio de empotrar para base de montaje"
+   ]
+  },
+  {
+   "termino": "KE-DBA-TAGW",
+   "normkey": "kedbatagw",
+   "core": "ke[-\\s/.+]*dba[-\\s/.+]*tagw",
+   "documentos": 8,
+   "suyos": 1,
+   "ajenos": 7,
+   "ejemplos": [
+    "-------------- | | Dispositivo de detección | KE-DBA-TAGW    | Accesorio base direccionable inteligente",
+    "ndar           | | Dispositivo de detección | KE-DBA-TAGW | Accesorio base direccionable inteligente -",
+    "ndar           | | Dispositivo de detección | KE-DBA-TAGW | Accesorio base direccionable inteligente -"
+   ]
+  },
+  {
+   "termino": "KIT-GAS",
+   "normkey": "kitgas",
+   "core": "kit[-\\s/.+]*gas",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "601_B     Honeywell Life Safety Iberia     2  KIT- GAS. Calibración",
+    "ibración Cero y 4 mA.  Consulte el manual del Kit-gas (MN-DT-627) para saber más acerca del ajuste"
+   ]
+  },
+  {
+   "termino": "LocatorPlus-EN",
+   "normkey": "locatorplusen",
+   "core": "locatorplus[-\\s/.+]*en",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "Loop Splitter",
+   "normkey": "loopsplitter",
+   "core": "loop[-\\s/.+]*splitter",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-ACC-HUB-POE",
+   "normkey": "ltacchubpoe",
+   "core": "lt[-\\s/.+]*acc[-\\s/.+]*hub[-\\s/.+]*poe",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-ACC-HUB-PWR",
+   "normkey": "ltacchubpwr",
+   "core": "lt[-\\s/.+]*acc[-\\s/.+]*hub[-\\s/.+]*pwr",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-ACC-TST",
+   "normkey": "ltacctst",
+   "core": "lt[-\\s/.+]*acc[-\\s/.+]*tst",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-CTR-C",
+   "normkey": "ltctrc",
+   "core": "lt[-\\s/.+]*ctr[-\\s/.+]*c",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-CTR-SML",
+   "normkey": "ltctrsml",
+   "core": "lt[-\\s/.+]*ctr[-\\s/.+]*sml",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-SEN-M",
+   "normkey": "ltsenm",
+   "core": "lt[-\\s/.+]*sen[-\\s/.+]*m",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "LT-SEN-R",
+   "normkey": "ltsenr",
+   "core": "lt[-\\s/.+]*sen[-\\s/.+]*r",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIB-F",
+   "normkey": "mibf",
+   "core": "mib[-\\s/.+]*f",
+   "documentos": 5,
+   "suyos": 2,
+   "ajenos": 3,
+   "ejemplos": [
+    "positivo de Apertura del Registro Municipal **MIB-F** Tablero Interface de la Red para el Noti•Fi",
+    "| | MIB-W<br/>MIB-F y MIB-WF",
+    "r trenzado (MIB-W)   - Cable de fibra óptica (MIB-F)   - Cable de par trenzado y de fibra óptica"
+   ]
+  },
+  {
+   "termino": "MI-BGL-PC-I",
+   "normkey": "mibglpci",
+   "core": "mi[-\\s/.+]*bgl[-\\s/.+]*pc[-\\s/.+]*i",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-BRH-PC-I",
+   "normkey": "mibrhpci",
+   "core": "mi[-\\s/.+]*brh[-\\s/.+]*pc[-\\s/.+]*i",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-BRS-PC-I",
+   "normkey": "mibrspci",
+   "core": "mi[-\\s/.+]*brs[-\\s/.+]*pc[-\\s/.+]*i",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIB-W",
+   "normkey": "mibw",
+   "core": "mib[-\\s/.+]*w",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "ficador de la Base de Datos. *MIBA=Umbral del MIB-W/WF del Canal A. (En el MIB-WF, solamente el a",
+    "| | MIB-W<br/>MIB-F y MIB-WF",
+    "mador cambiar el umbral para el canal A en la MIB-W/WF, y el umbral del canal B en la MIB-W. Sele"
+   ]
+  },
+  {
+   "termino": "MIB-WF",
+   "normkey": "mibwf",
+   "core": "mib[-\\s/.+]*wf",
+   "documentos": 5,
+   "suyos": 2,
+   "ajenos": 3,
+   "ejemplos": [
+    "*MIBA=Umbral del MIB-W/WF del Canal A. (En el MIB-WF, solamente el ajuste del umbral del Canal A e",
+    "| | MIB-W<br/>MIB-F y MIB-WF",
+    "erminales de cable de la NRT en el MIB-W y el MIB-WF es proporcionado por un forro protector (P/N"
+   ]
+  },
+  {
+   "termino": "MI-CMO",
+   "normkey": "micmo",
+   "core": "mi[-\\s/.+]*cmo",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-DCMO",
+   "normkey": "midcmo",
+   "core": "mi[-\\s/.+]*dcmo",
+   "documentos": 5,
+   "suyos": 0,
+   "ajenos": 5,
+   "ejemplos": [
+    ")x1.25                        | | MI-DMM2I / MI-DCMO / MI-D2ICMO      |      | 0.00066",
+    "(MI-MCP,MI-MM3E,MI-DMMI, MI-DMM2I, MI-D2ICMO, MI-DCMO, MI-D240CMO).  |                         |",
+    "entada externa disparo directo por zona | | **MI-DCMO**  | Módulo de control de lazo en forma relé"
+   ]
+  },
+  {
+   "termino": "MI-DCMOE",
+   "normkey": "midcmoe",
+   "core": "mi[-\\s/.+]*dcmoe",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-DCZM",
+   "normkey": "midczm",
+   "core": "mi[-\\s/.+]*dczm",
+   "documentos": 4,
+   "suyos": 2,
+   "ajenos": 2,
+   "ejemplos": [
+    "r térmico TMP con el módulo de zonas M710-CZ (MI-DCZM) .  En cualquier caso, la compatibilidad del",
+    "n: **ZMX**  ### <ins>Configuración del modulo MI-DCZM en central Connexion DXC:</ins>  * Tipo: **Ge"
+   ]
+  },
+  {
+   "termino": "MI-DCZRM",
+   "normkey": "midczrm",
+   "core": "mi[-\\s/.+]*dczrm",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-DMMI",
+   "normkey": "midmmi",
+   "core": "mi[-\\s/.+]*dmmi",
+   "documentos": 7,
+   "suyos": 2,
+   "ajenos": 5,
+   "ejemplos": [
+    "| ( )x1.25                        | | MI-DMMI                             |      | 0.00051",
+    "ulsadores o Módulos Monitores (MI-MCP,MI-MM3E,MI-DMMI, MI-DMM2I, MI-D2ICMO).  | ENTRADAS PULS/MONIT",
+    "rsion 8.xx) compatible with MI-LZR sensor.  * MI-DMMI monitor module inside SAT-1u to provide remot"
+   ]
+  },
+  {
+   "termino": "MI-DMMIE",
+   "normkey": "midmmie",
+   "core": "mi[-\\s/.+]*dmmie",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-GATE",
+   "normkey": "migate",
+   "core": "mi[-\\s/.+]*gate",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "Mini Vista",
+   "normkey": "minivista",
+   "core": "mini[-\\s/.+]*vista",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-OSI-RIE",
+   "normkey": "miosirie",
+   "core": "mi[-\\s/.+]*osi[-\\s/.+]*rie",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MI-PTSE",
+   "normkey": "miptse",
+   "core": "mi[-\\s/.+]*ptse",
+   "documentos": 5,
+   "suyos": 1,
+   "ajenos": 4,
+   "ejemplos": [
+    "nto y alarma para los sensores Multicriterio (MI-PTSE) y Láser (MI-LZR) de Morley-IAS.  #### Detect",
+    "| | MI-RHSE / MI-HTSE / MI-PTSE         |      | 0.0003",
+    "EMI-LASR Sirena de Lazo (87 dBA)            | MI-PTSE Optico-Temico                  | 1    | 0"
+   ]
+  },
+  {
+   "termino": "MIW-CMO",
+   "normkey": "miwcmo",
+   "core": "miw[-\\s/.+]*cmo",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-EXP",
+   "normkey": "miwexp",
+   "core": "miw[-\\s/.+]*exp",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-INT",
+   "normkey": "miwint",
+   "core": "miw[-\\s/.+]*int",
+   "documentos": 13,
+   "suyos": 13,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-MCP",
+   "normkey": "miwmcp",
+   "core": "miw[-\\s/.+]*mcp",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-MMI",
+   "normkey": "miwmmi",
+   "core": "miw[-\\s/.+]*mmi",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-PSE",
+   "normkey": "miwpse",
+   "core": "miw[-\\s/.+]*pse",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-PTSE",
+   "normkey": "miwptse",
+   "core": "miw[-\\s/.+]*ptse",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-RHSE",
+   "normkey": "miwrhse",
+   "core": "miw[-\\s/.+]*rhse",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-SND",
+   "normkey": "miwsnd",
+   "core": "miw[-\\s/.+]*snd",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MIW-SS",
+   "normkey": "miwss",
+   "core": "miw[-\\s/.+]*ss",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "MK-VSN",
+   "normkey": "mkvsn",
+   "core": "mk[-\\s/.+]*vsn",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "irecta de los siguientes accesorios:</ins>  **MK-VSN**: Software de programación y telemantenimien",
+    "RS-232 not monitored (by default). (only from MK-VSN/TG)  =ON = Port RS-232 monitored (by default)",
+    "t directly the following accessories:  <ins>**MK-VSN**</ins>: Configuration tool. This configurati"
+   ]
+  },
+  {
+   "termino": "MK-ZX",
+   "normkey": "mkzx",
+   "core": "mk[-\\s/.+]*zx",
+   "documentos": 5,
+   "suyos": 2,
+   "ajenos": 3,
+   "ejemplos": [
+    "300   | Impresora sobremesa 80 col. Vía cable MKZX           | 2         |  La impresora EXP-060",
+    "rga de configuración de la central deberá ser MK-ZX Versión,001 ó superior.  # EQUIPOS QUE SOPORT",
+    "onfiguración Fire6 y el cable de programación MK-ZX realice solo la autobusqueda de equipos conec"
+   ]
+  },
+  {
+   "termino": "Mod.EXP",
+   "normkey": "mod.exp",
+   "core": "mod[-\\s/.+]*exp",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "RE SYSTEMS  # IMPRESORA DE LAZO PERIFÉRICO  # MOD.EXP-060R  # MANUAL DE INSTALACIÓN  ## ESPECIFICAI",
+    "IRE SYSTEMS  ## IMPRESORA MATRICIAL DE PUERTA MOD.EXP-051  ## MANUAL DE INSTALACIÓN  ## ESPECIFICAC"
+   ]
+  },
+  {
+   "termino": "MPS-TR",
+   "normkey": "mpstr",
+   "core": "mps[-\\s/.+]*tr",
+   "documentos": 7,
+   "suyos": 1,
+   "ajenos": 6,
+   "ejemplos": [
+    "| | Documento de Instalación del Producto (MPS-TR)            | 15331             | Manual de A",
+    "| | DOCUMENTO INSTALACIÓN DEL PRODUCTO (MPS-TR)            | 15331       | MANUAL DE INSTALA",
+    "ft side: Two stacked boxes labeled \"MMX\" and \"MPS-TR\" with connection lines - Center: A curved lin"
+   ]
+  },
+  {
+   "termino": "NAC-REM",
+   "normkey": "nacrem",
+   "core": "nac[-\\s/.+]*rem",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NFS-PLUS",
+   "normkey": "nfsplus",
+   "core": "nfs[-\\s/.+]*plus",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NFS Supra",
+   "normkey": "nfssupra",
+   "core": "nfs[-\\s/.+]*supra",
+   "documentos": 16,
+   "suyos": 9,
+   "ajenos": 7,
+   "ejemplos": [
+    "ell Fire Alarm Panels: Notifier:ID3000, ID50, NFS Supra; Morley-IAS: CONNEXION, VSN-2Plus and ESSER:",
+    "# NFS Supra",
+    "compatibles con protocolo SMS o Contact ID | NFS Supra, Vision Plus, Vision 2Plus, ID50, ID3000 y DX"
+   ]
+  },
+  {
+   "termino": "NFXI-ASD-XXXX-HS",
+   "normkey": "nfxiasdxxxxhs",
+   "core": "nfxi[-\\s/.+]*asd[-\\s/.+]*xxxx[-\\s/.+]*hs",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NFXI-BEAM",
+   "normkey": "nfxibeam",
+   "core": "nfxi[-\\s/.+]*beam",
+   "documentos": 11,
+   "suyos": 5,
+   "ajenos": 6,
+   "ejemplos": [
+    "ntada por lazo direccionable con aislador | | NFXI-BEAM   | Detector por rayo óptico",
+    "# Instalación de la central  NFXI-BEAM-40E            Barrara IR de Notifier Lazo -",
+    "|                              | | NFXI-BEAM       | 2 mA                 | 8,5mA"
+   ]
+  },
+  {
+   "termino": "NFXI-BEAM-T",
+   "normkey": "nfxibeamt",
+   "core": "nfxi[-\\s/.+]*beam[-\\s/.+]*t",
+   "documentos": 9,
+   "suyos": 2,
+   "ajenos": 7,
+   "ejemplos": [
+    "| | NFX(I)-BEAM-T | Detector lineal de humo NFXI-BEAM-T          | | NRX- OPT      | Detector óptico",
+    "or lazo direccionable con aislador        | | NFXI-BEAM-T | Detector por rayo óptico (con función de pr",
+    "| Alimentación del lazo        | | NFXI-BEAM-T     | 2 mA                 | 8,5mA"
+   ]
+  },
+  {
+   "termino": "NFXI-BF-WCH",
+   "normkey": "nfxibfwch",
+   "core": "nfxi[-\\s/.+]*bf[-\\s/.+]*wch",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NFXI-BSF-WC",
+   "normkey": "nfxibsfwc",
+   "core": "nfxi[-\\s/.+]*bsf[-\\s/.+]*wc",
+   "documentos": 5,
+   "suyos": 0,
+   "ajenos": 5,
+   "ejemplos": [
+    "criterio SMART 4³                           | NFXI-BSF-WC/IVC | Flash/sirena en base alimentada por laz",
+    "| Máximo volumen               | | NFXI-BSF-WC     | 450 uA               | 10 mA",
+    "| | NFXI-BSF-WC    | 450 uA              | 10 mA"
+   ]
+  },
+  {
+   "termino": "NFXI-BSF-WCH",
+   "normkey": "nfxibsfwch",
+   "core": "nfxi[-\\s/.+]*bsf[-\\s/.+]*wch",
+   "documentos": 3,
+   "suyos": 0,
+   "ajenos": 3,
+   "ejemplos": [
+    "------------------------- | | BRH-PC-102/<br/>NFXI-BSF-WCH | Detector de Base con Sirena y Luz Estrobosc",
+    "# - NFXI-BSF-WCS, NFXI-BSF-WCH, NFXI-BF-WCS, WxA-yC-IO2 y WxL-yC-IO2  17  Pr",
+    "spositivo reciente, como el NFXI-BSF-WCS y el NFXI-BSF-WCH, cuando se instala en el mismo lazo INSPIRE."
+   ]
+  },
+  {
+   "termino": "NFXI-BSF-WCS",
+   "normkey": "nfxibsfwcs",
+   "core": "nfxi[-\\s/.+]*bsf[-\\s/.+]*wcs",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "os Óptico y Acústicos (AV)  | BRS-PC-102/<br/>NFXI-BSF-WCS | Base de detector con luz estroboscópica y s",
+    "# - NFXI-BSF-WCS, NFXI-BSF-WCH, NFXI-BF-WCS, WxA-yC-IO2 y WxL-",
+    "de 1 Hz en cada dispositivo reciente, como el NFXI-BSF-WCS y el NFXI-BSF-WCH, cuando se instala en el mi"
+   ]
+  },
+  {
+   "termino": "NFXI-OPT",
+   "normkey": "nfxiopt",
+   "core": "nfxi[-\\s/.+]*opt",
+   "documentos": 9,
+   "suyos": 1,
+   "ajenos": 8,
+   "ejemplos": [
+    "- | | NFX(I)-OPT    | Detector óptico de humo NFXI-OPT             | | NFX(I)-TFIX58 | Detector térm",
+    "l sistema Notifier INSPIRE.  ## Detectores  | NFXI-OPT       | Detector de humo óptico OPAL , aislad",
+    "01 Detector Óptico con función de auto-prueba NFXI-OPT (Entrada de incendios) 1/1  ☐ 01.04.01 Módulo"
+   ]
+  },
+  {
+   "termino": "NFXI-OSI-RIE",
+   "normkey": "nfxiosirie",
+   "core": "nfxi[-\\s/.+]*osi[-\\s/.+]*rie",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NFXI-VIEW",
+   "normkey": "nfxiview",
+   "core": "nfxi[-\\s/.+]*view",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "| | NFXI-VIEW      | Detector de humo de alta sensibilidad",
+    "T3,, OSID-R, NFSTI-SMT2, NFX-SMT2, NFXI-SMT3, NFXI-VIEW o IRX-751CTEM.  Puede seleccionar cualquiera"
+   ]
+  },
+  {
+   "termino": "NFX-OPT",
+   "normkey": "nfxopt",
+   "core": "nfx[-\\s/.+]*opt",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "----------------------------------------- | | NFX-OPT     | Sensor óptico estándar",
+    "o, térmico (Blanco Puro)                  | | NFX-OPT-IV     | Detector de humo óptico, sin aislado",
+    "n menu showing device type options including \"NFX-OPT | Detector Óptico de humo\" and other detector"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-G",
+   "normkey": "nmcbbg",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*g",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "| | N-MC-BB-U | Blue backbox   | Blue   | | N-MC-BB-G | Green backbox  | Green  | | N-MC-BB-O | Ora",
+    "| | Dispositivo de detección | N-MC-BB-G  | Accesorio pulsador, caja trasera de pulsad",
+    "| | N-MC-BB-U | Obudowa niebieska    | | N-MC-BB-G | Obudowa zielona      | | N-MC-BB-O | Obudow"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-O",
+   "normkey": "nmcbbo",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*o",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "| | N-MC-BB-G | Green backbox  | Green  | | N-MC-BB-O | Orange backbox | Orange | | N-MC-BB-W | Whi",
+    "a    | | N-MC-BB-G | Obudowa zielona      | | N-MC-BB-O | Obudowa pomarańczowa | | N-MC-BB-W | Obudow",
+    "| | N-MC-BB-G | Caja posterior verde    | | N-MC-BB-O | Caja posterior naranja  | | N-MC-BB-W | Caj"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-R",
+   "normkey": "nmcbbr",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*r",
+   "documentos": 5,
+   "suyos": 1,
+   "ajenos": 4,
+   "ejemplos": [
+    "r | | --------- | -------------- | ------ | | N-MC-BB-R | Red backbox    | Red    | | N-MC-BB-U | Blu",
+    "| | --------- | -------------------- | | N-MC-BB-R | Obudowa czerwona     | | N-MC-BB-U | Obudow",
+    "o - Rojo       | | Dispositivo de detección | N-MC-BB-R  | Accesorio de pulsador - Caja trasera de pu"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-U",
+   "normkey": "nmcbbu",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*u",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "- | | N-MC-BB-R | Red backbox    | Red    | | N-MC-BB-U | Blue backbox   | Blue   | | N-MC-BB-G | Gre",
+    "---- | | N-MC-BB-R | Obudowa czerwona     | | N-MC-BB-U | Obudowa niebieska    | | N-MC-BB-G | Obudow",
+    "- | | N-MC-BB-R | Caja posterior roja     | | N-MC-BB-U | Caja posterior azul     | | N-MC-BB-G | Caj"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-W",
+   "normkey": "nmcbbw",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*w",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "| | N-MC-BB-O | Orange backbox | Orange | | N-MC-BB-W | White backbox  | White  | | N-MC-BB-Y | Yel",
+    "| | N-MC-BB-O | Obudowa pomarańczowa | | N-MC-BB-W | Obudowa biała        | | N-MC-BB-Y | Obudow",
+    "| | N-MC-BB-O | Caja posterior naranja  | | N-MC-BB-W | Caja posterior blanca   | | N-MC-BB-Y | Caj"
+   ]
+  },
+  {
+   "termino": "N-MC-BB-Y",
+   "normkey": "nmcbby",
+   "core": "n[-\\s/.+]*mc[-\\s/.+]*bb[-\\s/.+]*y",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "e | | N-MC-BB-W | White backbox  | White  | | N-MC-BB-Y | Yellow backbox | Yellow |  For recess mount",
+    "zowa | | N-MC-BB-W | Obudowa biała        | | N-MC-BB-Y | Obudowa żółta        |  W przypadku montażu",
+    "| | N-MC-BB-W | Caja posterior blanca   | | N-MC-BB-Y | Caja posterior amarilla |  Para el montaje"
+   ]
+  },
+  {
+   "termino": "NRT-NET",
+   "normkey": "nrtnet",
+   "core": "nrt[-\\s/.+]*net",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NRXI-GATE",
+   "normkey": "nrxigate",
+   "core": "nrxi[-\\s/.+]*gate",
+   "documentos": 10,
+   "suyos": 4,
+   "ajenos": 6,
+   "ejemplos": [
+    "iseñado para el uso con la pasarela vía radio NRXI-GATE. Contiene un transceptor vía radio y funciona",
+    "a radio para el uso con la pasarela vía radio NRXI-GATE, utilizado en un sistema antiincendios direcc",
+    "operated RF devices designed for use with the NRXI-GATE radio gateway. They contain a wireless transc"
+   ]
+  },
+  {
+   "termino": "NRX-OPT",
+   "normkey": "nrxopt",
+   "core": "nrx[-\\s/.+]*opt",
+   "documentos": 7,
+   "suyos": 1,
+   "ajenos": 6,
+   "ejemplos": [
+    "ector lineal de humo NFXI-BEAM-T          | | NRX- OPT      | Detector óptico de humo vía radio NRX-",
+    "TDIFF<br/>NFX(I)-TFIX58<br/>NFX(I)-TFIX78<br/>NRX-OPT<br/>NRX-SMT3<br/>NRX-TDIFF |            |",
+    "Detector vía radio Agile termovelocimétrico NRX-OPT                  Detector vía radio Agile de"
+   ]
+  },
+  {
+   "termino": "NRX-REP",
+   "normkey": "nrxrep",
+   "core": "nrx[-\\s/.+]*rep",
+   "documentos": 5,
+   "suyos": 1,
+   "ajenos": 4,
+   "ejemplos": [
+    "|   | **RPT** | Repetidor de radio NRX-REP (ampliación de la red inalámbrica) | | - | --",
+    "GATE                 Pasarela vía radio Agile NRX-REP                  Repetidor vía radio Agile  N",
+    "señalización alarma manual radio NRX-WCP  | | NRX-REP         | Repetidor radio NRX-REP (expansión"
+   ]
+  },
+  {
+   "termino": "NRX-TDIFF",
+   "normkey": "nrxtdiff",
+   "core": "nrx[-\\s/.+]*tdiff",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "ector térmico vía radio NRX-TFIX58        | | NRX- TDIFF    | Detector de temperatura vía radio NRX- T",
+    "r/>NFX(I)-TFIX78<br/>NRX-OPT<br/>NRX-SMT3<br/>NRX-TDIFF |            |      |             |",
+    "ctor vía radio Agile de temperatura fijo 58°C NRX-TDIFF                Detector vía radio Agile termo"
+   ]
+  },
+  {
+   "termino": "NRX-WCP",
+   "normkey": "nrxwcp",
+   "core": "nrx[-\\s/.+]*wcp",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "| Pulsador de alarma manual por radio NRX-WCP                         | | NRX-REP         |",
+    "DKM                  Pulsador vía radio Agile NRX-WCP                  Pulsador estanco vía radio A",
+    "de alarma de señalización alarma manual radio NRX-WCP  | | NRX-REP         | Repetidor radio NRX-RE"
+   ]
+  },
+  {
+   "termino": "NRX-WS-RR",
+   "normkey": "nrxwsrr",
+   "core": "nrx[-\\s/.+]*ws[-\\s/.+]*rr",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "NRX-WS-WW",
+   "normkey": "nrxwsww",
+   "core": "nrx[-\\s/.+]*ws[-\\s/.+]*ww",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ONE-BC",
+   "normkey": "onebc",
+   "core": "one[-\\s/.+]*bc",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ONE-LOOP",
+   "normkey": "oneloop",
+   "core": "one[-\\s/.+]*loop",
+   "documentos": 9,
+   "suyos": 1,
+   "ajenos": 8,
+   "ejemplos": [
+    "or identification. 1 relay module will occupy one loop address. The module can be numbered from posi",
+    "# MÓDULO DE COMUNICACIÓN  ## ONE-LOOP  Refs: LDAONELOOP04S0 y LDAONELOOP10S01  [Ima",
+    "ire detection panels consists of 2 models:  * One loop * Two loop  This analogue range is designed t"
+   ]
+  },
+  {
+   "termino": "PRL-BOX",
+   "normkey": "prlbox",
+   "core": "prl[-\\s/.+]*box",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "PRL-COM",
+   "normkey": "prlcom",
+   "core": "prl[-\\s/.+]*com",
+   "documentos": 3,
+   "suyos": 2,
+   "ajenos": 1,
+   "ejemplos": [
+    "ia de seguridad (si está configurado) - Placa PRL-COM (si está configurada) - Placa PRL-VDS (si est"
+   ]
+  },
+  {
+   "termino": "PRL-VDS",
+   "normkey": "prlvds",
+   "core": "prl[-\\s/.+]*vds",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "obre los ajustes de configuración de la placa PRL-VDS que exige el mercado alemán.",
+    "mplen con la norma EN54-13 de cualquier placa PRL-VDS instalada.  Pueden realizarse pruebas en vari"
+   ]
+  },
+  {
+   "termino": "RPT-F",
+   "normkey": "rptf",
+   "core": "rpt[-\\s/.+]*f",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "| RPT-F: Repetidor utilizado para elevar la señal de",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485M<br/>RPT-485WF",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485W<br/>RPT-485WF"
+   ]
+  },
+  {
+   "termino": "RPT-W",
+   "normkey": "rptw",
+   "core": "rpt[-\\s/.+]*w",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "T-485WF** Repetidor EIA-485 - Alambre/Fibra **RPT-W** Repetidor para el Noti•Fire•Net™ **RPT-WF**",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485M<br/>RPT-485WF",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485W<br/>RPT-485WF"
+   ]
+  },
+  {
+   "termino": "RPT-WF",
+   "normkey": "rptwf",
+   "core": "rpt[-\\s/.+]*wf",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "**RPT-W** Repetidor para el Noti•Fire•Net™ **RPT-WF** Repetidor para el Noti•Fire•Net™ **SBB-A3**",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485M<br/>RPT-485WF",
+    "| | RPT-W, RPT-WF, RPT-F<br/>RPT-485W<br/>RPT-485WF"
+   ]
+  },
+  {
+   "termino": "Securnet Plus",
+   "normkey": "securnetplus",
+   "core": "securnet[-\\s/.+]*plus",
+   "documentos": 3,
+   "suyos": 2,
+   "ajenos": 1,
+   "ejemplos": [
+    "**NOTIFIER<br/>FIRE SYSTEMS** | **ADEMDUM** | SECURNET PLUS 02<br/>Fecha: 19 / 03 / 2001<br/>Pág.: 1 de 1"
+   ]
+  },
+  {
+   "termino": "SENTOX IDI+",
+   "normkey": "sentoxidi+",
+   "core": "sentox[-\\s/.+]*idi",
+   "documentos": 6,
+   "suyos": 1,
+   "ajenos": 5,
+   "ejemplos": [
+    "| RS-485 para centrales GALILEO IDI y SENTOX IDI",
+    "| RS485 para MULTISCAN++ y SENTOX IDI",
+    "| RS485 para MULTISCAN++ y SENTOX IDI"
+   ]
+  },
+  {
+   "termino": "serie Dimension",
+   "normkey": "seriedimension",
+   "core": "serie[-\\s/.+]*dimension",
+   "documentos": 3,
+   "suyos": 0,
+   "ajenos": 3,
+   "ejemplos": [
+    "de los paneles de control de incendios de la serie Dimension Series. Remítase al manual de funcionamiento",
+    "Manual de Funcionamiento  Serie Dimension MORLEY-IAS  ### 3.3.2.3 *Resumen del estado d",
+    "MKDX Serie Dimension"
+   ]
+  },
+  {
+   "termino": "Serie MPS",
+   "normkey": "seriemps",
+   "core": "serie[-\\s/.+]*mps",
+   "documentos": 3,
+   "suyos": 0,
+   "ajenos": 3,
+   "ejemplos": [
+    "TALACIÓN DE LAS FUENTES DE ALIMENTACIÓN DE LA SERIE MPS  La instalación y puesta en marcha de la fuen",
+    "labeled elements:  Left side: Fuente de Poder Serie MPS (MPS-24A Mostrado) en Localización Remota - s",
+    "ta**: Una fuente de alimentación remota de la Serie MPS (con un módulo MPS-TR de supervisión) puede u"
+   ]
+  },
+  {
+   "termino": "SIB-NET",
+   "normkey": "sibnet",
+   "core": "sib[-\\s/.+]*net",
+   "documentos": 5,
+   "suyos": 2,
+   "ajenos": 3,
+   "ejemplos": [
+    "omendado cuando este instalando el SIB-2048A, SIB-NET, LIB-200A, o LIB-400 porque un recipiente de",
+    "los terminales 3(+) y 4(-) de P5 en SIB-2048A/SIB-NET<br/>Hasta: los terminales 5(+) y 3(-) de P4 e",
+    "P5  1 ————————————————— Sin uso  SIB-2048A o SIB-NET          |          |     ┌────────────┐"
+   ]
+  },
+  {
+   "termino": "Signaline LocatorPlus",
+   "normkey": "signalinelocatorplus",
+   "core": "signaline[-\\s/.+]*locatorplus",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "# Key Points  ⇒ Install the Signaline LocatorPlus-EN accordingly to meet local and country inst"
+   ]
+  },
+  {
+   "termino": "Solo CO",
+   "normkey": "soloco",
+   "core": "solo[-\\s/.+]*co",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "TBUD-NG",
+   "normkey": "tbudng",
+   "core": "tbud[-\\s/.+]*ng",
+   "documentos": 4,
+   "suyos": 1,
+   "ajenos": 3,
+   "ejemplos": [
+    "diante la tarjeta micro procesada de 2 lazos (TBUD-NG).  detnov  ## Gestión de planos  Permite la i",
+    "<br/>2 loops, expandable to 8 loops using the TBUD-NG card<br/>500<br/>750 mA<br/>2 km<br/>44 Ω<br/",
+    "la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG. - 1 Fuente de alimentación. - Espacio para b"
+   ]
+  },
+  {
+   "termino": "TG-GSM",
+   "normkey": "tggsm",
+   "core": "tg[-\\s/.+]*gsm",
+   "documentos": 2,
+   "suyos": 2,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "TG HLSI",
+   "normkey": "tghlsi",
+   "core": "tg[-\\s/.+]*hlsi",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "TG MODBUS",
+   "normkey": "tgmodbus",
+   "core": "tg[-\\s/.+]*modbus",
+   "documentos": 3,
+   "suyos": 2,
+   "ajenos": 1,
+   "ejemplos": [
+    "amas     b. Creación de macros     c. Apuntes TG-Modbus  Honeywell Life Safety Iberia, C/ Pau Vila 15"
+   ]
+  },
+  {
+   "termino": "TG-NOTIFIER",
+   "normkey": "tgnotifier",
+   "core": "tg[-\\s/.+]*notifier",
+   "documentos": 16,
+   "suyos": 11,
+   "ajenos": 5,
+   "ejemplos": [
+    "S232/IP Moxa a la central. Por defecto, en el TG-NOTIFIER es Modo UDP, con el puerto local de escucha 5",
+    "blue on the right with a cloudy texture]  # *TG - NOTIFIER*  ## *MANUAL DE USUARIO*  **MN-DT-951 (Rev:5.",
+    "# Conexión del programa de gráficos  ## <ins>TG-NOTIFIER</ins>  ### con las centrales contra incendio"
+   ]
+  },
+  {
+   "termino": "TLED-NG",
+   "normkey": "tledng",
+   "core": "tled[-\\s/.+]*ng",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "# Accesorios  | TBUD-NG | TLED-NG | KIT-FB25 | FAD-AUXBAT | | ------- | -------",
+    "# Accessories  | TBUD-NG | TLED-NG | KIT-FB25 | FAD-AUXBAT | | ------- | -------"
+   ]
+  },
+  {
+   "termino": "UCIP-GPRS",
+   "normkey": "ucipgprs",
+   "core": "ucip[-\\s/.+]*gprs",
+   "documentos": 13,
+   "suyos": 10,
+   "ajenos": 3,
+   "ejemplos": [
+    "ITAC  UCIP/GPRS (con Caja SMB-T) o ITAC                  Hone",
+    "ciones se realizan por **TCP-IP** o **GPRS** (UCIP GPRS), **NO** por línea telefónica física ya que U",
+    "ort | VSN-232 Poort | VSN-4REL UCIP Modules | UCIP GPRS | | ------------- | ------------- | ---------"
+   ]
+  },
+  {
+   "termino": "VESDA VLI",
+   "normkey": "vesdavli",
+   "core": "vesda[-\\s/.+]*vli",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "VESDA VLI Product Guide"
+   ]
+  },
+  {
+   "termino": "VGN-CO",
+   "normkey": "vgnco",
+   "core": "vgn[-\\s/.+]*co",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VGN-VB",
+   "normkey": "vgnvb",
+   "core": "vgn[-\\s/.+]*vb",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VGS-AD",
+   "normkey": "vgsad",
+   "core": "vgs[-\\s/.+]*ad",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "ertificado EExd ATEX a prueba de explosiones (VGS-AD);  En caja EEx nA (VGS DU).  6",
+    "| | Modelo Detector:                        | VGS.AD-ME        | Descripción: | METHANE detector 4"
+   ]
+  },
+  {
+   "termino": "VGS DU",
+   "normkey": "vgsdu",
+   "core": "vgs[-\\s/.+]*du",
+   "documentos": 3,
+   "suyos": 1,
+   "ajenos": 2,
+   "ejemplos": [
+    "eba de explosiones (VGS-AD);  En caja EEx nA (VGS DU).  6",
+    "un detector de CO (monóxido de carbono) tipo VGS.DU-COE Está conectado al canal. Se tendrá que el"
+   ]
+  },
+  {
+   "termino": "VGS-EXP",
+   "normkey": "vgsexp",
+   "core": "vgs[-\\s/.+]*exp",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "as 4-20 mA. para gases tóxicos**  Doc M-891.1-VGS-EXP SP Rev 1 13/10/2023  ESTE MANUAL DEBE SER LEÍ"
+   ]
+  },
+  {
+   "termino": "Vision LT",
+   "normkey": "visionlt",
+   "core": "vision[-\\s/.+]*lt",
+   "documentos": 1,
+   "suyos": 0,
+   "ajenos": 1,
+   "ejemplos": [
+    "# Teclado  Las centrales Vision LT tienen 5 teclas de control y una tecla por ca"
+   ]
+  },
+  {
+   "termino": "VISION SUPRA",
+   "normkey": "visionsupra",
+   "core": "vision[-\\s/.+]*supra",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "321XXX TARJETAS IDIOMAS VISION SUPRA  FECHA: 26/01/2011    REV: A    DESCRIPCIÓN:"
+   ]
+  },
+  {
+   "termino": "VROM-(n)",
+   "normkey": "vrom(n)",
+   "core": "vrom[-\\s/.+]*n",
+   "documentos": 0,
+   "suyos": 0,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VSN-CO",
+   "normkey": "vsnco",
+   "core": "vsn[-\\s/.+]*co",
+   "documentos": 3,
+   "suyos": 3,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VSN-CRA",
+   "normkey": "vsncra",
+   "core": "vsn[-\\s/.+]*cra",
+   "documentos": 9,
+   "suyos": 3,
+   "ajenos": 6,
+   "ejemplos": [
+    "nual de la placa VSN-IP para más detalles.  **VSN-CRA**: Placa de conexión remota telefónica vía Mó",
+    "us:**  Connection port to communication cards VSN-CRA and/or VSN-4REL relay cards.  **Communication",
+    "o VSN-IP manual for more information.  <ins>**VSN-CRA**</ins>: Reporting to Central Station VSN-CRA"
+   ]
+  },
+  {
+   "termino": "VSN-CRA-GSM",
+   "normkey": "vsncragsm",
+   "core": "vsn[-\\s/.+]*cra[-\\s/.+]*gsm",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VSN-LL",
+   "normkey": "vsnll",
+   "core": "vsn[-\\s/.+]*ll",
+   "documentos": 5,
+   "suyos": 0,
+   "ajenos": 5,
+   "ejemplos": [
+    "is accessible by using the optional keyswitch VSN-LL or by holding the **Keypad Access** key press",
+    "ado Activado. Requiere llave externa opcional VSN-LL, o habilitar el teclado manteniendo pulsada l",
+    "## ACCESSORIES  * **VSN-LL** Keyswitch for level 2 access. * **PK-RP1r**"
+   ]
+  },
+  {
+   "termino": "VSN LT",
+   "normkey": "vsnlt",
+   "core": "vsn[-\\s/.+]*lt",
+   "documentos": 4,
+   "suyos": 0,
+   "ajenos": 4,
+   "ejemplos": [
+    "lation, Configuration and Operating Manual  # VSN LT  # VSN 2 LT ; VSN 4 LT ; VSN 8 LT ; VSN 12 LT",
+    "conexión de pequeños consumos externos (315mA VSN LT 2/4 y 600mA VSN LT 8/12). Esta salida es conf",
+    "puedo hacer Rearme o silenciar sirenas en la VSN-LT  **Question** ¿Cómo activar el teclado de la"
+   ]
+  },
+  {
+   "termino": "VSN-PARK",
+   "normkey": "vsnpark",
+   "core": "vsn[-\\s/.+]*park",
+   "documentos": 2,
+   "suyos": 1,
+   "ajenos": 1,
+   "ejemplos": [
+    "top, blue color]<br/><br/>(Azul)            | VSN-PARK<br/><br/>\\[Image: White/beige rectangular con"
+   ]
+  },
+  {
+   "termino": "VSN PLUS",
+   "normkey": "vsnplus",
+   "core": "vsn[-\\s/.+]*plus",
+   "documentos": 11,
+   "suyos": 0,
+   "ajenos": 11,
+   "ejemplos": [
+    "N PLUS 2?  **Answers** La central NFS Supra / VSN plus 2 incluye fuente de alimentación integrada y",
+    "N CASO DE <ins>ALARMA DE INCENDIO</ins> EN LA VSN PLUS  A) PULSE LA TECLA DE **SILENCIAR ZUMBADOR**",
+    "tible a través de protocolo con centrales:  * VSN PLUS * VSN 2 PLUS  Para poder conectarla a éstas c"
+   ]
+  },
+  {
+   "termino": "VSN-TER",
+   "normkey": "vsnter",
+   "core": "vsn[-\\s/.+]*ter",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "VTCC-AVL",
+   "normkey": "vtccavl",
+   "core": "vtcc[-\\s/.+]*avl",
+   "documentos": 1,
+   "suyos": 1,
+   "ajenos": 0,
+   "ejemplos": []
+  },
+  {
+   "termino": "ZXr-A",
+   "normkey": "zxra",
+   "core": "zxr[-\\s/.+]*a",
+   "documentos": 6,
+   "suyos": 2,
+   "ajenos": 4,
+   "ejemplos": [
+    "0 Amp)4 |                                 | | ZXRA/ZXRP                           |      | 0.902",
+    "| ZXr-A                  | SÍ          | | 709-701-00",
+    "|                         | | ZXr-A(Repetidor c/teclado)    |    | 0.060"
+   ]
+  },
+  {
+   "termino": "ZXr-P",
+   "normkey": "zxrp",
+   "core": "zxr[-\\s/.+]*p",
+   "documentos": 5,
+   "suyos": 1,
+   "ajenos": 4,
+   "ejemplos": [
+    ")4 |                                 | | ZXRA/ZXRP                           |      | 0.902",
+    "ervisado si está ajustado a la dirección 0. | ZXr-P.                 | Opcional    | | 709-001",
+    "|                         | | ZXr-P(Repetidor s/teclado)    |    | 0.060"
+   ]
+  }
+ ],
+ "veredicto": "NO-GO — exigir el separador rompe más de lo que arregla",
+ "por_que": "140 de los 2.034 términos son vulnerables por forma (multi-segmento, sin dígitos) y 79 tienen apariciones ajenas en el corpus. Pero al LEER los ejemplos, la flexibilidad del separador está haciendo su trabajo casi siempre: casa `MKZX` con `MK-ZX`, `ZXRA` con `ZXr-A`, `DX-Connexion` con «DX Connexion», `UCIP/GPRS` con `UCIP-GPRS`, y recupera cortes de línea del OCR («NRX- OPT», «KIT- GAS»). Endurecerlo perdería esas citas REALES. Sólo 2 son de la clase mala: `ONE-LOOP` («will occupy one loop address») y el `AM-LCD` que ya saqué del lote en s336f.",
+ "lo_que_si_toca": "El problema no es el separador: es que los SEGMENTOS de esos dos términos son palabras comunes (`one`/`loop`, `am`/`lcd`). El mecanismo que ya existe para eso es `DETECT_STOPWORDS` en `catalog_resolver._add`, que es una lista y no un cambio de motor. Propuesta acotada, no medida todavía: evaluar caso a caso los términos cuyos segmentos son todos palabras comunes.",
+ "aviso_sobre_mi_propia_regla": "El core documenta «v2.2: '≤3 chars' mataba zxe»: ese umbral YA se probó y se revirtió por matar productos reales. Mi R19 (s336e) lo reintrodujo bloqueando siglas de ≤3 letras (paró `NAS` ×3). Queda declarado como PENDIENTE DE MEDIR, no como regla buena: puede estar matando productos."
+}

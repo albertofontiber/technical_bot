@@ -1,0 +1,341 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260821T185036Z",
+ "plan_sha": "5557ae79de9e365b",
+ "freeze": {
+  "catalog_shas": {
+   "products": "88fd2b5dd0783caa",
+   "aliases": "78da6ec6a4df7601",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "0c891cee507e6541"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 8,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 2014,
+  "terminos_despues": 2032,
+  "entran": 18,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "8100E FAAST",
+    "normkey": "8100efaast",
+    "core": "8100[-\\s/.+]*e[-\\s/.+]*faast",
+    "origen": "confirmar systemsensor:8100e-faast",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "8100[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "8100 FAAST",
+    "normkey": "8100faast",
+    "core": "8100[-\\s/.+]*faast",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FAAST 8100",
+    "normkey": "faast8100",
+    "core": "faast[-\\s/.+]*8100",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "faast",
+     "faast[-\\s/.+]*8100[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "FSL100-SM21",
+    "normkey": "fsl100sm21",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*sm[-\\s/.+]*21",
+    "origen": "confirmar unresolved:fsl100-sm21",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "M710-CZ",
+    "normkey": "m710cz",
+    "core": "m[-\\s/.+]*710[-\\s/.+]*cz",
+    "origen": "confirmar notifier:m710-cz",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "m[-\\s/.+]*710",
+     "m[-\\s/.+]*710[-\\s/.+]*czr"
+    ]
+   },
+   {
+    "termino": "TG-1000",
+    "normkey": "tg1000",
+    "core": "tg[-\\s/.+]*1000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000",
+    "normkey": "tg6000",
+    "core": "tg[-\\s/.+]*6000",
+    "origen": "confirmar notifier:tg-6000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000 Net",
+    "normkey": "tg6000net",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*net",
+    "origen": "confirmar notifier:tg-6000-net",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-6000 VER 3.2",
+    "normkey": "tg6000ver3.2",
+    "core": "tg[-\\s/.+]*6000[-\\s/.+]*ver[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG HLSI",
+    "normkey": "tghlsi",
+    "core": "tg[-\\s/.+]*hlsi",
+    "origen": "confirmar unresolved:tg-hlsi",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG HLSI- v7",
+    "normkey": "tghlsiv7",
+    "core": "tg[-\\s/.+]*hlsi[-\\s/.+]*v[-\\s/.+]*7",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-ID3000",
+    "normkey": "tgid3000",
+    "core": "tg[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG MODBUS",
+    "normkey": "tgmodbus",
+    "core": "tg[-\\s/.+]*modbus",
+    "origen": "confirmar unresolved:tg-modbus",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG- MorleyIAS v7",
+    "normkey": "tgmorleyiasv7",
+    "core": "tg[-\\s/.+]*morleyias[-\\s/.+]*v[-\\s/.+]*7",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG-NOTIFIER",
+    "normkey": "tgnotifier",
+    "core": "tg[-\\s/.+]*notifier",
+    "origen": "confirmar notifier:tg-notifier",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG NOTIFIER 3.2",
+    "normkey": "tgnotifier3.2",
+    "core": "tg[-\\s/.+]*notifier[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TG NOTIFIER VER 3.2",
+    "normkey": "tgnotifierver3.2",
+    "core": "tg[-\\s/.+]*notifier[-\\s/.+]*ver[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   },
+   {
+    "termino": "TGNOTIFIER VERSION 3.2",
+    "normkey": "tgnotifierversion3.2",
+    "core": "tgnotifier[-\\s/.+]*version[-\\s/.+]*3[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "tg"
+    ]
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "8100 FAAST",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FAAST 8100",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FAAST unit",
+    "id": "systemsensor:8100e-faast",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Servidor ModBus",
+    "id": "unresolved:tg-modbus",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Terminal Grafico TG HLSI",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TG-1000",
+    "id": "notifier:tg-notifier",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-6000 VER 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG.exe",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "TG-HLSI",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG HLSI- v7",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-ID3000",
+    "id": "notifier:tg-notifier",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG- MorleyIAS v7",
+    "id": "unresolved:tg-hlsi",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG NOTIFIER 3.2",
+    "id": "notifier:tg-6000-net",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG NOTIFIER VER 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TGNOTIFIER VERSION 3.2",
+    "id": "notifier:tg-6000",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TG-XXXX.EXE",
+    "id": "notifier:tg-notifier",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 137,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {},
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}
