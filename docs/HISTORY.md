@@ -7157,3 +7157,36 @@ huérfanos: conflicto en `products.jsonl` resuelto con un three-way por id y por
 demostró 0 solapes reales (361 filas del lote + 75 multicanal), y la colisión de numeración
 DEC-273/«s336» se zanjó renumerando el lote a DEC-279/«s336-lote». La #336 se mergeó a las
 07:40Z; la recuperación va en PR aparte sobre el catálogo ya fusionado.
+
+## s339 (22 ago 2026) — «¿esto escala al resto de marcas?»: la pregunta que convierte un arreglo en un método
+
+Alberto preguntó dos cosas seguidas que resultaron ser la misma: si la lógica de
+clasificación servía para las demás marcas, y de dónde salían las categorías que yo decía
+que faltaban. La segunda tenía respuesta incómoda —el enum es EMPÍRICO, sembrado en s322,
+y el propio código ya lo declaraba adjudicable— y la honesta era medir antes de opinar: las
+411 filas ya escritas se auditaron contra las seis clases sonda y **ninguna estaba mal
+clasificada**. El clasificador clasifica por la función del sujeto, no por las palabras de
+la cita: las cajas y llaves *de* anunciador fueron a accesorio, el anunciador de lazo a
+repetidor, y el «intrinsically safe smoke sensor» a detector y no a barrera. Los huecos de
+enum no producían filas erróneas: producían filas NO escritas. De ahí salió el packet con
+ancla normativa (EN 54-16/24 para audio, EN 12094 para extinción, EN 60079-11 para la
+barrera Zener; y NO crear categoría donde no hay norma) — mergeado y aún sin firmar.
+
+La primera pregunta se contestó parametrizando el pipeline por marca. Y ahí el trabajo se
+puso interesante, porque mover la marca destapó lo que la marca incrustada tapaba: la
+provenance del writer llevaba dentro los sha del GT y del censo de Notifier, lista para
+viajar a las filas de cualquier otra marca prometiendo un gold que no las juzgó; y el
+writer escribía todo lo elegible sin comprobar de qué vista salía. Mientras lo arreglaba me
+pisé yo mismo el censo de Notifier —re-correrlo contra el catálogo ya escrito desploma la
+diana de 502 a 99— y de ese susto salió la guarda.
+
+El revisor adversarial devolvió **NO SÓLIDO** con seis hallazgos, y los seis eran ciertos.
+El crítico dolía: el recibo del lote original (361 filas, PASS) ya había sido machacado por
+la corrida de recuperación, su antes-y-después no era recomputable, y yo acababa de escribir
+una justificación que explicaba por qué gate y población sí lo eran —omitiendo justo el
+artefacto que no lo era. Recuperado de git, y la distinción que faltaba quedó cableada: el
+censo y el gold NO se re-escriben, el recibo de escritura ROTA. También tenía razón en que
+mi normalizador de marca divergía del real en cuanto había un guion, y en que la cobertura
+medía la corrida en vez del acumulado —por eso el recibo en disco decía PARCIAL mientras yo
+declaraba PASS.
+

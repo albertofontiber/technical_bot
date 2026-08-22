@@ -30,6 +30,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import lib_lote_marca as L  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
 
@@ -41,9 +44,17 @@ import anthropic  # noqa: E402
 
 from src.http_pool import abierto  # noqa: E402
 
-SB = os.environ["SUPABASE_URL"].rstrip("/")
-HS = {"apikey": os.environ["SUPABASE_SERVICE_KEY"],
-      "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_KEY']}"}
+def _sb() -> tuple[str, dict]:
+    """URL y cabeceras de Supabase, LEÍDAS AL USARLAS.
+
+    Estaban a nivel de módulo y eso hacía que `--help` exigiese credenciales:
+    importar el script para ver sus flags reventaba con KeyError en cualquier
+    entorno sin secretos (CI incluido). Las credenciales son de la corrida, no
+    del import.
+    """
+    sb = os.environ["SUPABASE_URL"].rstrip("/")
+    clave = os.environ["SUPABASE_SERVICE_KEY"]
+    return sb, {"apikey": clave, "Authorization": f"Bearer {clave}"}
 MODELO = "claude-fable-5"
 
 PROMPT = """Eres el clasificador de productos de un catálogo de protección contra incendios (PCI).
@@ -74,7 +85,8 @@ _RX_R9 = re.compile(
 
 
 def _chunks(c, sf: str, limit: int, offset: int = 0) -> list[dict]:
-    r = c.get(f"{SB}/rest/v1/chunks_v2", headers=HS,
+    sb, hs = _sb()
+    r = c.get(f"{sb}/rest/v1/chunks_v2", headers=hs,
               params={"select": "chunk_index,content",
                       "source_file": f"eq.{sf}",
                       "order": "chunk_index.asc",
@@ -141,6 +153,8 @@ def _clasifica(cliente, uso, d, muestra: str, etapa: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--marca", default="notifier",
+                    help="vista de marca cuyo censo se puebla")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", default="")
     ap.add_argument("--resume", action="store_true",
@@ -157,13 +171,13 @@ def main() -> int:
                          "ésta (población mecánica del fallo R16 del gate v1) "
                          "y FUSIONA sobre el recibo; el resto queda intacto")
     args = ap.parse_args()
-    censo = json.loads((ROOT / "evals" / "s336_censo_diana_v1.json")
-                       .read_text(encoding="utf-8"))["detalle"]
+    marca = L.normaliza_marca(args.marca)
+    censo = L.carga_recibo(L.ruta("censo", marca))["detalle"]
     if args.limit:
         censo = censo[:args.limit]
-    out = args.out or str(ROOT / "evals" / (
-        f"s336_poblacion_smoke{args.limit}_v1.json" if args.limit
-        else "s336_poblacion_v1.json"))
+    out = args.out or (
+        str(ROOT / "evals" / f"s336_poblacion_smoke{args.limit}_{marca}_v1.json")
+        if args.limit else str(L.ruta("poblacion", marca)))
 
     cliente = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"],
                                   timeout=120.0, max_retries=1)
@@ -239,7 +253,7 @@ def main() -> int:
             f["llm"].get("confianza") or "baja", 0) + 1
     recibo = {
         "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
-        "modelo": MODELO,
+        "modelo": MODELO, "marca": marca,
         "re_pasada_v2": ({"solo_categoria": args.solo_categoria or "parse-fail",
                           "n_re_corridas": len(censo) - len(hechas),
                           "nota": "las filas re-corridas usaron el prompt v2 "

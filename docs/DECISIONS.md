@@ -10623,3 +10623,85 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   en `main`. Al fusionar, el lote se renumera a DEC-279 y se rotula «s336-lote»; los
   artefactos (`evals/s336_*`, `scripts/s336_*`, provenance «s336 método s322b») conservan
   su nombre — el ancla estable es el contenido y los sha de los recibos, no el rótulo.
+
+## DEC-280 (s339, 22 ago 2026) — El método del lote se parametriza por marca, y al hacerlo destapa dos fallos que la marca incrustada tapaba
+
+- **Fecha**: 22 ago 2026. **Impacto**: MEDIO (instrumento del catálogo; no toca el bot
+  ni el dato servido). Revisor adversarial Fable 5 standalone — tiering declarado: el
+  cross-model (Sol) se reserva para ALTO. **Veredicto NO SÓLIDO, 6 hallazgos, los 6
+  ciertos** y verificados contra el código antes de actuar (Regla C).
+- **Contexto**: pregunta de Alberto — «¿la lógica de asignación de categoría la estás
+  teniendo en cuenta para el resto de marcas, para que sea BP y escalable?». El método
+  quedó validado sobre Notifier (DEC-279 + adenda); parametrizarlo es el paso que lo
+  convierte en método y no en un arreglo de una vista.
+- **Decide (1) — una lib compartida, no cinco copias**: `scripts/lib_lote_marca.py`
+  concentra rutas de recibo por marca, provenance DERIVADA, candado de vista y
+  normalización. Los 5 scripts aceptan `--marca`.
+- **Decide (2) — dos bugs LATENTES que sólo se ven al mover la marca**: (a) la
+  constante `PROV` del writer llevaba incrustados los sha del GT y del censo de
+  Notifier y habría viajado intacta a las filas de otra marca, prometiendo un gold que
+  no las juzgó → provenance derivada de los artefactos de ESA corrida; (b) el writer
+  escribía todo elegible del recibo sin comprobar de qué vista salía → CANDADO: un id
+  fuera de `_productos_marca(cat, marca)` aborta la escritura entera.
+- **Decide (3) — la asimetría de los recibos es deliberada**: Notifier conserva los
+  nombres históricos (`s336_*_v1.json`) porque están CITADOS en DEC-279; las marcas
+  nuevas llevan sufijo. Renombrarlos rompería la traza de una decisión firmada.
+- **Decide (4) — dos clases de artefacto, dos guardas** (lo que el revisor obligó a
+  distinguir): el censo (PRE-REGISTRA el suelo) y el GT (gold) NO se re-escriben —
+  abortan sin `--force`; el recibo de escritura SÍ se genera en cada corrida porque el
+  writer es incremental por diseño — así que ROTA (`_r2`, `_r3`) en vez de pisar.
+- **El fallo que ya había ocurrido**: la corrida de recuperación del 22-ago machacó el
+  recibo del lote original (361 filas / PASS / desde 3 clasificados) y su antes-después
+  no era recomputable. Recuperado de git a `_r1`. Y lo mismo casi pasa con el censo:
+  re-correrlo hoy recalcula la diana contra el catálogo YA escrito (502 → 99) y pisa el
+  sha `37cc4aa409ab484f` que prometen las 411 filas — me pasó al parametrizar, está
+  restaurado y hay guard-test que lo pinea.
+- **Decide (5) — la cobertura se lee del CATÁLOGO, no del delta**: el veredicto por
+  corrida daba «PARCIAL 10%» con el lote real en PASS 81,9%. La métrica ahora mide lo
+  que el veredicto declara.
+- **Decide (6) — un normalizador, no dos parecidos**: el propio divergía del `_norm_marca`
+  del join en cuanto había guiones o acentos (`Pepperl-Fuchs` → `pepperl-fuchs` vs
+  `pepperlfuchs`), y dos grafías de la misma vista generaban recibos distintos saltándose
+  la guarda. Delega en el del join.
+- **Gap declarado**: una marca sin `--familias-panel` obtiene un proxy menor → suelo
+  menor → gate de efecto MÁS LAXO. Mitigado por VISIBILIDAD (aviso por stdout + campo
+  en el recibo), no por construcción. Y el método está parametrizado, **no probado
+  end-to-end sobre una segunda vista**: eso es el siguiente lote, con su GT propio.
+- **Verificación**: 25 tests nuevos · writer sobre Notifier idempotente (0 escritas,
+  cobertura 81,9% PASS, 46 servidas = 46 en catálogo, catálogo byte-idéntico) · gate
+  re-corrido idéntico salvo fecha · suite completa verde.
+- **Relacionado**: DEC-279 (el lote) · `evals/s339_lote_por_marca_propuesta_v1.md`
+  (propuesta + adjudicación de los 6 hallazgos) · `docs/PACKET_ENUM_CATEGORIAS.md`
+  (el enum, que sigue esperando adjudicación y va ANTES de la segunda marca).
+
+## DEC-281 (s339, 22 ago 2026) — Rumbo apuntado por Alberto: la clasificación de categoría deja de ser un lote post-hoc y pasa a ser ETAPA de la ingesta
+
+- **Fecha**: 22 ago 2026. **Impacto**: ALTO (arquitectura del alta de manuales).
+  **Origen**: apunte explícito de Alberto — «una vez alineado el proceso de asignación de
+  categoría de producto, lo tenemos que implementar como parte del proceso de ingesta de
+  nuevos manuales». **Estado: APUNTADO, no diseñado ni cableado** — se registra el rumbo,
+  no se pre-supone la solución.
+- **El hueco, verificado en el código antes de apuntarlo**: `scripts/ingest_new.py` cierra
+  GATES → DRY → COMMIT (extracción → fila `documents` → contextualize+embed+index →
+  verificación) y **no toca el catálogo**: ni `products.jsonl`, ni `doc_map`, ni
+  `clasificacion`. El manual queda consultable por RAG de inmediato, pero su producto no
+  existe para el inventario hasta que alguien corre el lote a mano.
+- **Por qué el orden importa**: la deuda se INVIERTE con el lote hecho. Con el catálogo
+  ciego en bloque, un manual más daba igual; con 411 filas escritas (81,9% de la vista
+  Notifier), **cada alta nueva vuelve a abrir el agujero recién cerrado** y el inventario
+  servido envejece a cada ingesta.
+- **Secuencia adjudicada** (la que fija el propio apunte con su «una vez alineado»):
+  (1) firmar `docs/PACKET_ENUM_CATEGORIAS.md` — el enum va antes que nada; (2) correr la
+  2ª marca y probar el método end-to-end sobre una vista distinta de Notifier (hoy está
+  parametrizado, DEC-280, pero no probado fuera); (3) ENTONCES cablearlo en la ingesta.
+  Invertir el orden significaría cablear en producción un método validado en una sola vista.
+- **Lo que queda ABIERTO y se adjudica al diseñarlo** (declarado para no pre-suponerlo):
+  dónde corta la automatización (¿auto-escribe lo `alta` y el resto a packet, o toda alta
+  pasa por revisión?); con qué gold se gatea un manual suelto, que no tiene GT propio
+  (¿hereda el de su marca? ¿qué significa PASS con n pequeño?); y si la clasificación va
+  dentro de `--commit` o en etapa aparte re-ejecutable, con su coste (~$2 por 500 productos
+  según la pasada de Notifier).
+- **Lo que ya está listo** (DEC-280): pipeline parametrizable por marca, provenance
+  derivada, candado de vista, guardas de artefacto, escritura atómica. La ingesta no
+  necesita método nuevo — necesita invocar el que hay sobre la diana que ella misma crea.
+- **Relacionado**: TECH_DEBT #101 (con su trigger) · DEC-279/280 · `scripts/ingest_new.py`.

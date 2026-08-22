@@ -28,6 +28,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import lib_lote_marca as L  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
 
@@ -37,9 +40,17 @@ import os  # noqa: E402
 
 from src.http_pool import abierto  # noqa: E402
 
-SB = os.environ["SUPABASE_URL"].rstrip("/")
-HS = {"apikey": os.environ["SUPABASE_SERVICE_KEY"],
-      "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_KEY']}"}
+def _sb() -> tuple[str, dict]:
+    """URL y cabeceras de Supabase, LEÍDAS AL USARLAS.
+
+    Estaban a nivel de módulo y eso hacía que `--help` exigiese credenciales:
+    importar el script para ver sus flags reventaba con KeyError en cualquier
+    entorno sin secretos (CI incluido). Las credenciales son de la corrida, no
+    del import.
+    """
+    sb = os.environ["SUPABASE_URL"].rstrip("/")
+    clave = os.environ["SUPABASE_SERVICE_KEY"]
+    return sb, {"apikey": clave, "Authorization": f"Bearer {clave}"}
 
 _RX_CAP = re.compile(
     r"\b\d{1,2}\s*(?:lazos?|loops?|bucles?|zonas?|zones?)\b", re.IGNORECASE)
@@ -57,7 +68,8 @@ def _texto(c, sf: str) -> str:
     if sf not in _texto_cache:
         filas, offset = [], 0
         while True:
-            r = c.get(f"{SB}/rest/v1/chunks_v2", headers=HS,
+            sb, hs = _sb()
+            r = c.get(f"{sb}/rest/v1/chunks_v2", headers=hs,
                       params={"select": "chunk_index,content",
                               "source_file": f"eq.{sf}",
                               "order": "chunk_index.asc",
@@ -96,12 +108,13 @@ def _alcance_de(sf: str) -> dict | None:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--poblacion", default=str(
-        ROOT / "evals" / "s336_poblacion_v1.json"))
+    ap.add_argument("--marca", default="notifier")
+    ap.add_argument("--poblacion", default="")
     ap.add_argument("--out", default="")
     args = ap.parse_args()
-    pob = json.loads(Path(args.poblacion).read_text(encoding="utf-8"))
-    out = args.out or str(ROOT / "evals" / "s336_elegibles_v1.json")
+    marca = L.normaliza_marca(args.marca)
+    pob = L.carga_recibo(args.poblacion or L.ruta("poblacion", marca))
+    out = args.out or str(L.ruta("elegibles", marca))
 
     filas_out, stats = [], {"alta": 0, "elegible_cat": 0, "cat_sin_fulltext": 0,
                             "capacidad_escrita": 0, "capacidad_a_packet": 0}
