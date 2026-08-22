@@ -1,0 +1,47 @@
+{
+ "que_es": "s336f · promoción de candidates cuya cita está verificada en la capa de texto del PDF ORIGINAL y conservada en chunks_v2. Subconjunto ESTRICTO de los 20 «PROMOVIBLES» de s336c: s336e para 17, `notifier-inspire-e15` sale por R4 (no citado) y `notifier:am-lcd` sale por el hallazgo de Fable + la huella de s336g.",
+ "products_altas": [],
+ "products_confirmar": [
+  {
+   "id": "notifier:sdx-751-tem",
+   "canonical_model": "SDX-751-TEM",
+   "provenance_add": "s336f: cita VERIFICADA en la capa de texto del PDF ORIGINAL («SDX-751-TEM» en la página 1 de I56-1320-001 SDX-751TEM), y la extracción la conservó en chunks_v2 (integridad, no una segunda fuente: chunks se deriva del mismo PDF). Pasó R19, R21 en sus dos formas (sin colisión de marca y sin gemelo consumible por alias) y el filtro de sujeto."
+  },
+  {
+   "id": "notifier:lpx-751",
+   "canonical_model": "LPX-751",
+   "provenance_add": "s336f: cita VERIFICADA en la capa de texto del PDF ORIGINAL («LPX-751» en la página 3 de MFDT212), y la extracción la conservó en chunks_v2 (integridad, no una segunda fuente: chunks se deriva del mismo PDF). Pasó R19, R21 en sus dos formas (sin colisión de marca y sin gemelo consumible por alias) y el filtro de sujeto."
+  }
+ ],
+ "products_retirar": [],
+ "products_redirect": [],
+ "aliases_altas": [],
+ "aliases_quitar": [],
+ "umbrellas_altas": [],
+ "doc_map_altas": [],
+ "doc_map_modificaciones": [],
+ "retags_db": [],
+ "no_aplicar": [],
+ "gaps": [],
+ "perdidas_de_fuente_adjudicadas": [],
+ "fuera_con_motivo": {
+  "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0": "R21: el canónico «APIC» existe en ['aritech', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "HOP-338-9ES issue 4_01-2026_Op": "R21: «Notifier INSPIRE E10» ya es ALIAS de ['notifier:inspire-e10'], que SÍ es consumible: el candidate es un gemelo redundante. Toca un REDIRECT (adjudicación de Alberto), no una promoción",
+  "HOP-338-9PT-issue 4_01-2026_Op": "R21: «Notifier INSPIRE E10» ya es ALIAS de ['notifier:inspire-e10'], que SÍ es consumible: el candidate es un gemelo redundante. Toca un REDIRECT (adjudicación de Alberto), no una promoción",
+  "MADT015_02": "R21: el canónico «NFS8REL» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MADT608": "R19: R19: el canónico lleva paréntesis — el detector no lo verá tal cual",
+  "MADT951_04": "R19: R19/R10: es el EJECUTABLE, no el software. El producto consultable es el programa; el canónico debería ser su nombre",
+  "MIE-MA-100_02": "R21: el canónico «NFS8REL» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MIE-MI-480": "R21: el canónico «MCX-55M» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MIE-MI-490": "R21: el canónico «MMX-10M» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MNDT020": "R19: R19: es una FAMILIA («Serie N»), no un modelo",
+  "MNDT1005": "R21: el canónico «MCX-55M» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MNDT1006": "R21: el canónico «MMX-10M» existe en ['morley', 'notifier'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "MNDT740P": "R19: R19: sigla de 3 letras sin dígitos — pasa la cita sin identificar nada (mismo mecanismo que `notifier:eia-485`)",
+  "MNDT741": "R19: R19: sigla de 3 letras sin dígitos — pasa la cita sin identificar nada (mismo mecanismo que `notifier:eia-485`)",
+  "MNDT741I": "R19: R19: sigla de 3 letras sin dígitos — pasa la cita sin identificar nada (mismo mecanismo que `notifier:eia-485`)",
+  "TG-1020-INT": "R21: el canónico «TG-1020» existe en ['desico', 'notifier', 'unresolved'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "TG-Honeywell_Usuario_PT": "R21: el canónico «ID-3000» existe en ['notifier', 'unresolved'] — la fusión está en la cola de Alberto; promover los dos lados por separado pre-empta su adjudicación",
+  "notifier:am-lcd": "s336g: el censo del gate lo flagea [sin_digitos, acronimo_corto] (Fable, dúo de s336f) y la huella en el corpus CONFIRMA el flag en vez de limpiarlo: de sus 6 documentos, uno es un falso positivo real — «Pantalla FM/AM LCD» de un manual de radio, que casa porque el core `am[-\\s/.+]*lcd` admite el espacio. El lado de CONSULTA está limpio (0 disparos en 36 negativos, 0 detecciones nuevas en 137 reales), así que esto no es una baja del producto: es que arreglarlo bien es una pregunta de NORMALIZACIÓN del detector (¿debe un término letters-only exigir el separador?) más grande que este lote y con su propia medida."
+ }
+}

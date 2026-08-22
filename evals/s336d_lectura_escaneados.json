@@ -1,0 +1,114 @@
+{
+ "que_es": "s336d · lectura con Anthropic de los 3 huérfanos sin camino de texto (2 PDF escaneados + 1 sin PDF). NO promueve nada: los tres son `unresolved:` y su promoción pasa por la adjudicación R21 de Alberto. Esto es evidencia PARA esa adjudicación.",
+ "modelo": "claude-fable-5",
+ "dpi": 150,
+ "n": 3,
+ "filas": [
+  {
+   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "ids": [
+    "unresolved:scd-120"
+   ],
+   "tokens": [
+    "55312000",
+    "SCD-120"
+   ],
+   "source_url_ok": true,
+   "n_paginas_pdf": 2,
+   "chars_por_pagina": 0.0,
+   "tokens_citados": [],
+   "paginas_donde_cita": [],
+   "veredicto": "PDF_SIN_TEXTO",
+   "bucket": "LECTOR_MULTIMODAL",
+   "canonicos": [
+    "SCD-120"
+   ],
+   "canonico_citado": [],
+   "clases_evidencia": [
+    "E"
+   ],
+   "lectura": [
+    {
+     "modelos": [],
+     "texto_visible": "SIRENA EXTERIOR DE INCENDIO 24V - Manual de Instalación. DESCRIPCIÓN DEL EQUIPO. La sirena de alarma de incendio con rótulo luminoso ha sido diseñada para su uso en el exterior de edificios, con el f",
+     "confianza": "alta"
+    },
+    {
+     "modelos": [],
+     "texto_visible": "INSTALACIÓN. La sirena de incendio debe instalarse de modo que su señal cubra toda el área de vigilancia sin quedar zonas muertas. Se debe tener en cuenta para su colocación la proximidad de personal en c",
+     "confianza": "alta"
+    }
+   ],
+   "coincide_con_catalogo": false
+  },
+  {
+   "document_id": "43f4091d-1e7c-46b5-a8e9-a767ae3656a9",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+   "ids": [
+    "unresolved:mad-472"
+   ],
+   "tokens": [
+    "55347200",
+    "Analogue Base Sounder",
+    "MAD-472",
+    "REF: 55347200"
+   ],
+   "source_url_ok": false,
+   "veredicto": "SIN_PDF",
+   "bucket": "SIN_PDF",
+   "canonicos": [
+    "MAD-472"
+   ],
+   "canonico_citado": [],
+   "clases_evidencia": [
+    "E"
+   ],
+   "lectura": [
+    {
+     "modelos": [],
+     "texto_visible": "SIRENA ANALÓGICA DE ZÓCALO — Sirena Analógica de Zócalo — Direccionamiento. La sirena analógica de zócalo, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identifi",
+     "confianza": "alta"
+    }
+   ],
+   "coincide_con_catalogo": false
+  },
+  {
+   "document_id": "ca1dfb1e-678b-42ef-9e5c-82d5914b8404",
+   "source_file": "S3466R_Eng_ital",
+   "ids": [
+    "unresolved:3466"
+   ],
+   "tokens": [
+    "3466",
+    "Model 3466",
+    "OxFS3466",
+    "S3466R"
+   ],
+   "source_url_ok": true,
+   "n_paginas_pdf": 3,
+   "chars_por_pagina": 0.0,
+   "tokens_citados": [],
+   "paginas_donde_cita": [],
+   "veredicto": "PDF_SIN_TEXTO",
+   "bucket": "LECTOR_MULTIMODAL",
+   "canonicos": [
+    "3466"
+   ],
+   "canonico_citado": [],
+   "clases_evidencia": [
+    "A"
+   ],
+   "lectura": [
+    {
+     "modelos": [
+      "3466"
+     ],
+     "texto_visible": "Installation Instructions 1. Disassembly the cover siren from the bottom side and secure the base with screws at the wall when first passes the cable in semi-circular slot in top place. If the cable i",
+     "confianza": "alta"
+    }
+   ],
+   "coincide_con_catalogo": true
+  }
+ ]
+}

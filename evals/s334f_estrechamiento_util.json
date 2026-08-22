@@ -1,0 +1,400 @@
+{
+ "que_es": "Distingue si el estrechamiento que provoca promover un candidate es DAÑO (pierde un documento que le sirve) o PRECISIÓN (pierde documentos de OTROS modelos que el paraguas arrastraba). NADA aplicado.",
+ "criterio": {
+  "DOC_DE_HERMANO": "no nos nombra pero nombra a otro producto consumible → perderlo es precisión",
+  "GENERICO_DE_FAMILIA": "no nombra a ningún producto consumible → es el manual de la familia y perderlo es daño",
+  "NOMBRA_A_NUESTRO_PRODUCTO": "daño claro",
+  "SIN_CHUNKS_INOCUO": "0 chunks verificado con count=exact: no puede responderle a nadie, perderlo es neutro",
+  "LECTURA_FALLIDA": "no se pudo leer: se cuenta como daño, conservador"
+ },
+ "resumen": {
+  "PRECISION": 13,
+  "DAÑO": 8
+ },
+ "filas": [
+  {
+   "id": "notifier:lisa-2-eex-d",
+   "canonico": "LISA 2 EEx d",
+   "veredicto": "PRECISION",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "MADT635_01",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:lisa-2-eex-na",
+   "canonico": "LISA 2 EEx nA",
+   "veredicto": "PRECISION",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "MADT635_01",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:m710-cz",
+   "canonico": "M710-CZ",
+   "veredicto": "PRECISION",
+   "n_perdidas": 2,
+   "perdidas": [
+    {
+     "source_file": "Conexionado-del-modulo-M710-MI-DMMI",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-2005-002 M710 M720 M721 M701",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:sdx-751-tem",
+   "canonico": "SDX-751-TEM",
+   "veredicto": "PRECISION",
+   "n_perdidas": 2,
+   "perdidas": [
+    {
+     "source_file": "MNDT120",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "MNDT150",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:tg-6000",
+   "canonico": "TG-6000",
+   "veredicto": "PRECISION",
+   "n_perdidas": 3,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:tg-6000-net",
+   "canonico": "TG-6000 Net",
+   "veredicto": "PRECISION",
+   "n_perdidas": 4,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Tecnico",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "notifier:tg-notifier",
+   "canonico": "TG-NOTIFIER",
+   "veredicto": "PRECISION",
+   "n_perdidas": 2,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "systemsensor:8100e-faast",
+   "canonico": "8100E FAAST",
+   "veredicto": "PRECISION",
+   "n_perdidas": 14,
+   "perdidas": [
+    {
+     "source_file": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "AM-8200-manu-prog-spa",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "ASD Harsh Environments_SP",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "FAAST Area Coverage Planner_SP",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "FAAST Understanding EN54-20_SP",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-3947-202_FAAST LT_MULTI",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-3956-201_ES Morley Loop FAAST LT QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6575-005_EN-FAAST-LT-200-Loop-QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6575-005_ES FAAST LT-200 Loop QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:fsl100-sm21",
+   "canonico": "FSL100-SM21",
+   "veredicto": "PRECISION",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "SW_MN_210-Series_CZ_flame_detectors_v1-ES",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:id50",
+   "canonico": "ID50",
+   "veredicto": "DAÑO",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "Guia Rapida H_GTW",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:id60",
+   "canonico": "ID60",
+   "veredicto": "PRECISION",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "Guia Rapida H_GTW",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:m710-czr",
+   "canonico": "M710-CZR",
+   "veredicto": "DAÑO",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "I56-3674-000 M710-CZR",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:mad-450",
+   "canonico": "MAD-450",
+   "veredicto": "DAÑO",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "Manual_MAD-45X (55345104 MI 554 m 2022 d)",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg",
+   "canonico": "TG",
+   "veredicto": "DAÑO",
+   "n_perdidas": 4,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Tecnico",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg-gsm",
+   "canonico": "TG-GSM",
+   "veredicto": "DAÑO",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "MNDT950",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg-hlsi",
+   "canonico": "TG HLSI",
+   "veredicto": "PRECISION",
+   "n_perdidas": 3,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg-honeywell",
+   "canonico": "TG-HONEYWELL",
+   "veredicto": "DAÑO",
+   "n_perdidas": 4,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Tecnico",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg-ip-1-sec",
+   "canonico": "TG-IP-1-SEC",
+   "veredicto": "PRECISION",
+   "n_perdidas": 1,
+   "perdidas": [
+    {
+     "source_file": "HLSI_MNDT1410_B",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:tg-modbus",
+   "canonico": "TG MODBUS",
+   "veredicto": "PRECISION",
+   "n_perdidas": 3,
+   "perdidas": [
+    {
+     "source_file": "TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf",
+     "clase": "SIN_CHUNKS_INOCUO"
+    },
+    {
+     "source_file": "TG-Honeywell_Usuario",
+     "clase": "DOC_DE_HERMANO"
+    },
+    {
+     "source_file": "Tg-Honeywell_Introduccion",
+     "clase": "DOC_DE_HERMANO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:vsn-co",
+   "canonico": "VSN-CO",
+   "veredicto": "DAÑO",
+   "n_perdidas": 2,
+   "perdidas": [
+    {
+     "source_file": "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "MIE-MI-591",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  },
+  {
+   "id": "unresolved:vsn12-2plus",
+   "canonico": "VSN12-2Plus",
+   "veredicto": "DAÑO",
+   "n_perdidas": 2,
+   "perdidas": [
+    {
+     "source_file": "HLSI-MN-025-I_NFS Supra Series",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    },
+    {
+     "source_file": "NFS-SUPRA-VSN12-2PLUS-Funcionamiento-de-la-central-en-modo-prueba",
+     "clase": "NOMBRA_A_NUESTRO_PRODUCTO"
+    }
+   ]
+  }
+ ]
+}

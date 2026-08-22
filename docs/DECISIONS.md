@@ -10329,8 +10329,255 @@ imports y `catalog_store`, verdes.
   `evals/s334b_huerfanos_{propuesta.md,plan.json,radio_explosion.json,seam1.json}` ·
   `docs/DECISIONES_PENDIENTES_ALBERTO.md`.
 
+## DEC-273 (s334c/d/e, 21 ago 2026) — La higiene invierte su propio orden, las atestaciones se caen 37 de 43, y el «18» que prometí era 100
 
-## DEC-273 (s336, 21/22 ago 2026) — El catálogo Notifier deja de estar ciego: lote de clasificación por categoría con el método s322b endurecido (2 dúos, gate que mordió, escritura atómica)
+- **Fecha**: 21 ago 2026. **Impacto**: ALTO (catálogo). **Aplicado**: sí, el subconjunto defendible.
+- **Encadena con DEC-272** (el dúo r43 bloqueó el lote que bajaba a 18). Aquí se ejecutan los dos
+  pasos que eran míos y **los dos devuelven un resultado peor que el prometido** — que es
+  exactamente para lo que sirven.
+
+**PASO 1 · Higiene de alias (TECH_DEBT #99), y el orden que prescribía está mal.** Censo completo
+de los **1.175** alias que la puerta de `_add` deja entrar, con recuento por **frontera de palabra**.
+Mi primera regla marcó 82 y se pasaba de frenada en dos clases enteras: **56 eran alias puramente
+numéricos** que `_add` ya descarta (retirar lo que no puede disparar es ruido y destruye números de
+parte legítimos) y **el nº de fabricantes marcaba CROSS-REFERENCES** como categorías (`AFP400` sale
+en Morley, Notifier y Xtralis porque las centrales de una marca se citan en los manuales de otra).
+Regla corregida: **82 → 18**. Y entonces **R20 mordió: 13 de esos 18 son la ÚNICA vía por la que el
+detector alcanza su producto** — 8 porque su producto está EN CUARENTENA (al promoverlo, el alias
+descriptivo sobra) y 5 porque su canónico es **digit-only** (`kac:2001` se llama literalmente
+`2001`: `Model 2001` es su vía permanente). **Consecuencia: la higiene NO puede ir del todo antes
+del lote de huérfanos, como asumió el dúo — el orden correcto es promover → retirar lo redundante.**
+Aplicados **5** retiros (detector 1891→1886, 0 gold perdidas).
+
+**PASO 2 · Las 43 atestaciones `secondary`: 6 sobreviven.** Sol dijo en r43 que estaban DEDUCIDAS de
+que el paraguas las traía, no leídas. Se leyeron: **32 SIN CITA, 5 sin texto, 6 VERIFICADAS**. El
+caso más claro es `systemsensor:8100e-faast`, con **14 documentos y ni uno** que lo nombre — eran
+docs de la familia FAAST que el paraguas arrastraba, sobre OTROS modelos. Mi inferencia era falsa el
+**86%** de las veces.
+
+**LA CORRECCIÓN QUE ME DEBO**: dije «hay un lote medido que baja de 134 a 18». Era cierto como
+medida del plan, y el plan no sobrevive: **el mecanismo doc_map rescata 0 de 12** ids que estrechan
+una vez verificadas las citas, y los redirects son de Alberto por R21. **El suelo real sin
+adjudicación es 100, no 18.**
+
+- **Aplicado (s334e)**: 65 promociones con cita verificada + las 6 atestaciones leídas. Dry-run
+  PASS, detector 1886→2014 (+128/−0), **0 gold perdidas**, 0 disparos en 36 negativos, 0 detecciones
+  nuevas en 135 consultas reales, **0 pérdidas de modelo en el seam 1**. **Huérfanos 134 → 100**;
+  cuarentena 520 → **455**; consumibles 1.105 → **1.170**.
+- **Por qué NO se re-lanzó el dúo**: el lote aplicado es un **subconjunto estricto** del que r43 ya
+  revisó, con cada objeción resuelta por RETIRADA o por la verificación que ellos exigieron —
+  redirects fuera (R21), clase E fuera (circular), doc_map reducido a lo leído, higiene hecha, y
+  cero ganancias en gold, que era la contaminación que señaló Fable. No hay mecanismo nuevo sin
+  revisar. Se declara la decisión, no se esconde.
+- **Lo que sigue siendo de Alberto**: 3 fusiones Morley↔Notifier (6 manuales de golpe), 25 redirects
+  `unresolved:X`→`<marca>:X`, y la adjudicación Detnov de `1/2 Relay Module` → `mad-412`/`mad-422`
+  (que **no** se arregla retirando el alias: es la única vía de su producto).
+- **Ref**: `evals/s334c_higiene_alias_v1.json` · `evals/s334d_atestaciones_verificadas.json` ·
+  `evals/s334e_suelo_defendible_{plan,seam1}.json` + recibos de aplicación.
+
+## DEC-274 (s334f/g, 21 ago 2026) — El estrechamiento no era un muro: 13 de 21 eran PRECISIÓN, y mi exclusión en bloque los tenía presos
+
+- **Fecha**: 21 ago 2026. **Impacto**: ALTO (catálogo). **Aplicado**: sí. **Gatillo**: Alberto —
+  «tira con el (1), los 39 que estrechan».
+- **La pregunta que no me había hecho.** Cuando Fable cazó en r43 que promover puede quitarle
+  fuentes a la consulta, cablée el veredicto `DESBLOQUEA_PERO_ESTRECHA` y **excluí en bloque** a
+  todos los que lo disparaban. Eso presupone que perder una fuente es siempre malo. **No lo es**:
+  si el documento perdido no habla de este producto, perderlo es el filtro de modelo haciendo su
+  trabajo — precisión, no daño. La verificación de citas (s334d) ya lo tenía delante y yo no lo
+  leí así: `systemsensor:8100e-faast` perdía 14 documentos y **ninguno lo nombra**.
+- **La distinción que decide**, medida documento a documento: **DOC DE HERMANO** (no nos nombra
+  pero nombra a otro producto consumible → perderlo es precisión) vs **GENÉRICO DE FAMILIA** (no
+  nombra a ningún producto concreto → es el manual de la familia y perderlo es daño) vs
+  **NOMBRA A NUESTRO PRODUCTO** (daño claro).
+- **Resultado: 13 PRECISIÓN · 8 DAÑO** de los 21 que estrechan.
+- **DOS BUGS DEL INSTRUMENTO, cazados por mirar el desglose y no el titular**:
+  1. **`SIN_TEXTO` contado como daño.** El documento `TG-Cuales-son-los-requisitos-del-PC…` tiene
+     **0 chunks verificados** (`count=exact`, HTTP 200): no puede responderle a nadie, así que
+     perderlo es NEUTRO. Contarlo como daño bloqueaba 5 ids por un PDF sin contenido.
+  2. **Al endurecer el lector, lo invertí.** Añadí un `count=exact` con `if status != 200 → None`,
+     y **PostgREST devuelve `206 Partial Content` cuando el `limit` trunca**, o sea en TODO
+     documento CON contenido: el veredicto pasó a `13 PRECISIÓN` → `2`, marcando como «lectura
+     fallida» exactamente los que sí se leyeron. Se vio en el desglose por clase, no en el número.
+- **Aplicado (s334g)**: 8 promociones (de las 13, salen 4 sin cita verificada —evidencia
+  circular— y 1 por GEMELO, `unresolved:id60` vs `notifier:id-60`, que R21 manda a Alberto).
+  Dry-run PASS, detector 2014→2032 (+18/−0), **0 gold perdidas**, 0 disparos en 36 negativos, 0
+  detecciones nuevas en 137 consultas reales, **0 pérdidas de modelo en el seam 1**.
+  **Huérfanos 100 → 84**; cuarentena 455 → **447**; consumibles 1.170 → **1.178**.
+- **La lección de método**: una guarda que excluye en bloque es una hipótesis sin medir disfrazada
+  de prudencia. El veredicto `DESBLOQUEA_PERO_ESTRECHA` era correcto como DETECCIÓN y erróneo como
+  DECISIÓN — detectar el estrechamiento es mecánico, decidir si duele exige leer los documentos.
+- **Ref**: `evals/s334f_estrechamiento_util.json` · `evals/s334g_precision_{plan,seam1}.json` +
+  recibo de aplicación.
+
+## DEC-275
+
+**La pregunta de la clave de Gemini, contestada leyendo el PDF original: un lector multimodal
+paga 2 de 84 huérfanos — y aplicado, 1.** · impacto MEDIO · s336 · 21-ago
+
+- **Contexto**: Alberto ofreció una clave de Google Gemini para «rascar» los manuales huérfanos
+  que ningún camino de texto alcanza. Monté una sonda multimodal (s336 v2) para medirlo.
+- **La sonda medía otra cosa.** Leía las páginas de `document_visual_assets`, que son una
+  **selección** (mediana: 2 páginas por huérfano, en manuales de 30). Miré dos a mano en vez de
+  teorizar: la portada del FAD-902 dice «GUIDE MANUAL / Power Supplies» y **no nombra el modelo**;
+  su página 8 es «3.4 Descripción de los leds». Los lectores acertaban en todas. Aquel `6/37` no
+  medía qué modelo lee mejor una página — medía **qué páginas habíamos guardado**.
+  (Corrección intermedia que también me debo: llegué a llamarlas «recortes de figura». No lo son:
+  son páginas completas, y `visual_role` describe lo que hay EN la página. El defecto era cuáles.)
+- **Los PDF originales están en Storage** (`documents.source_url`, 83 de 84, `%PDF-` verificado).
+  Así que la pregunta cara va DESPUÉS de una gratis: ¿está el nombre en la capa de texto del PDF?
+- **Dos números míos frenados antes de darlos** (el patrón del día, esta vez cazado por mis
+  propias reglas y no por el dúo ni por Alberto):
+  1. «75 de 84 lo tienen en el PDF» → **R19**: que el token esté en el texto no es producto-hood.
+     `NAS`, `TG`, `RHistorico.exe` y «modelo antideflagrante» pasan la cita y no identifican nada.
+     Contra el CANÓNICO —el string que indexa el detector— son **49**.
+  2. «lo perdimos al extraer» → **falso en 48 de 49**: el canónico YA está en `chunks_v2`. El dato
+     no se perdió; lo que falta es **promover el candidate**.
+- **El matcher de cita, con auto-test de 13 casos y dos controles negativos.** Sin él contaba de
+  MENOS: el separador no es estable (`AM-6000`/`AM6000`, `TG-IP-1-SEC`/`TG-IP1-SEC`), y eso
+  empujaba citas reales al bucket «no está en el PDF» — un falso hallazgo con pinta de dato.
+- **Diagnóstico final de los 84** (`s336c`): 29 redirect pendiente R21 · 20 **promovibles** (cita
+  verificada en PDF y en chunks) · 15 sólo nº de referencia (adjudicación R4) · 13 no nombran su
+  producto · 4 canónico digit-only (irreducible: el detector los excluye a propósito) · 2 PDF
+  escaneado · 1 sin PDF. **44 esperan una ADJUDICACIÓN, no una herramienta.**
+- **Aplicado el lector donde de verdad tocaba** (`s336d`, los 3 sin camino de texto): `SCD-120`
+  dice «SIRENA EXTERIOR DE INCENDIO 24V» y `MAD-472` «SIRENA ANALÓGICA DE ZÓCALO» —descripciones,
+  sin modelo, el lector tiene razón—; **`3466` SÍ se confirma** en la página escaneada. **1 de 3.**
+  Los tres son `unresolved:`, así que esto no promueve nada: es evidencia PARA la adjudicación R21.
+- **Alternativa descartada**: seguir puliendo la sonda multimodal (más lectores, mejor prompt,
+  más páginas). Habría mejorado un instrumento que respondía a una pregunta que no era la nuestra.
+  El coste de la lectura de texto es ~0 y decide el bucket de los 84; el multimodal decide 2.
+- **Gap declarado**: los 13 «no nombran su producto» y los 4 digit-only siguen sin camino. Los 4
+  son irreducibles por diseño del detector; los 13 exigen decidir si el manual atesta o no.
+- **Ref**: `evals/s336b_censo_pdf_huerfanos.json` · `evals/s336c_diagnostico_huerfanos.json` ·
+  `evals/s336d_lectura_escaneados.json` · recibo de la v2 sellado como superado.
+
+## DEC-276
+
+**Entre Anthropic y Gemini, Anthropic.** · impacto MEDIO · s336e · 21-ago (Alberto)
+
+- **Decisión de Alberto, literal**: «prefiero que utilices Anthropic que Gemini en caso de que
+  tengas que elegir uno de los dos».
+- **Cableado, no sólo anotado**: `scripts/s336_sonda_multimodal_v2.py` pasa a `LECTORES` con
+  defecto `claude,gpt`; Gemini deja de ser lector por defecto y se pide explícitamente
+  (`LECTORES=claude,gpt,gemini`). `scripts/s336d_lee_escaneados.py` nace ya con Anthropic.
+- **Lo que NO cambia**: el cross-model. Claude + GPT siguen siendo dos familias distintas, que es
+  lo que hace del acuerdo una evidencia y no una opinión. La preferencia decide **cuál se usa
+  cuando hay que elegir uno**, no que haya uno solo. El dúo adversarial (Sol + Fable) sigue igual
+  de innegociable — ahí la diversidad de familia es el mecanismo, no una comodidad.
+- **Dato que acompaña la decisión, no la sustituye**: la clave de Gemini es free tier y su cuota
+  es **DIARIA** (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`, quotaValue **20** para
+  `gemini-3.6-flash`; los `lite` sí van con holgura). Yo la había leído como «por minuto» y
+  paceé contra el eje equivocado — corregido en `s336`, que ahora separa `PerMinute` (esperar y
+  reintentar) de `PerDay` (apagar el lector con veredicto propio `CUOTA_DIARIA_AGOTADA`).
+- **Ref**: `docs/DECISIONS.md` DEC-275 · `scripts/s336_sonda_multimodal_v2.py`
+
+## DEC-277
+
+**Los «20 promovibles» eran 2: R19/R21 se comen 17, y el que sobrevivía al filtro lo mató la
+medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
+
+- **Decisión**: promover `notifier:sdx-751-tem` y `notifier:lpx-751`. **Huérfanos 84 → 82.**
+- **`PROMOVIBLE` era una condición de EVIDENCIA, no una adjudicación.** El bucket de s336c
+  significa «el canónico está citado en el PDF y en `chunks_v2`, y ningún id es `unresolved:`».
+  Entre eso y un plan hay tres filtros (`s336e`): R19 (producto-hood), R21 (colisión de marca **o
+  gemelo ya consumible por alias**) y sujeto-vs-referencia-cruzada. **17 paran.**
+- **El gate cazó un fallo de mi filtro**: mi R21 sólo cruzaba canónico↔canónico, y
+  `notifier:notifier-inspire-e10` pasó aunque su nombre ya es alias `variante-tipografica` de
+  `notifier:inspire-e10`, que SÍ es consumible. Lo paró el validador del catálogo («COLISIONA con
+  canonical_model … exact pisaría el alias»). Cableado **R21(b)** para no depender de eso.
+- **Dúo COMPLETO** (Sol xhigh 60 tool-calls + Fable 7): **9 hallazgos, 9 verificados, 0 falsos**.
+  Veredicto de Fable: «defendible y bien gated; NO SÓLIDO en su prosa». Los dos convergieron en
+  que **mi desglose contradecía su propio recibo** — escribí «R19 6 / R21 10 / SUJETO 1» y el JSON
+  dice R21=11, R19=6, **SUJETO=0**: el filtro de página no decidió ni un caso (a `ID-3000` lo paró
+  R21, que va antes en el `elif`) y yo lo presenté como la guarda que lo descartó. Presentar como
+  ejercitado un mecanismo sin probar es el mismo patrón que DEC-275 nombra.
+- **Lo que cambió el lote (Fable, hallazgo material)**: el censo del gate flagea `AM-LCD` con
+  `[sin_digitos, acronimo_corto]` —la clase con la que R19 mata `NAS`, precedente DEC-272
+  (231→11 docs)— y yo declaré «LPX-751 es el más débil» **omitiéndolo**. Medí la huella en corpus
+  (`s336g`) esperando limpiar el flag y lo **CONFIRMÓ**: 1 de sus 6 documentos es un falso
+  positivo real —«**Pantalla FM/AM LCD**» de un manual de radio— porque el core
+  `am[-\s/.+]*lcd` admite el espacio. **`AM-LCD` fuera: 3 → 2 promociones.** No es una baja del
+  producto: arreglarlo es una pregunta de NORMALIZACIÓN del detector (¿un término letters-only
+  debe exigir el separador?) más grande que este lote y con su propia medida. **Queda abierta.**
+- **BUG SISTÉMICO cazado al verificar ese hallazgo**: dos pases idénticos de `s336g` dieron
+  `AM-LCD=2` y `AM-LCD=6`, y el corpus salía con **954** documentos teniendo **1.080**. Mis
+  paginadores no pasaban `order`, y **PostgREST no garantiza orden estable entre rangos**: la
+  paginación saltaba y duplicaba filas. Arreglado en `s336b/c/g` con `order` explícito +
+  verificación contra `count=exact` (falla ruidosamente si faltan filas) en vez de fiarse de que
+  la última página venga corta. **Los dos censos se re-corrieron y salen IDÉNTICOS** (75/6/2/1 y
+  la tabla de buckets): ahí no mordía, pero la clase de fallo estaba viva en todo el aparato.
+- **Correcciones de framing aceptadas**: «dos vías independientes» → `chunks_v2` se deriva del
+  MISMO PDF, así que es una fuente con un check de integridad (corregido en la `provenance_add`,
+  que es permanente); y omití que `sdx-751-tem` estrecha — verificado que **s334f ya lo adjudicó
+  `PRECISION`** (sus 2 pérdidas son `DOC_DE_HERMANO`), así que se arrastra en vez de repetir G4.
+- **Medido**: dry-run PASS · detector 2032 → 2034 (+2/−0) · 0 gold perdidas · 0 disparos en 36
+  negativos · 0 detecciones nuevas en 137 reales · **seam 1: 0 pérdidas de modelo** · suite
+  completa **4.998 passed**, 147 skipped, 2 xfailed · censo post-aplicación PASS.
+- **Gap declarado, y es el que importa**: 84 → 82 no se acerca a los «10 como máximo» que pidió
+  Alberto, y la medida dice por qué: **53 de 84 están gated en sus adjudicaciones** (29 redirects
+  `unresolved:` + 11 colisiones R21 + 15 nº de referencia, con solape). **No hay camino autónomo
+  a 10 sin saltarse R21.** El cuello de botella dejó de ser técnico.
+- **Alternativas descartadas**: promover los 20 tal cual (mete 6 no-productos y pre-empta 11
+  adjudicaciones); aflojar el filtro de sujeto para recuperar `ID-3000` (es referencia cruzada en
+  las páginas 32/38 de un manual de TG — repetiría el mecanismo que dejó 32 de 43 atestaciones sin
+  cita en s334d); redirects mecánicos para los gemelos (es lo que R21 llama adjudicación, y ya me
+  lo cazó el dúo en r43).
+- **Ref**: `evals/s336f_propuesta_dua.md` (corregida, con lo que cazó el dúo) ·
+  `evals/s336e_filtro_promovibles.json` · `evals/s336g_huella_deteccion.json` ·
+  `evals/s336f_promocion_verificada_{plan,seam1,radio_explosion}.json` ·
+  `adversarial_review_log.jsonl` ts=2026-08-21T20:36:12 (`duo_status=complete_adjudicated`,
+  findings 9 / confirmed 9 / false_pos 0).
+
+## DEC-278
+
+**Resolución MULTICANAL: leía R8 al revés, y el nombre del fichero rescata 30 de 84.**
+· impacto MEDIO · s338 · 21-ago (pushback de Alberto)
+
+- **El pushback**: Alberto trajo tres manuales que mi censo había mandado al suelo y que son
+  resolubles. `55320002 Manual Programador PGD-200` — el modelo está **literal en el nombre del
+  fichero**. `Manual-de-Usuario-S3-T2-y-S2-T2` — `S/3-T2` y `S/2-T2`, deducibles del nombre y
+  legibles en portada. `55350005 Manual Central Monoxido CMD-500` — la **referencia buscada en la
+  web** devuelve el propio PDF publicado por Detnov, con `CMD-500` en la URL.
+- **Dónde me equivoqué**: leía **R8** («el fichero miente») como «el fichero no vale». R8 protege
+  de **INVENTARSE** un producto que el catálogo no tiene; **no** dice que un nombre de fichero no
+  pueda **CONFIRMAR** uno que el `doc_map` ya enlaza. **Medido: el canal del fichero rescata 30
+  de 84.** Un mes de censos apoyados en una lectura demasiado gruesa de mi propia regla.
+- **Mecanismo (`s338`)**: cinco canales independientes — `FICHERO`, `PDF`, `CHUNKS`,
+  `URL_FABRICANTE`, `CATALOGO_FABRICANTE` (+ `VISION` de s336d) — con **contrato explícito**:
+  `RESUELTO` exige **≥2 canales INDEPENDIENTES**, y `CHUNKS` **no cuenta como segundo** porque se
+  deriva del PDF. El fichero solo tampoco basta: sería creerse R8 al revés.
+- **El canal que más pesa no es un modelo**: `URL_FABRICANTE` y `CATALOGO_FABRICANTE` son el
+  FABRICANTE publicando el producto — `detnov.com/…/55350005-Manual-Central-Monoxido-CMD-500-…pdf`
+  y su catálogo 2025 (44 págs.), que **con una sola descarga confirma 16 modelos** con la
+  descripción impresa. Más barato y más completo que buscar referencia a referencia.
+- **Resultado: 34 RESUELTOS, 31 que antes no lo estaban** (17 por `FICHERO`+`PDF`, el resto con
+  canal de fabricante). El suelo del packet baja de 20 a **13**.
+- **Canal inesperado — el fabricante nombra lo que nosotros no tenemos**: `MAD-401` y `MAD-411`
+  (¡el manual cubre DOS modelos, R9!), `MAD-451-I`, `CMD-503`, y los **`S/3-T2`/`S/2-T2`** que en
+  el catálogo son `00051`/`00052`. **Se PROPONEN, no se aplican**: bautizar es adjudicación (R21).
+- **Dos fallos míos cazados en el propio trabajo**:
+  1. El descubrimiento colaba `MI-635` — el código de **DOCUMENTO** de Detnov, no un producto
+     (R19 otra vez). Filtrado.
+  2. **Mi visor de contexto enseñaba evidencia que no probaba lo que decía**: buscaba el prefijo
+     de 3 letras, así que mostraba «MAD-401-I» como prueba de «MAD-402» y «CMD-501» como prueba de
+     «CMD-500». La cita era correcta —está en otra parte de la página— pero un recibo cuya
+     evidencia no señala la coincidencia real no vale. Reescrito para mapear la coincidencia de
+     vuelta al texto original: **16 de 16 verificados, 0 sospechosas**.
+- **Gemini**: la llamada normal devuelve **200** y con `google_search` devuelve **429 sin detalle
+  de cuota** — patrón de «grounding no disponible en este tier». Los $10 que añadió Alberto no
+  están en el proyecto de esta clave. El canal web va mientras tanto por otra vía y el script
+  acepta `--gemini` para cuando se active: **adicional, no sustitutivo** (DEC-276 intacta).
+- **Alternativa descartada**: seguir buscando referencia a referencia. 20+ búsquedas para lo que
+  una descarga del catálogo resuelve mejor, y con más ruido de reventas y foros.
+- **Gap declarado**: el descubrimiento cuela vecinos de contexto (`CCD-100` es la serie de central
+  donde se enchufa el TRD-100, no el producto de ese manual). Por eso el packet los propone en su
+  propia sección y con el aviso escrito, en vez de mezclarlos con lo resuelto.
+- **NADA aplicado**: s338 es resolución, no promoción. Un lote construido sobre esto pasa por el
+  dúo y el gate como cualquier otro, y 24 de los 34 siguen siendo adjudicación de Alberto (R21).
+- **Ref**: `scripts/s338_resolucion_multicanal.py` · `evals/s338_resolucion_multicanal.json` ·
+  `evals/s338_{web_resultados,catalogo_fabricante}.json` · `docs/REVISION_ALBERTO_HUERFANOS.md`
+
+## DEC-279 (s336-lote, 21/22 ago 2026) — El catálogo Notifier deja de estar ciego: lote de clasificación por categoría con el método s322b endurecido (2 dúos, gate que mordió, escritura atómica)
 
 - **Fecha**: 21/22 ago 2026, noche. **Impacto**: ALTO (datos servidos del inventario +
   esquema del catálogo). GO de Alberto («clasificación por categoría de producto → GO»).
@@ -10371,3 +10618,8 @@ imports y `catalog_store`, verdes.
   ENUM al packet (anunciador, extinción, audio/EVAC, impresora, barrera-IS, kit).
 - **Relacionado**: DEC-216/217 (s322, el método) · TECH_DEBT #76b · DEC-271 (huérfanos) ·
   `evals/s336_resultado_v1.md` (el recibo narrado).
+- **Nota de numeración**: esta decisión se acuñó como DEC-273/«s336» en el hilo del lote,
+  en paralelo con la sesión de huérfanos que publicó primero DEC-273→278 y su propio «s336»
+  en `main`. Al fusionar, el lote se renumera a DEC-279 y se rotula «s336-lote»; los
+  artefactos (`evals/s336_*`, `scripts/s336_*`, provenance «s336 método s322b») conservan
+  su nombre — el ancla estable es el contenido y los sha de los recibos, no el rótulo.

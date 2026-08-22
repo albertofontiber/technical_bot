@@ -1,0 +1,1670 @@
+{
+ "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
+ "modo": "dry-run",
+ "utc": "20260821T163718Z",
+ "plan_sha": "96e9d459c72b6ddb",
+ "freeze": {
+  "catalog_shas": {
+   "products": "8bc7363666766187",
+   "aliases": "78da6ec6a4df7601",
+   "umbrellas": "cfcaec97f87a756b",
+   "doc_map": "28cd85a0345b48c7"
+  },
+  "corpus_fingerprint": [
+   "26216",
+   "2026-08-17T09:36:29.408577+00:00"
+  ],
+  "retags_snapshot_sha": "44136fa355b3678a"
+ },
+ "stats": {
+  "altas": 0,
+  "confirmadas": 65,
+  "retiradas": 0,
+  "aliases_quitados": 0,
+  "umbrellas": 0,
+  "doc_map_altas": 6,
+  "doc_map_modificadas": 0,
+  "redirects": 0,
+  "aliases_altas": 0
+ },
+ "censo": {
+  "terminos_antes": 1886,
+  "terminos_despues": 2014,
+  "entran": 128,
+  "salen": 0,
+  "salen_lista": [],
+  "por_termino": [
+   {
+    "termino": "300 series Zone Display Unit",
+    "normkey": "300serieszonedisplayunit",
+    "core": "300[-\\s/.+]*series[-\\s/.+]*zone[-\\s/.+]*display[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321KSP12",
+    "normkey": "321ksp12",
+    "core": "321[-\\s/.+]*ksp[-\\s/.+]*12",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "321XXX",
+    "normkey": "321xxx",
+    "core": "321[-\\s/.+]*xxx",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AutoSAT 10",
+    "normkey": "autosat10",
+    "core": "autosat[-\\s/.+]*10",
+    "origen": "confirmar unresolved:autosat-10",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "AutoSAT 20",
+    "normkey": "autosat20",
+    "core": "autosat[-\\s/.+]*20",
+    "origen": "confirmar unresolved:autosat-20",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Caja protección IP65 SIMEI",
+    "normkey": "cajaproteccionip65simei",
+    "core": "caja[-\\s/.+]*proteccion[-\\s/.+]*ip[-\\s/.+]*65[-\\s/.+]*simei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "CALYPSO-II",
+    "normkey": "calypsoii",
+    "core": "calypso[-\\s/.+]*ii",
+    "origen": "confirmar unresolved:calypso-ii",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Calypso-II-R",
+    "normkey": "calypsoiir",
+    "core": "calypso[-\\s/.+]*ii[-\\s/.+]*r",
+    "origen": "confirmar unresolved:calypso-ii-r",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220",
+    "normkey": "dod220",
+    "core": "dod[-\\s/.+]*220",
+    "origen": "confirmar unresolved:dod-220",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A",
+    "normkey": "dod220a",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dod-220a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOD-220A-I",
+    "normkey": "dod220ai",
+    "core": "dod[-\\s/.+]*220[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dod-220a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230",
+    "normkey": "dotd230",
+    "core": "dotd[-\\s/.+]*230",
+    "origen": "confirmar unresolved:dotd-230",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A",
+    "normkey": "dotd230a",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dotd-230a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DOTD-230A-I",
+    "normkey": "dotd230ai",
+    "core": "dotd[-\\s/.+]*230[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dotd-230a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 10",
+    "normkey": "ds10",
+    "core": "ds[-\\s/.+]*10",
+    "origen": "confirmar unresolved:ds-10",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DS 5",
+    "normkey": "ds5",
+    "core": "ds[-\\s/.+]*5",
+    "origen": "confirmar unresolved:ds-5",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210",
+    "normkey": "dtd210",
+    "core": "dtd[-\\s/.+]*210",
+    "origen": "confirmar unresolved:dtd-210",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A",
+    "normkey": "dtd210a",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-210a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-210A-I",
+    "normkey": "dtd210ai",
+    "core": "dtd[-\\s/.+]*210[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-210a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215",
+    "normkey": "dtd215",
+    "core": "dtd[-\\s/.+]*215",
+    "origen": "confirmar unresolved:dtd-215",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A",
+    "normkey": "dtd215a",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a",
+    "origen": "confirmar unresolved:dtd-215a",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "DTD-215A-I",
+    "normkey": "dtd215ai",
+    "core": "dtd[-\\s/.+]*215[-\\s/.+]*a[-\\s/.+]*i",
+    "origen": "confirmar unresolved:dtd-215a-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "e²sense",
+    "normkey": "e2sense",
+    "core": "e[-\\s/.+]*2[-\\s/.+]*sense",
+    "origen": "confirmar unresolved:esense",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ECO1000",
+    "normkey": "eco1000",
+    "core": "eco[-\\s/.+]*1000",
+    "origen": "confirmar unresolved:eco1000",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*l",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*12[-\\s/.+]*nl",
+     "eco[-\\s/.+]*1000[-\\s/.+]*brel[-\\s/.+]*24[-\\s/.+]*l"
+    ]
+   },
+   {
+    "termino": "ECO1000 (base)",
+    "normkey": "eco1000(base)",
+    "core": "eco[-\\s/.+]*1000[-\\s/.+]*base",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E",
+    "normkey": "fl01xxe",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL01XX E-HS",
+    "normkey": "fl01xxehs",
+    "core": "fl[-\\s/.+]*01[-\\s/.+]*xx[-\\s/.+]*e[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl01xx-e-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI",
+    "normkey": "fl20xxei",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FL20XX EI-HS",
+    "normkey": "fl20xxeihs",
+    "core": "fl[-\\s/.+]*20[-\\s/.+]*xx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:fl20xx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FLS100-IR3",
+    "normkey": "fls100ir3",
+    "core": "fls[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X",
+    "normkey": "fs20x",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs20x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS20X-211-22-2",
+    "normkey": "fs20x211222",
+    "core": "fs[-\\s/.+]*20[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*22[-\\s/.+]*2",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X",
+    "normkey": "fs24x",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "confirmar unresolved:fs24x",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-2",
+    "normkey": "fs24x2",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*2",
+    "origen": "confirmar unresolved:fs24x-2",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211",
+    "normkey": "fs24x211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-211-221",
+    "normkey": "fs24x211221",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*211[-\\s/.+]*221",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-2 Detectors",
+    "normkey": "fs24x2detectors",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*2[-\\s/.+]*detectors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9",
+    "normkey": "fs24x9",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9",
+    "origen": "confirmar unresolved:fs24x-9",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911",
+    "normkey": "fs24x911",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-211",
+    "normkey": "fs24x911211",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*211",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-911-24-5",
+    "normkey": "fs24x911245",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*911[-\\s/.+]*24[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X-9 Detectors",
+    "normkey": "fs24x9detectors",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*9[-\\s/.+]*detectors",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand",
+    "normkey": "fs24xquadband",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand Triple IR",
+    "normkey": "fs24xquadbandtripleir",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband[-\\s/.+]*triple[-\\s/.+]*ir",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FS24X QuadBand Triple IR™",
+    "normkey": "fs24xquadbandtripleirtm",
+    "core": "fs[-\\s/.+]*24[-\\s/.+]*x[-\\s/.+]*quadband[-\\s/.+]*triple[-\\s/.+]*irtm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3",
+    "normkey": "fsl100ir3",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3",
+    "origen": "confirmar unresolved:fsl100-ir3",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3 (carcasa roja)",
+    "normkey": "fsl100ir3(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3-W",
+    "normkey": "fsl100ir3w",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-ir3-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-IR3-W (carcasa blanca)",
+    "normkey": "fsl100ir3w(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*ir[-\\s/.+]*3[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TL",
+    "normkey": "fsl100tl",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tl",
+    "origen": "confirmar unresolved:fsl100-tl",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-TLX",
+    "normkey": "fsl100tlx",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*tlx",
+    "origen": "confirmar unresolved:fsl100-tlx",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV",
+    "normkey": "fsl100uv",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv",
+    "origen": "confirmar unresolved:fsl100-uv",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV (carcasa roja)",
+    "normkey": "fsl100uv(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR",
+    "normkey": "fsl100uvir",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir",
+    "origen": "confirmar unresolved:fsl100-uvir",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR (carcasa roja)",
+    "normkey": "fsl100uvir(carcasaroja)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*carcasa[-\\s/.+]*roja",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR-W",
+    "normkey": "fsl100uvirw",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-uvir-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UVIR-W (carcasa blanca)",
+    "normkey": "fsl100uvirw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uvir[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV-W",
+    "normkey": "fsl100uvw",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*w",
+    "origen": "confirmar unresolved:fsl100-uv-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FSL100-UV-W (carcasa blanca)",
+    "normkey": "fsl100uvw(carcasablanca)",
+    "core": "fsl[-\\s/.+]*100[-\\s/.+]*uv[-\\s/.+]*w[-\\s/.+]*carcasa[-\\s/.+]*blanca",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "FVR-01",
+    "normkey": "fvr01",
+    "core": "fvr[-\\s/.+]*01",
+    "origen": "confirmar unresolved:fvr-01",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1",
+    "normkey": "hgtw1",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1",
+    "origen": "confirmar unresolved:h-gtw-1",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "H-GTW-1 6010",
+    "normkey": "hgtw16010",
+    "core": "h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HLS PS25",
+    "normkey": "hlsps25",
+    "core": "hls[-\\s/.+]*ps[-\\s/.+]*25",
+    "origen": "confirmar unresolved:hls-ps25",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "HLS PS50",
+    "normkey": "hlsps50",
+    "core": "hls[-\\s/.+]*ps[-\\s/.+]*50",
+    "origen": "confirmar unresolved:hls-ps50",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC (ver 2.0)",
+    "normkey": "itac(ver2.0)",
+    "core": "itac[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITAC 2.0",
+    "normkey": "itac2.0",
+    "core": "itac[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "confirmar unresolved:itac-2.0",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ITACs (ver 2.0)",
+    "normkey": "itacs(ver2.0)",
+    "core": "itacs[-\\s/.+]*ver[-\\s/.+]*2[-\\s/.+]*0",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "normkey": "lamparadepruebaportatiltl1055(nema1)",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*1055[-\\s/.+]*nema[-\\s/.+]*1",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "normkey": "lamparadepruebaportatiltl2055paraareaspeligrosas",
+    "core": "lampara[-\\s/.+]*de[-\\s/.+]*prueba[-\\s/.+]*portatil[-\\s/.+]*tl[-\\s/.+]*2055[-\\s/.+]*para[-\\s/.+]*areas[-\\s/.+]*peligrosas",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "limitador del campo de visión modelo FVR-01",
+    "normkey": "limitadordelcampodevisionmodelofvr01",
+    "core": "limitador[-\\s/.+]*del[-\\s/.+]*campo[-\\s/.+]*de[-\\s/.+]*vision[-\\s/.+]*modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I",
+    "normkey": "mad464i",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-464-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-464-I-W",
+    "normkey": "mad464iw",
+    "core": "mad[-\\s/.+]*464[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-464-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I",
+    "normkey": "mad465i",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-465-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-465-I-W",
+    "normkey": "mad465iw",
+    "core": "mad[-\\s/.+]*465[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-465-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD564",
+    "normkey": "mad564",
+    "core": "mad[-\\s/.+]*564",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I",
+    "normkey": "mad564i",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-564-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-564-I-W",
+    "normkey": "mad564iw",
+    "core": "mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-564-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD565",
+    "normkey": "mad565",
+    "core": "mad[-\\s/.+]*565",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I",
+    "normkey": "mad565i",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-565-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-565-I-W",
+    "normkey": "mad565iw",
+    "core": "mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "confirmar unresolved:mad-565-i-w",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567",
+    "normkey": "mad567",
+    "core": "mad[-\\s/.+]*567",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-567-I",
+    "normkey": "mad567i",
+    "core": "mad[-\\s/.+]*567[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-567-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569",
+    "normkey": "mad569",
+    "core": "mad[-\\s/.+]*569",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-569-I",
+    "normkey": "mad569i",
+    "core": "mad[-\\s/.+]*569[-\\s/.+]*i",
+    "origen": "confirmar unresolved:mad-569-i",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-DCZRM",
+    "normkey": "midczrm",
+    "core": "mi[-\\s/.+]*dczrm",
+    "origen": "confirmar unresolved:mi-dczrm",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI",
+    "normkey": "mifl20xxxxei",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MI-FL20XXXX EI-HS",
+    "normkey": "mifl20xxxxeihs",
+    "core": "mi[-\\s/.+]*fl[-\\s/.+]*20[-\\s/.+]*xxxx[-\\s/.+]*ei[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:mi-fl20xxxx-ei-hs",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MN-DT-1311",
+    "normkey": "mndt1311",
+    "core": "mn[-\\s/.+]*dt[-\\s/.+]*1311",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Mod:H-GTW-1 6010",
+    "normkey": "mod:hgtw16010",
+    "core": "mod[-\\s/.+]*h[-\\s/.+]*gtw[-\\s/.+]*1[-\\s/.+]*6010",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo de la serie FS20X™",
+    "normkey": "modelodelaseriefs20xtm",
+    "core": "modelo[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*xtm",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo FS24X",
+    "normkey": "modelofs24x",
+    "core": "modelo[-\\s/.+]*fs[-\\s/.+]*24[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "modelo FVR-01",
+    "normkey": "modelofvr01",
+    "core": "modelo[-\\s/.+]*fvr[-\\s/.+]*01",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Modelo serie FS20X",
+    "normkey": "modeloseriefs20x",
+    "core": "modelo[-\\s/.+]*serie[-\\s/.+]*fs[-\\s/.+]*20[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "modelo SM4",
+    "normkey": "modelosm4",
+    "core": "modelo[-\\s/.+]*sm[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Montaje giratorio SM4",
+    "normkey": "montajegiratoriosm4",
+    "core": "montaje[-\\s/.+]*giratorio[-\\s/.+]*sm[-\\s/.+]*4",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MT3910",
+    "normkey": "mt3910",
+    "core": "mt[-\\s/.+]*3910",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "NAP 100AC",
+    "normkey": "nap100ac",
+    "core": "nap[-\\s/.+]*100[-\\s/.+]*ac",
+    "origen": "confirmar unresolved:nap-100ac",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "nap[-\\s/.+]*100"
+    ]
+   },
+   {
+    "termino": "NFXI-ASD-XXXX-HS",
+    "normkey": "nfxiasdxxxxhs",
+    "core": "nfxi[-\\s/.+]*asd[-\\s/.+]*xxxx[-\\s/.+]*hs",
+    "origen": "confirmar unresolved:nfxi-asd-xxxx-hs",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000",
+    "normkey": "pkid3000",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000",
+    "origen": "confirmar notifier:pk-id3000",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PK-ID3000 REV 2.03G",
+    "normkey": "pkid3000rev2.03g",
+    "core": "pk[-\\s/.+]*id[-\\s/.+]*3000[-\\s/.+]*rev[-\\s/.+]*2[-\\s/.+]*03[-\\s/.+]*g",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "PL4+",
+    "normkey": "pl4+",
+    "core": "pl[-\\s/.+]*4",
+    "origen": "confirmar sensitron:pl4+",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4[-\\s/.+]*e"
+    ]
+   },
+   {
+    "termino": "PL4+ control unit",
+    "normkey": "pl4+controlunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4+ gas control panel",
+    "normkey": "pl4+gascontrolpanel",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*gas[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 central unit",
+    "normkey": "pl4centralunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*central[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 Control Panel",
+    "normkey": "pl4controlpanel",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*panel",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "PL4 control unit",
+    "normkey": "pl4controlunit",
+    "core": "pl[-\\s/.+]*4[-\\s/.+]*control[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": [
+     "pl[-\\s/.+]*4"
+    ]
+   },
+   {
+    "termino": "POL-200-TS",
+    "normkey": "pol200ts",
+    "core": "pol[-\\s/.+]*200[-\\s/.+]*ts",
+    "origen": "confirmar unresolved:pol-200-ts",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-564-I",
+    "normkey": "ref.mad564i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-564-I-W",
+    "normkey": "ref.mad564iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*564[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I",
+    "normkey": "ref.mad565i",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ref. MAD-565-I-W",
+    "normkey": "ref.mad565iw",
+    "core": "ref[-\\s/.+]*mad[-\\s/.+]*565[-\\s/.+]*i[-\\s/.+]*w",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "S300ZDU",
+    "normkey": "s300zdu",
+    "core": "s[-\\s/.+]*300[-\\s/.+]*zdu",
+    "origen": "confirmar unresolved:s300zdu",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Series 300 Zone Display Unit",
+    "normkey": "series300zonedisplayunit",
+    "core": "series[-\\s/.+]*300[-\\s/.+]*zone[-\\s/.+]*display[-\\s/.+]*unit",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SIMEI",
+    "normkey": "simei",
+    "core": "simei",
+    "origen": "confirmar unresolved:simei",
+    "riesgo": [
+     "sin_digitos",
+     "acronimo_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SIMEI IP65",
+    "normkey": "simeiip65",
+    "core": "simei[-\\s/.+]*ip[-\\s/.+]*65",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "sistema AutoSAT 10",
+    "normkey": "sistemaautosat10",
+    "core": "sistema[-\\s/.+]*autosat[-\\s/.+]*10",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "SM4",
+    "normkey": "sm4",
+    "core": "sm[-\\s/.+]*4",
+    "origen": "confirmar unresolved:sm4",
+    "riesgo": [
+     "muy_corto"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ST.PL4+",
+    "normkey": "st.pl4+",
+    "core": "st[-\\s/.+]*pl[-\\s/.+]*4",
+    "origen": "confirmar notifier:st.pl4+",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "ST.PL4E",
+    "normkey": "st.pl4e",
+    "core": "st[-\\s/.+]*pl[-\\s/.+]*4[-\\s/.+]*e",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL-1055",
+    "normkey": "tl1055",
+    "core": "tl[-\\s/.+]*1055",
+    "origen": "confirmar unresolved:tl-1055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL1055X",
+    "normkey": "tl1055x",
+    "core": "tl[-\\s/.+]*1055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL-2055",
+    "normkey": "tl2055",
+    "core": "tl[-\\s/.+]*2055",
+    "origen": "confirmar unresolved:tl-2055",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "TL2055X",
+    "normkey": "tl2055x",
+    "core": "tl[-\\s/.+]*2055[-\\s/.+]*x",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "type DS 10",
+    "normkey": "typeds10",
+    "core": "type[-\\s/.+]*ds[-\\s/.+]*10",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "type DS 5",
+    "normkey": "typeds5",
+    "core": "type[-\\s/.+]*ds[-\\s/.+]*5",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "Unidad de display de zona de la serie 300",
+    "normkey": "unidaddedisplaydezonadelaserie300",
+    "core": "unidad[-\\s/.+]*de[-\\s/.+]*display[-\\s/.+]*de[-\\s/.+]*zona[-\\s/.+]*de[-\\s/.+]*la[-\\s/.+]*serie[-\\s/.+]*300",
+    "origen": "?",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VISION SUPRA",
+    "normkey": "visionsupra",
+    "core": "vision[-\\s/.+]*supra",
+    "origen": "confirmar unresolved:vision-supra",
+    "riesgo": [
+     "sin_digitos"
+    ],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "VW2W100",
+    "normkey": "vw2w100",
+    "core": "vw[-\\s/.+]*2[-\\s/.+]*w[-\\s/.+]*100",
+    "origen": "confirmar unresolved:vw2w100",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   }
+  ],
+  "alias_activados": [
+   {
+    "alias": "300 series Zone Display Unit",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321KSP12",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "321XXX",
+    "id": "unresolved:vision-supra",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Analogue addressable Heat detector",
+    "id": "unresolved:dtd-210a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable High Temp. Heat detector",
+    "id": "unresolved:dtd-215a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable Optical-Heat detector",
+    "id": "unresolved:dotd-230a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Analogue addressable Optical Smoke detector",
+    "id": "unresolved:dod-220a",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AutoSAT",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "AutoSAT-10",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "AutoSAT-20",
+    "id": "unresolved:autosat-20",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Caja estanca SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Caja protección IP65 SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "DS series",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ECO1000 (base)",
+    "id": "unresolved:eco1000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ezsense",
+    "id": "unresolved:esense",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "FL01XX E",
+    "id": "unresolved:fl01xx-e-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FL20XX EI",
+    "id": "unresolved:fl20xx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FLS100-IR3",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS20X-211-22-2",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-211-221",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-2 Detectors",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-211",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-911-24-5",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X-9 Detectors",
+    "id": "unresolved:fs24x-9",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand Triple IR",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FS24X QuadBand Triple IR™",
+    "id": "unresolved:fs24x-2",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3 (carcasa roja)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-IR3-W (carcasa blanca)",
+    "id": "unresolved:fsl100-ir3",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TL",
+    "id": "unresolved:fsl100-tl",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100TLX",
+    "id": "unresolved:fsl100-tlx",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV (carcasa roja)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR (carcasa roja)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UVIR-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uvir",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "FSL100-UV-W (carcasa blanca)",
+    "id": "unresolved:fsl100-uv",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "HLSPS",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "HLS PS Series",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ITAC (ver 2.0)",
+    "id": "unresolved:itac-2.0",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ITACs (ver 2.0)",
+    "id": "unresolved:itac-2.0",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-1055 (NEMA 1)",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Lámpara de prueba portátil TL-2055 para áreas peligrosas",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "limitador del campo de visión modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD564",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD565",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-567",
+    "id": "unresolved:mad-567-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MAD-569",
+    "id": "unresolved:mad-569-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MI-FL20XXXX EI",
+    "id": "unresolved:mi-fl20xxxx-ei-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MN-DT-1311",
+    "id": "unresolved:autosat-20",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Mod:H-GTW-1 6010",
+    "id": "unresolved:h-gtw-1",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo de la serie FS20X™",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo FS24X",
+    "id": "unresolved:fs24x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo FVR-01",
+    "id": "unresolved:fvr-01",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Modelo serie FS20X",
+    "id": "unresolved:fs20x",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "modelo SM4",
+    "id": "unresolved:sm4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Montaje giratorio SM4",
+    "id": "unresolved:sm4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "MT3910",
+    "id": "notifier:st.pl4+",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "NFXI-ASD-XXXX",
+    "id": "unresolved:nfxi-asd-xxxx-hs",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "PK-ID3000 REV 2.03G",
+    "id": "notifier:pk-id3000",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ control unit",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4+ gas control panel",
+    "id": "notifier:st.pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 central unit",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 Control Panel",
+    "id": "sensitron:pl4+",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "PL4 control unit",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I",
+    "id": "unresolved:mad-564-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-564-I-W",
+    "id": "unresolved:mad-564-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I",
+    "id": "unresolved:mad-565-i",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "ref. MAD-565-I-W",
+    "id": "unresolved:mad-565-i-w",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Serie HLS PS",
+    "id": "unresolved:hls-ps25",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "Series 300 Zone Display Unit",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SIMEI IP65",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "SIMEI waterproof box",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "sistema AutoSAT 10",
+    "id": "unresolved:autosat-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "sounders of type series DS",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ST.PL4E",
+    "id": "sensitron:pl4",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TL1055X",
+    "id": "unresolved:tl-1055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "TL2055X",
+    "id": "unresolved:tl-2055",
+    "tipo": "numero-de-parte",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "traductor",
+    "id": "unresolved:vw2w100",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "type DS 10",
+    "id": "unresolved:ds-10",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "type DS 5",
+    "id": "unresolved:ds-5",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Unidad de display de zona de la serie 300",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": true
+   },
+   {
+    "alias": "Waterproof Box SIMEI",
+    "id": "unresolved:simei",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   },
+   {
+    "alias": "ZDU",
+    "id": "unresolved:s300zdu",
+    "tipo": "nombre-largo",
+    "entra_en_detector": false
+   }
+  ],
+  "gold_perdidas": {},
+  "gold_nuevas_detecciones": {},
+  "negativos_probados": 36,
+  "disparos_en_negativos": {},
+  "terminos_que_disparan_negativos": [],
+  "disparos_sinteticos_adjudicados_por_alberto": {},
+  "trafico_real_consultas": 135,
+  "trafico_real_detecciones_nuevas": {},
+  "avisos_muy_corto": [
+   "DS 5",
+   "SM4"
+  ],
+  "resolver_gold_perdidas": {},
+  "resolver_gold_ganancias": {},
+  "resolver_gold_perdidas_no_adjudicadas": {},
+  "resolver_gold_perdidas_adjudicadas": {},
+  "efecto_docmap": {
+   "notifier:sdx-751-tem": {
+    "fuentes_antes": 3,
+    "fuentes_despues": 4,
+    "ganadas": [
+     "MIDT190"
+    ]
+   },
+   "notifier:tg-6000": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "notifier:tg-notifier": {
+    "fuentes_antes": 9,
+    "fuentes_despues": 11,
+    "ganadas": [
+     "TG-Honeywell_Usuario",
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "unresolved:tg-hlsi": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "Tg-Honeywell_Tecnico"
+    ]
+   },
+   "unresolved:tg-modbus": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 2,
+    "ganadas": [
+     "Tg-Honeywell_Tecnico"
+    ]
+   }
+  },
+  "findability_retags": [],
+  "no_medido": "retrieval/generación end-to-end (el instrumento es el FULL v3.2, no este censo)",
+  "veredicto": "PASS"
+ },
+ "retags_preflight": [],
+ "retags_aborts": [],
+ "veredicto": "PASS"
+}
