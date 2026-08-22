@@ -1,4 +1,5 @@
 {
+ "retags_db": [],
  "products_altas": [
   {
    "row": {
@@ -21,7 +22,8 @@
     "candidate": false,
     "added_by": "s339",
     "vendido_bajo": [
-     "Notifier"
+     "Notifier",
+     "Morley"
     ],
     "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §7:itac: marca adjudicada por Alberto"
    }
@@ -36,7 +38,7 @@
     "vendido_bajo": [
      "Detnov"
     ],
-    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §7:trd-100"
+    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §7:trd-100 + §3:55310007 Manual Tarjeta Expa"
    }
   },
   {
@@ -49,7 +51,7 @@
     "vendido_bajo": [
      "Detnov"
     ],
-    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §7:trd-100"
+    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §7:trd-100 + §3:55310007 Manual Tarjeta Expa"
    }
   },
   {
@@ -249,32 +251,6 @@
   },
   {
    "row": {
-    "id": "detnov:trd-100",
-    "canonical_model": "TRD-100",
-    "estado": "activo",
-    "candidate": false,
-    "added_by": "s339",
-    "vendido_bajo": [
-     "Detnov"
-    ],
-    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §3:55310007 Manual Tarjeta Expa"
-   }
-  },
-  {
-   "row": {
-    "id": "detnov:tsd-100",
-    "canonical_model": "TSD-100",
-    "estado": "activo",
-    "candidate": false,
-    "added_by": "s339",
-    "vendido_bajo": [
-     "Detnov"
-    ],
-    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §3:55310007 Manual Tarjeta Expa"
-   }
-  },
-  {
-   "row": {
     "id": "detnov:tcd-106",
     "canonical_model": "TCD-106",
     "estado": "activo",
@@ -329,34 +305,48 @@
  "products_confirmar": [
   {
    "id": "morley:vsn4-2plus",
+   "canonical_model": "VSN4-2Plus",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §2.1: misma familia, misma marca (adjudicación de Alberto)"
   },
   {
    "id": "morley:vsn8-2plus",
+   "canonical_model": "VSN8-2Plus",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §2.1: misma familia, misma marca (adjudicación de Alberto)"
   },
   {
    "id": "notifier:nfs8rel",
+   "canonical_model": "NFS8REL",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §4.1: destino de redirect/fusión"
   },
   {
    "id": "notifier:mcx-55m",
+   "canonical_model": "MCX-55M",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §4.2: destino de redirect/fusión"
   },
   {
    "id": "notifier:mmx-10m",
+   "canonical_model": "MMX-10M",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §4.3: destino de redirect/fusión"
   },
   {
    "id": "notifier:am-lcd",
+   "canonical_model": "AM-LCD",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §6.1: adjudicado producto por Alberto"
   },
   {
    "id": "notifier:nas",
+   "canonical_model": "Notifier Air Sample",
    "provenance_add": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §6.3: adjudicado producto por Alberto"
   }
  ],
  "products_retirar": [],
+ "products_recanonizar": [
+  {
+   "id": "notifier:nas",
+   "canonical_model": "Notifier Air Sample",
+   "motivo": "§6.3 (adjudicación Alberto)"
+  }
+ ],
  "products_redirect": [
   {
    "id": "unresolved:id50",
@@ -489,12 +479,12 @@
    "motivo": "§5.2: R3 (adjudicación Alberto)"
   },
   {
-   "id": "unresolved:itac",
+   "id": "notifier:itac",
    "marcas": [
     "Notifier",
     "Morley"
    ],
-   "motivo": "§7:itac: R3 (adjudicación Alberto)"
+   "motivo": "§7:itac: R3 (adjudicación Alberto) (reapuntado desde `unresolved:itac`, que este lote pasa a redirect)"
   }
  ],
  "aliases_quitar": [
@@ -504,32 +494,7 @@
   }
  ],
  "aliases_altas": [],
- "umbrellas_altas": [
-  {
-   "termino": "TG",
-   "tipo": "familia",
-   "ids": [
-    "notifier:tg-gsm"
-   ],
-   "divergent": "unknown",
-   "candidate": false,
-   "added_by": "s339",
-   "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §1.5: familia declarada por Alberto"
-  },
-  {
-   "termino": "CMD-500",
-   "tipo": "familia",
-   "ids": [
-    "detnov:cmd-501",
-    "detnov:cmd-502",
-    "detnov:cmd-503"
-   ],
-   "divergent": "unknown",
-   "candidate": false,
-   "added_by": "s339",
-   "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §3:55350005 Manual Central Mono: familia declarada por Alberto"
-  }
- ],
+ "umbrellas_altas": [],
  "doc_map_modificaciones": [
   {
    "document_id": "9c023513-1321-4e1f-9147-e4fff05e2e5a",
@@ -769,8 +734,34 @@
    }
   ],
   "avisos": [
-   "§3:55347200 Manual Sirena Analo: «55347200 Manual Sirena Analogica MAD-472 ES » casa 2 documentos (nombre truncado en el packet) → `detnov:mad-473` se añade a TODOS",
-   "3 promoción(es) retiradas por redundantes: el mismo id ya va a `redirect`"
+   "§3:55347200 Manual Sirena Analo: «55347200 Manual Sirena Analogica MAD-472 ES » casa 2 documentos (multi-match DECLARADO) → `detnov:mad-473` se añade a los 2",
+   "3 promoción(es) retiradas por redundantes: el mismo id ya va a `redirect`",
+   "paraguas «TG» retirado del lote: sería INERTE — `notifier:tg` ya resuelve «TG» por exact-match, y `resolve` mira `_by_canonical` ANTES que los paraguas → el paraguas no dispara · `divergent: \"unknown\"` devuelve cero ids por contrato (catalog_store.py:193): no expande",
+   "paraguas «CMD-500» retirado del lote: sería INERTE — `divergent: \"unknown\"` devuelve cero ids por contrato (catalog_store.py:193): no expande",
+   "2 alta(s) duplicada(s) fusionadas: ['detnov:trd-100', 'detnov:tsd-100'] (dos secciones piden el mismo producto)"
+  ],
+  "paraguas_inertes_retirados": [
+   {
+    "termino": "TG",
+    "ids": [
+     "notifier:tg-gsm"
+    ],
+    "motivos": [
+     "`notifier:tg` ya resuelve «TG» por exact-match, y `resolve` mira `_by_canonical` ANTES que los paraguas → el paraguas no dispara",
+     "`divergent: \"unknown\"` devuelve cero ids por contrato (catalog_store.py:193): no expande"
+    ]
+   },
+   {
+    "termino": "CMD-500",
+    "ids": [
+     "detnov:cmd-501",
+     "detnov:cmd-502",
+     "detnov:cmd-503"
+    ],
+    "motivos": [
+     "`divergent: \"unknown\"` devuelve cero ids por contrato (catalog_store.py:193): no expande"
+    ]
+   }
   ]
  }
 }

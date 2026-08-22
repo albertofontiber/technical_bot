@@ -39,6 +39,41 @@ PLAN_OPS = RAIZ / "evals" / "s339c_plan_lote.json"
 SALIDA = RAIZ / "evals" / "s339e_plan.json"
 PROV = "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago)"
 
+# Nombres del packet que casan VARIOS documentos a propósito, con la razón. Fuera de esta
+# lista, un prefijo ambiguo NO se aplica: casar por `startswith` sobre un nombre truncado y
+# escribir en todos los que casen contamina doc_maps ajenos, y con 30+ fabricantes los
+# nombres de fichero se solapan cada vez más. Ampliarla es una decisión, no un efecto.
+MULTIPLE_ESPERADO = {
+    # Filas 16 y 17 de §3: dos copias del MISMO manual («este documento y el de la fila 17
+    # son muy similares» — Alberto). El modelo hermano MAD-473 va en las dos.
+    "55347200 Manual Sirena Analogica MAD-472 ES ",
+}
+
+
+def retirar_en_cascada(plan: dict, pid: str, entradas: dict[str, set[str]],
+                       avisos: list[str]) -> None:
+    """Saca `pid` del plan Y todo lo que dependía de él.
+
+    Retirar sólo el alta dejaba el plan malformado en silencio: el `redirect` hacia ese id
+    lo salta `aplicar_plan` sin decir nada (su destino ya no está en `ids`), y las entradas
+    de `doc_map` que se habían remapeado a él apuntarían a un producto inexistente. Se
+    arrastran también `vendido_bajo`, `alias` y las pertenencias a paraguas.
+    """
+    plan["products_altas"] = [a for a in plan["products_altas"] if a["row"]["id"] != pid]
+    plan["products_confirmar"] = [c for c in plan["products_confirmar"] if c["id"] != pid]
+    huerfanas = [r for r in plan["products_redirect"] if r["redirect_to"] == pid]
+    plan["products_redirect"] = [r for r in plan["products_redirect"] if r["redirect_to"] != pid]
+    plan["products_vendido_bajo"] = [v for v in plan["products_vendido_bajo"] if v["id"] != pid]
+    plan["aliases_altas"] = [a for a in plan["aliases_altas"] if a["id"] != pid]
+    for u in plan["umbrellas_altas"]:
+        u["ids"] = [i for i in u["ids"] if i != pid]
+    plan["umbrellas_altas"] = [u for u in plan["umbrellas_altas"] if u["ids"]]
+    for ids in entradas.values():
+        ids.discard(pid)
+    avisos.append(f"cascada: retirado `{pid}` y con él {len(huerfanas)} redirect(s) que "
+                  f"apuntaban ahí, más sus `vendido_bajo`/alias/paraguas y las entradas de "
+                  f"doc_map ya remapeadas — dejarlos habría malformado el plan en silencio")
+
 
 def main() -> int:
     ops = json.loads(PLAN_OPS.read_text("utf-8"))["operaciones"]
@@ -58,11 +93,16 @@ def main() -> int:
             return [por_fichero[nombre]]
         return [v for k, v in por_fichero.items() if k.startswith(nombre)]
 
-    plan: dict = {"products_altas": [], "products_confirmar": [], "products_retirar": [],
+    # `retags_db` es obligatorio para `freeze()`. Vacío es la respuesta correcta aquí: este
+    # lote no re-etiqueta chunks, sólo toca catálogo.
+    plan: dict = {"retags_db": [],
+                  "products_altas": [], "products_confirmar": [], "products_retirar": [],
+                  "products_recanonizar": [],
                   "products_redirect": [], "products_vendido_bajo": [],
                   "aliases_quitar": [], "aliases_altas": [], "umbrellas_altas": [],
                   "doc_map_modificaciones": [], "doc_map_altas": []}
     nuevos: set[str] = set()
+    pendiente_vb: list[int] = []
     entradas: dict[str, set[str]] = {}
     avisos: list[str] = []
 
@@ -75,8 +115,13 @@ def main() -> int:
                 "vendido_bajo": o.get("vendido_bajo") or [], "provenance": f"{PROV} · {o['ref']}"}})
             nuevos.add(o["id"])
         elif op == "promover":
-            plan["products_confirmar"].append({"id": o["id"],
-                                               "provenance_add": f"{PROV} · {o['ref']}: {o['por']}"})
+            prod = cat.products.get(o["id"]) or {}
+            renom = next((x["canonico_nuevo"] for x in ops
+                          if x["op"] == "renombrar_canonico" and x["id"] == o["id"]), None)
+            plan["products_confirmar"].append({
+                "id": o["id"],
+                "canonical_model": renom or prod.get("canonical_model", o["id"].split(":")[-1]),
+                "provenance_add": f"{PROV} · {o['ref']}: {o['por']}"})
         elif op == "redirect":
             plan["products_redirect"].append({"id": o["id"], "redirect_to": o["redirect_to"],
                                               "motivo": f"{o['ref']} (adjudicación Alberto)"})
@@ -106,6 +151,7 @@ def main() -> int:
         elif op == "vendido_bajo":
             plan["products_vendido_bajo"].append({"id": o["id"], "marcas": o["marcas"],
                                                   "motivo": f"{o['ref']}: R3 (adjudicación Alberto)"})
+            pendiente_vb.append(len(plan["products_vendido_bajo"]) - 1)
         elif op == "alias":
             plan["aliases_altas"].append({"alias": o["alias"], "id": o["id"], "candidate": False,
                                           "added_by": "s339", "tipo": "variante-tipografica",
@@ -122,10 +168,11 @@ def main() -> int:
             if o["hijo"] not in u["ids"]:
                 u["ids"].append(o["hijo"])
         elif op == "renombrar_canonico":
-            # Sólo llega aquí si NO viene acompañado de `marca` (que ya lo absorbe en el alta).
+            # Si viene con `marca`, el alta del id nuevo ya nace con el canónico correcto.
             if not any(m["op"] == "marca" and m["id"] == o["id"] for m in ops):
-                avisos.append(f"{o['ref']}: renombrar el canónico de `{o['id']}` no es expresable "
-                              f"en el plan de s324 → fuera del lote")
+                plan["products_recanonizar"].append({
+                    "id": o["id"], "canonical_model": o["canonico_nuevo"],
+                    "motivo": f"{o['ref']} (adjudicación Alberto)"})
 
     for o in ops:
         if o["op"] != "doc_map":
@@ -134,9 +181,14 @@ def main() -> int:
         if not ds:
             avisos.append(f"{o['ref']}: no encuentro el documento «{o['manual']}» en doc_map")
             continue
+        if len(ds) > 1 and o["manual"] not in MULTIPLE_ESPERADO:
+            avisos.append(f"{o['ref']}: ✗ «{o['manual']}» casa {len(ds)} documentos y no está "
+                          f"declarado como multi-match → `{o['id']}` NO se aplica a ninguno. "
+                          f"Casan: {[str(d.get('source_file'))[:60] for d in ds]}")
+            continue
         if len(ds) > 1:
             avisos.append(f"{o['ref']}: «{o['manual']}» casa {len(ds)} documentos "
-                          f"(nombre truncado en el packet) → `{o['id']}` se añade a TODOS")
+                          f"(multi-match DECLARADO) → `{o['id']}` se añade a los {len(ds)}")
         for d in ds:
             did = str(d["document_id"])
             if did not in entradas:
@@ -147,6 +199,28 @@ def main() -> int:
         plan["doc_map_modificaciones"].append({
             "document_id": did, "entries_nuevas": sorted(ids),
             "regla": "s339", "detalle": "adjudicación de Alberto (packet de huérfanos)"})
+
+    # `vendido_bajo` tiene que aterrizar en la fila que el bot MIRA. Si el id que lo recibe
+    # es de los que este mismo lote pasa a `redirect`, la marca se escribe en una fila que
+    # `_productos_marca` descarta (filtra `estado == "activo"`) y `aplicar_plan` no sigue
+    # redirects para esto. Se reapunta al destino final.
+    destino_final = {r["id"]: r["redirect_to"] for r in plan["products_redirect"]}
+    for i in pendiente_vb:
+        vb = plan["products_vendido_bajo"][i]
+        salto = destino_final.get(vb["id"])
+        while salto and salto in destino_final:
+            salto = destino_final[salto]
+        if salto:
+            vb["motivo"] += f" (reapuntado desde `{vb['id']}`, que este lote pasa a redirect)"
+            vb["id"] = salto
+    # Y si el destino es un ALTA de este lote, la marca va directa en la fila nueva: escribirla
+    # dos veces no rompe (la op es aditiva) pero el alta es donde se lee primero.
+    altas_por_id = {a["row"]["id"]: a["row"] for a in plan["products_altas"]}
+    for vb in plan["products_vendido_bajo"]:
+        row = altas_por_id.get(vb["id"])
+        if row is not None:
+            ya = row.get("vendido_bajo") or []
+            row["vendido_bajo"] = ya + [m for m in vb["marcas"] if m not in ya]
 
     # Promover un id que además se REDIRIGE es contradictorio: el redirect resuelve al
     # destino, así que la promoción del origen no aporta nada y su canónico viejo se
@@ -188,9 +262,42 @@ def main() -> int:
             avisos.append(f"alias «{al['alias']}» apunta a `{apunta}` y chocaría con el canónico "
                           f"de `{destino_nuevo}`: es un homónimo, lo firma Alberto (R21) → "
                           f"la promoción de `{destino_nuevo}` sale del lote")
-            for lista, clave in (("products_altas", None), ("products_confirmar", "id")):
-                plan[lista] = [x for x in plan[lista]
-                               if (x["row"]["id"] if clave is None else x[clave]) != destino_nuevo]
+            retirar_en_cascada(plan, destino_nuevo, entradas, avisos)
+
+    inertes = []
+    for u in list(plan["umbrellas_altas"]):
+        motivos = []
+        exacto = next((pid for pid, pr in cat.products.items()
+                       if cs.norm_token(pr.get("canonical_model", "")) == cs.norm_token(u["termino"])
+                       and cat._consumable(pid)), None)
+        if exacto:
+            motivos.append(f"`{exacto}` ya resuelve «{u['termino']}» por exact-match, y `resolve` "
+                           f"mira `_by_canonical` ANTES que los paraguas → el paraguas no dispara")
+        if u.get("divergent") == "unknown":
+            motivos.append("`divergent: \"unknown\"` devuelve cero ids por contrato "
+                           "(catalog_store.py:193): no expande")
+        if motivos:
+            plan["umbrellas_altas"].remove(u)
+            inertes.append({"termino": u["termino"], "ids": u["ids"], "motivos": motivos})
+            avisos.append(f"paraguas «{u['termino']}» retirado del lote: sería INERTE — "
+                          + " · ".join(motivos))
+
+    # `products_altas` duplicadas: `aplicar_plan` las salta en silencio, así que el lote no se
+    # rompe, pero «25 altas» contaba filas y no mutaciones. Se deduplican aquí y se declara.
+    vistos: dict[str, dict] = {}
+    dups = []
+    for a in plan["products_altas"]:
+        pid = a["row"]["id"]
+        if pid in vistos:
+            dups.append(pid)
+            # conservar la provenance de las dos rutas que lo pidieron
+            vistos[pid]["row"]["provenance"] += f" + {a['row']['provenance'].split('·')[-1].strip()}"
+            continue
+        vistos[pid] = a
+    if dups:
+        plan["products_altas"] = list(vistos.values())
+        avisos.append(f"{len(dups)} alta(s) duplicada(s) fusionadas: {sorted(set(dups))} "
+                      f"(dos secciones piden el mismo producto)")
 
     corpus = [o for o in ops if o["op"].startswith("baja_corpus") or o["op"] == "ingesta_y_superseded"]
     excluidas = [o for o in ops if o["op"] == "EXCLUIDA"]
@@ -200,6 +307,7 @@ def main() -> int:
         "ops_de_corpus_NO_incluidas": corpus,
         "excluidas": excluidas,
         "avisos": avisos,
+        "paraguas_inertes_retirados": inertes,
     }
     SALIDA.write_text(json.dumps(plan, ensure_ascii=False, indent=1), "utf-8")
 

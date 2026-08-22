@@ -107,9 +107,49 @@ El detalle vivía aquí y se quedaba desfasado cada vez que avanzaba el trabajo 
 **regenera** con `python scripts/s337_packet_revision_alberto.py` sobre el catálogo vivo, así que
 no puede quedarse viejo mientras alguien lo regenere.
 
-Estado en una línea: **245 → 82**, de los cuales **13 son suelo real** (no bajan) y el resto se
-reparte entre decisiones tuyas y un lote mío ya desbloqueado (los 14 Detnov sin gemelo). Lo que
-ya contestaste está en **DEC-279**.
+### Ya lo cerraste — y esto es lo que quedó vivo (s339, 22-ago)
+
+Terminaste el packet: **23 de 24 casillas y 46 anotaciones**. Traducidas a lote, medidas y pasadas
+por la puerta: **huérfanos 82 → 25**, `validate` limpio, **0 gold perdidas**, 0 disparos en
+negativos sintéticos, **4 golds ganan fuentes**, y una batería nueva derivada de los propios
+términos del lote da **30/30 positivos y 5/5 negativos**. El lote NO está aplicado: espera tu OK.
+
+**Dos cosas que hice distinto de lo que escribiste, y por qué:**
+
+1. **§5.1 — no puedo BORRAR `notifier:notifier-inspire-e10`.** Pediste llamarlo directamente
+   `notifier:inspire-e10` «para evitar tener los dos nombres en la BD via redirect». El contrato de
+   identidad lo prohíbe en una línea: *«Los ids son INMUTABLES: nunca se borran ni se reciclan»*, y
+   para un merge prescribe `redirect`. Y el id está referenciado en 4 entradas de `doc_map` y 1
+   alias, así que borrarlo rompería lo ya etiquetado. **El redirect te da lo que querías**: deja de
+   existir como producto consultable —no sale en inventarios ni resuelve como fila propia—, sólo
+   reenvía. De cara al bot no hay dos nombres; hay un puntero interno que evita romper el pasado.
+
+2. **§6.3 NAS — tu adjudicación de producto es correcta y está aplicada; la del NOMBRE la cambié.**
+   NAS existe, es el Notifier Air Sample, y el id es `notifier:nas` como dijiste. Pero
+   *producto-hood* y *detectabilidad* son preguntas distintas y yo las tenía juntas. Medido: el
+   token «NAS» dispara en los tres negativos — «insira os condutores **nas** respectivas portas»
+   (preposición portuguesa, que está literal en el corpus), la misma intercalada en español, y «un
+   **NAS** de red» (Network Attached Storage). Es DEC-272 otra vez. `DETECT_STOPWORDS` no sirve:
+   es una lista global y mataría NAS del todo. Así que el **canónico** pasa a «Notifier Air
+   Sample», que es como TÚ describes el producto; el id no se toca. Los manuales dejan de ser
+   huérfanos igual y el token corto ya no dispara.
+   👉 **Si quieres «NAS» alcanzable pese a los falsos positivos, dilo: es añadir un alias.**
+
+### 🔴 Lo que sigue esperándote — 9 puntos
+
+| # | qué | por qué no lo decido yo |
+|---|---|---|
+| 1 | **`desico:tg-1020`** — ¿atribución equivocada, homónimo, o se queda? | Es la pregunta del final del packet, sin marcar. Ahora **bloquea de verdad**: promover `notifier:tg-1020` choca con él y `validate` lo caza como canónico duplicado. Sin tu línea, TG-1020 se queda fuera del lote |
+| 2 | **§6.5 Serie 800** | Marcaste `[X] déjalo`, y en esas opciones `adelante` era *mi* propuesta de paraguas — así que «déjalo» significa «no hagas eso». «Déjalo como Serie-800» admite dos lecturas: déjalo **quieto**, o déjalo **como producto llamado así**. Y la huella pide prudencia: dispara en 14 documentos, 11 con dueño ya |
+| 3 | **§6.4 `RHistorico.exe`** | Diste OK, pero s334 lo había dejado fuera A PROPÓSITO por riesgo léxico («R10 se cumple, la **grafía** no»), y mi propuesta reintroducía esa grafía como alias indexado. Merece tu re-adjudicación explícita, no colarse dentro de un «renombrar» |
+| 4 | **suelo F5000** (2 manuales) | Dices «el modelo F5000 de **Morley**». El catálogo ya lo tiene como **`ffe:f5000`** consumible — adjudicado por **ti** en s91. FFE fabrica la barrera y Morley la revende. **Propongo** dejar `ffe:f5000` y añadir Morley a `vendido_bajo` (R3), sin duplicar el canónico. ¿OK? |
+| 5 | **suelo MAD-490/492** | Escribiste «**parece** MAD-490 y MAD-492». Es conjetura, no firma — y el manual vivo de la web se titula sólo MAD-490. No creo dos productos sobre un «parece» |
+| 6 | **suelo `MADT190_10`** (racks Notifier) | Los 9 canónicos que diste son **sólo dígitos** (`020-596`…) y el detector los excluye a propósito. Crearlos no los haría alcanzables. ¿Tienen nombre comercial, o aceptamos que sólo se lleguen por el nombre del rack? |
+| 7 | **suelo `D 1100-4`** (KAC) | `CWSO-xx-S1/S2/W1/W2` donde «xx» es el color: es un patrón, no un modelo instanciable. ¿Qué colores existen de verdad? |
+| 8 | **suelo `FS2-1`** | «La familia **FS** de Notifier, centrales de 1, 2 y 4 zonas». ¿El id es la familia, o son tres modelos? |
+| 9 | **suelo `MNDT021`** | Es la única fila del suelo que no anotaste |
+
+Con 1–3 resueltos entran 3 manuales más; con 4–9, otros 6. El resto del lote no depende de ellos.
 
 ---
 

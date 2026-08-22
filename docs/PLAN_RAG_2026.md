@@ -26,7 +26,34 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (21/22 ago 2026 — TRES frentes: la línea s332→s335 (5 lotes MERGED+FLIP ON y VERIFICADOS en producción), los huérfanos 245 → 82 con el cuello de botella medido (53 de 82 son adjudicaciones de Alberto, no herramienta; packet E1 CERRADO), y el lote s336-lote: la vista Notifier deja de estar ciega (3→364 clasificados, PASS — PR #336))
+## Estado actual (22 ago 2026 — TRES frentes: la línea s332→s335 (5 lotes MERGED+FLIP ON y VERIFICADOS en producción), los huérfanos **82 → 25 en un lote LISTO Y MEDIDO pero SIN APLICAR** (Alberto cerró el packet: 46 anotaciones traducidas, dry-run de la puerta PASS; espera su OK + 9 adjudicaciones), y el lote s336-lote: la vista Notifier deja de estar ciega (3→364 clasificados, PASS — PR #336))
+
+
+**s339 (DEC-283) — el packet firmado se vuelve lote medido, y el dúo me para DOS rondas seguidas.**
+Alberto cerró `REVISION_ALBERTO_HUERFANOS.md`: **23 de 24 casillas, 46 anotaciones** de dominio que
+no se deducen del catálogo. Traducidas con una separación que es el diseño entero: lo **mecánico**
+(lo que él escribió, parseado) aparte de lo **interpretado** (mi lectura), con **cita literal** por
+lectura y test que la verifica — cazó dos citas donde yo le había «arreglado» una errata.
+**Dúo: 20 hallazgos en dos rondas, 20 verificados contra el código.** Los que cambian el resultado:
+§3 y §3.b **no generaban ni una mutación** mientras yo decía traducir sus adjudicaciones; borrar un
+id **viola el contrato** de inmutabilidad (y Fable lo dio por bueno — el desacuerdo cross-family es
+el valor); «huérfanos» es doc-side y **ciego** al estrechamiento hp009/R20; el plan **no era
+ejecutable por la puerta** y yo había afirmado que sí sin correrla; **ITAC incumplía en silencio la
+R3 que Alberto pidió** (el `vendido_bajo` aterrizaba en la fila que el lote pasa a `redirect`, y el
+inventario sólo mira `activo`); y `aplicar_plan` **aplica parcialmente sin avisar**, así que una
+adjudicación firmada puede evaporarse con recibo PASS.
+**Tres arreglos de raíz**: el lote se emite en el **formato de plan de `s324`** (el «después» lo
+construye el mismo código que escribirá, no un intérprete mío); el recibo verifica la **intención
+de cada fila contra el estado final**, no contadores; y una **batería derivada de los términos del
+propio lote**, porque ninguna de las 163 consultas de seam-1 los menciona («0 pérdidas» era
+no-regresión, no seguridad). Esa batería decidió sobre **NAS**: su producto-hood es correcta, pero
+el token dispara con la preposición portuguesa «nas» y con «NAS de red» → canónico «Notifier Air
+Sample» (como él lo describe), id intacto, **30/30 positivos y 5/5 negativos**.
+**Medido**: huérfanos **82 → 25** (cierra 57, abre 0) · `validate` limpio · **dry-run de la puerta
+PASS** (detector 2034→2064, **0 gold perdidas**, 0 negativos, 4 golds ganan) · seam-1 0 pérdidas ·
+R3 14/14. **NO APLICADO**: espera el OK de Alberto y sus **9 adjudicaciones**
+(`docs/DECISIONES_PENDIENTES_ALBERTO.md`). Deuda nueva: **TECH_DEBT #100** — 480 de 640 entradas
+`vendido_bajo` cross-brand son hoy inalcanzables (`Morley-IAS` ≠ `Morley` para el filtro).
 
 
 **s336 (DEC-275/276/277) — la pregunta de la clave de Gemini contestada al revés de lo que yo esperaba: un lector multimodal paga 2 de 84.** Alberto ofreció una clave de Gemini para «rascar» los huérfanos; la sonda que monté **medía otra cosa** (leía las páginas de `document_visual_assets`, una SELECCIÓN: mediana 2 por huérfano en manuales de 30). Mirando dos páginas a mano, los lectores acertaban: la portada del FAD-902 dice «GUIDE MANUAL / Power Supplies» y no nombra el modelo. **Los PDF originales están en Storage (83 de 84)**, así que la pregunta cara va después de una gratis: leerlos. Diagnóstico de los 84 (`s336b/c`): 29 redirect `unresolved:` · 20 promovible · 15 sólo nº de referencia · 13 no nombran su producto · 4 digit-only · **2 escaneados (el multimodal)** · 1 sin PDF. **Dos números míos frenados antes de darlos**: «75 lo tienen en el PDF» cae con R19 (contra el CANÓNICO son 49) y «lo perdimos al extraer» es falso en 48 de 49 (ya está en `chunks_v2`; faltaba promover). **Los 20 «promovibles» eran 2** tras R19/R21/sujeto (`s336e`) — y `AM-LCD` lo mató la medida que hice para defenderlo (1 de sus 6 documentos es «Pantalla FM/AM LCD» de un manual de radio). Dúo COMPLETO: 9 hallazgos, 9 verificados, 0 FP. **APLICADO: 2 promociones → huérfanos 84 → 82.** Preferencia de Alberto cableada: **Anthropic sobre Gemini** (`LECTORES=claude,gpt`), cross-model intacto. **Bug sistémico cazado**: paginar PostgREST sin `order` no es determinista (dos pases daban AM-LCD=2 y 6; el corpus salía con 954 documentos teniendo 1.080) → arreglado con `order` + verificación contra `count=exact`; los censos re-corridos salen idénticos. **Y lo que de verdad cambia el rumbo: 53 de los 82 están gated en adjudicaciones de Alberto** — de ellos, **17 se desbloquean con 5 redirects suyos** (`unresolved:id50`→`notifier:id-50` vale 12 él solo; **simulado sobre copia: 82 → 65, 0 huérfanos nuevos**). **No hay camino autónomo a ≤10 sin saltarse R21.**
@@ -190,16 +217,24 @@ causa de que una VM no la recibiera sigue abierta.
 > Solo lo PENDIENTE. Lo cerrado se cuenta en «Estado actual» y en su DEC — un «qué sigue» que
 > arrastra tachaduras deja de leerse.
 
-0a. 📋 **COLA DE DECISIONES DE ALBERTO sobre los manuales huérfanos → el canónico es
-   [`docs/REVISION_ALBERTO_HUERFANOS.md`](REVISION_ALBERTO_HUERFANOS.md)** (generado por
-   `scripts/s337_packet_revision_alberto.py`, regenerable). **82 huérfanos en 22 decisiones**, una
-   fila = una decisión, cada una con recomendación y el canal de evidencia a la vista. Ya contestó
-   (DEC-279): «Detnov OK» (R4), «los TG son software» (R10) y los ambiguos 1 y 3. **Lo que más
-   rinde de lo que queda**: los 5 redirects de §1 (**17 manuales**; `unresolved:id50` →
-   `notifier:id-50` vale 12 él solo, simulado 82→65 sin huérfanos nuevos), las 4 fusiones de §4 (7)
-   y el «¿promover sin marca?» de §7 (10). **Del lado mío queda desbloqueado**: los **14 Detnov sin
-   gemelo**, que con su OK sólo necesitan lote + dúo + gate. *Este punto se cierra cuando el packet
-   quede sin casillas sin marcar.*
+0a. 📋 **HUÉRFANOS — el packet está CERRADO y el lote LISTO Y MEDIDO, esperando el OK de Alberto.**
+   Cerró `REVISION_ALBERTO_HUERFANOS.md` (23 de 24 casillas, 46 anotaciones). Traducido a lote y
+   pasado por la puerta (DEC-283): **huérfanos 82 → 25**, `validate` limpio, **dry-run PASS**
+   (detector 2034→2064, 0 gold perdidas, 0 negativos, 4 golds ganan fuentes), seam-1 0 pérdidas,
+   batería de términos 30/30 positivos y 5/5 negativos. **NO está aplicado.**
+   - **Lo que falta para aplicarlo**: su OK. El plan vive en `evals/s339e_plan.json`; se aplica con
+     `python scripts/s324_lote_firmado_writer.py --plan evals/s339e_plan.json --aplicar` (exige
+     dry-run PASS del mismo plan y del mismo freeze).
+   - **Lo que sigue esperándole**: **9 adjudicaciones**, listadas con su medida en
+     [`docs/DECISIONES_PENDIENTES_ALBERTO.md`](DECISIONES_PENDIENTES_ALBERTO.md). La que más pesa
+     es `desico:tg-1020`: sin ella, TG-1020 se queda fuera porque choca con el canónico duplicado.
+   - **Y hay que explicarle DOS cosas que hice distinto de lo que escribió**: no se puede BORRAR un
+     id (contrato de inmutabilidad → redirect, que le da lo mismo de cara al bot), y el canónico de
+     NAS pasa a «Notifier Air Sample» porque el token de tres letras dispara con la preposición
+     portuguesa y con «NAS de red».
+   - **Fuera del catálogo, pendiente**: 5 operaciones de CORPUS que él firmó (bajas de `MNDT740P`,
+     `MNDT741I` y `S3466R_Eng_ital`; ingesta de los 2 manuales vivos de Detnov + `superseded`).
+   *Este punto se cierra cuando el lote esté aplicado y verificado en producción.*
 
 0b. **s331 variantes-en-hilo — ✅ SHIPPED Y VERIFICADO EN PRODUCCIÓN** (DEC-257/258/**263**):
    flip de Alberto 21-ago 07:37Z (4 vars, deploy SUCCESS, interlock pasado) y **verificación

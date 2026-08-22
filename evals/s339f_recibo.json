@@ -1,0 +1,153 @@
+{
+ "intenciones_incumplidas": [],
+ "stats_writer": {
+  "altas": 23,
+  "confirmadas": 7,
+  "retiradas": 0,
+  "aliases_quitados": 1,
+  "umbrellas": 0,
+  "doc_map_altas": 0,
+  "doc_map_modificadas": 18,
+  "redirects": 15,
+  "recanonizados": 1,
+  "vendido_bajo": 5,
+  "aliases_altas": 0
+ },
+ "huerfanos_antes": 82,
+ "huerfanos_despues": 25,
+ "cierra": [
+  "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
+  "55310600 Manual TCD-106 kit_ES",
+  "55312000 SCD-120_Manual_ES",
+  "55320103 Manual Zocalo Conexion ES FR GB IT_V2",
+  "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+  "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+  "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+  "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
+  "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+  "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+  "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+  "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+  "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+  "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+  "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+  "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2",
+  "AM-LCD manual de instalacion y usuario RV 0",
+  "BIDT077",
+  "Como-configurar-correos-en-un-TG-HONEYWELL",
+  "F3000M_Spanish User Guide_0044-047-02-ES",
+  "HLSI_MA-DT-1412_01_TG-IP1-SEC_QG",
+  "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
+  "HLSI_MN1007",
+  "HOP-338-9ES issue 4_01-2026_Op",
+  "HOP-338-9PT-issue 4_01-2026_Op",
+  "ITAC-Como-asignar-la-direccion-en-el-ITAC",
+  "ITAC-no-reconocido-por-la-Central",
+  "LEER PRIMERO_MADT951_10",
+  "MADT015_02",
+  "MADT155_01",
+  "MADT155_02",
+  "MADT155_05_A",
+  "MADT155_07",
+  "MADT155_08",
+  "MCDT155",
+  "MCDT156_A",
+  "MFDT155",
+  "MFDT156",
+  "MIDT155",
+  "MIDT156",
+  "MIE-MA-100_02",
+  "MIE-MI-480",
+  "MIE-MI-490",
+  "MIEMA130",
+  "MNDT1005",
+  "MNDT1006",
+  "MNDT635",
+  "MNDT740P",
+  "MNDT741",
+  "MNDT741I",
+  "Manual-de-Usuario-S3-T2-y-S2-T2",
+  "TG-Como-exportar-el-historico-desde-el-programa-de-gestion-grafica",
+  "TG-GSM-Fallo-al-enviar-SMS-desde-TG",
+  "TG-Honeywell_Usuario_PT",
+  "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+  "TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo",
+  "TIDT107"
+ ],
+ "abre": [],
+ "validate_errores": [],
+ "marca_alcanzable": [
+  {
+   "id": "notifier:tg",
+   "resuelve_a": "notifier:tg",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:tg",
+   "resuelve_a": "notifier:tg",
+   "marca": "Morley"
+  },
+  {
+   "id": "morley:vsn-co",
+   "resuelve_a": "morley:vsn-co",
+   "marca": "Morley"
+  },
+  {
+   "id": "morley:vsn-co",
+   "resuelve_a": "morley:vsn-co",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "resuelve_a": "notifier:nfs8rel",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:nfs8rel",
+   "resuelve_a": "notifier:nfs8rel",
+   "marca": "Morley"
+  },
+  {
+   "id": "notifier:mcx-55m",
+   "resuelve_a": "notifier:mcx-55m",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:mcx-55m",
+   "resuelve_a": "notifier:mcx-55m",
+   "marca": "Morley"
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "resuelve_a": "notifier:mmx-10m",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:mmx-10m",
+   "resuelve_a": "notifier:mmx-10m",
+   "marca": "Morley"
+  },
+  {
+   "id": "notifier:tg",
+   "resuelve_a": "notifier:tg",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:tg",
+   "resuelve_a": "notifier:tg",
+   "marca": "Morley"
+  },
+  {
+   "id": "notifier:itac",
+   "resuelve_a": "notifier:itac",
+   "marca": "Notifier"
+  },
+  {
+   "id": "notifier:itac",
+   "resuelve_a": "notifier:itac",
+   "marca": "Morley"
+  }
+ ],
+ "marca_NO_alcanzable": [],
+ "paraguas_inertes": []
+}

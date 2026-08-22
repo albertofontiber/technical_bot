@@ -214,11 +214,26 @@ LECTURA: dict[str, dict] = {
             "cita": "no es un producto, sino una \"TABLA DE APROXIMACIONES A GAS PATRÓN\"",
             "listo": True,
             "nota": "MADT608 queda huérfano LEGÍTIMO: su sujeto no es un producto"},
-    "6.3": {"tipo": "promover+bajas", "id": "notifier:nas", "nombre": "Notifier Air Sample",
+    "6.3": {"tipo": "promover+bajas", "id": "notifier:nas",
+            "canonico_nuevo": "Notifier Air Sample",
+            "evidencia": "evals/s339g_bateria.json",
             "bajas": ["MNDT740P"], "bajas_condicionales": ["MNDT741I"],
             "cita": "el manual \"MNDT740P\" es portugués, así que deberíamos sacarlo … es el Notifier Air Sample (equipo de muestreo de aire) … si los documentos 2 y 3 son iguales, y solo cambia el idioma, quitaría el de \"MNDT741I\"",
-            "listo": True,
-            "nota": "la baja de MNDT741I es CONDICIONAL: hay que comprobar antes que 741 y 741I sólo difieran en idioma"},
+            "listo": True, "explicar_a_alberto": True,
+            "nota": "Su adjudicación de PRODUCTO-HOOD es correcta y se aplica: NAS existe, es el "
+                    "Notifier Air Sample, y el id es `notifier:nas` como él dijo. Pero producto-hood "
+                    "y DETECTABILIDAD son preguntas distintas y yo las había juntado. Medido en la "
+                    "batería: el token «NAS» dispara en los TRES negativos —«insira os condutores "
+                    "nas respectivas portas» (preposición portuguesa, literal en el corpus), la "
+                    "misma intercalada en español, y «un NAS de red» (Network Attached Storage)—. "
+                    "Es el precedente DEC-272 reproducido. `DETECT_STOPWORDS` no sirve: es una "
+                    "lista global y mataría NAS del todo. "
+                    "SOLUCIÓN: el canónico pasa a «Notifier Air Sample», que es como ÉL describe el "
+                    "producto; el id no se toca. Los manuales dejan de ser huérfanos igual y el "
+                    "token corto ya no dispara. Si quiere «NAS» alcanzable pese a los falsos "
+                    "positivos, es UNA línea: añadirlo como alias. Preguntárselo. "
+                    "La baja de MNDT741I es CONDICIONAL y ya está comprobada: 741 es `language=es` "
+                    "y 741I `language=en`, mismo índice y mismo producto → sólo cambia el idioma"},
     "6.4": {"tipo": "renombrar_canonico", "id": "notifier:rhistorico.exe",
             "canonico_nuevo": "Utilidad de Reparación de Históricos",
             "alias": ["RHistorico.exe"], "familia": "notifier:tg",

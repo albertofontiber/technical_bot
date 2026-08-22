@@ -123,6 +123,10 @@ def mutaciones(doc: dict, cat: cs.Catalog) -> list[dict]:
             for a in lec.get("alias", []):
                 ops.append({"op": "alias", "id": lec["id"], "alias": a, "ref": ref})
 
+        if tipo.startswith("promover") and lec.get("canonico_nuevo"):
+            ops.append({"op": "renombrar_canonico", "id": lec["id"], "ref": ref,
+                        "canonico_nuevo": lec["canonico_nuevo"], "quitar_alias": []})
+
         if tipo.startswith("promover") and lec.get("id"):
             pid = lec["id"]
             if pid in cat.products:
