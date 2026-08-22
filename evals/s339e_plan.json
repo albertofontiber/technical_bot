@@ -160,6 +160,32 @@
   },
   {
    "row": {
+    "id": "detnov:mad-490",
+    "canonical_model": "MAD-490",
+    "estado": "activo",
+    "candidate": false,
+    "added_by": "s339",
+    "vendido_bajo": [
+     "Detnov"
+    ],
+    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §3:55349102 Manual Modulo Aisla"
+   }
+  },
+  {
+   "row": {
+    "id": "detnov:mad-492",
+    "canonical_model": "MAD-492",
+    "estado": "activo",
+    "candidate": false,
+    "added_by": "s339",
+    "vendido_bajo": [
+     "Detnov"
+    ],
+    "provenance": "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago) · §3:55349102 Manual Modulo Aisla"
+   }
+  },
+  {
+   "row": {
     "id": "detnov:cmd-501",
     "canonical_model": "CMD-501",
     "estado": "activo",
@@ -571,6 +597,16 @@
    "detalle": "adjudicación de Alberto (packet de huérfanos)"
   },
   {
+   "document_id": "e4d762dd-0b65-4df0-8d22-9fc6bcfb371f",
+   "entries_nuevas": [
+    "detnov:mad-490",
+    "detnov:mad-492",
+    "unresolved:mad-491"
+   ],
+   "regla": "s339",
+   "detalle": "adjudicación de Alberto (packet de huérfanos)"
+  },
+  {
    "document_id": "f1a60b0d-54af-42eb-bb25-d999a174336f",
    "entries_nuevas": [
     "detnov:cmd-501",
@@ -705,6 +741,12 @@
     "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf"
    },
    {
+    "op": "ingesta_y_superseded",
+    "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+    "ref": "§3:55349102 Manual Modulo Aisla",
+    "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf"
+   },
+   {
     "op": "baja_corpus",
     "manual": "S3466R_Eng_ital",
     "ref": "suelo:S3466R_Eng_ital",
@@ -726,11 +768,6 @@
     "op": "EXCLUIDA",
     "ref": "§6.5",
     "por": "mi lectura («rechaza el umbrella, lo quiere como producto») NO se sigue de la casilla: las opciones eran `adelante`/`déjalo`, donde `adelante` era mi propuesta de umbrella — así que `[X] déjalo` significa «no hagas eso», y «déjalo como Serie-800» admite las dos lecturas (déjalo QUIETO, o déjalo COMO producto llamado así). Y la huella de detección la desempata hacia la prudencia: «Serie 800» dispara en 14 documentos y 11 de ellos YA tienen dueño consumible. Promoverlo por una lectura ambigua es justo lo que R20 prohíbe. Preguntárselo."
-   },
-   {
-    "op": "EXCLUIDA",
-    "ref": "§3:55349102 Manual Modulo Aisla",
-    "por": "dice «PARECE MAD-490 y MAD-492» — es una conjetura suya, no una firma. Y el manual vivo de la web se titula sólo MAD-490. Confirmar antes de crear dos productos sobre un «parece»"
    }
   ],
   "avisos": [

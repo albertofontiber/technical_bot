@@ -10751,7 +10751,7 @@ pierda.** · impacto MEDIO · s339 · 22-ago
 ## DEC-283 (s339, 22 ago 2026) — El packet firmado se convierte en lote medido, y el dúo me para dos rondas seguidas
 
 - **Fecha**: 22 ago 2026 (s339). **Impacto**: ALTO (catálogo + retrieval). **Veredicto: lote LISTO,
-  no aplicado** — espera el OK de Alberto y sus 9 adjudicaciones pendientes.
+  no aplicado** — espera el OK de Alberto y sus 8 adjudicaciones pendientes.
 - **Gatillo**: Alberto terminó `docs/REVISION_ALBERTO_HUERFANOS.md` — 23 de 24 casillas y **46
   anotaciones de dominio** que no se deducen del catálogo («este también sirve para el MAD-401»,
   «el pdf está girado», «es la VSN Plus de Morley»).
@@ -10805,7 +10805,7 @@ tres negativos —la preposición portuguesa «nas» (literal en el corpus), la 
 español, y «un NAS de red» (Network Attached Storage)—. Es DEC-272 reproducido. `DETECT_STOPWORDS`
 no vale: es lista global y mataría NAS entero. **Resuelto** poniendo como canónico «Notifier Air
 Sample» —que es como ÉL describe el producto— manteniendo el id que él nombró: los manuales dejan
-de ser huérfanos y el token corto ya no dispara. Batería tras el cambio: **30/30 positivos, 5/5
+de ser huérfanos y el token corto ya no dispara. Batería tras el cambio: **32/32 positivos, 5/5
 negativos**.
 
 **La puerta se extendió dos veces, aditivamente y con tests**: `products_vendido_bajo` (sin él la
@@ -10814,16 +10814,23 @@ fusión no queda findable bajo las dos marcas, que es lo que Alberto pidió) y
 siguen funcionando.
 
 **Medido** (`evals/s339f_recibo.json`, `s339e_radio_explosion.json`, `s339g_bateria.json`):
-huérfanos **82 → 25** (cierra 57, **abre 0**) · `validate` limpio · **dry-run de la puerta PASS**
-con detector 2034→2064 (+30/−0), **0 gold perdidas**, 0 disparos en negativos sintéticos, 4 golds
+huérfanos **82 → 24** (cierra 58, **abre 0**) · `validate` limpio · **dry-run de la puerta PASS**
+con detector 2034→2066 (+32/−0), **0 gold perdidas**, 0 disparos en negativos sintéticos, 4 golds
 ganan fuentes · seam-1 bajo `replace` 0 pérdidas · R3 14/14 alcanzables · suite verde.
 
 **Gaps declarados**: (a) seam-1 y el censo no tocan los términos nuevos — la batería `s339g` es lo
 que cubre ese hueco, y es sintética, escrita por mí; (b) la grafía de marca del lote es **una
 apuesta sobre deuda viva** (TECH_DEBT #100: 480 de 640 entradas cross-brand son hoy inalcanzables
 porque `Morley-IAS` ≠ `Morley`), no un arreglo — cuando se reconcilie habrá dos convenciones
-coexistiendo; (c) 9 puntos siguen esperando firma de Alberto, listados en
+coexistiendo; (c) 8 puntos siguen esperando firma de Alberto, listados en
 `docs/DECISIONES_PENDIENTES_ALBERTO.md`.
+
+**Un bloqueo lo cerró la FUENTE, no una respuesta suya** (R18). Escribió «*parece* MAD-490 y
+MAD-492», que es conjetura y no firma, así que estaba fuera del lote. Descargado el manual vivo que
+él mismo enlaza —**misma referencia `55349102`**— y leído: se titula «MÓDULO AISLADOR **Y** ZÓCALO
+AISLADOR» (dos productos) y nombra **MAD-490 8 veces y MAD-492 otras 8**. Confirmado → altas dentro,
+huérfanos 82 → 24. Queda abierta una pregunta menor: el manual viejo se titula MAD-4**91** con esa
+misma referencia, así que o se renombró o la referencia cubre la familia (`detnov:mad-491`).
 
 - **Ref**: `scripts/s339*.py` · `tests/test_s339_ledger_cita_a_alberto.py` ·
   `tests/test_s324_vendido_bajo.py` · `tests/test_s324_recanonizar.py` ·

@@ -26,7 +26,7 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 <a id="estado-actual-s327"></a>
-## Estado actual (22 ago 2026 — TRES frentes: la línea s332→s335 (5 lotes MERGED+FLIP ON y VERIFICADOS en producción), los huérfanos **82 → 25 en un lote LISTO Y MEDIDO pero SIN APLICAR** (Alberto cerró el packet: 46 anotaciones traducidas, dry-run de la puerta PASS; espera su OK + 9 adjudicaciones), y el lote s336-lote: la vista Notifier deja de estar ciega (3→364 clasificados, PASS — PR #336))
+## Estado actual (22 ago 2026 — TRES frentes: la línea s332→s335 (5 lotes MERGED+FLIP ON y VERIFICADOS en producción), los huérfanos **82 → 24 en un lote LISTO Y MEDIDO pero SIN APLICAR** (Alberto cerró el packet: 46 anotaciones traducidas, dry-run de la puerta PASS; espera su OK + 8 adjudicaciones), y el lote s336-lote: la vista Notifier deja de estar ciega (3→364 clasificados, PASS — PR #336))
 
 
 **s339 (DEC-283) — el packet firmado se vuelve lote medido, y el dúo me para DOS rondas seguidas.**
@@ -48,10 +48,10 @@ de cada fila contra el estado final**, no contadores; y una **batería derivada 
 propio lote**, porque ninguna de las 163 consultas de seam-1 los menciona («0 pérdidas» era
 no-regresión, no seguridad). Esa batería decidió sobre **NAS**: su producto-hood es correcta, pero
 el token dispara con la preposición portuguesa «nas» y con «NAS de red» → canónico «Notifier Air
-Sample» (como él lo describe), id intacto, **30/30 positivos y 5/5 negativos**.
-**Medido**: huérfanos **82 → 25** (cierra 57, abre 0) · `validate` limpio · **dry-run de la puerta
-PASS** (detector 2034→2064, **0 gold perdidas**, 0 negativos, 4 golds ganan) · seam-1 0 pérdidas ·
-R3 14/14. **NO APLICADO**: espera el OK de Alberto y sus **9 adjudicaciones**
+Sample» (como él lo describe), id intacto, **32/32 positivos y 5/5 negativos**.
+**Medido**: huérfanos **82 → 24** (cierra 58, abre 0) · `validate` limpio · **dry-run de la puerta
+PASS** (detector 2034→2066, **0 gold perdidas**, 0 negativos, 4 golds ganan) · seam-1 0 pérdidas ·
+R3 14/14. **NO APLICADO**: espera el OK de Alberto y sus **8 adjudicaciones**
 (`docs/DECISIONES_PENDIENTES_ALBERTO.md`). Deuda nueva: **TECH_DEBT #100** — 480 de 640 entradas
 `vendido_bajo` cross-brand son hoy inalcanzables (`Morley-IAS` ≠ `Morley` para el filtro).
 
@@ -219,13 +219,13 @@ causa de que una VM no la recibiera sigue abierta.
 
 0a. 📋 **HUÉRFANOS — el packet está CERRADO y el lote LISTO Y MEDIDO, esperando el OK de Alberto.**
    Cerró `REVISION_ALBERTO_HUERFANOS.md` (23 de 24 casillas, 46 anotaciones). Traducido a lote y
-   pasado por la puerta (DEC-283): **huérfanos 82 → 25**, `validate` limpio, **dry-run PASS**
-   (detector 2034→2064, 0 gold perdidas, 0 negativos, 4 golds ganan fuentes), seam-1 0 pérdidas,
-   batería de términos 30/30 positivos y 5/5 negativos. **NO está aplicado.**
+   pasado por la puerta (DEC-283): **huérfanos 82 → 24**, `validate` limpio, **dry-run PASS**
+   (detector 2034→2066, 0 gold perdidas, 0 negativos, 4 golds ganan fuentes), seam-1 0 pérdidas,
+   batería de términos 32/32 positivos y 5/5 negativos. **NO está aplicado.**
    - **Lo que falta para aplicarlo**: su OK. El plan vive en `evals/s339e_plan.json`; se aplica con
      `python scripts/s324_lote_firmado_writer.py --plan evals/s339e_plan.json --aplicar` (exige
      dry-run PASS del mismo plan y del mismo freeze).
-   - **Lo que sigue esperándole**: **9 adjudicaciones**, listadas con su medida en
+   - **Lo que sigue esperándole**: **8 adjudicaciones**, listadas con su medida en
      [`docs/DECISIONES_PENDIENTES_ALBERTO.md`](DECISIONES_PENDIENTES_ALBERTO.md). La que más pesa
      es `desico:tg-1020`: sin ella, TG-1020 se queda fuera porque choca con el canónico duplicado.
    - **Y hay que explicarle DOS cosas que hice distinto de lo que escribió**: no se puede BORRAR un

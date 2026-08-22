@@ -403,9 +403,40 @@
       "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf"
     },
     {
-      "op": "EXCLUIDA",
+      "op": "alta",
+      "id": "detnov:mad-490",
       "ref": "§3:55349102 Manual Modulo Aisla",
-      "por": "dice «PARECE MAD-490 y MAD-492» — es una conjetura suya, no una firma. Y el manual vivo de la web se titula sólo MAD-490. Confirmar antes de crear dos productos sobre un «parece»"
+      "canonical_model": "MAD-490",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "id": "detnov:mad-490",
+      "ref": "§3:55349102 Manual Modulo Aisla"
+    },
+    {
+      "op": "alta",
+      "id": "detnov:mad-492",
+      "ref": "§3:55349102 Manual Modulo Aisla",
+      "canonical_model": "MAD-492",
+      "vendido_bajo": [
+        "Detnov"
+      ]
+    },
+    {
+      "op": "doc_map",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "id": "detnov:mad-492",
+      "ref": "§3:55349102 Manual Modulo Aisla"
+    },
+    {
+      "op": "ingesta_y_superseded",
+      "manual": "55349102 Manual Modulo Aislador MAD-491 ES F",
+      "ref": "§3:55349102 Manual Modulo Aisla",
+      "url": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf"
     },
     {
       "op": "alta",
@@ -650,18 +681,18 @@
     "vendido_bajo": 7,
     "familia": 4,
     "promover": 10,
-    "EXCLUIDA": 4,
+    "EXCLUIDA": 3,
     "renombrar_canonico": 2,
     "baja_corpus": 3,
     "baja_corpus_condicional": 1,
     "marca": 3,
-    "alta": 22,
-    "doc_map": 23,
-    "ingesta_y_superseded": 1
+    "alta": 24,
+    "doc_map": 25,
+    "ingesta_y_superseded": 2
   },
   "simulacion": {
     "antes": 82,
-    "despues": 27,
+    "despues": 26,
     "cierra": [
       "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT",
       "55310600 Manual TCD-106 kit_ES",
@@ -673,6 +704,7 @@
       "55343101 Manual Modulo 1-2 Sirenas Convencionales MAD-432 ES FR GB IT",
       "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
       "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+      "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
       "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
       "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
       "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",

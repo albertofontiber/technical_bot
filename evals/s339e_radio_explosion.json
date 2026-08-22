@@ -1,8 +1,8 @@
 {
  "que_es": "s324 dry-run del lote firmado + censo del radio de explosión + freeze",
  "modo": "dry-run",
- "utc": "20260822T164405Z",
- "plan_sha": "02ec03f9d52acecf",
+ "utc": "20260822T170559Z",
+ "plan_sha": "07ff9b98866d0a73",
  "freeze": {
   "catalog_shas": {
    "products": "9a6d578fb0d7f372",
@@ -17,13 +17,13 @@
   "retags_snapshot_sha": "44136fa355b3678a"
  },
  "stats": {
-  "altas": 23,
+  "altas": 25,
   "confirmadas": 7,
   "retiradas": 0,
   "aliases_quitados": 1,
   "umbrellas": 0,
   "doc_map_altas": 0,
-  "doc_map_modificadas": 18,
+  "doc_map_modificadas": 19,
   "redirects": 15,
   "recanonizados": 1,
   "vendido_bajo": 5,
@@ -31,8 +31,8 @@
  },
  "censo": {
   "terminos_antes": 2034,
-  "terminos_despues": 2064,
-  "entran": 30,
+  "terminos_despues": 2066,
+  "entran": 32,
   "salen": 0,
   "salen_lista": [],
   "por_termino": [
@@ -179,6 +179,22 @@
     "normkey": "mad473",
     "core": "mad[-\\s/.+]*473",
     "origen": "alta detnov:mad-473",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-490",
+    "normkey": "mad490",
+    "core": "mad[-\\s/.+]*490",
+    "origen": "alta detnov:mad-490",
+    "riesgo": [],
+    "sombra_de_existentes": []
+   },
+   {
+    "termino": "MAD-492",
+    "normkey": "mad492",
+    "core": "mad[-\\s/.+]*492",
+    "origen": "alta detnov:mad-492",
     "riesgo": [],
     "sombra_de_existentes": []
    },
@@ -446,6 +462,20 @@
      "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2"
     ]
    },
+   "detnov:mad-490": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT"
+    ]
+   },
+   "detnov:mad-492": {
+    "fuentes_antes": 0,
+    "fuentes_despues": 1,
+    "ganadas": [
+     "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT"
+    ]
+   },
    "detnov:scd-120": {
     "fuentes_antes": 0,
     "fuentes_despues": 1,
@@ -636,6 +666,11 @@
    "unresolved:mad-472": {
     "fuentes_antes": 2,
     "fuentes_despues": 2,
+    "ganadas": []
+   },
+   "unresolved:mad-491": {
+    "fuentes_antes": 1,
+    "fuentes_despues": 1,
     "ganadas": []
    },
    "unresolved:scd-120": {

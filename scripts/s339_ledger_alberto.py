@@ -326,10 +326,17 @@ LECTURA_S3: dict[str, dict] = {
         "canonicos": {"detnov:mad-490": "MAD-490", "detnov:mad-492": "MAD-492"},
         "cita": "parece MAD-490 y MAD-492",
         "superseded_por": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf",
-        "listo": False,
-        "bloqueo": "dice «PARECE MAD-490 y MAD-492» — es una conjetura suya, no una firma. "
-                   "Y el manual vivo de la web se titula sólo MAD-490. Confirmar antes de "
-                   "crear dos productos sobre un «parece»"},
+        "listo": True,
+        "nota": "Su «PARECE» era conjetura y por eso estuvo bloqueado; lo desbloquea la FUENTE, "
+                "no una respuesta suya (R18: validar en la web del fabricante). Descargado el "
+                "manual vivo que él mismo enlaza —mismo nº de referencia `55349102`— y leído: "
+                "se titula «MÓDULO AISLADOR **Y** ZÓCALO AISLADOR», o sea DOS productos, y nombra "
+                "**MAD-490 (8 apariciones) y MAD-492 (8)**. Su conjetura queda confirmada por el "
+                "documento del fabricante. "
+                "QUEDA ABIERTO y es otra pregunta: el manual viejo se titula MAD-4**91** y lleva "
+                "esa MISMA referencia 55349102, así que o MAD-491 se renombró a MAD-490/492 o la "
+                "referencia cubre la familia. No hace falta resolverlo para dar de alta los dos "
+                "productos, pero sí para decidir qué pasa con `detnov:mad-491`"},
     "55350005 Manual Central Monoxido CMD-500 ES ": {
         "modelos": ["detnov:cmd-501", "detnov:cmd-502", "detnov:cmd-503"],
         "canonicos": {"detnov:cmd-501": "CMD-501", "detnov:cmd-502": "CMD-502",

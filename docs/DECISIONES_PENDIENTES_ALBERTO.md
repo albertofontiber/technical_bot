@@ -110,9 +110,9 @@ no puede quedarse viejo mientras alguien lo regenere.
 ### Ya lo cerraste — y esto es lo que quedó vivo (s339, 22-ago)
 
 Terminaste el packet: **23 de 24 casillas y 46 anotaciones**. Traducidas a lote, medidas y pasadas
-por la puerta: **huérfanos 82 → 25**, `validate` limpio, **0 gold perdidas**, 0 disparos en
+por la puerta: **huérfanos 82 → 24**, `validate` limpio, **0 gold perdidas**, 0 disparos en
 negativos sintéticos, **4 golds ganan fuentes**, y una batería nueva derivada de los propios
-términos del lote da **30/30 positivos y 5/5 negativos**. El lote NO está aplicado: espera tu OK.
+términos del lote da **32/32 positivos y 5/5 negativos**. El lote NO está aplicado: espera tu OK.
 
 **Dos cosas que hice distinto de lo que escribiste, y por qué:**
 
@@ -135,7 +135,9 @@ términos del lote da **30/30 positivos y 5/5 negativos**. El lote NO está apli
    huérfanos igual y el token corto ya no dispara.
    👉 **Si quieres «NAS» alcanzable pese a los falsos positivos, dilo: es añadir un alias.**
 
-### 🔴 Lo que sigue esperándote — 9 puntos
+### 🔴 Lo que sigue esperándote — 8 puntos
+
+> Eran 9. El de **MAD-490/492** lo cerró la **fuente**, no tú: escribiste «*parece* MAD-490 y MAD-492» y eso era conjetura, así que bajé el manual vivo que enlazas —mismo nº de referencia `55349102`— y lo leí. Se titula «MÓDULO AISLADOR **Y** ZÓCALO AISLADOR» (dos productos) y nombra **MAD-490 8 veces y MAD-492 otras 8**. Confirmado; los doy de alta. *Queda una pregunta menor asociada: el manual viejo se titula MAD-4**91** con esa MISMA referencia, así que o se renombró o la referencia cubre la familia — hay que decidir qué pasa con `detnov:mad-491`.*
 
 | # | qué | por qué no lo decido yo |
 |---|---|---|
@@ -143,13 +145,12 @@ términos del lote da **30/30 positivos y 5/5 negativos**. El lote NO está apli
 | 2 | **§6.5 Serie 800** | Marcaste `[X] déjalo`, y en esas opciones `adelante` era *mi* propuesta de paraguas — así que «déjalo» significa «no hagas eso». «Déjalo como Serie-800» admite dos lecturas: déjalo **quieto**, o déjalo **como producto llamado así**. Y la huella pide prudencia: dispara en 14 documentos, 11 con dueño ya |
 | 3 | **§6.4 `RHistorico.exe`** | Diste OK, pero s334 lo había dejado fuera A PROPÓSITO por riesgo léxico («R10 se cumple, la **grafía** no»), y mi propuesta reintroducía esa grafía como alias indexado. Merece tu re-adjudicación explícita, no colarse dentro de un «renombrar» |
 | 4 | **suelo F5000** (2 manuales) | Dices «el modelo F5000 de **Morley**». El catálogo ya lo tiene como **`ffe:f5000`** consumible — adjudicado por **ti** en s91. FFE fabrica la barrera y Morley la revende. **Propongo** dejar `ffe:f5000` y añadir Morley a `vendido_bajo` (R3), sin duplicar el canónico. ¿OK? |
-| 5 | **suelo MAD-490/492** | Escribiste «**parece** MAD-490 y MAD-492». Es conjetura, no firma — y el manual vivo de la web se titula sólo MAD-490. No creo dos productos sobre un «parece» |
-| 6 | **suelo `MADT190_10`** (racks Notifier) | Los 9 canónicos que diste son **sólo dígitos** (`020-596`…) y el detector los excluye a propósito. Crearlos no los haría alcanzables. ¿Tienen nombre comercial, o aceptamos que sólo se lleguen por el nombre del rack? |
-| 7 | **suelo `D 1100-4`** (KAC) | `CWSO-xx-S1/S2/W1/W2` donde «xx» es el color: es un patrón, no un modelo instanciable. ¿Qué colores existen de verdad? |
-| 8 | **suelo `FS2-1`** | «La familia **FS** de Notifier, centrales de 1, 2 y 4 zonas». ¿El id es la familia, o son tres modelos? |
-| 9 | **suelo `MNDT021`** | Es la única fila del suelo que no anotaste |
+| 5 | **suelo `MADT190_10`** (racks Notifier) | Los 9 canónicos que diste son **sólo dígitos** (`020-596`…) y el detector los excluye a propósito. Crearlos no los haría alcanzables. ¿Tienen nombre comercial, o aceptamos que sólo se lleguen por el nombre del rack? |
+| 6 | **suelo `D 1100-4`** (KAC) | `CWSO-xx-S1/S2/W1/W2` donde «xx» es el color: es un patrón, no un modelo instanciable. ¿Qué colores existen de verdad? |
+| 7 | **suelo `FS2-1`** | «La familia **FS** de Notifier, centrales de 1, 2 y 4 zonas». ¿El id es la familia, o son tres modelos? |
+| 8 | **suelo `MNDT021`** | Es la única fila del suelo que no anotaste |
 
-Con 1–3 resueltos entran 3 manuales más; con 4–9, otros 6. El resto del lote no depende de ellos.
+Con 1–3 resueltos entran 3 manuales más; con 4–8, otros 5. El resto del lote no depende de ellos.
 
 ### Las 4 bajas de corpus que firmaste: comprobadas antes de borrar
 
