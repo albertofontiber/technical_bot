@@ -7145,3 +7145,15 @@ residuo con nombre: 98 parse-fail que eran INSTRUMENTO (max_tokens agotado sin t
 recuperables por ~$2 cuando vuelva el crédito — que se agotó dos veces en el día, la
 segunda a mitad de la recuperación. El enum enseñó sus huecos (anunciador, extinción,
 audio/EVAC, impresora, barrera-IS): packet a Alberto. DEC-279 (acuñada DEC-273 en el hilo; renumerada al fusionar con la línea de huérfanos que publicó DEC-273→278 primero).
+
+### s336-lote · adenda 22-ago — los 98 vuelven a casa
+
+Alberto recargó a media mañana y la tesis del residuo se confirmó en 34 minutos: los 98
+parse-fail eran fallo de instrumento (max_tokens), no de evidencia. Re-corridos con el
+prompt v2: 50 nuevas alta (todas full-text), el gate sube a n=17 sin perder el 100%, y la
+escritura incremental deja la vista Notifier en 414 clasificados y 46 centrales servidas
+(cobertura acumulada 81,9%). Antes de esto, la mañana trajo el merge con la línea de
+huérfanos: conflicto en `products.jsonl` resuelto con un three-way por id y por campo que
+demostró 0 solapes reales (361 filas del lote + 75 multicanal), y la colisión de numeración
+DEC-273/«s336» se zanjó renumerando el lote a DEC-279/«s336-lote». La #336 se mergeó a las
+07:40Z; la recuperación va en PR aparte sobre el catálogo ya fusionado.

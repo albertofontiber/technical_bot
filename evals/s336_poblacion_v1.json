@@ -2,17 +2,17 @@
  "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
  "modelo": "claude-fable-5",
  "re_pasada_v2": {
-  "solo_categoria": "central",
-  "n_re_corridas": 65,
+  "solo_categoria": "parse-fail",
+  "n_re_corridas": 98,
   "nota": "las filas re-corridas usaron el prompt v2 (regla R16); las intactas, el v1 — el sha de abajo es el del prompt VIGENTE (v2)"
  },
  "prompt_sha256": "378992632ac94a5d",
  "prompt_s322_sha256": "d6de2164df339c32",
  "n": 502,
  "confianzas": {
-  "alta": 366,
-  "media": 33,
-  "baja": 103
+  "alta": 416,
+  "media": 52,
+  "baja": 34
  },
  "docs_sin_chunks": [
   "Finales-de-linea-de-las-centrales-convencionales.pdf",
@@ -21,11 +21,11 @@
   "enlace entre tg"
  ],
  "uso_tokens": {
-  "in": 267681,
-  "out": 45064
+  "in": 491712,
+  "out": 117759
  },
- "duracion_s": 1006.8,
- "fecha_utc": "2026-08-21T21:44:11+00:00",
+ "duracion_s": 2043.3,
+ "fecha_utc": "2026-08-22T08:25:29+00:00",
  "detalle": [
   {
    "id": "ada:estela-1",
@@ -100,51 +100,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "firelite:afm-16af",
-   "canonical": "AFM-16AF",
-   "docs": [
-    "MNDT080"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "firelite:afm-16atf",
-   "canonical": "AFM-16ATF",
-   "docs": [
-    "MNDT080"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "firelite:afm-16atx",
-   "canonical": "AFM-16ATX",
-   "docs": [
-    "MNDT080"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "firelite:fcps-24f",
    "canonical": "FCPS-24F",
    "docs": [
@@ -197,21 +152,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "firelite:led-10",
-   "canonical": "LED-10",
-   "docs": [
-    "MNDT080"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "firelite:led-10im",
@@ -343,21 +283,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:124-065-xxx",
-   "canonical": "124-065-XXX",
-   "docs": [
-    "MADT212"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\",\n \"categoria_cita\": \"Sistemas de 2 lazos - Una tarjeta (PCB) de 2 lazos TX (Ref.: 124-065-XXX)\",\n \"tecnologia\": null,\n \"tecnologia_cita\": null,\n \"lazos\": [{\"base\": 2,",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:124-300",
    "canonical": "124-300",
    "docs": [
@@ -392,21 +317,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:4000ta",
-   "canonical": "4000TA",
-   "docs": [
-    "MNDT060"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "```json\n{\"categoria\": \"central\",\n \"categoria_cita\": \"Pueden conectarse varias fuentes de alimentación diferentes a este panel de control de alarmas de incendio\",\n \"tecnologia\": \"convencional\",\n \"tecno",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:4xlm",
@@ -487,22 +397,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:4xzm",
-   "canonical": "4XZM",
-   "docs": [
-    "MNDT100",
-    "MNDT101"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"catego",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:5564",
    "canonical": "5564",
    "docs": [
@@ -537,55 +431,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:aa-100",
-   "canonical": "AA-100",
-   "docs": [
-    "MFDT170",
-    "MIDT170",
-    "MIDT340"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:aa-100e",
-   "canonical": "AA-100E",
-   "docs": [
-    "MIDT340"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\", \"categoria_cita\": \"Equipo de evacuación de audio para las centrales de incendio AM2020 y AFP1010\", \"tecnologia\": null, \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"med",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:aa-120",
-   "canonical": "AA-120",
-   "docs": [
-    "MFDT170",
-    "MIDT170",
-    "MIDT340"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"Equipo de evacuación de audio para las centrales de incendio AM2020 y AFP1010\",\n \"tecnologia\": null,\n \"tecnologia_cita\": null,",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:aa-120e",
@@ -734,36 +579,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:abs-1",
-   "canonical": "ABS-1",
-   "docs": [
-    "MNDT410"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"repetidor\", \"categoria_cita\": \"EL ANUNCIADOR\\n\\n*Para las centrales de incendio de Notifier AM2020, AFP1010, AFP200, Sistema 5000 y Sistema 500*\", \"tecnologia\": null, \"tecnologia_cita\":",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:abs-2",
-   "canonical": "ABS-2",
-   "docs": [
-    "MNDT410"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\", \"categoria_cita\": \"Montaje en Cabina de Anunciadores\", \"tecnologia\": null, \"tecnologia_",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:acm-16at",
    "canonical": "ACM-16AT",
    "docs": [
@@ -896,23 +711,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:aem-32a",
-   "canonical": "AEM-32A",
-   "docs": [
-    "50253SP",
-    "MNDT060",
-    "MNDT410"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"repetidor\", \"categoria_cita\": \"EL ANUNCIADOR *Para las centrales de incendio de Notifier AM2020, AFP1010, AFP200, Sistema 5000 y Sistema 500*\", \"tecnologia\": null, \"tecnologia_cita\": nu",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:aim-200",
    "canonical": "AIM-200",
    "docs": [
@@ -932,38 +730,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:ais-gald1",
-   "canonical": "AIS-GALD1",
-   "docs": [
-    "TIDT089",
-    "TIDT089_copia"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\", \"categoria_cita\": \"Conexionado de aisladores galvánicos y barreras Zener con equipos de NOTIFIER\",",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:ais-gals1",
-   "canonical": "AIS-GALS1",
-   "docs": [
-    "TIDT089",
-    "TIDT089_copia"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\", \"categoria_cita\": \"Conexionado de aisladores galvánicos y barreras Zener con equipos de NOTIFIER\", \"tecnologia\": null, \"tecnologia_cita\": null, \"lazos\": null, \"confianza\":",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:aks-1",
    "canonical": "AKS-1",
    "docs": [
@@ -980,82 +746,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:am-8100",
-   "canonical": "AM-8100",
-   "docs": [
-    "AM 8100-manual instalacion RV 3 30-01-2025",
-    "AM-8100 manual de usuario y programacion rev 4 30-10-2024"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"No intente instalar la unidad de control y los dispositivos conectados sin leer este manual.\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"Tablas resumen",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:am-82-bbmb",
-   "canonical": "AM-82-BBMB",
-   "docs": [
-    "AM-8200 Manual Instalacion"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:am-82-mb",
-   "canonical": "AM-82-MB",
-   "docs": [
-    "AM-8200 Manual Instalacion"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:am-8200-klcd",
-   "canonical": "AM-8200-KLCD",
-   "docs": [
-    "AM-8200 Manual Instalacion"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"A wall-mounted fire alarm control panel with black center section and gray sides, featuring a color touchscreen display\", \"tecnologia\": \"analogica\", \"tecnol",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:am-8200bb",
-   "canonical": "AM-8200BB",
-   "docs": [
-    "AM-8200 Manual Instalacion"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"[A wall-mounted fire alarm control panel with black center section and gray sides, featuring a color touchscreen display with green screen and checkmark, bu",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:am-82n-top",
@@ -1366,21 +1056,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:be-600a",
-   "canonical": "BE-600A",
-   "docs": [
-    "MIDT250_A"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"CENTRAL ANALÓGICA CONTRA INCENDIOS # *AM-6000* # Manual de Instalación\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"CENTRAL ANALÓGICA CONTRA INCENDIOS\",",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:be-xp",
    "canonical": "BE-XP",
    "docs": [
@@ -1398,22 +1073,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:be3000",
-   "canonical": "BE3000",
-   "docs": [
-    "MIDT192_ID3004-001_Instal_esp",
-    "MIDT193_ID3008-001_Instal_esp"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:bgx-101l",
@@ -1580,22 +1239,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:cfa457",
-   "canonical": "CFA457",
-   "docs": [
-    "MIDT190",
-    "MIDT193_ID3008-001_Instal_esp"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:cfp-zs4",
@@ -1824,69 +1467,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:cpu-2",
-   "canonical": "CPU-2",
-   "docs": [
-    "15088SP"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:cpu-2020",
-   "canonical": "CPU-2020",
-   "docs": [
-    "15088SP"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:cpu-400",
-   "canonical": "CPU-400",
-   "docs": [
-    "50253SP",
-    "MIDT170"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"AFP-300/AFP-400\\n\\n# Central Analógica de1/2 lazos\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"Central Analógica de1/2 lazos\", \"lazos\": [{\"base\": 2, \"m",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:cpu-5000",
-   "canonical": "CPU-5000",
-   "docs": [
-    "15581",
-    "15584",
-    "MNDT060"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:cpx-751e",
    "canonical": "CPX-751E",
    "docs": [
@@ -1921,23 +1501,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:crt-2",
-   "canonical": "CRT-2",
-   "docs": [
-    "50253SP",
-    "MIDT170",
-    "MNDT120"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:dcm-4",
@@ -2254,23 +1817,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:fft-7s",
-   "canonical": "FFT-7S",
-   "docs": [
-    "50253SP",
-    "MFDT170",
-    "MIDT170"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:fil-nas-2",
    "canonical": "FIL-NAS-2",
    "docs": [
@@ -2403,72 +1949,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:fl2011ei-hs",
-   "canonical": "FL2011EI-HS",
-   "docs": [
-    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
-    "AM-8200-manu-prog-spa",
-    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:fl2012ei-hs",
-   "canonical": "FL2012EI-HS",
-   "docs": [
-    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
-    "AM-8200-manu-prog-spa",
-    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:fl2022ei-hs",
-   "canonical": "FL2022EI-HS",
-   "docs": [
-    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
-    "AM-8200-manu-prog-spa",
-    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:flg2100",
-   "canonical": "FLG2100",
-   "docs": [
-    "MIDT1450"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"pasarela\",\n \"categoria_cita\": \"aviso de batería baja que se indica en el interfaz FLG2100 y en la central de detección de incendios\",\n \"tecnologia\": \"via_radio\",\n \"tecnologia_cita\": \"El",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:fpj-1",
    "canonical": "FPJ-1",
    "docs": [
@@ -2485,21 +1965,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:fr2000ex",
-   "canonical": "FR2000EX",
-   "docs": [
-    "MADT765"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"barrera\", \"categoria_cita\": \"El recorrido del cable no debe pasar por la zona central, en un perímetro de 50 mm, para evitar el oscurecimiento de los componentes ópticos\", \"tecnologia\":",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:frm2100",
@@ -2724,112 +2189,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:hop-131-206",
-   "canonical": "HOP-131-206",
-   "docs": [
-    "4188-1122-ES issue 4_04-2025_Cyb"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-133-206",
-   "canonical": "HOP-133-206",
-   "docs": [
-    "4188-1122-ES issue 4_04-2025_Cyb"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"detector\",\n \"categoria_cita\": \"mantener actualizada la funcionalidad en la tecnología de detección de incendios\",\n \"tecnologia\": null,\n \"",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-134-412",
-   "canonical": "HOP-134-412",
-   "docs": [
-    "4188-1122-ES issue 4_04-2025_Cyb"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\",\n \"categoria_cita\": \"llevamos a c",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-136-412",
-   "canonical": "HOP-136-412",
-   "docs": [
-    "4188-1122-ES issue 4_04-2025_Cyb"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-404-100",
-   "canonical": "HOP-404-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Instrucciones de instalación de la Central de detección de Incendios\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"medi",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-405-100",
-   "canonical": "HOP-405-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Instrucciones de instalación de la Central de detección de Incendios\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"medi",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-433-100",
-   "canonical": "HOP-433-100",
-   "docs": [
-    "HOP-138-8ES  issue 6_01-2026_Co",
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"INPIRE E10/E15 Centrales de alarmas de detección de incendios\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"Conexión de dispositivos OPAL/CLIP 11\", \"lazo",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:ibox-bac-nid3000",
    "canonical": "IBOX-BAC-NID3000",
    "docs": [
@@ -2906,23 +2265,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:ice-4",
-   "canonical": "ICE-4",
-   "docs": [
-    "50253SP",
-    "MADT171",
-    "MIDT170"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"AFP-300/AFP-400\\n\\n# Central Analógica de 2 lazos\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"Central Analógica de1/2 lazos\", \"lazos\": [{\"base\": 1, \"ma",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:icm-4",
    "canonical": "ICM-4",
    "docs": [
@@ -2961,36 +2303,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:id-50",
-   "canonical": "ID-50",
-   "docs": [
-    "Guia Rapida H_GTW"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:id-60",
-   "canonical": "ID-60",
-   "docs": [
-    "Guia Rapida H_GTW"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:id-cra",
    "canonical": "ID-CRA",
    "docs": [
@@ -3007,70 +2319,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:id3000",
-   "canonical": "ID3000",
-   "docs": [
-    "Como-solucionar-una-deriva-a-tierra",
-    "HONEYWELL-H-GTW-ESP-2.26 Instalador",
-    "MADT190_06"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\",\n \"categoria_cita\": \"TABLA DE COMPATIBILIDADES CENTRAL ID3000 CON PROGRAMA DE CONFIGURACIÓN CARGA/D",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:id3002",
-   "canonical": "ID3002",
-   "docs": [
-    "MADT951_03",
-    "Tg-Honeywell_Tecnico",
-    "enlace entre tg"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:id3004-001",
-   "canonical": "ID3004-001",
-   "docs": [
-    "MIDT192_ID3004-001_Instal_esp"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"1 BE3000: Equipamiento básico con 2 lazos; 1 CAB-IDA1: Cabina estándar un cuerp",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:id3008-001",
-   "canonical": "ID3008-001",
-   "docs": [
-    "MIDT193_ID3008-001_Instal_esp"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:idp-lb1",
@@ -3262,23 +2510,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:iso-x",
-   "canonical": "ISO-X",
-   "docs": [
-    "15088SP",
-    "50253SP",
-    "MIDT170"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\", \"categoria_cita\": \"AFP-300/",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:ize-a",
@@ -3527,100 +2758,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:lib-200",
-   "canonical": "LIB-200",
-   "docs": [
-    "15088SP",
-    "BTDT032",
-    "MPDT280"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las co",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib-200a",
-   "canonical": "LIB-200A",
-   "docs": [
-    "15088SP",
-    "BTDT032"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las co",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib-400",
-   "canonical": "LIB-400",
-   "docs": [
-    "15088SP",
-    "BTDT032"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\", \"categoria_cita\": \"El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las com",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib-8200g",
-   "canonical": "LIB-8200G",
-   "docs": [
-    "AM 8200G manual instalacion Rv 3"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib-8200n",
-   "canonical": "LIB-8200N",
-   "docs": [
-    "AM 8200N-manual instalacion RV 4 30-01-2025"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib3000",
-   "canonical": "LIB3000",
-   "docs": [
-    "MADT190_04"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:lib3000m",
    "canonical": "LIB3000M",
    "docs": [
@@ -3645,37 +2782,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:lib3000s",
-   "canonical": "LIB3000S",
-   "docs": [
-    "MIDT190",
-    "MPDT190"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\", \"categoria_cita\": \"CENTRAL ANALÓGICA CONTRA INCENDIOS # SERIE ID3000\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"CENTRAL ANALÓGICA CONTRA INCENDIOS\", \"lazos\": null, \"co",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:lib600",
-   "canonical": "LIB600",
-   "docs": [
-    "MIDT250_A"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:lisa-2",
@@ -4197,23 +3303,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:mmx-1",
-   "canonical": "MMX-1",
-   "docs": [
-    "15088SP",
-    "50253SP",
-    "MIDT170"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\", \"categoria_cita\": \"Desconecte la alimentación AC y las baterías antes de remover o instalar tableros de circuitos\", \"tecnologia\": \"analogica\", \"tecnologia_cita",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:mmx-10",
    "canonical": "MMX-10",
    "docs": [
@@ -4251,21 +3340,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:mmx-102e",
-   "canonical": "MMX-102E",
-   "docs": [
-    "I56-0784-004 MMX-102E_Eng"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\", \"categoria_cita\": \"MMX-102E stand alone micro modules provide a two-wire initiating circuit for normally open contact fire alarm and supervisory devices.\", \"tecnologia\": \"conve",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:mmx-2",
@@ -4479,23 +3553,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:nam-232",
-   "canonical": "NAM-232",
-   "docs": [
-    "50257SP",
-    "MADT380_01",
-    "MNDT380"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"pasarela\", \"categoria_cita\": \"MÓDULO ADAPTADOR DE RED\\n\\n## NAM-232\\n\\n### PERMITE LA CONEXIÓN",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:nam-232f",
    "canonical": "NAM-232F",
    "docs": [
@@ -4686,21 +3743,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:nfs-plus",
-   "canonical": "NFS-PLUS",
-   "docs": [
-    "NFS4_NFS8-2PLUS_MANU_ITA"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Le batterie (massimo 2x7Ah, 12V sigillate al piombo) devono essere collocate nell'apposito spazio nella parte inferiore della centrale NFS.\", \"tecnologia\": ",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:nfx-mm1m",
    "canonical": "NFX-MM1M",
    "docs": [
@@ -4814,23 +3856,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:nfxi-asd22-hs",
-   "canonical": "NFXI-ASD22-HS",
-   "docs": [
-    "I56-3947-202_FAAST LT_MULTI",
-    "I56-6577-006_EN Notifier FAAST LT-200 QIG",
-    "I56-6577-006_ES FAAST Notifier LT-200 QIG"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"aspiracion\", \"categoria_cita\": \"FIRE ALARM ASPIRATION SENSING TECHNOLOGY® QUICK INSTALLATION GUIDE ADDRESSABLE FAAST LT MODELS\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"FAAST LT-",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:nfxi-beam",
    "canonical": "NFXI-BEAM",
    "docs": [
@@ -4924,21 +3949,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:nfxi-flx-020",
-   "canonical": "NFXI-FLX-020",
-   "docs": [
-    "A05-7030-000_B_ES_Notifier FAAST FLEX Addressable"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"aspiracion\", \"categoria_cita\": \"FAAST FLEX direccionable Guía de producto\", \"tecnologia\": \"aspiracion\", \"",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:nfxi-mm10",
    "canonical": "NFXI-MM10",
    "docs": [
@@ -4973,21 +3983,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:nfxi-osi-rie",
-   "canonical": "NFXI-OSI-RIE",
-   "docs": [
-    "E56-6514ES-000_Notifier_NFXI-OSI-RIE_Installation_Guide"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:nfxi-rm6",
@@ -5417,39 +4412,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:park-2000",
-   "canonical": "PARK 2000",
-   "docs": [
-    "MNDT530",
-    "MNDT530P"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Central de detección de monóxido de carbono ## PARK 2000 / P",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:pearl",
-   "canonical": "Pearl",
-   "docs": [
-    "997-669-005-3_Instal-Comm_ES",
-    "997-670-005-3_Operating_ES",
-    "997-670-007-3_Operating_PT"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Central de alarma contra incendios Pearl™ Manual de instalación y puesta en marcha\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": [{\"base\": ",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:pk-8200",
    "canonical": "PK-8200",
    "docs": [
@@ -5540,22 +4502,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:prl-d-1",
-   "canonical": "PRL-D-1",
-   "docs": [
-    "997-669-005-3_Instal-Comm_ES",
-    "997-671-005-3_Configuration_ES"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Central de alarma contra incendios Pearl™ Manual de instalación y puesta en marcha\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": null, \"con",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:prl-p2p",
@@ -5706,38 +4652,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:r3-micra",
-   "canonical": "R3-MICRA",
-   "docs": [
-    "MADT732_01"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"accesorio\",\n \"categoria_cita\": \"TARJETA DE ENTRADA DE RELÉS PARA LOS MINILASER\",\n \"tecnologia\": \"aspiracion\",\n \"tecnologia_cita\": \"Los detectores de la gama Minilaser constan de relés d",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:rp1r-supra",
-   "canonical": "RP1r-Supra",
-   "docs": [
-    "Fallo-I2C-en-RP1rSupra",
-    "HLSI-MA-103 _Korte handleiding RP1r_Supra_NL",
-    "HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Control Panel Layout\", \"tecnologia\": \"convencional\", \"tecnologia_cita\": \"it is possible to use a 6K8 resistor as an End Of Line element for input and output",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:rpj-1",
@@ -6426,23 +5340,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:sdx-751",
-   "canonical": "SDX-751",
-   "docs": [
-    "MIDT190",
-    "MNDT120",
-    "MNDT150"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"detector\", \"categoria_cita\": \"Los detectores de humo pueden que no detecten el fuego sí el detector se encuentra en un lugares d\", \"tecnologia\": \"analogica",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:sdx-751em",
    "canonical": "SDX-751EM",
    "docs": [
@@ -6517,23 +5414,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:sib-2s",
-   "canonical": "SIB-2S",
-   "docs": [
-    "MIDT250_A",
-    "MIDT260",
-    "MNDT250"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:sib-net",
    "canonical": "SIB-NET",
    "docs": [
@@ -6551,21 +5431,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:sk-2sp",
-   "canonical": "SK-2SP",
-   "docs": [
-    "MNDT040"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:smart-1",
@@ -6996,21 +5861,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:uds-1n",
-   "canonical": "UDS-1N",
-   "docs": [
-    "MNDT110"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Unidad de extinción Modelo *UDS-1N*\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": \"Apéndice. Programación de la UDS-1N con centrales contra incendio de NO",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:updl-1020",
@@ -7498,22 +6348,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:y72221",
-   "canonical": "Y72221",
-   "docs": [
-    "TIDT089",
-    "TIDT089_copia"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:zmx-1e",
    "canonical": "ZMX-1E",
    "docs": [
@@ -7530,23 +6364,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "pepperl-fuchs:z978",
-   "canonical": "Z978",
-   "docs": [
-    "TIDT089",
-    "TIDT089_copia",
-    "manual instrucciones Z728"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "sensitron:smart-2",
@@ -7982,21 +6799,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "firelite:cac-10f",
-   "canonical": "CAC-10F",
-   "docs": [
-    "MNDT080"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "```json\n{\"categoria\": \"central\",\n \"categoria_cita\": \"Central",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "firelite:ms-5210ud",
    "canonical": "MS-5210UD",
    "docs": [
@@ -8114,21 +6916,6 @@
    "citas_en_muestra": false
   },
   {
-   "id": "notifier:832",
-   "canonical": "832",
-   "docs": [
-    "MIDT020"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"CENTRAL DE ALARMA CONTRA INCENDIOS SERIE 800\", \"tecnologia\": null, \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"media\", \"razon\": \"El documento es e",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:afp-200",
    "canonical": "AFP-200",
    "docs": [
@@ -8233,21 +7020,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:afp4016",
-   "canonical": "AFP4016",
-   "docs": [
-    "MPDT230"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:am-200",
@@ -8367,36 +7139,6 @@
    "citas_en_muestra": false
   },
   {
-   "id": "notifier:be-5000",
-   "canonical": "BE-5000",
-   "docs": [
-    "MNDT060"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Paquete de Equipo Básico (BE-5000)\",",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:be-5000aa",
-   "canonical": "BE-5000AA",
-   "docs": [
-    "MNDT060"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:cfp-600-e",
    "canonical": "CFP-600-E",
    "docs": [
@@ -8414,21 +7156,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:cpu-300",
-   "canonical": "CPU-300",
-   "docs": [
-    "50253SP"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"AFP-300/AFP-400 Panel de Fuego Análogo Manual de Instalación\",\n \"tecnologia\": \"analogica\",\n \"tecnologia_cita\": \"Panel de Fuego Análogo\",\n \"lazos\": null,\n \"c",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:ess-2plus",
@@ -8449,21 +7176,6 @@
     "etapa": "repesca"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:g-100-4",
-   "canonical": "G-100-4",
-   "docs": [
-    "MNDT503"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Las Centrales de la Serie G-100 permiten el reconocimiento de señales del tipo 4-20 mA provenientes de los sensores de gas y controlan tres niveles de alarm",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:g-100-8",
@@ -8520,36 +7232,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:g-500-s-32",
-   "canonical": "G-500-S-32",
-   "docs": [
-    "MNDT500"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Las Centrales de la Serie G-500-S reciben señales serie RS485 provenientes de los sensores de gas y controlan tres niveles de alarma programables.\", \"tecnol",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:g-500-s-64",
-   "canonical": "G-500-S-64",
-   "docs": [
-    "MNDT500"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Las Centrales de la Serie G-500-S reciben señales serie RS485 provenientes de los sensores de gas y controlan tres niveles",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:g-in8",
    "canonical": "G-IN8",
    "docs": [
@@ -8566,126 +7248,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:g-mtslb1",
-   "canonical": "G-MTSLB1",
-   "docs": [
-    "MNDT520"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"CENTRAL DE DETECCIÓN DE GAS *GALILEO*\",\n \"tecnologia\": null,\n \"tecnologia_cita\": null,\n \"lazos\": null,\n \"confianza\": \"baja\",\n \"razon\": \"El documento es el m",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:g-mtslb2",
-   "canonical": "G-MTSLB2",
-   "docs": [
-    "MNDT520"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"modulo\",\n \"categoria_cita\": \"CENTRAL DE DETECCIÓN DE GAS *GALILEO*\",\n \"tecnologia\": null,\n \"tecnologia_cita\": null,\n \"lazos\": null,\n \"confianza\": \"baja\",\n \"razon\": \"El documento es el m",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-402-100",
-   "canonical": "HOP-402-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-406-100",
-   "canonical": "HOP-406-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Instrucciones de instalación de la Central de detección de Incendios\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"baja",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-407-200",
-   "canonical": "HOP-407-200",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-431-100",
-   "canonical": "HOP-431-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-608-200",
-   "canonical": "HOP-608-200",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:hop-631-100",
-   "canonical": "HOP-631-100",
-   "docs": [
-    "HOP-138-9ES issue 5_11-2025_In"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Notifier INSPIRE E10/E15 Instrucciones de instalación de la Central de detección de Incendios\", \"tecnologia\": \"analogica\", \"tecn",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:id-200",
@@ -8705,22 +7267,6 @@
     "etapa": "pasada"
    },
    "citas_en_muestra": true
-  },
-  {
-   "id": "notifier:id1002",
-   "canonical": "ID1002",
-   "docs": [
-    "MIDT212",
-    "MPDT212"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"CENTRAL DE ALARMA CONTRA INCENDIOS SERIE ID1000\", \"tecnologia\": \"analogica\", \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"media\", \"razon\": \"El ID10",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
   },
   {
    "id": "notifier:id1004",
@@ -8827,36 +7373,6 @@
    "citas_en_muestra": false
   },
   {
-   "id": "notifier:nf30",
-   "canonical": "NF30",
-   "docs": [
-    "NF30-50_Manuel_d'utilisation_lr"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\",\n \"categoria_cita\": \"Central série NF30 / NF50\",\n \"tecnologia\": \"convencional\",\n \"tecnologia_cita\": \"HORS SERVICE\\t1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16\",\n \"lazos\": null,\n \"co",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
-   "id": "notifier:nf50",
-   "canonical": "NF50",
-   "docs": [
-    "NF30-50_Manuel_d'utilisation_lr"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Central série NF30 / NF50\", \"tecnologia\": \"convencional\", \"tecnologia_cita\": null, \"lazos\": null, \"confianza\": \"alta\", \"razon\": \"El documento es el manual d",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:nfg-8",
    "canonical": "NFG-8",
    "docs": [
@@ -8955,22 +7471,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:prl-d-2",
-   "canonical": "PRL-D-2",
-   "docs": [
-    "997-669-005-3_Instal-Comm_ES",
-    "997-671-005-3_Configuration_ES"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:rp-1001",
    "canonical": "RP-1001",
    "docs": [
@@ -9047,21 +7547,6 @@
    "citas_en_muestra": true
   },
   {
-   "id": "notifier:scu-800",
-   "canonical": "SCU 800",
-   "docs": [
-    "MFDT746_B"
-   ],
-   "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"La central de detección SCU 800, siendo la unidad de control del sistema, proporciona alimentación eléctrica al cable sensor **d-LIST**\", \"tecnologia\": \"ana",
-    "etapa": "pasada"
-   },
-   "citas_en_muestra": false
-  },
-  {
    "id": "notifier:sentox-4",
    "canonical": "SENTOX-4",
    "docs": [
@@ -9136,6 +7621,1868 @@
    "citas_en_muestra": false
   },
   {
+   "id": "firelite:afm-16af",
+   "canonical": "AFM-16AF",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "El Módulo Anunciador 16AF dispone de 16 LEDs rojos de alarma. Se pueden utilizar varios anunciadores si se fijan todos para SÓLO LECTURA, excepto el último AFM-16AF en línea.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Los anunciadores AFM/AEM-16AT muestran el estado de Avería y Alarma en Zona",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AFM-16AF es un anunciador remoto de 16 LEDs de alarma por zona que repite el estado del sistema desde una ubicación remota vía bus EIA-485, asociado a centrales convencionales zonales.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:afm-16atf",
+   "canonical": "AFM-16ATF",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Central Convencional de 10 zonas con comunicador MS-5210UD/MS-5210UDE",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Central Convencional de 10 zonas",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El AFM-16ATF es un anunciador remoto (Annunciator Fixed Module) opcional de la central convencional MS-5210UD documentada, pero las muestras del manual no mencionan verbatim el producto, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:afm-16atx",
+   "canonical": "AFM-16ATX",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "El Módulo Anunciador 16ATX consta de 16 LEDs de alarma roja y LEDs de avería amarilla, un LED de avería de sistema, un LED de ALIMENTACIÓN/EN LÍNEA, y un zumbador interno con teclas para RECONOCIMIENTO, SILENCIO SIRENAS, REARME y EVACUACIÓN",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Los anunciadores AFM/AEM-16AT muestran el estado de Avería y Alarma en Zona",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AFM-16ATX es un anunciador remoto de zonas (repetidor) que indica el estado del sistema desde una ubicación remota, con LEDs por zona y teclas de control remoto.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:cac-10f",
+   "canonical": "CAC-10F",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Módulo Opcional CAC-10F para convertir los 10 IDCs a Estilo D (bucle cerrado)(Clase A) y convertir los dos Circuitos de Señalización de Estilo Y (Clase B) a Estilo Z (Clase A).",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Los 10 Circuitos de Equipos de Iniciación aceptan equipos de contactos normalmente abiertos y detectores de humo de dos hilos.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CAC-10F aparece explícitamente como módulo opcional de la central convencional MS-5210UD para convertir los circuitos de entrada y señalización de Clase B a Clase A.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "firelite:led-10",
+   "canonical": "LED-10",
+   "docs": [
+    "MNDT080"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Puerto EIA-485 (interconexiones a Anunciador LED-10, Anunciadores Serie Gráficos LDM y Serie AFM y Módulo Relé Remoto ACM-8RF)",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento es el manual de la central MS-5210UD y menciona el LED-10 como 'Anunciador Remoto LED-10' conectado por EIA-485, es decir, un anunciador/repetidor remoto de la central, no la central misma.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:124-065-xxx",
+   "canonical": "124-065-XXX",
+   "docs": [
+    "MADT212"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Montaje de la tarjeta de lazo TX (Ref. 124-065-XXX)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Los paneles de control de la Serie 1000 están configurados como sistemas de 2 ó 4 lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Sistemas de 2 lazos - Una tarjeta (PCB) de 2 lazos TX (Ref.: 124-065-XXX)"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El 124-065-XXX es una tarjeta (PCB) de 2 lazos TX que se instala como componente opcional/de expansión en las centrales analógicas Serie 1000, no la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:4000ta",
+   "canonical": "4000TA",
+   "docs": [
+    "MNDT060"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "requiere una Fuente de Alimentación Principal MPS-24BPCA, que proporciona hasta 2,3 amps de alimentación de dispositivo indicador, y un Transformador 4000TA",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El 4000TA es un transformador que acompaña a la fuente MPS-24BPCA del Sistema 5000 (incluido en el kit BE-5000AA), es decir, un componente/accesorio de alimentación y no una fuente completa ni una central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:4xzm",
+   "canonical": "4XZM",
+   "docs": [
+    "MNDT100",
+    "MNDT101"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El Módulo de Relé de Zona proporciona contactos de relé conmutados (en forma C) según la siguiente tabla",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El 4XZM es un módulo opcional de relés de 4 zonas para las centrales RP-1001/RP-1002, descrito explícitamente como 'Módulo de Relé de Zona (4XZM)' con contactos secos en Forma C.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:832",
+   "canonical": "832",
+   "docs": [
+    "MIDT020"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "CENTRAL DE ALARMA CONTRA INCENDIOS SERIE 800",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El producto 832 es una variante (por número de zonas) de la central de alarma contra incendios Serie 800 de Notifier, cuyo manual es el documento; no hay cita verbatim que ancle su tecnología ni capacidad de lazos específica.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:aa-100",
+   "canonical": "AA-100",
+   "docs": [
+    "MFDT170",
+    "MIDT170",
+    "MIDT340"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Sistemas de Alarma por Megafonía ... Generador de Mensajes de Audio del AMG-1/AMG-E",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "Los documentos son manuales de las centrales AFP-300/AFP-400 y del sistema de megafonía; el AA-100 es un amplificador de audio (módulo de audio/evacuación) para dichas centrales, no la central en sí, pero las muestras no contienen mención verbatim de «AA-100».",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:aa-100e",
+   "canonical": "AA-100E",
+   "docs": [
+    "MIDT340"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "AA-30/AA-30E, AA-100/AA-100E o AA-120/AA-120E (amplifier models)",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AA-100E es un amplificador de audio opcional del sistema de evacuación por voz de la central AM2020/AFP1010, es decir, un módulo del sistema y no la central del manual.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:aa-120",
+   "canonical": "AA-120",
+   "docs": [
+    "MFDT170",
+    "MIDT170",
+    "MIDT340"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Equipo de evacuación de audio para\nlas centrales de incendio\nAM2020 y AFP1010",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El AA-120 es un amplificador de audio (120W) para los sistemas de megafonía/evacuación de las centrales Notifier (AM2020/AFP1010, AFP-300/400), es decir un módulo del sistema y no la central; las muestras no contienen mención verbatim de 'AA-120', por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:abs-1",
+   "canonical": "ABS-1",
+   "docs": [
+    "MNDT410"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Montaje en Cabina de Anunciadores",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El manual trata de los anunciadores ACS de Notifier y el ABS-1 es una cabina/caja de montaje para dichos anunciadores, pero el contenido muestreado no menciona 'ABS-1' verbatim, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:abs-2",
+   "canonical": "ABS-2",
+   "docs": [
+    "MNDT410"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Montaje en Cabina de Anunciadores",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de los anunciadores ACS para centrales Notifier; el ABS-2 es la cabina/caja de montaje para dichos anunciadores (elemento auxiliar), pero no aparece citado verbatim en las muestras, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:aem-32a",
+   "canonical": "AEM-32A",
+   "docs": [
+    "50253SP",
+    "MNDT060",
+    "MNDT410"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "## AEM-32A\n\nEl Módulo Expansor de Avi",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AEM-32A es un módulo expansor de avisador (anunciador) opcional del Sistema 5000, no la central del manual, análogo al AEM-16AT que amplía puntos del ACM.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:afp4016",
+   "canonical": "AFP4016",
+   "docs": [
+    "MPDT230"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "CENTRAL ANALÓGICA AFP4000",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "CENTRAL ANALÓGICA AFP4000",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de programación de la central analógica AFP4000 y AFP4016 parece ser una variante/modelo de esa familia, pero el código AFP4016 no aparece verbatim en las muestras ni se especifica su número de lazos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:ais-gald1",
+   "canonical": "AIS-GALD1",
+   "docs": [
+    "TIDT089",
+    "TIDT089_copia"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Para detectores convencionales (referencia de PEPPER, KFDO-CS-Ex 1.51P), referencia Notifier AIS-GALD1",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Para detectores convencionales (referencia de PEPPER, KFDO-CS-Ex 1.51P), referencia Notifier AIS-GALD1",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AIS-GALD1 es un aislador galvánico (módulo de interfaz de seguridad intrínseca) para conectar detectores convencionales en zona peligrosa con equipos Notifier.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:ais-gals1",
+   "canonical": "AIS-GALS1",
+   "docs": [
+    "TIDT089",
+    "TIDT089_copia"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Conexionado de aisladores galvánicos y barreras Zener con equipos de NOTIFIER",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "AIS-GALS1 es un aislador galvánico (por nomenclatura, la variante para sirenas, análoga al AIS-GALD1 de detectores citado en el doc), un elemento auxiliar de seguridad intrínseca; el ID exacto no aparece verbatim en las muestras, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:am-8100",
+   "canonical": "AM-8100",
+   "docs": [
+    "AM 8100-manual instalacion RV 3 30-01-2025",
+    "AM-8100 manual de usuario y programacion rev 4 30-10-2024"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "**La unidad de control AM-8100** es una unidad de control de detección de incendios fabricada de conformidad con las normas EN.54.2 y EN.54.4.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "1 lazo analógico programable a lazo cerrado o abierto para la conexión de los elementos de campo",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "La unidad de control dispone de un lazo para direccionar 159 detectores y 159 módulos."
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El manual describe explícitamente el AM-8100 como una central de detección de incendios analógica de 1 lazo conforme a EN54-2/4.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:am-82-bbmb",
+   "canonical": "AM-82-BBMB",
+   "docs": [
+    "AM-8200 Manual Instalacion"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Instalación de las cabinas",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de la central AM-8200; el AM-82-BBMB no aparece verbatim en las muestras, pero por su sufijo (BB = battery/back box, caja/cabina) corresponde a un elemento de montaje/cabina opcional de la central, es decir, un accesorio, nunca la central en sí.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:am-82-mb",
+   "canonical": "AM-82-MB",
+   "docs": [
+    "AM-8200 Manual Instalacion"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Tarjeta AM82-MB (lazo 1- lazo 2)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Por defecto, la central dispone de dos lazos analógicos para la gestión de 159 detectores y 159 módulos cada uno.",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Tarjeta AM82-MB (lazo 1- lazo 2)"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "AM-82-MB es la tarjeta placa base (motherboard) de la central AM-8200 que gestiona los lazos 1 y 2; el manual es de la central anfitriona, no del producto en sí, por lo que se clasifica como módulo/tarjeta.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:am-8200-klcd",
+   "canonical": "AM-8200-KLCD",
+   "docs": [
+    "AM-8200 Manual Instalacion"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "AM-8200-KLCD (Tarjeta CPU AM-8200)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Por defecto, la central dispone de dos lazos analógicos para la gestión de 159 detectores y 159 módulos cada uno.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El AM-8200-KLCD es la tarjeta CPU (componente/repuesto) de la central analógica AM-8200, no la central en sí, por lo que se clasifica como accesorio de dicha central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:am-8200bb",
+   "canonical": "AM-8200BB",
+   "docs": [
+    "AM-8200 Manual Instalacion"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Número máximo de 6 lazos la caja base de expansión AM-8200BB. Número máximo de 8 lazos con la caja de expansión AM-8200BB. con una tarjeta AM-8200BB.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Por defecto, la central dispone de dos lazos analógicos para la gestión de 159 detectores y 159 módulos cada uno.",
+    "lazos": [
+     {
+      "base": 6,
+      "max": 8,
+      "cita": "Número máximo de 6 lazos la caja base de expansión AM-8200BB. Número máximo de 8 lazos con la caja de expansión AM-8200BB. con una tarjeta AM-8200BB."
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El AM-8200BB es la caja base de expansión de lazos de la central AM-8200 (con su propia tarjeta AM-82-BBMB), no la central en sí, por lo que se clasifica como módulo de expansión que eleva el sistema de 4 a 6-8 lazos analógicos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:be-5000",
+   "canonical": "BE-5000",
+   "docs": [
+    "MNDT060"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Sistema 5000 se ofrece en un paquete de **Equipo Básico (BE-5000)** que proporciona el Módulo CPU-5000, el Panel de Revestimiento con Ventilación VP-1, el Panel de Revestimiento de Batería BP-1, un Bastidor CHS-4, cables de interconexión y los manuales de instrucciones",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "BE-5000 es el paquete de equipo básico que constituye el núcleo del panel de control Sistema 5000 (incluye la CPU-5000, bastidor y paneles), es decir, la central en sí, y admite tanto zonas convencionales (IZM-8) como direccionables (AIM-200), por lo que la tecnología no es anclable a una sola.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:be-5000aa",
+   "canonical": "BE-5000AA",
+   "docs": [
+    "MNDT060"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Paquete de Equipo Básico (BE-5000)",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Módulos de Iniciación Opcionales",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "BE-5000AA es el paquete de equipo básico del panel de control de alarmas Sistema 5000 (la central en sí, con módulos de zonas convencionales tipo IZM-8), no un módulo opcional de otra central.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:be-600a",
+   "canonical": "BE-600A",
+   "docs": [
+    "MIDT250_A"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Tarjeta base «BE-600A»",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Detectores, Módulos SDX, CPX, FDX, MMX-1, MMX-101, CMX-2",
+    "lazos": [
+     {
+      "base": 4,
+      "max": 4,
+      "cita": "Tarjeta base 4 lazos"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El BE-600A es la tarjeta base de 4 lazos de la central AM-6000 (sistema analógico direccionable Notifier), es decir, un módulo/tarjeta de la central anfitriona, no la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:be3000",
+   "canonical": "BE3000",
+   "docs": [
+    "MIDT192_ID3004-001_Instal_esp",
+    "MIDT193_ID3008-001_Instal_esp"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "1 BE3000: Equipamiento básico con 2 lazos",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "1 BE3000: Equipamiento básico con 2 lazos; ... 1 LIB3000M: Tarjeta microprocesada de 2 lazos"
+     }
+    ],
+    "confianza": "media",
+    "razon": "BE3000 es el equipamiento básico (electrónica central) de los kits de central ID3000, con 2 lazos de serie y ampliable mediante tarjeta LIB3000M de 2 lazos; la tecnología analógica se infiere del sistema de lazos direccionables ID3000 aunque no hay cita verbatim.",
+    "nota": "cita no verificada en muestra → degradada",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:cfa457",
+   "canonical": "CFA457",
+   "docs": [
+    "MIDT190",
+    "MIDT193_ID3008-001_Instal_esp"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El módulo convertidor de tensiones CFA457 se ha diseñado para utilizarse con fuentes de alimentación del tipo FA457 (4,5 ó 7A) y no del tipo FA30 (3 A)",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CFA457 es un módulo convertidor de tensión que se instala en el chasis de la central ID3000/BE3000 para usarse con fuentes FA457, no es la central del manual.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:cpu-2",
+   "canonical": "CPU-2",
+   "docs": [
+    "15088SP"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Unidad Central de Procesación CPU-2020 (BE-2020N) o CPU-2 (BE-1010N)",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CPU-2 es la tarjeta/unidad central de procesamiento que forma parte del equipo básico de la central AFP1010 (manual anfitrión), por lo que se clasifica como módulo componente y no como central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:cpu-2020",
+   "canonical": "CPU-2020",
+   "docs": [
+    "15088SP"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "# *El* <ins>AM2020</ins> AFP1010 *Manual*",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El CPU-2020 es la tarjeta de unidad central de proceso de las centrales AM2020/AFP1010, pero las muestras del manual no lo mencionan verbatim, por lo que se clasifica como módulo con confianza baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:cpu-300",
+   "canonical": "CPU-300",
+   "docs": [
+    "50253SP"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "BE-300 – El Equipo Básico incluye el módulo del CPU (CPU-300), una pantalla de 80 caracteres, teclado de programación, fuente de alimentación principal MPS-400",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CPU-300 es el módulo de CPU (placa central de procesamiento) que forma parte del equipo básico del panel AFP-300, no la central completa; el manual documenta la central anfitriona AFP-300/AFP-400 y ancla el CPU-300 como su módulo.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:cpu-400",
+   "canonical": "CPU-400",
+   "docs": [
+    "50253SP",
+    "MIDT170"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "AFP-300/AFP-400 Panel de Fuego Análogo",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central Analógica de1/2 lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "AFP-300/AFP-400 Central Analógica de1/2 lazos"
+     }
+    ],
+    "confianza": "baja",
+    "razon": "La CPU-400 es la tarjeta procesadora (CPU) de la central AFP-400 documentada en el manual, no la central en sí; las muestras no mencionan verbatim 'CPU-400', por lo que la confianza es baja, y los 2 lazos se infieren del sufijo 400 en 'Central Analógica de 1/2 lazos'.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:cpu-5000",
+   "canonical": "CPU-5000",
+   "docs": [
+    "15581",
+    "15584",
+    "MNDT060"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Todos los sistemas tienen un Módulo de la Unidad Central de Proceso (CPU), situado en la parte superior",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "El Sistema 5000 es un panel de control de alarma contra incendios inteligente basado en microprocesador expandible y multizona",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CPU-5000 es el módulo de unidad central de proceso del panel Sistema 5000 (sistema multizona convencional), es decir, un módulo componente de la central anfitriona y no la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:crt-2",
+   "canonical": "CRT-2",
+   "docs": [
+    "50253SP",
+    "MIDT170",
+    "MNDT120"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "El panel de control es compatible con las siguientes pantallas e impresoras: * Pantalla LCD-80 * Impresora PRN-4 * Impresora Remota Keltron * Terminal de la Pantalla del CRT-2",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El CRT-2 es un terminal de pantalla periférico listado entre las pantallas e impresoras compatibles con la central AFP-300/400 (el manual es de la central, no del CRT-2), por lo que es un accesorio y no una central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:fft-7s",
+   "canonical": "FFT-7S",
+   "docs": [
+    "50253SP",
+    "MFDT170",
+    "MIDT170"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Sistemas de Alarma por Megafonía ... Generador de Mensajes de Audio del AMG-1/AMG-E",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El FFT-7S es un teléfono de bomberos/accesorio del sistema de audio de emergencia asociado a las centrales AFP-300/AFP-400, pero los documentos son manuales de la central anfitriona y no contienen ninguna mención verbatim del FFT-7S.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:fl2011ei-hs",
+   "canonical": "FL2011EI-HS",
+   "docs": [
+    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+    "AM-8200-manu-prog-spa",
+    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": null,
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "Los documentos adjuntos son manuales de las centrales AM-8100/AM-8200 y no mencionan el FL2011EI-HS; el código FL2011EI corresponde a la familia FAAST LT de detectores de aspiración de Notifier, por lo que se clasifica por nomenclatura sin cita verbatim de respaldo.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:fl2012ei-hs",
+   "canonical": "FL2012EI-HS",
+   "docs": [
+    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+    "AM-8200-manu-prog-spa",
+    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": null,
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "FL2012EI-HS corresponde por nomenclatura a un detector de aspiración FAAST LT de Notifier (2 tubos, alta sensibilidad), pero los documentos adjuntos son manuales de las centrales AM-8100/AM-8200 y no mencionan el producto, por lo que no hay cita verbatim posible.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:fl2022ei-hs",
+   "canonical": "FL2022EI-HS",
+   "docs": [
+    "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+    "AM-8200-manu-prog-spa",
+    "AM-8200N manual de usuario y programacion rev 3 30-10-2024"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "",
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El código FL2022EI-HS corresponde a un detector de aspiración FAAST LT de Notifier (serie FL, 2 canales, versión EI direccionable), pero los documentos adjuntos son manuales de las centrales AM-8100/AM-8200 y no contienen ninguna mención verbatim del producto, por lo que no hay cita que lo fundamente.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:flg2100",
+   "canonical": "FLG2100",
+   "docs": [
+    "MIDT1450"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Equipo de bajo consumo con aviso de batería baja que se indica en el interfaz FLG2100 y en la central de detección de incendios.",
+    "tecnologia": "via_radio",
+    "tecnologia_cita": "El sistema de detección de incendio vía radio FLG2100 de System Sensor se ha diseñado para poder funcionar con los sistemas contra incendio analógicos y compatibles que utilizan el protocolo de comunicaciones de la serie 500 de System Sensor.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El FLG2100 es el interfaz vía radio que conecta los dispositivos inalámbricos al lazo analógico de las centrales ID50/60 e ID3000, no un detector ni una central.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:fr2000ex",
+   "canonical": "FR2000EX",
+   "docs": [
+    "MADT765"
+   ],
+   "llm": {
+    "categoria": "barrera",
+    "categoria_cita": "El recorrido del cable no debe pasar por la zona central, en un perímetro de 50 mm, para evitar el oscurecimiento de los componentes ópticos",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "CABLEADO DE RELÉ CONECTE SEGÚN REQUIERA EL EQUIPO DE SUPERVISIÓN",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El FR2000EX es una barrera lineal de haz óptico con transmisor (Tx) y receptor (Rx) separados y componentes ópticos, versión antideflagrante (EExd) para zonas de riesgo, con salidas de relé convencionales hacia el equipo de supervisión.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:g-100-4",
+   "canonical": "G-100-4",
+   "docs": [
+    "MNDT503"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Las Centrales de la Serie G-100 permiten el reconocimiento de señales del tipo 4-20 mA provenientes de los sensores de gas y controlan tres niveles de alarma programables.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "permiten el reconocimiento de señales del tipo 4-20 mA provenientes de los sensores de gas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El G-100-4 es una variante (4 sensores) de la Serie G-100, centrales de detección de gas con entradas convencionales 4-20 mA, sin lazos analógicos direccionables.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:g-500-s-32",
+   "canonical": "G-500-S-32",
+   "docs": [
+    "MNDT500"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Las Centrales de la Serie G-500-S reciben señales serie RS485 provenientes de los sensores de gas y controlan tres niveles de alarma programables.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "reciben señales serie RS485 provenientes de los sensores de gas",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El G-500-S-32 es una variante de la Serie G-500-S, que el manual describe explícitamente como central de detección de gas con comunicación serie RS485 (direccionable), aunque el sufijo -32 (capacidad de sensores) no está anclado verbatim en las muestras.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:g-500-s-64",
+   "canonical": "G-500-S-64",
+   "docs": [
+    "MNDT500"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Las Centrales de la Serie G-500-S reciben señales serie RS485 provenientes de los sensores de gas y controlan tres niveles de alarma programables.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "reciben señales serie RS485 provenientes de los sensores de gas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El G-500-S-64 es una variante (capacidad 64 sensores) de la Serie G-500-S, que el manual describe como central de detección de gas con comunicación digital RS485 hacia los sensores; el sufijo -64 no tiene cita verbatim de capacidad, por lo que lazos=null.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:g-mtslb1",
+   "canonical": "G-MTSLB1",
+   "docs": [
+    "MNDT520"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Hay dos versiones de unidades de control: MULTISCAN G-MTSLB1 (Light) y G-MTSLB2 (Parking). Estas son centrales microprocesadas",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "gracias a los módulos de salida remotos que es posible conectar a cada uno de los dos lazos RS-485 disponibles"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente G-MTSLB1 como una de las versiones de la central de detección de gas Galileo MULTISCAN, con entradas analógicas 4-20 mA (no tecnología de lazo direccionable PCI) y dos buses RS-485 para módulos remotos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:g-mtslb2",
+   "canonical": "G-MTSLB2",
+   "docs": [
+    "MNDT520"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Hay dos versiones de unidades de control: MULTISCAN G-MTSLB1 (Light) y G-MTSLB2 (Parking). Estas son centrales microprocesadas para g",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "gracias a los módulos de salida remotos que es posible conectar a cada uno de los dos lazos RS-485 disponibles"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el G-MTSLB2 como una de las dos versiones de la central de detección de gas GALILEO MULTISCAN, con entradas 4-20 mA y dos lazos RS-485 para módulos remotos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:hop-131-206",
+   "canonical": "HOP-131-206",
+   "docs": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "llm": {
+    "categoria": null,
+    "confianza": "baja",
+    "razon": "parse-fail",
+    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"llevamos a cabo actualizaciones frecuentes en el software integrado en nuestros productos. Para garantizar que está instalando y programando las funciones m",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-133-206",
+   "canonical": "HOP-133-206",
+   "docs": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Manual de Ciberseguridad (EMEA) ## Seguridad del producto",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El único documento disponible es un manual genérico de ciberseguridad EMEA que no menciona ni describe HOP-133-206, por lo que no hay evidencia verbatim para determinar su categoría real; se asigna accesorio como categoría por defecto con confianza baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-134-412",
+   "canonical": "HOP-134-412",
+   "docs": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "llevamos a cabo actualizaciones frecuentes en el software integrado en nuestros productos",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El único documento es un manual genérico de ciberseguridad EMEA que no menciona HOP-134-412 ni describe sus características; la asignación a central es una inferencia débil (equipos con software integrado que reciben este manual) sin evidencia verbatim del producto.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:hop-136-412",
+   "canonical": "HOP-136-412",
+   "docs": [
+    "4188-1122-ES issue 4_04-2025_Cyb"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Manual de Ciberseguridad (EMEA)",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El único documento es un manual genérico de ciberseguridad de Notifier que no describe el HOP-136-412; por el código (HOP) parece un accesorio tipo impresora/periférico de central, pero no hay evidencia verbatim del producto en el contenido.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:hop-402-100",
+   "canonical": "HOP-402-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Notifier INSPIRE E10/E15 Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El único documento asociado es el manual de instalación de la central Notifier INSPIRE E10/E15 y no hay indicios de que HOP-402-100 sea una tarjeta o accesorio opcional, por lo que se asume que es una variante de la propia central; los lazos no se pueden anclar a este sufijo concreto.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-404-100",
+   "canonical": "HOP-404-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Notifier INSPIRE E10/E15 Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de instalación de las centrales Notifier INSPIRE E10/E15, pero el código HOP-404-100 no aparece verbatim en las muestras para anclarlo como central o como tarjeta/módulo específico, ni se pueden determinar sus lazos por variante.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-405-100",
+   "canonical": "HOP-405-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de instalación de las centrales Notifier INSPIRE E10/E15 y no hay indicio de que HOP-405-100 sea una tarjeta o módulo, pero el código del producto no aparece verbatim en el contenido mostrado, por lo que no puedo anclar variante, tecnología ni lazos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-406-100",
+   "canonical": "HOP-406-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de instalación de las centrales Notifier INSPIRE E10/E15, pero el código HOP-406-100 no aparece verbatim en las muestras, por lo que no puede anclarse la variante concreta ni sus lazos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:hop-407-200",
+   "canonical": "HOP-407-200",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El documento es el manual de instalación de la central Notifier INSPIRE E10/E15 y HOP-407-200 corresponde a una variante de esta central (no aparece como tarjeta/módulo opcional), aunque no hay cita verbatim que ancle el sufijo a una variante concreta ni a su número de lazos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-431-100",
+   "canonical": "HOP-431-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Notifier INSPIRE E10/E15 Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El documento es el manual de instalación de la central Notifier INSPIRE E10/E15 y no describe HOP-431-100 como tarjeta o accesorio opcional, por lo que se asume que el ID corresponde a una variante de la propia central (gama analógica/direccionable de Notifier), aunque el código no aparece verbatim en las muestras.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-433-100",
+   "canonical": "HOP-433-100",
+   "docs": [
+    "HOP-138-8ES  issue 6_01-2026_Co",
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El módulo de lazo dual OPAL (HOP-433-100) tiene la capacidad de permitir la conexión de hasta 318 dispositivos de lazo OPAL por lazo analógico",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "permitir la conexión de hasta 318 dispositivos de lazo OPAL por lazo analógico, compuesto de hasta 159 detectores (sensores) y 159 Módulos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "El módulo de lazo dual OPAL (HOP-433-100)"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente HOP-433-100 como módulo de lazo dual OPAL para las centrales Notifier INSPIRE, no como la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:hop-608-200",
+   "canonical": "HOP-608-200",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de instalación de la central Notifier INSPIRE E10/E15 (gama analógica direccionable), pero el código HOP-608-200 no aparece verbatim en las muestras ni se puede anclar la variante concreta ni su número de lazos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:hop-631-100",
+   "canonical": "HOP-631-100",
+   "docs": [
+    "HOP-138-9ES issue 5_11-2025_In"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instrucciones de instalación de la Central de detección de Incendios",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El documento es el manual de instalación dedicado de las centrales Notifier INSPIRE E10/E15 y el ID HOP-631-100 no aparece como tarjeta/módulo opcional, por lo que se asume que es una variante de la propia central; no hay cita verbatim del ID ni datos de lazos/tecnología anclados a este producto.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:ice-4",
+   "canonical": "ICE-4",
+   "docs": [
+    "50253SP",
+    "MADT171",
+    "MIDT170"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "La configuración de la figura 2 utiliza una AVPS-24 para suministrar alimentación a un ICM-4 o ICE-4",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El ICE-4 aparece en los manuales del AFP-300/AFP-400 como módulo expansor de circuitos de señalización (NAC) alimentado por AVPS-24, no como panel central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:id-50",
+   "canonical": "ID-50",
+   "docs": [
+    "Guia Rapida H_GTW"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Libere el bloqueo de programación de la central, quite el puente **J9 o MEN**",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El ID-50 es una central analógica direccionable de Notifier de 1 lazo; los documentos son guías de la pasarela H-GTW para integrarse con centrales (menciona ID3000 pero no cita verbatim al ID-50), por lo que no hay cita directa del producto y la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:id-60",
+   "canonical": "ID-60",
+   "docs": [
+    "Guia Rapida H_GTW"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Libere el bloqueo de programación de la central, quite el puente **J9 o MEN**",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El ID-60 es una central analógica de Notifier; el documento es la guía de la pasarela H-GTW que describe cómo integrarse con centrales de la familia ID (instrucciones de programación con puente J9/MEN típicas de ID50/ID60), pero no menciona 'ID-60' verbatim, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:id1002",
+   "canonical": "ID1002",
+   "docs": [
+    "MIDT212",
+    "MPDT212"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "CENTRAL DE ALARMA CONTRA INCENDIOS SERIE ID1000",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "ID1002 es una variante de la serie ID1000, central de alarma contra incendios según los manuales, pero el contenido mostrado no ancla verbatim el número de lazos ni la tecnología de esta variante concreta.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:id3000",
+   "canonical": "ID3000",
+   "docs": [
+    "Como-solucionar-una-deriva-a-tierra",
+    "HONEYWELL-H-GTW-ESP-2.26 Instalador",
+    "MADT190_06"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "permite la integración de centrales de detección de incendios Notifier en sistemas de supervisión/control que incorporen conectividad Modbus máster, usando la pasarela las centrales de detección de incendio Notifier ID3000 / ID50 / ID60 / AM8200",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Si la deriva viene por algún lazo en centrales analógicas o zona en centrales convecionales",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los documentos tratan al ID3000 explícitamente como central de detección de incendios Notifier (integrable en red ID2Net, con lazos analógicos), sin datos verbatim del número de lazos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:id3002",
+   "canonical": "ID3002",
+   "docs": [
+    "MADT951_03",
+    "Tg-Honeywell_Tecnico",
+    "enlace entre tg"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2.5.7.2. Central ID3000 y ID3002 ..................................................................... 50",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Lazo Uno / Lazo Dos ... Each showing Detectores: [99] and Módulos: [99]",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El índice del manual TG-Honeywell lista explícitamente 'Central ID3000 y ID3002', identificándolo como central analógica direccionable (lazos con 99 detectores y 99 módulos, típico protocolo Notifier), pero los lazos mostrados (8) corresponden a la configuración ID-3000 y no se puede anclar el número de lazos específico del ID3002.",
+    "nota": "cita no verificada en muestra → degradada",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:id3004-001",
+   "canonical": "ID3004-001",
+   "docs": [
+    "MIDT192_ID3004-001_Instal_esp"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Elementos del Kit ID3004-001: 1 BE3000: Equipamiento básico con 2 lazos; 1 CAB-IDA1: Cabina estándar un cuerpo 1 TF-BE3000: Tapa frontal 1 FA30: Fuente de alimentación 3Amp",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "1 BE3000: Equipamiento básico con 2 lazos"
+     }
+    ],
+    "confianza": "media",
+    "razon": "El ID3004-001 es un kit completo de central (equipamiento básico BE3000 con 2 lazos, cabina, tapa frontal y fuente de alimentación) de la serie ID3000 de Notifier, que es analógica direccionable, aunque el doc no cita explícitamente la tecnología.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:id3008-001",
+   "canonical": "ID3008-001",
+   "docs": [
+    "MIDT193_ID3008-001_Instal_esp"
+   ],
+   "llm": {
+    "categoria": null,
+    "confianza": "baja",
+    "razon": "parse-fail",
+    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"Elementos del Kit ID3008-001: * 1 BE3000: Equipamiento básico con 2 lazos * 1 LIB3000M: Tarjeta microprocesada de 2 lazos * 1 CAB-IDB2: Cabina de dos cuerpo",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:iso-x",
+   "canonical": "ISO-X",
+   "docs": [
+    "15088SP",
+    "50253SP",
+    "MIDT170"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Los módulos aisladores (ISO-X) permiten que una línea de dispositivos y módulos sean \"aislados\" eléctricamente del resto del lazo SLC, permitiendo que los componentes del lazo funcionen en el evento de una falla de corto circuito",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El AM2020/AFP1010 se comunica con los dispositivos direccionables iniciadores, monitoreadores, y de control a través de un Circuito de Línea Señalizador (LIB)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El ISO-X es un módulo aislador que se instala en el lazo SLC direccionable de las centrales AM2020/AFP1010 (el manual es de la central, no del producto), por lo que es un módulo de tecnología analógica/direccionable sin lazos propios.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib-200",
+   "canonical": "LIB-200",
+   "docs": [
+    "15088SP",
+    "BTDT032",
+    "MPDT280"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las comunicaciones entre una tarjeta de lazo y la CPU.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Cualquier sensor analógico con una dirección inferior o igual a la dirección máxima programada en modo local para sensores entra en alarma.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El LIB-200 aparece explícitamente como tarjeta de lazo de las centrales AM2020/AFP1010 que gestiona sensores analógicos direccionables; los documentos son manuales de la central anfitriona y no especifican número de lazos por tarjeta.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib-200a",
+   "canonical": "LIB-200A",
+   "docs": [
+    "15088SP",
+    "BTDT032"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las comunicaciones entre una tarjeta de lazo y la CPU",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Cualquier sensor analógico con una dirección inferior o igual a la dirección máxima programada en modo local para sensores entra en alarma",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El LIB-200A aparece explícitamente como tarjeta de lazo (Loop Interface Board) de las centrales AM2020/AFP1010, por lo que es un módulo de la central anfitriona y no una central, sin cifra verbatim de lazos propia.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib-400",
+   "canonical": "LIB-400",
+   "docs": [
+    "15088SP",
+    "BTDT032"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El Modo Local en las Centrales AM2020/AFP1010 permite a las tarjetas de lazos LIB200, LIB200A y LIB400 funcionar de forma independiente si se pierden las comunicaciones entre una tarjeta de lazo y la CPU",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Cualquier sensor analógico con una dirección inferior o igual a la dirección máxima programada en modo local para sensores entra en alarma",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El LIB-400 aparece explícitamente como tarjeta de lazo de las centrales AM2020/AFP1010 (no es la central en sí), gestionando sensores analógicos direccionables, sin cita verbatim del número de lazos que soporta.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib-8200g",
+   "canonical": "LIB-8200G",
+   "docs": [
+    "AM 8200G manual instalacion Rv 3"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Conjunto de placa opcional AM-8200G",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "ESPECIFICACIONES TECNICAS DE LOS CABLES DE CONEXION PARA LAZOS ANALOGICOS",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El documento es el manual de la central AM-8200G; LIB-8200G es previsiblemente la tarjeta de lazo (Loop Interface Board) opcional de dicha central, pero las muestras no la mencionan verbatim, por lo que se clasifica como módulo con confianza baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib-8200n",
+   "canonical": "LIB-8200N",
+   "docs": [
+    "AM 8200N-manual instalacion RV 4 30-01-2025"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "En la cabina de la AM-8200N es posible instalar la tarjeta de expansión de lazos LIB-8200N La tarjeta LIB-8200N dispone de 2 lazos (159 detectores +159 módulos)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La central dispone de 2 lazos analógicos programable a lazo cerrado o abierto para la conexión de los elementos de campo",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "La tarjeta LIB-8200N dispone de 2 lazos (159 detectores +159 módulos)"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento es el manual de la central AM-8200N, donde LIB-8200N aparece explícitamente como tarjeta de expansión de lazos (2 lazos analógicos, direccionables) instalable en la central, por lo que es un módulo y no una central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib3000",
+   "canonical": "LIB3000",
+   "docs": [
+    "MADT190_04"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "La placa interfaz de dos lazos ampliada de la serie ID3000 (LIB3000) proporciona 2 lazos adicionales al panel.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "proporciona 2 lazos adicionales al panel"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El LIB3000 es una placa interfaz de ampliación que añade 2 lazos a la central ID3000, por lo que es un módulo de expansión y no la central anfitriona.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:lib3000s",
+   "canonical": "LIB3000S",
+   "docs": [
+    "MIDT190",
+    "MPDT190"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "2.5 Sustitución de los módulos electrónicos",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "CENTRAL ANALÓGICA CONTRA INCENDIOS # ID3000",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "LIB3000S es una tarjeta de lazo (Loop Interface Board) opcional para la central ID3000, cuyo manual es el documento aportado, pero el contenido mostrado no menciona verbatim el LIB3000S.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:lib600",
+   "canonical": "LIB600",
+   "docs": [
+    "MIDT250_A"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "TARJETA DE AMPLIACIÓN DE LAZOS «LIB-600»",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 4,
+      "max": 4,
+      "cita": "Tarjeta ampliación lazos 5-8. LIB600 Nº 1"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El LIB600 es una tarjeta de ampliación de lazos (4 lazos por tarjeta) opcional de la central AM-6000, no la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:mmx-1",
+   "canonical": "MMX-1",
+   "docs": [
+    "15088SP",
+    "50253SP",
+    "MIDT170"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "AFP-300/AFP-400 Panel de Fuego Análogo Manual de Instalación",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central Analógica de1/2 lazos",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El MMX-1 es un módulo monitor direccionable de Notifier que se instala en el lazo analógico de las centrales AM2020/AFP1010 y AFP-300/AFP-400 cuyos manuales lo documentan, pero las muestras no contienen mención verbatim del MMX-1.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:mmx-102e",
+   "canonical": "MMX-102E",
+   "docs": [
+    "I56-0784-004 MMX-102E_Eng"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "MMX-102E stand alone micro modules provide a two-wire initiating circuit for normally open contact fire alarm and supervisory devices",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un micro módulo autónomo de entrada/supervisión para dispositivos de contacto normalmente abierto, sin indicación explícita de tecnología direccionable en el contenido mostrado.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:nam-232",
+   "canonical": "NAM-232",
+   "docs": [
+    "50257SP",
+    "MADT380_01",
+    "MNDT380"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El NAM-232 proporciona una interfaz de comunicación física desde el AFP-200, AFP-300/AFP-400, Panel Análogo contra Incendios AM2020/AFP1010",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El NAM-232 es un módulo de interfaz de comunicaciones de red (NOTI•FIRE•NET) que se instala en centrales AFP-200/300/400 y AM2020/AFP1010, no una central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:nf30",
+   "canonical": "NF30",
+   "docs": [
+    "NF30-50_Manuel_d'utilisation_lr"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central série NF30 / NF50",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "HORS SERVICE\t1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento es el manual de la propia central NF30/NF50, una central convencional por zonas (indicadores de zona 1-16), sin lazos analógicos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:nf50",
+   "canonical": "NF50",
+   "docs": [
+    "NF30-50_Manuel_d'utilisation_lr"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central série NF30 / NF50",
+    "tecnologia": "convencional",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El documento es el manual de la propia central NF30/NF50; el panel con 16 zonas indicadas por LED (1-16) es típico de central convencional, aunque no hay cita verbatim de la tecnología.",
+    "nota": "cita no verificada en muestra → degradada",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:nfs-plus",
+   "canonical": "NFS-PLUS",
+   "docs": [
+    "NFS4_NFS8-2PLUS_MANU_ITA"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Le batterie (massimo 2x7Ah, 12V sigillate al piombo) devono essere collocate nell'apposito spazio nella parte inferiore della centrale NFS.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "\"Loop\" pointing to the right side",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El documento es el manual de instalación/programación del propio NFS-PLUS, descrito como 'centrale NFS' con conexión de Loop (analógica direccionable), pero no hay cita verbatim que ancle el número de lazos de esta variante concreta.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:nfxi-asd22-hs",
+   "canonical": "NFXI-ASD22-HS",
+   "docs": [
+    "I56-3947-202_FAAST LT_MULTI",
+    "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+    "I56-6577-006_ES FAAST Notifier LT-200 QIG"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "Los detectores de humos por aspiración suministrados e instalados en la UE deben cumplir el reglamento de productos de construcción (CPR) 305/2011 y la norma europea de productos EN 54-20. FAAST LT-200 ha sido probado y certificado",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "NFXI-ASD11-HS NFXI-ASD12-HS NFXI-ASD22-HS ADDRESSABLE FAAST LT-200 MODELS",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El NFXI-ASD22-HS es un detector de humo por aspiración FAAST LT-200 direccionable (Fire Alarm Aspiration Sensing Technology), documentado en su propia guía de instalación.",
+    "nota": "cita no verificada en muestra → degradada",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:nfxi-flx-020",
+   "canonical": "NFXI-FLX-020",
+   "docs": [
+    "A05-7030-000_B_ES_Notifier FAAST FLEX Addressable"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "FAAST FLEX direccionable<sup>TM</sup> Guía de producto",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "FAAST FLEX direccionable",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El NFXI-FLX-020 pertenece a la gama FAAST FLEX (Fire Alarm Aspiration Sensing Technology), detector de humo por aspiración direccionable de Notifier, siendo la variante de dos canales.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:nfxi-osi-rie",
+   "canonical": "NFXI-OSI-RIE",
+   "docs": [
+    "E56-6514ES-000_Notifier_NFXI-OSI-RIE_Installation_Guide"
+   ],
+   "llm": {
+    "categoria": "barrera",
+    "categoria_cita": "La unidad NFXI-OSI-RIE es un detector lineal óptico de humo de haz reflejado, de largo alcance diseñado para proporcionar protección en áreas abiertas.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "SLC - OUT<br/>SLC - IN<br/>SLC + OUT<br/>SLC + IN",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector lineal de humo por haz reflejado (barrera óptica) que se conecta al lazo SLC direccionable de un panel inteligente.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:park-2000",
+   "canonical": "PARK 2000",
+   "docs": [
+    "MNDT530",
+    "MNDT530P"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Consta de la central PARK 2000 o PARK 5000 -para dos o cinco zonas respectivamente- del módulo de zona P-100 y de los sensores remotos NCO-100 y N-GAS-100",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "la central PARK 2000 o PARK 5000 -para dos o cinco zonas respectivamente-",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento es el manual propio del producto y lo describe explícitamente como central de detección de monóxido de carbono de dos zonas (PARK 2000), arquitectura por zonas típica convencional, sin lazos analógicos.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:pearl",
+   "canonical": "Pearl",
+   "docs": [
+    "997-669-005-3_Instal-Comm_ES",
+    "997-670-005-3_Operating_ES",
+    "997-670-007-3_Operating_PT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central de alarma contra incendios Pearl™ Manual de instalación y puesta en marcha",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Pearl™ Central de incendios de 2 lazos"
+     }
+    ],
+    "confianza": "media",
+    "razon": "Los documentos son los manuales propios del Pearl, que se describe explícitamente como central de alarma contra incendios de 2 lazos (analógica direccionable según la línea Notifier, aunque sin cita verbatim de la tecnología).",
+    "nota": "cita no verificada en muestra → degradada",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:prl-d-1",
+   "canonical": "PRL-D-1",
+   "docs": [
+    "997-669-005-3_Instal-Comm_ES",
+    "997-671-005-3_Configuration_ES"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Instalación de las centrales PRL-D-1 y PRL-D-2",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "1:Todos Prot.OPAL/CLIP",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento denomina explícitamente al PRL-D-1 «central» contra incendios Pearl con lazos de detección y protocolos analógicos direccionables OPAL/CLIP, pero no ancla el número de lazos de esta variante concreta.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:prl-d-2",
+   "canonical": "PRL-D-2",
+   "docs": [
+    "997-669-005-3_Instal-Comm_ES",
+    "997-671-005-3_Configuration_ES"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central de alarma contra incendios Pearl™ Manual de instalación y puesta en marcha",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "PRL-D-2 es una variante de la central Pearl (los manuales son de la propia central, con lazos de detección direccionables), pero las muestras no anclan verbatim el número de lazos de esta variante ni el término 'analógica'.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:r3-micra",
+   "canonical": "R3-MICRA",
+   "docs": [
+    "MADT732_01"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "TARJETA DE ENTRADA DE RELÉS PARA LOS MINILASER",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El R3-MICRA es una tarjeta opcional de relés y entradas para los detectores de aspiración Minilaser, no un detector en sí, por lo que se clasifica como módulo.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:rp1r-supra",
+   "canonical": "RP1r-Supra",
+   "docs": [
+    "Fallo-I2C-en-RP1rSupra",
+    "HLSI-MA-103 _Korte handleiding RP1r_Supra_NL",
+    "HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "### Control Panel Layout\n\n**Extinction circuits** | **Aux. power supply** | **Sounders** | **External call points** | **Zones**",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "it is possible to use a 6K8 resistor as an End Of Line element for input and output circuits supervision",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es la guía rápida del propio RP1r-Supra, una central convencional de extinción con zonas supervisadas por resistencia final de línea (EOL) y circuitos de extinción, sin lazos analógicos.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:scu-800",
+   "canonical": "SCU 800",
+   "docs": [
+    "MFDT746_B"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "La central de detección SCU 800, siendo la unidad de control del sistema, proporciona alimentación eléctrica al cable sensor **d-LIST**, realiza el direccionamiento cíclico de los sensores conectados",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "realiza el direccionamiento cíclico de los sensores conectados, lee los valores de temperatura medidos y evalúa los datos en base a diferentes criterios",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Se pueden conectar dos ramales de cables sensores **d-LIST** a una SCU 800 utilizando los puertos A y B"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento describe la SCU 800 explícitamente como la central/unidad de control del sistema de detección lineal de temperatura d-LIST, con dos ramales de cable sensor direccionado.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:sdx-751",
+   "canonical": "SDX-751",
+   "docs": [
+    "MIDT190",
+    "MNDT120",
+    "MNDT150"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Los detectores de humo pueden que no detecten el fuego sí el detector se encuentra en un lugares d",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central Analógica contra Incendios",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El SDX-751 es un detector fotoeléctrico analógico de Notifier compatible con las centrales analógicas (ID3000, AFP-200E, ID-200) cuyos manuales aparecen, pero ninguna muestra menciona verbatim el SDX-751, por lo que la confianza es baja.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": false
+  },
+  {
+   "id": "notifier:sib-2s",
+   "canonical": "SIB-2S",
+   "docs": [
+    "MIDT250_A",
+    "MIDT260",
+    "MNDT250"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "TARJETA DE COMUNICACIONES OPCIONAL SIB-2S",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "SIB-2S es una tarjeta de comunicaciones opcional (interfaz serie RS-232 para PC/gráficos) para las centrales AM-6000/AM2000, no la central en sí.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:sk-2sp",
+   "canonical": "SK-2SP",
+   "docs": [
+    "MNDT040"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "La central CFP-600 puede controlar 2 canales de extinción automáticos vía la tarjeta opcional **SK-2SP**.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El SK-2SP es una tarjeta opcional de 2 canales de extinción para la central CFP-600, es decir, un módulo de expansión y no una central.",
+    "etapa": "repesca"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:uds-1n",
+   "canonical": "UDS-1N",
+   "docs": [
+    "MNDT110"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Unidad de extinción Modelo *UDS-1N*",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento es el manual propio del UDS-1N, una unidad autónoma de control de extinción con panel frontal propio (indicadores, pulsador de disparo), no una tarjeta interna de otra central, aunque se integre con centrales Notifier.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
    "id": "notifier:vision-plus-2",
    "canonical": "Vision Plus 2",
    "docs": [
@@ -9144,13 +9491,55 @@
     "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c"
    ],
    "llm": {
-    "categoria": null,
-    "confianza": "baja",
-    "razon": "parse-fail",
-    "raw": "{\"categoria\": \"central\", \"categoria_cita\": \"La central NFS Supra / VSN-Plus2 / ESS-2Plus admite diversas formas de funcionamiento, que son configurables desde Nivel de acceso 3 (Programador).\", \"tecno",
+    "categoria": "central",
+    "categoria_cita": "La central NFS Supra / VSN-Plus2 / ESS-2Plus admite diversas formas de funcionamiento, que son configurables desde\nNivel de acceso 3 (Programador).",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Circuitos de Sirena y Zonas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los documentos son el manual de la propia central Vision Plus2 (nombrada como variante junto a NFS Supra y ESS 2Plus), una central convencional por zonas sin lazos analógicos.",
     "etapa": "pasada"
    },
-   "citas_en_muestra": false
+   "citas_en_muestra": true
+  },
+  {
+   "id": "notifier:y72221",
+   "canonical": "Y72221",
+   "docs": [
+    "TIDT089",
+    "TIDT089_copia"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Para detectores analógicos (referencia PEPPER, KFDO-CS- Ex. 1.54-Y72221), referencia Notifier Y72221",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Para detectores analógicos (referencia PEPPER, KFDO-CS- Ex. 1.54-Y72221), referencia Notifier Y72221",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "Y72221 es un aislador galvánico (dispositivo de interfaz/aislamiento tipo módulo) para conectar detectores analógicos en zonas peligrosas al lazo de centrales Notifier, no una central ni un detector.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
+  },
+  {
+   "id": "pepperl-fuchs:z978",
+   "canonical": "Z978",
+   "docs": [
+    "TIDT089",
+    "TIDT089_copia",
+    "manual instrucciones Z728"
+   ],
+   "llm": {
+    "categoria": "barrera",
+    "categoria_cita": "Barrera Zener para detectores analógicos y centrales que no sean la ID3000 o ID50. Referencia PEPPER **Z978**, Referencia Notifier: **Z978**",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Barrera Zener para detectores analógicos y centrales que no sean la ID3000 o ID50",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El Z978 es una barrera Zener de seguridad intrínseca de Pepperl+Fuchs para conectar detectores analógicos en zona peligrosa (Ex) con centrales Notifier; es un dispositivo de interfaz/protección, no una central ni detector.",
+    "etapa": "pasada"
+   },
+   "citas_en_muestra": true
   }
  ]
 }
