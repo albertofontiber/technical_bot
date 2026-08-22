@@ -252,11 +252,11 @@ Tienen marca y cita, pero **R19 (producto-hood)** los frenó: el token está en 
 
 | id | canónico | manuales | nota |
 |---|---|---|---|
-| `unresolved:tg-ip-1-sec` | TG-IP-1-SEC | 4 | **software (R10)** · la familia `TG-IP-*` ya existe en `notifier:` (`tg-ip-1`, `tg-ip-10`, `tg-ip-100`), así que aquí sí hay marca natural |
-| `unresolved:itac` | ITAC | 3 |  |
-| `unresolved:trd-100` | TRD-100 | 1 |  |
-| `unresolved:indicator` | INDICATOR | 1 |  |
-| `unresolved:vision-plus` | VISION PLUS | 1 |  |
+| `unresolved:tg-ip-1-sec` | TG-IP-1-SEC | 4 | **software (R10)** · la familia `TG-IP-*` ya existe en `notifier:` (`tg-ip-1`, `tg-ip-10`, `tg-ip-100`), así que aquí sí hay marca natural | Alberto: es sfotware de Notifier (aunque este es un producto físico, no meramente un software). en concreto - Módulo IP con encriptación para red - lo puedes ver en la P21 de este link (https://www.notifier.es/documentacion/catalogos/Notifier_analogico2019.pdf)
+| `unresolved:itac` | ITAC | 3 |  | Alberto: es el producto "Interface de Transmisión Analógica-Convencional", el modelo debería ser ITAC, y se vende tanto para Morley como para Notifier, así que sigue la misma lógica que con otros productos que se venden bajo las dos marcas.
+| `unresolved:trd-100` | TRD-100 | 1 |  | Alberto: modelos de Detnov TRD-100 y TSD-100, como ya hemos comentado.
+| `unresolved:indicator` | INDICATOR | 1 |  | Elimínalo del corpus.
+| `unresolved:vision-plus` | VISION PLUS | 1 |  | Alberto: es la VSN Plus de Morley.
 
 ## 8 · El suelo — esto NO baja, y no es cola pendiente
 
