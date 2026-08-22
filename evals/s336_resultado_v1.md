@@ -64,7 +64,28 @@ divergencia real escrita. TECH_DEBT #76b pasa de LATENTE a MITIGADO-por-construc
 
 ## Colas
 
-(1) Recuperar los 98 parse-fail al recargar crédito (§1) · (2) resto de vistas de marca
-(morley, systemsensor, xtralis, kidde…, mismo pipeline, dedupe por id) · (3) packet de
-enum + capacidades a Alberto · (4) los 18 «sin docs» de mi censo v1 eran artefacto
-redirect — no existen (lección G3 ×2 en un día).
+(1) ~~Recuperar los 98 parse-fail al recargar crédito (§1)~~ **HECHO 22-ago (adenda abajo)** ·
+(2) resto de vistas de marca (morley, systemsensor, xtralis, kidde…, mismo pipeline, dedupe
+por id) · (3) packet de enum + capacidades a Alberto · (4) los 18 «sin docs» de mi censo v1
+eran artefacto redirect — no existen (lección G3 ×2 en un día).
+
+## ADENDA 22-ago — recuperación de los 98 parse-fail (crédito recargado por Alberto)
+
+La tesis del §1 se confirmó: era INSTRUMENTO, no evidencia. Re-pasada `--solo-parse-fail`
+(prompt v2, max_tokens=1200, 98 filas re-corridas / 404 intactas, 492k in / 118k out, 34 min):
+
+| métrica | tras el lote (21-ago) | tras la recuperación |
+|---|---|---|
+| confianzas alta/media/baja | 366 / 33 / 103 (98 parse-fail) | **416 / 52 / 34** (0 parse-fail) |
+| gate (GT sin-duda ∩ alta) | PASS 100% (n=14) | **PASS 100% (n=17)** |
+| escritas (acumulado) | 361 | **411** (+50) |
+| vista Notifier clasificados | 364 | **414** (ciegos 99) |
+| centrales clasificadas/servidas | 32 | **46** (suelo 11, ×4) |
+| cobertura del lote (acum./diana 502) | 71,9% | **81,9%** |
+| capacidad escrita / a packet | 1 / 31 | **11 / 40** (filas recuperadas completaron cuadros) |
+
+Nota de instrumento: el writer imprime la cobertura DE LA PASADA (50/502 = 10% → «PARCIAL»);
+esa cifra no es el veredicto del lote — el veredicto del LOTE se selló en PASS (71,9%) y el
+acumulado real post-recuperación es 411/502. Residuo final honesto: 52 media + 34 baja
+legítima + 5 alta sin full-text + 2 sin chunks. Corre sobre el catálogo YA fusionado con la
+línea multicanal de main (merge de la PR #336; three-way por campo, 0 solapes).

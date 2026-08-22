@@ -86,8 +86,9 @@ DECLARADA (recibos: `evals/s335_gate_resultado_v1.md`). **Qué sigue en este hil
 en prod (adenda s335b — desiderativa→listado gobernado Kidde; anafórica→correccion/1238ms→Detnov);
 (1) adjudicación de Alberto del límite «¿Y de {marca}?» elíptico (dio `nuevo`, fila 0d660f7f) —
 si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (2) HECHO 21:46Z — lote s336-lote (DEC-279): vista Notifier
-3→364 clasificados, centrales 0→32, gate 100%, veredicto PASS (residuo 98 parse-fail esperan
-crédito; recibo `evals/s336_resultado_v1.md`); (3) re-verificación DEC-099 por voz;
+3→364 clasificados, centrales 0→32, gate 100%, veredicto PASS — **y HECHO 22-ago 08:27Z: los 98
+parse-fail RECUPERADOS tras recarga** (gate PASS 100% n=17; clasificados 414, centrales 46,
+cobertura acumulada 81,9%; adenda en `evals/s336_resultado_v1.md`); (3) re-verificación DEC-099 por voz;
 (4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars);
 (6) HECHO (s335c, en PR #336): la nota ℹ️ de asunciones va ahora en CABECERA del mensaje
 (adjudicación de Alberto sobre pantallazo) — y con ello entra en los primeros 4096 de
