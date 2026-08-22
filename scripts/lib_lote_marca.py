@@ -106,6 +106,29 @@ def ruta_no_destructiva(destino: Path) -> Path:
         n += 1
 
 
+def ruta_gt_vigente(marca: str) -> Path:
+    """El GT vigente = la versión MÁS ALTA que exista para esa marca.
+
+    El gold se re-congela ENTERO cuando una adjudicación cambia lo que significa
+    una etiqueta (DEC-126: nada de tocar sólo las filas que convienen), y las
+    versiones viejas se conservan porque las decisiones las citan por sha. Quién
+    juzgó una corrida no puede quedar implícito: el gate estampa en su recibo el
+    fichero y el sha que usó.
+    """
+    marca = normaliza_marca(marca)
+    base = ruta("gt", marca, "yaml")            # ..._v1.yaml
+    import re as _re
+    patron = base.name.replace("_v1.yaml", "_v*.yaml")
+    def _num(p: Path) -> int:
+        m = _re.search(r"_v(\d+)\.yaml$", p.name)
+        return int(m.group(1)) if m else 0
+    # Orden NUMÉRICO, no lexicográfico: con sorted() plano, `_v10` iría antes que
+    # `_v9` y el gate elegiría en silencio un gold viejo — justo el «quién juzgó no
+    # puede quedar implícito» fallando sin avisar.
+    candidatas = sorted(base.parent.glob(patron), key=_num)
+    return candidatas[-1] if candidatas else base
+
+
 def sha_fichero(path: Path | str) -> str:
     """Sha corto del contenido de un recibo — la huella que va a provenance."""
     p = Path(path)

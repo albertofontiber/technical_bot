@@ -47,6 +47,12 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--marca", default="notifier")
+    ap.add_argument("--corregir-ids", default="",
+                    help="permite SOBRESCRIBIR la clasificación de los ids de "
+                         "ese recibo (clave `ids`). Sin esto el writer es "
+                         "idempotente y jamás pisa una fila ya clasificada — "
+                         "que es lo correcto salvo cuando el enum cambió y la "
+                         "etiqueta vieja era correcta-dentro-de-un-enum-incompleto")
     ap.add_argument("--replay-categoria", default="central",
                     help="categoría con la que se mide el efecto servido")
     args = ap.parse_args()
@@ -81,15 +87,27 @@ def main() -> int:
              .read_text(encoding="utf-8").splitlines() if l.strip()]
     por_id = {r["id"]: r for r in filas}
 
-    prov = L.provenance(marca, gate_path, L.ruta("gt", marca, "yaml"), censo_path)
-    escritas, saltadas = [], []
+    prov = L.provenance(marca, gate_path, L.ruta_gt_vigente(marca), censo_path)
+    corregibles = (set(L.carga_recibo(args.corregir_ids)["ids"])
+                   if args.corregir_ids else set())
+    escritas, saltadas, corregidas = [], [], []
     for e in ele["detalle"]:
         if not e.get("elegible"):
             continue
         fila = por_id.get(e["id"])
-        if fila is None or fila.get("clasificacion"):
-            saltadas.append({"id": e["id"], "motivo": "ausente o ya clasificada"})
+        if fila is None:
+            saltadas.append({"id": e["id"], "motivo": "ausente"})
             continue
+        previa = fila.get("clasificacion")
+        if previa and e["id"] not in corregibles:
+            saltadas.append({"id": e["id"], "motivo": "ya clasificada"})
+            continue
+        if previa:
+            if previa.get("categoria") == e["categoria"]:
+                saltadas.append({"id": e["id"], "motivo": "corregible sin cambio"})
+                continue
+            corregidas.append({"id": e["id"], "de": previa.get("categoria"),
+                               "a": e["categoria"], "cita": str(e["categoria_cita"])[:120]})
         fila["clasificacion"] = {"categoria": e["categoria"],
                                  "cita": str(e["categoria_cita"])[:200],
                                  "doc": e["doc_cat"], "provenance": prov}
@@ -98,7 +116,10 @@ def main() -> int:
         escritas.append(e["id"])
 
     if args.dry_run:
-        print(f"DRY-RUN: escribiría {len(escritas)} · saltadas {len(saltadas)}")
+        print(f"DRY-RUN: escribiría {len(escritas)} "
+              f"(de ellas {len(corregidas)} CORRECCIONES) · saltadas {len(saltadas)}")
+        for c in corregidas[:20]:
+            print(f"    {c['id']:26} {c['de']} → {c['a']}")
         return 0
     backup = cs.swap_products_validado(filas)
     despues = _conteos(cs.load(), marca, categoria)
@@ -128,7 +149,7 @@ def main() -> int:
     recibo = {
         "que_es": "escritura atómica + efecto (G6)",
         "marca": marca, "replay_categoria": categoria, "provenance": prov,
-        "escritas": len(escritas), "saltadas": saltadas,
+        "escritas": len(escritas), "correcciones": corregidas, "saltadas": saltadas,
         "backup": str(backup),
         "antes": antes, "despues": despues,
         "replay_filtro": {
@@ -147,7 +168,7 @@ def main() -> int:
     out = L.ruta_no_destructiva(L.ruta("escritura", marca))
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1),
                    encoding="utf-8")
-    print(f"[{marca}] escritas {len(escritas)} · antes {antes} → después {despues} · "
+    print(f"[{marca}] escritas {len(escritas)} (correcciones {len(corregidas)}) · antes {antes} → después {despues} · "
           f"{categoria} servidas {centrales_servidas} (suelo {suelo}: "
           f"{'OK' if suelo_ok else 'FALLO'}) · cobertura {cobertura:.1%} → "
           f"VEREDICTO {veredicto} · backup {backup}\nrecibo → {out}")

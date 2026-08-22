@@ -10705,3 +10705,53 @@ medida que hice para defenderlo.** · impacto MEDIO · s336f/g · 21-ago
   derivada, candado de vista, guardas de artefacto, escritura atómica. La ingesta no
   necesita método nuevo — necesita invocar el que hay sobre la diana que ella misma crea.
 - **Relacionado**: TECH_DEBT #101 (con su trigger) · DEC-279/280 · `scripts/ingest_new.py`.
+
+## DEC-282 (s339, 22 ago 2026) — Alberto adjudica el enum: nacen `audio`, `extincion` y `barrera_is`; anunciador, impresora y kit NO son categorías
+
+- **Fecha**: 22 ago 2026. **Impacto**: ALTO (esquema cerrado del catálogo + dato servido).
+  **Adjudicación explícita de Alberto** sobre `docs/PACKET_ENUM_CATEGORIAS.md` («revisado,
+  estoy OK»), confirmada por pregunta directa: luz verde a implementar lo recomendado.
+  Revisor adversarial Fable 5 standalone → **NO SÓLIDO, 5 hallazgos, los 5 ciertos**
+  (verificados contra el código y los datos antes de actuar, Regla C).
+- **Decide (1) — tres altas, cada una con ancla normativa**: `audio` (EN 54-16 VACIE +
+  EN 54-24 altavoces), `extincion` (EN 12094-1 — NO es EN 54) y `barrera_is` (EN 60079-11,
+  ATEX). `barrera` sigue siendo el haz óptico de EN 54-12: dos normas comparten la palabra
+  y renombrar la vieja habría roto las 12 filas ya escritas.
+- **Decide (2) — tres NEGATIVAS igual de deliberadas**: `anunciador` va a `repetidor` (sin
+  parte normativa propia; EN 54-2 lo trata como auxiliar, y el clasificador ya lo mandaba
+  ahí), `impresora` va a `accesorio`, y «kit» NO es un tipo de producto sino una forma de
+  venderlo. El criterio NO es «una parte EN 54 = una categoría»: cinco partes distintas son
+  todas `detector`, y medio corpus es régimen UL, no EN.
+- **Decide (3) — GT v2 RE-CONGELADO ENTERO** (`evals/s336_gt_v2.yaml`, sha 3be2ca54e402aa76;
+  el v1 se conserva porque DEC-279 lo cita). Sin-duda 22 → 27: cinco de las ocho dudas del
+  v1 eran exactamente estos huecos — dos se resuelven por ADJUDICACIÓN (led-10, prn-4: la
+  duda era «¿existe categoría propia?») y tres por EVIDENCIA re-leída en la fuente (z978
+  «BARRERA ZENER», uds-2n «Unidad de extinción», atg-2 «Generador de Tono de Audio»).
+  `be-xp` sigue en duda, y ahora por evidencia: el kit agrupa XPP-1, CHS-4, chasis y fuente,
+  no hay sujeto único. DEC-126: se re-congela entero, no las filas que convienen.
+- **EL HALLAZGO CRÍTICO DEL DÚO, y lo que de verdad cambia**: yo iba a re-correr sólo las
+  filas de confianza NO alta —«lo que quedó ciego»—, y el revisor señaló que el daño mayor
+  está en las **ALTA**: bajo un enum de 13 valores, una central de extinción tenía respuesta
+  plausible Y CONFIADA. Verificado sobre el catálogo vivo: **`rp-1001`, `rp1002e`, `rp1r` y
+  un cuarto están servidos HOY como `central` y sus propias citas dicen «Central de
+  Extinción» / «Extinguishing Control Panel»** — las 46 centrales que el bot responde
+  incluyen centrales de extinción. Igual con 7 de audio (`aa-30`, `amg-1`, `amg-e`…) como
+  `modulo`/`accesorio`/`fuente`. **La corrección BAJARÁ el número de centrales, y eso es la
+  mejora, no una regresión** — leerlo al revés sería confundir el gate.
+- **Decide (4) — re-diana y corrección acotada**: `scripts/s339_rediana.py` censa
+  (no-alta) ∪ (alta cuya evidencia toca una clase nueva) = 103 filas, con el regex declarado
+  como cribado GRUESO que no juzga (decide a quién se re-pregunta; un detector de gas casa
+  con «extinción» y sigue siendo detector). El writer gana `--corregir-ids`: sin esa lista
+  explícita sigue siendo idempotente y jamás pisa una fila ya clasificada.
+- **Los otros cuatro hallazgos, todos aceptados**: la nota de provenance del recibo afirmaba
+  una mezcla de prompts que ya no era cierta (ahora declara que no puede reconstruir la
+  procedencia fila a fila) · yo citaba «DEC-282» en el código y en el gold cuando esta
+  decisión aún no existía — puntero colgante, resuelto al escribirla · el gate estampa ahora
+  el FICHERO del gold además del sha · `ruta_gt_vigente` ordenaba lexicográficamente y con
+  un `_v10` habría elegido el `_v9` en silencio.
+- **Gap declarado**: el gate cambia de listón al cambiar el gold (n sube), así que el PASS
+  de hoy y el de ayer NO son la misma medida. Y las tres filas nuevas del GT las etiqueté yo
+  con la misma mano que escribió el prompt v3: lo mitiga que la cita sea verbatim y
+  verificable, no que yo sea imparcial.
+- **Relacionado**: `docs/PACKET_ENUM_CATEGORIAS.md` (el packet firmado) · DEC-279/280 ·
+  `evals/s339b_enum_ampliado_propuesta_v1.md` · `evals/s339_rediana_v1.json`.

@@ -1,0 +1,210 @@
+{
+ "que_es": "re-diana del enum ampliado: (no-alta) ∪ (alta cuya evidencia toca una clase nueva). El cribado por regex NO juzga: decide a quién se re-pregunta con el prompt v3.",
+ "marca": "notifier",
+ "sondas": {
+  "extincion": "extinci|extinguish|agente\\s+extintor|FM-?200|inergen",
+  "audio": "\\bEVAC\\b|megafon|altavoz|speaker|voice\\s+alarm|VACIE|audio|amplificador",
+  "barrera_is": "zener|intr[íi]nsec|intrinsic"
+ },
+ "n_no_alta": 86,
+ "n_alta_sospechosas": 17,
+ "n_rediana": 103,
+ "alta_sospechosas_por_sonda": {
+  "extincion": [
+   {
+    "id": "notifier:4xrfi-kit",
+    "categoria_actual": "accesorio",
+    "cita": "También está disponible como kit independiente (4XRFI-KIT, ref.: 90306) para actualizar instalaciones o aplicaciones que"
+   },
+   {
+    "id": "notifier:opc-rp1r",
+    "categoria_actual": "pasarela",
+    "cita": "Pasarela para la integración de centrales de extinción **RP1r** en SCADA o sistemas monitorización/control"
+   },
+   {
+    "id": "notifier:rp-1001",
+    "categoria_actual": "central",
+    "cita": "La Central de Extinción RP-1001 cumple con los siguientes estándares de NFPA"
+   },
+   {
+    "id": "notifier:rp1002e",
+    "categoria_actual": "central",
+    "cita": "CENTRAL DE EXTINCIÓN CONTRA INCENDIOS RP1002E"
+   },
+   {
+    "id": "notifier:rp1r",
+    "categoria_actual": "central",
+    "cita": "RP1r Extinguishing Control Panel"
+   },
+   {
+    "id": "notifier:rpj-1",
+    "categoria_actual": "accesorio",
+    "cita": "El conector de llamadas remoto RPJ-1 permite que la persona encargada de la extinción informe a todos los circuitos de m"
+   },
+   {
+    "id": "notifier:sk-2sp",
+    "categoria_actual": "modulo",
+    "cita": "La central CFP-600 puede controlar 2 canales de extinción automáticos vía la tarjeta opcional **SK-2SP**."
+   },
+   {
+    "id": "notifier:uds-1n",
+    "categoria_actual": "central",
+    "cita": "Unidad de extinción Modelo *UDS-1N*"
+   }
+  ],
+  "audio": [
+   {
+    "id": "notifier:aa-30",
+    "categoria_actual": "modulo",
+    "cita": "2.6     Amplificador de Audio (AA-30)"
+   },
+   {
+    "id": "notifier:act-1",
+    "categoria_actual": "accesorio",
+    "cita": "APÉNDICE B: TRANSFORMADOR DE ACOPLAMIENTO DE AUDIO ACT-1"
+   },
+   {
+    "id": "notifier:amg-e",
+    "categoria_actual": "modulo",
+    "cita": "El AMG-E, un AMG-1 sin micrófono, es utilizado para las aplicaciones que requieren múltiples Generadores de Mensaje de A"
+   },
+   {
+    "id": "notifier:avps-24",
+    "categoria_actual": "fuente",
+    "cita": "Fuente de Alimentación Audio Visual AVPS-24, Indicador de Estado"
+   },
+   {
+    "id": "notifier:avps-24e",
+    "categoria_actual": "fuente",
+    "cita": "La Fuente de Alimentación Audio/Visual AVPS-24 o AVPS-24E\n\nLa fuente de alimentación Audio/Visual proporciona hasta tres"
+   },
+   {
+    "id": "notifier:chs-4l",
+    "categoria_actual": "accesorio",
+    "cita": "El CHS-4L de bajo perfil es utilizado para instalar a los Amplificadores de Audio AA-30/ AA-30E, a los Generadores de To"
+   },
+   {
+    "id": "notifier:xram-1",
+    "categoria_actual": "accesorio",
+    "cita": "La plaqueta de RAM no volátil XRAM-1 es requerido cuando el XPP-1 será programado para la operación específica en modo l"
+   }
+  ],
+  "barrera_is": [
+   {
+    "id": "notifier:idx-751-ae",
+    "categoria_actual": "detector",
+    "cita": "INTRINSICALLY SAFE INTELLIGENT PHOTO ELECTRONIC SMOKE SENSOR"
+   },
+   {
+    "id": "notifier:s2170sd",
+    "categoria_actual": "detector",
+    "cita": "Detector de gas Smart3 con sensor de seguridad intrínseca | S2170SD | CD, Ex n | SO2"
+   }
+  ]
+ },
+ "ids": [
+  "firelite:afm-16atf",
+  "notifier:4xrfi-kit",
+  "notifier:816",
+  "notifier:832",
+  "notifier:aa-100",
+  "notifier:aa-120",
+  "notifier:aa-120e",
+  "notifier:aa-30",
+  "notifier:aa-30e",
+  "notifier:abs-1",
+  "notifier:abs-2",
+  "notifier:acm-16at",
+  "notifier:act-1",
+  "notifier:afp4016",
+  "notifier:ais-gals1",
+  "notifier:am-82-bbmb",
+  "notifier:am-8200g",
+  "notifier:am-82n-top",
+  "notifier:am2020",
+  "notifier:am82-2s2c",
+  "notifier:amg-e",
+  "notifier:avps-24",
+  "notifier:avps-24e",
+  "notifier:be-5000aa",
+  "notifier:be3000",
+  "notifier:chs-4l",
+  "notifier:chs-4m",
+  "notifier:combix-220",
+  "notifier:cpu-2020",
+  "notifier:cpu-400",
+  "notifier:fft-7s",
+  "notifier:fl2011ei-hs",
+  "notifier:fl2012ei-hs",
+  "notifier:fl2022ei-hs",
+  "notifier:fr2000ex",
+  "notifier:g-500-2lr",
+  "notifier:g-500-s-32",
+  "notifier:g-in8",
+  "notifier:hon-cgw-mbb",
+  "notifier:hop-131-206",
+  "notifier:hop-133-206",
+  "notifier:hop-134-412",
+  "notifier:hop-136-412",
+  "notifier:hop-402-100",
+  "notifier:hop-404-100",
+  "notifier:hop-405-100",
+  "notifier:hop-406-100",
+  "notifier:hop-407-200",
+  "notifier:hop-431-100",
+  "notifier:hop-608-200",
+  "notifier:hop-631-100",
+  "notifier:ibox-mbs-nid3000",
+  "notifier:id-50",
+  "notifier:id-60",
+  "notifier:id1002",
+  "notifier:id3002",
+  "notifier:id3004-001",
+  "notifier:id3008-001",
+  "notifier:idx-751-ae",
+  "notifier:ina",
+  "notifier:lib-8200g",
+  "notifier:lib3000s",
+  "notifier:minilaser-100",
+  "notifier:mmx-1",
+  "notifier:multiscan++s1",
+  "notifier:nap-100",
+  "notifier:nf50",
+  "notifier:nfs-2-8",
+  "notifier:nfs-plus",
+  "notifier:nfxi-asd11-hs",
+  "notifier:nfxi-asd22-hs",
+  "notifier:nfxi-smt2",
+  "notifier:nrt-net",
+  "notifier:nrx-wcp",
+  "notifier:opc-rp1r",
+  "notifier:park-5000",
+  "notifier:pearl",
+  "notifier:prl-d-2",
+  "notifier:rp-1001",
+  "notifier:rp1002e",
+  "notifier:rp1r",
+  "notifier:rpj-1",
+  "notifier:s2170sd",
+  "notifier:s290o2gp",
+  "notifier:s540539-cosp",
+  "notifier:sdx-751",
+  "notifier:sk-2sp",
+  "notifier:tcc-1",
+  "notifier:uds-1n",
+  "notifier:uds-2n",
+  "notifier:vcc-1",
+  "notifier:vcc-2",
+  "notifier:vrom-n",
+  "notifier:vtcc-1",
+  "notifier:vtcc-2",
+  "notifier:vtcc-avl",
+  "notifier:xpm-8",
+  "notifier:xpm-8l",
+  "notifier:xram-1",
+  "notifier:y72221",
+  "pepperl-fuchs:z978",
+  "spectrex:20-20u",
+  "spectrex:20-20ub"
+ ]
+}

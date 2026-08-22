@@ -38,7 +38,7 @@ def main() -> int:
     marca = L.normaliza_marca(args.marca)
     args.poblacion = args.poblacion or str(L.ruta("poblacion", marca))
     args.elegibles = args.elegibles or str(L.ruta("elegibles", marca))
-    gt_path = L.ruta("gt", marca, "yaml")
+    gt_path = L.ruta_gt_vigente(marca)
     if not gt_path.exists():
         print(f"no hay GT congelado para «{marca}» ({gt_path.name}). El gate "
               f"NO se corre sin gold: autorarlo es el paso previo.")
@@ -91,7 +91,7 @@ def main() -> int:
     recibo = {
         "gate": {"n": n, "aciertos": aciertos, "precision": round(precision, 4),
                  "umbral": 0.95, "pass": gate_pass, "detalle": detalle},
-        "freeze": {"gt_sha256": hashlib.sha256(crudo_gt.encode()).hexdigest()[:16],
+        "freeze": {"gt_fichero": gt_path.name, "gt_sha256": hashlib.sha256(crudo_gt.encode()).hexdigest()[:16],
                    "prompt_sha256": pob.get("prompt_sha256")},
         "packet": {
             "s0_elegibles_en_bloque": {"n": len(elegibles),

@@ -60,10 +60,20 @@ DIVERGENT = {True, False, "unknown"}
 # (s322 #76, DEC-216) Enums CERRADOS de la capa categoría+atributos. La semilla
 # de CATEGORIAS es adjudicable (packet #76); clave de atributo desconocida =
 # error de validación (esquema cerrado, patrón de la casa).
+# s339 (DEC-282): tres altas ADJUDICADAS por Alberto sobre `docs/PACKET_ENUM_CATEGORIAS.md`,
+# cada una con ancla normativa — y tres NEGATIVAS igual de deliberadas (anunciador va a
+# `repetidor`, impresora a `accesorio`, y «kit» no es un tipo de producto sino una forma de
+# venderlo). El criterio NO es «una parte EN 54 = una categoría»: cinco partes distintas son
+# todas `detector` y el técnico pregunta por detectores, no por EN 54-7.
 CATEGORIAS = {
     "central", "detector", "pulsador", "sirena", "modulo", "fuente",
     "repetidor", "aspiracion", "barrera", "retenedor", "pasarela",
     "software", "accesorio",
+    "audio",       # EN 54-16 (VACIE) + EN 54-24 (altavoces): megafonía/EVAC
+    "extincion",   # EN 12094-1 (dispositivo eléctrico de control) — NO es EN 54
+    "barrera_is",  # EN 60079-11 (seguridad intrínseca/ATEX). `barrera` sigue siendo el
+                   # haz óptico de EN 54-12: dos normas distintas comparten la palabra, y
+                   # renombrar la vieja habría roto las 12 filas ya escritas.
 }
 TECNOLOGIAS = {"analogica", "convencional", "algoritmica", "aspiracion",
                "via_radio"}

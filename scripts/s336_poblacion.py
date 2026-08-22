@@ -67,7 +67,7 @@ DOCUMENTOS de este producto y MUESTRAS de su contenido real:
 Pista legacy (texto libre del seed, puede estar mal): {pista}
 
 Clasifícalo. Responde SOLO este JSON:
-{{"categoria": "central|detector|pulsador|sirena|modulo|fuente|repetidor|aspiracion|barrera|retenedor|pasarela|software|accesorio",
+{{"categoria": "central|detector|pulsador|sirena|modulo|fuente|repetidor|aspiracion|barrera|barrera_is|retenedor|pasarela|audio|extincion|software|accesorio",
  "categoria_cita": "fragmento VERBATIM del contenido que lo fundamenta",
  "tecnologia": "analogica|convencional|algoritmica|aspiracion|via_radio|null",
  "tecnologia_cita": "fragmento VERBATIM o null",
@@ -76,7 +76,24 @@ Clasifícalo. Responde SOLO este JSON:
  "razon": "una frase"}}
 
 Reglas: analogica INCLUYE direccionable/inteligente/addressable (uso PCI-ES estándar). Los sounder/VAD/beacon de notificación → sirena. LHD/sensor cable → detector. PAK/llaves/repuestos → accesorio. Si el doc cubre VARIAS variantes y los lazos difieren POR VARIANTE, devuelve los lazos DE ESTE producto (por su sufijo si el doc lo ancla) — si no puedes anclarlo, lazos=null. Si dos DOCS divergen (p.ej. mercados), devuelve AMBAS entradas de lazos con su cita. Sin cita verbatim → confianza baja.
-OJO (v2): el doc puede ser el manual de OTRO producto (típicamente una central) que CONTIENE al tuyo como tarjeta/módulo/expansión/accesorio opcional. Clasifica EL PRODUCTO DEL ID, no el sujeto del manual: si «{canonical}» aparece como tarjeta opcional, módulo, expansor, interfaz o accesorio DE la central del doc, su categoría es modulo/accesorio — JAMÁS central. La cita debe hablar de «{canonical}», no de la central anfitriona."""
+OJO (v2): el doc puede ser el manual de OTRO producto (típicamente una central) que CONTIENE al tuyo como tarjeta/módulo/expansión/accesorio opcional. Clasifica EL PRODUCTO DEL ID, no el sujeto del manual: si «{canonical}» aparece como tarjeta opcional, módulo, expansor, interfaz o accesorio DE la central del doc, su categoría es modulo/accesorio — JAMÁS central. La cita debe hablar de «{canonical}», no de la central anfitriona.
+CATEGORÍAS NUEVAS (v3, adjudicadas con ancla normativa) y las tres que NO existen a propósito:
+- **audio** = megafonía / alarma por voz / EVAC (EN 54-16 y -24): centrales y equipos de voz,
+  amplificadores, altavoces, pupitres de microfono, tarjetas de mensajes. NO confundir con
+  **sirena**: la señalización óptico-acústica (campana, VAD, beacon) sigue siendo sirena.
+- **extincion** = control de sistemas fijos de extinción (EN 12094-1): centrales y unidades de
+  extinción, disparadores, paneles de agente extintor. NO es `central` de detección.
+- **barrera_is** = barrera de seguridad intrínseca / Zener para atmósferas explosivas
+  (EN 60079-11, ATEX). CUIDADO: `barrera` a secas es OTRA cosa — el detector de humos de HAZ
+  ÓPTICO lineal (EN 54-12). Un detector con protección IS («intrinsically safe smoke sensor»)
+  sigue siendo **detector**: la protección no cambia lo que el producto ES.
+- **anunciador/annunciator NO es categoría**: va a `repetidor` (repite o señaliza remotamente
+  el estado de la central). Las cajas, revestimientos, llaves y módulos en blanco DE un
+  anunciador son `accesorio`; las placas que lo interconectan con la central son `modulo`.
+- **impresora NO es categoría**: va a `accesorio`.
+- **kit/paquete NO es categoría**: es una forma de vender, no un tipo de producto. Clasifica
+  por lo que el kit ES en su documento (si el paquete es una central, `central`); si no puede
+  determinarse, confianza baja."""
 
 _RX_R9 = re.compile(
     r"descripci[oó]n general|\bmodelos\b|\bmodels\b|ordering information|"
@@ -160,6 +177,16 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true",
                     help="retoma desde el checkpoint .parcial (la pasada del "
                          "21-ago murió a mitad por crédito de API agotado)")
+    ap.add_argument("--solo-ids", default="",
+                    help="re-corre SOLO los ids del recibo indicado (clave "
+                         "`ids`) y fusiona sobre el recibo de población. Es el "
+                         "modo de la re-diana: incluye filas ALTA, que ninguna "
+                         "otra ruta re-pregunta")
+    ap.add_argument("--solo-no-alta", action="store_true",
+                    help="re-corre SOLO las filas cuya confianza NO es alta "
+                         "(el caso del enum ampliado: lo que quedó ciego por "
+                         "falta de categoría, no por falta de evidencia) y "
+                         "fusiona sobre el recibo")
     ap.add_argument("--solo-parse-fail", action="store_true",
                     help="re-corre SOLO las filas razon=parse-fail del recibo "
                          "(98/502 con raw vacío: max_tokens=500 agotado antes "
@@ -184,9 +211,14 @@ def main() -> int:
     uso = {"in": 0, "out": 0}
     filas, docs_sin_chunks = [], set()
     hechas: set[str] = set()
-    if args.solo_categoria or args.solo_parse_fail:
+    if args.solo_categoria or args.solo_parse_fail or args.solo_no_alta or args.solo_ids:
         previo = json.loads(Path(out).read_text(encoding="utf-8"))
-        if args.solo_parse_fail:
+        if args.solo_ids:
+            diana_ids = set(L.carga_recibo(args.solo_ids)["ids"])
+        elif args.solo_no_alta:
+            diana_ids = {f["id"] for f in previo["detalle"]
+                         if f["llm"].get("confianza") != "alta"}
+        elif args.solo_parse_fail:
             diana_ids = {f["id"] for f in previo["detalle"]
                          if f["llm"].get("razon") == "parse-fail"}
         else:
@@ -195,8 +227,10 @@ def main() -> int:
         filas = [f for f in previo["detalle"] if f["id"] not in diana_ids]
         hechas = {f["id"] for f in filas}
         docs_sin_chunks = set(previo.get("docs_sin_chunks") or [])
-        print(f"  re-pasada sobre {len(diana_ids)} filas "
-              f"({'parse-fail' if args.solo_parse_fail else args.solo_categoria}); "
+        modo = (f"solo-ids:{Path(args.solo_ids).name}" if args.solo_ids else
+                "no-alta" if args.solo_no_alta else
+                "parse-fail" if args.solo_parse_fail else args.solo_categoria)
+        print(f"  re-pasada sobre {len(diana_ids)} filas ({modo}); "
               f"{len(hechas)} intactas")
     elif args.resume:
         parcial = Path(out + ".parcial")
@@ -254,12 +288,17 @@ def main() -> int:
     recibo = {
         "que_es": "s336 pasada de población (fable-5) + repesca dirigida — SIN escritura",
         "modelo": MODELO, "marca": marca,
-        "re_pasada_v2": ({"solo_categoria": args.solo_categoria or "parse-fail",
+        "re_pasada_v2": ({"solo_categoria": args.solo_categoria or modo,
                           "n_re_corridas": len(censo) - len(hechas),
-                          "nota": "las filas re-corridas usaron el prompt v2 "
-                                  "(regla R16); las intactas, el v1 — el sha "
-                                  "de abajo es el del prompt VIGENTE (v2)"}
-                         if (args.solo_categoria or args.solo_parse_fail) else None),
+                          "nota": "MEZCLA DE PROMPTS: las filas re-corridas "
+                                  "usaron el prompt VIGENTE (su sha es el de "
+                                  "`prompt_sha256`); las intactas conservan el "
+                                  "de la corrida en que se poblaron, que este "
+                                  "recibo NO puede reconstruir. El gate congela "
+                                  "un solo sha y por eso juzga el método, no "
+                                  "la procedencia fila a fila"}
+                         if (args.solo_categoria or args.solo_parse_fail
+                             or args.solo_no_alta or args.solo_ids) else None),
         "prompt_sha256": hashlib.sha256(PROMPT.encode()).hexdigest()[:16],
         "prompt_s322_sha256": hashlib.sha256(
             re.search(r'PROMPT = """(.*?)"""',
