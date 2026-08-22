@@ -537,14 +537,15 @@
       ],
       "filas": [],
       "lectura": {
-        "tipo": "colapso_id",
+        "tipo": "redirect",
         "de": "notifier:notifier-inspire-e10",
         "a": "notifier:inspire-e10",
         "cita": "aquí lo llamaría directamente `notifier:inspire-e10`, para evitar tener los dos nombres en la BD via redirect",
-        "listo": false,
-        "bloqueo": "pide ELIMINAR la fila, no redirigirla. Los ids son INMUTABLES por contrato. Verificar si `notifier:notifier-inspire-e10` llegó a ser consumible alguna vez: si nació candidate y nunca salió de cuarentena, borrarlo no rompe la inmutabilidad (nada externo lo referenció); si fue consumible, hay que redirigir y explicárselo."
+        "listo": true,
+        "explicar_a_alberto": true,
+        "nota": "Él pide ELIMINAR la fila en vez de redirigirla, y no se puede: el contrato (`docs/IDENTITY_CATALOG_CONTRACT.md`) dice literal «Los ids son INMUTABLES: nunca se borran ni se reciclan», y prescribe que en un merge el perdedor quede en `redirect` (alias-forwarding PERMANENTE). No hay excepción para `candidate`. Mi premisa de que «nada externo lo referenció» era además FALSA: el id está en 4 entradas de `doc_map` y 1 alias. PERO el redirect le da exactamente lo que pide: `notifier:notifier-inspire-e10` deja de existir como producto consultable —no aparece en inventarios ni resuelve como fila propia—, sólo reenvía. No quedan «dos nombres en la BD» de cara al bot; queda un puntero interno que evita que se rompa lo ya etiquetado. Decírselo."
       },
-      "estado": "BLOQUEADO"
+      "estado": "LISTO"
     },
     {
       "seccion": "5.2",
@@ -672,10 +673,11 @@
         ],
         "familia": "notifier:tg",
         "cita": "es un ejecutable que pertenece al software TG, así que OK a tu recomendación",
-        "listo": true,
+        "listo": false,
+        "bloqueo": "dos razones independientes. (a) Fable: s334 dejó `rhistorico.exe` FUERA a propósito por riesgo léxico —«R10 se cumple, la GRAFÍA no»— y esto reintroduce esa grafía como alias INDEXADO; merece re-adjudicación explícita, no colarse dentro de un «renombrar». (b) La puerta `s324` no sabe reescribir un `canonical_model`, así que el renombrado no es expresable en el plan sin tocar el writer por algo que ya está en duda. A favor: la huella medida de «RHistorico.exe» es 2 documentos, 1 suyo, 0 robados — el riesgo de s334 no se materializa en ESTE término",
         "nota": "NO es un id nuevo: `notifier:rhistorico.exe` ya existe (candidate) y ya lleva «Utilidad de Reparación de Históricos» como alias. Crear una fila aparte colisionaba con ese alias (lo cazó `validate` en la simulación). El id es INMUTABLE y se queda; lo que cambia es el `canonical_model`, que no lo es: el nombre humano pasa a canónico y el ejecutable baja a alias"
       },
-      "estado": "LISTO"
+      "estado": "BLOQUEADO"
     },
     {
       "seccion": "6.5",
@@ -692,10 +694,10 @@
         "id": "notifier:serie-800",
         "nombre": "Serie-800",
         "cita": "déjalo como Serie-800",
-        "listo": true,
-        "nota": "RECHAZA tratarlo como umbrella: lo quiere como producto"
+        "listo": false,
+        "bloqueo": "mi lectura («rechaza el umbrella, lo quiere como producto») NO se sigue de la casilla: las opciones eran `adelante`/`déjalo`, donde `adelante` era mi propuesta de umbrella — así que `[X] déjalo` significa «no hagas eso», y «déjalo como Serie-800» admite las dos lecturas (déjalo QUIETO, o déjalo COMO producto llamado así). Y la huella de detección la desempata hacia la prudencia: «Serie 800» dispara en 14 documentos y 11 de ellos YA tienen dueño consumible. Promoverlo por una lectura ambigua es justo lo que R20 prohíbe. Preguntárselo."
       },
-      "estado": "LISTO"
+      "estado": "BLOQUEADO"
     },
     {
       "seccion": "7",
@@ -773,7 +775,8 @@
           "unresolved:vision-plus": {
             "marca": "morley",
             "canonico": "VSN Plus",
-            "cita": "es la VSN Plus de Morley"
+            "cita": "es la VSN Plus de Morley",
+            "nota": "el canónico de hoy es «VISION PLUS» y él lo llama «VSN Plus». El traductor no consumía este campo (Sol), así que la corrección no llegaba a la mutación. Importa además por huella: «VISION PLUS» dispara en 12 documentos y roba 11; «VSN Plus» es otro patrón"
           }
         }
       },
@@ -934,10 +937,11 @@
           "Morley-IAS"
         ],
         "nombre": "Detector de humos con haz óptico infrarrojo motorizado",
-        "listo": true,
+        "listo": false,
+        "bloqueo": "divergencia declarada: no puede mutar sin confirmarla (Sol). Ver `divergencia`",
         "divergencia": "Él dice «el modelo F5000 de Morley»; el catálogo ya lo tiene como `ffe:f5000` consumible, adjudicado por ÉL en s91 (gt-s91-alberto-c2). Crear `morley:f5000` duplicaría el canónico y `validate` lo rechaza. FFE fabrica la barrera y Morley la revende → `vendido_bajo` con las dos marcas sirve las dos lecturas sin duplicar. CONFIRMAR con él."
       },
-      "estado": "LISTO"
+      "estado": "BLOQUEADO"
     },
     {
       "manual": "F5K-Additional-Information-Spanish",
@@ -946,10 +950,11 @@
       "resuelto_por_alberto": true,
       "lectura": {
         "producto": "ffe:f5000",
-        "listo": true,
+        "listo": false,
+        "bloqueo": "misma divergencia que la fila anterior",
         "divergencia": "misma que la fila anterior"
       },
-      "estado": "LISTO"
+      "estado": "BLOQUEADO"
     },
     {
       "manual": "FS2-1",
@@ -1017,18 +1022,11 @@
       "resuelto_por_alberto": true,
       "lectura": {
         "modelos": [
-          "S3-T2",
-          "S2-T2"
+          "fidegas:s3-t2",
+          "fidegas:s2-t2"
         ],
-        "alias": {
-          "S3-T2": [
-            "S/3-T2"
-          ],
-          "S2-T2": [
-            "S/2-T2"
-          ]
-        },
-        "listo": true
+        "listo": true,
+        "nota": "NO hacen falta altas: `fidegas:s3-t2` («S/3-T2») y `fidegas:s2-t2` («S/2-T2») ya existen y son CONSUMIBLES. Y su propio aviso —«igual en algún otro sitio lo tenemos como S/3-T2»— ya está cubierto: el `_core` separator-insensitive hace que «S3-T2» y «S/3-T2» casen el mismo patrón, así que el detector los alcanza desde las dos grafías. Lo que falta es sólo el `doc_map`: hoy el manual cuelga de `fidegas:00051`/`00052`, que son digit-only y por eso el detector no los ve"
       },
       "estado": "LISTO"
     },

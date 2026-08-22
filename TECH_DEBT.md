@@ -3863,3 +3863,33 @@ misma crea.
 
 **Ref**: `scripts/ingest_new.py` · DEC-280 (`scripts/lib_lote_marca.py`) · DEC-279 (el lote) ·
 `docs/PACKET_ENUM_CATEGORIAS.md` (el enum va ANTES).
+
+## #100 — 480 de 640 entradas `vendido_bajo` cross-brand son INALCANZABLES por el filtro de marca — s339
+
+**Lo que se rompe.** Un producto vendido bajo dos marcas debería aparecer en el inventario de
+las dos. `_productos_marca` (`src/bot/telegram_bot.py:365`) lo resuelve por dos vías: el
+**namespace del id** (`morley:x` → marca Morley) **o** una coincidencia en `vendido_bajo`. La
+segunda vía compara con `_norm_marca`, que baja a minúsculas y quita todo lo no alfanumérico —
+y la compara contra el `manufacturer` de la tabla `documents`, que es de donde salen los
+nombres de marca que el bot consulta.
+
+Ahí está el desajuste: el catálogo escribe **`Morley-IAS`** (75 filas) y **`Morley IAS`** (29),
+que normalizan a `morleyias`; la BD escribe **`Morley`** (247 documentos), que normaliza a
+`morley`. No casan. Para las filas del namespace `morley:` da igual —entran por la primera
+vía— pero para las **cross-brand** la segunda vía es la ÚNICA, y no dispara.
+
+**Medido (22-ago, catálogo vivo + `documents`)**: 30 marcas consultables; **640** entradas
+`vendido_bajo` cuya marca no coincide con su namespace; **480 de ellas no las alcanza nadie**.
+Las 114 de Morley-IAS/Morley IAS entre ellas, más `Kidde Commercial` (86), `unknown` (83),
+`Fire-Lite Alarms` (28), `Menvier CSA` (13)… Sí alcanzan `Honeywell` (83), `Notifier` (46) y
+`Argus Security` (12), que coinciden por casualidad de grafía.
+
+**Por qué NO se arregla dentro de s339.** El lote de s339 usa ya la grafía alcanzable para lo
+que escribe (`_grafias()` en `scripts/s339e_plan_s324.py`), así que no añade deuda. Reescribir
+las 480 preexistentes es otro cambio: toca filas que no son de este lote, y elegir la grafía
+canónica de cada marca es adjudicación (¿`Kidde Commercial` es `Kidde`? ¿qué se hace con
+`unknown` y con `Honeywell / Xtralis`?). Con dueño, no de paso.
+
+**Lo que NO es**: no es que el filtro esté mal. Es que hay dos vocabularios de marca —el del
+catálogo y el de `documents`— y nadie los concilia. El arreglo de raíz es tener UNA tabla de
+marcas canónicas con sus grafías, y que ambos lados la referencien.

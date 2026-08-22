@@ -189,13 +189,19 @@ LECTURA: dict[str, dict] = {
                     "Mi packet proponía fusionar sin haber grepeado homonyms primero. "
                     "CONSECUENCIA: su manual queda huérfano PERMANENTE y legítimo — el precio "
                     "de la política clarify es que ningún producto consumible lo posee."},
-    "5.1": {"tipo": "colapso_id", "de": "notifier:notifier-inspire-e10", "a": "notifier:inspire-e10",
+    "5.1": {"tipo": "redirect", "de": "notifier:notifier-inspire-e10", "a": "notifier:inspire-e10",
             "cita": "aquí lo llamaría directamente `notifier:inspire-e10`, para evitar tener los dos nombres en la BD via redirect",
-            "listo": False,
-            "bloqueo": "pide ELIMINAR la fila, no redirigirla. Los ids son INMUTABLES por contrato. "
-                       "Verificar si `notifier:notifier-inspire-e10` llegó a ser consumible alguna vez: "
-                       "si nació candidate y nunca salió de cuarentena, borrarlo no rompe la inmutabilidad "
-                       "(nada externo lo referenció); si fue consumible, hay que redirigir y explicárselo."},
+            "listo": True, "explicar_a_alberto": True,
+            "nota": "Él pide ELIMINAR la fila en vez de redirigirla, y no se puede: el contrato "
+                    "(`docs/IDENTITY_CATALOG_CONTRACT.md`) dice literal «Los ids son INMUTABLES: "
+                    "nunca se borran ni se reciclan», y prescribe que en un merge el perdedor quede "
+                    "en `redirect` (alias-forwarding PERMANENTE). No hay excepción para `candidate`. "
+                    "Mi premisa de que «nada externo lo referenció» era además FALSA: el id está en "
+                    "4 entradas de `doc_map` y 1 alias. "
+                    "PERO el redirect le da exactamente lo que pide: `notifier:notifier-inspire-e10` "
+                    "deja de existir como producto consultable —no aparece en inventarios ni resuelve "
+                    "como fila propia—, sólo reenvía. No quedan «dos nombres en la BD» de cara al bot; "
+                    "queda un puntero interno que evita que se rompa lo ya etiquetado. Decírselo."},
     "5.2": {"tipo": "redirect+vendido_bajo", "de": "unresolved:tg-honeywell", "a": "notifier:tg",
             "vendido_bajo": ["notifier", "morley"],
             "cita": "no se si tiene sentido que el canónico sea Notifier pero que también sea \"findable\" bajo Morley",
@@ -217,7 +223,15 @@ LECTURA: dict[str, dict] = {
             "canonico_nuevo": "Utilidad de Reparación de Históricos",
             "alias": ["RHistorico.exe"], "familia": "notifier:tg",
             "cita": "es un ejecutable que pertenece al software TG, así que OK a tu recomendación",
-            "listo": True,
+            "listo": False,
+            "bloqueo": "dos razones independientes. (a) Fable: s334 dejó `rhistorico.exe` FUERA a "
+                       "propósito por riesgo léxico —«R10 se cumple, la GRAFÍA no»— y esto "
+                       "reintroduce esa grafía como alias INDEXADO; merece re-adjudicación "
+                       "explícita, no colarse dentro de un «renombrar». (b) La puerta `s324` no "
+                       "sabe reescribir un `canonical_model`, así que el renombrado no es "
+                       "expresable en el plan sin tocar el writer por algo que ya está en duda. "
+                       "A favor: la huella medida de «RHistorico.exe» es 2 documentos, 1 suyo, "
+                       "0 robados — el riesgo de s334 no se materializa en ESTE término",
             "nota": "NO es un id nuevo: `notifier:rhistorico.exe` ya existe (candidate) y ya lleva "
                     "«Utilidad de Reparación de Históricos» como alias. Crear una fila aparte "
                     "colisionaba con ese alias (lo cazó `validate` en la simulación). El id es "
@@ -225,7 +239,15 @@ LECTURA: dict[str, dict] = {
                     "el nombre humano pasa a canónico y el ejecutable baja a alias"},
     "6.5": {"tipo": "promover", "id": "notifier:serie-800", "nombre": "Serie-800",
             "cita": "déjalo como Serie-800",
-            "listo": True, "nota": "RECHAZA tratarlo como umbrella: lo quiere como producto"},
+            "listo": False,
+            "bloqueo": "mi lectura («rechaza el umbrella, lo quiere como producto») NO se sigue de "
+                       "la casilla: las opciones eran `adelante`/`déjalo`, donde `adelante` era mi "
+                       "propuesta de umbrella — así que `[X] déjalo` significa «no hagas eso», y "
+                       "«déjalo como Serie-800» admite las dos lecturas (déjalo QUIETO, o déjalo "
+                       "COMO producto llamado así). Y la huella de detección la desempata hacia la "
+                       "prudencia: «Serie 800» dispara en 14 documentos y 11 de ellos YA tienen "
+                       "dueño consumible. Promoverlo por una lectura ambigua es justo lo que R20 "
+                       "prohíbe. Preguntárselo."},
     "7": {"tipo": "promover_uno_a_uno", "listo": True,
           "filas": {
               "unresolved:tg-ip-1-sec": {"marca": "notifier", "producto_fisico": True,
@@ -243,9 +265,90 @@ LECTURA: dict[str, dict] = {
               "unresolved:indicator": {"accion": "baja_de_corpus",
                   "cita": "Elimínalo del corpus"},
               "unresolved:vision-plus": {"marca": "morley", "canonico": "VSN Plus",
-                  "cita": "es la VSN Plus de Morley"},
+                  "cita": "es la VSN Plus de Morley",
+                  "nota": "el canónico de hoy es «VISION PLUS» y él lo llama «VSN Plus». El "
+                          "traductor no consumía este campo (Sol), así que la corrección no "
+                          "llegaba a la mutación. Importa además por huella: «VISION PLUS» "
+                          "dispara en 12 documentos y roba 11; «VSN Plus» es otro patrón"},
           }},
 }
+
+# §3 y §3.b — la tabla Detnov. Sol (crítico): estaban EXCLUIDAS del cruce de integridad
+# y sin entrada aquí, así que sus 19 anotaciones no generaban ni una mutación mientras
+# la propuesta afirmaba «traduce las adjudicaciones». Es el gap más grande que cazó el dúo.
+#
+# Lo que Alberto anotó ahí es casi todo la misma clase: «este manual TAMBIÉN sirve para
+# el modelo hermano». Un manual que atesta dos productos necesita las DOS entradas en el
+# `doc_map`, no una: si sólo se declara uno, el técnico que pregunta por el otro no llega.
+LECTURA_S3: dict[str, dict] = {
+    "55320103 Manual Zocalo Conexion ES FR GB IT_": {
+        "modelos": ["detnov:z-200"], "canonicos": {"detnov:z-200": "Z-200"},
+        "cita": "este es el Z-200",
+        "nota": "el plan lo tenía como producto «55320103» — un número de referencia, no un modelo"},
+    "55340103 Manual Modulo 1-2 Entradas Tecnicas": {
+        "modelos": ["detnov:mad-401"], "canonicos": {"detnov:mad-401": "MAD-401"},
+        "cita": "Este también sirve para el MAD-401."},
+    "55341101 Manual Modulo 1-2 Reles libre de te": {
+        "modelos": ["detnov:mad-411"], "canonicos": {"detnov:mad-411": "MAD-411"},
+        "cita": "este también sirve para el MAD-411"},
+    "55342102 Manual Modulo 1-2 Entradas 1-2 Sali": {
+        "modelos": ["detnov:mad-421"], "canonicos": {"detnov:mad-421": "MAD-421"},
+        "cita": "Este también sirve para el MAD-421."},
+    "55343101 Manual Modulo 1-2 Sirenas Convencio": {
+        "modelos": ["detnov:mad-431"], "canonicos": {"detnov:mad-431": "MAD-431"},
+        "cita": "este también sirve para el MAD-431"},
+    "55344103 Manual Modulo 1-2 Zonas MAD-442 ES ": {
+        "modelos": ["detnov:mad-441"], "canonicos": {"detnov:mad-441": "MAD-441"},
+        "cita": "este también sirve para el MAD-441"},
+    "55347200 Manual Sirena Analogica MAD-472 ES ": {
+        "modelos": ["detnov:mad-473"], "canonicos": {"detnov:mad-473": "MAD-473"},
+        "cita": "este también sirve para el MAD-473",
+        "superseded_por": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-472_MAD-473-55347200-MI-634.pdf",
+        "nota": "él pide además descargar el manual vivo de la web, ingestarlo y marcar "
+                "superseded las filas 16 y 17. Eso es CORPUS, no catálogo: va por s339e"},
+    "55349102 Manual Modulo Aislador MAD-491 ES F": {
+        "modelos": ["detnov:mad-490", "detnov:mad-492"],
+        "canonicos": {"detnov:mad-490": "MAD-490", "detnov:mad-492": "MAD-492"},
+        "cita": "parece MAD-490 y MAD-492",
+        "superseded_por": "https://www.detnov.com/wp-content/uploads/2019/04/Manual-MAD-490-55349102-MI-628-m-2024-b.pdf",
+        "listo": False,
+        "bloqueo": "dice «PARECE MAD-490 y MAD-492» — es una conjetura suya, no una firma. "
+                   "Y el manual vivo de la web se titula sólo MAD-490. Confirmar antes de "
+                   "crear dos productos sobre un «parece»"},
+    "55350005 Manual Central Monoxido CMD-500 ES ": {
+        "modelos": ["detnov:cmd-501", "detnov:cmd-502", "detnov:cmd-503"],
+        "canonicos": {"detnov:cmd-501": "CMD-501", "detnov:cmd-502": "CMD-502",
+                      "detnov:cmd-503": "CMD-503"},
+        "cita": "la familia es la CMD-500, pero están la CMD-501, CMD-502, y CMD-503, en función del número de zonas",
+        "familia": "detnov:cmd-500"},
+    "55350007 Manual Tarjeta Regulacion Motores T": {
+        "modelos": ["detnov:trmd-501", "detnov:trmd-502"],
+        "canonicos": {"detnov:trmd-501": "TRMD-501", "detnov:trmd-502": "TRMD-502"},
+        "cita": "es la familia TRMD-500, que incluyela TRMD-501 y la TRMD-502",
+        "nota": "el plan lo tenía como «55350007» y «TRMD-50X»; ninguno es un modelo real"},
+    "55350008 Manual Detectores Monoxido DMDX-500": {
+        "modelos": ["detnov:dmd-500", "detnov:dmdp-500"],
+        "canonicos": {"detnov:dmd-500": "DMD-500", "detnov:dmdp-500": "DMDP-500"},
+        "cita": "la familia es DMDX-500, pero hay dos modelos: DMD-500 … y DMDP-500"},
+    # §3.b — sus correcciones a lo que el canal web PROPUSO. Dos son rechazos, y valen
+    # tanto como las altas: confirman que el aviso honesto del packet era correcto.
+    "55310007 Manual Tarjeta Expansion TRD-10": {
+        "modelos": ["detnov:trd-100", "detnov:tsd-100"],
+        "canonicos": {"detnov:trd-100": "TRD-100", "detnov:tsd-100": "TSD-100"},
+        "cita": "son las TSD-100 y TRD-100, que son accesorios para la CCD-100",
+        "rechaza": "detnov:ccd-100",
+        "nota": "CONFIRMA el aviso honesto del packet: CCD-100 era el vecino de contexto "
+                "(la central donde se enchufan), no el sujeto del manual. No se da de alta"},
+    "55310008 Manual Tarjeta Modbus TMD-100 I": {
+        "modelos": [], "cita": "es la TMD-100", "rechaza": "detnov:tsd100",
+        "nota": "rechaza la propuesta «TSD100» del canal web; el producto ya está bien"},
+}
+
+# El suelo del `Manual-de-Usuario-S3-T2-y-S2-T2` NO necesita productos nuevos: `fidegas:s3-t2`
+# («S/3-T2») y `fidegas:s2-t2` («S/2-T2») YA existen y son consumibles. Y el `_core`
+# separator-insensitive hace que «S3-T2» y «S/3-T2» casen el mismo patrón, así que el
+# detector ya los alcanza desde cualquiera de las dos grafías. Lo que falta es el doc_map.
+
 
 # §8 — el suelo. Cada fila que él resolvió deja de ser suelo.
 LECTURA_SUELO: dict[str, dict] = {
@@ -264,13 +367,15 @@ LECTURA_SUELO: dict[str, dict] = {
     "F5K-2H-UserGuide-SPANISH_Manual F5000": {"producto": "ffe:f5000",
         "alias": ["F5K"], "vendido_bajo": ["Fire Fighting Enterprises", "Morley-IAS"],
         "nombre": "Detector de humos con haz óptico infrarrojo motorizado",
-        "listo": True,
+        "listo": False,
+        "bloqueo": "divergencia declarada: no puede mutar sin confirmarla (Sol). Ver `divergencia`",
         "divergencia": "Él dice «el modelo F5000 de Morley»; el catálogo ya lo tiene como "
                        "`ffe:f5000` consumible, adjudicado por ÉL en s91 (gt-s91-alberto-c2). "
                        "Crear `morley:f5000` duplicaría el canónico y `validate` lo rechaza. "
                        "FFE fabrica la barrera y Morley la revende → `vendido_bajo` con las dos "
                        "marcas sirve las dos lecturas sin duplicar. CONFIRMAR con él."},
-    "F5K-Additional-Information-Spanish": {"producto": "ffe:f5000", "listo": True,
+    "F5K-Additional-Information-Spanish": {"producto": "ffe:f5000", "listo": False,
+        "bloqueo": "misma divergencia que la fila anterior",
         "divergencia": "misma que la fila anterior"},
     "FS2-1": {"familia": "notifier:fs", "listo": False,
         "bloqueo": "dice «la familia FS … de 1, 2 y 4 zonas», no un modelo. ¿el id es la familia "
@@ -285,8 +390,14 @@ LECTURA_SUELO: dict[str, dict] = {
     "MNDT021": {"listo": False, "bloqueo": "ÚNICA fila del suelo que Alberto no anotó"},
     "MNDT635": {"producto": "notifier:lisa-2", "nombre": "Detectores infrarrojos para gas",
         "listo": True},
-    "Manual-de-Usuario-S3-T2-y-S2-T2": {"modelos": ["S3-T2", "S2-T2"],
-        "alias": {"S3-T2": ["S/3-T2"], "S2-T2": ["S/2-T2"]}, "listo": True},
+    "Manual-de-Usuario-S3-T2-y-S2-T2": {"modelos": ["fidegas:s3-t2", "fidegas:s2-t2"],
+        "listo": True,
+        "nota": "NO hacen falta altas: `fidegas:s3-t2` («S/3-T2») y `fidegas:s2-t2` («S/2-T2») ya "
+                "existen y son CONSUMIBLES. Y su propio aviso —«igual en algún otro sitio lo "
+                "tenemos como S/3-T2»— ya está cubierto: el `_core` separator-insensitive hace que "
+                "«S3-T2» y «S/3-T2» casen el mismo patrón, así que el detector los alcanza desde "
+                "las dos grafías. Lo que falta es sólo el `doc_map`: hoy el manual cuelga de "
+                "`fidegas:00051`/`00052`, que son digit-only y por eso el detector no los ve"},
     "S3466R_Eng_ital": {"accion": "baja_de_corpus", "listo": True},
 }
 

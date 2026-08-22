@@ -34,11 +34,21 @@ FICHEROS = ["products.jsonl", "aliases.jsonl", "umbrellas.jsonl", "homonyms.json
             "relations.jsonl", "doc_map.jsonl", "docrel.jsonl"]
 PROV = "s339 packet REVISION_ALBERTO_HUERFANOS (adjudicación Alberto, 22-ago)"
 
-# Grafía CANÓNICA por namespace, tomada de la mayoritaria ya presente en el catálogo.
-# Importa: «Morley» y «Morley-IAS» serían dos marcas distintas a efectos de filtro, así
-# que un alta con grafía nueva parte la marca en dos silenciosamente.
-MARCA = {"detnov": "Detnov", "notifier": "Notifier", "morley": "Morley-IAS",
-         "ffe": "Fire Fighting Enterprises", "kac": "KAC", "aritech": "Aritech"}
+# Grafía de marca por namespace. El criterio NO es «la mayoritaria del catálogo» sino
+# «la que el consumidor alcanza»: `_productos_marca` (src/bot/telegram_bot.py) normaliza
+# con `_norm_marca` y compara contra el `manufacturer` de `documents`, así que
+# «Morley-IAS» → `morleyias` NO casa la consulta «Morley», que es la que el bot hace.
+# Medido sobre el catálogo vivo: 480 de 640 entradas `vendido_bajo` cross-brand son hoy
+# INALCANZABLES por ese filtro, incluidas las 114 de Morley-IAS/Morley IAS (TECH_DEBT).
+# Reimplementar la definición en vez de usar la del consumidor es el fallo de DEC-272.
+MARCA = {"detnov": "Detnov", "notifier": "Notifier", "morley": "Morley",
+         "ffe": "Fire Fighting Enterprises", "kac": "KAC", "aritech": "Aritech",
+         "fidegas": "Fidegas"}
+
+# `vendido_bajo` que llega del ledger en minúsculas de namespace («morley») se traduce a la
+# grafía alcanzable; si no, la marca cross-brand no la ve nadie.
+def _grafias(marcas: list[str]) -> list[str]:
+    return [MARCA.get(m.lower(), m) for m in marcas]
 
 
 def _marca(pid: str) -> list[str]:
@@ -94,7 +104,7 @@ def mutaciones(doc: dict, cat: cs.Catalog) -> list[dict]:
             destino = lec.get("a") or lec.get("gana")
             if destino:
                 ops.append({"op": "vendido_bajo", "id": destino, "ref": ref,
-                            "marcas": lec["vendido_bajo"]})
+                            "marcas": _grafias(lec["vendido_bajo"])})
 
         if lec.get("familia"):
             hijo = lec.get("id") or lec.get("gana") or lec.get("a")
@@ -142,11 +152,15 @@ def mutaciones(doc: dict, cat: cs.Catalog) -> list[dict]:
                 redirect(pid, f["redirect_a"], r2)
             else:
                 promover(pid, r2, "promovido con marca asignada por Alberto")
+            if f.get("canonico"):
+                ops.append({"op": "renombrar_canonico", "id": pid, "ref": r2,
+                            "canonico_nuevo": f["canonico"], "quitar_alias": []})
             if f.get("marca"):
-                ops.append({"op": "marca", "id": pid, "marca": f["marca"], "ref": r2})
+                ops.append({"op": "marca", "id": pid, "marca": MARCA.get(f["marca"], f["marca"]),
+                            "ref": r2})
             if f.get("vendido_bajo"):
                 ops.append({"op": "vendido_bajo", "id": pid, "ref": r2,
-                            "marcas": f["vendido_bajo"]})
+                            "marcas": _grafias(f["vendido_bajo"])})
             for m in f.get("modelos", []):
                 if m in cat.products:
                     promover(m, r2, "modelo enumerado por Alberto")
@@ -154,6 +168,31 @@ def mutaciones(doc: dict, cat: cs.Catalog) -> list[dict]:
                     ops.append({"op": "alta", "id": m, "ref": r2,
                                 "canonical_model": m.split(":")[-1].upper(),
                                 "vendido_bajo": _marca(m)})
+
+    # §3 y §3.b — «este manual también sirve para el modelo hermano». Un manual que atesta
+    # dos productos necesita las DOS entradas del `doc_map`: con una sola, el técnico que
+    # pregunta por el otro no llega.
+    from importlib import import_module
+    led = import_module("s339_ledger_alberto")
+    for manual, lec in led.LECTURA_S3.items():
+        if lec.get("listo") is False:
+            ops.append({"op": "EXCLUIDA", "ref": f"§3:{manual[:28]}", "por": lec.get("bloqueo", "")})
+            continue
+        ref = f"§3:{manual[:28]}"
+        for m in lec.get("modelos", []):
+            if m in cat.products:
+                promover(m, ref, "modelo hermano enumerado por Alberto")
+            else:
+                ops.append({"op": "alta", "id": m, "ref": ref,
+                            "canonical_model": (lec.get("canonicos") or {}).get(m, m.split(":")[-1].upper()),
+                            "vendido_bajo": _marca(m)})
+            ops.append({"op": "doc_map", "manual": manual, "id": m, "ref": ref})
+        if lec.get("familia"):
+            for m in lec.get("modelos", []):
+                ops.append({"op": "familia", "hijo": m, "paraguas": lec["familia"], "ref": ref})
+        if lec.get("superseded_por"):
+            ops.append({"op": "ingesta_y_superseded", "manual": manual, "ref": ref,
+                        "url": lec["superseded_por"]})
 
     # El suelo: cada fila lista deja de ser suelo.
     for f in doc["suelo"]:
@@ -165,10 +204,15 @@ def mutaciones(doc: dict, cat: cs.Catalog) -> list[dict]:
             ops.append({"op": "baja_corpus", "manual": f["manual"], "ref": ref,
                         "por": "«retira este manual del corpus»"})
             continue
+        for m in lec.get("modelos", []):
+            if ":" in m:
+                if m in cat.products:
+                    promover(m, ref, "producto existente adjudicado por Alberto")
+                ops.append({"op": "doc_map", "manual": f["manual"], "id": m, "ref": ref})
         pid = lec.get("producto")
         if pid and lec.get("vendido_bajo"):
             ops.append({"op": "vendido_bajo", "id": pid, "ref": ref,
-                        "marcas": lec["vendido_bajo"]})
+                        "marcas": _grafias(lec["vendido_bajo"])})
         if pid:
             if pid in cat.products:
                 promover(pid, ref, "producto adjudicado por Alberto")
@@ -267,6 +311,57 @@ def simula(ops: list[dict]) -> dict:
                         a["id"] = o["reasignar_docs_a"]
                 ruta_a.write_text(
                     "".join(json.dumps(a, ensure_ascii=False) + "\n" for a in al), "utf-8")
+        # `marca` reescribe el namespace del id: es un id NUEVO con el mismo canónico, así
+        # que el viejo queda en redirect (inmutabilidad) — nunca se borra.
+        for o in ops:
+            if o["op"] == "marca" and o["id"] in prods:
+                viejo_id = o["id"]
+                nuevo_id = f"{o['marca'].lower().replace(' ', '-')}:{viejo_id.split(':', 1)[1]}"
+                if nuevo_id not in prods:
+                    prods[nuevo_id] = {**prods[viejo_id], "id": nuevo_id,
+                                       "vendido_bajo": [o["marca"]], "candidate": False,
+                                       "provenance": PROV}
+                prods[viejo_id] = {**prods[viejo_id], "estado": "redirect",
+                                   "redirect_to": nuevo_id, "candidate": False}
+        (dst / "products.jsonl").write_text(
+            "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in prods.values()), "utf-8")
+
+        # umbrellas: las relaciones de familia que declara el lote.
+        ruta_u = dst / "umbrellas.jsonl"
+        umb = [json.loads(l) for l in ruta_u.read_text("utf-8").splitlines() if l.strip()]
+        por_term = {u.get("termino"): u for u in umb}
+        for o in ops:
+            if o["op"] != "familia":
+                continue
+            term = ((prods.get(o["paraguas"]) or {}).get("canonical_model")
+                    or o["paraguas"].split(":")[-1].upper())
+            u = por_term.get(term)
+            if u is None:
+                u = {"termino": term, "tipo": "familia", "ids": [], "candidate": False,
+                     "divergent": "unknown",   # sin adjudicar: no me invento el eje
+                     "added_by": "s339", "provenance": PROV}
+                por_term[term] = u
+                umb.append(u)
+            if o["hijo"] not in u.setdefault("ids", []):
+                u["ids"].append(o["hijo"])
+        ruta_u.write_text("".join(json.dumps(u, ensure_ascii=False) + "\n" for u in umb), "utf-8")
+
+        # aliases nuevos.
+        ruta_al = dst / "aliases.jsonl"
+        al = [json.loads(l) for l in ruta_al.read_text("utf-8").splitlines() if l.strip()]
+        renombrados = {o["id"]: f"{o['marca'].lower().replace(' ', '-')}:{o['id'].split(':', 1)[1]}"
+                       for o in ops if o["op"] == "marca"}
+        for a in al:
+            if a.get("id") in renombrados:
+                a["id"] = renombrados[a["id"]]
+        for o in ops:
+            if o["op"] == "alias" and not any(
+                    a.get("id") == o["id"] and a.get("alias") == o["alias"] for a in al):
+                al.append({"alias": o["alias"], "id": o["id"], "candidate": False,
+                           "added_by": "s339", "provenance": PROV,
+                           "tipo": o.get("tipo_alias", "variante-tipografica")})
+        ruta_al.write_text("".join(json.dumps(a, ensure_ascii=False) + "\n" for a in al), "utf-8")
+
         (dst / "doc_map.jsonl").write_text(
             "".join(json.dumps(d, ensure_ascii=False) + "\n" for d in dm), "utf-8")
 

@@ -1,71 +1,68 @@
-# s339 — Lote de catálogo desde el packet firmado por Alberto
+# s339 — Lote de catálogo desde el packet firmado por Alberto (ronda 2, tras el dúo)
 
-## Qué es esto
+## Qué cambió desde la ronda 1
 
-Alberto ha revisado y anotado uno a uno `docs/REVISION_ALBERTO_HUERFANOS.md`: 24 decisiones
-(23 casillas marcadas) y 46 anotaciones de dominio. Este lote traduce esas adjudicaciones a
-mutaciones de catálogo. **59 operaciones**, simuladas sobre copia: **82 → 35 huérfanos**
-(cierra 47, abre 0), `catalog_store.validate` limpio.
+El dúo devolvió 14 hallazgos (Sol 8, Fable 6). **Verifiqué los 14 contra el código y los 14
+eran ciertos.** Lo corregido, y cómo:
 
-Cadena de ficheros nuevos (ninguno toca `data/catalog/` ni `src/`):
-- `scripts/s339_ledger_alberto.py` → `evals/s339_ledger_alberto.json` (extracción)
-- `scripts/s339b_verifica_ledger.py` → `evals/s339b_verificacion.json` (verificación contra catálogo vivo)
-- `scripts/s339c_plan_lote.py` → `evals/s339c_plan_lote.json` (mutaciones + simulación)
-- `tests/test_s339_ledger_cita_a_alberto.py` (5 tests)
+1. **§3 y §3.b no generaban NI UNA mutación** (Sol, crítico). Estaban excluidas del cruce de
+   integridad y sin entrada en `LECTURA`, mientras la propuesta afirmaba traducir sus
+   adjudicaciones. Añadidas: 19 anotaciones suyas → 17 modelos hermanos (`MAD-401/411/421/431/441/473`,
+   `Z-200`, `CMD-501/502/503`, `TRMD-501/502`, `DMD-500`/`DMDP-500`, `TRD-100`/`TSD-100`).
+2. **Borrar un id violaba el contrato** (Sol, crítico; Fable lo dio por defendible y se
+   equivocaba). `IDENTITY_CATALOG_CONTRACT.md` dice literal «Los ids son INMUTABLES: nunca se
+   borran ni se reciclan» y prescribe `redirect` para el merge. Mi premisa era además falsa:
+   el id está en 4 entradas de `doc_map` y 1 alias. Ahora es redirect, y hay que explicárselo
+   a Alberto (el redirect le da lo que pide: deja de existir como producto consultable).
+3. **«Huérfanos» no ve el estrechamiento hp009/R20** (Fable, crítico). Es doc-side; el
+   mecanismo es query-side. Corrido `s334_huerfanos_seam1` bajo `replace` (producción) sobre
+   163 consultas: **0 pierden**, 0 ganan.
+4. **La simulación no aplicaba `familia`/`alias`/`marca`** (Sol + Fable). Arreglado de RAÍZ, no
+   op a op: el lote se emite ahora en el **formato de plan de `s324`** (`s339e`), así que el
+   «después» lo construye `aplicar_plan()` —el mismo código que escribirá— y con él funcionan
+   sin tocar nada tanto seam-1 como la puerta.
+5. **La grafía de `vendido_bajo`** (Sol). El filtro de marca compara contra el `manufacturer`
+   de `documents`, así que `Morley-IAS` → `morleyias` NO casa la consulta «Morley», que es la
+   que el bot hace. Medido: **480 de 640 entradas cross-brand del catálogo son hoy
+   inalcanzables**, las 114 de Morley entre ellas. El lote usa la grafía que el consumidor
+   alcanza. (La deuda de las 480 preexistentes queda anotada, no se toca aquí.)
+6. **`canonico: "VSN Plus"` no llegaba a la mutación** (Sol). Ahora sí.
+7. **§6.5 «déjalo»**: mi lectura («lo quiere como producto») no se seguía de la casilla (Sol).
+   BLOQUEADO y a preguntarle. La huella lo respalda: dispara en 14 docs, 11 con dueño.
+8. **F5000 mutaba con una divergencia declarada** (Sol). BLOQUEADO.
+9. **§6.4 `rhistorico.exe`** (Fable): s334 lo dejó fuera por riesgo léxico («R10 se cumple, la
+   grafía no») y esto reintroducía esa grafía como alias indexado. BLOQUEADO.
 
-## El diseño que quiero que ataques
+## Estado medido AHORA
 
-**Separación mecánico / interpretado.** El packet es prosa. `s339` separa lo que Alberto
-escribió (parseado del fichero, sin interpretar) de **mi lectura** de esa prosa en acciones de
-catálogo (mapa `LECTURA`, escrito a mano). Cada lectura lleva un campo `cita` con el fragmento
-del que sale, y un test verifica que **toda cita está literalmente en el packet** (permitiendo
-elidir con «…» pero no reescribir — ni siquiera para corregirle una errata).
+- **Plan `s324`**: 25 altas · 7 promociones · 16 redirects · 7 `vendido_bajo` · 1 alias retirado
+  · 2 paraguas · 18 modificaciones de `doc_map`.
+- **Huérfanos 82 → 27** (cierra 55, **abre 0**), `validate` limpio.
+- **Seam-1** (`replace`, 163 consultas): **0 pérdidas de modelo**.
+- **Huella de detección**: 1 término ALTO (`NAS`). Abiertos los contextos: **16 de 20
+  documentos hablan del producto** (MNDT742/744/747/748, 22-66 apariciones) — lo que el número
+  llamaba «robo» era el `doc_map` incompleto. Los `MAD-4xx` altos son cross-references
+  legítimas (tablas de consumo, esquemas), el confundidor de DEC-272.
+- **Puerta extendida**: `products_vendido_bajo` (aditivo, 5 tests) porque `aplicar_plan` no
+  sabía expresar R3, que es lo que Alberto pide («findable para ambas marcas»).
 
-**Por qué no auto-interpreto la prosa con un LLM:** porque entonces «lo que Alberto dijo» y «lo
-que yo entendí» serían la misma celda, sin traza. Ataca esto si crees que es al revés.
+## Lo que sigue BLOQUEADO (y por qué NO lo desbloqueo yo)
 
-## Lo que la verificación ya cazó de mi propia lectura (y corregí)
+`§2.2 TG-1020` (choca con `desico:tg-1020`; es su pregunta sin responder) · `§6.4` ·
+`§6.5 Serie 800` · `suelo F5000` (divergencia) · `suelo MAD-490/492` («parece», no firma) ·
+`suelo MADT190_10` (9 racks digit-only: el detector no los ve) · `suelo D 1100-4`
+(`CWSO-xx` donde xx es el color) · `suelo FS2-1` (¿familia o tres modelos?) ·
+`suelo MNDT021` (no lo anotó).
 
-1. `§4.4 APIC` — yo proponía FUSIONAR aritech:apic + notifier:apic. Ya existe un homónimo
-   `APIC` con `politica: clarify`, **adjudicado por Alberto en s91**, con los dos productos
-   candidate A PROPÓSITO (tarjetas incompatibles). Propuse contra su propia decisión vigente
-   por no grepear `homonyms.jsonl` antes. Ahora: cero cambios; su manual es suelo permanente.
-2. `§2.2/§2.4/§4.1/§4.2/§4.3` — el id GANADOR de la fusión está él mismo en cuarentena.
-   Redirigir hacia un `candidate` no rescata nada (`_consumable` sigue el redirect). La acción
-   es de TRES pasos: promover ganador + redirigir perdedor + `vendido_bajo`.
-3. `§2.2 TG-1020` — promoverlo choca con `desico:tg-1020` consumible (canonical duplicado).
-   Es la pregunta que le hice al final del packet y **sigue sin responder** → EXCLUIDA del lote.
-4. `§6.4 RHistorico` — yo creaba `notifier:rhistorico`. Ya existe `notifier:rhistorico.exe`
-   con «Utilidad de Reparación de Históricos» **ya como alias**. Ahora: renombrar el
-   `canonical_model` del id existente (el id es inmutable, el canónico no) y bajar el .exe a alias.
-5. `suelo F5000` — Alberto dice «el modelo F5000 de Morley». El catálogo ya tiene `ffe:f5000`
-   consumible, **adjudicado por él en s91**. FFE fabrica y Morley revende → `vendido_bajo` con
-   las dos marcas en el id existente, en vez de crear `morley:f5000` (canónico duplicado).
-   **Divergencia declarada: hay que confirmársela.**
-6. `§7 unresolved:trd-100` — promoverlo Y crear `detnov:trd-100` duplicaba el canónico. Ahora
-   redirect al id con marca; el manual atesta DOS productos (TRD-100 y TSD-100).
-7. `§5.1 colapso de id` — Alberto pide ELIMINAR `notifier:notifier-inspire-e10` en vez de
-   redirigirlo. Verificado: nació y sigue `candidate`, así que nada externo lo referenció y
-   borrarlo no rompe el contrato de inmutabilidad (que protege ids publicados). Los alias que
-   lo referenciaban se repuntan al destino.
+## Preguntas para esta ronda
 
-## Lo que sigue BLOQUEADO y por qué
-
-- `§2.2 TG-1020` — pregunta sin responder (arriba).
-- `suelo MADT190_10` — 9 racks Notifier cuyos canónicos son **sólo dígitos** (`020-596`…), y el
-  detector los excluye a propósito. Crearlos no los hace alcanzables.
-- `suelo D 1100-4` — `CWSO-xx-{S1,S2,W1,W2}` donde «xx» es el color: patrón, no modelo instanciable.
-- `suelo FS2-1` — dice «la familia FS … de 1, 2 y 4 zonas»: ¿id de familia o tres modelos?
-- `suelo MNDT021` — única fila que no anotó.
-
-## Preguntas que te hago explícitamente
-
-1. ¿La separación mecánico/interpretado es real, o el mapa `LECTURA` es interpretación
-   disfrazada de datos? ¿Qué lectura concreta NO se sigue de la cita que dice citar?
-2. Las 12 promociones: ¿alguna re-abre el mecanismo hp009/DEC-091b (R20 — promover quita el
-   paraguas `models` bajo `replace`)? La simulación dice «abre 0» contando huérfanos.
-   **¿Es «huérfanos» la métrica correcta para detectar esa pérdida, o mide otra cosa?**
-3. `_marca()` mapea namespace → grafía canónica (`morley` → `Morley-IAS`). ¿Qué se rompe si
-   la grafía mayoritaria del catálogo no es la que usa el filtro de marca en runtime?
-4. El colapso de `§5.1`: ¿me estoy saltando la inmutabilidad con una excusa?
-5. ¿Qué NO he mirado que debería, antes de meter esto por la puerta `s324`?
+1. Emitir en formato `s324` para que `aplicar_plan` construya el «después»: ¿resuelve de raíz
+   el «mi simulador miente», o mueve el problema a que ahora el plan pueda estar mal formado
+   sin que nada lo note?
+2. Seam-1 da 0 pérdidas **y 0 ganancias**: ninguna de las 163 consultas menciona los términos
+   nuevos. ¿Es «0 pérdidas» evidencia real de seguridad, o sólo dice que el instrumento no
+   toca este lote? Si es lo segundo, ¿qué instrumento SÍ lo tocaría?
+3. `_grafias()` traduce el namespace a la grafía alcanzable. ¿Es correcto, o estoy fijando en
+   el lote una convención que contradice las 114 filas `Morley-IAS` que ya existen?
+4. La extensión `products_vendido_bajo` de la puerta: ¿aditiva de verdad?
+5. ¿Qué sigo sin mirar?

@@ -11,8 +11,17 @@ Dos medidas, y hacen falta las dos:
   · ROBO    — de esos ajenos, cuántos tienen HOY un producto consumible propio. Ahí
     el término nuevo no rellena un hueco: compite con un dueño que ya existe (R20).
 
-Un `ajenos` alto con `robo` bajo puede ser aceptable (documentos sin dueño). Un `robo`
-alto es un NO-GO aunque el conteo total sea pequeño.
+**`roba_a_dueño` es TRIAGE, no veredicto.** Verificado mirando los contextos reales de este
+lote: los conteos altos de `MAD-421`, `MAD-441` y `MAD-473` son CROSS-REFERENCES legítimas
+—tablas de consumo, esquemas de conexionado y listas de compatibilidad de la propia Detnov—
+y ahí promover es justo lo correcto: el técnico que pregunta por el MAD-441 quiere llegar a
+esa tabla. Es el confundidor que DEC-272 ya documentó («el nº de fabricantes marcaba
+CROSS-REFERENCES como categorías»). Y en `NAS`, 16 de 20 documentos hablan del producto
+(MNDT742/744/747/748, 22-66 apariciones cada uno): lo que el número llamaba «robo» era el
+`doc_map` incompleto, no un secuestro.
+
+Así que la cifra ORDENA por dónde mirar; quien decide es el contexto. Un `robo` alto obliga
+a abrir los contextos antes de promover — nunca a promover ni a descartar por el número.
 
 Read-only. No escribe catálogo.
 """
@@ -74,16 +83,22 @@ def main() -> int:
     cat = cs.load()
 
     # Qué términos entran en juego: el canónico de todo lo que se promueve o se da de alta.
+    # Se mide el canónico FINAL, no el de partida: un id que el lote renombra o redirige
+    # no deja su nombre viejo en juego, y contarlo inventa un término de riesgo que no
+    # existirá (pasó con «VISION PLUS», que el lote convierte en «VSN Plus»).
+    renombrado = {o["id"]: o["canonico_nuevo"] for o in plan["operaciones"]
+                  if o["op"] == "renombrar_canonico"}
+    redirigido = {o["id"] for o in plan["operaciones"] if o["op"] in ("redirect", "eliminar")}
     terminos: dict[str, str] = {}   # término -> id dueño
     for o in plan["operaciones"]:
         if o["op"] == "promover":
+            if o["id"] in redirigido:
+                continue                     # reenvía: su canónico no queda en juego
             p = cat.products.get(o["id"])
             if p:
-                terminos[p["canonical_model"]] = o["id"]
+                terminos[renombrado.get(o["id"], p["canonical_model"])] = o["id"]
         elif o["op"] == "alta":
             terminos[o["canonical_model"]] = o["id"]
-        elif o["op"] == "renombrar_canonico":
-            terminos[o["canonico_nuevo"]] = o["id"]
         elif o["op"] == "alias":
             terminos[o["alias"]] = o["id"]
 
@@ -132,6 +147,8 @@ def main() -> int:
     altos = [f for f in filas if f["riesgo"] == "ALTO"]
     print(f"\n{len(altos)} término(s) en riesgo ALTO"
           + (": " + ", ".join(f["termino"] for f in altos) if altos else ""))
+    print("  (ordena por dónde mirar, NO decide: cross-references legítimas puntúan igual "
+          "que un secuestro — abre los contextos antes de promover)")
     print(f"→ {SALIDA.relative_to(RAIZ)}")
     return 0
 
