@@ -28,6 +28,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import lib_lote_marca as L  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
 
@@ -96,12 +99,13 @@ def _alcance_de(sf: str) -> dict | None:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--poblacion", default=str(
-        ROOT / "evals" / "s336_poblacion_v1.json"))
+    ap.add_argument("--marca", default="notifier")
+    ap.add_argument("--poblacion", default="")
     ap.add_argument("--out", default="")
     args = ap.parse_args()
-    pob = json.loads(Path(args.poblacion).read_text(encoding="utf-8"))
-    out = args.out or str(ROOT / "evals" / "s336_elegibles_v1.json")
+    marca = L.normaliza_marca(args.marca)
+    pob = L.carga_recibo(args.poblacion or L.ruta("poblacion", marca))
+    out = args.out or str(L.ruta("elegibles", marca))
 
     filas_out, stats = [], {"alta": 0, "elegible_cat": 0, "cat_sin_fulltext": 0,
                             "capacidad_escrita": 0, "capacidad_a_packet": 0}

@@ -23,15 +23,27 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import lib_lote_marca as L  # noqa: E402
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--poblacion", default=str(ROOT / "evals" / "s336_poblacion_v1.json"))
-    ap.add_argument("--elegibles", default=str(ROOT / "evals" / "s336_elegibles_v1.json"))
+    ap.add_argument("--marca", default="notifier")
+    ap.add_argument("--poblacion", default="")
+    ap.add_argument("--elegibles", default="")
     args = ap.parse_args()
 
-    crudo_gt = (ROOT / "evals" / "s336_gt_v1.yaml").read_text(encoding="utf-8")
+    marca = L.normaliza_marca(args.marca)
+    args.poblacion = args.poblacion or str(L.ruta("poblacion", marca))
+    args.elegibles = args.elegibles or str(L.ruta("elegibles", marca))
+    gt_path = L.ruta("gt", marca, "yaml")
+    if not gt_path.exists():
+        print(f"no hay GT congelado para «{marca}» ({gt_path.name}). El gate "
+              f"NO se corre sin gold: autorarlo es el paso previo.")
+        return 3
+    crudo_gt = gt_path.read_text(encoding="utf-8")
     gt = yaml.safe_load(crudo_gt)["filas"]
     pob = json.loads(Path(args.poblacion).read_text(encoding="utf-8"))
     ele = json.loads(Path(args.elegibles).read_text(encoding="utf-8"))
@@ -90,7 +102,7 @@ def main() -> int:
         },
         "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
-    out = ROOT / "evals" / "s336_gate_result_v1.json"
+    out = L.ruta("gate", marca)
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1),
                    encoding="utf-8")
     print(f"GATE: {'PASS' if gate_pass else 'FAIL'} · precisión {precision:.1%} "

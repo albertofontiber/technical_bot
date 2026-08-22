@@ -88,7 +88,7 @@ en prod (adenda s335b — desiderativa→listado gobernado Kidde; anafórica→c
 si corrección ⇒ prompt v4 + cohorte v4 entera (DEC-126); (2) HECHO 21:46Z — lote s336-lote (DEC-279): vista Notifier
 3→364 clasificados, centrales 0→32, gate 100%, veredicto PASS — **y HECHO 22-ago 08:27Z: los 98
 parse-fail RECUPERADOS tras recarga** (gate PASS 100% n=17; clasificados 414, centrales 46,
-cobertura acumulada 81,9%; adenda en `evals/s336_resultado_v1.md`); (3) re-verificación DEC-099 por voz;
+cobertura acumulada 81,9%; adenda en `evals/s336_resultado_v1.md`); (2b) HECHO 22-ago (DEC-280): el método del lote PARAMETRIZADO por marca (`--marca` en las 5 etapas + lib compartida); el dúo destapó 2 bugs latentes que la marca incrustada tapaba (provenance con los sha de Notifier incrustados; writer sin candado de vista) y 1 fallo YA ocurrido (el recibo del lote original, pisado por la recuperación — recuperado de git). **Antes de la 2ª marca va el packet de enum** (`docs/PACKET_ENUM_CATEGORIAS.md`, sin firmar); (3) re-verificación DEC-099 por voz;
 (4) pieza C («sí» pelado) censada — espera GO; (5) graduación DEC-210/211 (van 10 vars);
 (6) HECHO (s335c, en PR #336): la nota ℹ️ de asunciones va ahora en CABECERA del mensaje
 (adjudicación de Alberto sobre pantallazo) — y con ello entra en los primeros 4096 de
